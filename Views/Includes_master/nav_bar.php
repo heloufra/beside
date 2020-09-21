@@ -1,0 +1,66 @@
+<!-- nav -->
+
+<!-- sub-container-nav-bar-profile-dropdown-mask -->
+    <div class="sub-container-nav-bar-profile-dropdown-mask">
+        <div class="sub-container-nav-bar-profile-dropdown">
+                    <!--  sections-main-sub-container-left-cards  -->
+                    <div class="sections-main-sub-container-left-card">
+                          <img class="sections-main-sub-container-left-card-main-img" src="assets/images/profiles/Profile.jpg" alt="card-img">
+                          <div class="sections-main-sub-container-left-card-info">
+                              <p class="sections-main-sub-container-left-card-main-info">Jube Bowman</p>
+                              <span  class="sections-main-sub-container-left-card-sub-info">Admin</span>
+                          </div>
+                    </div>
+                    <!--  End sections-main-sub-container-left-cards  -->
+
+                    <!--  sub-container-nav-bar-profile-dropdown-ul  -->
+                    <ul class="sub-container-nav-bar-profile-dropdown-ul">
+                      <li class="sub-container-nav-bar-profile-dropdown-ul-li">
+                        <a href="">Switch Accounts</a>
+                        <img src="assets/icons/caret.svg" class="caret-img" alt="caret"/>
+
+                          <!--  sub-container-nav-bar-profile-dropdown-ul  -->
+                          <div class="sub-container-nav-bar-profile-dropdown-ul sub-container-nav-bar-profile-dropdown-sub-ul">
+                              <!--  sections-main-sub-container-left-cards a -->
+                              <a href="">
+                                    <!--  sections-main-sub-container-left-cards  -->
+                                    <div class="sections-main-sub-container-left-card">
+                                          <img class="sections-main-sub-container-left-card-main-img" src="assets/images/profiles/Profile.jpg" alt="card-img">
+                                          <div class="sections-main-sub-container-left-card-info">
+                                              <p class="sections-main-sub-container-left-card-main-info">Jube Bowman</p>
+                                              <span  class="sections-main-sub-container-left-card-sub-info">Teacher</span>
+                                          </div>
+                                    </div>
+                                    <!--  End sections-main-sub-container-left-cards  -->
+                              </a>
+                              <!--  End sections-main-sub-container-left-cards a -->
+
+                              <!--  sections-main-sub-container-left-cards a -->
+                              <a href="">
+                                    <!--  sections-main-sub-container-left-cards  -->
+                                    <div class="sections-main-sub-container-left-card">
+                                          <img class="sections-main-sub-container-left-card-main-img" src="assets/images/profiles/Profile.jpg" alt="card-img">
+                                          <div class="sections-main-sub-container-left-card-info">
+                                              <p class="sections-main-sub-container-left-card-main-info">Jube Bowman</p>
+                                              <span  class="sections-main-sub-container-left-card-sub-info">Admin</span>
+                                          </div>
+                                    </div>
+                                    <!--  End sections-main-sub-container-left-cards  -->
+                              </a>
+                              <!--  End sections-main-sub-container-left-cards a -->
+
+                          </div>
+                          <!--  End sub-container-nav-bar-profile-dropdown-ul -->
+                      </li>
+                      <li><a href="">Acount Settings</a></li>
+                      <li><a href="">Logout</a></li>
+                    </ul>
+                    <!--  End sub-container-nav-bar-profile-dropdown-ul -->
+
+                    <img class="sub-container-nav-bar-profile-dropdown-close" alt="close" src="assets/icons/close.svg">
+
+        </div>
+    </div>
+    <!-- End sub-container-nav-bar-profile-dropdown-mask -->
+
+<!-- nav -->
