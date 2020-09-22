@@ -106,7 +106,7 @@
 
                           </div>
 
-                          <div class="square-button square-button-minus">
+                          <div class="square-button square-button-minus" data-toggle="modal" data-target="#AddExamModal" >
                             <img class="icon" src="assets/icons/plus.svg">
                           </div>
 
@@ -259,6 +259,166 @@
                                         <!--  End sub-container-form-footer -->
                                   </div>
                                   <!-- End sub-container-form-footer-container -->
+
+                                  <!--_____________ Exam modal _____________-->
+
+                                  <!-- Trigger the modal with a button -->
+                                   
+                                    <!-- Modal -->
+                                    <div id="AddExamModal" class="modal" role="dialog">
+
+                                      <div class="modal-dialog modal-dialog-cente animate__animated animate__fadeIn ">
+
+                                        <!-- Modal content-->
+                                        <div class="modal-content modal-content-finance">
+
+                                          <div class="modal-body">
+
+                                              <!-- modal-body-container -->
+
+                                              <div class="modal-body-container">
+
+                                                 <h1 class="sub-container-main-header">Exam</h1>
+                                                 <h4 class="sub-container-sub-header">
+                                                  There are many variations of passages of Lorem Ipsum available.
+                                                 </h4>
+
+                                                  <div class="row sections-main-sub-container-right-main-rows">
+
+
+                                                      <div class="col-md-6">
+
+                                                        <div class="dynamic-form-input-dropdown-container">
+                                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                                                            <div class="dynamic-form-input">
+                                                              <div class="dynamic-form-input-float-adjust">
+                                                              <div class="form-group group form-group-right">
+                                                                <input type="text" class="input-dropdown" required="">
+                                                                
+                                                                <label class="input-label">
+                                                                  <span class="input-label-text">Class</span><span class="input-label-bg-mask"></span>
+                                                                </label>
+
+                                                                <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
+                                                                <ul class="dynamic-form-input-dropdown-options">
+                                                                    <li data-val="Class 1">Class 1</li>
+                                                                    <li data-val="Class 2">Class 2</li>
+                                                                    <li data-val="Class 3">Class 3</li>
+                                                                </ul>
+                                                              </div>
+                                                              </div>
+                                                              <div class="square-button square-button-minus">
+                                                                <img class="icon" src="assets/icons/minus.svg">
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+
+                                                      </div>
+
+                                                      <div class="col-md-6">
+
+                                                        <div class="dynamic-form-input-dropdown-container">
+                                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                                                            <div class="dynamic-form-input">
+                                                              <div class="dynamic-form-input-float-adjust">
+                                                              <div class="form-group group form-group-right">
+                                                                <input type="text" class="input-dropdown" required="">
+                                                                
+                                                                <label class="input-label">
+                                                                  <span class="input-label-text">Subject</span><span class="input-label-bg-mask"></span>
+                                                                </label>
+
+                                                                <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
+                                                                <ul class="dynamic-form-input-dropdown-options">
+                                                                    <li data-val="Subject 1">Subject 1</li>
+                                                                    <li data-val="Subject 2">Subject 2</li>
+                                                                    <li data-val="Subject 2">Subject 3</li>
+                                                                </ul>
+                                                              </div>
+                                                              </div>
+                                                              <div class="square-button square-button-minus">
+                                                                <img class="icon" src="assets/icons/minus.svg">
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+
+                                                      </div>
+                                              
+                                                  </div>
+
+
+                                                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style  ">
+
+                                                    <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Exam name</span> <span class="input-label-bg-mask"></span></label>
+
+                                                    <div class="form-group group dynamic-form-input-text-container-icon">
+                                                       <input type="text" class="input-text input-extra-border" required="" 
+                                                              placeholder="Type exam name">
+                                                    </div>
+
+                                                  </div>
+
+                                                  <div class="row sections-main-sub-container-right-main-rows visibility ">
+
+                                                    <div class="col-md-12">
+                                                      <div class="form-group group">
+                                                        <input type="text" required="" >
+                                                        <label class="input-label">
+                                                          <span class="input-label-text">Exam name</span><span class="input-label-bg-mask"></span>
+                                                        </label>
+                                                      </div>
+                                                    </div>
+
+                                                  </div>
+
+                                                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style ">
+
+                                                    <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Date</span> <span class="input-label-bg-mask"></span></label>
+
+                                                    <div class="form-group group dynamic-form-input-text-container-icon">
+                                                       <input type="text" class="input-text input-extra-border input-date" required="" 
+                                                              placeholder="Select date">
+                                                       <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
+                                                    </div>
+
+                                                  </div>
+
+                                                  <div class="row sections-main-sub-container-right-main-rows">
+                                                    <div class="col-xs-12">
+                                                      <div class="form-group group">
+                                                        <textarea class="input-text input-text-area"></textarea>
+                                                        <label class="input-label">
+                                                          <span class="input-label-text">Exam description</span><span class="input-label-bg-mask"></span>
+                                                        </label>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+
+                                                  <!--  sub-container-form-footer -->
+                                                  <div class="sub-container-form-footer">
+                                                      <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button ">
+                                                            <span class="button-text" >Save</span>
+                                                            <img class="icon button-icon" src="assets/icons/check_small.svg">
+                                                      </div>
+                                                      <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary">
+                                                            <span class="button-text" data-dismiss="modal" >Cancel</span>
+                                                      </div>
+                                                  </div>
+                                                  <!--  End sub-container-form-footer -->
+
+                                              </div>
+
+                                          </div>
+
+                                        </div>
+
+                                      </div>
+
+                                    </div>
+
+                                  <!--_____________ End Exam modal _____________-->
 
                               </div>
                               <!-- End sections-main-sub-container-right-main-body : Scores -->

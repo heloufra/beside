@@ -2538,12 +2538,14 @@ input:focus ~ label,input:valid ~ label{
 
 /********************************* modal-body ***********************************/
 
-#FinanceModal , #ChangesModal , #AddAbsenceModal , #AddAttitudeModal {
+#FinanceModal , #ChangesModal , #AddAbsenceModal , #AddAttitudeModal , #AddExamModal , #AddHomeworkModal {
 	background-color: var(--modal--background--color);
 }
 
 #FinanceModal .sub-container-form-footer .modal-confirm-button ,
 #AddAbsenceModal .sub-container-form-footer .modal-confirm-button ,
+#AddExamModal .sub-container-form-footer .modal-confirm-button ,
+#AddHomeworkModal .sub-container-form-footer .modal-confirm-button ,
 #AddAttitudeModal .sub-container-form-footer .modal-confirm-button{
 	background-image: linear-gradient(to left, var(--element--gradient--from--color), var(--element--gradient--to--color)) !important;
 }
@@ -2569,7 +2571,7 @@ input:focus ~ label,input:valid ~ label{
 	border-bottom-left-radius: 3px;
 }
 
-#FinanceModal .modal-dialog , #AddAbsenceModal .modal-dialog , #AddAttitudeModal .modal-dialog {
+#FinanceModal .modal-dialog , #AddAbsenceModal .modal-dialog , #AddAttitudeModal .modal-dialog , #AddHomeworkModal .modal-dialog , #AddExamModal .modal-dialog {
 	height: 80vh;
     background: var(--white-color);
     margin-top: 10vh;
@@ -3368,33 +3370,42 @@ table td img {
 /********************************* sections-label-checkbox-container-left  *********************/
 
 #AddAbsenceModal .sections-label-checkbox-container-left ,
-#AddAttitudeModal .sections-label-checkbox-container-left{
+#AddAttitudeModal .sections-label-checkbox-container-left,
+#AddHomeworkModal .sections-label-checkbox-container-left,
+#AddExamModal .sections-label-checkbox-container-left{
 	position: relative;
 	border-radius: 3px;
 	width: 185px;
 }
 
 #AddAbsenceModal .dynamic-form-input-container-extra-style input,
-#AddAttitudeModal .dynamic-form-input-container-extra-style input{
+#AddAttitudeModal .dynamic-form-input-container-extra-style input,
+#AddHomeworkModal .dynamic-form-input-container-extra-style input,
+#AddExamModal .dynamic-form-input-container-extra-style input{
 	text-indent: 0;
 }
 
 #AddAbsenceModal .sections-checkboxes-main-container,
-#AddAttitudeModal .sections-checkboxes-main-container{
+#AddAttitudeModal .sections-checkboxes-main-container,
+#AddHomeworkModal .sections-checkboxes-main-container,
+#AddExamModal .sections-checkboxes-main-container{
 	display: flex;
 	border:1px solid var(--input-border--color);
 	border-radius: 3px;
 }
 
 #AddAbsenceModal  .sections-label-checkbox-container-left .expense_label,
-#AddAttitudeModal  .sections-label-checkbox-container-left .expense_label{
+#AddAttitudeModal  .sections-label-checkbox-container-left .expense_label,
+#AddHomeworkModal  .sections-label-checkbox-container-left .expense_label,
+#AddExamModal .sections-label-checkbox-container-left .expense_label{
 	line-height: 24px;
 }
 
 #AddAbsenceModal  .customCheckRounded label:after,
 #AddAttitudeModal  .customCheckRounded label:after,
 #AddAbsenceModal  .customCheckRounded label:before,
-#AddAttitudeModal  .customCheckRounded label:before{
+#AddHomeworkModal  .customCheckRounded label:before,
+#AddExamModal  .customCheckRounded label:before{
 	top: 0px;
 	width: 24px;
 	height: 24px;
