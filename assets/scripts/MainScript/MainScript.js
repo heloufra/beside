@@ -385,6 +385,7 @@ $(document).ready(function(){
 
 		$(".tab-pane.active .sub-container-form-footer").removeClass("show-footer");
 		$(".tab-pane.active .sub-container-form-footer").addClass("hide-footer");
+		$(".tab-pane.active .modal .sub-container-form-footer").removeClass("hide-footer");
 		
 		setTimeout(function(){
 			$(".sections-main-sub-container-right-main").css("cssText","height:95vh");
@@ -530,6 +531,8 @@ $(document).ready(function(){
 		domChangeWatcher();
 
 		$("#Details .sub-container-form-footer").addClass("hide-footer");
+		
+		$(".tab-pane.active .modal .sub-container-form-footer").removeClass("hide-footer");
 
 		if($(this).find("a").attr("href") == "#Details"){
 			$(".sections-main-sub-container-right-main .input-img-container .rounded-button").addClass("show-icon");
@@ -610,13 +613,17 @@ $(document).ready(function(){
 	/* input-text-empty ____________________________*/
 
 	$(document).on('change','.dom-change-watcher input', function() {
-		
-		$(".sub-container-form-footer").addClass("show-footer");
-  		$(".sections-main-sub-container-right-main").css("cssText","height:84.5vh");
-  		$domChange=true;
-  		setTimeout(function(){
-			$(".sub-container-form-footer").removeClass("hide-footer");
-  		});
+
+		if(!$(this).parents(".modal").length == 1){
+
+			$(".sub-container-form-footer").addClass("show-footer");
+	  		$(".sections-main-sub-container-right-main").css("cssText","height:84.5vh");
+	  		$domChange=true;
+	  		setTimeout(function(){
+				$(".sub-container-form-footer").removeClass("hide-footer");
+	  		});
+		}
+
 	});
 
 	/* End input-text-empty ________________________*/
@@ -624,19 +631,23 @@ $(document).ready(function(){
 	/* input-text-empty ____________________________*/
 
 	$(document).on('change','.dom-change-watcher textarea', function() {
-		
-		$(".sub-container-form-footer").addClass("show-footer");
-  		$(".sections-main-sub-container-right-main").css("cssText","height:84.5vh");
-  		$domChange=true;
-  		setTimeout(function(){
-			$(".sub-container-form-footer").removeClass("hide-footer");
-  		});
 
-  		if($(this).val() == ""){
-  			$(this).css("cssText","background-color : var(--input-active-bg-color) !important ;");
-  		}else{
-  			$(this).css("cssText","background-color : var(--white-color) !important ;");
+		if(!$(this).parents(".modal").length == 1){
+
+			$(".sub-container-form-footer").addClass("show-footer");
+	  		$(".sections-main-sub-container-right-main").css("cssText","height:84.5vh");
+	  		$domChange=true;
+	  		setTimeout(function(){
+				$(".sub-container-form-footer").removeClass("hide-footer");
+	  		});
+
+	  		if($(this).val() == ""){
+	  			$(this).css("cssText","background-color : var(--input-active-bg-color) !important ;");
+	  		}else{
+	  			$(this).css("cssText","background-color : var(--white-color) !important ;");
+	  		}
   		}
+
 	});
 
 	/* End input-text-empty ________________________*/
@@ -645,17 +656,20 @@ $(document).ready(function(){
 
 	$(document).on("click",".dom-change-watcher #Parents_New_Dynamic_Form_Input",function(){
 
-		$("#Details .dynamic-form-input-parent").removeClass("dynamic-form-input-first");
-		$dynamic_form_input = $("#Details .dynamic-form-input-parent").first().clone();
-		$dynamic_form_input.find("input").val("");
-		$(this).parent().before($dynamic_form_input);
+		if(!$(this).parents(".modal").length == 1){
 
-		$(".sub-container-form-footer").addClass("show-footer");
-  		$(".sections-main-sub-container-right-main").css("cssText","height:84.5vh");
-  		$domChange=true;
-  		setTimeout(function(){
-			$(".sub-container-form-footer").removeClass("hide-footer");
-  		});
+			$("#Details .dynamic-form-input-parent").removeClass("dynamic-form-input-first");
+			$dynamic_form_input = $("#Details .dynamic-form-input-parent").first().clone();
+			$dynamic_form_input.find("input").val("");
+			$(this).parent().before($dynamic_form_input);
+
+			$(".sub-container-form-footer").addClass("show-footer");
+	  		$(".sections-main-sub-container-right-main").css("cssText","height:84.5vh");
+	  		$domChange=true;
+	  		setTimeout(function(){
+				$(".sub-container-form-footer").removeClass("hide-footer");
+	  		});
+	  	}
 
 
 	});
