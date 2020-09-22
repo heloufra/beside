@@ -37,10 +37,9 @@
 
   <!--____________________________ select2 ______________________________--> 
 
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+     <link rel="stylesheet"  href="assets/includes/select2/select2.min.css"/>
+     <script src="assets/includes/select2/select2.min.js"></script>
+     <link rel="stylesheet"  href="assets/includes/select2/normalize.min.css"/>
 
   <!--____________________________owl carousel______________________________-->
 
@@ -205,7 +204,7 @@
                             <div class="tab-content">
 
                               <!-- sections-main-sub-container-right-main-body : Details -->
-                              <div id="Details" class="tab-pane fade in active sections-main-sub-container-right-main-body">
+                              <div id="Details" class="tab-pane fade in active sections-main-sub-container-right-main-body dom-change-watcher">
 
                                   <div class="sections-main-sub-container-right-main-label-divider">
                                         <p>Student details</p>
@@ -311,7 +310,7 @@
 
                                     <div class="col-md-6">
                                       <div class="form-group group dynamic-form-input-text-container-icon">
-                                         <input type="text" class="input-text" required="" placeholder="">
+                                         <input type="text" class="input-text input-date" required="" placeholder="">
                                          <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                           <label class="input-label">
                                             <span class="input-label-text">Birthdate</span><span class="input-label-bg-mask"></span>
@@ -419,12 +418,12 @@
                                   <div class="sub-container-form-footer-container">
                                         <!--  sub-container-form-footer -->
                                         <div class="sub-container-form-footer hide-footer">
-                                            <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate rounded-button-primary-green-color" data-toggle="modal" data-target="#ChangesModal">
+                                            <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate rounded-button-primary-green-color">
                                                   <span class="button-text" id="">Save changes</span>
                                                   <img class="icon button-icon" src="assets/icons/check_small.svg">
                                             </div>
                                             <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary">
-                                                  <span class="button-text" id="StudentBtnCancel" >Cancel</span>
+                                                  <span class="button-text discard-changes" >Discard changes</span>
                                             </div>
                                         </div>
                                         <!--  End sub-container-form-footer -->
@@ -689,7 +688,6 @@
                               </div>
                               <!-- End sections-main-sub-container-right-main-body : Grades -->
 
-
                               <!-- sections-main-sub-container-right-main-body : Attitude -->
                               <div id="Attitude" class="tab-pane fade  sections-main-sub-container-right-main-body">
 
@@ -774,23 +772,193 @@
                                         </tbody>
 
                                       </table>
+
                                     </div>
 
                                   </div>
-
 
                                   <!-- sub-container-form-footer-container -->
                                   <div class="sub-container-form-footer-container">
                                         <!--  sub-container-form-footer -->
                                         <div class="sub-container-form-footer">
-                                            <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate ">
-                                                  <span class="button-text" id="">Add attitude</span>
-                                                  <img class="icon button-icon" src="assets/icons/plus.svg">
+                                            <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate " data-toggle="modal" data-target="#AddAttitudeModal">
+                                                <span class="button-text" id="">Add attitude</span>
+                                                <img class="icon button-icon" src="assets/icons/plus.svg">
                                             </div>
                                         </div>
                                         <!--  End sub-container-form-footer -->
                                   </div>
                                   <!-- End sub-container-form-footer-container -->
+
+                                  <!--_____________ Attitude modal _____________-->
+
+                                  <!-- Trigger the modal with a button -->
+                                   
+                                    <!-- Modal -->
+                                    <div id="AddAttitudeModal" class="modal" role="dialog">
+
+                                      <div class="modal-dialog modal-dialog-cente animate__animated animate__fadeIn ">
+
+                                        <!-- Modal content-->
+                                        <div class="modal-content modal-content-finance">
+
+                                          <div class="modal-body">
+
+                                              <!-- modal-body-container -->
+
+                                              <div class="modal-body-container">
+
+                                                 <h1 class="sub-container-main-header">Attitude</h1>
+                                                 <h4 class="sub-container-sub-header">
+                                                  There are many variations of passages of Lorem Ipsum available.
+                                                 </h4>
+
+                                                  <div class="row sections-main-sub-container-right-main-rows">
+
+
+                                                      <div class="col-md-6">
+
+                                                        <div class="dynamic-form-input-dropdown-container">
+                                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                                                            <div class="dynamic-form-input">
+                                                              <div class="dynamic-form-input-float-adjust">
+                                                              <div class="form-group group form-group-right">
+                                                                <input type="text" class="input-dropdown" required="">
+                                                                
+                                                                <label class="input-label">
+                                                                  <span class="input-label-text">Class</span><span class="input-label-bg-mask"></span>
+                                                                </label>
+
+                                                                <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
+                                                                <ul class="dynamic-form-input-dropdown-options">
+                                                                    <li data-val="Class 1">Class 1</li>
+                                                                    <li data-val="Class 2">Class 2</li>
+                                                                    <li data-val="Class 3">Class 3</li>
+                                                                </ul>
+                                                              </div>
+                                                              </div>
+                                                              <div class="square-button square-button-minus">
+                                                                <img class="icon" src="assets/icons/minus.svg">
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+
+                                                      </div>
+
+                                                      <div class="col-md-6">
+
+                                                        <div class="dynamic-form-input-dropdown-container">
+                                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                                                            <div class="dynamic-form-input">
+                                                              <div class="dynamic-form-input-float-adjust">
+                                                              <div class="form-group group form-group-right">
+                                                                <input type="text" class="input-dropdown" required="">
+                                                                
+                                                                <label class="input-label">
+                                                                  <span class="input-label-text">Student</span><span class="input-label-bg-mask"></span>
+                                                                </label>
+
+                                                                <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
+                                                                <ul class="dynamic-form-input-dropdown-options">
+                                                                    <li data-val="Student 1">Student 1</li>
+                                                                    <li data-val="Student 2">Student 2</li>
+                                                                    <li data-val="Student 2">Student 3</li>
+                                                                </ul>
+                                                              </div>
+                                                              </div>
+                                                              <div class="square-button square-button-minus">
+                                                                <img class="icon" src="assets/icons/minus.svg">
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+
+                                                      </div>
+                                              
+                                                  </div>
+
+                                                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style">
+
+                                                      <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Type</span> <span class="input-label-bg-mask"></span></label>
+
+                                                      <div class="sections-checkboxes-main-container">
+
+                                                        <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left   
+                                                             dynamic-form-input-container-type" data-val="Positive" >
+                                                            <div class="sections-label-checkbox-container " >
+                                                              <div class="form-group group ">
+                                                                <span class="expense_label">Positive</span>
+                                                              </div>
+                                                            </div>
+                                                            <div class="customCheck customCheckRounded">
+                                                              <input type="checkbox" checked value="0" data-val="Positive" name="checkbox" id="" />
+                                                              <label for="ck"></label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left container-background-style" data-val="Negative">
+                                                            <div class="sections-label-checkbox-container ">
+                                                              <div class="form-group group ">
+                                                                <span class="expense_label">Negative</span>
+                                                              </div>
+                                                            </div>
+                                                            <div class="customCheck customCheckRounded">
+                                                              <input type="checkbox" value="1" data-val="Negative"  name="checkbox" id="" />
+                                                              <label for="ck"></label>
+                                                            </div>
+                                                        </div>
+
+                                                      </div>
+
+                                                  </div>
+
+                                                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style ">
+
+                                                    <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Date</span> <span class="input-label-bg-mask"></span></label>
+
+                                                    <div class="form-group group dynamic-form-input-text-container-icon">
+                                                       <input type="text" class="input-text input-extra-border input-date" required="" 
+                                                              placeholder="Select date">
+                                                       <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
+                                                    </div>
+
+                                                  </div>
+
+                                                  <div class="row sections-main-sub-container-right-main-rows">
+                                                    <div class="col-xs-12">
+                                                      <div class="form-group group">
+                                                        <textarea class="input-text input-text-area"></textarea>
+                                                        <label class="input-label">
+                                                          <span class="input-label-text">Note</span><span class="input-label-bg-mask"></span>
+                                                        </label>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+
+                                                  <!--  sub-container-form-footer -->
+                                                  <div class="sub-container-form-footer">
+                                                      <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button ">
+                                                            <span class="button-text" >Save</span>
+                                                            <img class="icon button-icon" src="assets/icons/check_small.svg">
+                                                      </div>
+                                                      <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary">
+                                                            <span class="button-text" data-dismiss="modal" >Cancel</span>
+                                                      </div>
+                                                  </div>
+                                                  <!--  End sub-container-form-footer -->
+
+                                              </div>
+
+                                          </div>
+
+                                        </div>
+
+                                      </div>
+
+                                    </div>
+
+                                  <!--_____________ End Attitude modal _____________-->
 
                               </div>
                               <!-- End sections-main-sub-container-right-main-body : Attitude -->
@@ -1191,9 +1359,6 @@
                                   </div>
                                   <!-- End sub-container-form-footer-container -->
 
-
-
-
                                   <!--_____________ Absence modal _____________-->
 
                                   <!-- Trigger the modal with a button -->
@@ -1357,17 +1522,17 @@
                                                   <div class="dynamic-form-input-container dynamic-form-input-container-extra-style
                                                        dynamic-form-input-container-multi-date">
 
-                                                    <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Select date </span> <span class="input-label-bg-mask"></span></label>
+                                                    <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Period</span> <span class="input-label-bg-mask"></span></label>
 
                                                     <div class="flex flex-form-group-container">
 
                                                       <div class="form-group group dynamic-form-input-text-container-icon">
-                                                         <input type="text" class="input-text" required="" placeholder="Start date">
+                                                         <input type="text" class="input-text input-date" required="" placeholder="Start date">
                                                          <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                                       </div>
 
                                                        <div class="form-group group dynamic-form-input-text-container-icon">
-                                                         <input type="text" class="input-text" required="" placeholder="End Date">
+                                                         <input type="text" class="input-text input-date" required="" placeholder="End Date">
                                                          <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                                       </div>
 
@@ -1381,10 +1546,10 @@
                                                   <div class="dynamic-form-input-container dynamic-form-input-container-extra-style
                                                        dynamic-form-input-container-one-date">
 
-                                                    <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Select date </span> <span class="input-label-bg-mask"></span></label>
+                                                    <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Date </span> <span class="input-label-bg-mask"></span></label>
 
                                                     <div class="form-group group dynamic-form-input-text-container-icon">
-                                                       <input type="text" class="input-text input-extra-border" required="" placeholder="Date">
+                                                       <input type="text" class="input-text input-extra-border  input-date" required="" placeholder="Select date">
                                                        <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                                     </div>
 
@@ -1398,12 +1563,12 @@
                                                     <div class="flex flex-form-group-container">
 
                                                       <div class="form-group group dynamic-form-input-text-container-icon">
-                                                         <input type="text" class="input-text" required="" placeholder="Time">
+                                                         <input type="text" class="input-text input-time" required="" placeholder="Time">
                                                          <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
                                                       </div>
 
                                                        <div class="form-group group dynamic-form-input-text-container-icon">
-                                                         <input type="text" class="input-text" required="" placeholder="Time">
+                                                         <input type="text" class="input-text input-time" required="" placeholder="Time">
                                                          <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
                                                       </div>
 
@@ -1799,7 +1964,7 @@
 
                             <!-- Trigger the modal with a button -->
                              
-                              <!-- Modal -->
+                              <!-- Modal data-toggle="modal" data-target="#ChangesModal" -->
                               <div id="ChangesModal" class="modal" role="dialog">
 
                                 <div class="modal-dialog modal-dialog-centered animate__animated animate__fadeIn ">

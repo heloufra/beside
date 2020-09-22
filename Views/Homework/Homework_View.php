@@ -192,7 +192,7 @@
                             <div class="tab-content">
 
                               <!-- sections-main-sub-container-right-main-body : HomeworkDetails -->
-                              <div id="HomeworkDetails" class="tab-pane fade in active  sections-main-sub-container-right-main-body">
+                              <div id="HomeworkDetails" class="tab-pane fade in active  sections-main-sub-container-right-main-body dom-change-watcher">
 
                                   <div class="sections-main-sub-container-right-main-label-divider sections-main-sub-container-right-main-label-divider-extra-style">
                                         <p>Homework details</p>
@@ -201,7 +201,7 @@
                                   <div class="row sections-main-sub-container-right-main-rows">
 
                                     <div class="col-md-6">
-                                      <div class="form-group group disabled">
+                                      <div class="form-group group ">
                                         <input type="text" required="" >
                                         <label class="input-label">
                                           <span class="input-label-text">Homework name</span><span class="input-label-bg-mask"></span>
@@ -210,8 +210,8 @@
                                     </div>
 
                                     <div class="col-md-6">
-                                      <div class="form-group group dynamic-form-input-text-container-icon dynamic-form-input-text-container-icon-extra-style disabled ">
-                                          <input type="text"  class="input-text" required="" placeholder="">
+                                      <div class="form-group group dynamic-form-input-text-container-icon dynamic-form-input-text-container-icon-extra-style ">
+                                          <input type="text"  class="input-text input-date" required="" placeholder="">
                                           <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                           <label class="input-label">
                                             <span class="input-label-text">Date</span><span class="input-label-bg-mask"></span>
@@ -225,7 +225,7 @@
                                   <div class="row sections-main-sub-container-right-main-rows">
 
                                     <div class="col-md-12">
-                                      <div class="form-group group disabled">
+                                      <div class="form-group group ">
                                         <textarea class="input-text input-text-area"></textarea>
                                         <label class="input-label">
                                           <span class="input-label-text">Homework description</span><span class="input-label-bg-mask"></span>
@@ -238,23 +238,17 @@
                                   <!-- sub-container-form-footer-container -->
                                   <div class="sub-container-form-footer-container">
                                         <!--  sub-container-form-footer -->
-                                        <div class="sub-container-form-footer">
-                                            <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate ">
-                                                  <span class="button-text" id="StudentBtnEdit">Edit details</span>
-                                                  <img class="icon button-icon" src="assets/icons/edit.svg">
-                                            </div>
-                                        </div>
-                                        <!--  End sub-container-form-footer -->
+                                        <div class="sub-container-form-footer hide-footer">
 
-                                        <!--  sub-container-form-footer -->
-                                        <div class="sub-container-form-footer visibility">
-                                            <div class="rounded-button rounded-button-primary rounded-button-float-right">
-                                                  <span class="button-text">Save changes</span>
+                                            <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate rounded-button-primary-green-color ">
+                                                  <span class="button-text" id="Editdetails">Edit details</span>
                                                   <img class="icon button-icon" src="assets/icons/check_small.svg">
                                             </div>
+
                                             <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary">
-                                                  <span class="button-text" id="StudentBtnCancel" >Cancel</span>
+                                                  <span class="button-text discard-changes" >Discard changes</span>
                                             </div>
+
                                         </div>
                                         <!--  End sub-container-form-footer -->
                                   </div>

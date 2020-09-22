@@ -37,8 +37,9 @@
 
   <!--____________________________ select2 ______________________________--> 
 
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+     <link rel="stylesheet"  href="assets/includes/select2/select2.min.css"/>
+     <script src="assets/includes/select2/select2.min.js"></script>
+     <link rel="stylesheet"  href="assets/includes/select2/normalize.min.css"/>
 
   <!--____________________________owl carousel______________________________-->
 

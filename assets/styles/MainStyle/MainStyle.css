@@ -93,6 +93,23 @@
 }
 
 
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: var(--input-placeholder--color);
+  font-size: 14px;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: var(--input-placeholder--color);
+  font-size: 14px;
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: var(--input-placeholder--color);
+  font-size: 14px;
+}
+:-moz-placeholder { /* Firefox 18- */
+  color: var(--input-placeholder--color);
+  font-size: 14px;
+}
+
 body {  
   font-family: -apple-system, 
     system-ui,
@@ -152,7 +169,17 @@ body {
 	background: var(--input-active-bg-color);
 }
 
+/***************** input-date - .input-time  *****************/
 
+.input-date:invalid , .input-time:invalid {
+	background : var(--input-active-bg-color) !important;
+}
+
+.input-date {
+	text-indent: 4px;
+}
+
+/***************** End input-date - .input-time *************/
 
 /************* Setup Main Container **********/
 
@@ -1443,8 +1470,22 @@ input:focus ~ label,input:valid ~ label{
 	margin-bottom: 0px;
 }
 
-
-
+.sections-main-sub-container-left-search-bar  ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: var(--input-placeholder--color);
+  font-size: 12px;
+}
+.sections-main-sub-container-left-search-bar  ::-moz-placeholder { /* Firefox 19+ */
+  color: var(--input-placeholder--color);
+  font-size: 12px;
+}
+.sections-main-sub-container-left-search-bar  :-ms-input-placeholder { /* IE 10+ */
+  color: var(--input-placeholder--color);
+  font-size: 12px;
+}
+.sections-main-sub-container-left-search-bar :-moz-placeholder { /* Firefox 18- */
+  color: var(--input-placeholder--color);
+  font-size: 12px;
+}
 
 /****** .sections-main-sub-container-left-search-bar .dynamic-form-input-first *********************/
 
@@ -1638,12 +1679,12 @@ input:focus ~ label,input:valid ~ label{
 }
 
 .sections-main-sub-container-right-main .form-group input{
-	height: 42px;
+	height: 40px;
 	background-color: transparent;
 }
 
 .sections-main-sub-container-right-main .dynamic-form-input-dropdown-options{
-	top: 43px;
+	top: 41px;
 }
 
 .sections-main-sub-container-right-main input:focus ~ label, .sections-main-sub-container-right-main input:valid ~ label{
@@ -2419,7 +2460,7 @@ input:focus ~ label,input:valid ~ label{
 
 .dynamic-form-input-text-container-icon .icon{
 	position: absolute;
-	top: 10px;
+	top: 8px;
 	right: 8px;
 }
 
@@ -2452,6 +2493,10 @@ input:focus ~ label,input:valid ~ label{
     border: 1px solid var(--input-border--color);
     background-color: white;
     border-radius: 3px;
+}
+
+.textarea{
+	transition: background-color .5s ease-in;
 }
 
 /****** End dynamic-form-input-text-container-icon ******/
@@ -2493,8 +2538,14 @@ input:focus ~ label,input:valid ~ label{
 
 /********************************* modal-body ***********************************/
 
-#FinanceModal , #ChangesModal , #AddAbsenceModal {
+#FinanceModal , #ChangesModal , #AddAbsenceModal , #AddAttitudeModal {
 	background-color: var(--modal--background--color);
+}
+
+#FinanceModal .sub-container-form-footer .modal-confirm-button ,
+#AddAbsenceModal .sub-container-form-footer .modal-confirm-button ,
+#AddAttitudeModal .sub-container-form-footer .modal-confirm-button{
+	background-image: linear-gradient(to left, var(--element--gradient--from--color), var(--element--gradient--to--color)) !important;
 }
 
 .modal-content-finance{
@@ -2518,7 +2569,7 @@ input:focus ~ label,input:valid ~ label{
 	border-bottom-left-radius: 3px;
 }
 
-#FinanceModal .modal-dialog , #AddAbsenceModal .modal-dialog {
+#FinanceModal .modal-dialog , #AddAbsenceModal .modal-dialog , #AddAttitudeModal .modal-dialog {
 	height: 80vh;
     background: var(--white-color);
     margin-top: 10vh;
@@ -2868,6 +2919,9 @@ table td img {
 
 .td-description{
 	font-size: 12px;
+	display: inline-block;
+	min-height: 50px;
+	width: 100%;
 }
 
 #Attitude table td{
@@ -3313,25 +3367,52 @@ table td img {
 
 /********************************* sections-label-checkbox-container-left  *********************/
 
-#AddAbsenceModal .sections-label-checkbox-container-left{
+#AddAbsenceModal .sections-label-checkbox-container-left ,
+#AddAttitudeModal .sections-label-checkbox-container-left{
 	position: relative;
 	border-radius: 3px;
 	width: 185px;
 }
 
-#AddAbsenceModal .dynamic-form-input-container-extra-style input{
+#AddAbsenceModal .dynamic-form-input-container-extra-style input,
+#AddAttitudeModal .dynamic-form-input-container-extra-style input{
 	text-indent: 0;
 }
 
-#AddAbsenceModal .sections-checkboxes-main-container{
+#AddAbsenceModal .sections-checkboxes-main-container,
+#AddAttitudeModal .sections-checkboxes-main-container{
 	display: flex;
 	border:1px solid var(--input-border--color);
 	border-radius: 3px;
 }
 
+#AddAbsenceModal  .sections-label-checkbox-container-left .expense_label,
+#AddAttitudeModal  .sections-label-checkbox-container-left .expense_label{
+	line-height: 24px;
+}
+
+#AddAbsenceModal  .customCheckRounded label:after,
+#AddAttitudeModal  .customCheckRounded label:after,
+#AddAbsenceModal  .customCheckRounded label:before,
+#AddAttitudeModal  .customCheckRounded label:before{
+	top: 0px;
+	width: 24px;
+	height: 24px;
+}
+
+#AddAbsenceModal  .sections-label-checkbox-container-left .sections-label-checkbox-container,
+#AddAttitudeModal .sections-label-checkbox-container-left .sections-label-checkbox-container{
+	text-overflow: unset !important;
+	max-width: 100% !important;
+	padding: 8px;
+	margin-bottom: 0px;
+	border:0px;
+	border-radius: 0 ;
+}
 
 
-#AddAbsenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left:first-child {
+#AddAbsenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left:first-child ,
+#AddAttitudeModal .sections-checkboxes-main-container .sections-label-checkbox-container-left:first-child {
 	border-right: 1px solid var(--input-border--color);
 	border-radius: 0px;
 }
@@ -3351,7 +3432,8 @@ table td img {
 	border-radius: 3px;
 }
 
-#AddAbsenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left {
+#AddAbsenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left ,
+#AddAttitudeModal .sections-checkboxes-main-container .sections-label-checkbox-container-left {
 	flex-grow: 1;
 }
 

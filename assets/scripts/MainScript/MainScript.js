@@ -377,19 +377,14 @@ $(document).ready(function(){
 	$(document).on("click","#StudentBtnEdit",function(){
 
 		$this = $(this);
-
-		$(".sections-main-sub-container-right-main-body.active .form-group ").toggleClass("disabled");
-		$(".sections-main-sub-container-right-main-header-info .form-group ").toggleClass("disabled");
-		$(".sections-main-sub-container-right-main-body.active .sections-label-checkbox-main-container ").toggleClass("disabled");
-
 		$(".sub-container-form-footer").toggleClass("visibility");
 
 	});
 
-	$(document).on("click","#StudentBtnCancel",function(){
+	$(document).on("click",".discard-changes",function(){
 
-		$("#Details .sub-container-form-footer").removeClass("show-footer");
-		$("#Details .sub-container-form-footer").addClass("hide-footer");
+		$(".tab-pane.active .sub-container-form-footer").removeClass("show-footer");
+		$(".tab-pane.active .sub-container-form-footer").addClass("hide-footer");
 		
 		setTimeout(function(){
 			$(".sections-main-sub-container-right-main").css("cssText","height:95vh");
@@ -522,14 +517,15 @@ $(document).ready(function(){
 		}
 
 		if($(".tab-pane:visible").find(".sub-container-form-footer-container").length == 1 
-				&& $(".tab-pane:visible").attr("id") == "Details" ) {
+				&& $(".tab-pane:visible").attr("id") == "Details" 
+				|| $(".tab-pane:visible").attr("id") == "ExamsDetails" 
+				|| $(".tab-pane:visible").attr("id") == "HomeworkDetails" ) {
 				$(".sections-main-sub-container-right-main").css("cssText","height:94vh");
 		}
 
 	},500);
 
 	$(document).on("click",".sections-main-sub-container-right-main-tabs li",function(event){
-
 
 		domChangeWatcher();
 
@@ -558,8 +554,6 @@ $(document).ready(function(){
 
 		},500); 
 
-
-		
 	});
 
 	/* End tab-pane  ________________________*/
@@ -615,7 +609,7 @@ $(document).ready(function(){
 
 	/* input-text-empty ____________________________*/
 
-	$(document).on('change','#Details input', function() {
+	$(document).on('change','.dom-change-watcher input', function() {
 		
 		$(".sub-container-form-footer").addClass("show-footer");
   		$(".sections-main-sub-container-right-main").css("cssText","height:84.5vh");
@@ -627,9 +621,29 @@ $(document).ready(function(){
 
 	/* End input-text-empty ________________________*/
 
+	/* input-text-empty ____________________________*/
+
+	$(document).on('change','.dom-change-watcher textarea', function() {
+		
+		$(".sub-container-form-footer").addClass("show-footer");
+  		$(".sections-main-sub-container-right-main").css("cssText","height:84.5vh");
+  		$domChange=true;
+  		setTimeout(function(){
+			$(".sub-container-form-footer").removeClass("hide-footer");
+  		});
+
+  		if($(this).val() == ""){
+  			$(this).css("cssText","background-color : var(--input-active-bg-color) !important ;");
+  		}else{
+  			$(this).css("cssText","background-color : var(--white-color) !important ;");
+  		}
+	});
+
+	/* End input-text-empty ________________________*/
+
 	/* #Details #Parents_New_Dynamic_Form_Input _______________________*/
 
-	$(document).on("click","#Details #Parents_New_Dynamic_Form_Input",function(){
+	$(document).on("click",".dom-change-watcher #Parents_New_Dynamic_Form_Input",function(){
 
 		$("#Details .dynamic-form-input-parent").removeClass("dynamic-form-input-first");
 		$dynamic_form_input = $("#Details .dynamic-form-input-parent").first().clone();
@@ -793,8 +807,8 @@ $(document).ready(function(){
 
 	function Absense_Retard_Checker($type){
 
-		$session = $(".dynamic-form-input-container-session").find("input:checked").attr("data-val");
-		$type    = $(".dynamic-form-input-container-type").find("input:checked").attr("data-val");
+		$session = $(".tab-pane:visible .dynamic-form-input-container-session").find("input:checked").attr("data-val");
+		$type    = $(".tab-pane:visible .dynamic-form-input-container-type").find("input:checked").attr("data-val");
 
 		console.log($session+" __ "+$type);
 
