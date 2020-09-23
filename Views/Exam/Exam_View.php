@@ -173,7 +173,7 @@
                                 <div class="sections-main-sub-container-right-main-header-info">
 
                                   <div class="form-group disabled">
-                                    <div class="input-img-container input-img-text-container  input-rounded-img-container" style="background: #fceeca;">
+                                    <div class="input-img-container input-img-text-container  input-rounded-img-container input-rounded-img-container-extra-style " style="background: #fceeca;">
                                       FR
                                     </div>
                                   </div>

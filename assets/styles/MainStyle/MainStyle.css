@@ -37,6 +37,8 @@
   --input-active-bg-color:#fdfdfe;
   --input-border--color:#f0f0f6;
 
+  --empty-img-bg-color:#ecedf3;
+
   --green--info--color:#55b578;
 
   --red--info--color:#db4d5d;
@@ -177,6 +179,10 @@ body {
 
 .input-date {
 	text-indent: 4px;
+}
+
+.input-date , .input-time {
+	height: 100% !important;
 }
 
 /***************** End input-date - .input-time *************/
@@ -516,6 +522,15 @@ input:focus ~ label,input:valid ~ label{
 /****************** End Square btn ***************/
 
 
+/****************** form-group-modal-extra-style ***************/
+
+.form-group-modal-extra-style{
+	margin-bottom: 32px;
+}
+
+/****************** End form-group-modal-extra-style ***************/
+
+
 /****************** End Rounded btn + text + icon ***************/
 
 
@@ -539,7 +554,6 @@ input:focus ~ label,input:valid ~ label{
 	background-color: var(--input-active-bg-color);
 	font-size: 16px;
     font-weight: 600;
-    padding-top: 20px;
 }
 
 .input-img-container .input-img{
@@ -547,6 +561,16 @@ input:focus ~ label,input:valid ~ label{
 	height: 100%;
 	object-fit: cover; /*contain*/
 	border-radius: 100%;
+	font-size: 0px;
+}
+
+.input-img-container{
+	background-color: var(--empty-img-bg-color) ;
+}
+
+
+.input-img-container .input-img[src=""] {
+  display:none;
 }
 
 .input-square-img-container{
@@ -1679,12 +1703,12 @@ input:focus ~ label,input:valid ~ label{
 }
 
 .sections-main-sub-container-right-main .form-group input{
-	height: 40px;
+	height: 42px;
 	background-color: transparent;
 }
 
 .sections-main-sub-container-right-main .dynamic-form-input-dropdown-options{
-	top: 41px;
+	top: 43px;
 }
 
 .sections-main-sub-container-right-main input:focus ~ label, .sections-main-sub-container-right-main input:valid ~ label{
@@ -1705,6 +1729,13 @@ input:focus ~ label,input:valid ~ label{
 	margin-bottom: 16px;
 	width: 80px;
 	height: 80px;
+}
+
+.sections-main-sub-container-right-main  .input-rounded-img-container-extra-style{
+	width: 60px;
+	height: 60px;
+	padding:20px; 
+	line-height: 16px;
 }
 
 .sections-main-sub-container-right-main .input-img-container .rounded-button .icon{
@@ -1768,6 +1799,14 @@ input:focus ~ label,input:valid ~ label{
 	padding:60px;
 	padding-bottom: 120px;
 }
+
+/****************** sections-main-sub-container-right-main-header ***************/
+
+.modal .sections-main-sub-container-right-main-header .sections-main-sub-container-right-main-header-info{
+	text-align: center;
+}
+
+/****************** End sections-main-sub-container-right-main-header ************/
 
 
 /******************* sections-main-sub-container-right-main-tabs *****************/
@@ -2538,7 +2577,7 @@ input:focus ~ label,input:valid ~ label{
 
 /********************************* modal-body ***********************************/
 
-#FinanceModal , #ChangesModal , #AddAbsenceModal , #AddAttitudeModal , #AddExamModal , #AddHomeworkModal {
+#FinanceModal , #ChangesModal , #AddAbsenceModal , #AddAttitudeModal , #AddExamModal , #AddHomeworkModal , #AddStudentModal {
 	background-color: var(--modal--background--color);
 }
 
@@ -2546,6 +2585,7 @@ input:focus ~ label,input:valid ~ label{
 #AddAbsenceModal .sub-container-form-footer .modal-confirm-button ,
 #AddExamModal .sub-container-form-footer .modal-confirm-button ,
 #AddHomeworkModal .sub-container-form-footer .modal-confirm-button ,
+#AddStudentModal .sub-container-form-footer .modal-confirm-button ,
 #AddAttitudeModal .sub-container-form-footer .modal-confirm-button{
 	background-image: linear-gradient(to left, var(--element--gradient--from--color), var(--element--gradient--to--color)) !important;
 }
@@ -2571,7 +2611,7 @@ input:focus ~ label,input:valid ~ label{
 	border-bottom-left-radius: 3px;
 }
 
-#FinanceModal .modal-dialog , #AddAbsenceModal .modal-dialog , #AddAttitudeModal .modal-dialog , #AddHomeworkModal .modal-dialog , #AddExamModal .modal-dialog {
+#FinanceModal .modal-dialog , #AddAbsenceModal .modal-dialog , #AddAttitudeModal .modal-dialog , #AddHomeworkModal .modal-dialog , #AddExamModal .modal-dialog , #AddStudentModal .modal-dialog {
 	height: 80vh;
     background: var(--white-color);
     margin-top: 10vh;
@@ -3086,7 +3126,7 @@ table td img {
 	text-align: left;
 }
 
-.sections-main-sub-container-right-main-rows-parents #Parents_New_Dynamic_Form_Input{
+.sections-main-sub-container-right-main-rows-parents #Parents_New_Dynamic_Form_Input , .modal #Modal_Parents_New_Dynamic_Form_Input{
 	margin-bottom: 16px;
 }
 
@@ -3271,11 +3311,11 @@ table td img {
 }
 
 .finance-page-extra-style  .sections-main-sub-container-right-main .form-group input{
-	height: 40px;
+	height: 42px;
 }
 
 .finance-page-extra-style  .sections-main-sub-container-right-main .dynamic-form-input-dropdown-options{
-	top: 40px;
+	top: 43px;
 	padding:16px 8px;
 }
 
