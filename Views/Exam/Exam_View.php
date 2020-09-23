@@ -424,7 +424,7 @@
                               <!-- End sections-main-sub-container-right-main-body : Scores -->
 
                               <!-- sections-main-sub-container-right-main-body : Scores -->
-                              <div id="Scores" class="tab-pane fade sections-main-sub-container-right-main-body">
+                              <div id="Scores" class="tab-pane fade sections-main-sub-container-right-main-body dom-change-watcher">
 
                                   <div class="sections-main-sub-container-right-main-label-divider">
                                         <p>Score Average</p>
@@ -499,6 +499,25 @@
 
                                   </div>
 
+                                  <!-- sub-container-form-footer-container -->
+                                  <div class="sub-container-form-footer-container">
+                                        <!--  sub-container-form-footer -->
+                                        <div class="sub-container-form-footer hide-footer">
+
+                                            <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate rounded-button-primary-green-color ">
+                                                  <span class="button-text" id="Editdetails">Save changes</span>
+                                                  <img class="icon button-icon" src="assets/icons/check_small.svg">
+                                            </div>
+
+                                            <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary">
+                                                  <span class="button-text discard-changes" >Discard changes</span>
+                                            </div>
+
+                                        </div>
+                                        <!--  End sub-container-form-footer -->
+                                  </div>
+                                  <!-- End sub-container-form-footer-container -->
+
                               </div>
                               <!-- End sections-main-sub-container-right-main-body : Scores -->
 
@@ -518,47 +537,54 @@
     </div>
     <!-- sub-container -->
 
+
+    <!--_____________ ChangesModal modal _____________-->
+
     <!-- Trigger the modal with a button -->
+     
+      <!-- Modal data-toggle="modal" data-target="#ChangesModal" -->
+      <div id="ChangesModal" class="modal" role="dialog">
 
-    <!-- Modal -->
-    <div id="ChangesModal" class="modal" role="dialog">
+        <div class="modal-dialog modal-dialog-centered animate__animated animate__fadeIn ">
 
-    <div class="modal-dialog modal-dialog-centered animate__animated animate__fadeIn ">
+          <!-- Modal content-->
+          <div class="modal-content modal-content-finance">
 
-      <!-- Modal content-->
-      <div class="modal-content modal-content-finance">
+            <div class="modal-body">
 
-        <div class="modal-body">
+                <!-- modal-body-container -->
 
-            <!-- modal-body-container -->
+                <div class="modal-body-container">
 
-            <div class="modal-body-container">
+                   <h1 class="sub-container-main-header sub-container-main-header-extra-style">Review changes</h1>
+                   <h4 class="sub-container-sub-header  sub-container-sub-header-extra-style">
+                    You have made changes. Are you sure you want to discard them?
+                   </h4>
 
-               <h1 class="sub-container-main-header sub-container-main-header-extra-style">Review changes</h1>
-               <h4 class="sub-container-sub-header  sub-container-sub-header-extra-style">
-                You have made changes. Are you sure you want to discard them?
-               </h4>
+                    <!--  sub-container-form-footer -->
+                    <div class="sub-container-form-footer">
 
-                <!--  sub-container-form-footer -->
-                <div class="sub-container-form-footer">
-                    <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button secondary-pink-button ">
-                          <span class="button-text" >Discard changes</span>
+                       <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button ">
+                                    <span class="button-text" >Save</span>
+                                    <img class="icon button-icon" src="assets/icons/check_small.svg">
+                        </div>
+
+                        <div class="rounded-button default-button rounded-button-primary rounded-button-float-right  secondary-pink-button ">
+                              <span class="button-text" >Discard changes</span>
+                        </div>
+                       
                     </div>
-                    <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary">
-                          <span class="button-text" data-dismiss="modal" >Cancel</span>
-                    </div>
+                    <!--  End sub-container-form-footer -->
+
                 </div>
-                <!--  End sub-container-form-footer -->
 
             </div>
+
+          </div>
 
         </div>
 
       </div>
-
-    </div>
-
-    </div>
     <!--_____________ End ChangesModal modal _____________-->
 
 </body>

@@ -88,7 +88,19 @@ $(document).ready(function(){
 
 		$this.parent().find(".dynamic-form-input-dropdown-options").css({"opacity":"0"});
 
-		$(this).parents(".dynamic-form-input-dropdown-container").find(".input-dropdown").val($text);
+		if($this.parents(".dynamic-form-input-dropdown-container").find(".input-dropdown").val() == ""){
+			setTimeout(function(){
+				$this.parents(".dynamic-form-input-dropdown-container").find(".input-dropdown").val(" ");
+				setTimeout(function(){
+					$this.parents(".dynamic-form-input-dropdown-container").find(".input-dropdown").val($text);
+				},180);
+			},50);
+		}else{
+			$this.parents(".dynamic-form-input-dropdown-container").find(".input-dropdown").val($text);
+		}
+
+
+		
 
 		$(this).parents(".dynamic-form-input-dropdown-container").find(".button-icon").removeClass("caret-rotate");
 		$(this).parents(".dynamic-form-input-dropdown-container").find(".button-icon").addClass("caret-rotate-reset");
@@ -616,11 +628,11 @@ $(document).ready(function(){
 
 		if(!$(this).parents(".modal").length == 1){
 
-			$(".sub-container-form-footer").addClass("show-footer");
-	  		$(".sections-main-sub-container-right-main").css("cssText","height:84.5vh");
+			$(".tab-pane:visible .sub-container-form-footer").addClass("show-footer");
+	  		$(".tab-pane:visible .sections-main-sub-container-right-main").css("cssText","height:84.5vh");
 	  		$domChange=true;
 	  		setTimeout(function(){
-				$(".sub-container-form-footer").removeClass("hide-footer");
+				$(".tab-pane:visible .sub-container-form-footer").removeClass("hide-footer");
 	  		});
 		}
 
@@ -634,8 +646,8 @@ $(document).ready(function(){
 
 		if(!$(this).parents(".modal").length == 1){
 
-			$(".sub-container-form-footer").addClass("show-footer");
-	  		$(".sections-main-sub-container-right-main").css("cssText","height:84.5vh");
+			$(".tab-pane:visible  .sub-container-form-footer").addClass("show-footer");
+	  		$(".tab-pane:visible  .sections-main-sub-container-right-main").css("cssText","height:84.5vh");
 	  		$domChange=true;
 	  		setTimeout(function(){
 				$(".sub-container-form-footer").removeClass("hide-footer");

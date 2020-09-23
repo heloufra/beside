@@ -179,6 +179,7 @@ body {
 
 .input-date {
 	text-indent: 4px;
+	min-height: 40px !important;
 }
 
 .input-date , .input-time {
@@ -1704,6 +1705,7 @@ input:focus ~ label,input:valid ~ label{
 
 .sections-main-sub-container-right-main .form-group input{
 	height: 42px;
+	min-height: 42px;
 	background-color: transparent;
 }
 
@@ -1805,6 +1807,79 @@ input:focus ~ label,input:valid ~ label{
 .modal .sections-main-sub-container-right-main-header .sections-main-sub-container-right-main-header-info{
 	text-align: center;
 }
+
+/*************** End modal sections-main-sub-container-left-search-bar  *************/
+
+.modal .sections-main-container .sub-container-form{
+	padding: 32px;
+	padding-bottom: 60px;
+}
+
+.modal .sections-main-sub-container-right-main-rows .col-md-6:first-child{
+	padding-right: 8px;
+}
+
+.modal .sections-main-sub-container-right-main-rows .col-md-6:last-child{
+	padding-left:  8px;
+}
+
+.modal .sections-main-sub-container-right-main-rows .col-md-5 , .modal  .sections-main-sub-container-right-main-rows .col-md-1 {
+	padding-left:  8px;
+	padding-right: 8px;
+
+}
+
+.modal .sections-main-sub-container-right-main-rows .col-md-1 {
+	padding-left:  8px;
+}
+
+.modal #Modal_Parents_New_Dynamic_Form_Input{
+	margin-left: 8px;
+}
+
+.modal .sections-main-sub-container-right-main-rows-parents:has(+ .dynamic-form-input-first) {
+	margin-left: 0px;
+	margin-right: -15px;
+}
+
+.modal .sections-main-sub-container-right-main-rows-parents{
+	margin-right: 0px;
+}
+
+
+	/*************** modal sections-label-checkbox-container-rows-extra-style *************/
+
+	.modal .sections-label-checkbox-container-rows-extra-style .expense_label {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		max-width: 100%;
+		display: block;
+		vertical-align: middle;
+		line-height: 24px;
+		margin-bottom: -8px;
+	}
+
+	.modal .sections-label-checkbox-container-rows-extra-style .customCheck {
+		top: 24px;
+	}
+
+	.modal .sections-label-checkbox-container-rows-extra-style .sections-label-checkbox-container .method_label {
+	    margin-right: 24px;
+	    padding-right: 0px;
+	    font-size: 12px;
+	    font-weight: 300;
+	    display: inline-block;
+	    float: unset; 
+	}
+
+	.modal .sections-label-checkbox-container-rows-extra-style .customCheck{
+		top:32px;
+	}
+
+	/*************** End modal sections-label-checkbox-container-rows-extra-style *************/
+
+/*************** modal sections-label-checkbox-container-rows-extra-style *************/
 
 /****************** End sections-main-sub-container-right-main-header ************/
 
@@ -2595,7 +2670,7 @@ input:focus ~ label,input:valid ~ label{
 }
 
 .modal-content-finance .modal-body{
-	max-height: 70vh;
+	max-height: calc(100vh - 29.5vh);
     overflow: scroll;
     padding:0px;
 }
@@ -2606,7 +2681,7 @@ input:focus ~ label,input:valid ~ label{
 }
 
 .modal-body-container .sub-container-form-footer{
-	width: 100%;
+	width: 100% !important;
 	border-bottom-right-radius: 3px;
 	border-bottom-left-radius: 3px;
 }
@@ -2841,6 +2916,14 @@ table td img {
 
 #FinanceModal .sub-container-form-footer .modal-confirm-button{
 	background-image: linear-gradient(to left, var(--element--gradient--from--color), var(--element--gradient--to--color)) !important;
+}
+
+#ChangesModal .sub-container-form-footer .modal-confirm-button{
+	background-image: linear-gradient(to left, var(--element--gradient--from--color), var(--element--gradient--to--color)) !important;
+}
+
+#ChangesModal .sub-container-form-footer  .secondary-pink-button{
+	margin-right: 16px;
 }
 
 .sections-main-container.modal-open .select2-results__option {
@@ -3730,6 +3813,11 @@ table td img {
 		width: 53.9%;
 	}
 
+
+	.modal .sections-main-sub-container-right-main .sub-container-form-footer{
+		width: 100%;
+	}
+
 }
 
 @media screen and (max-width: 991px) {
@@ -3829,6 +3917,67 @@ table td img {
 	.sections-main-sub-container-right-main-rows-parents .col-md-6 .group{
 		margin-bottom: 8px;
 	}
+
+	/************************ modal *********************/
+
+	.modal #Modal_Parents_New_Dynamic_Form_Input{
+		margin-left: 0px;
+	}
+
+	.modal .sections-main-sub-container-right-main-rows-parents{
+		margin-right: 0px;
+	}
+
+	.modal .sections-main-sub-container-right-main-rows-parents:has(+ .dynamic-form-input-first) {
+		margin-left: 0px;
+		margin-right: 16px;
+	}
+
+	.modal .sections-main-sub-container-right-main-rows-parents  .col-md-5{
+		width: 90%;
+		padding-left: 16px;
+	}
+
+	.modal .sections-main-sub-container-right-main-rows-parents .dynamic-form-input-first .col-md-5{
+		width: 100%;
+		padding-right: 0px;
+		padding-left: 16px;
+	}
+
+	.modal .sections-main-sub-container-right-main-rows-parents:has(+ .dynamic-form-input-first) {
+		width: 100%;
+		margin-left: 0px;
+		margin-right: -15px;
+	}
+
+
+
+	.modal .sections-main-sub-container-right-main-rows-parents .col-md-6:first-child{
+		padding-right: 0px;
+	}
+
+	.modal .dynamic-form-input-parent{
+		position: relative;
+	}
+
+
+	.modal .sections-main-sub-container-right-main-rows-parents .col-md-6 .group{
+		margin-bottom: 12px;
+	}
+
+	.modal .sections-main-sub-container-right-main-rows .col-md-6:last-child{
+		padding-left: 16px;
+		padding-right: 8px;
+	}
+
+	.modal .sections-main-sub-container-right-main-rows .col-md-12{
+		padding-right: 8px;
+	}	
+
+
+
+
+	/************************ modal *********************/
 
 }
 

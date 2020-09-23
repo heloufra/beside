@@ -420,7 +420,7 @@
                                                   <span class="button-text" id="">Save changes</span>
                                                   <img class="icon button-icon" src="assets/icons/check_small.svg">
                                             </div>
-                                            <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary">
+                                            <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary" data-toggle="modal" data-target="#ChangesModal">
                                                   <span class="button-text discard-changes" >Discard changes</span>
                                             </div>
                                         </div>
@@ -435,7 +435,7 @@
                                     <!-- Modal -->
                                     <div id="AddStudentModal" class="modal" role="dialog">
 
-                                      <div class="modal-dialog modal-dialog-cente animate__animated animate__fadeIn modal-lg">
+                                      <div class="modal-dialog modal-dialog-cente animate__animated animate__fadeIn">
 
                                         <!-- Modal content-->
                                         <div class="modal-content modal-content-finance">
@@ -452,10 +452,6 @@
                                                  </h4>
 
                                                   <!--________________  Student Form __________________-->
-
-                                                    <div class="sections-main-sub-container-right-main-label-divider">
-                                                          <p>Student details</p>
-                                                    </div>
 
                                                     <div class="sections-main-sub-container-right-main-header">
 
@@ -475,6 +471,11 @@
 
                                                       </div>
 
+                                                    </div>
+
+
+                                                    <div class="sections-main-sub-container-right-main-label-divider">
+                                                          <p>Student details</p>
                                                     </div>
 
                                                     <div class="row sections-main-sub-container-right-main-rows">
@@ -2263,12 +2264,16 @@
 
                                             <!--  sub-container-form-footer -->
                                             <div class="sub-container-form-footer">
-                                                <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button secondary-pink-button ">
+
+                                               <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button ">
+                                                            <span class="button-text" >Save</span>
+                                                            <img class="icon button-icon" src="assets/icons/check_small.svg">
+                                                </div>
+
+                                                <div class="rounded-button default-button rounded-button-primary rounded-button-float-right  secondary-pink-button ">
                                                       <span class="button-text" >Discard changes</span>
                                                 </div>
-                                                <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary">
-                                                      <span class="button-text" data-dismiss="modal" >Cancel</span>
-                                                </div>
+                                               
                                             </div>
                                             <!--  End sub-container-form-footer -->
 

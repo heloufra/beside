@@ -434,6 +434,57 @@
     </div>
     <!-- sub-container -->
 
+    
+
+    <!--_____________ ChangesModal modal _____________-->
+
+    <!-- Trigger the modal with a button -->
+     
+      <!-- Modal data-toggle="modal" data-target="#ChangesModal" -->
+      <div id="ChangesModal" class="modal" role="dialog">
+
+        <div class="modal-dialog modal-dialog-centered animate__animated animate__fadeIn ">
+
+          <!-- Modal content-->
+          <div class="modal-content modal-content-finance">
+
+            <div class="modal-body">
+
+                <!-- modal-body-container -->
+
+                <div class="modal-body-container">
+
+                   <h1 class="sub-container-main-header sub-container-main-header-extra-style">Review changes</h1>
+                   <h4 class="sub-container-sub-header  sub-container-sub-header-extra-style">
+                    You have made changes. Are you sure you want to discard them?
+                   </h4>
+
+                    <!--  sub-container-form-footer -->
+                    <div class="sub-container-form-footer">
+
+                       <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button ">
+                                    <span class="button-text" >Save</span>
+                                    <img class="icon button-icon" src="assets/icons/check_small.svg">
+                        </div>
+
+                        <div class="rounded-button default-button rounded-button-primary rounded-button-float-right  secondary-pink-button ">
+                              <span class="button-text" >Discard changes</span>
+                        </div>
+                       
+                    </div>
+                    <!--  End sub-container-form-footer -->
+
+                </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    <!--_____________ End ChangesModal modal _____________-->
+
 </body>
 <!-- end sections-main-container -->
 
