@@ -76,10 +76,9 @@ var setupController = {
             });
   },
   saveSubjects: function(req, res, next) {
-   var subjects = {
-            level1: req.body["level1[]"],
-        }
-    if (!subjects.level1) {
+   var subjects = JSON.parse(req.body.subjects);
+   console.log(subjects);
+    if (subjects.length === 0) {
       res.json({
         errors: [{
         field: "Save denied",
