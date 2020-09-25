@@ -14,14 +14,14 @@ var setupController = {
     var subjectsData = JSON.parse(req.body.subjects);
     var expensesData = JSON.parse(req.body.expenses);
     var costsData = JSON.parse(req.body.costs);
-    var institutionsQuery = `INSERT INTO institutions(Institution_Name,  Institution_Logo,  Institution_Email,  Institution_Phone,  Institution_wtsp) VALUES(?,?,?,?,?)`;
+    var institutionsQuery = `INSERT INTO institutions(Institution_Name,  Institution_Logo, Institution_Link,  Institution_Email,  Institution_Phone,  Institution_wtsp) VALUES(?,?,?,?,?,?)`;
     var usersQuery = `INSERT INTO users(User_Name, User_Image, User_Email, User_Phone) VALUES(?,?,?,?)`;
     var academicQuery = `INSERT INTO academicyear(AY_Label, AY_Satrtdate, AY_EndDate, Institution_ID) VALUES(?,?,?,?)`;
     var levelsQuery = `INSERT INTO levels(Level_Label, AY_ID) VALUES(?,?)`;
     var classesQuery = `INSERT INTO classes(Level_ID, Classe_Label, AY_ID) VALUES(?,?,?)`;
    
     // execute the insert statment
-    connection.query(institutionsQuery, [institutionsData.school, institutionsData.logo,institutionsData.email,institutionsData.phone,institutionsData.whatsapp], (err, institutionResult, fields) => {
+    connection.query(institutionsQuery, [institutionsData.school, institutionsData.logo,institutionsData.school + ".besideyou.ma",institutionsData.email,institutionsData.phone,institutionsData.whatsapp], (err, institutionResult, fields) => {
       if (err) {
         console.log(err);
           res.json({
