@@ -104,7 +104,7 @@ var setupController = {
           });
       }
       console.log('Institution Id:' + institutionResult.insertId);
-
+ 
     });
      res.json({msg : "ok"});
   },
