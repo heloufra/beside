@@ -14,7 +14,7 @@ var setupModel = {
      return new Promise((resolve, reject) => {
       connection.query("INSERT INTO subjects(Subject_Label) VALUES (?) ON DUPLICATE KEY UPDATE `Subject_Label` = `Subject_Label`; SELECT Subject_ID FROM subjects WHERE `Subject_Label` = ?", [Subject_Label,Subject_Label], (err, subjectResult, fields) => {
        if (err) reject(err);
-        else resolve(subjectResult[0].insertId === 0 ? subjectResult[1][0].Subject_ID : subjectResult[0].OkPacket.insertId);
+        else resolve(subjectResult[0].insertId === 0 ? subjectResult[1][0].Subject_ID : subjectResult[0].insertId);
       });
     })
   },

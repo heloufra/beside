@@ -83,6 +83,8 @@ var setupController = {
                         }
                         console.log("Subjects",subjectsData[levelsData.levelName[i]]);
                         var subjectName = subjectsData[levelsData.levelName[i]];
+                        if (!Array.isArray(subjectName))
+                          subjectName = [subjectName];
                         for (var j =  0; j < subjectName.length; j++) {
                           var subjectID = await setupModel.saveSubjects(subjectName[j]);
                           var levelsubjectResult = await setupModel.saveLevelsSubjects(levelResult.insertId,subjectID,academicResult.insertId);
@@ -90,6 +92,10 @@ var setupController = {
                         }
                         
                         var costsName = costsData[levelsData.levelName[i]];
+                        if (!Array.isArray(costsName.costsName))
+                          costsName.costsName = [costsName.costsName];
+                        if (!Array.isArray(costsName.price))
+                          costsName.price = [costsName.price];
                         for (var j =  0; j < costsName.costsName.length; j++) {
                           var expenseID = await setupModel.findExpenseID(costsName.costsName[j],academicResult.insertId);
                           var expenseResult = await setupModel.saveLevelExpenses(levelResult.insertId,expenseID,costsName.price[j],academicResult.insertId);
