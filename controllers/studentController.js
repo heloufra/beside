@@ -1,12 +1,13 @@
 var connection  = require('../lib/db');
 var setupModel  = require('../models/setupModel');
-var transporter  = require('../middleware/transporter');
 
-var setupController = {
-  setupView: function(req, res, next) {
-    res.render('setup', { title: 'Setup'});
+
+
+var studentController = {
+  studentView: function(req, res, next) {
+    res.render('student', { title: 'Students'});
   },
-  setupSave: function(req, res, next) {
+  studentSave: function(req, res, next) {
     var institutionsData = JSON.parse(req.body.detail);
     var academicData = JSON.parse(req.body.academic);
     var levelsData = JSON.parse(req.body.levels);
@@ -30,18 +31,6 @@ var setupController = {
             errorDesc: "Institution not saved"
           }]});
       } else {
-        /* transporter.sendMail({
-                  from: 'besideyou@contact.com',
-                  to: institutionsData.email,
-                  subject: 'Account Created',
-                  html: '<h1>Account Created Succesfully!</h1><h4>here is your link: '+institutionsData.school + '.besideyou.ma</h4>'
-                }, function(error, info) {
-                  if (error) {
-                    console.log(error);
-                  } else {
-                    console.log('Email sent: ' + info.response);
-                  }
-                });*/
          connection.query(usersQuery, [institutionsData.school, institutionsData.logo,institutionsData.email,institutionsData.phone], (err, userResult, fields) => {
             if (err) {
               console.log(err);
@@ -130,4 +119,4 @@ var setupController = {
   },
 };
 
-module.exports = setupController;
+module.exports = studentController;

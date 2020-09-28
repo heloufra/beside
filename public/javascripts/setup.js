@@ -38,14 +38,19 @@ function validation(value,temp) {
   if (value==="classes")
   {
     var levels = JSON.parse(data.levels);
-    if (Array.isArray(levels))
+    console.log(temp[levels.levelName]);
+    if (temp[levels.levelName])
     {
-      for (var i = levels.length - 1; i >= 0; i--) {
-        if(!temp[levels[i].levelName].classeName)
+        if (Array.isArray(levels))
+        {
+          for (var i = levels.length - 1; i >= 0; i--) {
+            if(!temp[levels[i].levelName].classeName)
+              return false;
+          }
+        } else if (!temp[levels.levelName].classeName)
           return false;
-      }
     }
-    else if (!temp[levels.levelName].classeName)
+    else if (!temp[levels.levelName])
       return false;
   }
   if (value==="subjects")
