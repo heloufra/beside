@@ -15,14 +15,7 @@ function readFile() {
 
 document.getElementById("file").addEventListener("change", readFile);
 
-var owl = $('.owl-carousel');
-owl.owlCarousel({
-      slideSpeed : 300,
-      singleItem:true,
-      pagination: false,
-      nav:true,
-      mouseDrag:false,
-});
+
 // Go to the next item
 var data = {};
 function validation(value,temp) {
@@ -81,7 +74,15 @@ function submit(value,inputs){
     if (!Array.isArray(levels.levelName))
       levels.levelName = [levels.levelName];
     for (var i = 0; i <= levels.levelName.length - 1; i++) {
-      temp[levels.levelName[i]]= $('#subject'+i).val();
+      if ($('#subject-'+i).val().length > 0)
+      {
+         $('.subject-'+i).css("border-color", "#EFEFEF");
+        temp[levels.levelName[i]]= $('#subject-'+i).val();
+      }
+      else {
+        $('.subject-'+i).css("border-color", "#f6b8c1");
+        return;
+      }
     }
   } else if (value === "classes" || value === "costs")
   {
@@ -96,7 +97,25 @@ function submit(value,inputs){
         var filtered = values.filter(function (el) {
           return el != "";
         });
-        tempo[inputs[j]] = filtered.length > 1 ? filtered : filtered[0];
+        if (filtered.length > 0)
+        {
+          tempo[inputs[j]] = filtered.length > 1 ? filtered : filtered[0];
+          $('input[name='+inputs[j]+'-'+i+']').css("border-color", "#EFEFEF");
+          $('.costs-'+i).css("border-color", "#EFEFEF");
+        }
+        else
+        {
+          if (value === "costs")
+          {
+            $('.costs-'+i).css("border-color", "#f6b8c1");
+            return;
+          }
+          else
+          {
+            $('input[name='+inputs[j]+'-'+i+']').css("border-color", "#f6b8c1");
+            return;
+          }
+        }
       }
       temp[levels.levelName[i]] = tempo;
    }
@@ -110,7 +129,28 @@ function submit(value,inputs){
       var filtered = values.filter(function (el) {
         return el != "";
       });
-      temp[inputs[i]] = filtered.length > 1 ? filtered : filtered[0];
+      if (filtered.length > 0)
+      {
+        temp[inputs[i]] = filtered.length > 1 ? filtered : filtered[0];
+        $('input[name='+inputs[i]+']').css("border-color", "#EFEFEF");
+        $('.expensesInput').css("border-color", "#EFEFEF");
+        $('.logo').css("border-color", "#EFEFEF");
+      }
+      else
+      {
+        if (value !== "expenses")
+        {
+          if (inputs[i] === "logo")
+          $('.logo').css("border-color", "#f6b8c1");
+          else
+            $('input[name='+inputs[i]+']').css("border-color", "#f6b8c1");
+          return;
+        } else
+        {
+          $('.expensesInput').css("border-color", "#f6b8c1");
+          return;
+        }
+      }
     }
     if (temp.logo)
       temp.logo = $('#output').attr("src");
@@ -180,14 +220,14 @@ function addLevels(data) {
      if (Array.isArray(data.levelName))
     for (var i = 0; i <= data.levelName.length - 1; i++) {
       $('#classes').append('<div class="dynamic-form-input-container"><label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+data.levelName[i]+'</span> <span class="input-label-bg-mask"></span></label><div class="dynamic-form-input dynamic-form-input-first"><div class="form-group group"><input type="text" required name="classeName-'+i+'"><label class="input-label"><span class="input-label-text">Classe name</span> <span class="input-label-bg-mask"></span></label></div><div class="square-button square-button-minus"><img class="icon" src="assets/icons/minus.svg" ></div></div><div class="square-button square-button-extra-style square-button-plus" id="Classe_New_Dynamic_Form_Input"><img class="icon" src="assets/icons/plus.svg"></div></div>');
-      $('#subjectsForm').append('<div class="dynamic-form-input-container dynamic-form-input-container-extra-style"><label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+data.levelName[i]+'</span> <span class="input-label-bg-mask"></span></label><div class="dynamic-form-input-dropdown-container"><div class="dynamic-form-input-dropdown dynamic-form-input-first"><div class="dynamic-form-input"><div class="form-group group"><select class="input-text-subject-select2" multiple name="language" id="subject-'+i+'"><option value="Bangladesh">Bangladesh</option><option selected value="Barbados">Barbados</option><option selected value="Belarus">Belarus</option><option value="Belgium">Belgium</option></select><img class="icon button-icon" src="assets/icons/caret.svg"></div><div class="square-button square-button-minus"><img class="icon" src="assets/icons/minus.svg"></div></div></div></div></div>');
-      $('#costsForm').append('<div class="dynamic-form-input-container dynamic-form-input-container-extra-style dynamic-form-input-container-extra-style-composed" id="costs-'+data.levelName[i]+'"><label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+data.levelName[i]+'</span> <span class="input-label-bg-mask"></span></label><div class="dynamic-form-input-dropdown-container"><div class="dynamic-form-input-dropdown dynamic-form-input-first"><div class="dynamic-form-input"><div class="form-group group form-group-left"><input type="text" class="input-dropdown" required name="costsName-'+i+'"><label class="input-label"><span class="input-label-text">Expense Name</span> <span class="input-label-bg-mask"></span></label><img class="icon button-icon" src="assets/icons/caret.svg"><ul class="dynamic-form-input-dropdown-options expense-list"></ul></div><div class="form-group group form-group-right"><input type="text" class="input-text" required name="price-'+i+'"><label class="input-label"><span class="input-label-text">Price</span> <span class="input-label-bg-mask"></span></label></div><div class="square-button square-button-minus"><img class="icon" src="assets/icons/minus.svg"></div></div></div></div><div class="square-button square-button-extra-style square-button-plus" ><img class="icon" src="assets/icons/plus.svg"></div></div>');
+      $('#subjectsForm').append('<div class="dynamic-form-input-container dynamic-form-input-container-extra-style"><label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+data.levelName[i]+'</span> <span class="input-label-bg-mask"></span></label><div class="dynamic-form-input-dropdown-container"><div class="dynamic-form-input-dropdown dynamic-form-input-first subject-'+i+'"><div class="dynamic-form-input"><div class="form-group group"><select class="input-text-subject-select2" multiple name="language" id="subject-'+i+'"><option value="Bangladesh">Bangladesh</option><option selected value="Barbados">Barbados</option><option selected value="Belarus">Belarus</option><option value="Belgium">Belgium</option></select><img class="icon button-icon" src="assets/icons/caret.svg"></div><div class="square-button square-button-minus"><img class="icon" src="assets/icons/minus.svg"></div></div></div></div></div>');
+      $('#costsForm').append('<div class="dynamic-form-input-container dynamic-form-input-container-extra-style dynamic-form-input-container-extra-style-composed" id="costs-'+i+'"><label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+data.levelName[i]+'</span> <span class="input-label-bg-mask"></span></label><div class="dynamic-form-input-dropdown-container"><div class="dynamic-form-input-dropdown dynamic-form-input-first costs-'+i+'"><div class="dynamic-form-input"><div class="form-group group form-group-left"><input type="text" class="input-dropdown" required name="costsName-'+i+'"><label class="input-label"><span class="input-label-text">Expense Name</span> <span class="input-label-bg-mask"></span></label><img class="icon button-icon" src="assets/icons/caret.svg"><ul class="dynamic-form-input-dropdown-options expense-list"></ul></div><div class="form-group group form-group-right price-'+i+'"><input type="text" class="input-text" required name="price-'+i+'"><label class="input-label"><span class="input-label-text">Price</span> <span class="input-label-bg-mask"></span></label></div><div class="square-button square-button-minus"><img class="icon" src="assets/icons/minus.svg"></div></div></div></div><div class="square-button square-button-extra-style square-button-plus" ><img class="icon" src="assets/icons/plus.svg"></div></div>');
     }
     else
     {
        $('#classes').append('<div class="dynamic-form-input-container"><label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+data.levelName+'</span> <span class="input-label-bg-mask"></span></label><div class="dynamic-form-input dynamic-form-input-first"><div class="form-group group"><input type="text" required name="classeName-'+0+'"><label class="input-label"><span class="input-label-text">Classe name</span> <span class="input-label-bg-mask"></span></label></div><div class="square-button square-button-minus"><img class="icon" src="assets/icons/minus.svg" ></div></div><div class="square-button square-button-extra-style square-button-plus" id="Classe_New_Dynamic_Form_Input"><img class="icon" src="assets/icons/plus.svg"></div></div>');
-        $('#subjectsForm').append('<div class="dynamic-form-input-container dynamic-form-input-container-extra-style"><label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+data.levelName+'</span> <span class="input-label-bg-mask"></span></label><div class="dynamic-form-input-dropdown-container"><div class="dynamic-form-input-dropdown dynamic-form-input-first"><div class="dynamic-form-input"><div class="form-group group"><select class="input-text-subject-select2" multiple name="language"  id="subject-'+i+'"><option value="Bangladesh">Bangladesh</option><option selected value="Barbados">Barbados</option><option selected value="Belarus">Belarus</option><option value="Belgium">Belgium</option></select><img class="icon button-icon" src="assets/icons/caret.svg"></div><div class="square-button square-button-minus"><img class="icon" src="assets/icons/minus.svg"></div></div></div></div></div>');
-        $('#costsForm').append('<div class="dynamic-form-input-container dynamic-form-input-container-extra-style dynamic-form-input-container-extra-style-composed" id="costs-'+data.levelName+'"><label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+data.levelName+'</span> <span class="input-label-bg-mask"></span></label><div class="dynamic-form-input-dropdown-container"><div class="dynamic-form-input-dropdown dynamic-form-input-first"><div class="dynamic-form-input"><div class="form-group group form-group-left"><input type="text" class="input-dropdown" required name="costsName-'+0+'"><label class="input-label"><span class="input-label-text">Expense Name</span> <span class="input-label-bg-mask"></span></label><img class="icon button-icon" src="assets/icons/caret.svg"><ul class="dynamic-form-input-dropdown-options expense-list"></ul></div><div class="form-group group form-group-right"><input type="text" class="input-text" required name="price-'+0+'"><label class="input-label"><span class="input-label-text">Price</span> <span class="input-label-bg-mask"></span></label></div><div class="square-button square-button-minus"><img class="icon" src="assets/icons/minus.svg"></div></div></div></div><div class="square-button square-button-extra-style square-button-plus" ><img class="icon" src="assets/icons/plus.svg"></div></div>');
+        $('#subjectsForm').append('<div class="dynamic-form-input-container dynamic-form-input-container-extra-style"><label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+data.levelName+'</span> <span class="input-label-bg-mask"></span></label><div class="dynamic-form-input-dropdown-container"><div class="dynamic-form-input-dropdown dynamic-form-input-first subject-'+0+'"><div class="dynamic-form-input"><div class="form-group group"><select class="input-text-subject-select2" multiple name="language"  id="subject-'+0+'"><option value="Bangladesh">Bangladesh</option><option selected value="Barbados">Barbados</option><option selected value="Belarus">Belarus</option><option value="Belgium">Belgium</option></select><img class="icon button-icon" src="assets/icons/caret.svg"></div><div class="square-button square-button-minus"><img class="icon" src="assets/icons/minus.svg"></div></div></div></div></div>');
+        $('#costsForm').append('<div class="dynamic-form-input-container dynamic-form-input-container-extra-style dynamic-form-input-container-extra-style-composed" id="costs-'+0+'"><label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+data.levelName+'</span> <span class="input-label-bg-mask"></span></label><div class="dynamic-form-input-dropdown-container"><div class="dynamic-form-input-dropdown dynamic-form-input-first costs-'+0+'"><div class="dynamic-form-input"><div class="form-group group form-group-left"><input type="text" class="input-dropdown" required name="costsName-'+0+'"><label class="input-label"><span class="input-label-text">Expense Name</span> <span class="input-label-bg-mask"></span></label><img class="icon button-icon" src="assets/icons/caret.svg"><ul class="dynamic-form-input-dropdown-options expense-list"></ul></div><div class="form-group group form-group-right price-'+0+'"><input type="text" class="input-text" required name="price-'+0+'"><label class="input-label"><span class="input-label-text">Price</span> <span class="input-label-bg-mask"></span></label></div><div class="square-button square-button-minus"><img class="icon" src="assets/icons/minus.svg"></div></div></div></div><div class="square-button square-button-extra-style square-button-plus" ><img class="icon" src="assets/icons/plus.svg"></div></div>');
     }
   }
   if($(".input-text-subject").length > 0){

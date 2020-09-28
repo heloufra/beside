@@ -129,7 +129,7 @@
                 <form class="sub-container-form" id="detail">
 
                   <div class="form-group group">
-                    <div class="input-img-container input-square-img-container">
+                    <div class="input-img-container input-square-img-container logo">
                       <img class="input-img" src="assets/icons/Logo_placeholder.svg" id="output" />
                       <input type="file"  accept="image/*" name="logo" id="file" style="display: none;">
                       <div class="rounded-button">
@@ -382,7 +382,7 @@
                 <form class="sub-container-form">
 
                     <div class="dynamic-form-input-dropdown-container">
-                      <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                      <div class="dynamic-form-input-dropdown dynamic-form-input-first expensesInput">
                         <div class="dynamic-form-input">
                           <div class="dynamic-form-input-float-adjust">
                           <div class="form-group group form-group-left">
@@ -461,6 +461,16 @@
     </div>
     <!-- end setup-main-container -->
 <script src="/javascripts/setup.js" type="text/javascript" charset="utf-8" async defer></script>
+<script type="text/javascript" charset="utf-8" async defer>
+  var owl = $('.owl-carousel');
+  owl.owlCarousel({
+        slideSpeed : 300,
+        singleItem:true,
+        pagination: false,
+        nav:true,
+        mouseDrag:false,
+  });
+</script>
 </body>
 
 </html>
