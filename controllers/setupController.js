@@ -30,7 +30,7 @@ var setupController = {
             errorDesc: "Institution not saved"
           }]});
       } else {
-        /* transporter.sendMail({
+        transporter.sendMail({
                   from: 'besideyou@contact.com',
                   to: institutionsData.email,
                   subject: 'Account Created',
@@ -41,7 +41,7 @@ var setupController = {
                   } else {
                     console.log('Email sent: ' + info.response);
                   }
-                });*/
+                });
          connection.query(usersQuery, [institutionsData.school, institutionsData.logo,institutionsData.email,institutionsData.phone], (err, userResult, fields) => {
             if (err) {
               console.log(err);
