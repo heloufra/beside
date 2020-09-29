@@ -73,8 +73,8 @@
         <ul class="side-bar-ul">
 
             <li class="side-bar-li" id="detail-li">
-                <img class="side-bar-li-img" src="assets/icons/sidebar_icons/unchecked.svg" alt="check"/>
-                <span class="side-bar-li-span-inactive">Detail</span>
+                <img class="side-bar-li-img" src="assets/icons/sidebar_icons/checked.svg" alt="check"/>
+                <span class="side-bar-li-span-active">Detail</span>
             </li>
 
             <li class="side-bar-li"  id="academic-li">
@@ -168,7 +168,7 @@
                   <div class="rounded-button btn-secondary" onClick="prev('detail')">
                         <img class="icon" src="assets/icons/left_arrow.svg">
                   </div>
-                  <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn" onClick="submit('detail',['school','email','phone','whatsapp','logo'])">
+                  <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn" onClick="submit('detail',['school','email','phone','whatsapp','logo'],'academic')">
                         <span class="button-text">Next</span>
                         <img class="icon button-icon" src="assets/icons/right_arrow.svg">
                   </div>
@@ -271,10 +271,10 @@
               </div>
 
              <div class="sub-container-form-footer">
-                  <div class="rounded-button btn-secondary customPrevBtn"  onClick="prev('academic')">
+                  <div class="rounded-button btn-secondary customPrevBtn"  onClick="prev('academic','detail')">
                         <img class="icon" src="assets/icons/left_arrow.svg">
                   </div>
-                  <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn" onClick="submit('academic',['year','start','end'])">
+                  <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn" onClick="submit('academic',['year','start','end'],'levels')">
                         <span class="button-text">Next</span>
                         <img class="icon button-icon" src="assets/icons/right_arrow.svg">
                   </div>
@@ -310,10 +310,10 @@
               </div>
 
              <div class="sub-container-form-footer">
-                  <div class="rounded-button btn-secondary customPrevBtn" onClick="prev('levels')">
+                  <div class="rounded-button btn-secondary customPrevBtn" onClick="prev('levels','academic')">
                         <img class="icon" src="assets/icons/left_arrow.svg">
                   </div>
-                  <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn" onClick="submit('levels',['levelName'])">
+                  <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn" onClick="submit('levels',['levelName'],'classes')">
                         <span class="button-text">Next</span>
                         <img class="icon button-icon" src="assets/icons/right_arrow.svg">
                   </div>
@@ -335,10 +335,10 @@
               </div>
 
               <div class="sub-container-form-footer">
-                  <div class="rounded-button btn-secondary customPrevBtn" onClick="prev('classes')">
+                  <div class="rounded-button btn-secondary customPrevBtn" onClick="prev('classes','levels')">
                         <img class="icon" src="assets/icons/left_arrow.svg">
                   </div>
-                  <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn" onClick="submit('classes',['classeName'])">
+                  <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn" onClick="submit('classes',['classeName'],'subjects')">
                         <span class="button-text">Next</span>
                         <img class="icon button-icon" src="assets/icons/right_arrow.svg">
                   </div>
@@ -360,10 +360,10 @@
               </div>
 
               <div class="sub-container-form-footer">
-                  <div class="rounded-button btn-secondary customPrevBtn" onClick="prev('subjects')">
+                  <div class="rounded-button btn-secondary customPrevBtn" onClick="prev('subjects','classes')">
                         <img class="icon" src="assets/icons/left_arrow.svg">
                   </div>
-                  <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn" onClick="submit('subjects',['language'])">
+                  <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn" onClick="submit('subjects',['language'],'expenses')">
                         <span class="button-text">Next</span>
                         <img class="icon button-icon" src="assets/icons/right_arrow.svg">
                   </div>
@@ -414,10 +414,10 @@
               </div>
 
               <div class="sub-container-form-footer">
-                  <div class="rounded-button btn-secondary customPrevBtn" onClick="prev('expenses')">
+                  <div class="rounded-button btn-secondary customPrevBtn" onClick="prev('expenses','subjects')">
                         <img class="icon" src="assets/icons/left_arrow.svg">
                   </div>
-                  <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn" onClick="submit('expenses',['expenseName','expenseTime'])">
+                  <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn" onClick="submit('expenses',['expenseName','expenseTime'],'costs')">
                         <span class="button-text">Next</span>
                         <img class="icon button-icon" src="assets/icons/right_arrow.svg">
                   </div>
@@ -440,7 +440,7 @@
               </div>
 
              <div class="sub-container-form-footer">
-                  <div class="rounded-button btn-secondary customPrevBtn" onClick="prev('costs')">
+                  <div class="rounded-button btn-secondary customPrevBtn" onClick="prev('costs','expenses')">
                         <img class="icon" src="assets/icons/left_arrow.svg">
                   </div>
                   <div class="rounded-button rounded-button-primary rounded-button-float-right" onClick="submit('costs',['costsName','price'])">

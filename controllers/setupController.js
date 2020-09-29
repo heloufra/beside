@@ -95,14 +95,12 @@ var setupController = {
                               // get inserted id
                             });
                         }
-                        console.log("Subjects",subjectsData[levelsData.levelName[i]]);
                         var subjectName = subjectsData[levelsData.levelName[i]];
                         if (!Array.isArray(subjectName))
                           subjectName = [subjectName];
                         for (var j =  0; j < subjectName.length; j++) {
                           var subjectID = await setupModel.saveSubjects(subjectName[j]);
                           var levelsubjectResult = await setupModel.saveLevelsSubjects(levelResult.insertId,subjectID,academicResult.insertId);
-                          console.log("levelssubject",levelsubjectResult);
                         }
                         
                         var costsName = costsData[levelsData.levelName[i]];
@@ -113,7 +111,6 @@ var setupController = {
                         for (var j =  0; j < costsName.costsName.length; j++) {
                           var expenseID = await setupModel.findExpenseID(costsName.costsName[j],academicResult.insertId);
                           var expenseResult = await setupModel.saveLevelExpenses(levelResult.insertId,expenseID,costsName.price[j],academicResult.insertId);
-                          console.log("Expenses",expenseResult);
                         }
                   }
                 }

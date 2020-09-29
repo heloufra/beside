@@ -18,55 +18,9 @@ document.getElementById("file").addEventListener("change", readFile);
 
 // Go to the next item
 var data = {};
-function validation(value,temp) {
-  $( ".alert-danger" ).remove();
-  if (value==="detail" && (!temp.logo || !temp.email || !temp.phone || !temp.school || !temp.logo || !temp.whatsapp))
-     return false;
-  if (value==="academic" && (!temp.end || !temp.start || !temp.year))
-    return false;
-  if (value==="levels" && !temp.levelName)
-    return false;
-  if (value==="expenses" && !temp.expenseName)
-    return false;
-  if (value==="classes")
-  {
-    var levels = JSON.parse(data.levels);
-    if (Array.isArray(levels))
-    {
-      for (var i = levels.length - 1; i >= 0; i--) {
-        if(!temp[levels[i].levelName].classeName)
-          return false;
-      }
-    }
-    else if (!temp[levels.levelName].classeName)
-      return false;
-  }
-  if (value==="subjects")
-  {
-      var levels = JSON.parse(data.levels);
-      if (Array.isArray(levels))
-        for (var i = levels.length - 1; i >= 0; i--) {
-          if(temp[levels[i].levelName].length === 0)
-              return false;
-        }
-      else if (temp[levels.levelName].length === 0)
-        return false;
-  }
-  if (value==="costs")
-  {
-      var levels = JSON.parse(data.levels);
-      if (Array.isArray(levels))
-        for (var i = levels.length - 1; i >= 0; i--) {
-          if(!temp[levels[i].levelName].costsName || !temp[levels[i].levelName].price)
-            return false;
-        }
-      else if (!temp[levels.levelName].costsName || !temp[levels.levelName].price)
-        return false;
-  }
-  return true;
-}
+var levelsData = [];
 
-function submit(value,inputs){
+function submit(value,inputs,next){
   var temp = {};
   if (value === "subjects")
   {
@@ -74,13 +28,13 @@ function submit(value,inputs){
     if (!Array.isArray(levels.levelName))
       levels.levelName = [levels.levelName];
     for (var i = 0; i <= levels.levelName.length - 1; i++) {
-      if ($('#subject-'+i).val().length > 0)
+      if ($('#subject-'+levels.levelName[i].replace(/[^A-Z0-9]/ig, '')).val().length > 0)
       {
-         $('.subject-'+i).css("border-color", "#EFEFEF");
-        temp[levels.levelName[i]]= $('#subject-'+i).val();
+         $('.subject-'+levels.levelName[i].replace(/[^A-Z0-9]/ig, '')).css("border-color", "#EFEFEF");
+        temp[levels.levelName[i]]= $('#subject-'+levels.levelName[i].replace(/[^A-Z0-9]/ig, '')).val();
       }
       else {
-        $('.subject-'+i).css("border-color", "#f6b8c1");
+        $('.subject-'+levels.levelName[i].replace(/[^A-Z0-9]/ig, '')).css("border-color", "#f6b8c1");
         return;
       }
     }
@@ -92,7 +46,7 @@ function submit(value,inputs){
     for (var i = levels.levelName.length - 1; i >= 0; i--) {
       var tempo = {}
       for (var j = inputs.length - 1; j >= 0; j--) {
-        var values = $('input[name='+inputs[j]+'-'+i+']')
+        var values = $('input[name='+inputs[j]+'-'+levels.levelName[i].replace(/[^A-Z0-9]/ig, '')+']')
             .map(function(){return $(this).val();}).get();
         var filtered = values.filter(function (el) {
           return el != "";
@@ -100,7 +54,7 @@ function submit(value,inputs){
         if (filtered.length > 0)
         {
           tempo[inputs[j]] = filtered.length > 1 ? filtered : filtered[0];
-          $('input[name='+inputs[j]+'-'+i+']').css("border-color", "#EFEFEF");
+          $('input[name='+inputs[j]+'-'+levels.levelName[i].replace(/[^A-Z0-9]/ig, '')+']').css("border-color", "#EFEFEF");
           $('.costs-'+i).css("border-color", "#EFEFEF");
         }
         else
@@ -112,7 +66,7 @@ function submit(value,inputs){
           }
           else
           {
-            $('input[name='+inputs[j]+'-'+i+']').css("border-color", "#f6b8c1");
+            $('input[name='+inputs[j]+'-'+levels.levelName[i].replace(/[^A-Z0-9]/ig, '')+']').css("border-color", "#f6b8c1");
             return;
           }
         }
@@ -129,6 +83,11 @@ function submit(value,inputs){
       var filtered = values.filter(function (el) {
         return el != "";
       });
+      if (value === "levels" && hasDuplicates(filtered))
+      {
+       $(".sub-container").prepend("<div style='position: absolute;width: 100%;' class='alert alert-danger' role='alert'>Levels Cannot be duplicated</div>");
+       return;
+      }
       if (filtered.length > 0)
       {
         temp[inputs[i]] = filtered.length > 1 ? filtered : filtered[0];
@@ -157,18 +116,20 @@ function submit(value,inputs){
   }
 
     data[value] = JSON.stringify(temp);
-    saveData(value,data);
+    saveData(value,data,next);
 }
 
-function saveData(value,data){
+function saveData(value,data,next){
         
         $( ".alert-danger" ).remove();
         if (value === "levels")
           addLevels(JSON.parse(data.levels));
         if (value === "expenses")
           addExpenses(JSON.parse(data.expenses));
-        $("#"+value+ "-li img").attr("src", "assets/icons/sidebar_icons/checked.svg");
-        $("#"+value +"-li span").attr("class", "side-bar-li-span-active");
+        $("#"+value+ "-li img").attr("src", "assets/icons/sidebar_icons/validate.svg");
+        $("#"+value +"-li span").attr("class", "side-bar-li-span-validate");
+        $("#"+next+ "-li img").attr("src", "assets/icons/sidebar_icons/checked.svg");
+        $("#"+next +"-li span").attr("class", "side-bar-li-span-active");
         if (value !== "costs")
         {
           nextItem();
@@ -214,22 +175,34 @@ function addExpenses(data) {
 }
 
 function addLevels(data) {
-  $('.dynamic-form-input-container').remove();
-  if(data.levelName)
+
+  if (!Array.isArray(data.levelName))
+    data.levelName = [data.levelName];
+  if (levelsData.length === 0)
   {
-     if (Array.isArray(data.levelName))
-    for (var i = 0; i <= data.levelName.length - 1; i++) {
-      $('#classes').append('<div class="dynamic-form-input-container"><label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+data.levelName[i]+'</span> <span class="input-label-bg-mask"></span></label><div class="dynamic-form-input dynamic-form-input-first"><div class="form-group group"><input type="text" required name="classeName-'+i+'"><label class="input-label"><span class="input-label-text">Classe name</span> <span class="input-label-bg-mask"></span></label></div><div class="square-button square-button-minus"><img class="icon" src="assets/icons/minus.svg" ></div></div><div class="square-button square-button-extra-style square-button-plus" id="Classe_New_Dynamic_Form_Input"><img class="icon" src="assets/icons/plus.svg"></div></div>');
-      $('#subjectsForm').append('<div class="dynamic-form-input-container dynamic-form-input-container-extra-style"><label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+data.levelName[i]+'</span> <span class="input-label-bg-mask"></span></label><div class="dynamic-form-input-dropdown-container"><div class="dynamic-form-input-dropdown dynamic-form-input-first subject-'+i+'"><div class="dynamic-form-input"><div class="form-group group"><select class="input-text-subject-select2" multiple name="language" id="subject-'+i+'"><option value="Bangladesh">Bangladesh</option><option selected value="Barbados">Barbados</option><option selected value="Belarus">Belarus</option><option value="Belgium">Belgium</option></select><img class="icon button-icon" src="assets/icons/caret.svg"></div><div class="square-button square-button-minus"><img class="icon" src="assets/icons/minus.svg"></div></div></div></div></div>');
-      $('#costsForm').append('<div class="dynamic-form-input-container dynamic-form-input-container-extra-style dynamic-form-input-container-extra-style-composed" id="costs-'+i+'"><label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+data.levelName[i]+'</span> <span class="input-label-bg-mask"></span></label><div class="dynamic-form-input-dropdown-container"><div class="dynamic-form-input-dropdown dynamic-form-input-first costs-'+i+'"><div class="dynamic-form-input"><div class="form-group group form-group-left"><input type="text" class="input-dropdown" required name="costsName-'+i+'"><label class="input-label"><span class="input-label-text">Expense Name</span> <span class="input-label-bg-mask"></span></label><img class="icon button-icon" src="assets/icons/caret.svg"><ul class="dynamic-form-input-dropdown-options expense-list"></ul></div><div class="form-group group form-group-right price-'+i+'"><input type="text" class="input-text" required name="price-'+i+'"><label class="input-label"><span class="input-label-text">Price</span> <span class="input-label-bg-mask"></span></label></div><div class="square-button square-button-minus"><img class="icon" src="assets/icons/minus.svg"></div></div></div></div><div class="square-button square-button-extra-style square-button-plus" ><img class="icon" src="assets/icons/plus.svg"></div></div>');
+    levelsData = data.levelName
+    for (var i = 0; i < data.levelName.length; i++) {
+          $('#classes').append('<div class="dynamic-form-input-container '+data.levelName[i].replace(/[^A-Z0-9]/ig, '')+'"><label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+data.levelName[i]+'</span> <span class="input-label-bg-mask"></span></label><div class="dynamic-form-input dynamic-form-input-first"><div class="form-group group"><input type="text" required name="classeName-'+data.levelName[i].replace(/[^A-Z0-9]/ig, '')+'"><label class="input-label"><span class="input-label-text">Classe name</span> <span class="input-label-bg-mask"></span></label></div><div class="square-button square-button-minus"><img class="icon" src="assets/icons/minus.svg" ></div></div><div class="square-button square-button-extra-style square-button-plus" id="Classe_New_Dynamic_Form_Input"><img class="icon" src="assets/icons/plus.svg"></div></div>');
+           $('#subjectsForm').append('<div class="dynamic-form-input-container '+data.levelName[i].replace(/[^A-Z0-9]/ig, '')+' dynamic-form-input-container-extra-style"><label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+data.levelName[i]+'</span> <span class="input-label-bg-mask"></span></label><div class="dynamic-form-input-dropdown-container"><div class="dynamic-form-input-dropdown dynamic-form-input-first subject-'+data.levelName[i].replace(/[^A-Z0-9]/ig, '')+'"><div class="dynamic-form-input"><div class="form-group group"><select class="input-text-subject-select2" multiple name="language" id="subject-'+data.levelName[i].replace(/[^A-Z0-9]/ig, '')+'"><option value="Bangladesh">Bangladesh</option><option selected value="Barbados">Barbados</option><option selected value="Belarus">Belarus</option><option value="Belgium">Belgium</option></select><img class="icon button-icon" src="assets/icons/caret.svg"></div><div class="square-button square-button-minus"><img class="icon" src="assets/icons/minus.svg"></div></div></div></div></div>');
+      $('#costsForm').append('<div class="dynamic-form-input-container '+data.levelName[i].replace(/[^A-Z0-9]/ig, '')+' dynamic-form-input-container-extra-style dynamic-form-input-container-extra-style-composed" id="costs-'+data.levelName[i].replace(/[^A-Z0-9]/ig, '')+'"><label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+data.levelName[i]+'</span> <span class="input-label-bg-mask"></span></label><div class="dynamic-form-input-dropdown-container"><div class="dynamic-form-input-dropdown dynamic-form-input-first costs-'+data.levelName[i].replace(/[^A-Z0-9]/ig, '')+'"><div class="dynamic-form-input"><div class="form-group group form-group-left"><input type="text" class="input-dropdown" required name="costsName-'+data.levelName[i].replace(/[^A-Z0-9]/ig, '')+'"><label class="input-label"><span class="input-label-text">Expense Name</span> <span class="input-label-bg-mask"></span></label><img class="icon button-icon" src="assets/icons/caret.svg"><ul class="dynamic-form-input-dropdown-options expense-list"></ul></div><div class="form-group group form-group-right price-'+data.levelName[i].replace(/[^A-Z0-9]/ig, '')+'"><input type="number" class="input-text" required name="price-'+data.levelName[i].replace(/[^A-Z0-9]/ig, '')+'"><label class="input-label"><span class="input-label-text">Price</span> <span class="input-label-bg-mask"></span></label></div><div class="square-button square-button-minus"><img class="icon" src="assets/icons/minus.svg"></div></div></div></div><div class="square-button square-button-extra-style square-button-plus" ><img class="icon" src="assets/icons/plus.svg"></div></div>');
+        } 
+  } else
+  {
+    for (var i = 0; i < levelsData.length; i++) {
+      if (!data.levelName.includes(levelsData[i]))
+      {
+        $('.'+levelsData[i].replace(/[^A-Z0-9]/ig, '')).remove();
+      }
     }
-    else
-    {
-       $('#classes').append('<div class="dynamic-form-input-container"><label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+data.levelName+'</span> <span class="input-label-bg-mask"></span></label><div class="dynamic-form-input dynamic-form-input-first"><div class="form-group group"><input type="text" required name="classeName-'+0+'"><label class="input-label"><span class="input-label-text">Classe name</span> <span class="input-label-bg-mask"></span></label></div><div class="square-button square-button-minus"><img class="icon" src="assets/icons/minus.svg" ></div></div><div class="square-button square-button-extra-style square-button-plus" id="Classe_New_Dynamic_Form_Input"><img class="icon" src="assets/icons/plus.svg"></div></div>');
-        $('#subjectsForm').append('<div class="dynamic-form-input-container dynamic-form-input-container-extra-style"><label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+data.levelName+'</span> <span class="input-label-bg-mask"></span></label><div class="dynamic-form-input-dropdown-container"><div class="dynamic-form-input-dropdown dynamic-form-input-first subject-'+0+'"><div class="dynamic-form-input"><div class="form-group group"><select class="input-text-subject-select2" multiple name="language"  id="subject-'+0+'"><option value="Bangladesh">Bangladesh</option><option selected value="Barbados">Barbados</option><option selected value="Belarus">Belarus</option><option value="Belgium">Belgium</option></select><img class="icon button-icon" src="assets/icons/caret.svg"></div><div class="square-button square-button-minus"><img class="icon" src="assets/icons/minus.svg"></div></div></div></div></div>');
-        $('#costsForm').append('<div class="dynamic-form-input-container dynamic-form-input-container-extra-style dynamic-form-input-container-extra-style-composed" id="costs-'+0+'"><label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+data.levelName+'</span> <span class="input-label-bg-mask"></span></label><div class="dynamic-form-input-dropdown-container"><div class="dynamic-form-input-dropdown dynamic-form-input-first costs-'+0+'"><div class="dynamic-form-input"><div class="form-group group form-group-left"><input type="text" class="input-dropdown" required name="costsName-'+0+'"><label class="input-label"><span class="input-label-text">Expense Name</span> <span class="input-label-bg-mask"></span></label><img class="icon button-icon" src="assets/icons/caret.svg"><ul class="dynamic-form-input-dropdown-options expense-list"></ul></div><div class="form-group group form-group-right price-'+0+'"><input type="text" class="input-text" required name="price-'+0+'"><label class="input-label"><span class="input-label-text">Price</span> <span class="input-label-bg-mask"></span></label></div><div class="square-button square-button-minus"><img class="icon" src="assets/icons/minus.svg"></div></div></div></div><div class="square-button square-button-extra-style square-button-plus" ><img class="icon" src="assets/icons/plus.svg"></div></div>');
-    }
+    if (levelsData.length < data.levelName.length)
+      for (var i = levelsData.length; i < data.levelName.length; i++) {
+        $('#classes').append('<div class="dynamic-form-input-container '+data.levelName[i].replace(/[^A-Z0-9]/ig, '')+'"><label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+data.levelName[i]+'</span> <span class="input-label-bg-mask"></span></label><div class="dynamic-form-input dynamic-form-input-first"><div class="form-group group"><input type="text" required name="classeName-'+data.levelName[i].replace(/[^A-Z0-9]/ig, '')+'"><label class="input-label"><span class="input-label-text">Classe name</span> <span class="input-label-bg-mask"></span></label></div><div class="square-button square-button-minus"><img class="icon" src="assets/icons/minus.svg" ></div></div><div class="square-button square-button-extra-style square-button-plus" id="Classe_New_Dynamic_Form_Input"><img class="icon" src="assets/icons/plus.svg"></div></div>');
+        $('#subjectsForm').append('<div class="dynamic-form-input-container '+data.levelName[i].replace(/[^A-Z0-9]/ig, '')+' dynamic-form-input-container-extra-style"><label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+data.levelName[i]+'</span> <span class="input-label-bg-mask"></span></label><div class="dynamic-form-input-dropdown-container"><div class="dynamic-form-input-dropdown dynamic-form-input-first subject-'+data.levelName[i].replace(/[^A-Z0-9]/ig, '')+'"><div class="dynamic-form-input"><div class="form-group group"><select class="input-text-subject-select2" multiple name="language" id="subject-'+data.levelName[i].replace(/[^A-Z0-9]/ig, '')+'"><option value="Bangladesh">Bangladesh</option><option selected value="Barbados">Barbados</option><option selected value="Belarus">Belarus</option><option value="Belgium">Belgium</option></select><img class="icon button-icon" src="assets/icons/caret.svg"></div><div class="square-button square-button-minus"><img class="icon" src="assets/icons/minus.svg"></div></div></div></div></div>');
+        $('#costsForm').append('<div class="dynamic-form-input-container '+data.levelName[i].replace(/[^A-Z0-9]/ig, '')+' dynamic-form-input-container-extra-style dynamic-form-input-container-extra-style-composed" id="costs-'+data.levelName[i].replace(/[^A-Z0-9]/ig, '')+'"><label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+data.levelName[i]+'</span> <span class="input-label-bg-mask"></span></label><div class="dynamic-form-input-dropdown-container"><div class="dynamic-form-input-dropdown dynamic-form-input-first costs-'+data.levelName[i].replace(/[^A-Z0-9]/ig, '')+'"><div class="dynamic-form-input"><div class="form-group group form-group-left"><input type="text" class="input-dropdown" required name="costsName-'+data.levelName[i].replace(/[^A-Z0-9]/ig, '')+'"><label class="input-label"><span class="input-label-text">Expense Name</span> <span class="input-label-bg-mask"></span></label><img class="icon button-icon" src="assets/icons/caret.svg"><ul class="dynamic-form-input-dropdown-options expense-list"></ul></div><div class="form-group group form-group-right price-'+data.levelName[i].replace(/[^A-Z0-9]/ig, '')+'"><input type="number" class="input-text" required name="price-'+data.levelName[i].replace(/[^A-Z0-9]/ig, '')+'"><label class="input-label"><span class="input-label-text">Price</span> <span class="input-label-bg-mask"></span></label></div><div class="square-button square-button-minus"><img class="icon" src="assets/icons/minus.svg"></div></div></div></div><div class="square-button square-button-extra-style square-button-plus" ><img class="icon" src="assets/icons/plus.svg"></div></div>');
+      }
+    levelsData = data.levelName;
   }
+
   if($(".input-text-subject").length > 0){
     $(".input-text-subject").fastselect({
        userOptionAllowed: true,
@@ -276,7 +249,9 @@ function hideSelected(value) {
       }
     }
 
-function prev(value) {
+function prev(value,prev) {
+  $("#"+prev+ "-li img").attr("src", "assets/icons/sidebar_icons/checked.svg");
+  $("#"+prev +"-li span").attr("class", "side-bar-li-span-active");
   $("#"+value+ "-li img").attr("src", "assets/icons/sidebar_icons/unchecked.svg");
   $("#"+value +"-li span").attr("class", "side-bar-li-span-inactive");
 }
@@ -288,3 +263,19 @@ function nextItem() {
 $('.customPrevBtn').click(function() {
     owl.trigger('owl.prev');
 })
+
+function checkIfArrayIsUnique(myArray) {
+  return myArray.length === new Set(myArray).size;
+}
+
+function hasDuplicates(array) {
+    var valuesSoFar = Object.create(null);
+    for (var i = 0; i < array.length; ++i) {
+        var value = array[i].replace(/[^A-Z0-9]/ig, '');
+        if (value in valuesSoFar) {
+            return true;
+        }
+        valuesSoFar[value] = true;
+    }
+    return false;
+}
