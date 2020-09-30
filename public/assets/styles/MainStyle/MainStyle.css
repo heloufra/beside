@@ -30,13 +30,14 @@
   --black--color: #151a3b;
   --black--gray--color: rgba(21, 26, 59, 0.7);
   --font--color-active: #fff;
-  --font--color-validate: #9bf1bb;
   --font--color-inactive: #545870;
   --grey--bg-color: #ededf0;
   --main-header--font-color: #151a3b;
   --input-placeholder--color: rgba(21, 26, 59, 0.5);
   --input-active-bg-color:#fdfdfe;
   --input-border--color:#f0f0f6;
+
+  --empty-img-bg-color:#ecedf3;
 
   --green--info--color:#55b578;
 
@@ -94,6 +95,23 @@
 }
 
 
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: var(--input-placeholder--color);
+  font-size: 14px;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: var(--input-placeholder--color);
+  font-size: 14px;
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: var(--input-placeholder--color);
+  font-size: 14px;
+}
+:-moz-placeholder { /* Firefox 18- */
+  color: var(--input-placeholder--color);
+  font-size: 14px;
+}
+
 body {  
   font-family: -apple-system, 
     system-ui,
@@ -104,18 +122,6 @@ body {
     Arial,
     sans-serif;
    letter-spacing: 0.3;
-}
-
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
 }
 
 .visibility{
@@ -135,6 +141,12 @@ input[type=number] {
 	pointer-events: none;
 	visibility: 0;
 	opacity: 0;
+}
+
+.modal .rounded-button.hide-icon{
+	pointer-events: initial;
+	visibility: 1;
+	opacity: 1;
 }
 
 .hide-footer{
@@ -165,7 +177,28 @@ input[type=number] {
 	background: var(--input-active-bg-color);
 }
 
+/************************ text-overflow **********************/
 
+.input-dropdown , .input-text{
+	text-overflow: ellipsis;
+}
+
+/***************** input-date - .input-time  *****************/
+
+.input-date:invalid , .input-time:invalid {
+	background : var(--input-active-bg-color) !important;
+}
+
+.input-date {
+	text-indent: 4px;
+	min-height: 40px !important;
+}
+
+.input-date , .input-time {
+	height: 100% !important;
+}
+
+/***************** End input-date - .input-time *************/
 
 /************* Setup Main Container **********/
 
@@ -175,7 +208,9 @@ input[type=number] {
 #Academic_Year_Section,
 #Expense_Section,
 #Costs_Section,
-#Subject_Section{
+#Subject_Section,
+#Login_Section,
+#Code_Section {
 	position: relative;
 	height: 90vh;
 }
@@ -261,10 +296,6 @@ input[type=number] {
 
 .side-bar-li-span-active{
 	color: var(--font--color-active);
-}
-
-.side-bar-li-span-validate{
-	color: var(--font--color-validate);
 }
 
 .side-bar-li-span-inactive{
@@ -404,6 +435,14 @@ input{
   background-color: var(--input-active-bg-color);
 }
 
+.setup-main-container input{
+  height: 41px; /* 39 */
+}
+
+.setup-main-container .dynamic-form-input-dropdown-options{
+	top: 42px;
+}
+
 .input-text-area {
   background-color: var(--input-active-bg-color);
 }
@@ -419,8 +458,8 @@ input:focus{
     width: 100%;
     height: 4px;
     position: absolute;
-    top: 10px;
-    padding: 8px;
+    top: 8px;
+    padding: 2px;
     left: 0px;
     z-index: 0;
 }
@@ -506,6 +545,15 @@ input:focus ~ label,input:valid ~ label{
 /****************** End Square btn ***************/
 
 
+/****************** form-group-modal-extra-style ***************/
+
+.form-group-modal-extra-style{
+	margin-bottom: 32px;
+}
+
+/****************** End form-group-modal-extra-style ***************/
+
+
 /****************** End Rounded btn + text + icon ***************/
 
 
@@ -529,7 +577,6 @@ input:focus ~ label,input:valid ~ label{
 	background-color: var(--input-active-bg-color);
 	font-size: 16px;
     font-weight: 600;
-    padding-top: 20px;
 }
 
 .input-img-container .input-img{
@@ -537,6 +584,16 @@ input:focus ~ label,input:valid ~ label{
 	height: 100%;
 	object-fit: cover; /*contain*/
 	border-radius: 100%;
+	font-size: 0px;
+}
+
+.input-img-container{
+	background-color: var(--empty-img-bg-color) ;
+}
+
+
+.input-img-container .input-img[src=""] {
+  display:none;
 }
 
 .input-square-img-container{
@@ -621,6 +678,10 @@ input:focus ~ label,input:valid ~ label{
 	margin-bottom: 0px !important;
 }
 
+.button-icon-extra-style{
+	padding-top: 0px !important;
+}
+
 /******************* Rounded btn + text + icon ******************/
 
 /******** button-text *************/
@@ -639,6 +700,7 @@ input:focus ~ label,input:valid ~ label{
 	vertical-align: middle;
 	padding: 8px 16px;
 	font-weight: 400;
+	line-height: 24px;
 }
 
 .button-icon{
@@ -660,6 +722,11 @@ input:focus ~ label,input:valid ~ label{
     padding-top: 6px;
     transition: padding-right .3s ease-out ;
 
+}
+
+.setup-main-container .rounded-button-primary .button-icon{
+	padding-top: 8px;
+    line-height: 24px;
 }
 
 .rounded-button-primary:hover .button-icon {
@@ -971,6 +1038,12 @@ input:focus ~ label,input:valid ~ label{
   color:var(--input-placeholder--color);
 }
 
+.setup-main-container  .dynamic-form-input-dropdown .input-text:focus ~ label, .setup-main-container  .input-text:valid ~ label{
+	top: -11.5px;
+    font-size: 13px;
+    color: var(--input-placeholder--color);
+}
+
 .dynamic-form-input-dropdown .button-icon {
     vertical-align: middle;
     position: absolute;
@@ -1191,6 +1264,7 @@ input:focus ~ label,input:valid ~ label{
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice{
 	margin:4px !important;
+	overflow:hidden;
 }
 
 
@@ -1227,6 +1301,8 @@ input:focus ~ label,input:valid ~ label{
     margin: 4px !important;
     text-indent: 4px;
     font-size: 12px !important;
+    min-height: 32px;
+    vertical-align: top;
 }
 
 .select2-container--open .select2-dropdown{
@@ -1292,6 +1368,15 @@ input:focus ~ label,input:valid ~ label{
 	background-color: var(--white-color) !important;
 }
 
+
+.login-main-container .side-bar{
+	display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
 .sections-main-container .sub-container{
 	overflow:hidden;
 }
@@ -1308,7 +1393,8 @@ input:focus ~ label,input:valid ~ label{
 }
 
 .side-bar-conatiner-menu{
-	height: 88vh;
+	/*height: 88vh;*/
+	height: calc( 100vh - 88px );
 }
 
 
@@ -1460,8 +1546,22 @@ input:focus ~ label,input:valid ~ label{
 	margin-bottom: 0px;
 }
 
-
-
+.sections-main-sub-container-left-search-bar  ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: var(--input-placeholder--color);
+  font-size: 12px;
+}
+.sections-main-sub-container-left-search-bar  ::-moz-placeholder { /* Firefox 19+ */
+  color: var(--input-placeholder--color);
+  font-size: 12px;
+}
+.sections-main-sub-container-left-search-bar  :-ms-input-placeholder { /* IE 10+ */
+  color: var(--input-placeholder--color);
+  font-size: 12px;
+}
+.sections-main-sub-container-left-search-bar :-moz-placeholder { /* Firefox 18- */
+  color: var(--input-placeholder--color);
+  font-size: 12px;
+}
 
 /****** .sections-main-sub-container-left-search-bar .dynamic-form-input-first *********************/
 
@@ -1525,6 +1625,9 @@ input:focus ~ label,input:valid ~ label{
 .sections-main-sub-container-left-search-bar  .square-button {
 	width: 32px;
 	height: 32px;
+
+	min-width: 32px;
+	min-height: 32px;
 }
 
 .sections-main-sub-container-left-search-bar .form-group-left .button-icon,
@@ -1532,7 +1635,57 @@ input:focus ~ label,input:valid ~ label{
 	background: var(--white-color) !important;
 }
 
+.sections-main-sub-container-left-search-bar  .dynamic-form-input-float-adjust{
+	display: flex !important;
+}
+
+.sections-main-sub-container-left-search-bar  .dynamic-form-input-float-adjust .form-group-left , 
+.sections-main-sub-container-left-search-bar .dynamic-form-input-float-adjust .form-group-right {
+	flex-shrink: 1;
+	text-align: center;
+	flex-basis: 43%;
+}
+
+.sections-main-sub-container-left-search-bar  .dynamic-form-input-float-adjust .form-group-right {
+	margin-right: 2%;
+	left: 0px;
+}
+
+.sections-main-sub-container-left-search-bar  .dynamic-form-input-float-adjust .square-button{
+	position: relative !important;
+	left: unset;
+	right: unset;
+	flex-shrink: 1;
+	text-align: center;
+}
+
 /******* End .sections-main-sub-container-left-search-bar .dynamic-form-input-first *****************/
+
+
+/*******  .disable-action *****************/
+
+.disable-action .dynamic-form-input-float-adjust{
+	display: flex !important;
+}
+
+.disable-action .dynamic-form-input-float-adjust .form-group-left , 
+.disable-action .dynamic-form-input-float-adjust .form-group-right {
+	/*flex-grow: 1;*/
+	flex-shrink: 1;
+	text-align: center;
+	flex-basis: 50%;
+}
+
+.disable-action .dynamic-form-input-float-adjust .form-group-right {
+	margin-right: 0px;
+	left: 0px;
+}
+
+.disable-action .square-button{
+	display: none !important;
+}
+
+/******* End .disable-action *****************/
 
 /******* input-dropdown *****************/
 
@@ -1617,6 +1770,10 @@ input:focus ~ label,input:valid ~ label{
     vertical-align: top;
 }
 
+.sections-main-sub-container-left-card-info{
+	width: calc( 100% - 50px ) !important;
+}
+
 .sections-main-sub-container-left-card-main-info {
     font-size: 14px;
     font-weight: 500;
@@ -1656,6 +1813,7 @@ input:focus ~ label,input:valid ~ label{
 
 .sections-main-sub-container-right-main .form-group input{
 	height: 42px;
+	min-height: 42px;
 	background-color: transparent;
 }
 
@@ -1681,6 +1839,13 @@ input:focus ~ label,input:valid ~ label{
 	margin-bottom: 16px;
 	width: 80px;
 	height: 80px;
+}
+
+.sections-main-sub-container-right-main  .input-rounded-img-container-extra-style{
+	width: 60px;
+	height: 60px;
+	padding:20px; 
+	line-height: 16px;
 }
 
 .sections-main-sub-container-right-main .input-img-container .rounded-button .icon{
@@ -1744,6 +1909,95 @@ input:focus ~ label,input:valid ~ label{
 	padding:60px;
 	padding-bottom: 120px;
 }
+
+/****************** sections-main-sub-container-right-main-header ***************/
+
+.modal .sections-main-sub-container-right-main-header .sections-main-sub-container-right-main-header-info{
+	text-align: center;
+}
+
+/*************** End modal sections-main-sub-container-left-search-bar  *************/
+
+/***************  .modal.in .modal-dialog  *************/
+
+.modal.in .modal-dialog{
+   overflow: hidden;
+}
+
+/*************** End .modal.in .modal-dialog *************/
+
+.modal .sections-main-container .sub-container-form{
+	padding: 32px;
+	padding-bottom: 60px;
+}
+
+.modal .sections-main-sub-container-right-main-rows .col-md-6:first-child{
+	padding-right: 8px;
+}
+
+.modal .sections-main-sub-container-right-main-rows .col-md-6:last-child{
+	padding-left:  8px;
+}
+
+.modal .sections-main-sub-container-right-main-rows .col-md-5 , .modal  .sections-main-sub-container-right-main-rows .col-md-1 {
+	padding-left:  8px;
+	padding-right: 8px;
+
+}
+
+.modal .sections-main-sub-container-right-main-rows .col-md-1 {
+	padding-left:  8px;
+}
+
+.modal #Modal_Parents_New_Dynamic_Form_Input{
+	margin-left: 8px;
+}
+
+.modal .sections-main-sub-container-right-main-rows-parents:has(+ .dynamic-form-input-first) {
+	margin-left: 0px;
+	margin-right: -15px;
+}
+
+.modal .sections-main-sub-container-right-main-rows-parents{
+	margin-right: 0px;
+}
+
+
+	/*************** modal sections-label-checkbox-container-rows-extra-style *************/
+
+	.modal .sections-label-checkbox-container-rows-extra-style .expense_label {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		max-width: 100%;
+		display: block;
+		vertical-align: middle;
+		line-height: 24px;
+		margin-bottom: -8px;
+	}
+
+	.modal .sections-label-checkbox-container-rows-extra-style .customCheck {
+		top: 24px;
+	}
+
+	.modal .sections-label-checkbox-container-rows-extra-style .sections-label-checkbox-container .method_label {
+	    margin-right: 24px;
+	    padding-right: 0px;
+	    font-size: 12px;
+	    font-weight: 300;
+	    display: inline-block;
+	    float: unset; 
+	}
+
+	.modal .sections-label-checkbox-container-rows-extra-style .customCheck{
+		top:32px;
+	}
+
+	/*************** End modal sections-label-checkbox-container-rows-extra-style *************/
+
+/*************** modal sections-label-checkbox-container-rows-extra-style *************/
+
+/****************** End sections-main-sub-container-right-main-header ************/
 
 
 /******************* sections-main-sub-container-right-main-tabs *****************/
@@ -2386,6 +2640,13 @@ input:focus ~ label,input:valid ~ label{
 	text-align: left;
 }
 
+.sections-main-sub-container-right-main-note-span{
+	color:var(--black--color) !important;
+	text-decoration: underline;
+	font-weight: 500;
+	cursor: pointer;
+}
+
 /****** End sections-main-sub-container-right-main-note ******/
 
 /****** dynamic-form-input-dropdown-container-icon ******/
@@ -2436,7 +2697,7 @@ input:focus ~ label,input:valid ~ label{
 
 .dynamic-form-input-text-container-icon .icon{
 	position: absolute;
-	top: 10px;
+	top: 8px;
 	right: 8px;
 }
 
@@ -2469,6 +2730,10 @@ input:focus ~ label,input:valid ~ label{
     border: 1px solid var(--input-border--color);
     background-color: white;
     border-radius: 3px;
+}
+
+.textarea{
+	transition: background-color .5s ease-in;
 }
 
 /****** End dynamic-form-input-text-container-icon ******/
@@ -2510,8 +2775,46 @@ input:focus ~ label,input:valid ~ label{
 
 /********************************* modal-body ***********************************/
 
-#FinanceModal , #ChangesModal , #AddAbsenceModal {
+.modal .dynamic-form-input-text-container-icon input.input-date {
+	border: 1px solid var(--input-border--color);
+    border-radius: 3px
+}
+
+.modal .readonly textarea {
+	line-height: 20px;
+}
+
+#FinanceModal , #ChangesModal , #ConfirmDeleteModal , #AddAbsenceModal , #EditAbsenceModal , #AddAttitudeModal, #EditAttitudeModal , #AddExamModal , 
+#AddHomeworkModal , #AddStudentModal , #AddTeacherModal , #ExamDetailModal  , #HomeworkDetailModal {
 	background-color: var(--modal--background--color);
+}
+
+
+/**************************************************************/
+
+#EditAbsenceModal  .sub-container-form-footer , 
+#EditAttitudeModal .sub-container-form-footer {
+	/*bottom: -100%;*/
+}
+
+/**************************************************************/
+
+#AddExamModal .form-group-right{
+	width: 100%;
+	border-left: 0px;
+}
+
+#FinanceModal .sub-container-form-footer .modal-confirm-button ,
+#AddAbsenceModal .sub-container-form-footer .modal-confirm-button ,
+#EditAbsenceModal .sub-container-form-footer .modal-confirm-button ,
+#AddExamModal .sub-container-form-footer .modal-confirm-button ,
+#ExamDetailModal .sub-container-form-footer .modal-confirm-button ,
+#HomeworkDetailModal .sub-container-form-footer .modal-confirm-button ,
+#AddHomeworkModal .sub-container-form-footer .modal-confirm-button ,
+#AddStudentModal .sub-container-form-footer .modal-confirm-button ,
+#AddTeacherModal .sub-container-form-footer .modal-confirm-button ,
+#AddAttitudeModal .sub-container-form-footer .modal-confirm-button{
+	background-image: linear-gradient(to left, var(--element--gradient--from--color), var(--element--gradient--to--color)) !important;
 }
 
 .modal-content-finance{
@@ -2519,7 +2822,7 @@ input:focus ~ label,input:valid ~ label{
 }
 
 .modal-content-finance .modal-body{
-	max-height: 70vh;
+	max-height: calc(100vh - 29.5vh);
     overflow: scroll;
     padding:0px;
 }
@@ -2530,12 +2833,13 @@ input:focus ~ label,input:valid ~ label{
 }
 
 .modal-body-container .sub-container-form-footer{
-	width: 100%;
+	width: 100% !important;
 	border-bottom-right-radius: 3px;
 	border-bottom-left-radius: 3px;
 }
 
-#FinanceModal .modal-dialog , #AddAbsenceModal .modal-dialog {
+#FinanceModal .modal-dialog , #AddAbsenceModal .modal-dialog , #EditAbsenceModal .modal-dialog , #AddAttitudeModal .modal-dialog , #AddHomeworkModal .modal-dialog , 
+#AddExamModal .modal-dialog , #ExamDetailModal .modal-dialog , #HomeworkDetailModal .modal-dialog , #AddStudentModal .modal-dialog , #AddTeacherModal .modal-dialog {
 	height: 80vh;
     background: var(--white-color);
     margin-top: 10vh;
@@ -2631,7 +2935,7 @@ table td img {
 	margin-bottom: 70px !important;
 }
 
-.secondary-pink-button{
+.btn-secondary.secondary-pink-button , .secondary-pink-button {
     background-image: linear-gradient(to right, var(--element--gradient--from--btn--pink--color), var(--element--gradient--to--btn--pink--color)) !important;
 }
 
@@ -2640,6 +2944,34 @@ table td img {
 }
 
 /******* End .modal-dialog-centered **************/
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__display {
+    cursor: default !important;
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+    font-size: 12px !important;
+    float: left !important;
+    vertical-align: middle !important;
+    padding-top: 3px !important;
+    position: relative;
+    top: 0px;
+    display: inline-block !important;
+    padding: 4px !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove span {
+    position: relative !important;
+    font-weight: 200 !important;
+    font-size: 15px !important;
+    display: inline-block;
+    color: #151a3b6b;
+    line-height: 24px;
+    vertical-align: middle;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    margin: 4px !important;
+}
 
 /******* .select2-container **************/
 
@@ -2767,6 +3099,16 @@ table td img {
 	background-image: linear-gradient(to left, var(--element--gradient--from--color), var(--element--gradient--to--color)) !important;
 }
 
+#ChangesModal .sub-container-form-footer .modal-confirm-button,
+#ConfirmDeleteModal .sub-container-form-footer .modal-confirm-button{
+	background-image: linear-gradient(to left, var(--element--gradient--from--color), var(--element--gradient--to--color)) !important;
+}
+
+#ChangesModal .sub-container-form-footer  .secondary-pink-button,
+#ConfirmDeleteModal .sub-container-form-footer  .secondary-pink-button{
+	margin-right: 16px;
+}
+
 .sections-main-container.modal-open .select2-results__option {
 	width: 24% !important;
 	float: left !important;
@@ -2843,6 +3185,14 @@ table td img {
 	overflow:unset !important;
 }
 
+.select2-container--default .select2-selection--multiple .select2-selection__choice{
+	padding:4px !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove span{
+	top: 0px !important;
+}
+
 /******* End .select2-container **************/
 
 .fade-scale {
@@ -2885,6 +3235,9 @@ table td img {
 
 .td-description{
 	font-size: 12px;
+	display: inline-block;
+	min-height: 50px;
+	width: 100%;
 }
 
 #Attitude table td{
@@ -3047,7 +3400,7 @@ table td img {
 	text-align: left;
 }
 
-.sections-main-sub-container-right-main-rows-parents #Parents_New_Dynamic_Form_Input{
+.sections-main-sub-container-right-main-rows-parents #Parents_New_Dynamic_Form_Input , .modal #Modal_Parents_New_Dynamic_Form_Input{
 	margin-bottom: 16px;
 }
 
@@ -3232,11 +3585,11 @@ table td img {
 }
 
 .finance-page-extra-style  .sections-main-sub-container-right-main .form-group input{
-	height: 40px;
+	height: 42px;
 }
 
 .finance-page-extra-style  .sections-main-sub-container-right-main .dynamic-form-input-dropdown-options{
-	top: 40px;
+	top: 43px;
 	padding:16px 8px;
 }
 
@@ -3330,27 +3683,92 @@ table td img {
 
 /********************************* sections-label-checkbox-container-left  *********************/
 
-#AddAbsenceModal .sections-label-checkbox-container-left{
+#AddAbsenceModal .sections-label-checkbox-container-left ,
+#EditAbsenceModal .sections-label-checkbox-container-left ,
+#AddAttitudeModal .sections-label-checkbox-container-left,
+#EditAttitudeModal .sections-label-checkbox-container-left,
+#AddHomeworkModal .sections-label-checkbox-container-left,
+#AddExamModal .sections-label-checkbox-container-left,
+#ExamDetailModal .sections-label-checkbox-container-left,
+#HomeworkDetailModal .sections-label-checkbox-container-left{
 	position: relative;
 	border-radius: 3px;
 	width: 185px;
 }
 
-#AddAbsenceModal .dynamic-form-input-container-extra-style input{
+#AddAbsenceModal .dynamic-form-input-container-extra-style input,
+#EditAbsenceModal .dynamic-form-input-container-extra-style input,
+#AddAttitudeModal .dynamic-form-input-container-extra-style input,
+#EditAttitudeModal .dynamic-form-input-container-extra-style input,
+#AddHomeworkModal .dynamic-form-input-container-extra-style input,
+#AddExamModal .dynamic-form-input-container-extra-style input,
+#ExamDetailModal .dynamic-form-input-container-extra-style input,
+#HomeworkDetailModal .dynamic-form-input-container-extra-style input{
 	text-indent: 0;
 }
 
-#AddAbsenceModal .sections-checkboxes-main-container{
+#AddAbsenceModal .sections-checkboxes-main-container,
+#EditAbsenceModal .sections-checkboxes-main-container,
+#AddAttitudeModal .sections-checkboxes-main-container,
+#EditAttitudeModal .sections-checkboxes-main-container,
+#AddHomeworkModal .sections-checkboxes-main-container,
+#AddExamModal .sections-checkboxes-main-container,
+#ExamDetailModal .sections-checkboxes-main-container ,
+#HomeworkDetailModal .sections-checkboxes-main-container {
 	display: flex;
 	border:1px solid var(--input-border--color);
 	border-radius: 3px;
 }
 
+#AddAbsenceModal  .sections-label-checkbox-container-left .expense_label,
+#EditAbsenceModal  .sections-label-checkbox-container-left .expense_label,
+#AddAttitudeModal  .sections-label-checkbox-container-left .expense_label,
+#EditAttitudeModal  .sections-label-checkbox-container-left .expense_label,
+#AddHomeworkModal  .sections-label-checkbox-container-left .expense_label,
+#AddExamModal .sections-label-checkbox-container-left .expense_label,
+#ExamDetailModal .sections-label-checkbox-container-left .expense_label,
+#HomeworkDetailModal .sections-label-checkbox-container-left .expense_label{
+	line-height: 24px;
+}
+
+#AddAbsenceModal  .customCheckRounded label:after,
+#EditAbsenceModal  .customCheckRounded label:after,
+#AddAttitudeModal  .customCheckRounded label:after,
+#EditAttitudeModal  .customCheckRounded label:after,
+#AddAbsenceModal  .customCheckRounded label:before,
+#AddHomeworkModal  .customCheckRounded label:before,
+#AddExamModal  .customCheckRounded label:before ,
+#ExamDetailModal  .customCheckRounded label:before,
+#HomeworkDetailModal  .customCheckRounded label:before{
+	top: 0px;
+	width: 24px;
+	height: 24px;
+}
+
+#AddAbsenceModal  .sections-label-checkbox-container-left .sections-label-checkbox-container,
+#EditAbsenceModal  .sections-label-checkbox-container-left .sections-label-checkbox-container,
+#AddAttitudeModal .sections-label-checkbox-container-left .sections-label-checkbox-container,
+#EditAttitudeModal .sections-label-checkbox-container-left .sections-label-checkbox-container{
+	text-overflow: unset !important;
+	max-width: 100% !important;
+	padding: 8px;
+	margin-bottom: 0px;
+	border:0px;
+	border-radius: 0 ;
+}
 
 
-#AddAbsenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left:first-child {
+#AddAbsenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left:first-child ,
+#EditAbsenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left:first-child ,
+#EditAttitudeModal .sections-checkboxes-main-container .sections-label-checkbox-container-left:first-child ,
+#AddAttitudeModal .sections-checkboxes-main-container .sections-label-checkbox-container-left:first-child {
 	border-right: 1px solid var(--input-border--color);
 	border-radius: 0px;
+}
+
+#AddAbsenceModal .input-date,
+#EditAbsenceModal .input-date{
+	border : 0px;
 }
 
 .flex .dynamic-form-input-text-container-icon:first-child {
@@ -3368,7 +3786,10 @@ table td img {
 	border-radius: 3px;
 }
 
-#AddAbsenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left {
+#AddAbsenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left ,
+#EditAbsenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left ,
+#AddAttitudeModal .sections-checkboxes-main-container .sections-label-checkbox-container-left ,
+#EditAttitudeModal .sections-checkboxes-main-container .sections-label-checkbox-container-left {
 	flex-grow: 1;
 }
 
@@ -3456,6 +3877,121 @@ table td img {
 
 /********************************* End sections-label-checkbox-container-left  *********************/
 
+
+/********************************* sections-main-sub-container-right-main-header-option-li  *********************/
+
+.sections-main-sub-container-right-main-header-option-list-container {
+	position: absolute;
+    top: 16px;
+    right: 20px;
+    min-width: 200px;
+    background: red;
+}
+
+.sections-main-sub-container-right-main-header-option-icon {
+    position: absolute;
+    right: 0px;
+    border-radius: 100%;
+    transition: background .25s ease-in , opacity .25s ease-in-out ;
+}
+
+.sections-main-sub-container-right-main-header-option-icon:hover{
+	cursor: pointer;
+	background: var(--btn--secondary--bg--color);
+}
+
+.sections-main-sub-container-right-main-header-option-list{
+	list-style: none;
+    padding: 16px 0px;
+    background: var(--white-color);
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    min-width: 160px;
+	border-radius: 3px;
+	box-shadow: 0px 17px 90px 2px rgba(21, 29, 84, 0.10);
+	display: none;
+	z-index: 1;
+}
+
+.sections-main-sub-container-right-main-header-option-list-li{
+	font-size: 14px;
+	margin:0px 16px;
+	padding:8px;
+	opacity: 0;
+	animation: tableOptionListLiAnimation 250ms ease 50ms ;
+	animation-fill-mode: forwards;
+	-webkit-animation-fill-mode: forwards;
+	border-radius: 3px;
+	cursor: pointer;
+	text-align: left;
+}
+
+.sections-main-sub-container-right-main-header-option-list-li:hover{
+	background-image: linear-gradient(to right, var(--element--gradient--from--btn--pink--color), var(--element--gradient--to--btn--pink--color)) !important;
+}
+
+.sections-main-sub-container-right-main-header-option-list-span{
+	vertical-align: middle;
+	line-height: 24px;
+	display: inline-block;
+	min-height: 24px;
+}
+
+.sections-main-sub-container-right-main-header-option-list-li img{
+	vertical-align: sub !important;
+	display: inline-block;
+}
+
+.sections-main-sub-container-right-main-header-option-icon-close{
+    position: absolute;
+	top: -12px;
+    right: -12px;
+    background-image: linear-gradient(to bottom, var(--element--gradient--blue--from--btn--color), var(--element--gradient--blue--to--btn--color));
+    border-radius: 100%;
+    animation: checkboxAnimation 500ms ease;
+	opacity: 1;
+	transform: scale(1);
+	cursor: pointer;
+}
+
+@keyframes tableOptionListLiAnimation {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/********************************* End sections-main-sub-container-right-main-header-option-li  *********************/
+
+/********************************* input validation  *********************/
+
+.input-validation-error{
+	border: 1px solid var(--element--gradient--to--btn--pink--color);
+    color: var(--red--info--color);
+}
+
+.input-validation-error-feedback-show{
+	color: var(--red--info--color);
+	font-weight: 300;
+	opacity: 1;
+	transition: opacity .25s ease-in;
+	margin-top: -12px;
+	pointer-events: initial;
+}
+
+.input-validation-error-feedback-hide{
+	opacity: 0;
+	pointer-events: none;
+}
+
+/********************************* End input validation  *********************/
+
 /*************** Resposive ***********************************/
 
 @media screen and (max-width: 1250px) {
@@ -3468,8 +4004,11 @@ table td img {
 		width: 20%;
 	}
 
+	.main-container{
+		width: 90%;
+	}
 
-	/*************** sections-main-sub-container-left-search-bar *************/
+	/*************** sections-main-sub-container-left-search-bar *************
 
 	.sections-main-sub-container-left-search-bar .form-group-left{
 		width: 70%;
@@ -3528,8 +4067,7 @@ table td img {
 		width: 23%;
 	}
 
-
-	/*************** sections-main-sub-container-left-search-bar *************/
+	/*************** sections-main-sub-container-left-search-bar *************
 
 	.sections-main-sub-container-left-search-bar .form-group-left{
 		width: 65%;
@@ -3614,16 +4152,74 @@ table td img {
 		width: 53.9%;
 	}
 
+
+	.modal .sections-main-sub-container-right-main .sub-container-form-footer{
+		width: 100%;
+	}
+
 }
 
-@media screen and (max-width: 991px) {
+@media screen and (max-width: 1024px) {
+
+	/*************** .sections-main-container *************/
+
+	.side-bar-extra-style{
+		width: 80px !important;
+		padding: 20px !important;
+		text-align: center;
+	}
+
+	.sections-main-container .sub-container{
+		width: calc(100% - 80px);
+	}
+
+
+	.side-bar-brand-label , .side-bar-li-span , .side-bar-extra-style .rounded-button-primary .button-text{
+		display: none !important;
+	}
 
 	.sections-main-container .side-bar , .sections-main-container .sub-container-form {
 		padding:24px;
 	}
 
+	.side-bar-extra-style .rounded-button-primary{
+		width: 40px !important;
+		height: 40px !important;
+	}
 
-	/*************** sections-main-sub-container-left-search-bar *************/
+	.side-bar-extra-style .rounded-button-primary .button-icon{
+		position: absolute;
+		left: 50%;
+		height: 50%;
+		transform: translate(-50%,-50%);
+		animation: unset;
+	}
+
+
+	.side-bar-extra-style .side-bar-brand , .side-bar-extra-style .side-bar-li-img{
+		margin: 0px auto !important;
+		animation: unset !important;
+	}
+
+	.side-bar-extra-style .side-bar-li{
+		padding-left: 0px !important; 
+		animation: unset !important;
+	}
+
+	.side-bar-conatiner-menu {
+	    /* height: 88vh; */
+	    height: calc( 100vh - 75px );
+	}
+
+	.sections-main-sub-container-right-main .sub-container-form-footer{
+		width: 64.2%;
+	}
+
+}
+
+@media screen and (max-width: 991px) {
+
+	/*************** sections-main-sub-container-left-search-bar *************
 
 	.sections-main-sub-container-left-search-bar .form-group-left{
 		width: 60%;
@@ -3636,6 +4232,22 @@ table td img {
 
 
 	/*************** End sections-main-sub-container-left-search-bar  *************/
+
+	.setup-main-container .side-bar{
+		padding: 60px 32px ;
+	}
+
+	.setup-main-container .sub-main-container {
+    	padding: 9% 12%;
+	}
+
+	.setup-main-container .dynamic-form-input-float-adjust{
+		display: flex;
+	}
+
+	.sections-main-sub-container-right-main .sub-container-form-footer{
+		width: 61.2%;
+	}
 
 	.sections-main-sub-container-right-main-rows .form-group.dynamic-form-input-text-container-icon{
 		margin-bottom: 24px !important;
@@ -3714,17 +4326,70 @@ table td img {
 		margin-bottom: 8px;
 	}
 
+	/************************ modal *********************/
+
+	.modal #Modal_Parents_New_Dynamic_Form_Input{
+		margin-left: 0px;
+	}
+
+	.modal .sections-main-sub-container-right-main-rows-parents{
+		margin-right: 0px;
+	}
+
+	.modal .sections-main-sub-container-right-main-rows-parents:has(+ .dynamic-form-input-first) {
+		margin-left: 0px;
+		margin-right: 16px;
+	}
+
+	.modal .sections-main-sub-container-right-main-rows-parents  .col-md-5{
+		width: 90%;
+		padding-left: 16px;
+	}
+
+	.modal .sections-main-sub-container-right-main-rows-parents .dynamic-form-input-first .col-md-5{
+		width: 100%;
+		padding-right: 0px;
+		padding-left: 16px;
+	}
+
+	.modal .sections-main-sub-container-right-main-rows-parents:has(+ .dynamic-form-input-first) {
+		width: 100%;
+		margin-left: 0px;
+		margin-right: -15px;
+	}
+
+
+
+	.modal .sections-main-sub-container-right-main-rows-parents .col-md-6:first-child{
+		padding-right: 0px;
+	}
+
+	.modal .dynamic-form-input-parent{
+		position: relative;
+	}
+
+
+	.modal .sections-main-sub-container-right-main-rows-parents .col-md-6 .group{
+		margin-bottom: 12px;
+	}
+
+	.modal .sections-main-sub-container-right-main-rows .col-md-6:last-child{
+		padding-left: 16px;
+		padding-right: 8px;
+	}
+
+	.modal .sections-main-sub-container-right-main-rows .col-md-12{
+		padding-right: 8px;
+	}	
+
+
+
+
+	/************************ modal *********************/
+
 }
 
 @media screen and (max-width: 881px) {
-
-	.sections-main-container .sub-container {
-		width: 70%;
-	}
-
-	.sections-main-container .side-bar{
-		width: 30%;
-	}
 
 }
 

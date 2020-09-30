@@ -4,11 +4,16 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
+const config = require('./config');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var setupRouter = require('./routes/setup');
 var studentRouter = require('./routes/student');
+var session = require('express-session');
+var MySQLStore = require('express-mysql-session')(session);
+ 
+var sessionStore = new MySQLStore(config.db);
 
 var app = express();
 
@@ -21,6 +26,19 @@ app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session(
+  {
+    secret: config.sessionSecret,
+    store: sessionStore,
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+      secure: 'auto',
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24
+    }
+  })
+);
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

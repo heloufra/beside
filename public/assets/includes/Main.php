@@ -14,3 +14,19 @@
 	<link rel="stylesheet" href="assets/styles/MainStyle/MainStyle.css"/>
 
 	<script src="assets/scripts/MainScript/MainScript.js"></script>
+
+
+	<!--______________________________MainStyle____________________________-->
+
+	<!--______________________________ datepicker ____________________________-->
+
+	<link href="assets/includes/dist_datepicker/css/datepicker.css" rel="stylesheet">
+
+	<script src="assets/includes/dist_datepicker/js/datepicker.js"></script>
+
+	<!--______________________________ jQuery Timepicker 1.3.5 ____________________________-->
+
+	<link href="assets/includes/dist_datepicker/jquery.timepicker.min.css" rel="stylesheet">
+
+	<script src="assets/includes/dist_datepicker/jquery.timepicker.min.js"></script>
+
