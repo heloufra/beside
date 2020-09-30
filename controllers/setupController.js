@@ -21,109 +21,115 @@ var setupController = {
     var classesQuery = `INSERT INTO classes(Level_ID, Classe_Label, AY_ID) VALUES(?,?,?)`;
    
     // execute the insert statment
-    connection.query(institutionsQuery, [institutionsData.school, institutionsData.logo,institutionsData.school + ".besideyou.ma",institutionsData.email,institutionsData.phone,institutionsData.whatsapp], (err, institutionResult, fields) => {
-      if (err) {
-        console.log(err);
-          res.json({
-            errors: [{
-            field: "Save denied",
-            errorDesc: "Institution not saved"
-          }]});
-      } else {
-        transporter.sendMail({
-                  from: 'besideyou@contact.com',
-                  to: institutionsData.email,
-                  subject: 'Account Created',
-                  html: '<h1>Account Created Succesfully!</h1><h4>here is your link: '+institutionsData.school + '.besideyou.ma</h4>'
-                }, function(error, info) {
-                  if (error) {
-                    console.log(error);
-                  } else {
-                    console.log('Email sent: ' + info.response);
-                  }
-                });
-         connection.query(usersQuery, [institutionsData.school, institutionsData.logo,institutionsData.email,institutionsData.phone], (err, userResult, fields) => {
-            if (err) {
-              console.log(err);
-                res.json({
-                  errors: [{
-                  field: "Save denied",
-                  errorDesc: "User not saved"
-                }]});
-            } else 
-            {
-               console.log('User Id:' + userResult.insertId);
-               connection.query(academicQuery, [academicData.year,academicData.start,academicData.end,institutionResult.insertId],async (err, academicResult, fields) => {
+     connection.query("SELECT * FROM `users` WHERE `User_Email` = ?", [institutionsData.email], (err, user, fields) => {
+        if(user.length === 0)
+        {
+          connection.query(institutionsQuery, [institutionsData.school, institutionsData.logo,institutionsData.school + ".besideyou.ma",institutionsData.email,institutionsData.phone,institutionsData.whatsapp], (err, institutionResult, fields) => {
+          if (err) {
+            console.log(err);
+              res.json({
+                errors: [{
+                field: "Save denied",
+                errorDesc: "Institution not saved"
+              }]});
+          } else {
+            transporter.sendMail({
+                      from: 'besideyou@contact.com',
+                      to: institutionsData.email,
+                      subject: 'Account Created',
+                      html: '<h1>Account Created Succesfully!</h1><h4>here is your link: '+institutionsData.school + '.besideyou.ma</h4>'
+                    }, function(error, info) {
+                      if (error) {
+                        console.log(error);
+                      } else {
+                        console.log('Email sent: ' + info.response);
+                      }
+                    });
+             connection.query(usersQuery, [institutionsData.school, institutionsData.logo,institutionsData.email,institutionsData.phone], (err, userResult, fields) => {
                 if (err) {
                   console.log(err);
                     res.json({
                       errors: [{
                       field: "Save denied",
-                      errorDesc: "Academic not saved"
+                      errorDesc: "User not saved"
                     }]});
                 } else 
                 {
-                   console.log('Academic Id:' + academicResult.insertId);
-                   console.log(levelsData.levelName);
-                  if (!Array.isArray(expensesData.expenseName))
-                    expensesData.expenseName = [expensesData.expenseName];
-                   for (var j = expensesData.expenseName.length - 1; j >= 0; j--) {   
-                      var expenses = await setupModel.saveExpenses(expensesData.expenseName[j],expensesData.expenseTime[j],academicResult.insertId);
-                      console.log("Expenses",expenses);
+                   console.log('User Id:' + userResult.insertId);
+                   connection.query(academicQuery, [academicData.year,academicData.start,academicData.end,institutionResult.insertId],async (err, academicResult, fields) => {
+                    if (err) {
+                      console.log(err);
+                        res.json({
+                          errors: [{
+                          field: "Save denied",
+                          errorDesc: "Academic not saved"
+                        }]});
+                    } else 
+                    {
+                       console.log('Academic Id:' + academicResult.insertId);
+                       console.log(levelsData.levelName);
+                      if (!Array.isArray(expensesData.expenseName))
+                        expensesData.expenseName = [expensesData.expenseName];
+                       for (var j = expensesData.expenseName.length - 1; j >= 0; j--) {   
+                          var expenses = await setupModel.saveExpenses(expensesData.expenseName[j],expensesData.expenseTime[j],academicResult.insertId);
+                          console.log("Expenses",expenses);
+                        }
+                       if (!Array.isArray(levelsData.levelName))
+                        levelsData.levelName = [levelsData.levelName];
+                      for (var i = 0; i < levelsData.levelName.length; i++) {
+                        var levelResult = await setupModel.saveLevels(levelsData.levelName[i],academicResult.insertId);
+                        console.log('Level Id:' , levelResult);
+                           console.log(levelsData.levelName[i]);
+                            if (!Array.isArray(classesData[levelsData.levelName[i]].classeName))
+                              classesData[levelsData.levelName[i]].classeName = [classesData[levelsData.levelName[i]].classeName];
+                            for (var j =  0; j < classesData[levelsData.levelName[i]].classeName.length; j++) {
+                               connection.query(classesQuery, [levelResult.insertId,classesData[levelsData.levelName[i]].classeName[j],academicResult.insertId], (err, classeResult, fields) => {
+                                  if (err) {
+                                    console.log(err);
+                                      res.json({
+                                        errors: [{
+                                        field: "Save denied",
+                                        errorDesc: "Level not saved"
+                                      }]});
+                                  } else 
+                                  {
+                                     console.log('Classe Id:' + classeResult.insertId);
+                                  }
+                                  // get inserted id
+                                });
+                            }
+                            var subjectName = subjectsData[levelsData.levelName[i]];
+                            if (!Array.isArray(subjectName))
+                              subjectName = [subjectName];
+                            for (var j =  0; j < subjectName.length; j++) {
+                              var subjectID = await setupModel.saveSubjects(subjectName[j]);
+                              var levelsubjectResult = await setupModel.saveLevelsSubjects(levelResult.insertId,subjectID,academicResult.insertId);
+                            }
+                            
+                            var costsName = costsData[levelsData.levelName[i]];
+                            if (!Array.isArray(costsName.costsName))
+                              costsName.costsName = [costsName.costsName];
+                            if (!Array.isArray(costsName.price))
+                              costsName.price = [costsName.price];
+                            for (var j =  0; j < costsName.costsName.length; j++) {
+                              var expenseID = await setupModel.findExpenseID(costsName.costsName[j],academicResult.insertId);
+                              var expenseResult = await setupModel.saveLevelExpenses(levelResult.insertId,expenseID,costsName.price[j],academicResult.insertId);
+                            }
+                      }
                     }
-                   if (!Array.isArray(levelsData.levelName))
-                    levelsData.levelName = [levelsData.levelName];
-                  for (var i = 0; i < levelsData.levelName.length; i++) {
-                    var levelResult = await setupModel.saveLevels(levelsData.levelName[i],academicResult.insertId);
-                    console.log('Level Id:' , levelResult);
-                       console.log(levelsData.levelName[i]);
-                        if (!Array.isArray(classesData[levelsData.levelName[i]].classeName))
-                          classesData[levelsData.levelName[i]].classeName = [classesData[levelsData.levelName[i]].classeName];
-                        for (var j =  0; j < classesData[levelsData.levelName[i]].classeName.length; j++) {
-                           connection.query(classesQuery, [levelResult.insertId,classesData[levelsData.levelName[i]].classeName[j],academicResult.insertId], (err, classeResult, fields) => {
-                              if (err) {
-                                console.log(err);
-                                  res.json({
-                                    errors: [{
-                                    field: "Save denied",
-                                    errorDesc: "Level not saved"
-                                  }]});
-                              } else 
-                              {
-                                 console.log('Classe Id:' + classeResult.insertId);
-                              }
-                              // get inserted id
-                            });
-                        }
-                        var subjectName = subjectsData[levelsData.levelName[i]];
-                        if (!Array.isArray(subjectName))
-                          subjectName = [subjectName];
-                        for (var j =  0; j < subjectName.length; j++) {
-                          var subjectID = await setupModel.saveSubjects(subjectName[j]);
-                          var levelsubjectResult = await setupModel.saveLevelsSubjects(levelResult.insertId,subjectID,academicResult.insertId);
-                        }
-                        
-                        var costsName = costsData[levelsData.levelName[i]];
-                        if (!Array.isArray(costsName.costsName))
-                          costsName.costsName = [costsName.costsName];
-                        if (!Array.isArray(costsName.price))
-                          costsName.price = [costsName.price];
-                        for (var j =  0; j < costsName.costsName.length; j++) {
-                          var expenseID = await setupModel.findExpenseID(costsName.costsName[j],academicResult.insertId);
-                          var expenseResult = await setupModel.saveLevelExpenses(levelResult.insertId,expenseID,costsName.price[j],academicResult.insertId);
-                        }
-                  }
+                    // get inserted id
+                  });
                 }
                 // get inserted id
               });
-            }
-            // get inserted id
-          });
-      }
-      console.log('Institution Id:' + institutionResult.insertId);
- 
-    });
-     res.json({msg : "ok"});
+          }
+          console.log('Institution Id:' + institutionResult.insertId);
+     
+        });
+         res.json({saved : true});
+        } else
+          res.json({saved : false});
+      })
   },
 };
 

@@ -52,7 +52,7 @@
     <div class="main-container">
 
       <!-- setup-main-container -->
-      <%- include('./partials/side_bar'); %>
+      <%- include('./partials/side_bar',{institution: institution}); %>
       <!-- end setup-main-container -->
 
       <!-- sub-container -->
@@ -60,11 +60,11 @@
 
         <div class="sub-container-nav-bar">
             <span class="sub-container-nav-bar-title">Students</span>
-            <img  class="sub-container-nav-bar-img" src="assets/images/profiles/Profile.jpg" alt="profile">
+            <img  class="sub-container-nav-bar-img" src="<%= user.User_Image %>" alt="profile">
         </div>
 
         <!-- nav -->
-          <%- include('./partials/nav_bar'); %>
+          <%- include('./partials/nav_bar', {user: user}); %>
         <!-- End nav -->
 
         <!--  sections-main-sub-container 100%  -->
@@ -83,13 +83,14 @@
                       <div class="dynamic-form-input-dropdown "> <!-- dynamic-form-input-first for full width inputs -->
                         <div class="dynamic-form-input">
 
-                          <div class="dynamic-form-input-float-adjust">
+                          <div class="dynamic-form-input-float-adjust" id="classes_list">
                             <div class="form-group group form-group-left">
-                              <input type="text" value="Classes" class="input-dropdown" required="">
+                              <input type="text" value="Classes" class="input-dropdown" name="classe" required="">
                               <img class="icon button-icon" src="assets/icons/caret.svg">
                               <ul class="dynamic-form-input-dropdown-options">
-                                  <li data-val="Class 1">Class 1</li>
-                                  <li data-val="Class 2">Class 2</li>
+                                  <% for(var i=0; i<classes.length; i++) {%>
+                                     <li data-val="<%= classes[i].Classe_Label %>"><%= classes[i].Classe_Label %></li>
+                                  <% } %>
                               </ul>
                             </div>
                             <div class="form-group group form-group-right">
@@ -114,45 +115,8 @@
                   <!--  sections-main-sub-container-left-search-bar  -->
 
                   <!--  sections-main-sub-container-left-card-container  -->
-                  <div class="sections-main-sub-container-left-card-container">
-                    <!--  sections-main-sub-container-left-cards  -->
-                    <div class="sections-main-sub-container-left-card">
-                          <img class="sections-main-sub-container-left-card-main-img" src="assets/images/profiles/Profile1.jpg" alt="card-img">
-                          <div class="sections-main-sub-container-left-card-info">
-                              <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
-                              <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
-                          </div>
-                    </div>
-                    <!--  End sections-main-sub-container-left-cards  -->
-
-                    <!--  sections-main-sub-container-left-cards  -->
-                    <div class="sections-main-sub-container-left-card active">
-                          <img class="sections-main-sub-container-left-card-main-img" src="assets/images/profiles/Profile1.jpg" alt="card-img">
-                          <div class="sections-main-sub-container-left-card-info">
-                              <p class="sections-main-sub-container-left-card-main-info">Chloé Modibo</p>
-                              <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
-                          </div>
-                    </div>
-                    <!--  End sections-main-sub-container-left-cards  -->
-                    <!--  sections-main-sub-container-left-cards  -->
-                    <div class="sections-main-sub-container-left-card">
-                          <img class="sections-main-sub-container-left-card-main-img" src="assets/images/profiles/Profile.jpg" alt="card-img">
-                          <div class="sections-main-sub-container-left-card-info">
-                              <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
-                              <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
-                          </div>
-                    </div>
-                    <!--  End sections-main-sub-container-left-cards  -->
-
-                    <!--  sections-main-sub-container-left-cards  -->
-                    <div class="sections-main-sub-container-left-card">
-                          <img class="sections-main-sub-container-left-card-main-img" src="assets/images/profiles/Profile1.jpg" alt="card-img">
-                          <div class="sections-main-sub-container-left-card-info">
-                              <p class="sections-main-sub-container-left-card-main-info">Chloé Modibo</p>
-                              <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
-                          </div>
-                    </div>
-                    <!--  End sections-main-sub-container-left-cards  -->
+                  <div class="sections-main-sub-container-left-card-container" id="list_classes">
+                   
                   </div>
                   <!--  End sections-main-sub-container-left-card-container  -->
 
@@ -261,9 +225,9 @@
 
                                               <img class="icon button-icon" src="assets/icons/caret.svg">
                                               <ul class="dynamic-form-input-dropdown-options">
-                                                  <li data-val="Level 1">Level 1</li>
-                                                  <li data-val="Level 2">Level 2</li>
-                                                  <li data-val="Level 2">Level 3</li>
+                                                  <% for(var i=0; i<levels.length; i++) {%>
+                                                     <li data-val="<%= levels[i].Level_Label %>"><%= levels[i].Level_Label %></li>
+                                                  <% } %>
                                               </ul>
                                             </div>
                                             </div>
@@ -291,9 +255,9 @@
 
                                               <img class="icon button-icon" src="assets/icons/caret.svg">
                                               <ul class="dynamic-form-input-dropdown-options">
-                                                  <li data-val="Class 1">Class 1</li>
-                                                  <li data-val="Class 2">Class 2</li>
-                                                  <li data-val="Class 3">Class 3</li>
+                                                  <% for(var i=0; i<classes.length; i++) {%>
+                                                     <li data-val="<%= classes[i].Classe_Label %>"><%= classes[i].Classe_Label %></li>
+                                                  <% } %>
                                               </ul>
                                             </div>
                                             </div>
@@ -845,9 +809,9 @@
 
                                                                 <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
                                                                 <ul class="dynamic-form-input-dropdown-options">
-                                                                    <li data-val="Class 1">Class 1</li>
-                                                                    <li data-val="Class 2">Class 2</li>
-                                                                    <li data-val="Class 3">Class 3</li>
+                                                                    <% for(var i=0; i<classes.length; i++) {%>
+                                                                       <li data-val="<%= classes[i].Classe_Label %>"><%= classes[i].Classe_Label %></li>
+                                                                    <% } %>
                                                                 </ul>
                                                               </div>
                                                               </div>
@@ -1016,9 +980,9 @@
 
                                                                 <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
                                                                 <ul class="dynamic-form-input-dropdown-options">
-                                                                    <li data-val="Class 1">Class 1</li>
-                                                                    <li data-val="Class 2">Class 2</li>
-                                                                    <li data-val="Class 3">Class 3</li>
+                                                                    <% for(var i=0; i<classes.length; i++) {%>
+                                                                       <li data-val="<%= classes[i].Classe_Label %>"><%= classes[i].Classe_Label %></li>
+                                                                    <% } %>
                                                                 </ul>
                                                               </div>
                                                               </div>
@@ -1441,9 +1405,9 @@
 
                                                                 <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
                                                                 <ul class="dynamic-form-input-dropdown-options" style="display: none; opacity: 0;">
-                                                                    <li data-val="Class 1">Class 1</li>
-                                                                    <li data-val="Class 2">Class 2</li>
-                                                                    <li data-val="Class 3">Class 3</li>
+                                                                    <% for(var i=0; i<classes.length; i++) {%>
+                                                                       <li data-val="<%= classes[i].Classe_Label %>"><%= classes[i].Classe_Label %></li>
+                                                                    <% } %>
                                                                 </ul>
                                                               </div>
                                                               </div>
@@ -1684,9 +1648,9 @@
 
                                                                 <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
                                                                 <ul class="dynamic-form-input-dropdown-options" style="display: none; opacity: 0;">
-                                                                    <li data-val="Class 1">Class 1</li>
-                                                                    <li data-val="Class 2">Class 2</li>
-                                                                    <li data-val="Class 3">Class 3</li>
+                                                                    <% for(var i=0; i<classes.length; i++) {%>
+                                                                       <li data-val="<%= classes[i].Classe_Label %>"><%= classes[i].Classe_Label %></li>
+                                                                    <% } %>
                                                                 </ul>
                                                               </div>
                                                               </div>
@@ -2064,9 +2028,9 @@
 
                                                                 <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
                                                                 <ul class="dynamic-form-input-dropdown-options" style="display: none; opacity: 0;">
-                                                                    <li data-val="Class 1">Class 1</li>
-                                                                    <li data-val="Class 2">Class 2</li>
-                                                                    <li data-val="Class 3">Class 3</li>
+                                                                    <% for(var i=0; i<classes.length; i++) {%>
+                                                                       <li data-val="<%= classes[i].Classe_Label %>"><%= classes[i].Classe_Label %></li>
+                                                                    <% } %>
                                                                 </ul>
                                                               </div>
                                                               </div>
@@ -2358,7 +2322,7 @@
 
                                               <!-- modal-body-container -->
 
-                                              <div class="modal-body-container">
+                                              <div class="modal-body-container"  id="student_form">
 
                                                  <h1 class="sub-container-main-header">New Student</h1>
                                                  <h4 class="sub-container-sub-header">
@@ -2367,21 +2331,21 @@
 
                                                   <!--________________  Student Form __________________-->
 
-                                                    <div class="sections-main-sub-container-right-main-header">
+                                                    <div class="sections-main-sub-container-right-main-header" >
 
                                                       <div class="sections-main-sub-container-right-main-header-info">
 
                                                         <div class="form-group form-group-modal-extra-style">
                                                           <div class="input-img-container input-rounded-img-container">
-                                                            <img class="input-img"  src="assets/icons/Logo_placeholder.svg" alt="profile">
-                                                             <input type="file"  accept="image/*" name="logo" id="file" style="display: none;">
+                                                            <img class="input-img"  src="assets/icons/Logo_placeholder.svg" id="output-img" alt="profile">
+                                                             <input type="file"  accept="image/*" name="profile_image" id="profile" style="display: none;">
                                                             <div class="rounded-button">
                                                               <img class="icon" src="assets/icons/plus.svg">
-                                                              <label for="file" style="cursor: pointer; display: block; height: 100%;width: 100%;">
+                                                              <label for="profile" style="cursor: pointer; display: block; height: 100%;width: 100%;">
                                                               </label></img>
                                                             </div>
                                                           </div>
-                                                          <p class="label-full-name label-full-name-modal">Student name</p>
+                                                          <p class="label-full-name label-full-name-modal" id="student_name"></p>
                                                         </div>
 
                                                       </div>
@@ -2396,7 +2360,7 @@
 
                                                       <div class="col-md-6">
                                                         <div class="form-group group">
-                                                          <input type="text" required="">
+                                                          <input type="text" required="" name="first_name">
                                                           <label class="input-label">
                                                             <span class="input-label-text">First name</span><span class="input-label-bg-mask"></span>
                                                           </label>
@@ -2405,7 +2369,7 @@
 
                                                       <div class="col-md-6">
                                                         <div class="form-group group">
-                                                          <input type="text" required="">
+                                                          <input type="text" required="" name="last_name">
                                                           <label class="input-label">
                                                             <span class="input-label-text">Last name</span><span class="input-label-bg-mask"></span>
                                                           </label>
@@ -2419,11 +2383,11 @@
                                                       <div class="col-md-6">
 
                                                         <div class="dynamic-form-input-dropdown-container">
-                                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first input_level">
                                                             <div class="dynamic-form-input">
                                                               <div class="dynamic-form-input-float-adjust">
                                                               <div class="form-group group form-group-right ">
-                                                                <input type="text" class="input-dropdown" required>
+                                                                <input type="text" class="input-dropdown" required name="level">
                                                                 
                                                                 <label class="input-label">
                                                                   <span class="input-label-text">Level</span><span class="input-label-bg-mask"></span>
@@ -2431,9 +2395,9 @@
 
                                                                 <img class="icon button-icon" src="assets/icons/caret.svg">
                                                                 <ul class="dynamic-form-input-dropdown-options">
-                                                                    <li data-val="Level 1">Level 1</li>
-                                                                    <li data-val="Level 2">Level 2</li>
-                                                                    <li data-val="Level 2">Level 3</li>
+                                                                     <% for(var i=0; i<levels.length; i++) {%>
+                                                                       <li data-val="<%= levels[i].Level_Label %>"><%= levels[i].Level_Label %></li>
+                                                                    <% } %>
                                                                 </ul>
                                                               </div>
                                                               </div>
@@ -2450,11 +2414,11 @@
                                                       <div class="col-md-6">
 
                                                         <div class="dynamic-form-input-dropdown-container">
-                                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first input_classe">
                                                             <div class="dynamic-form-input">
                                                               <div class="dynamic-form-input-float-adjust">
                                                               <div class="form-group group form-group-right">
-                                                                <input type="text" class="input-dropdown" required>
+                                                                <input type="text" class="input-dropdown" required name="classe">
                                                                 
                                                                 <label class="input-label">
                                                                   <span class="input-label-text">Class</span><span class="input-label-bg-mask"></span>
@@ -2462,9 +2426,9 @@
 
                                                                 <img class="icon button-icon" src="assets/icons/caret.svg">
                                                                 <ul class="dynamic-form-input-dropdown-options">
-                                                                    <li data-val="Class 1">Class 1</li>
-                                                                    <li data-val="Class 2">Class 2</li>
-                                                                    <li data-val="Class 3">Class 3</li>
+                                                                    <% for(var i=0; i<classes.length; i++) {%>
+                                                                       <li data-val="<%= classes[i].Classe_Label %>"><%= classes[i].Classe_Label %></li>
+                                                                    <% } %>
                                                                 </ul>
                                                               </div>
                                                               </div>
@@ -2483,7 +2447,7 @@
 
                                                       <div class="col-md-6">
                                                         <div class="form-group group ">
-                                                          <input type="text" required="">
+                                                          <input type="text" required="" name="phone_number">
                                                           <label class="input-label">
                                                             <span class="input-label-text">Phone number</span><span class="input-label-bg-mask"></span>
                                                           </label>
@@ -2492,7 +2456,7 @@
 
                                                       <div class="col-md-6">
                                                         <div class="form-group group dynamic-form-input-text-container-icon">
-                                                           <input type="text" class="input-text input-date" required="" placeholder="">
+                                                           <input type="text" class="input-text input-date" required="" placeholder="" name="birthdate">
                                                            <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                                             <label class="input-label">
                                                               <span class="input-label-text">Birthdate</span><span class="input-label-bg-mask"></span>
@@ -2506,7 +2470,7 @@
 
                                                       <div class="col-md-12">
                                                         <div class="form-group group ">
-                                                          <input type="text" required="">
+                                                          <input type="text" required="" name="student_address">
                                                           <label class="input-label">
                                                             <span class="input-label-text">Address</span><span class="input-label-bg-mask"></span>
                                                           </label>
@@ -2524,7 +2488,7 @@
                                                       <div class="dynamic-form-input-parent dynamic-form-input-first">
                                                         <div class="col-md-6">
                                                           <div class="form-group group ">
-                                                            <input type="text" required="">
+                                                            <input type="text" required="" name="parent_name">
                                                             <label class="input-label">
                                                               <span class="input-label-text">Parent full name</span><span class="input-label-bg-mask"></span>
                                                             </label>
@@ -2533,7 +2497,7 @@
 
                                                         <div class="col-md-5">
                                                           <div class="form-group group ">
-                                                            <input type="text" required="">
+                                                            <input type="text" required="" name="parent_phone">
                                                             <label class="input-label">
                                                               <span class="input-label-text">Parent phone number</span><span class="input-label-bg-mask"></span>
                                                             </label>
@@ -2560,39 +2524,7 @@
                                                           <p>Subscription</p>
                                                     </div>
 
-                                                    <div class="row sections-main-sub-container-right-main-rows sections-label-checkbox-container-rows sections-label-checkbox-container-rows-extra-style">
-
-                                                      <div class="col-md-6 sections-label-checkbox-main-container ">
-                                                        <div class="sections-label-checkbox-container">
-                                                          <div class="form-group group ">
-                                                            <span class="expense_label">School fees</span>
-                                                            <span class="method_label">
-                                                              <span class="method_label_price">500Dh</span>
-                                                               <span class="method_label_period">Monthly</span>
-                                                            </span>
-                                                          </div>
-                                                        </div>
-                                                        <div class="customCheck">
-                                                          <input type="checkbox" value="" name="checkbox" id="ck" />
-                                                          <label for="ck"></label>
-                                                        </div>
-                                                      </div>
-
-                                                      <div class="col-md-6 sections-label-checkbox-main-container ">
-                                                        <div class="sections-label-checkbox-container">
-                                                          <div class="form-group group ">
-                                                            <span class="expense_label">Insurance fees</span>
-                                                            <span class="method_label">
-                                                              <span class="method_label_price">200Dh</span>
-                                                               <span class="method_label_period">Annualy</span>
-                                                            </span>
-                                                          </div>
-                                                        </div>
-                                                        <div class="customCheck">
-                                                          <input type="checkbox" value="" name="checkbox" id="ck2" />
-                                                          <label for="ck2"></label>
-                                                        </div>
-                                                      </div>
+                                                    <div id="list_sub" class="row sections-main-sub-container-right-main-rows sections-label-checkbox-container-rows sections-label-checkbox-container-rows-extra-style">
 
                                                     </div>
 
@@ -2600,7 +2532,7 @@
 
                                                   <!--  sub-container-form-footer -->
                                                   <div class="sub-container-form-footer">
-                                                      <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button ">
+                                                      <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button " onClick="saveStudent()">
                                                             <span class="button-text" >Save</span>
                                                             <img class="icon button-icon" src="assets/icons/check_small.svg">
                                                       </div>

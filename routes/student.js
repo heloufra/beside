@@ -4,6 +4,8 @@ var studentController  = require('../controllers/studentController');
 const auth = require("../middleware/auth");
 
 router.get('/', studentController.studentView);
-router.post('/save', studentController.studentSave);
+router.get('/list', studentController.getStudents);
+router.get('/subscriptions', studentController.getSubscriptions);
+router.post('/save', studentController.saveStudent);
 
 module.exports = router;

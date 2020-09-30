@@ -1,121 +1,181 @@
 var connection  = require('../lib/db');
 var setupModel  = require('../models/setupModel');
-
-
+var queryStudents = "SELECT students.* FROM students INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID WHERE studentsclasses.Classe_ID = ? AND studentsclasses.AY_ID = ?;"
+var querySubscriptions = "SELECT expenses.*,levelexpenses.Expense_Cost,levelexpenses.LE_ID FROM expenses INNER JOIN levelexpenses ON levelexpenses.Expense_ID = expenses.Expense_ID WHERE levelexpenses.Level_ID = ? AND levelexpenses.AY_ID = ?;"
+var studentQuery = `INSERT INTO students(Student_FirstName,  Student_LastName, Student_Image,  Student_birthdate,  Student_Address,  Student_Phone, Institution_ID) VALUES(?,?,?,?,?,?,?)`;
+var parentQuery = `INSERT INTO parents(Parent_Name,  Parent_Phone, Institution_ID) VALUES(?,?,?)`;
+var spQuery = `INSERT INTO studentsparents(Student_ID, Parent_ID) VALUES(?,?)`;
+var ssQuery = `INSERT INTO studentsubscribtion(Student_ID, LE_ID, Subscription_StartDate, Subscription_EndDate, AY_ID) VALUES(?,?,?,?,?)`;
+var scQuery = `INSERT INTO studentsclasses(Student_ID, Classe_ID, AY_ID) VALUES(?,?,?)`;
+var adddate = 1;
+const addMonths = (date, months) => {
+    var d = date.getDate();
+    date.setMonth(date.getMonth() + +months);
+    if (date.getDate() != d) {
+      date.setDate(0);
+    }
+    return date;
+}
 
 var studentController = {
   studentView: function(req, res, next) {
-    res.render('student', { title: 'Students'});
+      connection.query("SELECT * FROM `users` WHERE `User_ID` = ? LIMIT 1", [req.userId], (err, user, fields) => {
+        connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
+          connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [institutions[0].Institution_ID], (err, academic, fields) => {
+            connection.query("SELECT * FROM `classes` WHERE AY_ID = ?", [academic[0].AY_ID], (err, classes, fields) => {
+              connection.query("SELECT * FROM `levels` WHERE AY_ID = ?", [academic[0].AY_ID], (err, levels, fields) => {
+                res.render('student', { title: 'Students' , user: user[0], institution:institutions[0], classes:classes,levels:levels});
+              })
+            })
+          })
+        })
+      })
   },
-  studentSave: function(req, res, next) {
-    var institutionsData = JSON.parse(req.body.detail);
-    var academicData = JSON.parse(req.body.academic);
-    var levelsData = JSON.parse(req.body.levels);
-    var classesData = JSON.parse(req.body.classes);
-    var subjectsData = JSON.parse(req.body.subjects);
-    var expensesData = JSON.parse(req.body.expenses);
-    var costsData = JSON.parse(req.body.costs);
-    var institutionsQuery = `INSERT INTO institutions(Institution_Name,  Institution_Logo, Institution_Link,  Institution_Email,  Institution_Phone,  Institution_wtsp) VALUES(?,?,?,?,?,?)`;
-    var usersQuery = `INSERT INTO users(User_Name, User_Image, User_Email, User_Phone) VALUES(?,?,?,?)`;
-    var academicQuery = `INSERT INTO academicyear(AY_Label, AY_Satrtdate, AY_EndDate, Institution_ID) VALUES(?,?,?,?)`;
-    var levelsQuery = `INSERT INTO levels(Level_Label, AY_ID) VALUES(?,?)`;
-    var classesQuery = `INSERT INTO classes(Level_ID, Classe_Label, AY_ID) VALUES(?,?,?)`;
-   
-    // execute the insert statment
-    connection.query(institutionsQuery, [institutionsData.school, institutionsData.logo,institutionsData.school + ".besideyou.ma",institutionsData.email,institutionsData.phone,institutionsData.whatsapp], (err, institutionResult, fields) => {
-      if (err) {
-        console.log(err);
-          res.json({
-            errors: [{
-            field: "Save denied",
-            errorDesc: "Institution not saved"
-          }]});
-      } else {
-         connection.query(usersQuery, [institutionsData.school, institutionsData.logo,institutionsData.email,institutionsData.phone], (err, userResult, fields) => {
-            if (err) {
-              console.log(err);
-                res.json({
-                  errors: [{
-                  field: "Save denied",
-                  errorDesc: "User not saved"
-                }]});
-            } else 
-            {
-               console.log('User Id:' + userResult.insertId);
-               connection.query(academicQuery, [academicData.year,academicData.start,academicData.end,institutionResult.insertId],async (err, academicResult, fields) => {
-                if (err) {
-                  console.log(err);
-                    res.json({
-                      errors: [{
-                      field: "Save denied",
-                      errorDesc: "Academic not saved"
-                    }]});
-                } else 
-                {
-                   console.log('Academic Id:' + academicResult.insertId);
-                   console.log(levelsData.levelName);
-                  if (!Array.isArray(expensesData.expenseName))
-                    expensesData.expenseName = [expensesData.expenseName];
-                   for (var j = expensesData.expenseName.length - 1; j >= 0; j--) {   
-                      var expenses = await setupModel.saveExpenses(expensesData.expenseName[j],expensesData.expenseTime[j],academicResult.insertId);
-                      console.log("Expenses",expenses);
-                    }
-                   if (!Array.isArray(levelsData.levelName))
-                    levelsData.levelName = [levelsData.levelName];
-                  for (var i = 0; i < levelsData.levelName.length; i++) {
-                    var levelResult = await setupModel.saveLevels(levelsData.levelName[i],academicResult.insertId);
-                    console.log('Level Id:' , levelResult);
-                       console.log(levelsData.levelName[i]);
-                        if (!Array.isArray(classesData[levelsData.levelName[i]].classeName))
-                          classesData[levelsData.levelName[i]].classeName = [classesData[levelsData.levelName[i]].classeName];
-                        for (var j =  0; j < classesData[levelsData.levelName[i]].classeName.length; j++) {
-                           connection.query(classesQuery, [levelResult.insertId,classesData[levelsData.levelName[i]].classeName[j],academicResult.insertId], (err, classeResult, fields) => {
-                              if (err) {
-                                console.log(err);
-                                  res.json({
-                                    errors: [{
-                                    field: "Save denied",
-                                    errorDesc: "Level not saved"
-                                  }]});
-                              } else 
-                              {
-                                 console.log('Classe Id:' + classeResult.insertId);
-                              }
-                              // get inserted id
-                            });
-                        }
-                        console.log("Subjects",subjectsData[levelsData.levelName[i]]);
-                        var subjectName = subjectsData[levelsData.levelName[i]];
-                        if (!Array.isArray(subjectName))
-                          subjectName = [subjectName];
-                        for (var j =  0; j < subjectName.length; j++) {
-                          var subjectID = await setupModel.saveSubjects(subjectName[j]);
-                          var levelsubjectResult = await setupModel.saveLevelsSubjects(levelResult.insertId,subjectID,academicResult.insertId);
-                          console.log("levelssubject",levelsubjectResult);
-                        }
-                        
-                        var costsName = costsData[levelsData.levelName[i]];
-                        if (!Array.isArray(costsName.costsName))
-                          costsName.costsName = [costsName.costsName];
-                        if (!Array.isArray(costsName.price))
-                          costsName.price = [costsName.price];
-                        for (var j =  0; j < costsName.costsName.length; j++) {
-                          var expenseID = await setupModel.findExpenseID(costsName.costsName[j],academicResult.insertId);
-                          var expenseResult = await setupModel.saveLevelExpenses(levelResult.insertId,expenseID,costsName.price[j],academicResult.insertId);
-                          console.log("Expenses",expenseResult);
-                        }
+  getStudents: function(req, res, next) {
+    connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
+      connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [institutions[0].Institution_ID], (err, academic, fields) => {
+          connection.query("SELECT Classe_ID FROM `classes` WHERE `Classe_Label` = ? LIMIT 1", [req.query.classe_label], (err, classe, fields) => {
+            connection.query(queryStudents, [classe[0].Classe_ID,academic[0].AY_ID], (err, students, fields) => {
+              console.log(classe[0].Classe_ID);
+               if (err) {
+                    console.log(err);
+                      res.json({
+                        errors: [{
+                        field: "Access denied",
+                        errorDesc: "List Students Error"
+                      }]});
+                  } else 
+                  {
+
+                     res.json({
+                        students:students
+                      });
                   }
-                }
-                // get inserted id
-              });
-            }
-            // get inserted id
-          });
-      }
-      console.log('Institution Id:' + institutionResult.insertId);
- 
-    });
-     res.json({msg : "ok"});
+             })
+          })
+      })
+    })
+  },
+  getSubscriptions: function(req, res, next) {
+    connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
+      connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [institutions[0].Institution_ID], (err, academic, fields) => {
+          connection.query("SELECT Level_ID FROM `levels` WHERE `Level_Label` = ? LIMIT 1", [req.query.level_label], (err, level, fields) => {
+            connection.query(querySubscriptions, [academic[0].AY_ID,level[0].Level_ID], (err, subscriptions, fields) => {
+               if (err) {
+                    console.log(err);
+                      res.json({
+                        errors: [{
+                        field: "Access denied",
+                        errorDesc: "List Students Error"
+                      }]});
+                  } else 
+                  {
+                     res.json({
+                        subscriptions:subscriptions
+                      });
+                  }
+             })
+          })
+      })
+    })
+  },
+  saveStudent: function(req, res, next) {
+     connection.query("SELECT * FROM `students` WHERE `Student_FirstName` = ? AND `Student_LastName` = ?", [req.body.first_name,  req.body.last_name], (err, user, fields) => {
+        if(user.length === 0)
+        {
+           connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
+            connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [institutions[0].Institution_ID], (err, academic, fields) => {
+                  connection.query(studentQuery, [req.body.first_name,  req.body.last_name, req.body.profile_image,  req.body.birthdate,  req.body.student_address,  req.body.phone_number,institutions[0].Institution_ID], (err, student, fields) => {
+                     if (err) {
+                          console.log(err);
+                            res.json({
+                              errors: [{
+                              field: "Access denied",
+                              errorDesc: "List Students Error"
+                            }]});
+                        } else 
+                        {
+                           console.log("Student",student.insertId);
+                           for (var i = req.body.parent_name.length - 1; i >= 0; i--) {
+                             
+                            connection.query(parentQuery, [req.body.parent_name[i],req.body.parent_phone[i],institutions[0].Institution_ID], (err, parent, fields) => {
+                             if (err) {
+                                  console.log(err);
+                                    res.json({
+                                      errors: [{
+                                      field: "Access denied",
+                                      errorDesc: "List Students Error"
+                                    }]});
+                                } else 
+                                {
+                                   console.log("PArent",parent.insertId)
+
+                                   connection.query(spQuery, [parent.insertId,student.insertId], (err, spresult, fields) => {
+                                     if (err) {
+                                          console.log(err);
+                                            res.json({
+                                              errors: [{
+                                              field: "Access denied",
+                                              errorDesc: "List Students Error"
+                                            }]});
+                                        } else 
+                                        {
+                                           console.log("SP",spresult.insertId)
+                                           
+                                        }
+                                    })
+                                   
+                                }
+                            })
+                           }
+
+                           
+                           for (var i = req.body.checkbox_sub.length - 1; i >= 0; i--) {
+                              if (req.body.checkbox_sub[i].Expense_PaymentMethod === "Monthly")
+                                adddate = 1
+                              else
+                                adddate = 12;
+                              var startDate = new Date();
+                              var endDate = addMonths(new Date(),adddate);
+                              connection.query(ssQuery, [student.insertId,req.body.checkbox_sub[i].LE_ID,startDate,endDate,academic[0].AY_ID], (err, ssresult, fields) => {
+                                 if (err) {
+                                      console.log(err);
+                                        res.json({
+                                          errors: [{
+                                          field: "Access denied",
+                                          errorDesc: "List Students Error"
+                                        }]});
+                                    } else 
+                                    {
+                                       console.log("SS",ssresult.insertId)
+                                       
+                                    }
+                                })
+                           }
+                            connection.query("SELECT Classe_ID FROM `classes` WHERE `Classe_Label` = ? LIMIT 1", [req.body.classe], (err, classe, fields) => {
+                              connection.query(scQuery, [student.insertId,classe[0].Classe_ID,academic[0].AY_ID], (err, scresult, fields) => {
+                                 if (err) {
+                                      console.log(err);
+                                        res.json({
+                                          errors: [{
+                                          field: "Access denied",
+                                          errorDesc: "List Students Error"
+                                        }]});
+                                    } else 
+                                    {
+                                       console.log("Sc Result",scresult.insertId)
+                                       
+                                    }
+                                })
+                            })
+                        }
+                   })
+            })
+          })
+          res.json({saved : true});
+        } else
+          res.json({saved : false});
+        });
   },
 };
 

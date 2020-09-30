@@ -31,6 +31,7 @@
   --black--gray--color: rgba(21, 26, 59, 0.7);
   --font--color-active: #fff;
   --font--color-inactive: #545870;
+  --font--color-validate: #9BF1BB;
   --grey--bg-color: #ededf0;
   --main-header--font-color: #151a3b;
   --input-placeholder--color: rgba(21, 26, 59, 0.5);
@@ -122,6 +123,18 @@ body {
     Arial,
     sans-serif;
    letter-spacing: 0.3;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
 .visibility{
@@ -300,6 +313,9 @@ body {
 
 .side-bar-li-span-inactive{
 	color: var(--font--color-inactive);
+}
+.side-bar-li-span-validate{
+	color: var(--font--color-validate);
 }
 
 .side-bar-section-description{

@@ -21,6 +21,7 @@ var data = {};
 var levelsData = [];
 
 function submit(value,inputs,next){
+  $( ".alert-danger" ).remove();
   var temp = {};
   if (value === "subjects")
   {
@@ -121,7 +122,6 @@ function submit(value,inputs,next){
 
 function saveData(value,data,next){
         
-        $( ".alert-danger" ).remove();
         if (value === "levels")
           addLevels(JSON.parse(data.levels));
         if (value === "expenses")
@@ -143,13 +143,13 @@ function saveData(value,data,next){
           })
           .done(function(res){
 
-              /*if (result.saved)
+              if (res.saved)
               {
-                if (value !== "costs")
-                  nextItem();
+                window.location.href = '/';
               } else {
-                return false;
-              }*/
+                nextItem();
+                $(".sub-container").prepend("<div style='position: absolute;width: 100%;' class='alert alert-danger' role='alert'>Email Already Exist</div>");
+              }
           });
         }
     };
