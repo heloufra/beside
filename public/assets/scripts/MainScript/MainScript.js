@@ -1201,7 +1201,7 @@ $(document).ready(function(){
               {
               		window.location.href = '/student';
               } else {
-              	
+              	// login failed : enable btn  => 
                		$img =`<img class="icon button-icon" src="assets/icons/right_arrow.svg"> `;
 					$this.find("svg").replaceWith($img);
 					$('.input-user-code').addClass("input-validation-error");
@@ -1209,11 +1209,13 @@ $(document).ready(function(){
 					$("#Code_Section .sections-main-sub-container-right-main-note").addClass("input-validation-error-feedback-show");
               }
           });
-		// login failed : enable btn  => 
-
 	});
 
-	/* End Code_Section_Btn ________________*/
+$(document).on("click","#logout_btn",function(event){
+
+		$.ajax({type: 'get',url: '/logout'});
+
+	});
 
 
 	

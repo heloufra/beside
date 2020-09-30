@@ -95,6 +95,10 @@ var loginController = {
         }
       });
   },
+  logout: function(req, res) {
+    req.session.destroy();
+    res.redirect('/');
+  },
 };
 
 module.exports = loginController;
