@@ -70,7 +70,8 @@ var setupController = {
                        console.log(levelsData.levelName);
                       if (!Array.isArray(expensesData.expenseName))
                         expensesData.expenseName = [expensesData.expenseName];
-                       for (var j = expensesData.expenseName.length - 1; j >= 0; j--) {   
+                       for (var j = expensesData.expenseName.length - 1; j >= 0; j--) {
+                       console.log("Expense Time",expensesData.expenseTime[j])   
                           var expenses = await setupModel.saveExpenses(expensesData.expenseName[j],expensesData.expenseTime[j],academicResult.insertId);
                           console.log("Expenses",expenses);
                         }

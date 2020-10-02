@@ -24,6 +24,8 @@
 
 	<script src="assets/includes/dist_datepicker/js/datepicker.js"></script>
 
+	<script src="assets/includes/dist_datepicker/js/i18n/datepicker.multi-lang.js"></script>
+
 	<!--______________________________ jQuery Timepicker 1.3.5 ____________________________-->
 
 	<link href="assets/includes/dist_datepicker/jquery.timepicker.min.css" rel="stylesheet">

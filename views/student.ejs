@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+
   <!--____________________________bootstrap______________________________-->
 
   <link rel="stylesheet" href="assets/internal_assets/w3css.css">
@@ -22,6 +23,23 @@
   <link rel="stylesheet" href="assets/styles/MainStyle/MainStyle.css"/>
 
   <script src="assets/scripts/MainScript/MainScript.js"></script>
+
+
+  <!--______________________________MainStyle____________________________-->
+
+  <!--______________________________ datepicker ____________________________-->
+
+  <link href="assets/includes/dist_datepicker/css/datepicker.css" rel="stylesheet">
+
+  <script src="assets/includes/dist_datepicker/js/datepicker.js"></script>
+
+  <script src="assets/includes/dist_datepicker/js/i18n/datepicker.multi-lang.js"></script>
+
+  <!--______________________________ jQuery Timepicker 1.3.5 ____________________________-->
+
+  <link href="assets/includes/dist_datepicker/jquery.timepicker.min.css" rel="stylesheet">
+
+  <script src="assets/includes/dist_datepicker/jquery.timepicker.min.js"></script>
 
 
   <!--____________________________fastselect______________________________-->
@@ -85,7 +103,7 @@
 
                           <div class="dynamic-form-input-float-adjust" id="classes_list">
                             <div class="form-group group form-group-left">
-                              <input type="text" value="Classes" class="input-dropdown" name="classe" required="">
+                              <input type="text" value="Classes" class="input-dropdown" name="classe" id="classe-filter" required="">
                               <img class="icon button-icon" src="assets/icons/caret.svg">
                               <ul class="dynamic-form-input-dropdown-options">
                                   <% for(var i=0; i<classes.length; i++) {%>
@@ -94,7 +112,7 @@
                               </ul>
                             </div>
                             <div class="form-group group form-group-right">
-                               <input type="text" class="input-text" required="" placeholder="Search students">
+                               <input type="text" class="input-text" required="" name="search" id="search-input" placeholder="Search students">
                                <img class="icon button-icon caret-disable-rotate" src="assets/icons/sidebar_icons/search.svg">
                             </div>
 
@@ -123,7 +141,7 @@
                 </div>
 
                 <!--  sections-main-sub-container-right 70%  -->
-                <div class="sections-main-sub-container-right">
+                <div class="sections-main-sub-container-right" id="student_info">
 
                     <!-- sections-main-sub-container-right-main -->
                     <div class="sections-main-sub-container-right-main">
@@ -136,14 +154,14 @@
 
                                   <div class="form-group">
                                     <div class="input-img-container input-rounded-img-container">
-                                      <img class="input-img" src="assets/images/profiles/Profile1.jpg" alt="profile">
+                                      <img class="input-img profile-img" src="assets/images/profiles/Profile1.jpg" alt="profile">
                                       <div class="rounded-button">
                                         <img class="icon" src="assets/icons/plus.svg">
                                       </div>
                                     </div>
                                   </div>
 
-                                  <p class="label-full-name">Chloé Modibo</p>
+                                  <p class="label-full-name profile-full-name">Chloé Modibo</p>
 
                                 </div>
 
@@ -190,7 +208,7 @@
 
                                     <div class="col-md-6">
                                       <div class="form-group group">
-                                        <input type="text" required="">
+                                        <input type="text" required="" name="f_name">
                                         <label class="input-label">
                                           <span class="input-label-text">First name</span><span class="input-label-bg-mask"></span>
                                         </label>
@@ -199,7 +217,7 @@
 
                                     <div class="col-md-6">
                                       <div class="form-group group">
-                                        <input type="text" required="">
+                                        <input type="text" required="" name="l_name">
                                         <label class="input-label">
                                           <span class="input-label-text">Last name</span><span class="input-label-bg-mask"></span>
                                         </label>
@@ -217,7 +235,7 @@
                                           <div class="dynamic-form-input">
                                             <div class="dynamic-form-input-float-adjust">
                                             <div class="form-group group form-group-right ">
-                                              <input type="text" class="input-dropdown" required>
+                                              <input type="text" class="input-dropdown" required name="level-detail">
                                               
                                               <label class="input-label">
                                                 <span class="input-label-text">Level</span><span class="input-label-bg-mask"></span>
@@ -247,7 +265,7 @@
                                           <div class="dynamic-form-input">
                                             <div class="dynamic-form-input-float-adjust">
                                             <div class="form-group group form-group-right">
-                                              <input type="text" class="input-dropdown" required>
+                                              <input type="text" class="input-dropdown" required name="classe-detail">
                                               
                                               <label class="input-label">
                                                 <span class="input-label-text">Class</span><span class="input-label-bg-mask"></span>
@@ -276,7 +294,7 @@
 
                                     <div class="col-md-6">
                                       <div class="form-group group ">
-                                        <input type="text" required="">
+                                        <input type="text" required="" name="phone_number_detail">
                                         <label class="input-label">
                                           <span class="input-label-text">Phone number</span><span class="input-label-bg-mask"></span>
                                         </label>
@@ -285,7 +303,7 @@
 
                                     <div class="col-md-6">
                                       <div class="form-group group dynamic-form-input-text-container-icon">
-                                         <input type="text" class="input-text input-date" required="" placeholder="">
+                                         <input type="text" class="input-text input-date input-date-illimited" name="birthdate_detail" required="" placeholder="">
                                          <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                           <label class="input-label">
                                             <span class="input-label-text">Birthdate</span><span class="input-label-bg-mask"></span>
@@ -299,7 +317,7 @@
 
                                     <div class="col-md-12">
                                       <div class="form-group group ">
-                                        <input type="text" required="">
+                                        <input type="text" required="" name="student_address_detail">
                                         <label class="input-label">
                                           <span class="input-label-text">Address</span><span class="input-label-bg-mask"></span>
                                         </label>
@@ -317,23 +335,7 @@
                                   ">
 
                                     <div class="dynamic-form-input-parent dynamic-form-input-first">
-                                      <div class="col-md-6">
-                                        <div class="form-group group ">
-                                          <input type="text" required="">
-                                          <label class="input-label">
-                                            <span class="input-label-text">Parent full name</span><span class="input-label-bg-mask"></span>
-                                          </label>
-                                        </div>
-                                      </div>
-
-                                      <div class="col-md-5">
-                                        <div class="form-group group ">
-                                          <input type="text" required="">
-                                          <label class="input-label">
-                                            <span class="input-label-text">Parent phone number</span><span class="input-label-bg-mask"></span>
-                                          </label>
-                                        </div>
-                                      </div>
+                                      
 
                                       <div class="col-md-1">
                                         <div class="square-button">
@@ -355,39 +357,9 @@
                                         <p>Subscription</p>
                                   </div>
 
-                                  <div class="row sections-main-sub-container-right-main-rows sections-label-checkbox-container-rows sections-label-checkbox-container-rows-extra-style">
+                                  <div class="sub_list row sections-main-sub-container-right-main-rows sections-label-checkbox-container-rows sections-label-checkbox-container-rows-extra-style">
 
-                                    <div class="col-md-6 sections-label-checkbox-main-container ">
-                                      <div class="sections-label-checkbox-container">
-                                        <div class="form-group group ">
-                                          <span class="expense_label">School fees</span>
-                                          <span class="method_label">
-                                            <span class="method_label_price">500Dh</span>
-                                             <span class="method_label_period">Monthly</span>
-                                          </span>
-                                        </div>
-                                      </div>
-                                      <div class="customCheck">
-                                        <input type="checkbox" value="" name="checkbox" id="ck" />
-                                        <label for="ck"></label>
-                                      </div>
-                                    </div>
-
-                                    <div class="col-md-6 sections-label-checkbox-main-container ">
-                                      <div class="sections-label-checkbox-container">
-                                        <div class="form-group group ">
-                                          <span class="expense_label">Insurance fees</span>
-                                          <span class="method_label">
-                                            <span class="method_label_price">200Dh</span>
-                                             <span class="method_label_period">Annualy</span>
-                                          </span>
-                                        </div>
-                                      </div>
-                                      <div class="customCheck">
-                                        <input type="checkbox" value="" name="checkbox" id="ck2" />
-                                        <label for="ck2"></label>
-                                      </div>
-                                    </div>
+                                   
 
                                   </div>
 
@@ -896,7 +868,7 @@
                                                     <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Date</span> <span class="input-label-bg-mask"></span></label>
 
                                                     <div class="form-group group dynamic-form-input-text-container-icon">
-                                                       <input type="text" class="input-text input-extra-border input-date" required="" 
+                                                       <input type="text" class="input-text input-extra-border input-date input-date-illimited" required="" 
                                                               placeholder="Select date">
                                                        <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                                     </div>
@@ -1067,7 +1039,7 @@
                                                     <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Date</span> <span class="input-label-bg-mask"></span></label>
 
                                                     <div class="form-group group dynamic-form-input-text-container-icon">
-                                                       <input type="text" class="input-text input-extra-border input-date" required="" 
+                                                       <input type="text" class="input-text input-extra-border input-date input-date-illimited" required="" 
                                                               placeholder="Select date">
                                                        <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                                     </div>
@@ -1127,90 +1099,15 @@
 
                                         <thead>
                                           <tr>
-                                            <th scope="col"></th>
+                                            <th scope="col">Type</th>
                                             <th scope="col">From</th>
                                             <th scope="col">To</th>
                                           </tr>
                                         </thead>
 
-                                        <tbody>
+                                        <tbody class="table_reported">
 
-                                          <tr>
-
-                                            <td data-label="Subject name" class="td-label">Absence</td>
-
-                                            <td class="readonly" data-label="From">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="09-05-2020" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                                                </div>
-                                            </td>
-
-
-                                            <td class="readonly"  data-label="To">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="09-05-2020" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                                                </div>
-
-                                                <!-- table-option-list -->
-                                                <img class="table-option-icon" src="assets/icons/options.svg">
-
-                                                <div class="table-option-list">
-                                                  <div class="table-option-list-li table-option-list-li-edit ">
-                                                    <img src="assets/icons/edit.svg" alt="edit"/>   
-                                                    <span class="table-option-list-span">Edit</span>
-                                                  </div>
-                                                  <div class="table-option-list-li table-option-list-li-delete ">
-                                                    <img src="assets/icons/delete.svg" alt="delete"/> 
-                                                    <span class="table-option-list-span">Delete</span>
-                                                  </div>
-                                                  <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg">
-                                                </div>
-                                                <!-- End table-option-list -->
-
-                                            </td>
-                                            
-                                          </tr>
-
-                                          <tr>
-
-                                            <td data-label="Subject name" class="td-label">Absence</td>
-
-                                            <td class="readonly" data-label="From">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="09-05-2020" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                                                </div>
-                                            </td>
-
-
-                                            <td class="readonly"  data-label="To">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="09-05-2020" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                                                </div>
-
-                                                <!-- table-option-list -->
-                                                <img class="table-option-icon" src="assets/icons/options.svg">
-
-                                                <div class="table-option-list">
-                                                  <div class="table-option-list-li table-option-list-li-edit ">
-                                                    <img src="assets/icons/edit.svg" alt="edit"/>   
-                                                    <span class="table-option-list-span">Edit</span>
-                                                  </div>
-                                                  <div class="table-option-list-li table-option-list-li-delete ">
-                                                    <img src="assets/icons/delete.svg" alt="delete"/> 
-                                                    <span class="table-option-list-span">Delete</span>
-                                                  </div>
-                                                  <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg">
-                                                </div>
-                                                <!-- End table-option-list -->
-
-                                            </td>
-                                            
-                                          </tr>
-
+                                        
                                         </tbody>
 
                                       </table>
@@ -1237,99 +1134,7 @@
                                           </tr>
                                         </thead>
 
-                                        <tbody>
-
-                                          <tr>
-
-                                            <td data-label="Subject name" class="td-label">Retard</td>
-
-                                            <td class="readonly" data-label="From">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="10:00" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
-                                                </div>
-                                            </td>
-
-
-                                            <td class="readonly" data-label="To">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="12:00" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
-                                                </div>
-                                            </td>
-
-                                            <td class="readonly" data-label="Date">
-
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="09-05-2020" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                                                </div>
-
-                                                <!-- table-option-list -->
-                                                <img class="table-option-icon" src="assets/icons/options.svg">
-
-                                                <div class="table-option-list">
-                                                  <div class="table-option-list-li table-option-list-li-edit ">
-                                                    <img src="assets/icons/edit.svg" alt="edit"/>   
-                                                    <span class="table-option-list-span">Edit</span>
-                                                  </div>
-                                                  <div class="table-option-list-li table-option-list-li-delete ">
-                                                    <img src="assets/icons/delete.svg" alt="delete"/> 
-                                                    <span class="table-option-list-span">Delete</span>
-                                                  </div>
-                                                  <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg">
-                                                </div>
-                                                <!-- End table-option-list -->
-
-                                            </td>
-                                            
-                                          </tr>
-
-                                          <tr>
-
-                                            <td data-label="Subject name" class="td-label">Absence</td>
-
-                                            <td class="readonly" data-label="From">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="10:00" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
-                                                </div>
-                                            </td>
-
-
-                                            <td class="readonly" data-label="To">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="12:00" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
-                                                </div>
-                                            </td>
-
-                                            <td class="readonly" data-label="Date">
-
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="09-05-2020" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                                                </div>
-
-                                                <!-- table-option-list -->
-                                                <img class="table-option-icon" src="assets/icons/options.svg">
-
-                                                <div class="table-option-list">
-                                                  <div class="table-option-list-li table-option-list-li-edit ">
-                                                    <img src="assets/icons/edit.svg" alt="edit"/>   
-                                                    <span class="table-option-list-span">Edit</span>
-                                                  </div>
-                                                  <div class="table-option-list-li table-option-list-li-delete ">
-                                                    <img src="assets/icons/delete.svg" alt="delete"/> 
-                                                    <span class="table-option-list-span">Delete</span>
-                                                  </div>
-                                                  <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg">
-                                                </div>
-                                                <!-- End table-option-list -->
-
-                                            </td>
-                                            
-                                          </tr>
+                                        <tbody class="table_delay">
 
                                         </tbody>
 
@@ -1393,11 +1198,11 @@
                                                       <div class="col-md-6">
 
                                                         <div class="dynamic-form-input-dropdown-container">
-                                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first ad_classe">
                                                             <div class="dynamic-form-input">
                                                               <div class="dynamic-form-input-float-adjust">
                                                               <div class="form-group group form-group-right">
-                                                                <input type="text" class="input-dropdown" required="">
+                                                                <input type="text" class="input-dropdown" name="ad_classe" required="">
                                                                 
                                                                 <label class="input-label">
                                                                   <span class="input-label-text">Class</span><span class="input-label-bg-mask"></span>
@@ -1423,11 +1228,11 @@
                                                       <div class="col-md-6">
 
                                                         <div class="dynamic-form-input-dropdown-container">
-                                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first ad_student">
                                                             <div class="dynamic-form-input">
                                                               <div class="dynamic-form-input-float-adjust">
                                                               <div class="form-group group form-group-right">
-                                                                <input type="text" class="input-dropdown" required="">
+                                                                <input type="text" class="input-dropdown" name="ad_student" required="">
                                                                 
                                                                 <label class="input-label">
                                                                   <span class="input-label-text">Student</span><span class="input-label-bg-mask"></span>
@@ -1466,7 +1271,7 @@
                                                               </div>
                                                             </div>
                                                             <div class="customCheck customCheckRounded">
-                                                              <input type="checkbox" checked value="0" data-val="Absence" name="checkbox" id="" />
+                                                              <input type="checkbox" checked value="1" data-val="Absence" name="checkbox" id="" />
                                                               <label for="ck"></label>
                                                             </div>
                                                         </div>
@@ -1478,7 +1283,7 @@
                                                               </div>
                                                             </div>
                                                             <div class="customCheck customCheckRounded">
-                                                              <input type="checkbox" value="1" data-val="Retard"  name="checkbox" id="" />
+                                                              <input type="checkbox" value="0" data-val="Retard" name="checkbox" id="" />
                                                               <label for="ck"></label>
                                                             </div>
                                                         </div>
@@ -1501,7 +1306,7 @@
                                                               </div>
                                                             </div>
                                                             <div class="customCheck customCheckRounded">
-                                                              <input type="checkbox" value="0" data-val="Period" name="checkbox" id="" />
+                                                              <input type="checkbox" value="2" data-val="Period" name="checkbox" id="" />
                                                               <label for="ck"></label>
                                                             </div>
                                                         </div>
@@ -1532,12 +1337,12 @@
                                                     <div class="flex flex-form-group-container">
 
                                                       <div class="form-group group dynamic-form-input-text-container-icon">
-                                                         <input type="text" class="input-text input-date" required="" placeholder="Start date">
+                                                         <input type="text" name="period_start" class="input-text input-date input-date-illimited" required="" placeholder="Start date">
                                                          <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                                       </div>
 
                                                        <div class="form-group group dynamic-form-input-text-container-icon">
-                                                         <input type="text" class="input-text input-date" required="" placeholder="End Date">
+                                                         <input type="text" name="period_end" class="input-text input-date input-date-illimited" required="" placeholder="End Date">
                                                          <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                                       </div>
 
@@ -1554,7 +1359,7 @@
                                                     <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Date </span> <span class="input-label-bg-mask"></span></label>
 
                                                     <div class="form-group group dynamic-form-input-text-container-icon">
-                                                       <input type="text" class="input-text input-extra-border  input-date" required="" placeholder="Select date">
+                                                       <input type="text" class="input-text input-extra-border  input-date input-date-limited" required="" name="ad_date" placeholder="Select date">
                                                        <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                                     </div>
 
@@ -1568,12 +1373,12 @@
                                                     <div class="flex flex-form-group-container">
 
                                                       <div class="form-group group dynamic-form-input-text-container-icon">
-                                                         <input type="text" class="input-text input-time" required="" placeholder="Time">
+                                                         <input type="text" class="input-text input-time input-time-from" required="" name="time_start" placeholder="Time">
                                                          <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
                                                       </div>
 
                                                        <div class="form-group group dynamic-form-input-text-container-icon">
-                                                         <input type="text" class="input-text input-time" required="" placeholder="Time">
+                                                         <input type="text" name="time_end"  class="input-text input-time input-time-to" required="" placeholder="Time">
                                                          <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
                                                       </div>
 
@@ -1585,7 +1390,7 @@
 
                                                   <!--  sub-container-form-footer -->
                                                   <div class="sub-container-form-footer">
-                                                      <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button ">
+                                                      <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button " onClick="saveAbsence()">
                                                             <span class="button-text" >Save</span>
                                                             <img class="icon button-icon" src="assets/icons/check_small.svg">
                                                       </div>
@@ -1775,12 +1580,12 @@
                                                     <div class="flex flex-form-group-container">
 
                                                       <div class="form-group group dynamic-form-input-text-container-icon">
-                                                         <input type="text" class="input-text input-date" required="" placeholder="Start date">
+                                                         <input type="text" class="input-text input-date input-date-illimited" required="" placeholder="Start date">
                                                          <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                                       </div>
 
                                                        <div class="form-group group dynamic-form-input-text-container-icon">
-                                                         <input type="text" class="input-text input-date" required="" placeholder="End Date">
+                                                         <input type="text" class="input-text input-date input-date-illimited" required="" placeholder="End Date">
                                                          <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                                       </div>
 
@@ -1797,7 +1602,7 @@
                                                     <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Date </span> <span class="input-label-bg-mask"></span></label>
 
                                                     <div class="form-group group dynamic-form-input-text-container-icon">
-                                                       <input type="text" class="input-text input-extra-border  input-date" required="" placeholder="Select date">
+                                                       <input type="text" class="input-text input-extra-border  input-date input-date-illimited" required="" placeholder="Select date">
                                                        <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                                     </div>
 
@@ -1811,12 +1616,12 @@
                                                     <div class="flex flex-form-group-container">
 
                                                       <div class="form-group group dynamic-form-input-text-container-icon">
-                                                         <input type="text" class="input-text input-time" required="" placeholder="Time">
+                                                         <input type="text" class="input-text input-time input-time-from" required="" placeholder="Time">
                                                          <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
                                                       </div>
 
                                                        <div class="form-group group dynamic-form-input-text-container-icon">
-                                                         <input type="text" class="input-text input-time" required="" placeholder="Time">
+                                                         <input type="text" class="input-text input-time input-time-to" required="" placeholder="Time">
                                                          <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
                                                       </div>
 
@@ -2456,7 +2261,7 @@
 
                                                       <div class="col-md-6">
                                                         <div class="form-group group dynamic-form-input-text-container-icon">
-                                                           <input type="text" class="input-text input-date" required="" placeholder="" name="birthdate">
+                                                           <input type="text" class="input-text input-date input-date-illimited" required="" placeholder="" name="birthdate">
                                                            <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                                             <label class="input-label">
                                                               <span class="input-label-text">Birthdate</span><span class="input-label-bg-mask"></span>

@@ -36,6 +36,17 @@ function domChangeWatcher(){
 
 /* End domChangeWatcher _________________________________*/
 
+/* Convert_Fr_En _________________________________*/
+
+function Convert_Fr_En($date_){
+
+	  $d = $date_.split("/");
+	  return  $d[1]+"/"+$d[0]+"/"+$d[2];
+
+}
+
+/* End Convert_Fr_En _________________________________*/
+
 /* Helpers _________________________________*/
 
     function emailValidator($email) {
@@ -190,7 +201,7 @@ $(document).ready(function(){
 
 	/* sections-label-checkbox-container _________________*/
 
-	$(document).on("click",".sections-label-checkbox-main-container",function(){
+	$(document).on("click",".modal.in .sections-label-checkbox-main-container",function(){
 
 		if($(this).find("div").hasClass("customCheckRounded")){
 
@@ -387,89 +398,207 @@ $(document).ready(function(){
 
 	/* Subject Section _______________________*/
 
-		if($(".input-text-subject").length > 0){
-			$(".input-text-subject").fastselect({
-				 userOptionAllowed: true,
-				 userOptionPrefix: 'new ',
-				 noResultsText: 'No Data',
-				 clearQueryOnSelect:true
-			});
-		}
+	if($(".input-text-subject").length > 0){
+		$(".input-text-subject").fastselect({
+			 userOptionAllowed: true,
+			 userOptionPrefix: 'new ',
+			 noResultsText: 'No Data',
+			 clearQueryOnSelect:true
+		});
+	}
 
-		function hideSelected(value) {
-		  if (value && !value.selected) {
-		    return $('<span>' + value.text + '</span>');
-		  }
-		}
+	function hideSelected(value) {
+	  if (value && !value.selected) {
+	    return $('<span>' + value.text + '</span>');
+	  }
+	}
 
-		if($(".input-text-subject-select2").length > 0){
-			$(".input-text-subject-select2").select2({
-			  tags: true,
-			  dropdownPosition: 'below',
-			  tokenSeparators: [',', ' '],
-      		  minimumResultsForSearch: -1,
-      		  templateResult: hideSelected
-			});
-		}
+	if($(".input-text-subject-select2").length > 0){
+		$(".input-text-subject-select2").select2({
+		  tags: true,
+		  dropdownPosition: 'below',
+		  tokenSeparators: [',', ' '],
+  		  minimumResultsForSearch: -1,
+  		  templateResult: hideSelected
+		});
+	}
 
-		if($(".input-text-month-select2").length > 0){
-			$(".input-text-month-select2").select2({
-			  tags: true,
-			  dropdownPosition: 'below'
-			  /*tokenSeparators: [',', ' '],
-      		  minimumResultsForSearch: -1,
-      		  templateResult: hideSelected*/
-			});
-		}
+	if($(".input-text-month-select2").length > 0){
+		$(".input-text-month-select2").select2({
+		  tags: true,
+		  dropdownPosition: 'below'
+		  /*tokenSeparators: [',', ' '],
+  		  minimumResultsForSearch: -1,
+  		  templateResult: hideSelected*/
+		});
+	}
 
-		if($(".input-text-year-select2").length > 0){
-			$(".input-text-year-select2").select2({
-			  tags: true,
-			  dropdownPosition: 'below'
-			  /*tokenSeparators: [',', ' '],
-      		  minimumResultsForSearch: -1,
-      		  templateResult: hideSelected*/
-			});
-		}
+	if($(".input-text-year-select2").length > 0){
+		$(".input-text-year-select2").select2({
+		  tags: true,
+		  dropdownPosition: 'below'
+		  /*tokenSeparators: [',', ' '],
+  		  minimumResultsForSearch: -1,
+  		  templateResult: hideSelected*/
+		});
+	}
 
-		$('.owl-carousel').owlCarousel({
-		    loop:true,
-		    margin:10,
-		    nav:true,
-		    singleItem:true,
-		    pagination: false,
-		    dots:false,
-		    navClass:["owl-prev","owl-next"]
-		    //mouseDrag: false,
-			//touchDrag: false
+	$('.owl-carousel').owlCarousel({
+	    loop:true,
+	    margin:10,
+	    nav:true,
+	    singleItem:true,
+	    pagination: false,
+	    dots:false
+	    //mouseDrag: false,
+		//touchDrag: false
+	});
+
+	/* input-time __________________________*/
+
+	$('.input-time').timepicker({
+
+		timeFormat: 'HH:mm',
+	    interval: 60,
+	    dynamic: false,
+	    dropdown: true,
+	    scrollbar: true
+
+	});
+
+	/* input-time __________________________*/
+
+
+	/* input-time change __________________________*/
+
+	$(document).on("click",".input-time",function(){
+
+		$(this).timepicker({
+
+			timeFormat: 'HH:mm',
+		    interval: 60,
+		    dynamic: true,
+		    dropdown: true,
+		    scrollbar: true
+
 		});
 
-		/*$('.input-date').datepicker({
+	});
+
+    $('.input-time').timepicker('option', 'change', function(time) {
+
+		$(this).parents(".dynamic-form-input-text-container-icon")
+			   .next(".dynamic-form-input-text-container-icon").find(".input-time")
+       		   .timepicker('option', 'minTime', time ).val($(this).val());
+
+    });
+
+	/* input-time __________________________*/
+
+	/* input-date-limited __________________________*/
+
+	$(document).on("click",".input-date-limited",function(){
+
+		$this_ = $(this);
+
+		$this_.datepicker({
 			dateFormat: "dd/mm/yyyy",
-			maxDate: new Date(),
+			showOtherMonths: true,
+			firstDay: 1,
+			autoClose: true,
+			maxDate:new Date(),
+			navTitles: {
+			      days: 'M - yyyy',
+			      months: 'yyyy',
+			      years: 'yyyy1 - yyyy2'
+				},
+			language:'en'
+		});		
+
+		$this_.focus();
+		console.log(".input-date-limited");
+
+	});
+
+	/* End input-date-limited __________________________*/
+
+	/* input-date-limited __________________________*/
+
+	$(document).on("click",".input-date-illimited",function(){
+
+		$this_ = $(this);
+
+		$this_.datepicker({
+			dateFormat: "dd/mm/yyyy",
 			showOtherMonths: true,
 			firstDay: 1,
 			autoClose: true,
 			navTitles: {
-			      days: '<i>dd</i>-<i>M</i>-<i>yyyy</i>',
+			      days: 'M - yyyy',
 			      months: 'yyyy',
 			      years: 'yyyy1 - yyyy2'
-  			}
+				},
+			language:'en'
+		});		
+			
+		$this_.focus();
+		console.log(".input-date-illimited");
 
-		});
+	});
 
-		$('.input-time').timepicker({
+	/* End input-date-limited __________________________*/
 
-			timeFormat: 'h:mm p',
-		    interval: 60,
-		    dynamic: false,
-		    dropdown: true,
-		    scrollbar: true
+	/* input-date-from-today __________________________*/
 
-		});*/
+	$(document).on("click",".input-date-from-today",function(){
+
+		$this_ = $(this);
+
+		$this_.datepicker({
+			dateFormat: "dd/mm/yyyy",
+			showOtherMonths: true,
+			firstDay: 1,
+			autoClose: true,
+			navTitles: {
+			      days: 'M - yyyy',
+			      months: 'yyyy',
+			      years: 'yyyy1 - yyyy2'
+				},
+			language:'en'
+		});		
+			
+		$this_.focus();
+		console.log(".input-date-illimited");
+
+	});
+
+	/* End input-date-from-today __________________________*/
+
+	/* input-date-from-today ______________________________*/
+
+	$(document).on('change','.input-date',function() {
 
 
-	/* Subject Section _______________________*/
+           	$(this).parents(".dynamic-form-input-text-container-icon")
+				   .next(".dynamic-form-input-text-container-icon")
+				   .find(".input-date").datepicker("remove")
+				   .datepicker({
+						dateFormat: "dd/mm/yyyy",
+						showOtherMonths: true,
+						firstDay: 1,
+						autoClose: true,
+						startDate:new Date(Convert_Fr_En($(this).val())),
+						navTitles: {
+						      days: 'M - yyyy',
+						      months: 'yyyy',
+						      years: 'yyyy1 - yyyy2'
+							}
+					});		
+				   
+    });
+	
+	/* End input-date-from-today __________________________*/
+
 
 	/* StudentBtnEdit ________________________*/
 
@@ -479,6 +608,10 @@ $(document).ready(function(){
 		$(".sub-container-form-footer").toggleClass("visibility");
 
 	});
+
+	/* End StudentBtnEdit ________________________*/
+
+	/* discard-changes ________________________*/
 
 	$(document).on("click",".discard-changes",function(){
 
@@ -494,11 +627,19 @@ $(document).ready(function(){
 
   		*/
 
-  		$domChange=true;
+  		/*____ Edit modals hide footers then adapt height ____*/
+
+  		$(".modal-dom-change-watcher .modal-content").css({"max-height":"100vh"});
+  		$(".modal-dom-change-watcher .modal-body").css("cssText","height: 100%;max-height: 80vh");
+
+  		$(".modal-dom-change-watcher .sub-container-form-footer").removeClass("show-footer");
+  		$(".modal-dom-change-watcher .sub-container-form-footer").addClass("hide-footer");
+
+  		// ===> Enable to fire change  Confirm modal  : $domChange=true;
 
 	});
 
-	/* End StudentBtnEdit ________________________*/
+	/* End discard-changes ________________________*/
 
 
 	/* side-bar-li ________________________*/
@@ -525,7 +666,7 @@ $(document).ready(function(){
 
 	/* side-bar-li auto select  ________________________*/
 
-	/*$pathname = window.location.pathname;
+	$pathname = window.location.pathname;
 
 	if($pathname.includes($subFolder)){
 		$pathname = $pathname.split($subFolder)[1];
@@ -549,7 +690,7 @@ $(document).ready(function(){
 			return false;
 		}
 
-	});*/
+	});
 
 	/* End side-bar-li auto select  ________________________*/
 
@@ -636,6 +777,7 @@ $(document).ready(function(){
 
 	$(document).on("click",".button-icon",function(){
 		$(this).siblings("input").click();
+		$(this).siblings("input").focus();
 		return false;
 	});
 
@@ -775,6 +917,8 @@ $(document).ready(function(){
 
 	/* End input-text-empty ________________________*/
 
+	/* Tabs dom-change-watcher ___________________________________________________________________________________*/
+
 	/* input-text-empty ____________________________*/
 
 	$(document).on('keydown','.dom-change-watcher input', function() {
@@ -787,9 +931,8 @@ $(document).ready(function(){
 	  		$domChange=true;
 	  		setTimeout(function(){
 				$(".tab-pane:visible .sub-container-form-footer").removeClass("hide-footer");
-				$(".tab-pane:visible .sections-main-sub-container-right-main").css("height",":calc(100% - 60px)");
+				$(".tab-pane:visible .sections-main-sub-container-right-main").css("cssText","height:calc(100vh - 120px)");
 	  		},25);
-
 
 		}
 
@@ -842,6 +985,92 @@ $(document).ready(function(){
 	});
 
 	/* End input-text-empty ________________________*/
+
+	/* End Tabs dom-change-watcher ____________________________________________________________________________________*/
+
+
+	/* Modal dom-change-watcher ___________________________________________________________________________________*/
+
+	/* input-text-empty ____________________________*/
+
+	$(document).on('keydown','.modal-dom-change-watcher input', function() {
+
+  		// ===> Enable to fire change  Confirm modal  : $domChange=true;
+
+  		setTimeout(function(){
+  			$(".modal-dom-change-watcher.in .modal-content").css({"max-height":"calc(100vh - 29.5vh)"});
+  			$(".modal-dom-change-watcher.in .modal-body").css("cssText","max-height:calc(100vh - 29.5vh)");
+  		},25);
+
+  		setTimeout(function(){
+  			$(".modal.in .sub-container-form-footer").removeClass("hide-footer");
+			$(".modal.in .sub-container-form-footer").addClass("show-footer");
+  		},50);
+
+	});
+
+	/* End input-text-empty ________________________*/
+
+
+	/* input-text-empty ____________________________*/
+
+	$(document).on('change','.modal-dom-change-watcher input', function() {
+	
+  		// ===> Enable to fire change  Confirm modal  : $domChange=true;
+
+  		setTimeout(function(){
+  			$(".modal-dom-change-watcher.in .modal-content").css({"max-height":"calc(100vh - 29.5vh)"});
+  			$(".modal-dom-change-watcher.in .modal-body").css("cssText","max-height:calc(100vh - 29.5vh)");
+  		},25);
+
+  		setTimeout(function(){
+  			$(".modal.in .sub-container-form-footer").removeClass("hide-footer");
+			$(".modal.in .sub-container-form-footer").addClass("show-footer");
+  		},50);
+
+	});
+
+	/* End input-text-empty ________________________*/
+
+	/* input-text-empty ____________________________*/
+
+	$(document).on('keydown','.modal-dom-change-watcher textarea', function() {
+
+  		// ===> Enable to fire change  Confirm modal  : $domChange=true;
+
+  		setTimeout(function(){
+  			$(".modal-dom-change-watcher.in .modal-content").css({"max-height":"calc(100vh - 29.5vh)"});
+  			$(".modal-dom-change-watcher.in .modal-body").css("cssText","max-height:calc(100vh - 29.5vh)");
+  		},25);
+
+  		setTimeout(function(){
+  			$(".modal.in .sub-container-form-footer").removeClass("hide-footer");
+			$(".modal.in .sub-container-form-footer").addClass("show-footer");
+  		},50);
+  		
+	});
+
+	/* dynamic-form-input-container-type ____________________________*/
+
+	$(document).on('click','.modal-dom-change-watcher.in .sections-label-checkbox-container ', function() {
+
+  		// ===> Enable to fire change  Confirm modal  : $domChange=true;
+
+  		setTimeout(function(){
+  			$(".modal-dom-change-watcher.in .modal-content").css({"max-height":"calc(100vh - 29.5vh)"});
+  			$(".modal-dom-change-watcher.in .modal-body").css("cssText","max-height:calc(100vh - 29.5vh)");
+  		},25);
+
+  		setTimeout(function(){
+  			$(".modal.in .sub-container-form-footer").removeClass("hide-footer");
+			$(".modal.in .sub-container-form-footer").addClass("show-footer");
+  		},50);
+  		
+	});
+
+	/* End dynamic-form-input-container-type ________________________*/
+
+	/* End modal dom-change-watcher ____________________________________________________________________________________*/
 
 	/* #Details #Parents_New_Dynamic_Form_Input _______________________*/
 
@@ -977,6 +1206,12 @@ $(document).ready(function(){
 
 	$(document).on("click","#Absence .table-option-list-li-edit",function(){
 		$('#EditAbsenceModal').modal('show');
+
+		$(".modal-dom-change-watcher .modal-content").css({"max-height":"100vh"});
+  		$(".modal-dom-change-watcher .modal-body").css("cssText","height: 100%;max-height: 80vh");
+
+  		$(".modal-dom-change-watcher .sub-container-form-footer").removeClass("show-footer");
+  		$(".modal-dom-change-watcher .sub-container-form-footer").addClass("hide-footer");
 	});
 
 	/* End #Absence .table-option-list-li-edit _______________________*/
@@ -993,7 +1228,14 @@ $(document).ready(function(){
 	/* #Attitude .table-option-list-li-edit __________________________*/
 
 	$(document).on("click","#Attitude .table-option-list-li-edit",function(){
+
 		$('#EditAttitudeModal').modal('show');
+
+		$(".modal-dom-change-watcher .modal-content").css({"max-height":"100vh"});
+  		$(".modal-dom-change-watcher .modal-body").css("cssText","height: 100%;max-height: 80vh");
+  		$(".modal-dom-change-watcher .sub-container-form-footer").removeClass("show-footer");
+  		$(".modal-dom-change-watcher .sub-container-form-footer").addClass("hide-footer");
+
 	});
 
 	/* End #Attitude .table-option-list-li-edit _______________________*/
@@ -1120,9 +1362,6 @@ $(document).ready(function(){
 
 	/* End input-user-code _________________*/
 
-	/* Login_Section_Btn _________________*/
-
-
 	$(document).on("click","#Login_Section_Btn",function(event){
 
 		// test if phone or email exist 
@@ -1163,7 +1402,6 @@ $(document).ready(function(){
 
 		$(document).on("click","#Code_Section_Btn",function(event){
 
-		$this = $(this);
 		
 		// disable btn click and change arrow by spin while check login   => 
 
@@ -1184,7 +1422,7 @@ $(document).ready(function(){
 				    </path>
 				</svg>`;
 
-		$this.find("img").replaceWith($svg);
+		 $(this).find("img").replaceWith($svg);
 
 		$.ajax({
             type: 'post',
@@ -1203,23 +1441,14 @@ $(document).ready(function(){
               } else {
               	// login failed : enable btn  => 
                		$img =`<img class="icon button-icon" src="assets/icons/right_arrow.svg"> `;
-					$this.find("svg").replaceWith($img);
+					$(this).find("svg").replaceWith($img);
 					$('.input-user-code').addClass("input-validation-error");
 					$("#Code_Section .sections-main-sub-container-right-main-note").removeClass("input-validation-error-feedback-hide");
 					$("#Code_Section .sections-main-sub-container-right-main-note").addClass("input-validation-error-feedback-show");
               }
           });
 	});
-
-$(document).on("click","#logout_btn",function(event){
-
-		$.ajax({type: 'get',url: '/logout'});
-
-	});
-
-
-	
-	
+	/* End Code_Section_Btn ________________*/
 
 	$(document).on("click",".sections-main-sub-container-right-main-header-option-icon",function(event){
 
@@ -1325,8 +1554,8 @@ $(document).on("click","#logout_btn",function(event){
 
 	function Absense_Retard_Checker($type){
 
-		$session = $(".tab-pane:visible .dynamic-form-input-container-session").find("input:checked").attr("data-val");
-		$type    = $(".tab-pane:visible .dynamic-form-input-container-type").find("input:checked").attr("data-val");
+		$session = $(".tab-pane:visible .modal.in .dynamic-form-input-container-session").find("input:checked").attr("data-val");
+		$type    = $(".tab-pane:visible .modal.in .dynamic-form-input-container-type").find("input:checked").attr("data-val");
 
 		console.log($session+" __ "+$type);
 

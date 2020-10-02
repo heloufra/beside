@@ -1,3 +1,9 @@
+$(document).on("click","#logout_btn",function(event){
+
+    $.ajax({type: 'get',url: '/logout'});
+
+  });
+
 function readFile() {
   
   if (this.files && this.files[0]) {
