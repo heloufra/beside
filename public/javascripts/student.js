@@ -7,6 +7,7 @@ var studentId = 0;
 var absenceArray = ["Retard","Absence"];
 var noteTypes = ["Positive","Negative"];
 var subclasses = [];
+$domChange = false;
 
 
 getAllStudents();
@@ -57,7 +58,7 @@ document.getElementById("profile").addEventListener("change", readFile);
   if (value.replace(/\s/g, '') !== '')
   {
   	$('.students_list').remove();
-
+$domChange = false;
 	var filtred = students.filter(function (el) {
 			  return el.Classe_Label === value ;
 			});
@@ -94,10 +95,12 @@ $(document).on("click",".sections-main-sub-container-left-card",function(event){
  function displayStudent(index) 
 {
 	studentId = parseInt(index);
+	$domChange = false;
 	var result = students.filter(function (el) {
 			  return el.Student_ID === parseInt(index);
 			});
 	$('#Details').find('.input-parent').remove();
+	$('#Details').removeClass("dom-change-watcher");
 	$('#Absence').find('.row-absence').remove();
 	$('#Details').find('.expense_col').remove();
 	$('#Attitude').find('.row-note').remove();
@@ -140,6 +143,7 @@ $(document).on("click",".sections-main-sub-container-left-card",function(event){
 			else
 				$('#Absence').find('.table_delay').append('<tr class="row-absence"> <td data-label="Subject name" class="td-label">'+absenceArray[res.absences[i].AD_Type]+'</td> <td class="readonly" data-label="From"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.from+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg"> </div> </td> <td class="readonly" data-label="To"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.to+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg"> </div> </td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+res.absences[i].AD_Date+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> <!-- table-option-list --> <img class="table-option-icon" src="assets/icons/options.svg"> <div class="table-option-list"> <div class="table-option-list-li table-option-list-li-edit "> <img src="assets/icons/edit.svg" alt="edit"/> <span class="table-option-list-span">Edit</span> </div> <div class="table-option-list-li table-option-list-li-delete "> <img src="assets/icons/delete.svg" alt="delete"/> <span class="table-option-list-span">Delete</span> </div> <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg"> </div> <!-- End table-option-list --> </td> </tr>');
 		}
+		$('#Details').addClass("dom-change-watcher");
   	}
   });
 

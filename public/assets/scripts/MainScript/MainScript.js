@@ -4,7 +4,7 @@ $Href = "";
 $Api  = "";
 $Path = "";
 
-$domChange  = false;
+$domChange  = false ;
 $redirectTo = "";
 $subFolder = "beside/";
 $oldActiveTab = "";
@@ -669,11 +669,29 @@ $(document).ready(function(){
 	$pathname = window.location.pathname;
 
 	if($pathname.includes($subFolder)){
+
 		$pathname = $pathname.split($subFolder)[1];
-		$pathname.replace("/","");
+		if((typeof $pathname !== 'undefined' )){
+			if($pathname.includes('/')){
+			   $pathname.replace("/","");
+			   //console.log("defined");
+			}else{
+			   //console.log("undefined");
+			}
+		}
+
 	}else{
+
 		$pathname = $pathname.split($subFolder)[1];
-		$pathname.replace("/","");
+		
+		if((typeof $pathname !== 'undefined' )){
+			if($pathname.includes('/')){
+			   $pathname.replace("/","");
+			   //console.log("defined");
+			}else{
+			   //console.log("undefined");
+			}
+		}
 	}
 
 	$(".side-bar-extra-style .side-bar-li").each(function(){
@@ -701,7 +719,7 @@ $(document).ready(function(){
 		$redirectTo = $(this).attr("href");
 
 		if($domChange){
-			jQuery.noConflict(); 
+			//jQuery.noConflict(); 
 			$('#ChangesModal').modal('show');
 			event.preventDefault();
 			event.stopPropagation();
@@ -741,7 +759,7 @@ $(document).ready(function(){
 	$(document).on("click",".sections-main-sub-container-left-card",function(event){
 
 		if($domChange){
-			jQuery.noConflict(); 
+			//jQuery.noConflict(); 
 			$('#ChangesModal').modal('show');
 			event.preventDefault();
 			event.stopPropagation();
@@ -1195,7 +1213,7 @@ $(document).ready(function(){
 	/* #Homework tbody tr __________________________*/
 
 	$(document).on("click","#Homework tbody tr",function(){
-		jQuery.noConflict(); 
+		//jQuery.noConflict(); 
 		$('#HomeworkDetailModal').modal('show');
 	});
 
@@ -1362,6 +1380,9 @@ $(document).ready(function(){
 
 	/* End input-user-code _________________*/
 
+	/* Login_Section_Btn _________________*/
+
+
 	$(document).on("click","#Login_Section_Btn",function(event){
 
 		// test if phone or email exist 
@@ -1448,6 +1469,7 @@ $(document).ready(function(){
               }
           });
 	});
+
 	/* End Code_Section_Btn ________________*/
 
 	$(document).on("click",".sections-main-sub-container-right-main-header-option-icon",function(event){
@@ -1601,7 +1623,7 @@ $(document).ready(function(){
 
 	$(document).on("click",".sections-main-sub-container-left-search-bar .square-button",function(){
 
-		jQuery.noConflict(); 
+		//jQuery.noConflict(); 
 		switch($(".tab-pane:visible").attr("id")) {
 			  case "Details":{
 				$('#AddStudentModal').modal('show');
@@ -1646,13 +1668,12 @@ $(document).ready(function(){
 	  $('.nav-tabs a').on('hide.bs.tab', function(e){
 	   
 	    	if($domChange){
-				jQuery.noConflict(); 
+				//jQuery.noConflict(); 
 				$('#ChangesModal').modal('show');
 				event.preventDefault();
 				event.stopPropagation();
+				return false;
 			}
-
-			return false;
 	  });
 
 	  $('.nav-tabs a').on('hidden.bs.tab', function(){
