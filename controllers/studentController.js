@@ -11,11 +11,12 @@ var querySubscriptions = "SELECT expenses.*,levelexpenses.Expense_Cost,levelexpe
 var studentQuery = `INSERT INTO students(Student_FirstName,  Student_LastName, Student_Image,  Student_birthdate,  Student_Address,  Student_Phone, Institution_ID) VALUES(?,?,?,?,?,?,?)`;
 var absenceQuery = `INSERT INTO absencesanddelays(User_ID,  User_Type,  AD_Type,  AD_FromTo, AD_Date, Declaredby_ID) VALUES(?,?,?,?,?,?)`;
 var paymentsQuery = `INSERT INTO studentspayments(SS_ID, SP_Addeddate, SP_PaidPeriod) VALUES(?,?,?)`;
-var attitudeQuery = `INSERT INTO attitude(Student_ID, Attitude_Interaction, Attitude_Note, Declaredby_ID, AY_ID) VALUES(?,?,?,?,?)`;
+var attitudeQuery = `INSERT INTO attitude(Student_ID, Attitude_Interaction, Attitude_Note,Attitude_Addeddate, Declaredby_ID, AY_ID) VALUES(?,?,?,?,?,?)`;
 var parentQuery = `INSERT INTO parents(Parent_Name,  Parent_Phone, Institution_ID) VALUES(?,?,?)`;
 var spQuery = `INSERT INTO studentsparents(Student_ID, Parent_ID) VALUES(?,?)`; 
 var ssQuery = `INSERT INTO studentsubscribtion(Student_ID, LE_ID, Subscription_StartDate, Subscription_EndDate, AY_ID) VALUES(?,?,?,?,?)`;
 var scQuery = `INSERT INTO studentsclasses(Student_ID, Classe_ID, AY_ID) VALUES(?,?,?)`;
+var queryAttitude = 'SELECT * FROM `attitude` WHERE `Student_ID` = ?'
 var adddate = 1;
 var classeID;
 //SELECT students.*,levels.Level_Label FROM students INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID INNER JOIN studentsubscribtion ON studentsubscribtion.Student_ID = studentsclasses.Student_ID INNER JOIN levelexpenses ON levelexpenses.LE_ID = studentsubscribtion.LE_ID INNER JOIN levels ON levels.Level_ID = levelexpenses.Level_ID WHERE studentsclasses.Classe_ID = ? AND studentsclasses.AY_ID = ?;
@@ -45,24 +46,27 @@ var studentController = {
   getStudent: function(req, res, next) {
     connection.query(queryParents, [req.query.user_id], (err, parents, fields) => {
       connection.query("SELECT * FROM `absencesanddelays` WHERE User_ID = ? AND Declaredby_ID = ?", [req.query.user_id,req.userId], (err, absences, fields) => {
-          connection.query(querySubstudent, [req.query.user_id], (err, substudent, fields) => {
-             if (err) {
-                  console.log(err);
-                    res.json({
-                      errors: [{
-                      field: "Access denied",
-                      errorDesc: "List Students Error"
-                    }]});
-                } else 
-                {
-                   res.json({
-                      parents:parents,
-                      substudent:substudent,
-                      absences:absences,
-                    });
-                }
-           })
-      })
+          connection.query(queryAttitude, [req.query.user_id], (err, attitudes, fields) => {
+            connection.query(querySubstudent, [req.query.user_id], (err, substudent, fields) => {
+               if (err) {
+                    console.log(err);
+                      res.json({
+                        errors: [{
+                        field: "Access denied",
+                        errorDesc: "List Students Error"
+                      }]});
+                  } else 
+                  {
+                     res.json({
+                        parents:parents,
+                        substudent:substudent,
+                        absences:absences,
+                        attitudes:attitudes
+                      });
+                  }
+             })
+          })
+        })
      })
   },  
   getAllStudents: function(req, res, next) {
@@ -246,12 +250,10 @@ var studentController = {
         });
   },
   saveAttitude: function(req, res, next) {
-     connection.query("SELECT * FROM `students` WHERE `Student_FirstName` = ? AND `Student_LastName` = ?", [req.body.first_name,  req.body.last_name], (err, user, fields) => {
-        if(user.length === 0)
-        {
-           connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
+    //Student_ID, Attitude_Interaction, Attitude_Note, Declaredby_ID, AY_ID
+     connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
             connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [institutions[0].Institution_ID], (err, academic, fields) => {
-                  connection.query(attitudeQuery, [Student_ID, Attitude_Interaction, Attitude_Note, Declaredby_ID, AY_ID], (err, student, fields) => {
+                  connection.query(attitudeQuery, [req.body.user_id,  req.body.at_type,  req.body.at_note, req.body.at_date, req.userId,academic[0].AY_ID], (err, student, fields) => {
                      if (err) {
                           console.log(err);
                             res.json({
@@ -261,15 +263,11 @@ var studentController = {
                             }]});
                         } else 
                         {
-                        
+                          res.json({saved : true});
                         }
                    })
             })
           })
-          res.json({saved : true});
-        } else
-          res.json({saved : false});
-        });
   },
 };
 
