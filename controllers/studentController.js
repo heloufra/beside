@@ -42,19 +42,6 @@ var studentController = {
         })
       })
   },
-  getStudents: function(req, res, next) {
-    connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
-      connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [institutions[0].Institution_ID], (err, academic, fields) => {
-          connection.query("SELECT Classe_ID FROM `classes` WHERE `Classe_Label` = ? LIMIT 1", [req.query.classe_label], (err, classe, fields) => {
-            connection.query(queryStudents, [classe[0].Classe_ID,academic[0].AY_ID], (err, students, fields) => {
-                res.json({
-                      students:students,
-                    });
-             })
-          })
-      })
-    })
-  },  
   getStudent: function(req, res, next) {
     connection.query(queryParents, [req.query.user_id], (err, parents, fields) => {
       connection.query("SELECT * FROM `absencesanddelays` WHERE User_ID = ? AND Declaredby_ID = ?", [req.query.user_id,req.userId], (err, absences, fields) => {
@@ -92,24 +79,6 @@ var studentController = {
       })
     })
   },  
-  search: function(req, res, next) {
-    connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
-      connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [institutions[0].Institution_ID], (err, academic, fields) => {
-          connection.query("SELECT Classe_ID FROM `classes` WHERE `Classe_Label` = ? LIMIT 1", [req.query.classe_label], (err, classe, fields) => {
-            if (classe[0])
-              classeID = classe[0].Classe_ID;
-            else
-              classeID = "";
-            connection.query(querySearch, [classeID,req.query.search + '%',academic[0].AY_ID], (err, students, fields) => {
-              console.log(students);
-                res.json({
-                      students:students,
-                    });
-             })
-          })
-      })
-    })
-  },
   getSubscriptions: function(req, res, next) {
     connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
       connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [institutions[0].Institution_ID], (err, academic, fields) => {
@@ -232,10 +201,6 @@ var studentController = {
         });
   },
   saveAbsence: function(req, res, next) {
-    console.log(req.body)
-     connection.query("SELECT * FROM `students` WHERE `Student_FirstName` = ? AND `Student_LastName` = ?", [req.body.first_name,  req.body.last_name], (err, user, fields) => {
-        if(user.length === 0)
-        {
            connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
             connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [institutions[0].Institution_ID], (err, academic, fields) => {
                   connection.query(absenceQuery, [req.body.user_id,  "Student",  req.body.ad_type,  req.body.ad_fromto, req.body.ad_date, req.userId], (err, student, fields) => {
@@ -248,15 +213,11 @@ var studentController = {
                             }]});
                         } else 
                         {
-                        
+                          res.json({saved : true});
                         }
                    })
             })
           })
-          res.json({saved : true});
-        } else
-          res.json({saved : false});
-        });
   },
   savePayments: function(req, res, next) {
      connection.query("SELECT * FROM `students` WHERE `Student_FirstName` = ? AND `Student_LastName` = ?", [req.body.first_name,  req.body.last_name], (err, user, fields) => {
