@@ -399,7 +399,7 @@ console.log(ad_absence,ad_fromto,ad_date);
 		    	ad_date,
 		    	ad_classe,
 		    	ad_student,
-		    	user_id:index
+		    	user_id:studentId
 		    },
 		    dataType: 'json'
 		  })
