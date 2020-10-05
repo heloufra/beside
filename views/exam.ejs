@@ -147,7 +147,7 @@
                 </div>
 
                 <!--  sections-main-sub-container-right 70%  -->
-                <div class="sections-main-sub-container-right">
+                <div class="sections-main-sub-container-right" id="exam_info">
 
                     <!-- sections-main-sub-container-right-main -->
                     <div class="sections-main-sub-container-right-main">
@@ -159,7 +159,7 @@
                                 <div class="sections-main-sub-container-right-main-header-info">
 
                                   <div class="form-group disabled">
-                                    <div class="input-img-container input-img-text-container  input-rounded-img-container input-rounded-img-container-extra-style " style="background: #fceeca;">
+                                    <div class="input-img-container input-img-text-container  input-rounded-img-container input-rounded-img-container-extra-style exam_img" style="background: #fceeca;">
                                       FR
                                     </div>
                                   </div>
@@ -199,7 +199,7 @@
                             <div class="tab-content">
 
                               <!-- sections-main-sub-container-right-main-body : Scores -->
-                              <div id="ExamsDetails" class="tab-pane fade in active  sections-main-sub-container-right-main-body dom-change-watcher">
+                              <div id="ExamsDetails" class="tab-pane fade in active  sections-main-sub-container-right-main-body ">
 
                                   <div class="sections-main-sub-container-right-main-label-divider">
                                         <p>Exam details</p>
@@ -209,7 +209,7 @@
 
                                     <div class="col-md-6">
                                       <div class="form-group group">
-                                        <input type="text" required="" >
+                                        <input type="text" name="exam_name" required="" >
                                         <label class="input-label">
                                           <span class="input-label-text">Exam name</span><span class="input-label-bg-mask"></span>
                                         </label>
@@ -218,7 +218,7 @@
 
                                     <div class="col-md-6">
                                       <div class="form-group group dynamic-form-input-text-container-icon dynamic-form-input-text-container-icon-extra-style ">
-                                          <input type="text"  class="input-text input-date input-date-from-today" required="" placeholder="">
+                                          <input type="text" name="exam_date" class="input-text input-date input-date-from-today" required="" placeholder="">
                                           <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                           <label class="input-label">
                                             <span class="input-label-text">Date</span><span class="input-label-bg-mask"></span>
@@ -233,7 +233,7 @@
 
                                     <div class="col-md-12">
                                       <div class="form-group group">
-                                        <textarea class="input-text input-text-area"></textarea>
+                                        <textarea class="input-text input-text-area" id="exam_description"></textarea>
                                         <label class="input-label">
                                           <span class="input-label-text">Exam description</span><span class="input-label-bg-mask"></span>
                                         </label>

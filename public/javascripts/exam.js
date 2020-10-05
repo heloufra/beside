@@ -1,4 +1,6 @@
 getAllExams();
+var exams = [];
+var examId = 0;
 function getAllExams() {
  	$('.exam-row').remove();
 	$.ajax({
@@ -11,19 +13,19 @@ function getAllExams() {
 	  	{
 	  		console.log(res.errors)
 	  	} else {
-	  		var exams = res.Exams;
+	  		exams = res.exams;
 
-	  		/*if (res.Exams.length > 0)
+	  		if (res.exams.length > 0)
 	  		{
-	  			displayStudent(res.Exams[res.Exams.length - 1].Student_ID);
-	  		}*/
+	  			displayExam(res.exams[res.exams.length - 1].Exam_ID);
+	  		}
 	  		var active = '';
 	  		for (var i = res.exams.length - 1; i >= 0; i--) {
 	  			if (i === res.exams.length - 1)
 	  				active = 'active';
 	  			else
 	  				active = '';
-	  			$('#list_exams').append('<div class="sections-main-sub-container-left-card exam-row'+active+'"> <div class="sections-main-sub-container-left-card-main-img-text" style="background: '+res.exams[i].Subject_Color+';" >'+res.exams[i].Subject_Label.slice(0,2)+'</div> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+res.exams[i].Exam_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+res.exams[i].Subject_Label+' - '+res.exams[i].Classe_Label+' - Teacher Name </span> </div> </div>')
+	  			$('#list_exams').append('<div class="sections-main-sub-container-left-card exam-row '+active+'"><input name="examId" type="hidden" value="'+res.exams[i].Exam_ID+'"> <div class="sections-main-sub-container-left-card-main-img-text" style="background: '+res.exams[i].Subject_Color+';" >'+res.exams[i].Subject_Label.slice(0,2)+'</div> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+res.exams[i].Exam_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+res.exams[i].Subject_Label+' - '+res.exams[i].Classe_Label+' - Teacher Name </span> </div> </div>')
 	  		}
 	  	}
 	  });
@@ -79,6 +81,12 @@ function saveExam() {
 		  .done(function(res){
 		  	if(res.saved)
 		  	{
+		  		getAllExams();
+				$('#AddExamModal').find('input[name="exam_classe"]').val("");
+				$('#AddExamModal').find('input[name="exam_date"]').val("");
+				$('#AddExamModal').find('input[name="exam_subject"]').val("");
+				$('#AddExamModal').find('input[name="exam_name"]').val("");
+				$('#AddExamModal').find('#exam_description').val("");
 		  		$('#AddExamModal').modal('hide');
 				console.log('Saved');
 		  	} else {
@@ -88,11 +96,49 @@ function saveExam() {
 	}
 }
 
+function displayExam(index) 
+{
+	$('#ExamsDetails').removeClass("dom-change-watcher");
+	$.ajax({
+    type: 'get',
+    url: '/Exams/one',
+    data: {
+    	exam_id:index
+    },
+    dataType: 'json'
+  })
+  .done(function(res){
+  	if(res.errors)
+  	{
+  		console.log(res.errors)
+  	} else {
+  		if (res.exam[0])
+  		{
+  		$('#exam_info').removeClass('hidden');
+  		$('#exam_info').find('.exam_img').css('background-color',res.exam[0].Subject_Color);
+  		$('#exam_info').find('.exam_img').html(res.exam[0].Subject_Label.slice(0,2))
+  		$('#exam_info').find('.label-full-name').html(res.exam[0].Exam_Title);
+  		$('#exam_info').find('input[name="exam_name"]').val(res.exam[0].Exam_Title);
+  		$('#exam_info').find('input[name="exam_date"]').val(res.exam[0].Exam_DeliveryDate);
+  		$('#exam_info').find('#exam_description').val(res.exam[0].Exam_Deatils);
+  		$('#exam_info').find('.sub-label-full-name').html(res.exam[0].Subject_Label+' - '+res.exam[0].Classe_Label+' - Teacher Name');
+  		$('#ExamsDetails').addClass("dom-change-watcher");
+  		}
+  	}
+  });
+}
+$(document).on("click",".sections-main-sub-container-left-card",function(event){
+	examId = $(this).find('input[name="examId"]').val();
+	$('.sections-main-sub-container-left-card').removeClass('active');
+	$(this).addClass('active');
+	displayExam(examId);
+});
 $('input[name="filter-classe"]').on( "change", function() {
   var value = $(this).val();
   if (value.replace(/\s/g, '') !== '')
   {
   	 $('.filter-subject').find('.row-subject').remove();
+  	 $('#list_exams').find('.exam-row').remove();
 	  $.ajax({
 		    type: 'get',
 		    url: '/Select/subjects',
@@ -113,6 +159,44 @@ $('input[name="filter-classe"]').on( "change", function() {
 		  		}
 		  	}
 		  });
+		  var filtred = exams.filter(function (el) {
+			  return el.Classe_Label === value ;
+			});
+
+		  var active = '';
+	  		for (var i = filtred.length - 1; i >= 0; i--) {
+	  			if (i === filtred.length - 1)
+	  			{
+	  				displayExam(filtred[i].Exam_ID);
+	  				active = 'active';
+	  			}
+	  			else
+	  				active = '';
+	  			$('#list_exams').append('<div class="sections-main-sub-container-left-card exam-row '+active+'"><input name="examId" type="hidden" value="'+filtred[i].Exam_ID+'"> <div class="sections-main-sub-container-left-card-main-img-text" style="background: '+filtred[i].Subject_Color+';" >'+filtred[i].Subject_Label.slice(0,2)+'</div> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+filtred[i].Exam_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+filtred[i].Subject_Label+' - '+filtred[i].Classe_Label+' - Teacher Name </span> </div> </div>')
+	  		}
+  }
+})
+
+$('input[name="filter-subject"]').on( "change", function() {
+  var value = $(this).val();
+  if (value.replace(/\s/g, '') !== '')
+  {
+  	$('#list_exams').find('.exam-row').remove();
+  	  var filtred = exams.filter(function (el) {
+			  return el.Subject_Label === value ;
+			});
+
+		  var active = '';
+  		for (var i = filtred.length - 1; i >= 0; i--) {
+  			if (i === filtred.length - 1)
+  			{
+  				displayExam(filtred[i].Exam_ID);
+  				active = 'active';
+  			}
+  			else
+  				active = '';
+  			$('#list_exams').append('<div class="sections-main-sub-container-left-card exam-row '+active+'"><input name="examId" type="hidden" value="'+filtred[i].Exam_ID+'"> <div class="sections-main-sub-container-left-card-main-img-text" style="background: '+filtred[i].Subject_Color+';" >'+filtred[i].Subject_Label.slice(0,2)+'</div> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+filtred[i].Exam_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+filtred[i].Subject_Label+' - '+filtred[i].Classe_Label+' - Teacher Name </span> </div> </div>')
+  		}
   }
 })
 

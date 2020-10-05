@@ -144,7 +144,7 @@
                 </div>
 
                 <!--  sections-main-sub-container-right 70%  -->
-                <div class="sections-main-sub-container-right">
+                <div class="sections-main-sub-container-right hidden" id="homework_info">
 
                     <!-- sections-main-sub-container-right-main -->
                     <div class="sections-main-sub-container-right-main">
@@ -156,7 +156,7 @@
                                 <div class="sections-main-sub-container-right-main-header-info">
 
                                   <div class="form-group disabled">
-                                    <div class="input-img-container input-img-text-container  input-rounded-img-container input-rounded-img-container-extra-style " style="background: #fceeca;">
+                                    <div class="input-img-container input-img-text-container  input-rounded-img-container input-rounded-img-container-extra-style homework_img" style="background: #fceeca;">
                                       FR
                                     </div>
                                   </div>
@@ -189,7 +189,7 @@
                             <div class="tab-content">
 
                               <!-- sections-main-sub-container-right-main-body : HomeworkDetails -->
-                              <div id="HomeworkDetails" class="tab-pane fade in active  sections-main-sub-container-right-main-body dom-change-watcher">
+                              <div id="HomeworkDetails" class="tab-pane fade in active  sections-main-sub-container-right-main-body">
 
                                   <div class="sections-main-sub-container-right-main-label-divider sections-main-sub-container-right-main-label-divider-extra-style">
                                         <p>Homework details</p>
@@ -199,7 +199,7 @@
 
                                     <div class="col-md-6">
                                       <div class="form-group group ">
-                                        <input type="text" required="" >
+                                        <input type="text" required="" name="homework_name">
                                         <label class="input-label">
                                           <span class="input-label-text">Homework name</span><span class="input-label-bg-mask"></span>
                                         </label>
@@ -208,10 +208,10 @@
 
                                     <div class="col-md-6">
                                       <div class="form-group group dynamic-form-input-text-container-icon dynamic-form-input-text-container-icon-extra-style ">
-                                          <input type="text"  class="input-text input-date input-date-from-today" required="" placeholder="">
+                                          <input type="text" name="homework_date" class="input-text input-date input-date-from-today" required="" placeholder="">
                                           <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                           <label class="input-label">
-                                            <span class="input-label-text">Date</span><span class="input-label-bg-mask"></span>
+                                            <span class="input-label-text">Delivery Date</span><span class="input-label-bg-mask"></span>
                                           </label>
                                       </div>
                                     </div>
@@ -223,7 +223,7 @@
 
                                     <div class="col-md-12">
                                       <div class="form-group group ">
-                                        <textarea class="input-text input-text-area"></textarea>
+                                        <textarea class="input-text input-text-area" id="homework_description"></textarea>
                                         <label class="input-label">
                                           <span class="input-label-text">Homework description</span><span class="input-label-bg-mask"></span>
                                         </label>

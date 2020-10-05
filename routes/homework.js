@@ -5,5 +5,6 @@ var homeworkController  = require('../controllers/homeworkController');
 router.get('/', homeworkController.homeworkView);
 router.post('/save', homeworkController.saveHomework);
 router.get('/all', homeworkController.getHomeworks);
+router.get('/one', homeworkController.getHomework);
 
 module.exports = router;

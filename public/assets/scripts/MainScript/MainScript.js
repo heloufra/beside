@@ -149,7 +149,7 @@ $(document).ready(function(){
 			$(this).parents(".dynamic-form-input-float-adjust").find(".interaction_icon_main").attr("src","assets/icons/emoji_bad.svg");
 		}
 
-		$this.parents(".dynamic-form-input-dropdown-container").find(".input-dropdown").val(" ");
+		$this.closest(".form-group").find(".input-dropdown").val(" ");
 
 		$this.parent().find(".dynamic-form-input-dropdown-options").css({"opacity":"0"});
 
@@ -158,17 +158,17 @@ $(document).ready(function(){
 
 			setTimeout(function(){
 
-				$this.parents(".dynamic-form-input-dropdown-container").find(".input-dropdown").val(" ");
+				$this.closest(".form-group").find(".input-dropdown").val(" ");
 
 				setTimeout(function(){
-					$this.parents(".dynamic-form-input-dropdown-container").find(".input-dropdown").val($text);
+					$this.closest(".form-group").find(".input-dropdown").val($text);
 				},180);
 
 			},5);
 			
 			
 		}else{
-			$this.parents(".dynamic-form-input-dropdown-container").find(".input-dropdown").val($text);
+			$this.closest(".form-group").find(".input-dropdown").val($text);
 		}
 
 		$(this).parents(".dynamic-form-input-dropdown-container").find(".button-icon").removeClass("caret-rotate");

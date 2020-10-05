@@ -1,6 +1,7 @@
 var connection  = require('../lib/db');
 var examQuery = `INSERT INTO exams(TSC_ID,  Exam_Title, Exam_Deatils, Exam_Date) VALUES(?,?,?,?)`;
 var selectExams = 'SELECT exams.*,classes.Classe_Label,subjects.Subject_Label,subjects.Subject_Color FROM `exams` INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.TSC_ID = exams.TSC_ID INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID';
+var selectExam = 'SELECT exams.*,classes.Classe_Label,subjects.Subject_Label,subjects.Subject_Color FROM `exams` INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.TSC_ID = exams.TSC_ID INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID WHERE exams.Exam_ID = ?';
 
 var examController = {
   examView: function(req, res, next) {
@@ -37,6 +38,13 @@ var examController = {
     connection.query(selectExams, (err, exams, fields) => {
       res.json({
                 exams:exams,
+              });
+    })
+  },
+  getExam: function(req, res, next) {
+    connection.query(selectExam,[req.query.exam_id], (err, exam, fields) => {
+      res.json({
+                exam:exam,
               });
     })
   },
