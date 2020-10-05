@@ -9,13 +9,15 @@ var noteTypes = ["Positive","Negative"];
 var subclasses = [];
 $domChange = false;
 
+var test = '<%- title %>';
+console.log(test);
 
 getAllStudents();
 function getAllStudents() {
  	$('.students_list').remove();
 	$.ajax({
 	    type: 'get',
-	    url: '/student/all',
+	    url: '/Students/all',
 	    dataType: 'json'
 	  })
 	  .done(function(res){
@@ -25,12 +27,17 @@ function getAllStudents() {
 	  	} else {
 	  		students = res.students;
 	  		subclasses = res.subscription;
-	  		console.log(res.students);
 	  		if (res.students.length > 0)
+	  		{
 	  			displayStudent(res.students[res.students.length - 1].Student_ID);
+	  		}
+	  		var active = '';
 	  		for (var i = res.students.length - 1; i >= 0; i--) {
-	  			
-	  			$('#list_classes').append('<div class="sections-main-sub-container-left-card students_list"><img class="sections-main-sub-container-left-card-main-img" src="'+res.students[i].Student_Image+'" alt="card-img"><input name="studentId" type="hidden" value="'+res.students[i].Student_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+res.students[i].Student_FirstName+' '+res.students[i].Student_LastName+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+res.students[i].Classe_Label+'</span></div></div>')
+	  			if (i === res.students.length - 1)
+	  				active = 'active';
+	  			else
+	  				active = '';
+	  			$('#list_classes').append('<div class="'+active+' sections-main-sub-container-left-card students_list"><img class="sections-main-sub-container-left-card-main-img" src="'+res.students[i].Student_Image+'" alt="card-img"><input name="studentId" type="hidden" value="'+res.students[i].Student_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+res.students[i].Student_FirstName+' '+res.students[i].Student_LastName+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+res.students[i].Classe_Label+'</span></div></div>')
 	  		}
 	  	}
 	  });
@@ -89,11 +96,14 @@ $domChange = false;
 
 $(document).on("click",".sections-main-sub-container-left-card",function(event){
 	studentId = $(this).find('input[name="studentId"]').val();
+	$('.sections-main-sub-container-left-card').removeClass('active');
+	$(this).addClass('active');
 	displayStudent(studentId);
 });
 
  function displayStudent(index) 
 {
+	$('#student_info').removeClass('hidden');
 	studentId = parseInt(index);
 	$domChange = false;
 	var result = students.filter(function (el) {
@@ -106,7 +116,7 @@ $(document).on("click",".sections-main-sub-container-left-card",function(event){
 	$('#Attitude').find('.row-note').remove();
 	$.ajax({
     type: 'get',
-    url: '/student/one',
+    url: '/Students/one',
     data: {
     	user_id:index
     },
@@ -147,8 +157,8 @@ $(document).on("click",".sections-main-sub-container-left-card",function(event){
   	}
   });
 
-	$('#AddAbsenceModal').find('input[name="ad_classe"]').val(result[0].Classe_Label);
-	$('#AddAbsenceModal').find('input[name="ad_student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
+	$('#AddStudentAbsenceModal').find('input[name="ad_classe"]').val(result[0].Classe_Label);
+	$('#AddStudentAbsenceModal').find('input[name="ad_student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
 	$('#student_info').find('.profile-full-name').text(result[0].Student_FirstName + " " + result[0].Student_LastName);
 	$('#student_info').find('.profile-img').attr('src',result[0].Student_Image);
 	$('#Details').find('input[name="f_name"]').val(result[0].Student_FirstName);
@@ -166,10 +176,11 @@ $(document).on("click",".sections-main-sub-container-left-card",function(event){
   var value = $(this).val();
   if (value.replace(/\s/g, '') !== '')
   {
-  	$('.sub_div').remove();
+  	 $('#student_form').find('.sub_div').remove();
+  	 $('#student_form').find('.row-classe').remove();
 	  $.ajax({
 		    type: 'get',
-		    url: '/student/subscriptions',
+		    url: '/Students/subscriptions',
 		    data: {
 		    	level_label:value,
 		    },
@@ -184,6 +195,11 @@ $(document).on("click",".sections-main-sub-container-left-card",function(event){
 		  		for (var i = res.subscriptions.length - 1; i >= 0; i--) {
 		  			
 		  			$('#list_sub').append('<div class="col-md-6 sections-label-checkbox-main-container sub_div"> <div class="sections-label-checkbox-container"> <div class="form-group group "> <span class="expense_label">'+res.subscriptions[i].Expense_Label+'</span> <span class="method_label"> <span class="method_label_price">'+res.subscriptions[i].Expense_Cost+'</span> <span class="method_label_period">'+res.subscriptions[i].Expense_PaymentMethod+'</span> </span> </div> </div> <div class="customCheck"> <input type="checkbox" value="" name="checkbox_sub_'+i+'" id="ck'+i+'" /> <label for="ck'+i+'"></label> </div> </div>')
+		  		}
+
+		  		for (var i = res.classes.length - 1; i >= 0; i--) {
+		  			
+		  			$('.list-classe').append(' <li class="row-classe" data-val="'+res.classes[i].Classe_Label+'">'+res.classes[i].Classe_Label+'</li>')
 		  		}
 		  	}
 		  });
@@ -270,7 +286,7 @@ function saveStudent() {
 		}
 		$.ajax({
 		    type: 'post',
-		    url: '/student/save',
+		    url: '/Students/save',
 		    data: data,
 		    dataType: 'json'
 		  })
@@ -298,85 +314,85 @@ function saveStudent() {
 }
 
 function saveAbsence() {
-var ad_classe = $('#AddAbsenceModal').find('input[name="ad_classe"]').val();
+var ad_classe = $('#AddStudentAbsenceModal').find('input[name="ad_classe"]').val();
 console.log(ad_classe);
 var ad_fromto = {};
 var ad_date = "";
 
-var ad_student = $('#AddAbsenceModal').find('input[name="ad_student"]').val();
+var ad_student = $('#AddStudentAbsenceModal').find('input[name="ad_student"]').val();
 
 var ad_absence;
 
-if ($('#AddAbsenceModal').find('input[data-val="Absence"]:checked').val())
+if ($('#AddStudentAbsenceModal').find('input[data-val="Absence"]:checked').val())
 {
-	if($('#AddAbsenceModal').find('input[data-val="Session"]:checked').val())
+	if($('#AddStudentAbsenceModal').find('input[data-val="Session"]:checked').val())
 	{
-		ad_absence = $('#AddAbsenceModal').find('input[data-val="Session"]:checked').val();
+		ad_absence = $('#AddStudentAbsenceModal').find('input[data-val="Session"]:checked').val();
 		ad_fromto = {
-			from: $('#AddAbsenceModal').find('input[name="time_start"]').val(),
-			to: $('#AddAbsenceModal').find('input[name="time_end"]').val(),
+			from: $('#AddStudentAbsenceModal').find('input[name="time_start"]').val(),
+			to: $('#AddStudentAbsenceModal').find('input[name="time_end"]').val(),
 		};
-		ad_date = $('#AddAbsenceModal').find('input[name="ad_date"]').val();
+		ad_date = $('#AddStudentAbsenceModal').find('input[name="ad_date"]').val();
 	} else 
 	{
-		ad_absence = $('#AddAbsenceModal').find('input[data-val="Period"]:checked').val();
+		ad_absence = $('#AddStudentAbsenceModal').find('input[data-val="Period"]:checked').val();
 		ad_fromto = {
-			from: $('#AddAbsenceModal').find('input[name="period_start"]').val(),
-			to: $('#AddAbsenceModal').find('input[name="period_end"]').val(),
+			from: $('#AddStudentAbsenceModal').find('input[name="period_start"]').val(),
+			to: $('#AddStudentAbsenceModal').find('input[name="period_end"]').val(),
 		}
 		ad_date = "null";
 	}
 } else 
 {
-	ad_absence = $('#AddAbsenceModal').find('input[data-val="Retard"]:checked').val();
+	ad_absence = $('#AddStudentAbsenceModal').find('input[data-val="Retard"]:checked').val();
 	ad_fromto = {
-			from: $('#AddAbsenceModal').find('input[name="time_start"]').val(),
-			to: $('#AddAbsenceModal').find('input[name="time_end"]').val(),
+			from: $('#AddStudentAbsenceModal').find('input[name="time_start"]').val(),
+			to: $('#AddStudentAbsenceModal').find('input[name="time_end"]').val(),
 		};
-	ad_date = $('#AddAbsenceModal').find('input[name="ad_date"]').val();
+	ad_date = $('#AddStudentAbsenceModal').find('input[name="ad_date"]').val();
 }
 
 console.log(ad_absence,ad_fromto,ad_date);
 
 	if (!ad_date && ad_absence !== "2")
-		$('#AddAbsenceModal').find('.dynamic-form-input-container-one-date').css("border-color", "#f6b8c1");
+		$('#AddStudentAbsenceModal').find('.dynamic-form-input-container-one-date').css("border-color", "#f6b8c1");
 	else
-		$('#AddAbsenceModal').find('.dynamic-form-input-container-one-date').css("border-color", "#EFEFEF");
+		$('#AddStudentAbsenceModal').find('.dynamic-form-input-container-one-date').css("border-color", "#EFEFEF");
 	if (!ad_classe)
-		$('#AddAbsenceModal').find('.ad_classe').css("border-color", "#f6b8c1");
+		$('#AddStudentAbsenceModal').find('.ad_classe').css("border-color", "#f6b8c1");
 	else
-		$('#AddAbsenceModal').find('.ad_classe').css("border-color", "#EFEFEF");
+		$('#AddStudentAbsenceModal').find('.ad_classe').css("border-color", "#EFEFEF");
 
 	if (!ad_student)
-		$('#AddAbsenceModal').find('.ad_student').css("border-color", "#f6b8c1");
+		$('#AddStudentAbsenceModal').find('.ad_student').css("border-color", "#f6b8c1");
 	else
-		$('#AddAbsenceModal').find('.ad_student').css("border-color", "#EFEFEF");
+		$('#AddStudentAbsenceModal').find('.ad_student').css("border-color", "#EFEFEF");
 
 	if (!ad_fromto.from && ad_absence !== "2")
 	{
-		$('#AddAbsenceModal').find('input[name="time_start"]').css("border-color", "#f6b8c1");
-		$('#AddAbsenceModal').find('input[name="time_end"]').css("border-color", "#f6b8c1");
+		$('#AddStudentAbsenceModal').find('input[name="time_start"]').css("border-color", "#f6b8c1");
+		$('#AddStudentAbsenceModal').find('input[name="time_end"]').css("border-color", "#f6b8c1");
 	}
 	else
 	{
-		$('#AddAbsenceModal').find('input[name="time_start"]').css("border-color", "#EFEFEF");
-		$('#AddAbsenceModal').find('input[name="time_end"]').css("border-color", "#EFEFEF");
+		$('#AddStudentAbsenceModal').find('input[name="time_start"]').css("border-color", "#EFEFEF");
+		$('#AddStudentAbsenceModal').find('input[name="time_end"]').css("border-color", "#EFEFEF");
 	}
 
 	if (!ad_fromto.to && ad_absence !== "2")
 	{
-		$('#AddAbsenceModal').find('input[name="time_end"]').css("border-color", "#f6b8c1");
+		$('#AddStudentAbsenceModal').find('input[name="time_end"]').css("border-color", "#f6b8c1");
 	}
 	else
 	{
-		$('#AddAbsenceModal').find('input[name="time_end"]').css("border-color", "#EFEFEF");
+		$('#AddStudentAbsenceModal').find('input[name="time_end"]').css("border-color", "#EFEFEF");
 	}
 
 	if (ad_absence && ad_date && ad_fromto.to && ad_fromto.from && ad_student && ad_classe)
 	{
 		$.ajax({
 		    type: 'post',
-		    url: '/student/absence',
+		    url: '/Students/absence',
 		    data: {
 		    	ad_fromto: JSON.stringify(ad_fromto),
 		    	ad_type:parseInt(ad_absence),
@@ -390,7 +406,7 @@ console.log(ad_absence,ad_fromto,ad_date);
 		  .done(function(res){
 		  	if(res.saved)
 		  	{
-		  		$('#AddAbsenceModal').modal('hide');
+		  		$('#AddStudentAbsenceModal').modal('hide');
 		  		if (parseInt(ad_absence) === 2)
 				$('#Absence').find('.table_reported').append('<tr class="row-absence"> <td data-label="Subject name" class="td-label">Absence</td> <td class="readonly" data-label="From"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+ad_fromto.from+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="To"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+ad_fromto.to+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> <!-- table-option-list --> <img class="table-option-icon" src="assets/icons/options.svg"> <div class="table-option-list"> <div class="table-option-list-li table-option-list-li-edit "> <img src="assets/icons/edit.svg" alt="edit"/> <span class="table-option-list-span">Edit</span> </div> <div class="table-option-list-li table-option-list-li-delete "> <img src="assets/icons/delete.svg" alt="delete"/> <span class="table-option-list-span">Delete</span> </div> <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg"> </div> <!-- End table-option-list --> </td> </tr>');
 			else
@@ -439,7 +455,7 @@ function saveAttitude() {
 	{
 		$.ajax({
 		    type: 'post',
-		    url: '/student/attitude',
+		    url: '/Students/attitude',
 		    data: {
 		    	at_type:parseInt(at_type),
 		    	at_date,

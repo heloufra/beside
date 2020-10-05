@@ -141,7 +141,7 @@
                 </div>
 
                 <!--  sections-main-sub-container-right 70%  -->
-                <div class="sections-main-sub-container-right" id="student_info">
+                <div class="sections-main-sub-container-right hidden" id="student_info">
 
                     <!-- sections-main-sub-container-right-main -->
                     <div class="sections-main-sub-container-right-main">
@@ -372,7 +372,7 @@
                                                   <img class="icon button-icon" src="assets/icons/check_small.svg">
                                             </div>
                                             <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary  secondary-pink-button" data-toggle="modal" data-target="#ChangesModal">
-                                                  <span class="button-text discard-changes" >Discard changes</span>
+                                                  <span class="button-text discard-changes" >Discard</span>
                                             </div>
                                         </div>
                                         
@@ -682,175 +682,6 @@
                                   </div>
                                   <!-- End sub-container-form-footer-container -->
 
-                                  <!--_____________ Attitude modal _____________-->
-
-                                  <!-- Trigger the modal with a button -->
-                                   
-                                    <!-- Modal -->
-                                    <div id="AddAttitudeModal" class="modal" role="dialog">
-
-                                      <div class="modal-dialog modal-dialog-cente animate__animated animate__fadeIn ">
-
-                                        <!-- Modal content-->
-                                        <div class="modal-content modal-content-finance">
-
-                                          <div class="modal-body">
-
-                                              <!-- modal-body-container -->
-
-                                              <div class="modal-body-container">
-
-                                                 <h1 class="sub-container-main-header">Attitude</h1>
-                                                 <h4 class="sub-container-sub-header">
-                                                  There are many variations of passages of Lorem Ipsum available.
-                                                 </h4>
-
-                                                  <div class="row sections-main-sub-container-right-main-rows">
-
-
-                                                      <div class="col-md-6">
-
-                                                        <div class="dynamic-form-input-dropdown-container">
-                                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first at_classe">
-                                                            <div class="dynamic-form-input">
-                                                              <div class="dynamic-form-input-float-adjust">
-                                                              <div class="form-group group form-group-right">
-                                                                <input type="text" class="input-dropdown" name="at_classe" required="">
-                                                                
-                                                                <label class="input-label">
-                                                                  <span class="input-label-text">Class</span><span class="input-label-bg-mask"></span>
-                                                                </label>
-
-                                                                <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
-                                                                <ul class="dynamic-form-input-dropdown-options">
-                                                                    <% for(var i=0; i<classes.length; i++) {%>
-                                                                       <li data-val="<%= classes[i].Classe_Label %>"><%= classes[i].Classe_Label %></li>
-                                                                    <% } %>
-                                                                </ul>
-                                                              </div>
-                                                              </div>
-                                                              <div class="square-button square-button-minus">
-                                                                <img class="icon" src="assets/icons/minus.svg">
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-
-                                                      </div>
-
-                                                      <div class="col-md-6">
-
-                                                        <div class="dynamic-form-input-dropdown-container">
-                                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first at_student">
-                                                            <div class="dynamic-form-input">
-                                                              <div class="dynamic-form-input-float-adjust">
-                                                              <div class="form-group group form-group-right">
-                                                                <input type="text" class="input-dropdown" name="at_student" required="">
-                                                                
-                                                                <label class="input-label">
-                                                                  <span class="input-label-text">Student</span><span class="input-label-bg-mask"></span>
-                                                                </label>
-
-                                                                <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
-                                                                <ul class="dynamic-form-input-dropdown-options">
-                                                                    <li data-val="Student 1">Student 1</li>
-                                                                    <li data-val="Student 2">Student 2</li>
-                                                                    <li data-val="Student 2">Student 3</li>
-                                                                </ul>
-                                                              </div>
-                                                              </div>
-                                                              <div class="square-button square-button-minus">
-                                                                <img class="icon" src="assets/icons/minus.svg">
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-
-                                                      </div>
-                                              
-                                                  </div>
-
-                                                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style">
-
-                                                      <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Type</span> <span class="input-label-bg-mask"></span></label>
-
-                                                      <div class="sections-checkboxes-main-container">
-
-                                                        <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left   
-                                                             dynamic-form-input-container-type" data-val="Positive" >
-                                                            <div class="sections-label-checkbox-container " >
-                                                              <div class="form-group group ">
-                                                                <span class="expense_label">Positive</span>
-                                                              </div>
-                                                            </div>
-                                                            <div class="customCheck customCheckRounded">
-                                                              <input type="checkbox" checked value="0" data-val="Positive" name="checkbox" id="" />
-                                                              <label for="ck"></label>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left container-background-style" data-val="Negative">
-                                                            <div class="sections-label-checkbox-container ">
-                                                              <div class="form-group group ">
-                                                                <span class="expense_label">Negative</span>
-                                                              </div>
-                                                            </div>
-                                                            <div class="customCheck customCheckRounded">
-                                                              <input type="checkbox" value="1" data-val="Negative"  name="checkbox" id="" />
-                                                              <label for="ck"></label>
-                                                            </div>
-                                                        </div>
-
-                                                      </div>
-
-                                                  </div>
-
-                                                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style at_date">
-
-                                                    <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Date</span> <span class="input-label-bg-mask"></span></label>
-
-                                                    <div class="form-group group dynamic-form-input-text-container-icon">
-                                                       <input type="text" class="input-text input-extra-border input-date input-date-illimited" name="at_date" required="" 
-                                                              placeholder="Select date">
-                                                       <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                                                    </div>
-
-                                                  </div>
-
-                                                  <div class="row sections-main-sub-container-right-main-rows">
-                                                    <div class="col-xs-12">
-                                                      <div class="form-group group">
-                                                        <textarea class="input-text input-text-area" id="at_note"></textarea>
-                                                        <label class="input-label">
-                                                          <span class="input-label-text">Note</span><span class="input-label-bg-mask"></span>
-                                                        </label>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-
-                                                  <!--  sub-container-form-footer -->
-                                                  <div class="sub-container-form-footer">
-                                                      <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button " onClick="saveAttitude()">
-                                                            <span class="button-text" >Save</span>
-                                                            <img class="icon button-icon" src="assets/icons/check_small.svg">
-                                                      </div>
-                                                      <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary" data-dismiss="modal" >
-                                                            <span class="button-text" >Cancel</span>
-                                                      </div>
-                                                  </div>
-                                                  <!--  End sub-container-form-footer -->
-
-                                              </div>
-
-                                          </div>
-
-                                        </div>
-
-                                      </div>
-
-                                    </div>
-
-                                  <!--_____________ End Attitude modal _____________-->
 
 
                                                                     <!--_____________ Attitude modal _____________-->
@@ -1090,7 +921,7 @@
                                   <div class="sub-container-form-footer-container">
                                         <!--  sub-container-form-footer -->
                                         <div class="sub-container-form-footer">
-                                            <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate " data-toggle="modal" data-target="#AddAbsenceModal">
+                                            <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate " data-toggle="modal" data-target="#AddStudentAbsenceModal">
                                                   <span class="button-text" id="">Add New</span>
                                                   <img class="icon button-icon" src="assets/icons/plus.svg">
                                             </div>
@@ -1111,12 +942,12 @@
                                   </div>
                                   <!-- End sub-container-form-footer-container -->
 
-                                  <!--_____________ Absence modal _____________-->
+                                   <!--_____________ Absence modal _____________-->
 
                                   <!-- Trigger the modal with a button -->
                                    
                                     <!-- Modal -->
-                                    <div id="AddAbsenceModal" class="modal" role="dialog">
+                                    <div id="EditAbsenceModal" class="modal modal-dom-change-watcher " role="dialog">
 
                                       <div class="modal-dialog modal-dialog-cente animate__animated animate__fadeIn ">
 
@@ -1136,15 +967,14 @@
 
                                                   <div class="row sections-main-sub-container-right-main-rows">
 
-
                                                       <div class="col-md-6">
 
                                                         <div class="dynamic-form-input-dropdown-container">
-                                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first ad_classe">
+                                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
                                                             <div class="dynamic-form-input">
                                                               <div class="dynamic-form-input-float-adjust">
                                                               <div class="form-group group form-group-right">
-                                                                <input type="text" class="input-dropdown" name="ad_classe" required="">
+                                                                <input type="text" class="input-dropdown" required="">
                                                                 
                                                                 <label class="input-label">
                                                                   <span class="input-label-text">Class</span><span class="input-label-bg-mask"></span>
@@ -1152,9 +982,9 @@
 
                                                                 <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
                                                                 <ul class="dynamic-form-input-dropdown-options" style="display: none; opacity: 0;">
-                                                                    <% for(var i=0; i<classes.length; i++) {%>
-                                                                       <li data-val="<%= classes[i].Classe_Label %>"><%= classes[i].Classe_Label %></li>
-                                                                    <% } %>
+                                                                    <li data-val="Class 1">Class 1</li>
+                                                                    <li data-val="Class 2">Class 2</li>
+                                                                    <li data-val="Class 3">Class 3</li>
                                                                 </ul>
                                                               </div>
                                                               </div>
@@ -1170,11 +1000,11 @@
                                                       <div class="col-md-6">
 
                                                         <div class="dynamic-form-input-dropdown-container">
-                                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first ad_student">
+                                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
                                                             <div class="dynamic-form-input">
                                                               <div class="dynamic-form-input-float-adjust">
                                                               <div class="form-group group form-group-right">
-                                                                <input type="text" class="input-dropdown" name="ad_student" required="">
+                                                                <input type="text" class="input-dropdown" required="">
                                                                 
                                                                 <label class="input-label">
                                                                   <span class="input-label-text">Student</span><span class="input-label-bg-mask"></span>
@@ -1213,7 +1043,7 @@
                                                               </div>
                                                             </div>
                                                             <div class="customCheck customCheckRounded">
-                                                              <input type="checkbox" checked value="1" data-val="Absence" name="checkbox" id="" />
+                                                              <input type="checkbox" checked value="0" data-val="Absence" name="checkbox" id="" />
                                                               <label for="ck"></label>
                                                             </div>
                                                         </div>
@@ -1225,7 +1055,7 @@
                                                               </div>
                                                             </div>
                                                             <div class="customCheck customCheckRounded">
-                                                              <input type="checkbox" value="0" data-val="Retard" name="checkbox" id="" />
+                                                              <input type="checkbox" value="1" data-val="Retard"  name="checkbox" id="" />
                                                               <label for="ck"></label>
                                                             </div>
                                                         </div>
@@ -1248,7 +1078,7 @@
                                                               </div>
                                                             </div>
                                                             <div class="customCheck customCheckRounded">
-                                                              <input type="checkbox" value="2" data-val="Period" name="checkbox" id="" />
+                                                              <input type="checkbox" value="0" data-val="Period" name="checkbox" id="" />
                                                               <label for="ck"></label>
                                                             </div>
                                                         </div>
@@ -1279,12 +1109,12 @@
                                                     <div class="flex flex-form-group-container">
 
                                                       <div class="form-group group dynamic-form-input-text-container-icon">
-                                                         <input type="text" name="period_start" class="input-text input-date input-date-illimited" required="" placeholder="Start date">
+                                                         <input type="text" class="input-text input-date input-date-illimited" required="" placeholder="Start date">
                                                          <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                                       </div>
 
                                                        <div class="form-group group dynamic-form-input-text-container-icon">
-                                                         <input type="text" name="period_end" class="input-text input-date input-date-illimited" required="" placeholder="End Date">
+                                                         <input type="text" class="input-text input-date input-date-illimited" required="" placeholder="End Date">
                                                          <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                                       </div>
 
@@ -1301,7 +1131,7 @@
                                                     <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Date </span> <span class="input-label-bg-mask"></span></label>
 
                                                     <div class="form-group group dynamic-form-input-text-container-icon">
-                                                       <input type="text" class="input-text input-extra-border  input-date input-date-limited" required="" name="ad_date" placeholder="Select date">
+                                                       <input type="text" class="input-text input-extra-border  input-date input-date-illimited" required="" placeholder="Select date">
                                                        <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                                     </div>
 
@@ -1315,12 +1145,12 @@
                                                     <div class="flex flex-form-group-container">
 
                                                       <div class="form-group group dynamic-form-input-text-container-icon">
-                                                         <input type="text" class="input-text input-time input-time-from" required="" name="time_start" placeholder="Time">
+                                                         <input type="text" class="input-text input-time" required="" placeholder="Time">
                                                          <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
                                                       </div>
 
                                                        <div class="form-group group dynamic-form-input-text-container-icon">
-                                                         <input type="text" name="time_end"  class="input-text input-time input-time-to" required="" placeholder="Time">
+                                                         <input type="text" class="input-text input-time" required="" placeholder="Time">
                                                          <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
                                                       </div>
 
@@ -1331,13 +1161,13 @@
                                                   <!--- End Show in case of Absense combined with Session || Retard -->
 
                                                   <!--  sub-container-form-footer -->
-                                                  <div class="sub-container-form-footer">
-                                                      <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button " onClick="saveAbsence()">
-                                                            <span class="button-text" >Save</span>
+                                                  <div class="sub-container-form-footer  hide-footer">
+                                                      <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button ">
+                                                            <span class="button-text" >Save Changes</span>
                                                             <img class="icon button-icon" src="assets/icons/check_small.svg">
                                                       </div>
-                                                      <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary" data-dismiss="modal"  >
-                                                            <span class="button-text" >Cancel</span>
+                                                      <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary  secondary-pink-button" data-toggle="modal" data-target="#EditAbsenceModal">
+                                                            <span class="button-text discard-changes" >Discard changes</span>
                                                       </div>
                                                   </div>
                                                   <!--  End sub-container-form-footer -->
@@ -1351,7 +1181,6 @@
                                       </div>
 
                                     </div>
-
                                   <!--_____________ End Absence modal _____________-->
 
                                   <!--_____________ Absence modal _____________-->
@@ -1580,7 +1409,7 @@
                                                             <img class="icon button-icon" src="assets/icons/check_small.svg">
                                                       </div>
                                                       <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary  secondary-pink-button" data-toggle="modal" data-target="#ChangesModal">
-                                                            <span class="button-text discard-changes" >Discard changes</span>
+                                                            <span class="button-text discard-changes" >Discard</span>
                                                       </div>
                                                   </div>
                                                   <!--  End sub-container-form-footer -->
@@ -1600,6 +1429,7 @@
                               <!-- End sections-main-sub-container-right-main-body : Absence -->
 
 
+                            
                               <!-- sections-main-sub-container-right-main-body : Finance -->
                               <div id="Finance" class="tab-pane fade  sections-main-sub-container-right-main-body">
 
@@ -1733,221 +1563,6 @@
                                   </div>
                                   <!-- End sub-container-form-footer-container -->
 
-
-                                  <!--_____________ Finance modal _____________-->
-
-                                  <!-- Trigger the modal with a button -->
-                                   
-                                    <!-- Modal -->
-                                    <div id="FinanceModal" class="modal" role="dialog">
-
-                                      <div class="modal-dialog modal-dialog-cente animate__animated animate__fadeIn ">
-
-                                        <!-- Modal content-->
-                                        <div class="modal-content modal-content-finance">
-
-                                          <div class="modal-body">
-
-                                              <!-- modal-body-container -->
-
-                                              <div class="modal-body-container">
-
-                                                 <h1 class="sub-container-main-header">Execute payment</h1>
-                                                 <h4 class="sub-container-sub-header">
-                                                  There are many variations of passages of Lorem Ipsum available, but the majority.
-                                                 </h4>
-
-                                                  <div class="row sections-main-sub-container-right-main-rows">
-
-
-                                                      <div class="col-md-6">
-
-                                                        <div class="dynamic-form-input-dropdown-container">
-                                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
-                                                            <div class="dynamic-form-input">
-                                                              <div class="dynamic-form-input-float-adjust">
-                                                              <div class="form-group group form-group-right">
-                                                                <input type="text" class="input-dropdown" required="">
-                                                                
-                                                                <label class="input-label">
-                                                                  <span class="input-label-text">Class</span><span class="input-label-bg-mask"></span>
-                                                                </label>
-
-                                                                <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
-                                                                <ul class="dynamic-form-input-dropdown-options" style="display: none; opacity: 0;">
-                                                                    <% for(var i=0; i<classes.length; i++) {%>
-                                                                       <li data-val="<%= classes[i].Classe_Label %>"><%= classes[i].Classe_Label %></li>
-                                                                    <% } %>
-                                                                </ul>
-                                                              </div>
-                                                              </div>
-                                                              <div class="square-button square-button-minus">
-                                                                <img class="icon" src="assets/icons/minus.svg">
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-
-                                                      </div>
-
-                                                      <div class="col-md-6">
-
-                                                        <div class="dynamic-form-input-dropdown-container">
-                                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
-                                                            <div class="dynamic-form-input">
-                                                              <div class="dynamic-form-input-float-adjust">
-                                                              <div class="form-group group form-group-right">
-                                                                <input type="text" class="input-dropdown" required="">
-                                                                
-                                                                <label class="input-label">
-                                                                  <span class="input-label-text">Student</span><span class="input-label-bg-mask"></span>
-                                                                </label>
-
-                                                                <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
-                                                                <ul class="dynamic-form-input-dropdown-options" style="display: inline-block; opacity: 1;">
-                                                                    <li data-val="Student 1">Student 1</li>
-                                                                    <li data-val="Student 2">Student 2</li>
-                                                                    <li data-val="Student 2">Student 3</li>
-                                                                </ul>
-                                                              </div>
-                                                              </div>
-                                                              <div class="square-button square-button-minus">
-                                                                <img class="icon" src="assets/icons/minus.svg">
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-
-                                                      </div>
-                                              
-                                                  </div>
-
-                                                  <div class="sections-main-sub-container-right-main-label-divider">
-                                                      <p>Monthly expences</p>
-                                                  </div>
-
-                                                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style">
-
-                                                    <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">School fees</span> <span class="input-label-bg-mask"></span></label>
-
-                                                    <div class="dynamic-form-input-dropdown-container">
-                                                      <div class="dynamic-form-input-dropdown dynamic-form-input-first">
-                                                        <div class="dynamic-form-input">
-
-                                                          <div class="form-group group">
-
-                                                              <select class="input-text-month-select2" multiple name="language">
-                                                                  <option value="Oct">January </option>
-                                                                  <option value="Oct">February </option>
-                                                                  <option value="Oct">March </option>
-                                                                  <option value="Oct">April </option>
-                                                              </select>
-
-                                                              <img class="icon button-icon" src="assets/icons/caret.svg">
-
-                                                          </div>
-
-                                                          <div class="square-button square-button-minus">
-                                                            <img class="icon" src="assets/icons/minus.svg">
-                                                          </div>
-
-                                                        </div>
-                                                      </div>
-                                                    </div>
-
-                                                  </div>
-
-                                                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style">
-
-                                                    <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Transport fees</span> <span class="input-label-bg-mask"></span></label>
-
-                                                    <div class="dynamic-form-input-dropdown-container">
-                                                      <div class="dynamic-form-input-dropdown dynamic-form-input-first">
-                                                        <div class="dynamic-form-input">
-
-                                                          <div class="form-group group">
-
-                                                              <select class="input-text-month-select2" multiple name="language">
-                                                                  <option value="Oct">January </option>
-                                                                  <option value="Oct">February </option>
-                                                                  <option value="Oct">March </option>
-                                                                  <option value="Oct">April </option>
-                                                                   <option value="Oct">January</option>
-                                                                  <option value="Oct">February</option>
-                                                                  <option value="Oct">March </option>
-                                                                  <option value="Oct">April </option>
-                                                              </select>
-                                                              
-                                                              <img class="icon button-icon" src="assets/icons/caret.svg">
-
-                                                          </div>
-
-                                                          <div class="square-button square-button-minus">
-                                                            <img class="icon" src="assets/icons/minus.svg">
-                                                          </div>
-
-                                                        </div>
-                                                      </div>
-                                                    </div>
-
-                                                  </div>
-
-                                                  <div class="sections-main-sub-container-right-main-label-divider">
-                                                      <p>Yearly expences</p>
-                                                  </div>
-
-                                                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style input-text-subject-select2-one-option">
-
-                                                    <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">School fees</span> <span class="input-label-bg-mask"></span></label>
-
-                                                    <div class="dynamic-form-input-dropdown-container">
-                                                      <div class="dynamic-form-input-dropdown dynamic-form-input-first">
-                                                        <div class="dynamic-form-input">
-
-                                                          <div class="form-group group">
-
-                                                              <select class="input-text-year-select2" multiple name="language">
-                                                                  <option seleted value="2021-2022">2021-2022</option>
-                                                              </select>
-
-                                                              <img class="icon button-icon" src="assets/icons/caret.svg">
-
-                                                          </div>
-
-                                                          <div class="square-button square-button-minus">
-                                                            <img class="icon" src="assets/icons/minus.svg">
-                                                          </div>
-
-                                                        </div>
-                                                      </div>
-                                                    </div>
-
-                                                  </div>
-
-                                                  <!--  sub-container-form-footer -->
-                                                  <div class="sub-container-form-footer">
-                                                      <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button ">
-                                                            <span class="button-text" >Save changes</span>
-                                                            <img class="icon button-icon" src="assets/icons/check_small.svg">
-                                                      </div>
-                                                      <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary" data-dismiss="modal" >
-                                                            <span class="button-text" >Cancel</span>
-                                                      </div>
-                                                  </div>
-                                                  <!--  End sub-container-form-footer -->
-
-                                              </div>
-
-                                          </div>
-
-                                        </div>
-
-                                      </div>
-
-                                    </div>
-
-                                  <!--_____________ End Finance modal _____________-->
-
                               </div>
                               <!-- End sections-main-sub-container-right-main-body : Finance -->
 
@@ -1986,7 +1601,7 @@
                                                 </div>
 
                                                 <div class="rounded-button default-button rounded-button-primary rounded-button-float-right  secondary-pink-button " data-dismiss="modal">
-                                                      <span class="button-text" >Discard changes</span>
+                                                      <span class="button-text" >Discard</span>
                                                 </div>
                                                
                                             </div>
@@ -2051,255 +1666,6 @@
 
                               </div>
                             <!--_____________ End ConfirmDelete modal _____________-->
-
-
-                            <!--_____________ Student modal _____________-->
-
-                                  <!-- Trigger the modal with a button -->
-                                   
-                                    <!-- Modal -->
-                                    <div id="AddStudentModal" class="modal" role="dialog">
-
-                                      <div class="modal-dialog modal-dialog-cente animate__animated animate__fadeIn">
-
-                                        <!-- Modal content-->
-                                        <div class="modal-content modal-content-finance">
-
-                                          <div class="modal-body">
-
-                                              <!-- modal-body-container -->
-
-                                              <div class="modal-body-container"  id="student_form">
-
-                                                 <h1 class="sub-container-main-header">New Student</h1>
-                                                 <h4 class="sub-container-sub-header">
-                                                  There are many variations of passages of Lorem Ipsum available.
-                                                 </h4>
-
-                                                  <!--________________  Student Form __________________-->
-
-                                                    <div class="sections-main-sub-container-right-main-header" >
-
-                                                      <div class="sections-main-sub-container-right-main-header-info">
-
-                                                        <div class="form-group form-group-modal-extra-style">
-                                                          <div class="input-img-container input-rounded-img-container">
-                                                            <img class="input-img"  src="assets/icons/Logo_placeholder.svg" id="output-img" alt="profile">
-                                                             <input type="file"  accept="image/*" name="profile_image" id="profile" style="display: none;">
-                                                            <div class="rounded-button">
-                                                              <img class="icon" src="assets/icons/plus.svg">
-                                                              <label for="profile" style="cursor: pointer; display: block; height: 100%;width: 100%;">
-                                                              </label></img>
-                                                            </div>
-                                                          </div>
-                                                          <p class="label-full-name label-full-name-modal" id="student_name"></p>
-                                                        </div>
-
-                                                      </div>
-
-                                                    </div>
-
-                                                    <div class="sections-main-sub-container-right-main-label-divider">
-                                                          <p>Student details</p>
-                                                    </div>
-
-                                                    <div class="row sections-main-sub-container-right-main-rows">
-
-                                                      <div class="col-md-6">
-                                                        <div class="form-group group">
-                                                          <input type="text" required="" name="first_name">
-                                                          <label class="input-label">
-                                                            <span class="input-label-text">First name</span><span class="input-label-bg-mask"></span>
-                                                          </label>
-                                                        </div>
-                                                      </div>
-
-                                                      <div class="col-md-6">
-                                                        <div class="form-group group">
-                                                          <input type="text" required="" name="last_name">
-                                                          <label class="input-label">
-                                                            <span class="input-label-text">Last name</span><span class="input-label-bg-mask"></span>
-                                                          </label>
-                                                        </div>
-                                                      </div>
-
-                                                    </div>
-
-                                                    <div class="row sections-main-sub-container-right-main-rows">
-
-                                                      <div class="col-md-6">
-
-                                                        <div class="dynamic-form-input-dropdown-container">
-                                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first input_level">
-                                                            <div class="dynamic-form-input">
-                                                              <div class="dynamic-form-input-float-adjust">
-                                                              <div class="form-group group form-group-right ">
-                                                                <input type="text" class="input-dropdown" required name="level">
-                                                                
-                                                                <label class="input-label">
-                                                                  <span class="input-label-text">Level</span><span class="input-label-bg-mask"></span>
-                                                                </label>
-
-                                                                <img class="icon button-icon" src="assets/icons/caret.svg">
-                                                                <ul class="dynamic-form-input-dropdown-options">
-                                                                     <% for(var i=0; i<levels.length; i++) {%>
-                                                                       <li data-val="<%= levels[i].Level_Label %>"><%= levels[i].Level_Label %></li>
-                                                                    <% } %>
-                                                                </ul>
-                                                              </div>
-                                                              </div>
-                                                              <div class="square-button square-button-minus">
-                                                                <img class="icon" src="assets/icons/minus.svg">
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-
-                                                      </div>
-
-
-                                                      <div class="col-md-6">
-
-                                                        <div class="dynamic-form-input-dropdown-container">
-                                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first input_classe">
-                                                            <div class="dynamic-form-input">
-                                                              <div class="dynamic-form-input-float-adjust">
-                                                              <div class="form-group group form-group-right">
-                                                                <input type="text" class="input-dropdown" required name="classe">
-                                                                
-                                                                <label class="input-label">
-                                                                  <span class="input-label-text">Class</span><span class="input-label-bg-mask"></span>
-                                                                </label>
-
-                                                                <img class="icon button-icon" src="assets/icons/caret.svg">
-                                                                <ul class="dynamic-form-input-dropdown-options">
-                                                                    <% for(var i=0; i<classes.length; i++) {%>
-                                                                       <li data-val="<%= classes[i].Classe_Label %>"><%= classes[i].Classe_Label %></li>
-                                                                    <% } %>
-                                                                </ul>
-                                                              </div>
-                                                              </div>
-                                                              <div class="square-button square-button-minus">
-                                                                <img class="icon" src="assets/icons/minus.svg">
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-
-                                                      </div>
-                                                      
-                                                    </div>
-
-                                                    <div class="row sections-main-sub-container-right-main-rows">
-
-                                                      <div class="col-md-6">
-                                                        <div class="form-group group ">
-                                                          <input type="text" required="" name="phone_number">
-                                                          <label class="input-label">
-                                                            <span class="input-label-text">Phone number</span><span class="input-label-bg-mask"></span>
-                                                          </label>
-                                                        </div>
-                                                      </div>
-
-                                                      <div class="col-md-6">
-                                                        <div class="form-group group dynamic-form-input-text-container-icon">
-                                                           <input type="text" class="input-text input-date input-date-illimited" required="" placeholder="" name="birthdate">
-                                                           <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                                                            <label class="input-label">
-                                                              <span class="input-label-text">Birthdate</span><span class="input-label-bg-mask"></span>
-                                                            </label>
-                                                        </div>
-                                                      </div>
-                                                      
-                                                    </div>
-
-                                                    <div class="row sections-main-sub-container-right-main-rows">
-
-                                                      <div class="col-md-12">
-                                                        <div class="form-group group ">
-                                                          <input type="text" required="" name="student_address">
-                                                          <label class="input-label">
-                                                            <span class="input-label-text">Address</span><span class="input-label-bg-mask"></span>
-                                                          </label>
-                                                        </div>
-                                                      </div>
-                                                      
-                                                    </div>
-
-                                                    <div class="sections-main-sub-container-right-main-label-divider">
-                                                          <p>Parents details</p>
-                                                    </div>
-
-                                                    <div class="row sections-main-sub-container-right-main-rows sections-main-sub-container-right-main-rows-parents">
-
-                                                      <div class="dynamic-form-input-parent dynamic-form-input-first">
-                                                        <div class="col-md-6">
-                                                          <div class="form-group group ">
-                                                            <input type="text" required="" name="parent_name">
-                                                            <label class="input-label">
-                                                              <span class="input-label-text">Parent full name</span><span class="input-label-bg-mask"></span>
-                                                            </label>
-                                                          </div>
-                                                        </div>
-
-                                                        <div class="col-md-5">
-                                                          <div class="form-group group ">
-                                                            <input type="text" required="" name="parent_phone">
-                                                            <label class="input-label">
-                                                              <span class="input-label-text">Parent phone number</span><span class="input-label-bg-mask"></span>
-                                                            </label>
-                                                          </div>
-                                                        </div>
-
-                                                        <div class="col-md-1">
-                                                          <div class="square-button">
-                                                            <img class="icon" src="assets/icons/minus.svg">
-                                                          </div>
-                                                        </div>
-
-                                                      </div>
-
-                                                      <div class="col-md-6">
-                                                        <div class="square-button square-button-extra-style" id="Modal_Parents_New_Dynamic_Form_Input">
-                                                          <img class="icon" src="assets/icons/plus.svg">
-                                                        </div>
-                                                      </div>
-                                                      
-                                                    </div>
-
-                                                    <div class="sections-main-sub-container-right-main-label-divider">
-                                                          <p>Subscription</p>
-                                                    </div>
-
-                                                    <div id="list_sub" class="row sections-main-sub-container-right-main-rows sections-label-checkbox-container-rows sections-label-checkbox-container-rows-extra-style">
-
-                                                    </div>
-
-                                                  <!--________________  End Student Form ______________-->
-
-                                                  <!--  sub-container-form-footer -->
-                                                  <div class="sub-container-form-footer">
-                                                      <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button " onClick="saveStudent()">
-                                                            <span class="button-text" >Save</span>
-                                                            <img class="icon button-icon" src="assets/icons/check_small.svg">
-                                                      </div>
-                                                      <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary" data-dismiss="modal" >
-                                                            <span class="button-text" >Cancel</span>
-                                                      </div>
-                                                  </div>
-                                                  <!--  End sub-container-form-footer -->
-
-                                              </div>
-
-                                            </div>
-
-                                        </div>
-
-                                      </div>
-
-                                    </div>
-
-                            <!--_____________ End Student modal _____________-->
 
 
 
@@ -2446,6 +1812,11 @@
     </div>
     <!-- sub-container -->
 
+     <!--________________ Modals _____________-->
+
+        <%- include('./partials/modals'); %>
+
+    <!--________________ End Modals _____________-->
     <script src="/javascripts/student.js" type="text/javascript" charset="utf-8" async defer>
       
     </script>

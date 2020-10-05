@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	 <title><%= title %></title>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <!--____________________________bootstrap______________________________-->
+
+  <link rel="stylesheet" href="assets/internal_assets/w3css.css">
+
+  <link rel="stylesheet" href="assets/internal_assets/bootstrap.v3.3.7.min.css">
+
+  <script src="assets/internal_assets/jquery.v3.2.1.min.js"></script>
+
+  <script src="assets/internal_assets/bootstrap.v3.3.7.min.js"></script>
+
+
+  <!--______________________________MainStyle____________________________-->
+  
+  <link rel="stylesheet" href="assets/styles/MainStyle/MainStyle.css"/>
+
+  <script src="assets/scripts/MainScript/MainScript.js"></script>
+
+
+  <!--______________________________MainStyle____________________________-->
+
+  <!--______________________________ datepicker ____________________________-->
+
+  <link href="assets/includes/dist_datepicker/css/datepicker.css" rel="stylesheet">
+
+  <script src="assets/includes/dist_datepicker/js/datepicker.js"></script>
+
+  <script src="assets/includes/dist_datepicker/js/i18n/datepicker.multi-lang.js"></script>
+
+  <!--______________________________ jQuery Timepicker 1.3.5 ____________________________-->
+
+  <link href="assets/includes/dist_datepicker/jquery.timepicker.min.css" rel="stylesheet">
+
+  <script src="assets/includes/dist_datepicker/jquery.timepicker.min.js"></script>
+
+
+  <!--____________________________fastselect______________________________-->
+  <link rel="stylesheet" href="assets/includes/dist/fastselect.css">
+  <script src="assets/includes/dist/fastselect.standalone.min.js"></script>
+
+  <!--____________________________ select2 ______________________________--> 
+
+     <link rel="stylesheet"  href="assets/includes/select2/select2.min.css"/>
+     <script src="assets/includes/select2/select2.min.js"></script>
+     <link rel="stylesheet"  href="assets/includes/select2/normalize.min.css"/>
+
+    <!--____________________________owl carousel______________________________-->
+
+  <link rel="stylesheet" href="assets/includes/owl-carousel/owl.carousel.css"/> 
+  <link rel="stylesheet" href="assets/includes/owl-carousel/owl.theme.css"/>  
+  <link rel="stylesheet" href="assets/includes/owl-carousel/owl.transitions.css"/>
+  <script src="assets/includes/owl-carousel/owl.carousel.min.js"></script>
+
+    <link rel="stylesheet"  href="assets/includes/animated.css"/>
+
+</head>
+
+<!-- sections-main-container -->
+<body class="sections-main-container">
+  
+    <!-- main-container -->
+    <div class="main-container">
+
+      <!-- setup-main-container -->
+      <%- include('./partials/side_bar',{institution: institution}); %>
+      <!-- end setup-main-container -->
+
+      <!-- sub-container -->
+      <div class="sub-container">
+
+        <div class="sub-container-nav-bar">
+            <span class="sub-container-nav-bar-title">Teachers</span>
+            <img  class="sub-container-nav-bar-img" src="<%= user.User_Image %>" alt="profile">
+        </div>
+
+        <!-- nav -->
+          <%- include('./partials/nav_bar', {user: user}); %>
+        <!-- End nav -->
+
+        <!--  sections-main-sub-container 100%  -->
+        <div class="sections-main-sub-container">
+
+                <!--  sections-main-sub-container-left 30%  -->
+                <div class="sections-main-sub-container-left">
+
+                  <!--  sections-main-sub-container-left-search-bar  -->
+
+                  <!-- .disable-action to disable user actions based on view role -->
+                  <div class="sections-main-sub-container-left-search-bar ">
+
+
+                    <div class="dynamic-form-input-dropdown-container">
+                      <div class="dynamic-form-input-dropdown "> <!-- dynamic-form-input-first for full width inputs -->
+                        <div class="dynamic-form-input">
+
+                          <div class="dynamic-form-input-float-adjust">
+                            <div class="form-group group form-group-left">
+                              <input type="text" value="Classes" class="input-dropdown" required="">
+                              <img class="icon button-icon" src="assets/icons/caret.svg">
+                              <ul class="dynamic-form-input-dropdown-options">
+                                  <li data-val="Class 1">Class 1</li>
+                                  <li data-val="Class 2">Class 2</li>
+                              </ul>
+                            </div>
+                            <div class="form-group group form-group-right">
+                               <input type="text" class="input-text" required="" placeholder="Search teacher">
+                               <img class="icon button-icon caret-disable-rotate" src="assets/icons/sidebar_icons/search.svg">
+                            </div>
+
+                            <div class="square-button square-button-minus" data-toggle="modal" data-target="#AddTeacherModal">
+                              <img class="icon" src="assets/icons/plus.svg">
+                            </div>
+
+                          </div>
+
+
+
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                  <!--  sections-main-sub-container-left-search-bar  -->
+
+                  <!--  sections-main-sub-container-left-card-container  -->
+                  <div class="sections-main-sub-container-left-card-container">
+                    <!--  sections-main-sub-container-left-cards  -->
+                    <div class="sections-main-sub-container-left-card">
+                          <img class="sections-main-sub-container-left-card-main-img" src="assets/images/profiles/Profile1.jpg" alt="card-img">
+                          <div class="sections-main-sub-container-left-card-info">
+                              <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
+                              <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
+                          </div>
+                    </div>
+                    <!--  End sections-main-sub-container-left-cards  -->
+
+                    <!--  sections-main-sub-container-left-cards  -->
+                    <div class="sections-main-sub-container-left-card active">
+                          <img class="sections-main-sub-container-left-card-main-img" src="assets/images/profiles/Profile.jpg" alt="card-img">
+                          <div class="sections-main-sub-container-left-card-info">
+                              <p class="sections-main-sub-container-left-card-main-info">Chloé Modibo</p>
+                              <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
+                          </div>
+                    </div>
+                    <!--  End sections-main-sub-container-left-cards  -->
+                    <!--  sections-main-sub-container-left-cards  -->
+                    <div class="sections-main-sub-container-left-card">
+                          <img class="sections-main-sub-container-left-card-main-img" src="assets/images/profiles/Profile1.jpg" alt="card-img">
+                          <div class="sections-main-sub-container-left-card-info">
+                              <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
+                              <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
+                          </div>
+                    </div>
+                    <!--  End sections-main-sub-container-left-cards  -->
+
+                    <!--  sections-main-sub-container-left-cards  -->
+                    <div class="sections-main-sub-container-left-card">
+                          <img class="sections-main-sub-container-left-card-main-img" src="assets/images/profiles/Profile.jpg" alt="card-img">
+                          <div class="sections-main-sub-container-left-card-info">
+                              <p class="sections-main-sub-container-left-card-main-info">Chloé Modibo</p>
+                              <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
+                          </div>
+                    </div>
+                    <!--  End sections-main-sub-container-left-cards  -->
+                  </div>
+                  <!--  End sections-main-sub-container-left-card-container  -->
+
+                </div>
+
+                <!--  sections-main-sub-container-right 70%  -->
+                <div class="sections-main-sub-container-right">
+
+                    <!-- sections-main-sub-container-right-main -->
+                    <div class="sections-main-sub-container-right-main">
+
+                        <div class="sub-container-form">
+                            <!-- sections-main-sub-container-right-main-header -->
+                            <div class="sections-main-sub-container-right-main-header">
+
+                                <div class="sections-main-sub-container-right-main-header-info">
+
+                                  <div class="form-group">
+                                    <div class="input-img-container input-rounded-img-container">
+                                      <img class="input-img" src="assets/images/profiles/Profile.jpg" alt="profile">
+                                      <div class="rounded-button">
+                                        <img class="icon" src="assets/icons/plus.svg">
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <p class="label-full-name">Chloé Modibo</p>
+
+                                </div>
+
+
+                                <!-- sections-main-sub-container-right-main-header-option-list -->
+                                <div class="sections-main-sub-container-right-main-header-option-list-container">
+                                <img class="sections-main-sub-container-right-main-header-option-icon" src="assets/icons/options.svg">
+                                <div class="sections-main-sub-container-right-main-header-option-list">
+                                  <div class="sections-main-sub-container-right-main-header-option-list-li
+                                              sections-main-sub-container-right-main-header-option-list-li-delete">
+                                    <img src="assets/icons/delete.svg" alt="edit"/>   
+                                    <span class="sections-main-sub-container-right-main-header-option-list-span">Delete</span>
+                                  </div>
+                                  <img class="sections-main-sub-container-right-main-header-option-icon-close" alt="close" src="assets/icons/close.svg">
+                                </div>
+                                </div>
+                                <!-- End sections-main-sub-container-right-main-header-option-list -->
+
+                            </div>
+
+
+                            <div class="sections-main-sub-container-right-main-tabs sections-main-sub-container-right-main-tabs-extra-style">
+                                <ul class="clearfix nav nav-tabs">
+                                  <li class="active"><a data-toggle="tab" href="#Details">Details</a></li>
+                                  <li><a data-toggle="tab" href="#Absence">Absence</a></li>
+                                </ul>
+                            </div>
+
+
+                            <!-- End sections-main-sub-container-right-main-header -->
+
+                            <!-- tab-content -->
+                            <div class="tab-content">
+
+                              <!-- sections-main-sub-container-right-main-body : Details -->
+                              <div id="Details" class="tab-pane fade in active sections-main-sub-container-right-main-body dom-change-watcher">
+
+                                  <div class="sections-main-sub-container-right-main-label-divider">
+                                        <p>Teacher details</p>
+                                  </div>
+
+                                  <div class="row sections-main-sub-container-right-main-rows">
+
+                                    <div class="col-md-6">
+                                      <div class="form-group group">
+                                        <input type="text" required="">
+                                        <label class="input-label">
+                                          <span class="input-label-text">First name</span><span class="input-label-bg-mask"></span>
+                                        </label>
+                                      </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                      <div class="form-group group">
+                                        <input type="text" required="">
+                                        <label class="input-label">
+                                          <span class="input-label-text">Last name</span><span class="input-label-bg-mask"></span>
+                                        </label>
+                                      </div>
+                                    </div>
+
+                                  </div>
+
+                                  <div class="row sections-main-sub-container-right-main-rows">
+
+                                    <div class="col-md-6">
+                                      <div class="form-group group ">
+                                        <input type="text" required="">
+                                        <label class="input-label">
+                                          <span class="input-label-text">Phone number</span><span class="input-label-bg-mask"></span>
+                                        </label>
+                                      </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                      <div class="form-group group dynamic-form-input-text-container-icon">
+                                         <input type="text" class="input-text input-date input-date-limited" required="" placeholder="">
+                                         <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
+                                          <label class="input-label">
+                                            <span class="input-label-text">Birthdate</span><span class="input-label-bg-mask"></span>
+                                          </label>
+                                      </div>
+                                    </div>
+                                    
+                                  </div>
+
+                                  <!--  sub-container-form-footer -->
+                                  <div class="sub-container-form-footer-container">
+                                       
+                                        <div class="sub-container-form-footer hide-footer">
+                                            <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate rounded-button-primary-green-color">
+                                                  <span class="button-text" id="">Save changes</span>
+                                                  <img class="icon button-icon" src="assets/icons/check_small.svg">
+                                            </div>
+                                            <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary secondary-pink-button" data-toggle="modal" data-target="#ChangesModal">
+                                                  <span class="button-text discard-changes" >Discard</span>
+                                            </div>
+                                        </div>
+                                        
+                                  </div>  
+                                  <!--  End sub-container-form-footer -->
+
+                              </div>
+                              <!-- End sections-main-sub-container-right-main-body : Details -->
+
+
+                              <!-- sections-main-sub-container-right-main-body : Absence -->
+                              <div id="Absence" class="tab-pane fade  sections-main-sub-container-right-main-body">
+
+                                  <div class="sections-main-sub-container-right-main-label-divider">
+                                        <p>Reported absence</p>
+                                  </div>
+
+                                  <div class="row sections-main-sub-container-right-main-rows">
+
+                                    <div class="col-xs-12">
+
+                                      <table>
+
+                                        <thead>
+                                          <tr>
+                                            <th scope="col"></th>
+                                            <th scope="col">From</th>
+                                            <th scope="col">To</th>
+                                          </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                          <tr>
+
+                                            <td data-label="Subject name" class="td-label">Absence</td>
+
+                                            <td class="readonly" data-label="From">
+                                                <div class="form-group group dynamic-form-input-text-container-icon">
+                                                   <input type="text" value="09-05-2020" class="input-text" required="" placeholder="Date">
+                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
+                                                </div>
+                                            </td>
+
+
+                                            <td class="readonly"  data-label="To">
+                                                <div class="form-group group dynamic-form-input-text-container-icon">
+                                                   <input type="text" value="09-05-2020" class="input-text" required="" placeholder="Date">
+                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
+                                                </div>
+
+                                                <!-- table-option-list -->
+                                                <img class="table-option-icon" src="assets/icons/options.svg">
+
+                                                <div class="table-option-list">
+                                                  <div class="table-option-list-li table-option-list-li-edit">
+                                                    <img src="assets/icons/edit.svg" alt="edit"/>   
+                                                    <span class="table-option-list-span">Edit</span>
+                                                  </div>
+                                                  <div class="table-option-list-li table-option-list-li-delete">
+                                                    <img src="assets/icons/delete.svg" alt="delete"/> 
+                                                    <span class="table-option-list-span">Delete</span>
+                                                  </div>
+                                                  <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg">
+                                                </div>
+                                                <!-- End table-option-list -->
+
+                                            </td>
+                                            
+                                          </tr>
+
+                                          <tr>
+
+                                            <td data-label="Subject name" class="td-label">Absence</td>
+
+                                            <td class="readonly" data-label="From">
+                                                <div class="form-group group dynamic-form-input-text-container-icon">
+                                                   <input type="text" value="09-05-2020" class="input-text" required="" placeholder="Date">
+                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
+                                                </div>
+                                            </td>
+
+
+                                            <td class="readonly"  data-label="To">
+                                                <div class="form-group group dynamic-form-input-text-container-icon">
+                                                   <input type="text" value="09-05-2020" class="input-text" required="" placeholder="Date">
+                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
+                                                </div>
+
+                                                <!-- table-option-list -->
+                                                <img class="table-option-icon" src="assets/icons/options.svg">
+
+                                                <div class="table-option-list">
+                                                  <div class="table-option-list-li table-option-list-li-edit">
+                                                    <img src="assets/icons/edit.svg" alt="edit"/>   
+                                                    <span class="table-option-list-span">Edit</span>
+                                                  </div>
+                                                  <div class="table-option-list-li table-option-list-li-delete">
+                                                    <img src="assets/icons/delete.svg" alt="delete"/> 
+                                                    <span class="table-option-list-span">Delete</span>
+                                                  </div>
+                                                  <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg">
+                                                </div>
+                                                <!-- End table-option-list -->
+
+                                            </td>
+                                            
+                                          </tr>
+
+                                        </tbody>
+
+                                      </table>
+                                    </div>
+
+                                  </div>                                            
+
+                                  <div class="sections-main-sub-container-right-main-label-divider">
+                                        <p>Absence & Retard</p>
+                                  </div>
+
+                                  <div class="row sections-main-sub-container-right-main-rows">
+
+                                    <div class="col-xs-12">
+
+                                      <table>
+
+                                        <thead>
+                                          <tr>
+                                            <th scope="col">Type</th>
+                                            <th scope="col">From</th>
+                                            <th scope="col">To</th>
+                                            <th scope="col">Date</th>
+                                          </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                          <tr>
+
+                                            <td data-label="Subject name" class="td-label">Absence</td>
+
+                                            <td class="readonly" data-label="From">
+                                                <div class="form-group group dynamic-form-input-text-container-icon">
+                                                   <input type="text" value="10:00" class="input-text" required="" placeholder="Date">
+                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
+                                                </div>
+                                            </td>
+
+
+                                            <td class="readonly" data-label="To">
+                                                <div class="form-group group dynamic-form-input-text-container-icon">
+                                                   <input type="text" value="12:00" class="input-text" required="" placeholder="Date">
+                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
+                                                </div>
+                                            </td>
+
+                                            <td class="readonly" data-label="Date">
+
+                                                <div class="form-group group dynamic-form-input-text-container-icon">
+                                                   <input type="text" value="09-05-2020" class="input-text" required="" placeholder="Date">
+                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
+                                                </div>
+
+                                                <img class="table-option-icon" src="assets/icons/options.svg">
+
+                                                <div class="table-option-list">
+                                                  <div class="table-option-list-li table-option-list-li-edit">
+                                                    <img src="assets/icons/edit.svg" alt="edit"/>   
+                                                    <span class="table-option-list-span">Edit</span>
+                                                  </div>
+                                                  <div class="table-option-list-li table-option-list-li-delete">
+                                                    <img src="assets/icons/delete.svg" alt="delete"/> 
+                                                    <span class="table-option-list-span">Delete</span>
+                                                  </div>
+                                                  <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg">
+                                                </div>
+
+                                            </td>
+                                            
+                                          </tr>
+
+                                          <tr>
+
+                                            <td data-label="Subject name" class="td-label">Absence</td>
+
+                                            <td class="readonly" data-label="From">
+                                                <div class="form-group group dynamic-form-input-text-container-icon">
+                                                   <input type="text" value="10:00" class="input-text" required="" placeholder="Date">
+                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
+                                                </div>
+                                            </td>
+
+
+                                            <td class="readonly" data-label="To">
+                                                <div class="form-group group dynamic-form-input-text-container-icon">
+                                                   <input type="text" value="12:00" class="input-text" required="" placeholder="Date">
+                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
+                                                </div>
+                                            </td>
+
+                                            <td class="readonly" data-label="Date">
+
+                                                <div class="form-group group dynamic-form-input-text-container-icon">
+                                                   <input type="text" value="09-05-2020" class="input-text" required="" placeholder="Date">
+                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
+                                                </div>
+
+                                                <!-- table-option-list -->
+                                                <img class="table-option-icon" src="assets/icons/options.svg">
+
+                                                <div class="table-option-list">
+                                                  <div class="table-option-list-li table-option-list-li-edit">
+                                                    <img src="assets/icons/edit.svg" alt="edit"/>   
+                                                    <span class="table-option-list-span">Edit</span>
+                                                  </div>
+                                                  <div class="table-option-list-li table-option-list-li-delete">
+                                                    <img src="assets/icons/delete.svg" alt="delete"/> 
+                                                    <span class="table-option-list-span">Delete</span>
+                                                  </div>
+                                                  <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg">
+                                                </div>
+                                                <!-- End table-option-list -->
+
+                                            </td>
+                                            
+                                          </tr>
+
+                                        </tbody>
+
+                                      </table>
+                                    </div>
+
+                                  </div>
+
+
+                                  <!-- sub-container-form-footer-container -->
+                                  <div class="sub-container-form-footer-container">
+                                        <!--  sub-container-form-footer -->
+                                        <div class="sub-container-form-footer">
+                                            <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate " data-toggle="modal" data-target="#AddAbsenceModal">
+                                                  <span class="button-text" id="">Add New</span>
+                                                  <img class="icon button-icon" src="assets/icons/plus.svg">
+                                            </div>
+                                        </div>
+                                        <!--  End sub-container-form-footer -->
+
+                                        <!--  sub-container-form-footer -->
+                                        <div class="sub-container-form-footer visibility">
+                                            <div class="rounded-button rounded-button-primary rounded-button-float-right">
+                                                  <span class="button-text">Save changes</span>
+                                                  <img class="icon button-icon" src="assets/icons/check_small.svg">
+                                            </div>
+                                            <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary">
+                                                  <span class="button-text" id="TeacherBtnCancel" >Cancel</span>
+                                            </div>
+                                        </div>
+                                        <!--  End sub-container-form-footer -->
+                                  </div>
+                                  <!-- End sub-container-form-footer-container -->
+
+                                  <!--_____________ Absence modal _____________-->
+
+                                  <!-- Trigger the modal with a button -->
+                                   
+                                    <!-- Modal -->
+                                    <div id="AddAbsenceModal" class="modal" role="dialog">
+
+                                      <div class="modal-dialog modal-dialog-cente animate__animated animate__fadeIn ">
+
+                                        <!-- Modal content-->
+                                        <div class="modal-content modal-content-finance">
+
+                                          <div class="modal-body">
+
+                                              <!-- modal-body-container -->
+
+                                              <div class="modal-body-container">
+
+                                                 <h1 class="sub-container-main-header">Absence & Retard</h1>
+                                                 <h4 class="sub-container-sub-header">
+                                                  There are many variations of passages of Lorem Ipsum available.
+                                                 </h4>
+
+                                                  <div class="row sections-main-sub-container-right-main-rows">
+
+
+                                                      <div class="col-md-6">
+
+                                                        <div class="dynamic-form-input-dropdown-container">
+                                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                                                            <div class="dynamic-form-input">
+                                                              <div class="dynamic-form-input-float-adjust">
+                                                              <div class="form-group group form-group-right">
+                                                                <input type="text" class="input-dropdown" required="">
+                                                                
+                                                                <label class="input-label">
+                                                                  <span class="input-label-text">Class</span><span class="input-label-bg-mask"></span>
+                                                                </label>
+
+                                                                <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
+                                                                <ul class="dynamic-form-input-dropdown-options" style="display: none; opacity: 0;">
+                                                                    <li data-val="Class 1">Class 1</li>
+                                                                    <li data-val="Class 2">Class 2</li>
+                                                                    <li data-val="Class 3">Class 3</li>
+                                                                </ul>
+                                                              </div>
+                                                              </div>
+                                                              <div class="square-button square-button-minus">
+                                                                <img class="icon" src="assets/icons/minus.svg">
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+
+                                                      </div>
+
+                                                      <div class="col-md-6">
+
+                                                        <div class="dynamic-form-input-dropdown-container">
+                                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                                                            <div class="dynamic-form-input">
+                                                              <div class="dynamic-form-input-float-adjust">
+                                                              <div class="form-group group form-group-right">
+                                                                <input type="text" class="input-dropdown" required="">
+                                                                
+                                                                <label class="input-label">
+                                                                  <span class="input-label-text">Teacher</span><span class="input-label-bg-mask"></span>
+                                                                </label>
+
+                                                                <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
+                                                                <ul class="dynamic-form-input-dropdown-options" style="display: inline-block; opacity: 1;">
+                                                                    <li data-val="Teacher 1">Teacher 1</li>
+                                                                    <li data-val="Teacher 2">Teacher 2</li>
+                                                                    <li data-val="Teacher 2">Teacher 3</li>
+                                                                </ul>
+                                                              </div>
+                                                              </div>
+                                                              <div class="square-button square-button-minus">
+                                                                <img class="icon" src="assets/icons/minus.svg">
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+
+                                                      </div>
+                                              
+                                                  </div>
+
+                                                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style">
+
+                                                      <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Absence or Retard </span> <span class="input-label-bg-mask"></span></label>
+
+                                                      <div class="sections-checkboxes-main-container">
+
+                                                        <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left   
+                                                             dynamic-form-input-container-type" data-val="Absence" >
+                                                            <div class="sections-label-checkbox-container " >
+                                                              <div class="form-group group ">
+                                                                <span class="expense_label">Absence</span>
+                                                              </div>
+                                                            </div>
+                                                            <div class="customCheck customCheckRounded">
+                                                              <input type="checkbox" checked value="0" data-val="Absence" name="checkbox" id="" />
+                                                              <label for="ck"></label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left container-background-style" data-val="Retard">
+                                                            <div class="sections-label-checkbox-container ">
+                                                              <div class="form-group group ">
+                                                                <span class="expense_label">Retard</span>
+                                                              </div>
+                                                            </div>
+                                                            <div class="customCheck customCheckRounded">
+                                                              <input type="checkbox" value="1" data-val="Retard"  name="checkbox" id="" />
+                                                              <label for="ck"></label>
+                                                            </div>
+                                                        </div>
+
+                                                      </div>
+
+                                                  </div>
+
+                                                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style
+                                                       dynamic-form-input-container-session">
+
+                                                      <label class="input-label dynamic-form-input-container-label"><span class="input-label-text"> Period or Session </span> <span class="input-label-bg-mask"></span></label>
+
+                                                      <div class="sections-checkboxes-main-container">
+
+                                                        <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left container-background-style" data-val="Period">
+                                                            <div class="sections-label-checkbox-container ">
+                                                              <div class="form-group group ">
+                                                                <span class="expense_label">Period</span>
+                                                              </div>
+                                                            </div>
+                                                            <div class="customCheck customCheckRounded">
+                                                              <input type="checkbox" value="0" data-val="Period" name="checkbox" id="" />
+                                                              <label for="ck"></label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left "
+                                                             data-val="Session">
+                                                            <div class="sections-label-checkbox-container" >
+                                                              <div class="form-group group ">
+                                                                <span class="expense_label">Session</span>
+                                                              </div>
+                                                            </div>
+                                                            <div class="customCheck customCheckRounded">
+                                                              <input type="checkbox" value="1" data-val="Session" checked  name="checkbox" id="" />
+                                                              <label for="ck"></label>
+                                                            </div>
+                                                        </div>
+
+                                                      </div>
+
+                                                  </div>
+
+                                                  <!--- Show in case of Absense combined with Period -->
+                                                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style
+                                                       dynamic-form-input-container-multi-date">
+
+                                                    <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Period</span> <span class="input-label-bg-mask"></span></label>
+
+                                                    <div class="flex flex-form-group-container">
+
+                                                      <div class="form-group group dynamic-form-input-text-container-icon">
+                                                         <input type="text" class="input-text input-date input-date-illimited" required="" placeholder="Start date">
+                                                         <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
+                                                      </div>
+
+                                                       <div class="form-group group dynamic-form-input-text-container-icon">
+                                                         <input type="text" class="input-text input-date input-date-illimited" required="" placeholder="End Date">
+                                                         <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
+                                                      </div>
+
+                                                    </div>
+
+                                                  </div>
+                                                  <!--- End Show in case of Absense combined with Period -->
+
+                                                  <!--- Show in case of Absense combined with Session || Retard -->
+
+                                                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style
+                                                       dynamic-form-input-container-one-date">
+
+                                                    <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Date </span> <span class="input-label-bg-mask"></span></label>
+
+                                                    <div class="form-group group dynamic-form-input-text-container-icon">
+                                                       <input type="text" class="input-text input-extra-border  input-date input-date-illimited" required="" placeholder="Select date">
+                                                       <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
+                                                    </div>
+
+                                                  </div>
+
+                                                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style
+                                                       dynamic-form-input-container-multi-time">
+
+                                                    <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Select time </span> <span class="input-label-bg-mask"></span></label>
+
+                                                    <div class="flex flex-form-group-container">
+
+                                                      <div class="form-group group dynamic-form-input-text-container-icon">
+                                                         <input type="text" class="input-text input-time" required="" placeholder="Time">
+                                                         <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
+                                                      </div>
+
+                                                       <div class="form-group group dynamic-form-input-text-container-icon">
+                                                         <input type="text" class="input-text input-time" required="" placeholder="Time">
+                                                         <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
+                                                      </div>
+
+                                                    </div>
+
+                                                  </div>
+
+                                                  <!--- End Show in case of Absense combined with Session || Retard -->
+
+                                                  <!--  sub-container-form-footer -->
+                                                  <div class="sub-container-form-footer">
+                                                      <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button ">
+                                                            <span class="button-text" >Save</span>
+                                                            <img class="icon button-icon" src="assets/icons/check_small.svg">
+                                                      </div>
+                                                      <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary">
+                                                            <span class="button-text" data-dismiss="modal" >Cancel</span>
+                                                      </div>
+                                                  </div>
+                                                  <!--  End sub-container-form-footer -->
+
+                                              </div>
+
+                                          </div>
+
+                                        </div>
+
+                                      </div>
+
+                                    </div>
+
+                                  <!--_____________ End Absence modal _____________-->
+
+                              </div>
+                              <!-- End sections-main-sub-container-right-main-body : Absence -->
+
+                            </div>
+                            <!-- End tab-content -->
+
+
+                            <!--_____________ ChangesModal modal _____________-->
+
+                            <!-- Trigger the modal with a button -->
+                             
+                              <!-- Modal data-toggle="modal" data-target="#ChangesModal" -->
+                              <div id="ChangesModal" class="modal" role="dialog" >
+
+                                <div class="modal-dialog modal-dialog-centered animate__animated animate__fadeIn ">
+
+                                  <!-- Modal content-->
+                                  <div class="modal-content modal-content-finance">
+
+                                    <div class="modal-body">
+
+                                        <!-- modal-body-container -->
+
+                                        <div class="modal-body-container">
+
+                                           <h1 class="sub-container-main-header sub-container-main-header-extra-style">Review changes</h1>
+                                           <h4 class="sub-container-sub-header  sub-container-sub-header-extra-style">
+                                            You have made changes. Are you sure you want to discard them?
+                                           </h4>
+
+                                            <!--  sub-container-form-footer -->
+                                            <div class="sub-container-form-footer">
+
+                                               <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button ">
+                                                            <span class="button-text" >Save changes</span>
+                                                            <img class="icon button-icon" src="assets/icons/check_small.svg">
+                                                </div>
+
+                                                <div class="rounded-button default-button rounded-button-primary rounded-button-float-right  secondary-pink-button ">
+                                                      <span class="button-text" >Discard</span>
+                                                </div>
+                                               
+                                            </div>
+                                            <!--  End sub-container-form-footer -->
+
+                                        </div>
+
+                                    </div>
+
+                                  </div>
+
+                                </div>
+
+                              </div>
+                            <!--_____________ End ChangesModal modal _____________-->
+
+
+                            <!--_____________ Edit Teacher Absence modal _____________-->
+
+                                  <!-- Trigger the modal with a button -->
+                                   
+                                    <!-- Modal -->
+                                    <div id="EditAbsenceModal" class="modal" role="dialog">
+
+                                      <div class="modal-dialog modal-dialog-cente animate__animated animate__fadeIn ">
+
+                                        <!-- Modal content-->
+                                        <div class="modal-content modal-content-finance">
+
+                                          <div class="modal-body">
+
+                                              <!-- modal-body-container -->
+
+                                              <div class="modal-body-container">
+
+                                                 <h1 class="sub-container-main-header">Absence & Retard</h1>
+                                                 <h4 class="sub-container-sub-header">
+                                                  There are many variations of passages of Lorem Ipsum available.
+                                                 </h4>
+
+                                                  <div class="row sections-main-sub-container-right-main-rows">
+
+
+                                                      <div class="col-md-6">
+
+                                                        <div class="dynamic-form-input-dropdown-container">
+                                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                                                            <div class="dynamic-form-input">
+                                                              <div class="dynamic-form-input-float-adjust">
+                                                              <div class="form-group group form-group-right">
+                                                                <input type="text" class="input-dropdown" required="">
+                                                                
+                                                                <label class="input-label">
+                                                                  <span class="input-label-text">Class</span><span class="input-label-bg-mask"></span>
+                                                                </label>
+
+                                                                <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
+                                                                <ul class="dynamic-form-input-dropdown-options" style="display: none; opacity: 0;">
+                                                                    <li data-val="Class 1">Class 1</li>
+                                                                    <li data-val="Class 2">Class 2</li>
+                                                                    <li data-val="Class 3">Class 3</li>
+                                                                </ul>
+                                                              </div>
+                                                              </div>
+                                                              <div class="square-button square-button-minus">
+                                                                <img class="icon" src="assets/icons/minus.svg">
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+
+                                                      </div>
+
+                                                      <div class="col-md-6">
+
+                                                        <div class="dynamic-form-input-dropdown-container">
+                                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                                                            <div class="dynamic-form-input">
+                                                              <div class="dynamic-form-input-float-adjust">
+                                                              <div class="form-group group form-group-right">
+                                                                <input type="text" class="input-dropdown" required="">
+                                                                
+                                                                <label class="input-label">
+                                                                  <span class="input-label-text">Teacher</span><span class="input-label-bg-mask"></span>
+                                                                </label>
+
+                                                                <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
+                                                                <ul class="dynamic-form-input-dropdown-options" style="display: inline-block; opacity: 1;">
+                                                                    <li data-val="Student 1">Teacher 1</li>
+                                                                    <li data-val="Student 2">Teacher 2</li>
+                                                                    <li data-val="Student 2">Teacher 3</li>
+                                                                </ul>
+                                                              </div>
+                                                              </div>
+                                                              <div class="square-button square-button-minus">
+                                                                <img class="icon" src="assets/icons/minus.svg">
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+
+                                                      </div>
+                                              
+                                                  </div>
+
+                                                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style">
+
+                                                      <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Absence or Retard </span> <span class="input-label-bg-mask"></span></label>
+
+                                                      <div class="sections-checkboxes-main-container">
+
+                                                        <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left   
+                                                             dynamic-form-input-container-type" data-val="Absence" >
+                                                            <div class="sections-label-checkbox-container " >
+                                                              <div class="form-group group ">
+                                                                <span class="expense_label">Absence</span>
+                                                              </div>
+                                                            </div>
+                                                            <div class="customCheck customCheckRounded">
+                                                              <input type="checkbox" checked value="0" data-val="Absence" name="checkbox" id="" />
+                                                              <label for="ck"></label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left container-background-style" data-val="Retard">
+                                                            <div class="sections-label-checkbox-container ">
+                                                              <div class="form-group group ">
+                                                                <span class="expense_label">Retard</span>
+                                                              </div>
+                                                            </div>
+                                                            <div class="customCheck customCheckRounded">
+                                                              <input type="checkbox" value="1" data-val="Retard"  name="checkbox" id="" />
+                                                              <label for="ck"></label>
+                                                            </div>
+                                                        </div>
+
+                                                      </div>
+
+                                                  </div>
+
+                                                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style
+                                                       dynamic-form-input-container-session">
+
+                                                      <label class="input-label dynamic-form-input-container-label"><span class="input-label-text"> Period or Session </span> <span class="input-label-bg-mask"></span></label>
+
+                                                      <div class="sections-checkboxes-main-container">
+
+                                                        <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left container-background-style" data-val="Period">
+                                                            <div class="sections-label-checkbox-container ">
+                                                              <div class="form-group group ">
+                                                                <span class="expense_label">Period</span>
+                                                              </div>
+                                                            </div>
+                                                            <div class="customCheck customCheckRounded">
+                                                              <input type="checkbox" value="0" data-val="Period" name="checkbox" id="" />
+                                                              <label for="ck"></label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left "
+                                                             data-val="Session">
+                                                            <div class="sections-label-checkbox-container" >
+                                                              <div class="form-group group ">
+                                                                <span class="expense_label">Session</span>
+                                                              </div>
+                                                            </div>
+                                                            <div class="customCheck customCheckRounded">
+                                                              <input type="checkbox" value="1" data-val="Session" checked  name="checkbox" id="" />
+                                                              <label for="ck"></label>
+                                                            </div>
+                                                        </div>
+
+                                                      </div>
+
+                                                  </div>
+
+                                                  <!--- Show in case of Absense combined with Period -->
+                                                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style
+                                                       dynamic-form-input-container-multi-date">
+
+                                                    <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Period</span> <span class="input-label-bg-mask"></span></label>
+
+                                                    <div class="flex flex-form-group-container">
+
+                                                      <div class="form-group group dynamic-form-input-text-container-icon">
+                                                         <input type="text" class="input-text input-date input-date-illimited" required="" placeholder="Start date">
+                                                         <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
+                                                      </div>
+
+                                                       <div class="form-group group dynamic-form-input-text-container-icon">
+                                                         <input type="text" class="input-text input-date input-date-illimited" required="" placeholder="End Date">
+                                                         <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
+                                                      </div>
+
+                                                    </div>
+
+                                                  </div>
+                                                  <!--- End Show in case of Absense combined with Period -->
+
+                                                  <!--- Show in case of Absense combined with Session || Retard -->
+
+                                                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style
+                                                       dynamic-form-input-container-one-date">
+
+                                                    <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Date </span> <span class="input-label-bg-mask"></span></label>
+
+                                                    <div class="form-group group dynamic-form-input-text-container-icon">
+                                                       <input type="text" class="input-text input-extra-border  input-date input-date-illimited" required="" placeholder="Select date">
+                                                       <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
+                                                    </div>
+
+                                                  </div>
+
+                                                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style
+                                                       dynamic-form-input-container-multi-time">
+
+                                                    <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Select time </span> <span class="input-label-bg-mask"></span></label>
+
+                                                    <div class="flex flex-form-group-container">
+
+                                                      <div class="form-group group dynamic-form-input-text-container-icon">
+                                                         <input type="text" class="input-text input-time" required="" placeholder="Time">
+                                                         <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
+                                                      </div>
+
+                                                       <div class="form-group group dynamic-form-input-text-container-icon">
+                                                         <input type="text" class="input-text input-time" required="" placeholder="Time">
+                                                         <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
+                                                      </div>
+
+                                                    </div>
+
+                                                  </div>
+
+                                                  <!--- End Show in case of Absense combined with Session || Retard -->
+
+                                                  <!--  sub-container-form-footer -->
+                                                  <div class="sub-container-form-footer">
+                                                      <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button ">
+                                                            <span class="button-text" >Save Changes</span>
+                                                            <img class="icon button-icon" src="assets/icons/check_small.svg">
+                                                      </div>
+                                                      <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary  secondary-pink-button" data-toggle="modal" data-target="#EditAbsenceModal">
+                                                            <span class="button-text discard-changes" >Discard</span>
+                                                      </div>
+                                                  </div>
+                                                  <!--  End sub-container-form-footer -->
+
+                                              </div>
+
+                                          </div>
+
+                                        </div>
+
+                                      </div>
+
+                                    </div>
+
+                                  <!--_____________ End Edit Teacher Absence modal _____________-->
+
+
+
+                        </div>
+                       
+                    </div>
+                    <!-- End sections-main-sub-container-right-main -->
+
+                </div>
+
+        </div>
+        <!--  End sections-main-sub-container -->
+
+    </div>
+    <!-- sub-container -->
+
+    <!-- Modal data-toggle="modal" data-target="#ChangesModal" -->
+      <div id="ConfirmDeleteModal" class="modal" role="dialog" >
+
+        <div class="modal-dialog modal-dialog-centered animate__animated animate__fadeIn ">
+
+          <!-- Modal content-->
+          <div class="modal-content modal-content-finance">
+
+            <div class="modal-body">
+
+                <!-- modal-body-container -->
+
+                <div class="modal-body-container">
+
+                   <h1 class="sub-container-main-header sub-container-main-header-extra-style">Are you sure ?</h1>
+                   <h4 class="sub-container-sub-header  sub-container-sub-header-extra-style">
+                    You have made changes. Are you sure you want to discard them?
+                   </h4>
+
+                    <!--  sub-container-form-footer -->
+                    <div class="sub-container-form-footer">
+
+                        <div class="rounded-button default-button rounded-button-primary rounded-button-float-right  secondary-pink-button ">
+                              <span class="button-text" >Confirm</span>
+                        </div>
+
+                        <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary">
+                                    <span class="button-text" data-dismiss="modal" >Cancel</span>
+                        </div>
+                       
+                    </div>
+                    <!--  End sub-container-form-footer -->
+
+                </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    <!--_____________ End ConfirmDelete modal _____________-->    
+
+    <!--________________ Modals _____________-->
+
+        <%- include('./partials/modals'); %>
+
+    <!--________________ End Modals _____________-->
+
+</body>
+<!-- end sections-main-container -->
+
+
+</html>

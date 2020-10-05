@@ -64,3 +64,10 @@
     <!-- End sub-container-nav-bar-profile-dropdown-mask -->
 
 <!-- nav -->
+<script>
+$(document).on("click","#logout_btn",function(event){
+
+    $.ajax({type: 'get',url: '/logout'});
+
+});
+</script>

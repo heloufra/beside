@@ -7,7 +7,7 @@ const config = require('../config');
 var loginController = {
   loginView: function(req, res, next) {
     if (req.session.token)
-      res.redirect('/student');
+      res.redirect('/Students');
     else
       res.render('login', { title: 'Login'});
   },
@@ -18,11 +18,13 @@ var loginController = {
        var charactersLength = characters.length;
        for ( var i = 0; i < length; i++ ) {
           result += characters.charAt(Math.floor(Math.random() * charactersLength));
+          if ((i + 1) % 2 === 0)
+            result += " ";
        }
        return result;
     }
 
-    var password = makeid(8);
+    var password = makeid(6);
     console.log(req.body)
      connection.query("SELECT `User_ID`,`User_Email` FROM `users` WHERE `User_Email` = ? OR `User_Phone` = ? LIMIT 1", [req.body.email, req.body.email], (err, userResult, fields) => {
        if (err)   res.json({
@@ -54,7 +56,7 @@ var loginController = {
                     console.log('Email sent: ' + info.response);
                   }
                 });
-                 bcrypt.hash(password, 10, function(err, hash) {
+                 bcrypt.hash(password.replace(/\s/g, ''), 10, function(err, hash) {
                     connection.query("UPDATE `users` SET `User_Password`= ? WHERE  `User_Email` = ? OR `User_Phone` = ? LIMIT 1", [hash,req.body.email, req.body.email]);
                  })
            }

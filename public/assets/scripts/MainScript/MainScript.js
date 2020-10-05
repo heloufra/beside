@@ -4,7 +4,7 @@ $Href = "";
 $Api  = "";
 $Path = "";
 
-$domChange  = false ;
+$domChange  = false;
 $redirectTo = "";
 $subFolder = "beside/";
 $oldActiveTab = "";
@@ -228,6 +228,68 @@ $(document).ready(function(){
 	});
 
 	/* End sections-label-checkbox-container _________________*/
+
+	/* .tab-pane.in .sections-label-checkbox-main-container _________________*/
+
+	$(document).on("click",".tab-pane.in .sections-label-checkbox-main-container",function(){
+
+		if($(this).find("div").hasClass("customCheckRounded")){
+
+			$(this).parent(".sections-checkboxes-main-container").find(".sections-label-checkbox-main-container").addClass("container-background-style");
+			$(this).parent(".sections-checkboxes-main-container").find("input").prop("checked",false);
+			$(this).parent(".sections-checkboxes-main-container").find(".expense_label").css("color","var(--input-placeholder--color)");
+
+			$(this).removeClass("container-background-style");
+			$(this).find("input").prop('checked',true);
+			$(this).find(".expense_label").css("color","var(--black--color)");
+
+			Absense_Retard_Checker($(this).attr("data-val"));
+			
+		}else{
+
+			if ($(this).find("input").is(':checked')) {
+				$(this).find("input").click();
+			}else{
+				$(this).find("input").click();
+			}
+
+		}
+		
+	});
+
+	/* End .tab-pane.in .sections-label-checkbox-main-container _________________*/
+
+	/* finance-page-extra-style _________________*/
+
+	$(document).on("click",".finance-page-extra-style .sections-label-checkbox-main-container",function(){
+
+		if($(this).find("div").hasClass("customCheckRounded")){
+
+			$(this).parent(".sections-checkboxes-main-container").find(".sections-label-checkbox-main-container").addClass("container-background-style");
+			$(this).parent(".sections-checkboxes-main-container").find("input").prop("checked",false);
+			$(this).parent(".sections-checkboxes-main-container").find(".expense_label").css("color","var(--input-placeholder--color)");
+
+			$(this).removeClass("container-background-style");
+			$(this).find("input").prop('checked',true);
+			$(this).find(".expense_label").css("color","var(--black--color)");
+
+			Absense_Retard_Checker($(this).attr("data-val"));
+			
+		}else{
+
+			if ($(this).find("input").is(':checked')) {
+				$(this).find("input").click();
+			}else{
+				$(this).find("input").click();
+			}
+
+		}
+		
+	});
+
+	/* End finance-page-extra-style _________________*/
+
+	
 
 	/* Form Component ______________________*/
 
@@ -719,7 +781,7 @@ $(document).ready(function(){
 		$redirectTo = $(this).attr("href");
 
 		if($domChange){
-			//jQuery.noConflict(); 
+			jQuery.noConflict(); 
 			$('#ChangesModal').modal('show');
 			event.preventDefault();
 			event.stopPropagation();
@@ -759,7 +821,7 @@ $(document).ready(function(){
 	$(document).on("click",".sections-main-sub-container-left-card",function(event){
 
 		if($domChange){
-			//jQuery.noConflict(); 
+			jQuery.noConflict(); 
 			$('#ChangesModal').modal('show');
 			event.preventDefault();
 			event.stopPropagation();
@@ -1213,7 +1275,7 @@ $(document).ready(function(){
 	/* #Homework tbody tr __________________________*/
 
 	$(document).on("click","#Homework tbody tr",function(){
-		//jQuery.noConflict(); 
+		jQuery.noConflict(); 
 		$('#HomeworkDetailModal').modal('show');
 	});
 
@@ -1338,7 +1400,7 @@ $(document).ready(function(){
 
 		if( $(this).val() !== "" ){
 
-			if(String($(this).val()).length >= 6 ) {
+			if(String($(this).val()).length >= 5 ) {
 
 				$('.input-user-code').removeClass("input-validation-error");
 
@@ -1458,7 +1520,7 @@ $(document).ready(function(){
 
               if (res.login)
               {
-              		window.location.href = '/student';
+              		window.location.href = '/Students';
               } else {
               	// login failed : enable btn  => 
                		$img =`<img class="icon button-icon" src="assets/icons/right_arrow.svg"> `;
@@ -1484,8 +1546,6 @@ $(document).ready(function(){
 		event.stopPropagation();
 
 	});
-
-
 	
 	/* .finance-page-extra-style .col-text-align img _______________________*/
 
@@ -1574,10 +1634,28 @@ $(document).ready(function(){
 
 	/* End .finance-page-extra-style .col-text-align img _______________________*/
 
+
+
+	/* modal-card-container _________________*/
+
+	$(document).on("click",".modal-card-container",function(){
+
+		if($(this).attr("data-val") == "Retard" ){
+			$("#AddAbsenceModal .sections-label-checkbox-main-container[data-val='Retard']").trigger("click");
+		}else{
+			$("#AddAbsenceModal .sections-label-checkbox-main-container[data-val='Absence']").trigger("click");
+		}
+
+		//$("#NewActionModal").modal("hide");
+		
+	});
+
+	/* End modal-card-container _________________*/
+
 	function Absense_Retard_Checker($type){
 
-		$session = $(".tab-pane:visible .modal.in .dynamic-form-input-container-session").find("input:checked").attr("data-val");
-		$type    = $(".tab-pane:visible .modal.in .dynamic-form-input-container-type").find("input:checked").attr("data-val");
+		$session = $(".modal.in .dynamic-form-input-container-session").find("input:checked").attr("data-val");
+		$type    = $(".modal.in .dynamic-form-input-container-type").find("input:checked").attr("data-val");
 
 		console.log($session+" __ "+$type);
 
@@ -1623,7 +1701,7 @@ $(document).ready(function(){
 
 	$(document).on("click",".sections-main-sub-container-left-search-bar .square-button",function(){
 
-		//jQuery.noConflict(); 
+		jQuery.noConflict(); 
 		switch($(".tab-pane:visible").attr("id")) {
 			  case "Details":{
 				$('#AddStudentModal').modal('show');
@@ -1674,6 +1752,8 @@ $(document).ready(function(){
 				event.stopPropagation();
 				return false;
 			}
+
+			
 	  });
 
 	  $('.nav-tabs a').on('hidden.bs.tab', function(){

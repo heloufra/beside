@@ -87,21 +87,24 @@ var studentController = {
     connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
       connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [institutions[0].Institution_ID], (err, academic, fields) => {
           connection.query("SELECT Level_ID FROM `levels` WHERE `Level_Label` = ? LIMIT 1", [req.query.level_label], (err, level, fields) => {
-            connection.query(querySubscriptions, [academic[0].AY_ID,level[0].Level_ID], (err, subscriptions, fields) => {
-               if (err) {
-                    console.log(err);
-                      res.json({
-                        errors: [{
-                        field: "Access denied",
-                        errorDesc: "List Students Error"
-                      }]});
-                  } else 
-                  {
-                     res.json({
-                        subscriptions:subscriptions
-                      });
-                  }
-             })
+            connection.query("SELECT * FROM `classes` WHERE `Level_ID` = ?", [level[0].Level_ID], (err, classes, fields) => {
+              connection.query(querySubscriptions, [level[0].Level_ID,academic[0].AY_ID], (err, subscriptions, fields) => {
+                 if (err) {
+                      console.log(err);
+                        res.json({
+                          errors: [{
+                          field: "Access denied",
+                          errorDesc: "List Students Error"
+                        }]});
+                    } else 
+                    {
+                       res.json({
+                          subscriptions:subscriptions,
+                          classes:classes
+                        });
+                    }
+               })
+            })
           })
       })
     })

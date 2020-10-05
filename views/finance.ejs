@@ -1,0 +1,1690 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	 <title><%= title %></title>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <!--____________________________bootstrap______________________________-->
+
+  <link rel="stylesheet" href="assets/internal_assets/w3css.css">
+
+  <link rel="stylesheet" href="assets/internal_assets/bootstrap.v3.3.7.min.css">
+
+  <script src="assets/internal_assets/jquery.v3.2.1.min.js"></script>
+
+  <script src="assets/internal_assets/bootstrap.v3.3.7.min.js"></script>
+
+
+  <!--______________________________MainStyle____________________________-->
+  
+  <link rel="stylesheet" href="assets/styles/MainStyle/MainStyle.css"/>
+
+  <script src="assets/scripts/MainScript/MainScript.js"></script>
+
+
+  <!--______________________________MainStyle____________________________-->
+
+  <!--______________________________ datepicker ____________________________-->
+
+  <link href="assets/includes/dist_datepicker/css/datepicker.css" rel="stylesheet">
+
+  <script src="assets/includes/dist_datepicker/js/datepicker.js"></script>
+
+  <script src="assets/includes/dist_datepicker/js/i18n/datepicker.multi-lang.js"></script>
+
+  <!--______________________________ jQuery Timepicker 1.3.5 ____________________________-->
+
+  <link href="assets/includes/dist_datepicker/jquery.timepicker.min.css" rel="stylesheet">
+
+  <script src="assets/includes/dist_datepicker/jquery.timepicker.min.js"></script>
+
+
+  <!--____________________________fastselect______________________________-->
+  <link rel="stylesheet" href="assets/includes/dist/fastselect.css">
+  <script src="assets/includes/dist/fastselect.standalone.min.js"></script>
+
+  <!--____________________________ select2 ______________________________--> 
+
+     <link rel="stylesheet"  href="assets/includes/select2/select2.min.css"/>
+     <script src="assets/includes/select2/select2.min.js"></script>
+     <link rel="stylesheet"  href="assets/includes/select2/normalize.min.css"/>
+
+    <!--____________________________owl carousel______________________________-->
+
+  <link rel="stylesheet" href="assets/includes/owl-carousel/owl.carousel.css"/> 
+  <link rel="stylesheet" href="assets/includes/owl-carousel/owl.theme.css"/>  
+  <link rel="stylesheet" href="assets/includes/owl-carousel/owl.transitions.css"/>
+  <script src="assets/includes/owl-carousel/owl.carousel.min.js"></script>
+
+    <link rel="stylesheet"  href="assets/includes/animated.css"/>
+
+</head>
+
+<!-- sections-main-container -->
+<body class="sections-main-container">
+  
+    <!-- main-container -->
+    <div class="main-container">
+
+      <!-- setup-main-container -->
+      <%- include('./partials/side_bar',{institution: institution}); %>
+      <!-- end setup-main-container -->
+
+      <!-- sub-container -->
+      <div class="sub-container">
+
+        <div class="sub-container-nav-bar">
+            <span class="sub-container-nav-bar-title">Finance</span>
+            <img  class="sub-container-nav-bar-img" src="<%= user.User_Image %>" alt="profile">
+        </div>
+
+        <!-- nav -->
+          <%- include('./partials/nav_bar', {user: user}); %>
+        <!-- End nav -->
+
+        <!--  sections-main-sub-container 100%  -->
+        <div class="sections-main-sub-container">
+
+                <!--  sections-main-sub-container-right 100%  -->
+                <div class="sections-main-sub-container-right  sections-main-sub-container-right-extra-style finance-page-extra-style">
+
+                    <!-- sections-main-sub-container-right-main -->
+                    <div class="sections-main-sub-container-right-main">
+
+                        <div class="sub-container-form">
+
+                            <!-- sections-main-sub-container-right-main-header -->
+                            <div class="sections-main-sub-container-right-main-tabs sections-main-sub-container-right-main-tabs-filter">
+                               
+                                  <div class=" sections-main-sub-container-right-main-rows">
+
+                                    <div class="filter-sections-dropdowns-container">
+
+                                        <div class="dynamic-form-input-dropdown-container">
+                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                                            <div class="dynamic-form-input">
+                                              <div class="dynamic-form-input-float-adjust">
+                                              <div class="form-group group form-group-right">
+                                                <input type="text" class="input-dropdown" placeholder="Classes" required>
+
+                                                <img class="icon button-icon" src="assets/icons/caret.svg">
+                                                <ul class="dynamic-form-input-dropdown-options">
+                                                    <li data-val="Class 1">Class 1</li>
+                                                    <li data-val="Class 2">Class 2</li>
+                                                    <li data-val="Class 3">Class 3</li>
+                                                </ul>
+                                              </div>
+                                              </div>
+                                              <div class="square-button square-button-minus">
+                                                <img class="icon" src="assets/icons/minus.svg">
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="filter-sections-dropdowns-container">
+
+                                        <div class="dynamic-form-input-dropdown-container">
+                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                                            <div class="dynamic-form-input">
+                                              <div class="dynamic-form-input-float-adjust">
+                                              <div class="form-group group form-group-right ">
+                                                <input type="text" class="input-dropdown" placeholder="Expences"  required>
+                                                <img class="icon button-icon" src="assets/icons/caret.svg">
+                                                <ul class="dynamic-form-input-dropdown-options">
+                                                    <li data-val="School fees">School fees </li>
+                                                    <li data-val="Insurance fees">Insurance fees </li>
+                                                    <li data-val="Transport fees">Transport fees </li>
+                                                </ul>
+                                              </div>
+                                              </div>
+                                              <div class="square-button square-button-minus">
+                                                <img class="icon" src="assets/icons/minus.svg">
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="filter-sections-checkboxes-container">
+                                        
+                                        <div class="sections-label-checkbox-main-container">
+                                          <div class="sections-label-checkbox-container">
+                                            <div class="form-group group ">
+                                              <span class="expense_label">Unpaid</span>
+                                            </div>
+                                          </div>
+                                          <div class="customCheck">
+                                            <input type="checkbox" value="" name="checkbox" id="ck" />
+                                            <label for="ck"></label>
+                                          </div>
+                                        </div>
+
+                                        
+                                        <div class="sections-label-checkbox-main-container">
+                                          <div class="sections-label-checkbox-container">
+                                            <div class="form-group group ">
+                                              <span class="expense_label">Paid</span>
+                                            </div>
+                                          </div>
+                                          <div class="customCheck">
+                                            <input type="checkbox" value="" name="checkbox" id="ck" />
+                                            <label for="ck"></label>
+                                          </div>
+                                        </div>
+
+
+                                        <div class="sections-label-checkbox-main-container">
+                                          <div class="sections-label-checkbox-container">
+                                            <div class="form-group group ">
+                                              <span class="expense_label">Monthly</span>
+                                            </div>
+                                          </div>
+                                          <div class="customCheck">
+                                            <input type="checkbox" value="" name="checkbox" id="ck" />
+                                            <label for="ck"></label>
+                                          </div>
+                                        </div>
+
+
+                                        <div class="sections-label-checkbox-main-container">
+                                          <div class="sections-label-checkbox-container">
+                                            <div class="form-group group ">
+                                              <span class="expense_label">Yearly</span>
+                                            </div>
+                                          </div>
+                                          <div class="customCheck">
+                                            <input type="checkbox" value="" name="checkbox" id="ck" />
+                                            <label for="ck"></label>
+                                          </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="filter-sections-search-container">
+
+                                          <div class="dynamic-form-input-dropdown-container">
+                                            <div class="dynamic-form-input-dropdown "> <!-- dynamic-form-input-first for full width inputs -->
+                                              <div class="dynamic-form-input">
+
+                                                <div class="dynamic-form-input-float-adjust">
+
+                                                  <div class="form-group group form-group-right">
+                                                     <input type="text" class="input-text" required="" placeholder="Search">
+                                                     <img class="icon button-icon caret-disable-rotate" src="assets/icons/sidebar_icons/search.svg">
+                                                  </div>
+
+                                                </div>
+
+                                              </div>
+                                            </div>
+                                          </div>
+                                        
+
+                                    </div>
+                                    
+                                  </div>
+
+                            </div>
+                            <!-- End sections-main-sub-container-right-main-header -->
+
+                            <!-- tab-content -->
+                            <div class="tab-content">
+
+                              <!-- sections-main-sub-container-right-main-body : Finance -->
+                              <div id="Finance" class="tab-pane fade in active sections-main-sub-container-right-main-body">
+
+                                  <div class="row sections-main-sub-container-right-main-rows">
+
+                                    <div class="col-xs-12">
+
+                                      <table>
+
+                                        <thead>
+                                          <tr>
+                                            <th class="col-extra-style col-sticky-extra-style" scope="col">Expenses</th>
+                                            <th scope="col" class="col-text-align col-sticky-extra-style">Sep</th>
+                                            <th scope="col" class="col-text-align col-sticky-extra-style">Oct</th>
+                                            <th scope="col" class="col-text-align col-sticky-extra-style">Nov</th>
+                                            <th scope="col" class="col-text-align col-sticky-extra-style">Dec</th>
+                                            <th scope="col" class="col-text-align col-sticky-extra-style">Jan</th>
+                                            <th scope="col" class="col-text-align col-sticky-extra-style">Feb</th>
+                                            <th scope="col" class="col-text-align col-sticky-extra-style">Mar</th>
+                                            <th scope="col" class="col-text-align col-sticky-extra-style">Apr</th>
+                                            <th scope="col" class="col-text-align col-sticky-extra-style">May</th>
+                                          </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                          <!-- Student Financial tr -->
+                                          <tr>
+                                            <td data-label="Subject name" class="td-label">
+                                              <!--  sections-main-sub-container-left-cards  -->
+                                                <div class="sections-main-sub-container-left-card">
+                                                      <img class="sections-main-sub-container-left-card-main-img" 
+                                                           src="assets/images/profiles/Profile.jpg" alt="card-img">
+                                                      <div class="sections-main-sub-container-left-card-info">
+                                                          <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
+                                                          <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
+                                                      </div>
+                                                </div>
+                                              <!--  End sections-main-sub-container-left-cards  -->
+                                            </td>
+
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Paid","BoolStatus":"0"}'/>
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Paid","BoolStatus":"0"}'/>
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Paid","BoolStatus":"0"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                          </tr>
+                                          <!-- End Student Financial tr -->
+
+                                          <!-- Student Financial tr -->
+                                          <tr>
+                                            <td data-label="Subject name" class="td-label">
+                                              <!--  sections-main-sub-container-left-cards  -->
+                                                <div class="sections-main-sub-container-left-card">
+                                                      <img class="sections-main-sub-container-left-card-main-img" 
+                                                           src="assets/images/profiles/Profile.jpg" alt="card-img">
+                                                      <div class="sections-main-sub-container-left-card-info">
+                                                          <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
+                                                          <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
+                                                      </div>
+                                                </div>
+                                              <!--  End sections-main-sub-container-left-cards  -->
+                                            </td>
+
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Paid","BoolStatus":"0"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                          </tr>
+                                          <!-- End Student Financial tr -->
+
+                                          <!-- Student Financial tr -->
+                                          <tr>
+                                            <td data-label="Subject name" class="td-label">
+                                              <!--  sections-main-sub-container-left-cards  -->
+                                                <div class="sections-main-sub-container-left-card">
+                                                      <img class="sections-main-sub-container-left-card-main-img" 
+                                                           src="assets/images/profiles/Profile.jpg" alt="card-img">
+                                                      <div class="sections-main-sub-container-left-card-info">
+                                                          <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
+                                                          <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
+                                                      </div>
+                                                </div>
+                                              <!--  End sections-main-sub-container-left-cards  -->
+                                            </td>
+
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Paid","BoolStatus":"0"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Paid","BoolStatus":"0"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                          </tr>
+                                          <!-- End Student Financial tr -->
+                                          <!-- Student Financial tr -->
+                                          <tr>
+                                            <td data-label="Subject name" class="td-label">
+                                              <!--  sections-main-sub-container-left-cards  -->
+                                                <div class="sections-main-sub-container-left-card">
+                                                      <img class="sections-main-sub-container-left-card-main-img" 
+                                                           src="assets/images/profiles/Profile.jpg" alt="card-img">
+                                                      <div class="sections-main-sub-container-left-card-info">
+                                                          <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
+                                                          <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
+                                                      </div>
+                                                </div>
+                                              <!--  End sections-main-sub-container-left-cards  -->
+                                            </td>
+
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Paid","BoolStatus":"0"}'/>
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Paid","BoolStatus":"0"}'/>
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Paid","BoolStatus":"0"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                          </tr>
+                                          <!-- End Student Financial tr -->
+
+                                          <!-- Student Financial tr -->
+                                          <tr>
+                                            <td data-label="Subject name" class="td-label">
+                                              <!--  sections-main-sub-container-left-cards  -->
+                                                <div class="sections-main-sub-container-left-card">
+                                                      <img class="sections-main-sub-container-left-card-main-img" 
+                                                           src="assets/images/profiles/Profile.jpg" alt="card-img">
+                                                      <div class="sections-main-sub-container-left-card-info">
+                                                          <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
+                                                          <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
+                                                      </div>
+                                                </div>
+                                              <!--  End sections-main-sub-container-left-cards  -->
+                                            </td>
+
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Paid","BoolStatus":"0"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                          </tr>
+                                          <!-- End Student Financial tr -->
+
+                                          <!-- Student Financial tr -->
+                                          <tr>
+                                            <td data-label="Subject name" class="td-label">
+                                              <!--  sections-main-sub-container-left-cards  -->
+                                                <div class="sections-main-sub-container-left-card">
+                                                      <img class="sections-main-sub-container-left-card-main-img" 
+                                                           src="assets/images/profiles/Profile.jpg" alt="card-img">
+                                                      <div class="sections-main-sub-container-left-card-info">
+                                                          <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
+                                                          <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
+                                                      </div>
+                                                </div>
+                                              <!--  End sections-main-sub-container-left-cards  -->
+                                            </td>
+
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Paid","BoolStatus":"0"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Paid","BoolStatus":"0"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                          </tr>
+                                          <!-- End Student Financial tr -->
+                                          <!-- Student Financial tr -->
+                                          <tr>
+                                            <td data-label="Subject name" class="td-label">
+                                              <!--  sections-main-sub-container-left-cards  -->
+                                                <div class="sections-main-sub-container-left-card">
+                                                      <img class="sections-main-sub-container-left-card-main-img" 
+                                                           src="assets/images/profiles/Profile.jpg" alt="card-img">
+                                                      <div class="sections-main-sub-container-left-card-info">
+                                                          <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
+                                                          <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
+                                                      </div>
+                                                </div>
+                                              <!--  End sections-main-sub-container-left-cards  -->
+                                            </td>
+
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Paid","BoolStatus":"0"}'/>
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Paid","BoolStatus":"0"}'/>
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Paid","BoolStatus":"0"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                          </tr>
+                                          <!-- End Student Financial tr -->
+
+                                          <!-- Student Financial tr -->
+                                          <tr>
+                                            <td data-label="Subject name" class="td-label">
+                                              <!--  sections-main-sub-container-left-cards  -->
+                                                <div class="sections-main-sub-container-left-card">
+                                                      <img class="sections-main-sub-container-left-card-main-img" 
+                                                           src="assets/images/profiles/Profile.jpg" alt="card-img">
+                                                      <div class="sections-main-sub-container-left-card-info">
+                                                          <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
+                                                          <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
+                                                      </div>
+                                                </div>
+                                              <!--  End sections-main-sub-container-left-cards  -->
+                                            </td>
+
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Paid","BoolStatus":"0"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                          </tr>
+                                          <!-- End Student Financial tr -->
+
+                                          <!-- Student Financial tr -->
+                                          <tr>
+                                            <td data-label="Subject name" class="td-label">
+                                              <!--  sections-main-sub-container-left-cards  -->
+                                                <div class="sections-main-sub-container-left-card">
+                                                      <img class="sections-main-sub-container-left-card-main-img" 
+                                                           src="assets/images/profiles/Profile.jpg" alt="card-img">
+                                                      <div class="sections-main-sub-container-left-card-info">
+                                                          <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
+                                                          <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
+                                                      </div>
+                                                </div>
+                                              <!--  End sections-main-sub-container-left-cards  -->
+                                            </td>
+
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Paid","BoolStatus":"0"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Paid","BoolStatus":"0"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                          </tr>
+                                          <!-- End Student Financial tr -->
+                                          <!-- Student Financial tr -->
+                                          <tr>
+                                            <td data-label="Subject name" class="td-label">
+                                              <!--  sections-main-sub-container-left-cards  -->
+                                                <div class="sections-main-sub-container-left-card">
+                                                      <img class="sections-main-sub-container-left-card-main-img" 
+                                                           src="assets/images/profiles/Profile.jpg" alt="card-img">
+                                                      <div class="sections-main-sub-container-left-card-info">
+                                                          <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
+                                                          <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
+                                                      </div>
+                                                </div>
+                                              <!--  End sections-main-sub-container-left-cards  -->
+                                            </td>
+
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Paid","BoolStatus":"0"}'/>
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Paid","BoolStatus":"0"}'/>
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Paid","BoolStatus":"0"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                          </tr>
+                                          <!-- End Student Financial tr -->
+
+                                          <!-- Student Financial tr -->
+                                          <tr>
+                                            <td data-label="Subject name" class="td-label">
+                                              <!--  sections-main-sub-container-left-cards  -->
+                                                <div class="sections-main-sub-container-left-card">
+                                                      <img class="sections-main-sub-container-left-card-main-img" 
+                                                           src="assets/images/profiles/Profile.jpg" alt="card-img">
+                                                      <div class="sections-main-sub-container-left-card-info">
+                                                          <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
+                                                          <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
+                                                      </div>
+                                                </div>
+                                              <!--  End sections-main-sub-container-left-cards  -->
+                                            </td>
+
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Paid","BoolStatus":"0"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                          </tr>
+                                          <!-- End Student Financial tr -->
+
+                                          <!-- Student Financial tr -->
+                                          <tr>
+                                            <td data-label="Subject name" class="td-label">
+                                              <!--  sections-main-sub-container-left-cards  -->
+                                                <div class="sections-main-sub-container-left-card">
+                                                      <img class="sections-main-sub-container-left-card-main-img" 
+                                                           src="assets/images/profiles/Profile.jpg" alt="card-img">
+                                                      <div class="sections-main-sub-container-left-card-info">
+                                                          <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
+                                                          <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
+                                                      </div>
+                                                </div>
+                                              <!--  End sections-main-sub-container-left-cards  -->
+                                            </td>
+
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Paid","BoolStatus":"0"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Paid","BoolStatus":"0"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                          </tr>
+                                          <!-- End Student Financial tr -->
+                                          <!-- Student Financial tr -->
+                                          <tr>
+                                            <td data-label="Subject name" class="td-label">
+                                              <!--  sections-main-sub-container-left-cards  -->
+                                                <div class="sections-main-sub-container-left-card">
+                                                      <img class="sections-main-sub-container-left-card-main-img" 
+                                                           src="assets/images/profiles/Profile.jpg" alt="card-img">
+                                                      <div class="sections-main-sub-container-left-card-info">
+                                                          <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
+                                                          <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
+                                                      </div>
+                                                </div>
+                                              <!--  End sections-main-sub-container-left-cards  -->
+                                            </td>
+
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Paid","BoolStatus":"0"}'/>
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Paid","BoolStatus":"0"}'/>
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Paid","BoolStatus":"0"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                          </tr>
+                                          <!-- End Student Financial tr -->
+
+                                          <!-- Student Financial tr -->
+                                          <tr>
+                                            <td data-label="Subject name" class="td-label">
+                                              <!--  sections-main-sub-container-left-cards  -->
+                                                <div class="sections-main-sub-container-left-card">
+                                                      <img class="sections-main-sub-container-left-card-main-img" 
+                                                           src="assets/images/profiles/Profile.jpg" alt="card-img">
+                                                      <div class="sections-main-sub-container-left-card-info">
+                                                          <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
+                                                          <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
+                                                      </div>
+                                                </div>
+                                              <!--  End sections-main-sub-container-left-cards  -->
+                                            </td>
+
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Paid","BoolStatus":"0"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                          </tr>
+                                          <!-- End Student Financial tr -->
+
+                                          <!-- Student Financial tr -->
+                                          <tr>
+                                            <td data-label="Subject name" class="td-label">
+                                              <!--  sections-main-sub-container-left-cards  -->
+                                                <div class="sections-main-sub-container-left-card">
+                                                      <img class="sections-main-sub-container-left-card-main-img" 
+                                                           src="assets/images/profiles/Profile.jpg" alt="card-img">
+                                                      <div class="sections-main-sub-container-left-card-info">
+                                                          <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
+                                                          <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
+                                                      </div>
+                                                </div>
+                                              <!--  End sections-main-sub-container-left-cards  -->
+                                            </td>
+
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Paid","BoolStatus":"0"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Paid","BoolStatus":"0"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                          </tr>
+                                          <!-- End Student Financial tr -->
+                                          <!-- Student Financial tr -->
+                                          <tr>
+                                            <td data-label="Subject name" class="td-label">
+                                              <!--  sections-main-sub-container-left-cards  -->
+                                                <div class="sections-main-sub-container-left-card">
+                                                      <img class="sections-main-sub-container-left-card-main-img" 
+                                                           src="assets/images/profiles/Profile.jpg" alt="card-img">
+                                                      <div class="sections-main-sub-container-left-card-info">
+                                                          <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
+                                                          <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
+                                                      </div>
+                                                </div>
+                                              <!--  End sections-main-sub-container-left-cards  -->
+                                            </td>
+
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Paid","BoolStatus":"0"}'/>
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Paid","BoolStatus":"0"}'/>
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Paid","BoolStatus":"0"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                          </tr>
+                                          <!-- End Student Financial tr -->
+
+                                          <!-- Student Financial tr -->
+                                          <tr>
+                                            <td data-label="Subject name" class="td-label">
+                                              <!--  sections-main-sub-container-left-cards  -->
+                                                <div class="sections-main-sub-container-left-card">
+                                                      <img class="sections-main-sub-container-left-card-main-img" 
+                                                           src="assets/images/profiles/Profile.jpg" alt="card-img">
+                                                      <div class="sections-main-sub-container-left-card-info">
+                                                          <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
+                                                          <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
+                                                      </div>
+                                                </div>
+                                              <!--  End sections-main-sub-container-left-cards  -->
+                                            </td>
+
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Paid","BoolStatus":"0"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                          </tr>
+                                          <!-- End Student Financial tr -->
+
+                                          <!-- Student Financial tr -->
+                                          <tr>
+                                            <td data-label="Subject name" class="td-label">
+                                              <!--  sections-main-sub-container-left-cards  -->
+                                                <div class="sections-main-sub-container-left-card">
+                                                      <img class="sections-main-sub-container-left-card-main-img" 
+                                                           src="assets/images/profiles/Profile.jpg" alt="card-img">
+                                                      <div class="sections-main-sub-container-left-card-info">
+                                                          <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
+                                                          <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
+                                                      </div>
+                                                </div>
+                                              <!--  End sections-main-sub-container-left-cards  -->
+                                            </td>
+
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Paid","BoolStatus":"0"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_green.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Paid","BoolStatus":"0"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"School fees","Amount":"1000","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Insurance fees","Amount":"500","Status":"Unpaid","BoolStatus":"1"}'/>
+                                              <img src="assets/icons/check_red.svg" alt="states" 
+                                                   data-obj='{"Expence":"Transport fees","Amount":"200","Status":"Unpaid","BoolStatus":"1"}'/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                            <td scope="col" class="col-text-align col-text-align-extra-style">
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                              <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/>
+                                            </td>
+                                          </tr>
+                                          <!-- End Student Financial tr -->
+
+                                        </tbody>
+
+                                      </table>
+                                    </div>
+
+                                  </div>
+
+                                  <!--_____________ Finance modal _____________-->
+
+                                  <!-- Trigger the modal with a button -->
+                                   
+                                    <!-- Modal -->
+                                    <div id="FinanceModal" class="modal" role="dialog">
+
+                                      <div class="modal-dialog modal-dialog-cente animate__animated animate__fadeIn ">
+
+                                        <!-- Modal content-->
+                                        <div class="modal-content modal-content-finance">
+
+                                          <div class="modal-body">
+
+                                              <!-- modal-body-container -->
+
+                                              <div class="modal-body-container">
+
+                                                 <h1 class="sub-container-main-header">Execute payment</h1>
+                                                 <h4 class="sub-container-sub-header">
+                                                  There are many variations of passages of Lorem Ipsum available, but the majority.
+                                                 </h4>
+
+                                                  <div class="row sections-main-sub-container-right-main-rows">
+
+
+                                                      <div class="col-md-6">
+
+                                                        <div class="dynamic-form-input-dropdown-container">
+                                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                                                            <div class="dynamic-form-input">
+                                                              <div class="dynamic-form-input-float-adjust">
+                                                              <div class="form-group group form-group-right">
+                                                                <input type="text" class="input-dropdown" required="">
+                                                                
+                                                                <label class="input-label">
+                                                                  <span class="input-label-text">Class</span><span class="input-label-bg-mask"></span>
+                                                                </label>
+
+                                                                <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
+                                                                <ul class="dynamic-form-input-dropdown-options" style="display: none; opacity: 0;">
+                                                                    <li data-val="Class 1">Class 1</li>
+                                                                    <li data-val="Class 2">Class 2</li>
+                                                                    <li data-val="Class 3">Class 3</li>
+                                                                </ul>
+                                                              </div>
+                                                              </div>
+                                                              <div class="square-button square-button-minus">
+                                                                <img class="icon" src="assets/icons/minus.svg">
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+
+                                                      </div>
+
+                                                      <div class="col-md-6">
+
+                                                        <div class="dynamic-form-input-dropdown-container">
+                                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                                                            <div class="dynamic-form-input">
+                                                              <div class="dynamic-form-input-float-adjust">
+                                                              <div class="form-group group form-group-right">
+                                                                <input type="text" class="input-dropdown" required="">
+                                                                
+                                                                <label class="input-label">
+                                                                  <span class="input-label-text">Student</span><span class="input-label-bg-mask"></span>
+                                                                </label>
+
+                                                                <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
+                                                                <ul class="dynamic-form-input-dropdown-options" style="display: inline-block; opacity: 1;">
+                                                                    <li data-val="Student 1">Student 1</li>
+                                                                    <li data-val="Student 2">Student 2</li>
+                                                                    <li data-val="Student 2">Student 3</li>
+                                                                </ul>
+                                                              </div>
+                                                              </div>
+                                                              <div class="square-button square-button-minus">
+                                                                <img class="icon" src="assets/icons/minus.svg">
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+
+                                                      </div>
+                                              
+                                                  </div>
+
+                                                  <div class="sections-main-sub-container-right-main-label-divider">
+                                                      <p>Monthly expences</p>
+                                                  </div>
+
+                                                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style">
+
+                                                    <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">School fees</span> <span class="input-label-bg-mask"></span></label>
+
+                                                    <div class="dynamic-form-input-dropdown-container">
+                                                      <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                                                        <div class="dynamic-form-input">
+
+                                                          <div class="form-group group">
+
+                                                              <select class="input-text-month-select2" multiple name="language">
+                                                                  <option value="Oct">January </option>
+                                                                  <option value="Oct">February </option>
+                                                                  <option value="Oct">March </option>
+                                                                  <option value="Oct">April </option>
+                                                              </select>
+
+                                                              <img class="icon button-icon" src="assets/icons/caret.svg">
+
+                                                          </div>
+
+                                                          <div class="square-button square-button-minus">
+                                                            <img class="icon" src="assets/icons/minus.svg">
+                                                          </div>
+
+                                                        </div>
+                                                      </div>
+                                                    </div>
+
+                                                  </div>
+
+                                                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style">
+
+                                                    <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Transport fees</span> <span class="input-label-bg-mask"></span></label>
+
+                                                    <div class="dynamic-form-input-dropdown-container">
+                                                      <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                                                        <div class="dynamic-form-input">
+
+                                                          <div class="form-group group">
+
+                                                              <select class="input-text-month-select2" multiple name="language">
+                                                                  <option value="Oct">January </option>
+                                                                  <option value="Oct">February </option>
+                                                                  <option value="Oct">March </option>
+                                                                  <option value="Oct">April </option>
+                                                                   <option value="Oct">January</option>
+                                                                  <option value="Oct">February</option>
+                                                                  <option value="Oct">March </option>
+                                                                  <option value="Oct">April </option>
+                                                              </select>
+                                                              
+                                                              <img class="icon button-icon" src="assets/icons/caret.svg">
+
+                                                          </div>
+
+                                                          <div class="square-button square-button-minus">
+                                                            <img class="icon" src="assets/icons/minus.svg">
+                                                          </div>
+
+                                                        </div>
+                                                      </div>
+                                                    </div>
+
+                                                  </div>
+
+                                                  <div class="sections-main-sub-container-right-main-label-divider">
+                                                      <p>Yearly expences</p>
+                                                  </div>
+
+                                                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style input-text-subject-select2-one-option">
+
+                                                    <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">School fees</span> <span class="input-label-bg-mask"></span></label>
+
+                                                    <div class="dynamic-form-input-dropdown-container">
+                                                      <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                                                        <div class="dynamic-form-input">
+
+                                                          <div class="form-group group">
+
+                                                              <select class="input-text-year-select2" multiple name="language">
+                                                                  <option seleted value="2021-2022">2021-2022</option>
+                                                              </select>
+
+                                                              <img class="icon button-icon" src="assets/icons/caret.svg">
+
+                                                          </div>
+
+                                                          <div class="square-button square-button-minus">
+                                                            <img class="icon" src="assets/icons/minus.svg">
+                                                          </div>
+
+                                                        </div>
+                                                      </div>
+                                                    </div>
+
+                                                  </div>
+
+                                                  <!--  sub-container-form-footer -->
+                                                  <div class="sub-container-form-footer">
+                                                      <div class="rounded-button rounded-button-primary rounded-button-float-right">
+                                                            <span class="button-text" >Save changes</span>
+                                                            <img class="icon button-icon" src="assets/icons/check_small.svg">
+                                                      </div>
+                                                      <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary">
+                                                            <span class="button-text" data-dismiss="modal" >Cancel</span>
+                                                      </div>
+                                                  </div>
+                                                  <!--  End sub-container-form-footer -->
+
+                                              </div>
+
+                                               
+
+                                          </div>
+
+                                        </div>
+
+                                      </div>
+
+                                    </div>
+                                  <!--_____________ Finance modal _____________-->
+
+                              </div>
+                              <!-- End sections-main-sub-container-right-main-body : Finance -->
+
+                            </div>
+                            <!-- End tab-content -->
+
+                        </div>
+                       
+                    </div>
+                    <!-- End sections-main-sub-container-right-main -->
+
+                </div>
+
+        </div>
+        <!--  End sections-main-sub-container -->
+
+    </div>
+    <!-- sub-container -->
+
+    <!-- custmized-tooltip -->
+
+    <div class="custmized-tooltip">
+
+        <p class="custmized-tooltip-container">
+          <span class="custmized-tooltip-label">Expence <span class="custmized-tooltip-dots">:</span></span>
+          <span class="custmized-tooltip-label-value">Insurance fees</span>
+        </p>
+        <p class="custmized-tooltip-container">
+          <span class="custmized-tooltip-label">Amount<span class="custmized-tooltip-dots">:</span></span>
+          <span class="custmized-tooltip-value"> 
+            <span class="custmized-tooltip-amount-value">1500</span>
+            <span class="custmized-tooltip-currency">Dhs</span>
+          </span>
+        </p>
+        <p class="custmized-tooltip-container">
+          <span class="custmized-tooltip-label">Status<span class="custmized-tooltip-dots">:</span></span>
+          <span class="custmized-tooltip-status-value">Unpaid</span>
+          </span>
+        </p>
+
+        <div class="arrow-up"></div>
+
+    </div>
+    <!-- End tooltip -->
+
+</body>
+<!-- end sections-main-container -->
+
+
+</html>

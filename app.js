@@ -11,6 +11,11 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var setupRouter = require('./routes/setup');
 var studentRouter = require('./routes/student');
+var financeRouter = require('./routes/finance');
+var examRouter = require('./routes/exam');
+var teacherRouter = require('./routes/teacher');
+var homeworkRouter = require('./routes/homework');
+var selectRouter = require('./routes/common');
 var session = require('express-session');
 var MySQLStore = require('express-mysql-session')(session);
  
@@ -44,7 +49,12 @@ app.use(session(
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/setup', setupRouter);
-app.use('/student',auth, studentRouter);
+app.use('/Teachers',auth, teacherRouter);
+app.use('/Exams',auth, examRouter);
+app.use('/Homeworks',auth, homeworkRouter);
+app.use('/Students',auth, studentRouter);
+app.use('/Finances',auth, financeRouter);
+app.use('/Select',auth, selectRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

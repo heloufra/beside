@@ -29,6 +29,7 @@
   --white-color: #fff;
   --black--color: #151a3b;
   --black--gray--color: rgba(21, 26, 59, 0.7);
+  --light--gray--color:#444862;
   --font--color-active: #fff;
   --font--color-inactive: #545870;
   --grey--bg-color: #ededf0;
@@ -198,6 +199,7 @@ body {
 
 .input-date , .input-time {
 	height: 100% !important;
+	min-height: 40px;
 }
 
 /***************** End input-date - .input-time *************/
@@ -441,6 +443,8 @@ input{
 .setup-main-container .dynamic-form-input-dropdown-options{
 	top: 42px;
 }
+
+
 
 .input-text-area {
   background-color: var(--input-active-bg-color);
@@ -2316,6 +2320,23 @@ input:focus ~ label,input:valid ~ label{
 }
 
 
+
+@keyframes modalCardAnimation {
+  0% {
+    transform: scale(0.25);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+
 /***************************** table ****************************/
 
 
@@ -2784,11 +2805,33 @@ input:focus ~ label,input:valid ~ label{
 	line-height: 20px;
 }
 
-#FinanceModal , #ChangesModal , #ConfirmDeleteModal , #AddAbsenceModal , #EditAbsenceModal , #AddAttitudeModal, #EditAttitudeModal , #AddExamModal , 
-#AddHomeworkModal , #AddStudentModal , #AddTeacherModal , #ExamDetailModal  , #HomeworkDetailModal {
+#FinanceModal , #ChangesModal , #ConfirmDeleteModal , #AddAbsenceModal , #AddTeacherAbsenceModal , #AddStudentAbsenceModal , #EditAbsenceModal , #AddAttitudeModal, #EditAttitudeModal , #AddExamModal , 
+#AddHomeworkModal , #AddStudentModal , #AddTeacherModal , #ExamDetailModal  , #HomeworkDetailModal , #NewActionModal {
 	background-color: var(--modal--background--color);
 }
 
+
+#AddTeacherModal  .input-rounded-img-container , #AddStudentModal  .input-rounded-img-container {
+	width: 80px;
+	height: 80px;
+}
+
+#AddTeacherModal  .input-img-container .rounded-button , #AddStudentModal  .input-img-container .rounded-button{
+	position: absolute;
+    top: 24px;
+    right: -16px;
+}
+
+#AddTeacherModal  .sections-main-sub-container-right-main-header .rounded-button , #AddStudentModal  .sections-main-sub-container-right-main-header .rounded-button{
+	width: 32px;
+	height: 32px;
+}
+
+#AddTeacherModal  .sections-main-sub-container-right-main-header .input-rounded-img-container, 
+#AddStudentModal  .sections-main-sub-container-right-main-header .input-rounded-img-container{
+	margin:0px auto;
+	margin-bottom: 16px;
+}
 
 /**************************************************************/
 
@@ -2826,13 +2869,26 @@ input:focus ~ label,input:valid ~ label{
 
 /**************************************************************/
 
-#AddExamModal .form-group-right{
+#AddExamModal .form-group-right , 
+#AddHomeworkModal .form-group-right,
+.modal.in .form-group-right {
 	width: 100%;
 	border-left: 0px;
 }
 
+.modal.in .dynamic-form-input-dropdown-options{
+	top: 43px;
+}
+
+#AddExamModal .dynamic-form-input-dropdown-options ,
+#AddHomeworkModal .dynamic-form-input-dropdown-options {
+	top: 43px;
+}
+
 #FinanceModal .sub-container-form-footer .modal-confirm-button ,
 #AddAbsenceModal .sub-container-form-footer .modal-confirm-button ,
+#AddTeacherAbsenceModal .sub-container-form-footer .modal-confirm-button ,
+#AddStudentAbsenceModal .sub-container-form-footer .modal-confirm-button ,
 #EditAbsenceModal .sub-container-form-footer .modal-confirm-button ,
 #AddExamModal .sub-container-form-footer .modal-confirm-button ,
 #ExamDetailModal .sub-container-form-footer .modal-confirm-button ,
@@ -2870,7 +2926,11 @@ input:focus ~ label,input:valid ~ label{
 	border-bottom-left-radius: 3px;
 }
 
-#FinanceModal .modal-dialog , #AddAbsenceModal .modal-dialog , #EditAbsenceModal .modal-dialog , #AddAttitudeModal .modal-dialog , #AddHomeworkModal .modal-dialog , 
+#FinanceModal .modal-dialog , 
+#AddAbsenceModal .modal-dialog ,
+#AddTeacherAbsenceModal .modal-dialog ,
+#AddStudentAbsenceModal .modal-dialog ,
+#EditAbsenceModal .modal-dialog , #AddAttitudeModal .modal-dialog , #AddHomeworkModal .modal-dialog , 
 #AddExamModal .modal-dialog , #ExamDetailModal .modal-dialog , #HomeworkDetailModal .modal-dialog , #AddStudentModal .modal-dialog , #AddTeacherModal .modal-dialog {
 	height: 80vh;
     background: var(--white-color);
@@ -3716,6 +3776,8 @@ table td img {
 /********************************* sections-label-checkbox-container-left  *********************/
 
 #AddAbsenceModal .sections-label-checkbox-container-left ,
+#AddTeacherAbsenceModal .sections-label-checkbox-container-left ,
+#AddStudentAbsenceModal .sections-label-checkbox-container-left ,
 #EditAbsenceModal .sections-label-checkbox-container-left ,
 #AddAttitudeModal .sections-label-checkbox-container-left,
 #EditAttitudeModal .sections-label-checkbox-container-left,
@@ -3729,6 +3791,8 @@ table td img {
 }
 
 #AddAbsenceModal .dynamic-form-input-container-extra-style input,
+#AddTeacherAbsenceModal .dynamic-form-input-container-extra-style input,
+#AddStudentAbsenceModal .dynamic-form-input-container-extra-style input,
 #EditAbsenceModal .dynamic-form-input-container-extra-style input,
 #AddAttitudeModal .dynamic-form-input-container-extra-style input,
 #EditAttitudeModal .dynamic-form-input-container-extra-style input,
@@ -3740,6 +3804,8 @@ table td img {
 }
 
 #AddAbsenceModal .sections-checkboxes-main-container,
+#AddTeacherAbsenceModal .sections-checkboxes-main-container,
+#AddStudentAbsenceModal .sections-checkboxes-main-container,
 #EditAbsenceModal .sections-checkboxes-main-container,
 #AddAttitudeModal .sections-checkboxes-main-container,
 #EditAttitudeModal .sections-checkboxes-main-container,
@@ -3753,6 +3819,8 @@ table td img {
 }
 
 #AddAbsenceModal  .sections-label-checkbox-container-left .expense_label,
+#AddTeacherAbsenceModal  .sections-label-checkbox-container-left .expense_label,
+#AddStudentAbsenceModal  .sections-label-checkbox-container-left .expense_label,
 #EditAbsenceModal  .sections-label-checkbox-container-left .expense_label,
 #AddAttitudeModal  .sections-label-checkbox-container-left .expense_label,
 #EditAttitudeModal  .sections-label-checkbox-container-left .expense_label,
@@ -3764,10 +3832,14 @@ table td img {
 }
 
 #AddAbsenceModal  .customCheckRounded label:after,
+#AddTeacherAbsenceModal  .customCheckRounded label:after,
+#AddStudentAbsenceModal  .customCheckRounded label:after,
 #EditAbsenceModal  .customCheckRounded label:after,
 #AddAttitudeModal  .customCheckRounded label:after,
 #EditAttitudeModal  .customCheckRounded label:after,
 #AddAbsenceModal  .customCheckRounded label:before,
+#AddTeacherAbsenceModal  .customCheckRounded label:before,
+#AddStudentAbsenceModal  .customCheckRounded label:before,
 #AddHomeworkModal  .customCheckRounded label:before,
 #AddExamModal  .customCheckRounded label:before ,
 #ExamDetailModal  .customCheckRounded label:before,
@@ -3778,6 +3850,8 @@ table td img {
 }
 
 #AddAbsenceModal  .sections-label-checkbox-container-left .sections-label-checkbox-container,
+#AddTeacherAbsenceModal  .sections-label-checkbox-container-left .sections-label-checkbox-container,
+#AddStudentAbsenceModal  .sections-label-checkbox-container-left .sections-label-checkbox-container,
 #EditAbsenceModal  .sections-label-checkbox-container-left .sections-label-checkbox-container,
 #AddAttitudeModal .sections-label-checkbox-container-left .sections-label-checkbox-container,
 #EditAttitudeModal .sections-label-checkbox-container-left .sections-label-checkbox-container{
@@ -3791,6 +3865,8 @@ table td img {
 
 
 #AddAbsenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left:first-child ,
+#AddTeacherAbsenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left:first-child ,
+#AddStudentAbsenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left:first-child ,
 #EditAbsenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left:first-child ,
 #EditAttitudeModal .sections-checkboxes-main-container .sections-label-checkbox-container-left:first-child ,
 #AddAttitudeModal .sections-checkboxes-main-container .sections-label-checkbox-container-left:first-child {
@@ -3799,6 +3875,8 @@ table td img {
 }
 
 #AddAbsenceModal .input-date,
+#AddTeacherAbsenceModal .input-date,
+#AddStudentAbsenceModal .input-date,
 #EditAbsenceModal .input-date{
 	border : 0px;
 }
@@ -3819,6 +3897,8 @@ table td img {
 }
 
 #AddAbsenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left ,
+#AddTeacherAbsenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left ,
+#AddStudentAbsenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left ,
 #EditAbsenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left ,
 #AddAttitudeModal .sections-checkboxes-main-container .sections-label-checkbox-container-left ,
 #EditAttitudeModal .sections-checkboxes-main-container .sections-label-checkbox-container-left {
@@ -4142,7 +4222,82 @@ table td img {
 	color: var(--blue--color) !important;
 }
 
-/*********************************  End datepicker  *********************/
+/*********************************  modal-card-container  *************************/
+
+.main-modal-card-container{
+	display: flex;
+	flex-direction: row;
+	flex-shrink: 1;
+	flex-wrap: wrap;
+}
+
+.modal-card-sub-container{
+	display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.modal-card-container{
+	width: 134px;
+	min-height: 140px;
+	display: flex;
+  	align-items: center;
+  	justify-content: center;
+  	flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 33%;
+	border-color: transparent;
+	border:1px solid var(--input-border--color);
+    box-sizing: border-box;
+    margin-top: -1px;
+ 	margin-left: -1px;
+ 	text-align: center;
+ 	cursor: pointer;
+ 	transition: background-image 5s cubic-bezier(.45,.42,0,1);
+}
+
+.modal-card-img-container{
+	width: 50px;
+	height: 50px;
+	border-radius: 100%;
+	background-image: linear-gradient(to bottom, #ebefff, #e1e4fe);
+	display: flex;
+  	align-items: center;
+  	justify-content: center;
+}
+
+.modal-card-img{
+	margin-bottom: 0px;
+}
+
+.modal-card-label{
+	font-size: 14px;
+	color: var(--light--gray--color);
+	margin-top: 8px;
+	margin-bottom: 0px;
+}
+
+
+
+.modal-card-container:hover .modal-card-label{
+	color: var(--black--color);
+	transition: color .25s cubic-bezier(.45,.42,0,1);
+}
+
+.modal-card-container:hover{
+	/*background-image: linear-gradient(to bottom, var(--dropdown--item--hover--top), var(--dropdown--item--hover--bottom));*/
+}
+
+.modal-card-container:hover .modal-card-img-container img{
+	animation: modalCardAnimation 800ms ease;
+}
+
+#NewActionModal .modal-content-finance .modal-body{
+	max-height: 80vh !important;
+}
+
+/*********************************  End modal-card-container  *********************/
 
 /*************** Resposive ***********************************/
 

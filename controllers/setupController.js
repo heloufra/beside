@@ -6,6 +6,13 @@ var setupController = {
   setupView: function(req, res, next) {
     res.render('setup', { title: 'Setup'});
   },
+  getSubjects: function(req, res, next) {
+    connection.query("SELECT Subject_ID as id , Subject_Label as text FROM subjects", (err, subjects, fields) => {
+        res.json({
+          subjects:subjects
+        })
+      })
+  },
   setupSave: function(req, res, next) {
     var institutionsData = JSON.parse(req.body.detail);
     var academicData = JSON.parse(req.body.academic);
@@ -115,6 +122,7 @@ var setupController = {
                             for (var j =  0; j < costsName.costsName.length; j++) {
                               var expenseID = await setupModel.findExpenseID(costsName.costsName[j],academicResult.insertId);
                               var expenseResult = await setupModel.saveLevelExpenses(levelResult.insertId,expenseID,costsName.price[j],academicResult.insertId);
+                              console.log(expenseResult);
                             }
                       }
                     }

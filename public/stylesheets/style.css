@@ -16,3 +16,7 @@ input[type=number] {
 .side-bar-li-span-validate{
 	color: var(--font--color-validate);
 }
+
+.hidden {
+	display: none;
+}
