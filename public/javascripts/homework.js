@@ -17,6 +17,7 @@ function getAllHomeworks() {
 
 	  		if (res.homeworks.length > 0)
 	  		{
+	  			homeworkId = res.homeworks[res.homeworks.length - 1].Homework_ID;
 	  			displayHomework(res.homeworks[res.homeworks.length - 1].Homework_ID);
 	  		}
 	  		var active = '';
@@ -25,7 +26,7 @@ function getAllHomeworks() {
 	  				active = 'active';
 	  			else
 	  				active = '';
-	  			$('#list_homeworks').append('<div class="sections-main-sub-container-left-card homework-row '+active+'"><input name="homeworkId" type="hidden" value="'+res.homeworks[i].Homework_ID+'"> <div class="sections-main-sub-container-left-card-main-img-text" style="background: '+res.homeworks[i].Subject_Color+';" >'+res.homeworks[i].Subject_Label.slice(0,2)+'</div> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+res.homeworks[i].Homework_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+res.homeworks[i].Subject_Label+' - '+res.homeworks[i].Classe_Label+' - Teacher Name </span> </div> </div>')
+	  			$('#list_homeworks').append('<div data-id="'+res.homeworks[i].Homework_ID+'" class="sections-main-sub-container-left-card homework-row '+active+'"><input name="homeworkId" type="hidden" value="'+res.homeworks[i].Homework_ID+'"> <div class="sections-main-sub-container-left-card-main-img-text" style="background: '+res.homeworks[i].Subject_Color+';" >'+res.homeworks[i].Subject_Label.slice(0,2)+'</div> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+res.homeworks[i].Homework_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+res.homeworks[i].Subject_Label+' - '+res.homeworks[i].Classe_Label+' - Teacher Name </span> </div> </div>')
 	  		}
 	  	}
 	  });
@@ -97,7 +98,60 @@ function saveHomework() {
 	}
 }
 
-function displayHomework(index) 
+ function remove() {
+	$.ajax({
+		    type: 'post',
+		    url: '/Homeworks/remove',
+		    data: {
+		    	id:homeworkId
+		    },
+		    dataType: 'json'
+		  })
+		  .done(function(res){
+		  	if(res.removed)
+		  	{
+		  			getAllHomeworks();
+		  			$('#homework_info').addClass('hidden');
+		  			$('#ConfirmDeleteModal').modal('hide');
+		  	} else {
+		  		console.log(res);
+		  	}
+		  });
+ }
+
+
+ function saveChange() {
+	$.ajax({
+	    type: 'post',
+	    url: '/Homeworks/update',
+	    data: {
+	    	id:homeworkId,
+	    	homework_name:$('#homework_info').find('input[name="homework_name"]').val(),
+  			homework_date:$('#homework_info').find('input[name="homework_date"]').val(),
+  			homework_description:$('#homework_info').find('#homework_description').val(),
+	    },
+	    dataType: 'json'
+	  })
+	  .done(function(res){
+	  	if(res.updated)
+	  	{
+	  			displayHomework(homeworkId);
+	  			$('#ChangesModal').modal('hide');
+	  			console.log($('#ChangesModal').data('id'));
+	  	} else {
+	  		console.log(res);
+	  	}
+	  });
+ 	$('#homework_info .sub-container-form-footer').addClass('hide-footer');
+ 	$('#homework_info .sub-container-form-footer').removeClass('show-footer');
+ }
+ function discardChange() {
+ 	$('#homework_info .sub-container-form-footer').addClass('hide-footer');
+ 	$('#homework_info .sub-container-form-footer').removeClass('show-footer');
+ 	displayHomework(homeworkId);
+ }
+
+function displayHomework(index)
 {
 	$('#HomeworkDetails').removeClass("dom-change-watcher");
 	$.ajax({
@@ -160,6 +214,8 @@ $('input[name="filter-classe"]').on( "change", function() {
 		  var filtred = homeworks.filter(function (el) {
 			  return el.Classe_Label === value ;
 			});
+		  if(value === "All")
+		  	filtred = homeworks;
 		  console.log("Filtred::",filtred);
 		  var active = '';
 	  		for (var i = filtred.length - 1; i >= 0; i--) {
@@ -170,7 +226,7 @@ $('input[name="filter-classe"]').on( "change", function() {
 	  			}
 	  			else
 	  				active = '';
-	  			$('#list_homeworks').append('<div class="sections-main-sub-container-left-card homework-row '+active+'"><input name="homeworkId" type="hidden" value="'+filtred[i].Homework_ID+'"> <div class="sections-main-sub-container-left-card-main-img-text" style="background: '+filtred[i].Subject_Color+';" >'+filtred[i].Subject_Label.slice(0,2)+'</div> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+filtred[i].Homework_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+filtred[i].Subject_Label+' - '+filtred[i].Classe_Label+' - Teacher Name </span> </div> </div>')
+	  			$('#list_homeworks').append('<div data-id="'+filtred[i].Homework_ID+'" class="sections-main-sub-container-left-card homework-row '+active+'"><input name="homeworkId" type="hidden" value="'+filtred[i].Homework_ID+'"> <div class="sections-main-sub-container-left-card-main-img-text" style="background: '+filtred[i].Subject_Color+';" >'+filtred[i].Subject_Label.slice(0,2)+'</div> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+filtred[i].Homework_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+filtred[i].Subject_Label+' - '+filtred[i].Classe_Label+' - Teacher Name </span> </div> </div>')
 	  		}
   }
 })
@@ -191,6 +247,8 @@ $('input[name="filter-subject"]').on( "change", function() {
   	  var filtred = homeworks.filter(function (el) {
 			  return el.Subject_Label === value ;
 			});
+  	  if(value === "All")
+		  	filtred = homeworks;
 		  console.log("Filtred::",filtred);
 		  var active = '';
 	  		for (var i = filtred.length - 1; i >= 0; i--) {
@@ -201,7 +259,7 @@ $('input[name="filter-subject"]').on( "change", function() {
 	  			}
 	  			else
 	  				active = '';
-	  			$('#list_homeworks').append('<div class="sections-main-sub-container-left-card homework-row '+active+'"><input name="homeworkId" type="hidden" value="'+filtred[i].Homework_ID+'"> <div class="sections-main-sub-container-left-card-main-img-text" style="background: '+filtred[i].Subject_Color+';" >'+filtred[i].Subject_Label.slice(0,2)+'</div> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+filtred[i].Homework_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+filtred[i].Subject_Label+' - '+filtred[i].Classe_Label+' - Teacher Name </span> </div> </div>')
+	  			$('#list_homeworks').append('<div data-id="'+filtred[i].Homework_ID+'" class="sections-main-sub-container-left-card homework-row '+active+'"><input name="homeworkId" type="hidden" value="'+filtred[i].Homework_ID+'"> <div class="sections-main-sub-container-left-card-main-img-text" style="background: '+filtred[i].Subject_Color+';" >'+filtred[i].Subject_Label.slice(0,2)+'</div> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+filtred[i].Homework_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+filtred[i].Subject_Label+' - '+filtred[i].Classe_Label+' - Teacher Name </span> </div> </div>')
 	  		}
   }
 })

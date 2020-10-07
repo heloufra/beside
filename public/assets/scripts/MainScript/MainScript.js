@@ -701,6 +701,12 @@ $(document).ready(function(){
 
 	});
 
+	$(document).on("click",".save-changes",function(){
+
+  		$domChange = false;
+
+	});
+
 	/* End discard-changes ________________________*/
 
 
@@ -781,7 +787,7 @@ $(document).ready(function(){
 		$redirectTo = $(this).attr("href");
 
 		if($domChange){
-			jQuery.noConflict(); 
+			//jQuery.noConflict(); 
 			$('#ChangesModal').modal('show');
 			event.preventDefault();
 			event.stopPropagation();
@@ -821,7 +827,7 @@ $(document).ready(function(){
 	$(document).on("click",".sections-main-sub-container-left-card",function(event){
 
 		if($domChange){
-			jQuery.noConflict(); 
+			////jQuery.noConflict(); 
 			$('#ChangesModal').modal('show');
 			event.preventDefault();
 			event.stopPropagation();
@@ -1006,8 +1012,8 @@ $(document).ready(function(){
 		if(!$(this).parents(".modal").length == 1){
 
 			$(".tab-pane:visible .sub-container-form-footer").addClass("show-footer");
-	  		
 
+			$('#ChangesModal').data('id',$('.homework-row').data('id'));
 	  		$domChange=true;
 	  		setTimeout(function(){
 				$(".tab-pane:visible .sub-container-form-footer").removeClass("hide-footer");
@@ -1031,7 +1037,7 @@ $(document).ready(function(){
 	  		$(".sections-main-sub-container-right-main").css("cssText","height:calc(100vh - 120px)");
 
 	  		$domChange=true;
-
+	  		$('#ChangesModal').data('id',$('.homework-row').data('id'));
 	  		setTimeout(function(){
 				$(".tab-pane:visible .sub-container-form-footer").removeClass("hide-footer");
 	  		},25);
@@ -1051,6 +1057,7 @@ $(document).ready(function(){
 			$(".tab-pane:visible  .sub-container-form-footer").addClass("show-footer");
 	  		$(".sections-main-sub-container-right-main").css("cssText","height:calc(100vh - 120px)");
 	  		$domChange=true;
+	  		$('#ChangesModal').data('id',$('.homework-row').data('id'));
 	  		setTimeout(function(){
 				$(".sub-container-form-footer").removeClass("hide-footer");
 	  		},25);
@@ -1275,7 +1282,7 @@ $(document).ready(function(){
 	/* #Homework tbody tr __________________________*/
 
 	$(document).on("click","#Homework tbody tr",function(){
-		jQuery.noConflict(); 
+		//jQuery.noConflict(); 
 		$('#HomeworkDetailModal').modal('show');
 	});
 
@@ -1299,6 +1306,8 @@ $(document).ready(function(){
 	/* #Absence .table-option-list-li-delete __________________________*/
 
 	$(document).on("click","#Absence .table-option-list-li-delete",function(){
+		$('#ConfirmDeleteModal').data('role',"absence");
+		$('#ConfirmDeleteModal').data('id',$(this).data('id'));
 		$('#ConfirmDeleteModal').modal('show');
 	});
 
@@ -1323,6 +1332,8 @@ $(document).ready(function(){
 	/* #Absence .table-option-list-li-delete __________________________*/
 
 	$(document).on("click","#Attitude .table-option-list-li-delete",function(){
+		$('#ConfirmDeleteModal').data('role',"attitude");
+		$('#ConfirmDeleteModal').data('id',$(this).data('id'));
 		$('#ConfirmDeleteModal').modal('show');
 	});
 
@@ -1332,6 +1343,7 @@ $(document).ready(function(){
 	/*.sections-main-sub-container-right-main-header-option-list-span-delete __________________________*/
 
 	$(document).on("click",".sections-main-sub-container-right-main-header-option-list-li-delete",function(){
+		$('#ConfirmDeleteModal').data('role',"student");
 		$('#ConfirmDeleteModal').modal('show');
 	});
 
@@ -1701,7 +1713,7 @@ $(document).ready(function(){
 
 	$(document).on("click",".sections-main-sub-container-left-search-bar .square-button",function(){
 
-		jQuery.noConflict(); 
+		//jQuery.noConflict(); 
 		switch($(".tab-pane:visible").attr("id")) {
 			  case "Details":{
 				$('#AddStudentModal').modal('show');
@@ -1746,7 +1758,7 @@ $(document).ready(function(){
 	  $('.nav-tabs a').on('hide.bs.tab', function(e){
 	   
 	    	if($domChange){
-				//jQuery.noConflict(); 
+				////jQuery.noConflict(); 
 				$('#ChangesModal').modal('show');
 				event.preventDefault();
 				event.stopPropagation();

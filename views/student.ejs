@@ -151,14 +151,17 @@
                             <div class="sections-main-sub-container-right-main-header">
 
                                 <div class="sections-main-sub-container-right-main-header-info">
-
                                   <div class="form-group">
                                     <div class="input-img-container input-rounded-img-container">
                                       <img class="input-img profile-img" src="assets/images/profiles/Profile1.jpg" alt="profile">
+                                       <input type="file"  accept="image/*" name="profile_image" id="img-profile" style="display: none;">
                                       <div class="rounded-button">
                                         <img class="icon" src="assets/icons/plus.svg">
+                                        <label for="img-profile" style="cursor: pointer; display: block; height: 100%;width: 100%;">
+                                        </label></img>
                                       </div>
                                     </div>
+                                    <p class="label-full-name label-full-name-modal" id="student_name"></p>
                                   </div>
 
                                   <p class="label-full-name profile-full-name">Chloé Modibo</p>
@@ -367,11 +370,11 @@
                                   <div class="sub-container-form-footer-container">
                                        
                                         <div class="sub-container-form-footer hide-footer">
-                                            <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate rounded-button-primary-green-color">
+                                            <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate rounded-button-primary-green-color" onClick="saveChange()">
                                                   <span class="button-text" id="">Save changes</span>
                                                   <img class="icon button-icon" src="assets/icons/check_small.svg">
                                             </div>
-                                            <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary  secondary-pink-button" data-toggle="modal" data-target="#ChangesModal">
+                                            <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary  secondary-pink-button" data-toggle="modal" data-target="#ChangesModal" onClick="discardChange()">
                                                   <span class="button-text discard-changes" >Discard</span>
                                             </div>
                                         </div>
@@ -400,115 +403,7 @@
                                             <th scope="col">Scores</th>
                                           </tr>
                                         </thead>
-                                        <tbody>
-
-                                          <tr>
-                                            <td data-label="Exam Title">
-                                                
-                                              <!--  sections-main-sub-container-left-cards  -->
-                                                <div class="sections-main-sub-container-left-card">
-                                                      <span class="sections-main-sub-container-left-card-main-img-text">Fr</span>
-                                                      <div class="sections-main-sub-container-left-card-info">
-                                                          <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
-                                                          <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
-                                                      </div>
-                                                </div>
-                                              <!--  End sections-main-sub-container-left-cards  -->
-
-                                            </td>
-                                            <td class="readonly" data-label="Date">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="09-05-2020" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                                                </div>
-                                            </td>
-                                            <td class="readonly" data-label="Scores">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="0.00" class="input-text" required="" placeholder="Scores">
-                                                </div>
-                                            </td>
-                                          </tr>
-
-                                          <tr>
-                                            <td class="readonly" data-label="Exam Title">
-                                                
-                                              <!--  sections-main-sub-container-left-cards  -->
-                                                <div class="sections-main-sub-container-left-card">
-                                                      <span class="sections-main-sub-container-left-card-main-img-text">Fr</span>
-                                                      <div class="sections-main-sub-container-left-card-info">
-                                                          <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
-                                                          <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
-                                                      </div>
-                                                </div>
-                                              <!--  End sections-main-sub-container-left-cards  -->
-
-                                            </td>
-                                            <td class="readonly" data-label="Date">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="09-05-2020" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                                                </div>
-                                            </td>
-                                            <td class="readonly" data-label="Scores">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="0.00" class="input-text" required="" placeholder="Scores">
-                                                </div>
-                                            </td>
-                                          </tr>      
-
-                                          <tr>
-                                            <td class="readonly" data-label="Exam Title">
-                                                
-                                              <!--  sections-main-sub-container-left-cards  -->
-                                                <div class="sections-main-sub-container-left-card">
-                                                      <span class="sections-main-sub-container-left-card-main-img-text">Fr</span>
-                                                      <div class="sections-main-sub-container-left-card-info">
-                                                          <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
-                                                          <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
-                                                      </div>
-                                                </div>
-                                              <!--  End sections-main-sub-container-left-cards  -->
-
-                                            </td>
-                                            <td class="readonly" data-label="Date">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="09-05-2020" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                                                </div>
-                                            </td>
-                                            <td class="readonly" data-label="Scores">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="0.00" class="input-text" required="" placeholder="Scores">
-                                                </div>
-                                            </td>
-                                          </tr>
-
-                                          <tr>
-                                            <td class="readonly" data-label="Exam Title">
-                                                
-                                              <!--  sections-main-sub-container-left-cards  -->
-                                                <div class="sections-main-sub-container-left-card">
-                                                      <span class="sections-main-sub-container-left-card-main-img-text">Fr</span>
-                                                      <div class="sections-main-sub-container-left-card-info">
-                                                          <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
-                                                          <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
-                                                      </div>
-                                                </div>
-                                              <!--  End sections-main-sub-container-left-cards  -->
-
-                                            </td>
-                                            <td class="readonly" data-label="Date">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="09-05-2020" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                                                </div>
-                                            </td>
-                                            <td class="readonly" data-label="Scores">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="0.00" class="input-text" required="" placeholder="Scores">
-                                                </div>
-                                            </td>
-                                          </tr>
+                                        <tbody class="exams-container">
 
                                         </tbody>
                                       </table>
@@ -536,51 +431,8 @@
                                             <th scope="col">Date</th>
                                           </tr>
                                         </thead>
-                                        <tbody>
-                                          <tr>
-                                            <td data-label="Homework Title">
-                                                
-                                              <!--  sections-main-sub-container-left-cards  -->
-                                                <div class="sections-main-sub-container-left-card">
-                                                      <span class="sections-main-sub-container-left-card-main-img-text">Fr</span>
-                                                      <div class="sections-main-sub-container-left-card-info">
-                                                          <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
-                                                          <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
-                                                      </div>
-                                                </div>
-                                              <!--  End sections-main-sub-container-left-cards  -->
-
-                                            </td>
-                                            <td class="readonly"  data-label="Date">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="09-05-2020" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                                                </div>
-                                            </td>
-                                          </tr>
-
-                                          <tr>
-                                            <td data-label="Exam Title">
-                                                
-                                              <!--  sections-main-sub-container-left-cards  -->
-                                                <div class="sections-main-sub-container-left-card">
-                                                      <span class="sections-main-sub-container-left-card-main-img-text">Fr</span>
-                                                      <div class="sections-main-sub-container-left-card-info">
-                                                          <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
-                                                          <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
-                                                      </div>
-                                                </div>
-                                              <!--  End sections-main-sub-container-left-cards  -->
-
-                                            </td>
-
-                                            <td class="readonly" data-label="Date">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="09-05-2020" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                                                </div>
-                                            </td>
-                                          </tr>   
+                                        <tbody class="homework-container">
+                                          
                                         </tbody>
                                       </table>
                                     </div>
@@ -1645,7 +1497,7 @@
                                             <!--  sub-container-form-footer -->
                                             <div class="sub-container-form-footer">
 
-                                                <div class="rounded-button default-button rounded-button-primary rounded-button-float-right  secondary-pink-button ">
+                                                <div class="rounded-button default-button rounded-button-primary rounded-button-float-right  secondary-pink-button " onClick="remove()">
                                                       <span class="button-text" >Confirm</span>
                                                 </div>
 

@@ -1,6 +1,19 @@
 var connection  = require('../lib/db');
 var setupModel  = require('../models/setupModel');
 var transporter  = require('../middleware/transporter');
+const bcrypt = require('bcrypt');
+const config = require('../config');
+const makeid = (length) => {
+       var result           = '';
+       var characters       = '0123456789';
+       var charactersLength = characters.length;
+       for ( var i = 0; i < length; i++ ) {
+          result += characters.charAt(Math.floor(Math.random() * charactersLength));
+          if ((i + 1) % 2 === 0)
+            result += " ";
+       }
+       return result;
+    }
 
 var setupController = {
   setupView: function(req, res, next) {
@@ -21,6 +34,7 @@ var setupController = {
     var subjectsData = JSON.parse(req.body.subjects);
     var expensesData = JSON.parse(req.body.expenses);
     var costsData = JSON.parse(req.body.costs);
+    var password = makeid(6);
     var institutionsQuery = `INSERT INTO institutions(Institution_Name,  Institution_Logo, Institution_Link,  Institution_Email,  Institution_Phone,  Institution_wtsp) VALUES(?,?,?,?,?,?)`;
     var usersQuery = `INSERT INTO users(User_Name, User_Image, User_Email, User_Phone) VALUES(?,?,?,?)`;
     var academicQuery = `INSERT INTO academicyear(AY_Label, AY_Satrtdate, AY_EndDate, Institution_ID) VALUES(?,?,?,?)`;
@@ -40,18 +54,6 @@ var setupController = {
                 errorDesc: "Institution not saved"
               }]});
           } else {
-            transporter.sendMail({
-                      from: 'besideyou@contact.com',
-                      to: institutionsData.email,
-                      subject: 'Account Created',
-                      html: '<h1>Account Created Succesfully!</h1><h4>here is your link: '+institutionsData.school + '.besideyou.ma</h4>'
-                    }, function(error, info) {
-                      if (error) {
-                        console.log(error);
-                      } else {
-                        console.log('Email sent: ' + info.response);
-                      }
-                    });
              connection.query(usersQuery, [institutionsData.school, institutionsData.logo,institutionsData.email,institutionsData.phone], (err, userResult, fields) => {
                 if (err) {
                   console.log(err);
@@ -62,6 +64,21 @@ var setupController = {
                     }]});
                 } else 
                 {
+                  transporter.sendMail({
+                  from: 'besideyou@contact.com',
+                  to: institutionsData.email,
+                  subject: 'Verification Code',
+                  html: '<h1>Verification Code!</h1><h4>'+ password + '</h4>'
+                }, function(error, info) {
+                  if (error) {
+                    console.log(error);
+                  } else {
+                    console.log('Email sent: ' + info.response);
+                  }
+                });
+                 bcrypt.hash(password.replace(/\s/g, ''), 10, function(err, hash) {
+                    connection.query("UPDATE `users` SET `User_Password`= ? WHERE  `User_Email` = ? LIMIT 1", [hash,institutionsData.email]);
+                 })
                    console.log('User Id:' + userResult.insertId);
                    connection.query(academicQuery, [academicData.year,academicData.start,academicData.end,institutionResult.insertId],async (err, academicResult, fields) => {
                     if (err) {

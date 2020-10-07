@@ -3,11 +3,18 @@ var selectSubject = "SELECT subjects.* FROM `classes` INNER JOIN teachersubjects
 
 var commonController = {
   getSubjects: function(req, res, next) {
-    connection.query(selectSubject,[req.query.classe], (err, subjects, fields) => {
-      res.json({
-                subjects:subjects,
-              });
-    })
+  	if (req.query.classe === 'All')
+	  	connection.query("SELECT * FROM subjects",[req.query.classe], (err, subjects, fields) => {
+	      res.json({
+	                subjects:subjects,
+	              });
+	    })
+    else
+	    connection.query(selectSubject,[req.query.classe], (err, subjects, fields) => {
+	      res.json({
+	                subjects:subjects,
+	              });
+	    })
   },
 };
 

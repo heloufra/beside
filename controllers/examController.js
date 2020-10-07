@@ -10,7 +10,9 @@ var examController = {
           connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [institutions[0].Institution_ID], (err, academic, fields) => {
             connection.query("SELECT * FROM `classes` WHERE AY_ID = ?", [academic[0].AY_ID], (err, classes, fields) => {
               connection.query("SELECT * FROM `levels` WHERE AY_ID = ?", [academic[0].AY_ID], (err, levels, fields) => {
-                res.render('exam', { title: 'Exams' , user: user[0], institution:institutions[0], classes:classes,levels:levels});
+                connection.query("SELECT * FROM `subjects`", (err, subjects, fields) => {
+                  res.render('exam', { title: 'Exams' , user: user[0], institution:institutions[0], classes:classes,subjects:subjects,levels:levels});
+                })
               })
             })
           })
@@ -47,6 +49,37 @@ var examController = {
                 exam:exam,
               });
     })
+  },
+  deleteExam: function(req, res, next) {
+    connection.query("DELETE FROM `exams` WHERE `Exam_ID` = ?", [req.body.id], (err, student, fields) => {
+       if (err) {
+            console.log(err);
+              res.json({
+                errors: [{
+                field: "Access denied",
+                errorDesc: "Cannot Remove it"
+              }]});
+          } else 
+          {
+            res.json({removed : true});
+          }
+     })
+  },
+  updateExam: function(req, res, next) {
+    console.log(req.body)
+    connection.query("UPDATE `Exams` SET `Exam_Title` = ?,`Exam_Deatils` = ?, `Exam_Date` = ? WHERE Exam_ID = ?", [req.body.exam_name,req.body.exam_description,req.body.exam_date,req.body.id], (err, student, fields) => {
+       if (err) {
+            console.log(err);
+              res.json({
+                errors: [{
+                field: "Access denied",
+                errorDesc: "Cannot Remove it"
+              }]});
+          } else 
+          {
+            res.json({updated : true});
+          }
+     })
   },
 };
 

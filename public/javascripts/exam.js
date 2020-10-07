@@ -17,6 +17,7 @@ function getAllExams() {
 
 	  		if (res.exams.length > 0)
 	  		{
+	  			examId = res.exams[res.exams.length - 1].Exam_ID;
 	  			displayExam(res.exams[res.exams.length - 1].Exam_ID);
 	  		}
 	  		var active = '';
@@ -30,6 +31,28 @@ function getAllExams() {
 	  	}
 	  });
  }
+
+  function remove() {
+	$.ajax({
+		    type: 'post',
+		    url: '/Exams/remove',
+		    data: {
+		    	id:examId
+		    },
+		    dataType: 'json'
+		  })
+		  .done(function(res){
+		  	if(res.removed)
+		  	{
+		  			$('#exam_info').addClass('hidden');
+		  			getAllExams();
+		  			$('#ConfirmDeleteModal').modal('hide');
+		  	} else {
+		  		console.log(res);
+		  	}
+		  });
+ }
+
 function saveExam() {
 	var exam_classe = $('#AddExamModal').find('input[name="exam_classe"]').val();
 	var exam_date = $('#AddExamModal').find('input[name="exam_date"]').val();
@@ -119,7 +142,7 @@ function displayExam(index)
   		$('#exam_info').find('.exam_img').html(res.exam[0].Subject_Label.slice(0,2))
   		$('#exam_info').find('.label-full-name').html(res.exam[0].Exam_Title);
   		$('#exam_info').find('input[name="exam_name"]').val(res.exam[0].Exam_Title);
-  		$('#exam_info').find('input[name="exam_date"]').val(res.exam[0].Exam_DeliveryDate);
+  		$('#exam_info').find('input[name="exam_date"]').val(res.exam[0].Exam_Date);
   		$('#exam_info').find('#exam_description').val(res.exam[0].Exam_Deatils);
   		$('#exam_info').find('.sub-label-full-name').html(res.exam[0].Subject_Label+' - '+res.exam[0].Classe_Label+' - Teacher Name');
   		$('#ExamsDetails').addClass("dom-change-watcher");
@@ -162,7 +185,8 @@ $('input[name="filter-classe"]').on( "change", function() {
 		  var filtred = exams.filter(function (el) {
 			  return el.Classe_Label === value ;
 			});
-
+		  if(value === "All")
+		  	filtred = exams;
 		  var active = '';
 	  		for (var i = filtred.length - 1; i >= 0; i--) {
 	  			if (i === filtred.length - 1)
@@ -185,7 +209,8 @@ $('input[name="filter-subject"]').on( "change", function() {
   	  var filtred = exams.filter(function (el) {
 			  return el.Subject_Label === value ;
 			});
-
+  	  if(value === "All")
+		  	filtred = exams;
 		  var active = '';
   		for (var i = filtred.length - 1; i >= 0; i--) {
   			if (i === filtred.length - 1)
@@ -227,3 +252,35 @@ $('.select-classe').on( "change", function() {
 		  });
   }
 })
+
+ function saveChange() {
+	$.ajax({
+	    type: 'post',
+	    url: '/Exams/update',
+	    data: {
+	    	id:examId,
+	    	exam_name:$('#exam_info').find('input[name="exam_name"]').val(),
+  			exam_date:$('#exam_info').find('input[name="exam_date"]').val(),
+  			exam_description:$('#exam_info').find('#exam_description').val(),
+	    },
+	    dataType: 'json'
+	  })
+	  .done(function(res){
+	  	if(res.updated)
+	  	{
+	  			displayExam(examId);
+	  			$('#ChangesModal').modal('hide');
+	  			console.log($('#ChangesModal').data('id'));
+	  	} else {
+	  		console.log(res);
+	  	}
+	  });
+ 	$('#exam_info .sub-container-form-footer').addClass('hide-footer');
+ 	$('#exam_info .sub-container-form-footer').removeClass('show-footer');
+ }
+
+ function discardChange() {
+ 	$('#exam_info .sub-container-form-footer').addClass('hide-footer');
+ 	$('#exam_info .sub-container-form-footer').removeClass('show-footer');
+ 	displayExam(examId);
+ }

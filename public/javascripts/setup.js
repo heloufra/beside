@@ -153,7 +153,7 @@ function saveData(value,data,next){
 
               if (res.saved)
               {
-                window.location.href = '/';
+                nextItem();
               } else {
                 nextItem();
                 $(".sub-container").prepend("<div style='position: absolute;width: 100%;' class='alert alert-danger' role='alert'>Email Already Exist</div>");

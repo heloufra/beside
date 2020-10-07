@@ -12,7 +12,9 @@ var homeworkController = {
           connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [institutions[0].Institution_ID], (err, academic, fields) => {
             connection.query("SELECT * FROM `classes` WHERE AY_ID = ?", [academic[0].AY_ID], (err, classes, fields) => {
               connection.query("SELECT * FROM `levels` WHERE AY_ID = ?", [academic[0].AY_ID], (err, levels, fields) => {
-                res.render('homework', { title: 'Homeworks' , user: user[0], institution:institutions[0], classes:classes,levels:levels});
+                 connection.query("SELECT * FROM `subjects`", (err, subjects, fields) => {
+                  res.render('homework', { title: 'Homeworks' , user: user[0], institution:institutions[0], classes:classes,subjects:subjects,levels:levels});
+                })
               })
             })
           })
@@ -50,6 +52,37 @@ var homeworkController = {
                 homework:homework,
               });
     })
+  },
+  deleteHomework: function(req, res, next) {
+    connection.query("DELETE FROM `homeworks` WHERE `Homework_ID` = ?", [req.body.id], (err, student, fields) => {
+       if (err) {
+            console.log(err);
+              res.json({
+                errors: [{
+                field: "Access denied",
+                errorDesc: "Cannot Remove it"
+              }]});
+          } else 
+          {
+            res.json({removed : true});
+          }
+     })
+  },
+  updateHomework: function(req, res, next) {
+    console.log(req.body)
+    connection.query("UPDATE `homeworks` SET `Homework_Title` = ?,`Homework_Deatils` = ?, `Homework_DeliveryDate` = ? WHERE Homework_ID = ?", [req.body.homework_name,req.body.homework_description,req.body.homework_date,req.body.id], (err, student, fields) => {
+       if (err) {
+            console.log(err);
+              res.json({
+                errors: [{
+                field: "Access denied",
+                errorDesc: "Cannot Remove it"
+              }]});
+          } else 
+          {
+            res.json({updated : true});
+          }
+     })
   },
 };
 

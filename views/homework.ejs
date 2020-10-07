@@ -104,6 +104,7 @@
                               <input type="text" value="Classes" class="input-dropdown" name="filter-classe" required="">
                               <img class="icon button-icon" src="assets/icons/caret.svg">
                               <ul class="dynamic-form-input-dropdown-options">
+                                <li data-val="All">All</li>
                                  <% for(var i=0; i<classes.length; i++) {%>
                                      <li data-val="<%= classes[i].Classe_Label %>"><%= classes[i].Classe_Label %></li>
                                   <% } %>
@@ -114,7 +115,10 @@
                               <input type="text" value="Subject" class="input-dropdown" name="filter-subject" required="">
                               <img class="icon button-icon" src="assets/icons/caret.svg">
                               <ul class="dynamic-form-input-dropdown-options filter-subject">
-
+                                <li data-val="All">All</li>
+                                <% for(var i=0; i<subjects.length; i++) {%>
+                                     <li class="row-subject" data-val="<%= subjects[i].Subject_Label %>"><%= subjects[i].Subject_Label %></li>
+                                <% } %>
                               </ul>
                             </div>
 
@@ -237,12 +241,12 @@
                                         <!--  sub-container-form-footer -->
                                         <div class="sub-container-form-footer hide-footer">
 
-                                            <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate rounded-button-primary-green-color ">
+                                            <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate rounded-button-primary-green-color save-changes" onClick="saveChange()">
                                                   <span class="button-text" id="Editdetails">Save changes</span>
                                                   <img class="icon button-icon" src="assets/icons/check_small.svg">
                                             </div>
 
-                                            <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary secondary-pink-button">
+                                            <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary secondary-pink-button" onClick="discardChange()">
                                                   <span class="button-text discard-changes" >Discard</span>
                                             </div>
 
@@ -298,13 +302,13 @@
                     <!--  sub-container-form-footer -->
                     <div class="sub-container-form-footer">
 
-                       <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button ">
+                       <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button " onClick="saveChange()">
                                     <span class="button-text" >Save changes</span>
                                     <img class="icon button-icon" src="assets/icons/check_small.svg">
                         </div>
 
-                        <div class="rounded-button default-button rounded-button-primary rounded-button-float-right  secondary-pink-button ">
-                              <span class="button-text" >Discard</span>
+                        <div class="rounded-button default-button rounded-button-primary rounded-button-float-right  secondary-pink-button " onClick="discardChange()">
+                              <span class="button-text" >Discard</span> 
                         </div>
                        
                     </div>
@@ -347,7 +351,7 @@
                     <!--  sub-container-form-footer -->
                     <div class="sub-container-form-footer">
 
-                        <div class="rounded-button default-button rounded-button-primary rounded-button-float-right  secondary-pink-button ">
+                        <div class="rounded-button default-button rounded-button-primary rounded-button-float-right  secondary-pink-button " onClick="remove()">
                               <span class="button-text" >Confirm</span>
                         </div>
 
