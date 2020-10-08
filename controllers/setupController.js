@@ -2,7 +2,9 @@ var connection  = require('../lib/db');
 var setupModel  = require('../models/setupModel');
 var transporter  = require('../middleware/transporter');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const config = require('../config');
+
 const makeid = (length) => {
        var result           = '';
        var characters       = '0123456789';
@@ -79,6 +81,10 @@ var setupController = {
                  bcrypt.hash(password.replace(/\s/g, ''), 10, function(err, hash) {
                     connection.query("UPDATE `users` SET `User_Password`= ? WHERE  `User_Email` = ? LIMIT 1", [hash,institutionsData.email]);
                  })
+                 var token = jwt.sign({
+                      email:institutionsData.email,
+                    }, config.privateKey);
+                  res.json({saved : true,token});
                    console.log('User Id:' + userResult.insertId);
                    connection.query(academicQuery, [academicData.year,academicData.start,academicData.end,institutionResult.insertId],async (err, academicResult, fields) => {
                     if (err) {
@@ -152,7 +158,6 @@ var setupController = {
           console.log('Institution Id:' + institutionResult.insertId);
      
         });
-         res.json({saved : true});
         } else
           res.json({saved : false});
       })

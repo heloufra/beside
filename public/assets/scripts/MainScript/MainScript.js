@@ -110,6 +110,15 @@ $(document).ready(function(){
 
 	/* Form Component ______________________*/
 
+
+	/* scrollbar ____________________________*
+
+	.sections-main-sub-container-right-main
+	.side-bar
+	.sections-main-sub-container-left-card-container
+
+	/* End scrollbar ____________________________*/
+
 	/*Dropdown Menu*/
 
 	$(document).on("click",".input-dropdown",function(event){
@@ -481,9 +490,188 @@ $(document).ready(function(){
 		  dropdownPosition: 'below',
 		  tokenSeparators: [',', ' '],
   		  minimumResultsForSearch: -1,
-  		  templateResult: hideSelected
+  		  templateResult: hideSelected,
+  		  placeholder: "Select items",
 		});
 	}
+
+	/**__ input-text-subject-classes-select2 _____________________________*/
+
+	if($(".input-text-subject-classes-select2").length > 0){
+
+		$(".input-text-subject-classes-select2").select2({
+		  tags: true,
+		  dropdownPosition: 'below',
+  		  placeholder: "Classes",
+  		  minimumResultsForSearch: -1,
+  		  templateResult: hideSelected,
+		});
+
+	}
+
+	$('.input-text-subject-classes-select2').on('select2:selecting', function (e) {
+
+		$(this).parents(".form-group-right").find(".input-label").addClass("input-label-move-to-top");
+
+	});
+
+	$('.input-text-subject-classes-select2').on('select2:unselecting', function (e) {
+
+		if($(this).select2('data').length <= 1 ){
+			$(this).parents(".form-group-right").find(".input-label").removeClass("input-label-move-to-top");
+		}
+
+	});
+
+	$(document).on("click",".input-label",function(){
+		$(this).parents(".form-group").find(".select2-selection").focus();
+		$(this).parents(".form-group").find(".select2-selection").click();
+		//$(this).parents(".form-group-right").find(".input-label").addClass("input-label-move-to-top");
+		return false;
+	});
+
+	$(document).on("click",".button-icon",function(){
+		$(this).parents(".form-group").find(".select2-selection").focus();
+		$(this).parents(".form-group").find(".select2-selection").click();
+		return false;
+	});
+
+
+	/* #Details #Subject_Class_New_Dynamic_Form_Input _______________________*/
+
+	$(document).on("click",".dom-change-watcher #Subject_Class_New_Dynamic_Form_Input",function(){
+
+		if(!$(this).parents(".modal").length == 1){
+
+			$(".sections-main-sub-container-right-main-rows-dropdown-tags .dynamic-form-input-dropdown").removeClass("dynamic-form-input-first");
+
+			$dynamic_form_input = $(".sections-main-sub-container-right-main-rows-dropdown-tags .dynamic-form-input-dropdown-container").first().clone();
+
+			$dynamic_form_input.find(".input-text-subject-classes-select2").select2("destroy");
+
+			$dynamic_form_input.find(".select2").remove();
+
+			$dynamic_form_input.find(".input-label").removeClass("input-label-move-to-top");
+
+			$(this).parent().prepend($dynamic_form_input);
+
+			$(this).parents(".sections-main-sub-container-right-main-rows-dropdown-tags").find(".input-text-subject-classes-select2").select2({
+			  tags: true,
+			  dropdownPosition: 'below',
+	  		  placeholder: "Classes",
+	  		  minimumResultsForSearch: -1,
+	  		  templateResult: hideSelected,
+			});
+
+
+			$(this).parents(".sections-main-sub-container-right-main-rows-dropdown-tags").find(".input-text-subject-classes-select2").on('select2:selecting', function (e) {
+
+				$(this).parents(".form-group-right").find(".input-label").addClass("input-label-move-to-top");
+
+			});
+
+			$(this).parents(".sections-main-sub-container-right-main-rows-dropdown-tags").find(".input-text-subject-classes-select2").on('select2:unselecting', function (e) {
+
+				if($(this).select2('data').length <= 1 ){
+					$(this).parents(".form-group-right").find(".input-label").removeClass("input-label-move-to-top");
+				}
+
+			});
+
+			$(".sub-container-form-footer").addClass("show-footer");
+	  		$(".sections-main-sub-container-right-main").css("cssText","height:calc(100vh - 120px)");
+	  		$domChange=true;
+
+	  		setTimeout(function(){
+
+				$(".sub-container-form-footer").removeClass("hide-footer");
+
+	  		},50);
+
+
+	  	}
+
+	});
+
+	$(document).on("click",".dom-change-watcher .square-button",function(){
+
+		if(!$(this).parents(".modal").length == 1){
+
+			$(this).parents(".details-teacher .dynamic-form-input-dropdown-container").remove();
+
+			if($(".details-teacher .sections-main-sub-container-right-main-rows-dropdown-tags .sections-main-sub-container-right-main-rows-dropdown-tags-container").length == 1 ){
+				$(".details-teacher .sections-main-sub-container-right-main-rows-dropdown-tags .sections-main-sub-container-right-main-rows-dropdown-tags-container .dynamic-form-input-dropdown").addClass("dynamic-form-input-first");
+			}
+
+			$(".sub-container-form-footer").addClass("show-footer");
+	  		$(".sections-main-sub-container-right-main").css("cssText","height:calc(100vh - 120px)");
+	  		$domChange=true;
+	  		setTimeout(function(){
+				$(".sub-container-form-footer").removeClass("hide-footer");
+	  		});
+
+  		}
+		
+	});
+
+	/* End #Details #Parents_New_Dynamic_Form_Input _______________________*/
+
+	/* #AddTeacherModal #Subject_Class_New_Dynamic_Form_Input _______________________*/
+
+	$(document).on("click","#AddTeacherModal #Subject_Class_New_Dynamic_Form_Input",function(){
+
+			$("#AddTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .dynamic-form-input-dropdown").removeClass("dynamic-form-input-first");
+
+			$dynamic_form_input = $("#AddTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .dynamic-form-input-dropdown-container").first().clone();
+
+			$dynamic_form_input.find(".input-text-subject-classes-select2").select2("destroy");
+
+			$dynamic_form_input.find(".select2").remove();
+
+			$dynamic_form_input.find(".input-label").removeClass("input-label-move-to-top");
+
+			$(this).parent().prepend($dynamic_form_input);
+
+			$(this).parents(".sections-main-sub-container-right-main-rows-dropdown-tags").find(".input-text-subject-classes-select2").select2({
+			  tags: true,
+			  dropdownPosition: 'below',
+	  		  placeholder: "Classes",
+	  		  minimumResultsForSearch: -1,
+	  		  templateResult: hideSelected
+			});
+
+
+			$(this).parents(".sections-main-sub-container-right-main-rows-dropdown-tags").find(".input-text-subject-classes-select2").on('select2:selecting', function (e) {
+
+				$(this).parents(".form-group-right").find(".input-label").addClass("input-label-move-to-top");
+
+			});
+
+			$(this).parents(".sections-main-sub-container-right-main-rows-dropdown-tags").find(".input-text-subject-classes-select2").on('select2:unselecting', function (e) {
+
+				if($(this).select2('data').length <= 1 ){
+					$(this).parents(".form-group-right").find(".input-label").removeClass("input-label-move-to-top");
+				}
+
+			});
+
+	});
+
+	$(document).on("click","#AddTeacherModal .square-button",function(){
+
+			$(this).parents(".dynamic-form-input-dropdown-container").remove();
+
+			if($("#AddTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .sections-main-sub-container-right-main-rows-dropdown-tags-container").length == 1 ){
+				$("#AddTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .sections-main-sub-container-right-main-rows-dropdown-tags-container .dynamic-form-input-dropdown").addClass("dynamic-form-input-first");
+			}
+		
+	});
+
+	/* End #Details #Parents_New_Dynamic_Form_Input _______________________*/
+
+
+	/**__ End input-text-subject-classes-select2 _____________________________*/
+
 
 	if($(".input-text-month-select2").length > 0){
 		$(".input-text-month-select2").select2({
@@ -621,6 +809,7 @@ $(document).ready(function(){
 			showOtherMonths: true,
 			firstDay: 1,
 			autoClose: true,
+			minDate:new Date(),
 			navTitles: {
 			      days: 'M - yyyy',
 			      months: 'yyyy',
@@ -630,7 +819,44 @@ $(document).ready(function(){
 		});		
 			
 		$this_.focus();
-		console.log(".input-date-illimited");
+		console.log(".input-date-from-today");
+
+	});
+
+	$(".input-date-from-today").datepicker({
+			dateFormat: "dd/mm/yyyy",
+			showOtherMonths: true,
+			firstDay: 1,
+			autoClose: true,
+			minDate:new Date(),
+			navTitles: {
+			      days: 'M - yyyy',
+			      months: 'yyyy',
+			      years: 'yyyy1 - yyyy2'
+				},
+			language:'en'
+	});	
+
+	$(document).on("click_",".input-date-from-today",function(){
+
+		$this_ = $(this);
+
+		$this_.datepicker({
+			dateFormat: "dd/mm/yyyy",
+			showOtherMonths: true,
+			firstDay: 1,
+			autoClose: true,
+			minDate:new Date(),
+			navTitles: {
+			      days: 'M - yyyy',
+			      months: 'yyyy',
+			      years: 'yyyy1 - yyyy2'
+				},
+			language:'en'
+		});		
+			
+		$this_.focus();
+		console.log(".input-date-from-today");
 
 	});
 
@@ -638,8 +864,7 @@ $(document).ready(function(){
 
 	/* input-date-from-today ______________________________*/
 
-	$(document).on('change','.input-date',function() {
-
+	$(document).on('change','.dynamic-form-input-container-multi-date .dynamic-form-input-text-container-icon:first-child .input-date',function() {
 
            	$(this).parents(".dynamic-form-input-text-container-icon")
 				   .next(".dynamic-form-input-text-container-icon")
@@ -655,8 +880,8 @@ $(document).ready(function(){
 						      months: 'yyyy',
 						      years: 'yyyy1 - yyyy2'
 							}
-					});		
-				   
+					}).val($(this).val());
+
     });
 	
 	/* End input-date-from-today __________________________*/
@@ -698,12 +923,6 @@ $(document).ready(function(){
   		$(".modal-dom-change-watcher .sub-container-form-footer").addClass("hide-footer");
 
   		// ===> Enable to fire change  Confirm modal  : $domChange=true;
-
-	});
-
-	$(document).on("click",".save-changes",function(){
-
-  		$domChange = false;
 
 	});
 
@@ -762,7 +981,7 @@ $(document).ready(function(){
 		}
 	}
 
-	$(".side-bar-extra-style .side-bar-li").each(function(){
+	/*$(".side-bar-extra-style .side-bar-li").each(function(){
 
 		
 		$(".side-bar-li-span").removeClass("side-bar-li-span-active");
@@ -776,7 +995,7 @@ $(document).ready(function(){
 			return false;
 		}
 
-	});
+	});*/
 
 	/* End side-bar-li auto select  ________________________*/
 
@@ -827,7 +1046,7 @@ $(document).ready(function(){
 	$(document).on("click",".sections-main-sub-container-left-card",function(event){
 
 		if($domChange){
-			////jQuery.noConflict(); 
+			//jQuery.noConflict(); 
 			$('#ChangesModal').modal('show');
 			event.preventDefault();
 			event.stopPropagation();
@@ -1012,8 +1231,8 @@ $(document).ready(function(){
 		if(!$(this).parents(".modal").length == 1){
 
 			$(".tab-pane:visible .sub-container-form-footer").addClass("show-footer");
+	  		
 
-			$('#ChangesModal').data('id',$('.homework-row').data('id'));
 	  		$domChange=true;
 	  		setTimeout(function(){
 				$(".tab-pane:visible .sub-container-form-footer").removeClass("hide-footer");
@@ -1037,7 +1256,7 @@ $(document).ready(function(){
 	  		$(".sections-main-sub-container-right-main").css("cssText","height:calc(100vh - 120px)");
 
 	  		$domChange=true;
-	  		$('#ChangesModal').data('id',$('.homework-row').data('id'));
+
 	  		setTimeout(function(){
 				$(".tab-pane:visible .sub-container-form-footer").removeClass("hide-footer");
 	  		},25);
@@ -1057,7 +1276,6 @@ $(document).ready(function(){
 			$(".tab-pane:visible  .sub-container-form-footer").addClass("show-footer");
 	  		$(".sections-main-sub-container-right-main").css("cssText","height:calc(100vh - 120px)");
 	  		$domChange=true;
-	  		$('#ChangesModal').data('id',$('.homework-row').data('id'));
 	  		setTimeout(function(){
 				$(".sub-container-form-footer").removeClass("hide-footer");
 	  		},25);
@@ -1307,7 +1525,7 @@ $(document).ready(function(){
 
 	$(document).on("click","#Absence .table-option-list-li-delete",function(){
 		$('#ConfirmDeleteModal').data('role',"absence");
-		$('#ConfirmDeleteModal').data('id',$(this).data('id'));
++		$('#ConfirmDeleteModal').data('id',$(this).data('id'));
 		$('#ConfirmDeleteModal').modal('show');
 	});
 
@@ -1333,7 +1551,7 @@ $(document).ready(function(){
 
 	$(document).on("click","#Attitude .table-option-list-li-delete",function(){
 		$('#ConfirmDeleteModal').data('role',"attitude");
-		$('#ConfirmDeleteModal').data('id',$(this).data('id'));
++		$('#ConfirmDeleteModal').data('id',$(this).data('id'));
 		$('#ConfirmDeleteModal').modal('show');
 	});
 
@@ -1546,6 +1764,53 @@ $(document).ready(function(){
 
 	/* End Code_Section_Btn ________________*/
 
+	/* login-done ________________*/
+
+		$(document).on("click",".login-done",function(event){
+
+		$this = $(this);
+		
+		// disable btn click and change arrow by spin while check login   => 
+
+		$svg =` <svg class="icon button-icon button-icon-extra-style" version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+				   width="40px" height="40px" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
+				  <path opacity="0.2" fill="#000" d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946
+				    s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634
+				    c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z"/>
+				  <path fill="#000" d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0
+				    C22.32,8.481,24.301,9.057,26.013,10.047z">
+				    <animateTransform attributeType="xml"
+				      attributeName="transform"
+				      type="rotate"
+				      from="0 20 20"
+				      to="360 20 20"
+				      dur="0.5s"
+				      repeatCount="indefinite"/>
+				    </path>
+				</svg>`;
+
+		$this.find("img").replaceWith($svg);
+
+		// login failed : enable btn  => 
+
+		setTimeout(function(argument) {
+
+			/* in case there is an error else pass to login view 
+			   $img =`<img class="icon button-icon" src="assets/icons/right_arrow.svg"> `;
+			   $this.find("svg").replaceWith($img);
+			*/
+
+		},2000);
+
+	});
+
+	/* End.login-done ________________*/
+
+	$(document).on("click",".save-changes",function(){
+
+  		$domChange = false;
+	});
+
 	$(document).on("click",".sections-main-sub-container-right-main-header-option-icon",function(event){
 
 		$(".sections-main-sub-container-right-main-header-option-list").css("cssText","display:none");
@@ -1652,10 +1917,16 @@ $(document).ready(function(){
 
 	$(document).on("click",".modal-card-container",function(){
 
+		$(".sections-main-container").removeClass("modal-open-finance");
+
 		if($(this).attr("data-val") == "Retard" ){
 			$("#AddAbsenceModal .sections-label-checkbox-main-container[data-val='Retard']").trigger("click");
 		}else{
 			$("#AddAbsenceModal .sections-label-checkbox-main-container[data-val='Absence']").trigger("click");
+		}
+
+		if($(this).attr("data-val") == "Payment" ){
+			$(".sections-main-container").addClass("modal-open-finance");
 		}
 
 		//$("#NewActionModal").modal("hide");

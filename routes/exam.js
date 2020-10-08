@@ -8,5 +8,6 @@ router.post('/save', examController.saveExams);
 router.get('/one', examController.getExam);
 router.post('/remove', examController.deleteExam);
 router.post('/update', examController.updateExam);
+router.post('/score', examController.saveScores);
 
 module.exports = router;

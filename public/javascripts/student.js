@@ -9,6 +9,7 @@ var noteTypes = ["Positive","Negative"];
 var subclasses = [];
 var homeworks = [];
 var exams = [];
+var filtredClass = [];
 $domChange = false;
 
 var test = '<%- title %>';
@@ -28,6 +29,7 @@ function getAllStudents() {
 	  		console.log(res.errors)
 	  	} else {
 	  		students = res.students;
+	  		filtredClass = res.students;
 	  		subclasses = res.subscription;
 	  		if (res.students.length > 0)
 	  		{
@@ -119,35 +121,54 @@ $domChange = false;
 	var filtred = students.filter(function (el) {
 			  return el.Classe_Label === value ;
 			});
+	if (value === "All")
+		filtred = students;
 	console.log("Filter",filtred);
 	var active = '';
+	filtredClass = filtred;
 	for (var i = filtred.length - 1; i >= 0; i--) {
 		if (i === filtred.length - 1)
 		{
 			displayStudent(filtred[i].Student_ID);
 			active = 'active';
-		}
+		} else
+			active = '';
 		$('#list_classes').append('<div class="sections-main-sub-container-left-card students_list '+active+'"><img class="sections-main-sub-container-left-card-main-img" src="'+filtred[i].Student_Image+'" alt="card-img"><input name="studentId" type="hidden" value="'+filtred[i].Student_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+filtred[i].Student_FirstName+' '+filtred[i].Student_LastName+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+filtred[i].Classe_Label+'</span></div></div>')
 	}
   }
 })
 
- $('#search-input').on( "change", function() {
-  var value = $(this).val();
+
+document.getElementById("search-input").addEventListener('input', function (evt) {
+    var value = this.value;
+    $('.students_list').remove();
+    var active = '';
   if (value.replace(/\s/g, '') !== '')
   {
-  	$('.students_list').remove();
-
 	var filtred = students.filter(function (el) {
 			  return el.Student_FirstName === value || el.Student_LastName === value;
 			});
-	console.log("Search",filtred);
 	for (var i = filtred.length - 1; i >= 0; i--) {
-		
-		$('#list_classes').append('<div class="sections-main-sub-container-left-card students_list"><img class="sections-main-sub-container-left-card-main-img" src="'+filtred[i].Student_Image+'" alt="card-img"><input name="studentId" type="hidden" value="'+filtred[i].Student_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+filtred[i].Student_FirstName+' '+filtred[i].Student_LastName+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+filtred[i].Classe_Label+'</span></div></div>')
+		if (i === filtred.length - 1)
+		{
+			displayStudent(filtred[i].Student_ID);
+			active = 'active';
+		} else
+			active = '';
+		$('#list_classes').append('<div class="sections-main-sub-container-left-card students_list '+active+'"><img class="sections-main-sub-container-left-card-main-img" src="'+filtred[i].Student_Image+'" alt="card-img"><input name="studentId" type="hidden" value="'+filtred[i].Student_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+filtred[i].Student_FirstName+' '+filtred[i].Student_LastName+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+filtred[i].Classe_Label+'</span></div></div>')
+	}
+  } else {
+  	for (var i = filtredClass.length - 1; i >= 0; i--) {
+		if (i === filtredClass.length - 1)
+		{
+			displayStudent(filtredClass[i].Student_ID);
+			active = 'active';
+		} else
+			active = '';
+		$('#list_classes').append('<div class="sections-main-sub-container-left-card students_list '+active+'"><img class="sections-main-sub-container-left-card-main-img" src="'+filtredClass[i].Student_Image+'" alt="card-img"><input name="studentId" type="hidden" value="'+filtredClass[i].Student_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+filtredClass[i].Student_FirstName+' '+filtredClass[i].Student_LastName+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+filtredClass[i].Classe_Label+'</span></div></div>')
 	}
   }
-})
+});
 
 $(document).on("click",".students_list",function(event){
 	studentId = $(this).find('input[name="studentId"]').val();
@@ -191,13 +212,20 @@ $(document).on("click",".students_list",function(event){
   		$('#student_info').removeClass('hidden');
   		$("#attitude_table").removeClass('hidden');
   		$("#attitude_title").removeClass('hidden');
-  		console.log("Exams",res.exams);
-  		console.log("Homeworks",res.homeworks);
   		if (res.attitudes.length === 0)
   		{
   			$("#attitude_table").addClass('hidden');
   			$("#attitude_title").addClass('hidden');
   		}
+
+  		if (res.homeworks.length > 0)
+  			$("#Homework").removeClass('hidden');
+  		else
+  			$("#Homework").addClass('hidden')
+  		if (res.exams.length > 0)
+  			$("#Exams").removeClass('hidden');
+  		else
+  			$("#Exams").addClass('hidden');
   		for (var i = res.attitudes.length - 1; i >= 0; i--) {
   			$('#Attitude').find('.note_container').append(' <tr class="row-note"  id="attitude-'+res.attitudes[i].Attitude_ID+'"> <td class="readonly" data-label="Interaction"> <div class="sections-main-sub-container-right-main-rows"> <div class="dynamic-form-input-dropdown-container dynamic-form-input-dropdown-container-icon"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="dynamic-form-input-float-adjust"> <div class="form-group group form-group-right"><img class="icon button-icon" src="assets/icons/caret.svg"> '+(res.attitudes[i].Attitude_Interaction === 0 ? ('<img class="interaction_icon" src="assets/icons/emoji_good.svg" alt="interaction_icon"> <span>Positive</span>'):('<img class="interaction_icon" src="assets/icons/emoji_bad.svg" alt="interaction_icon"> <span>Negative</span>'))+'</div> </div> </div> </div> </div> </div> </td> <td data-label="Note" class="td-label td-description">'+res.attitudes[i].Attitude_Note+'</td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+res.attitudes[i].Attitude_Addeddate+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> <!-- table-option-list --> <img class="table-option-icon" src="assets/icons/options.svg"> <div class="table-option-list"> <div class="table-option-list-li table-option-list-li-edit"> <img src="assets/icons/edit.svg" alt="edit"/> <span class="table-option-list-span">Edit</span> </div> <div class="table-option-list-li table-option-list-li-delete" data-id="'+res.attitudes[i].Attitude_ID+'"> <img src="assets/icons/delete.svg" alt="delete"/> <span class="table-option-list-span">Delete</span> </div> <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg"> </div> <!-- End table-option-list --> </td> </tr>');
   		}
@@ -209,7 +237,7 @@ $(document).on("click",".students_list",function(event){
 
   		exams = res.exams;
   		for (var i = res.exams.length - 1; i >= 0; i--) {
-  			$('#Exams').find('.exams-container').append('<tr class="row-exam" onClick="displayExam('+i+')"> <td data-label="Exam Title"> <!-- sections-main-sub-container-left-cards --> <div class="sections-main-sub-container-left-card"> <span class="sections-main-sub-container-left-card-main-img-text" style="background: '+res.exams[i].Subject_Color+';">'+res.exams[i].Subject_Label.slice(0,2)+'</span> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+res.exams[i].Exam_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+res.exams[i].Classe_Label+'</span> </div> </div> <!-- End sections-main-sub-container-left-cards --> </td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+res.exams[i].Exam_Date+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="Scores"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="0.00" class="input-text" required="" placeholder="Scores"> </div> </td></tr>');
+  			$('#Exams').find('.exams-container').append('<tr class="row-exam" onClick="displayExam('+i+')"> <td data-label="Exam Title"> <!-- sections-main-sub-container-left-cards --> <div class="sections-main-sub-container-left-card"> <span class="sections-main-sub-container-left-card-main-img-text" style="background: '+res.exams[i].Subject_Color+';">'+res.exams[i].Subject_Label.slice(0,2)+'</span> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+res.exams[i].Exam_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+res.exams[i].Classe_Label+'</span> </div> </div> <!-- End sections-main-sub-container-left-cards --> </td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+res.exams[i].Exam_Date+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="Scores"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+(res.exams[i].Exam_Score === null ? "0.00" : res.exams[i].Exam_Score)+'" class="input-text" required="" placeholder="Scores"> </div> </td></tr>');
   		}
 		for (var i = 0; i < subclasses.length; i++) {
 			if (subclasses[i].Classe_Label === result[0].Classe_Label)
@@ -261,7 +289,6 @@ $(document).on("click",".students_list",function(event){
 }
 
 function displayHomework(id) {
-	console.log(id);
 	$('#HomeworkDetailModal').find('.sub-container-main-header').html(homeworks[id].Homework_Title);
 	$('#HomeworkDetailModal').find('.sub-container-sub-header').html(''+homeworks[id].Subject_Label+' - '+homeworks[id].Classe_Label+' - Teacher Name');
 	$('#HomeworkDetailModal').find('input').val(homeworks[id].Homework_DeliveryDate);
@@ -347,10 +374,6 @@ function saveStudent() {
 		$('#student_form').find('input[name="parent_phone"]').css("border-color", "#f6b8c1");
 	else
 		$('#student_form').find('input[name="parent_name"]').css("border-color", "#EFEFEF");
-	if (!profile_image)
-		$('#student_form').find('.input-img-container').css("border-color", "#f6b8c1");
-	else
-		$('#student_form').find('.input-img-container').css("border-color", "#EFEFEF");
 	if (!last_name)
 		$('#student_form').find('input[name="last_name"]').css("border-color", "#f6b8c1");
 	else
@@ -372,7 +395,7 @@ function saveStudent() {
 	else
 		$('.input_classe').css("border-color", "#EFEFEF");
 
-	if (first_name && level && profile_image && classe && parent_phone.length > 0 && parent_name.length > 0 && student_address && phone_number && birthdate)
+	if (first_name && level && classe && parent_phone.length > 0 && parent_name.length > 0 && student_address && phone_number && birthdate)
 	{
 		var data = {
 			first_name,

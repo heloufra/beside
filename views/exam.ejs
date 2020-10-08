@@ -5,62 +5,7 @@
     <title><%= title %></title>
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
-  <!--____________________________bootstrap______________________________-->
-
-  <link rel="stylesheet" href="assets/internal_assets/w3css.css">
-
-  <link rel="stylesheet" href="assets/internal_assets/bootstrap.v3.3.7.min.css">
-
-  <script src="assets/internal_assets/jquery.v3.2.1.min.js"></script>
-
-  <script src="assets/internal_assets/bootstrap.v3.3.7.min.js"></script>
-
-
-  <!--______________________________MainStyle____________________________-->
-  
-  <link rel="stylesheet" href="assets/styles/MainStyle/MainStyle.css"/>
-
-  <script src="assets/scripts/MainScript/MainScript.js"></script>
-
-
-  <!--______________________________MainStyle____________________________-->
-
-  <!--______________________________ datepicker ____________________________-->
-
-  <link href="assets/includes/dist_datepicker/css/datepicker.css" rel="stylesheet">
-
-  <script src="assets/includes/dist_datepicker/js/datepicker.js"></script>
-
-  <script src="assets/includes/dist_datepicker/js/i18n/datepicker.multi-lang.js"></script>
-
-  <!--______________________________ jQuery Timepicker 1.3.5 ____________________________-->
-
-  <link href="assets/includes/dist_datepicker/jquery.timepicker.min.css" rel="stylesheet">
-
-  <script src="assets/includes/dist_datepicker/jquery.timepicker.min.js"></script>
-
-
-  <!--____________________________fastselect______________________________-->
-  <link rel="stylesheet" href="assets/includes/dist/fastselect.css">
-  <script src="assets/includes/dist/fastselect.standalone.min.js"></script>
-
-  <!--____________________________ select2 ______________________________--> 
-
-     <link rel="stylesheet"  href="assets/includes/select2/select2.min.css"/>
-     <script src="assets/includes/select2/select2.min.js"></script>
-     <link rel="stylesheet"  href="assets/includes/select2/normalize.min.css"/>
-
-    <!--____________________________owl carousel______________________________-->
-
-  <link rel="stylesheet" href="assets/includes/owl-carousel/owl.carousel.css"/> 
-  <link rel="stylesheet" href="assets/includes/owl-carousel/owl.theme.css"/>  
-  <link rel="stylesheet" href="assets/includes/owl-carousel/owl.transitions.css"/>
-  <script src="assets/includes/owl-carousel/owl.carousel.min.js"></script>
-
-    <link rel="stylesheet"  href="assets/includes/animated.css"/>
-
+<%- include('./partials/main'); %>
 </head>
 
 <!-- sections-main-container -->
@@ -295,50 +240,8 @@
                                             <th scope="col">Score</th>
                                           </tr>
                                         </thead>
-                                        <tbody>
-                                          <tr>
-                                            <td data-label="Homework Title">
-                                                
-                                              <!--  sections-main-sub-container-left-cards  -->
-                                                <div class="sections-main-sub-container-left-card">
-                                                      <img class="sections-main-sub-container-left-card-main-img" 
-                                                           src="assets/images/profiles/Profile.jpg" alt="card-img">
-                                                      <div class="sections-main-sub-container-left-card-info">
-                                                          <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
-                                                          <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
-                                                      </div>
-                                                </div>
-                                              <!--  End sections-main-sub-container-left-cards  -->
-
-                                            </td>
-                                            <td data-label="Score">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="0.00" class="input-text input-table-edit-field" required="" placeholder="Add score">
-                                                </div>
-                                            </td>
-                                          </tr>
-
-                                          <tr>
-                                            <td data-label="Exam Title">
-                                                
-                                              <!--  sections-main-sub-container-left-cards  -->
-                                                <div class="sections-main-sub-container-left-card">
-                                                      <img class="sections-main-sub-container-left-card-main-img" 
-                                                           src="assets/images/profiles/Profile.jpg" alt="card-img">
-                                                      <div class="sections-main-sub-container-left-card-info">
-                                                          <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
-                                                          <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
-                                                      </div>
-                                                </div>
-                                              <!--  End sections-main-sub-container-left-cards  -->
-
-                                            </td>
-                                            <td data-label="Score">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text"  class="input-text input-table-edit-field" required="" placeholder="Add score">
-                                                </div>
-                                            </td>
-                                          </tr>   
+                                        <tbody class="scores-container">
+                                            
                                         </tbody>
                                       </table>
                                     </div>
@@ -350,12 +253,12 @@
                                         <!--  sub-container-form-footer -->
                                         <div class="sub-container-form-footer hide-footer">
 
-                                            <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate rounded-button-primary-green-color ">
+                                            <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate rounded-button-primary-green-color save-changes" onclick="saveScores()">
                                                   <span class="button-text" id="Editdetails">Save changes</span>
                                                   <img class="icon button-icon" src="assets/icons/check_small.svg">
                                             </div>
 
-                                            <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary secondary-pink-button">
+                                            <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary secondary-pink-button" onclick="discardScore()">
                                                   <span class="button-text discard-changes" >Discard</span>
                                             </div>
 

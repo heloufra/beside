@@ -122,6 +122,7 @@ function saveExam() {
 function displayExam(index) 
 {
 	$('#ExamsDetails').removeClass("dom-change-watcher");
+	$('.row-score').remove();
 	$.ajax({
     type: 'get',
     url: '/Exams/one',
@@ -137,6 +138,9 @@ function displayExam(index)
   	} else {
   		if (res.exam[0])
   		{
+  			for (var i = res.score.length - 1; i >= 0; i--) {
+  				$('.scores-container').append('<tr class="row-score"> <td data-label="Exam Title"> <!-- sections-main-sub-container-left-cards --> <div class="sections-main-sub-container-left-card"> <img class="sections-main-sub-container-left-card-main-img" src="'+res.score[i].Student_Image+'" alt="card-img"> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+res.score[i].Student_FirstName+ ' '+res.score[i].Student_LastName+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+res.score[i].Classe_Label+'</span> </div> </div> <!-- End sections-main-sub-container-left-cards --> </td> <td data-label="Score"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" data-gradid="'+res.score[i].Grad_ID+'" data-studentid="'+res.score[i].Student_ID+'" name="score" value="'+(res.score[i].Exam_Score === null ? "" : res.score[i].Exam_Score)  +'" class="input-text input-table-edit-field" required="" placeholder="Add score"> </div> </td> </tr>')
+  			}
   		$('#exam_info').removeClass('hidden');
   		$('#exam_info').find('.exam_img').css('background-color',res.exam[0].Subject_Color);
   		$('#exam_info').find('.exam_img').html(res.exam[0].Subject_Label.slice(0,2))
@@ -156,6 +160,31 @@ $(document).on("click",".sections-main-sub-container-left-card",function(event){
 	$(this).addClass('active');
 	displayExam(examId);
 });
+
+function saveScores() {
+	var scores = $('input[name^=score]').map(function(idx, elem) {
+	    return {score:$(elem).val(),student:$(elem).data('studentid'),gradid:$(elem).data('gradid')};
+	  }).get();
+ $.ajax({
+	    type: 'post',
+	    url: '/Exams/score',
+	    data: {
+	    	scores:scores,
+	    	examId
+	    },
+	    dataType: 'json'
+	  })
+	  .done(function(res){
+	  	if(res.saved)
+	  	{
+	  		$('#Scores .sub-container-form-footer').addClass('hide-footer');
+			$('#Scores .sub-container-form-footer').removeClass('show-footer');
+	  	} else {
+
+	  	}
+	  });
+}
+
 $('input[name="filter-classe"]').on( "change", function() {
   var value = $(this).val();
   if (value.replace(/\s/g, '') !== '')
@@ -282,5 +311,11 @@ $('.select-classe').on( "change", function() {
  function discardChange() {
  	$('#exam_info .sub-container-form-footer').addClass('hide-footer');
  	$('#exam_info .sub-container-form-footer').removeClass('show-footer');
+ 	displayExam(examId);
+ } 
+
+ function discardScore() {
+ 	$('#Scores .sub-container-form-footer').addClass('hide-footer');
+ 	$('#Scores .sub-container-form-footer').removeClass('show-footer');
  	displayExam(examId);
  }

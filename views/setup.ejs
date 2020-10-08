@@ -7,57 +7,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!--____________________________bootstrap______________________________-->
-
-  <link rel="stylesheet" href="assets/internal_assets/w3css.css">
-
-  <link rel="stylesheet" href="assets/internal_assets/bootstrap.v3.3.7.min.css">
-
-  <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
-  <script src="assets/internal_assets/jquery.v3.2.1.min.js"></script>
-
-  <script src="assets/internal_assets/bootstrap.v3.3.7.min.js"></script>
-
-
-  <!--______________________________MainStyle____________________________-->
-  
-  <link rel="stylesheet" href="assets/styles/MainStyle/MainStyle.css"/>
-
-  <script src="assets/scripts/MainScript/MainScript.js"></script>
-
-   <!--______________________________MainStyle____________________________-->
-
-  <!--______________________________ datepicker ____________________________-->
-
-  <link href="assets/includes/dist_datepicker/css/datepicker.css" rel="stylesheet">
-
-  <script src="assets/includes/dist_datepicker/js/datepicker.js"></script>
-
-  <script src="assets/includes/dist_datepicker/js/i18n/datepicker.multi-lang.js"></script>
-
-  <!--______________________________ jQuery Timepicker 1.3.5 ____________________________-->
-
-  <link href="assets/includes/dist_datepicker/jquery.timepicker.min.css" rel="stylesheet">
-
-  <script src="assets/includes/dist_datepicker/jquery.timepicker.min.js"></script>
-
-
-  <!--____________________________fastselect______________________________-->
-  <link rel="stylesheet" href="assets/includes/dist/fastselect.css">
-  <script src="assets/includes/dist/fastselect.standalone.min.js"></script>
-
- <!--____________________________ select2 ______________________________--> 
-
-     <link rel="stylesheet"  href="assets/includes/select2/select2.min.css"/>
-     <script src="assets/includes/select2/select2.min.js"></script>
-     <link rel="stylesheet"  href="assets/includes/select2/normalize.min.css"/>
-
-    <!--____________________________owl carousel______________________________-->
-
-  <link rel="stylesheet" href="assets/includes/owl-carousel/owl.carousel.css"/> 
-  <link rel="stylesheet" href="assets/includes/owl-carousel/owl.theme.css"/>  
-  <link rel="stylesheet" href="assets/includes/owl-carousel/owl.transitions.css"/>
-  <script src="assets/includes/owl-carousel/owl.carousel.min.js"></script>
+ <%- include('./partials/main'); %>
 
 </head>
 
@@ -166,9 +116,6 @@
               </div>
 
               <div class="sub-container-form-footer">
-                  <div class="rounded-button btn-secondary" onClick="prev('detail')">
-                        <img class="icon" src="assets/icons/left_arrow.svg">
-                  </div>
                   <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn" onClick="submit('detail',['school','email','phone','whatsapp','logo'],'academic')">
                         <span class="button-text">Next</span>
                         <img class="icon button-icon" src="assets/icons/right_arrow.svg">
@@ -444,42 +391,14 @@
                   <div class="rounded-button btn-secondary customPrevBtn" onClick="prev('costs','expenses')">
                         <img class="icon" src="assets/icons/left_arrow.svg">
                   </div>
-                  <div class="rounded-button rounded-button-primary rounded-button-float-right" onClick="submit('costs',['costsName','price'])">
-                        <span class="button-text">Next</span>
+                  <div class="rounded-button rounded-button-primary rounded-button-float-right login-done" onClick="submit('costs',['costsName','price'])">
+                        <span class="button-text">Done</span>
                         <img class="icon button-icon" src="assets/icons/right_arrow.svg">
                   </div>
               </div>
 
             </div>
             <!-- end sub-container Costs -->
-
-             <div  class="item" id="Code_Section" >
-              <div  class="sub-main-container">
-                <h1 class="sub-container-main-header">Let's get started</h1>
-                <h4 class="sub-container-sub-header">Please enter verification code sent to your phone number or email address! </h4>
-
-                <form class="sub-container-form">
-
-                  <div class="form-group group">
-                    <input type="text" class="input-user-code" name="code"  required >
-                    <label class="input-label"><span class="input-label-text">Verification code</span> <span class="input-label-bg-mask"></span></label>
-                  </div>
-
-                  <p class="sections-main-sub-container-right-main-note input-validation-error-feedback-hide">
-                      Verification code is invalid or expired. <span class="sections-main-sub-container-right-main-note-span">Send me a new one</span>
-                  </p>
-
-                </form>
-              </div>
-
-              <div class="sub-container-form-footer hide-footer">
-                  <div class="rounded-button rounded-button-primary rounded-button-float-right"  id="Code_Section_Btn">
-                        <span class="button-text">login</span>
-                        <img class="icon button-icon" src="assets/icons/right_arrow.svg">
-                  </div>
-              </div>
-
-            </div>
 
         </div>
 

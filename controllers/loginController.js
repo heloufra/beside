@@ -9,7 +9,10 @@ var loginController = {
     if (req.session.token)
       res.redirect('/Students');
     else
+    {
+      res.locals.setup = false;
       res.render('login', { title: 'Login'});
+    }
   },
   checkEmail: function(req, res, next) {
     const makeid = (length) => {
@@ -96,6 +99,16 @@ var loginController = {
           })
         }
       });
+  },
+  checkToken: function(req, res) {
+    const decoded = jwt.verify(req.body.token, config.privateKey);
+    if (decoded.email)
+    {
+      res.json({exist:true,email:decoded.email})
+    } else
+    {
+      res.json({exist:false})
+    }
   },
   logout: function(req, res) {
     req.session.destroy();

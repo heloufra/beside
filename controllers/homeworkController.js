@@ -1,6 +1,6 @@
 var connection  = require('../lib/db');
-var homeworkQuery = `INSERT INTO homeworks(TSC_ID,  Homework_Title, Homework_Deatils, Homework_DeliveryDate) VALUES(?,?,?,?)`;
-var selectHomeworks = 'SELECT homeworks.*,classes.Classe_Label,subjects.Subject_Label,subjects.Subject_Color FROM `homeworks` INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.TSC_ID = homeworks.TSC_ID INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID';
+var homeworkQuery = `INSERT INTO homeworks(TSC_ID,  Homework_Title, Homework_Deatils, Homework_DeliveryDate,Homework_Status) VALUES(?,?,?,?,1)`;
+var selectHomeworks = 'SELECT homeworks.*,classes.Classe_Label,subjects.Subject_Label,subjects.Subject_Color FROM `homeworks` INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.TSC_ID = homeworks.TSC_ID INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID WHERE Homework_Status <> "0"';
 var selectHomework = 'SELECT homeworks.*,classes.Classe_Label,subjects.Subject_Label,subjects.Subject_Color FROM `homeworks` INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.TSC_ID = homeworks.TSC_ID INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID WHERE homeworks.Homework_ID = ?';
 /*
 INSERT INTO `teachersubjectsclasses`(`Teacher_ID`, `Subject_ID`, `Classe_ID`, `AY_ID`) VALUES (1,1,1,1),(1,1,2,1),(1,2,1,1),(1,2,2,1),(1,1,3,1),(1,2,4,1)
@@ -54,7 +54,7 @@ var homeworkController = {
     })
   },
   deleteHomework: function(req, res, next) {
-    connection.query("DELETE FROM `homeworks` WHERE `Homework_ID` = ?", [req.body.id], (err, student, fields) => {
+    connection.query("UPDATE `homeworks` SET `Homework_Status` = 0 WHERE `Homework_ID` = ?", [req.body.id], (err, student, fields) => {
        if (err) {
             console.log(err);
               res.json({
