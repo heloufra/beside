@@ -1510,6 +1510,8 @@ $(document).ready(function(){
 	/* #Absence .table-option-list-li-edit __________________________*/
 
 	$(document).on("click","#Absence .table-option-list-li-edit",function(){
+		$('#EditAbsenceModal').data('role',"absence");
+		$('#EditAbsenceModal').data('id',$(this).data('id'));
 		$('#EditAbsenceModal').modal('show');
 
 		$(".modal-dom-change-watcher .modal-content").css({"max-height":"100vh"});
@@ -1525,7 +1527,7 @@ $(document).ready(function(){
 
 	$(document).on("click","#Absence .table-option-list-li-delete",function(){
 		$('#ConfirmDeleteModal').data('role',"absence");
-+		$('#ConfirmDeleteModal').data('id',$(this).data('id'));
+		$('#ConfirmDeleteModal').data('id',$(this).data('id'));
 		$('#ConfirmDeleteModal').modal('show');
 	});
 
@@ -1535,7 +1537,8 @@ $(document).ready(function(){
 	/* #Attitude .table-option-list-li-edit __________________________*/
 
 	$(document).on("click","#Attitude .table-option-list-li-edit",function(){
-
+		$('#EditAttitudeModal').data('role',"attitude");
+		$('#EditAttitudeModal').data('id',$(this).data('id'));
 		$('#EditAttitudeModal').modal('show');
 
 		$(".modal-dom-change-watcher .modal-content").css({"max-height":"100vh"});

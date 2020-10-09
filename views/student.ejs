@@ -516,7 +516,7 @@
                                                             <div class="dynamic-form-input">
                                                               <div class="dynamic-form-input-float-adjust">
                                                               <div class="form-group group form-group-right">
-                                                                <input type="text" class="input-dropdown" required="">
+                                                                <input type="text" class="input-dropdown" name="edit-classe" required="">
                                                                 
                                                                 <label class="input-label">
                                                                   <span class="input-label-text">Class</span><span class="input-label-bg-mask"></span>
@@ -524,9 +524,6 @@
 
                                                                 <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
                                                                 <ul class="dynamic-form-input-dropdown-options">
-                                                                    <% for(var i=0; i<classes.length; i++) {%>
-                                                                       <li data-val="<%= classes[i].Classe_Label %>"><%= classes[i].Classe_Label %></li>
-                                                                    <% } %>
                                                                 </ul>
                                                               </div>
                                                               </div>
@@ -546,7 +543,7 @@
                                                             <div class="dynamic-form-input">
                                                               <div class="dynamic-form-input-float-adjust">
                                                               <div class="form-group group form-group-right">
-                                                                <input type="text" class="input-dropdown" required="">
+                                                                <input type="text" class="input-dropdown" name="edit-student" required="">
                                                                 
                                                                 <label class="input-label">
                                                                   <span class="input-label-text">Student</span><span class="input-label-bg-mask"></span>
@@ -554,9 +551,6 @@
 
                                                                 <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
                                                                 <ul class="dynamic-form-input-dropdown-options">
-                                                                    <li data-val="Student 1">Student 1</li>
-                                                                    <li data-val="Student 2">Student 2</li>
-                                                                    <li data-val="Student 2">Student 3</li>
                                                                 </ul>
                                                               </div>
                                                               </div>
@@ -611,7 +605,7 @@
                                                     <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Date</span> <span class="input-label-bg-mask"></span></label>
 
                                                     <div class="form-group group dynamic-form-input-text-container-icon">
-                                                       <input type="text" class="input-text input-extra-border input-date input-date-illimited" required="" 
+                                                       <input type="text" name="date" class="input-text input-extra-border input-date input-date-illimited" required="" 
                                                               placeholder="Select date">
                                                        <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                                     </div>
@@ -621,7 +615,7 @@
                                                   <div class="row sections-main-sub-container-right-main-rows">
                                                     <div class="col-xs-12">
                                                       <div class="form-group group">
-                                                        <textarea class="input-text input-text-area"></textarea>
+                                                        <textarea class="input-text input-text-area" id="edit-note"></textarea>
                                                         <label class="input-label">
                                                           <span class="input-label-text">Note</span><span class="input-label-bg-mask"></span>
                                                         </label>
@@ -773,7 +767,7 @@
                                                             <div class="dynamic-form-input">
                                                               <div class="dynamic-form-input-float-adjust">
                                                               <div class="form-group group form-group-right">
-                                                                <input type="text" class="input-dropdown" required="">
+                                                                <input name="edit-classe" type="text" class="input-dropdown" required="">
                                                                 
                                                                 <label class="input-label">
                                                                   <span class="input-label-text">Class</span><span class="input-label-bg-mask"></span>
@@ -781,9 +775,6 @@
 
                                                                 <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
                                                                 <ul class="dynamic-form-input-dropdown-options" style="display: none; opacity: 0;">
-                                                                    <li data-val="Class 1">Class 1</li>
-                                                                    <li data-val="Class 2">Class 2</li>
-                                                                    <li data-val="Class 3">Class 3</li>
                                                                 </ul>
                                                               </div>
                                                               </div>
@@ -803,7 +794,7 @@
                                                             <div class="dynamic-form-input">
                                                               <div class="dynamic-form-input-float-adjust">
                                                               <div class="form-group group form-group-right">
-                                                                <input type="text" class="input-dropdown" required="">
+                                                                <input name="edit-student" type="text" class="input-dropdown" required="">
                                                                 
                                                                 <label class="input-label">
                                                                   <span class="input-label-text">Student</span><span class="input-label-bg-mask"></span>
@@ -811,9 +802,7 @@
 
                                                                 <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
                                                                 <ul class="dynamic-form-input-dropdown-options" style="display: inline-block; opacity: 1;">
-                                                                    <li data-val="Student 1">Student 1</li>
-                                                                    <li data-val="Student 2">Student 2</li>
-                                                                    <li data-val="Student 2">Student 3</li>
+
                                                                 </ul>
                                                               </div>
                                                               </div>
@@ -908,12 +897,12 @@
                                                     <div class="flex flex-form-group-container">
 
                                                       <div class="form-group group dynamic-form-input-text-container-icon">
-                                                         <input type="text" class="input-text input-date input-date-illimited" required="" placeholder="Start date">
+                                                         <input type="text" name="start-period" class="input-text input-date input-date-illimited" required="" placeholder="Start date">
                                                          <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                                       </div>
 
                                                        <div class="form-group group dynamic-form-input-text-container-icon">
-                                                         <input type="text" class="input-text input-date input-date-illimited" required="" placeholder="End Date">
+                                                         <input type="text" name="end-period" class="input-text input-date input-date-illimited" required="" placeholder="End Date">
                                                          <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                                       </div>
 
@@ -930,7 +919,7 @@
                                                     <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Date </span> <span class="input-label-bg-mask"></span></label>
 
                                                     <div class="form-group group dynamic-form-input-text-container-icon">
-                                                       <input type="text" class="input-text input-extra-border  input-date input-date-illimited" required="" placeholder="Select date">
+                                                       <input type="text" class="input-text input-extra-border  input-date input-date-illimited" name="editDate" required="" placeholder="Select date">
                                                        <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                                     </div>
 
@@ -944,12 +933,12 @@
                                                     <div class="flex flex-form-group-container">
 
                                                       <div class="form-group group dynamic-form-input-text-container-icon">
-                                                         <input type="text" class="input-text input-time" required="" placeholder="Time">
+                                                         <input type="text" name="start-time" class="input-text input-time" required="" placeholder="Time">
                                                          <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
                                                       </div>
 
                                                        <div class="form-group group dynamic-form-input-text-container-icon">
-                                                         <input type="text" class="input-text input-time" required="" placeholder="Time">
+                                                         <input type="text" name="endTime" class="input-text input-time" required="" placeholder="Time">
                                                          <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
                                                       </div>
 
