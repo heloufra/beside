@@ -173,13 +173,13 @@ $domChange = false;
 
 
 document.getElementById("search-input").addEventListener('input', function (evt) {
-    var value = this.value;
     $('.students_list').remove();
     var active = '';
-  if (value.replace(/\s/g, '') !== '')
+  if (this.value.replace(/\s/g, '') !== '')
   {
+  	var value = new RegExp('^'+this.value.toLowerCase());
 	var filtred = students.filter(function (el) {
-			  return el.Student_FirstName === value || el.Student_LastName === value;
+			  return el.Student_FirstName.toLowerCase().match(value) || el.Student_LastName.toLowerCase().match(value);
 			});
 	for (var i = filtred.length - 1; i >= 0; i--) {
 		if (i === filtred.length - 1)
@@ -538,7 +538,6 @@ function saveStudent() {
 		  	if(res.saved)
 		  	{
 		  		$('#AddStudentModal').modal('hide');
-		  		getAllStudents();
 		  		$('#student_form').find('input[name="first_name"]').val("");
 				$('#student_form').find('input[name="student_address"]').val("");
 				$('#student_form').find('input[name="profile_image"]').val("");
@@ -546,8 +545,8 @@ function saveStudent() {
 				$('#student_form').find('input[name="level"]').val("");
 				$('#student_form').find('input[name="phone_number"]').val("");
 				$('#output-img').attr("src",'assets/icons/Logo_placeholder.svg')
-				$('#student_form').find('input[name="birthdate"]').val("");
 				$('#student_form').find('input[name="classe"]').val("");
+		  		getAllStudents();
 
 		  	} else {
 		  		$('#student_form').find('input[name="first_name"]').css("border-color", "#f6b8c1");
@@ -578,7 +577,7 @@ function saveChange() {
 	  .done(function(res){
 	  	if(res.updated)
 	  	{
-	  			displayStudent(studentId);
+	  		displayStudent(studentId);
 	  	} else {
 	  		console.log(res);
 	  	}
@@ -689,8 +688,6 @@ console.log(ad_absence,ad_fromto,ad_date);
 		  		$('#AddStudentAbsenceModal').modal('hide');
 			  	$('#AddStudentAbsenceModal').find('input[name="ad_classe"]').val("");
 				$('#AddStudentAbsenceModal').find('input[name="ad_student"]').val("");
-	 			$('#AddStudentAbsenceModal').find('input[name="time_start"]').val("");
-				$('#AddStudentAbsenceModal').find('input[name="time_end"]').val("");
 				$('#AddStudentAbsenceModal').find('input[name="ad_date"]').val("");
 	 			$('#AddStudentAbsenceModal').find('input[name="period_start"]').val("");
 				$('#AddStudentAbsenceModal').find('input[name="period_end"]').val("");

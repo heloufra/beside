@@ -1865,7 +1865,7 @@
 
               <!-- modal-body-container -->
 
-              <div class="modal-body-container">
+              <div class="modal-body-container" id="teacher_form">
 
                  <h1 class="sub-container-main-header">New Teacher</h1>
                  <h4 class="sub-container-sub-header">
@@ -1879,13 +1879,16 @@
                       <div class="sections-main-sub-container-right-main-header-info">
 
                         <div class="form-group form-group-modal-extra-style">
-                          <div class="input-img-container input-rounded-img-container">
-                            <img class="input-img" src="" alt="profile">
-                            <div class="rounded-button">
-                              <img class="icon" src="assets/icons/plus.svg">
-                            </div>
+                        <div class="input-img-container input-rounded-img-container">
+                          <img class="input-img"  src="assets/icons/Logo_placeholder.svg" id="output-img-teacher" alt="profile">
+                           <input type="file"  accept="image/*" name="profile_image" id="profile-teacher" style="display: none;">
+                          <div class="rounded-button">
+                            <img class="icon" src="assets/icons/plus.svg">
+                            <label for="profile-teacher" style="cursor: pointer; display: block; height: 100%;width: 100%;">
+                            </label></img>
                           </div>
-                          <p class="label-full-name label-full-name-modal">Teacher name</p>
+                        </div>
+                          <p class="label-full-name label-full-name-modal"></p>
                         </div>
 
                       </div>
@@ -1902,7 +1905,7 @@
 
                       <div class="col-md-6">
                         <div class="form-group group">
-                          <input type="text" required="">
+                          <input type="text" required="" name="first_name">
                           <label class="input-label">
                             <span class="input-label-text">First name</span><span class="input-label-bg-mask"></span>
                           </label>
@@ -1911,7 +1914,7 @@
 
                       <div class="col-md-6">
                         <div class="form-group group">
-                          <input type="text" required="">
+                          <input type="text" required="" name="last_name">
                           <label class="input-label">
                             <span class="input-label-text">Last name</span><span class="input-label-bg-mask"></span>
                           </label>
@@ -1924,7 +1927,7 @@
 
                       <div class="col-md-6">
                         <div class="form-group group ">
-                          <input type="text" required="">
+                          <input type="text" required="" name="phone_number">
                           <label class="input-label">
                             <span class="input-label-text">Phone number</span><span class="input-label-bg-mask"></span>
                           </label>
@@ -1933,7 +1936,7 @@
 
                       <div class="col-md-6">
                         <div class="form-group group ">
-                          <input type="text" required="">
+                          <input type="text" required="" name="email">
                           <label class="input-label">
                             <span class="input-label-text">Email</span><span class="input-label-bg-mask"></span>
                           </label>
@@ -1946,7 +1949,7 @@
 
                       <div class="col-md-6">
                         <div class="form-group group dynamic-form-input-text-container-icon">
-                           <input type="text" class="input-text input-date input-date-limited" required="" placeholder="">
+                           <input type="text" class="input-text input-date input-date-limited" name="birthdate" required="" placeholder="">
                            <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                             <label class="input-label">
                               <span class="input-label-text">Birthdate</span><span class="input-label-bg-mask"></span>
@@ -1956,7 +1959,7 @@
                       
                       <div class="col-md-6">
                         <div class="form-group group ">
-                          <input type="text" required="">
+                          <input type="text" required="" name="teacher_address">
                           <label class="input-label">
                             <span class="input-label-text">Address</span><span class="input-label-bg-mask"></span>
                           </label>
@@ -1982,33 +1985,22 @@
                               <div class="dynamic-form-input-float-adjust">
 
                                   <div class="form-group group form-group-left">
-                                    <input type="text" class="input-text input-dropdown" required>
+                                    <input type="text" class="input-text input-dropdown" name="subject" required>
                                     <label class="input-label"><span class="input-label-text">Subjects</span> <span class="input-label-bg-mask"></span></label>
 
                                     <img class="icon button-icon" src="assets/icons/caret.svg">
                                     <ul class="dynamic-form-input-dropdown-options">
-                                        <li data-val="English">English</li>
-                                        <li data-val="Arabic">Arabic</li>
+                                    <%if (locals.subjects) { %>
+                                       <% for(var i=0; i<subjects.length; i++) {%>
+                                         <li data-subjectid="<%= subjects[i].Subject_ID %>" data-levelid="<%= subjects[i].Level_ID %>" data-val="<%= subjects[i].Subject_Label %>"><%= subjects[i].Subject_Label %></li>
+                                      <% } %>
+                                    <% } %>
                                     </ul>
                                   </div>
 
                                   <div class="form-group group form-group-right">
 
-                                    <select class="input-text-subject-classes-select2" multiple >
-
-                                        <option class="option-level-label" disabled="disabled">CP</option>
-                                        <option value="Cp1">Cp1</option>
-                                        <option value="Cp2">Cp2</option>
-                                        <option value="Cp3">Cp3</option>
-                                        <option value="Cp4">Cp4</option>
-                                        <option value="Cp5">Cp5</option>
-
-                                        <option class="option-level-label" disabled="disabled">CE</option>
-                                        <option value="Ce1">Ce1</option>
-                                        <option value="Ce2">Ce2</option>
-                                        <option value="Ce3">Ce3</option>
-                                        <option value="Ce4">Ce4</option>
-                                        <option value="Ce5">Ce5</option>
+                                    <select class="input-text-subject-classes-select2 list-classes" multiple >
 
                                     </select>
 
@@ -2045,7 +2037,7 @@
                   <!--  sub-container-form-footer -->
                   <div class="sub-container-form-footer">
                       <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button ">
-                            <span class="button-text" >Save</span>
+                            <span class="button-text" onclick="saveteacher()">Save</span>
                             <img class="icon button-icon" src="assets/icons/check_small.svg">
                       </div>
                       <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary" data-dismiss="modal">

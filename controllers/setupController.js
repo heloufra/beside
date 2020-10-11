@@ -38,15 +38,13 @@ var setupController = {
     var costsData = JSON.parse(req.body.costs);
     var password = makeid(6);
     var institutionsQuery = `INSERT INTO institutions(Institution_Name,  Institution_Logo, Institution_Link,  Institution_Email,  Institution_Phone,  Institution_wtsp) VALUES(?,?,?,?,?,?)`;
-    var usersQuery = `INSERT INTO users(User_Name, User_Image, User_Email, User_Phone) VALUES(?,?,?,?)`;
+    var usersQuery = `INSERT INTO users(User_Name, User_Image, User_Email, User_Phone,User_Role) VALUES(?,?,?,?,?)`;
     var academicQuery = `INSERT INTO academicyear(AY_Label, AY_Satrtdate, AY_EndDate, Institution_ID) VALUES(?,?,?,?)`;
     var levelsQuery = `INSERT INTO levels(Level_Label, AY_ID) VALUES(?,?)`;
     var classesQuery = `INSERT INTO classes(Level_ID, Classe_Label, AY_ID) VALUES(?,?,?)`;
    
     // execute the insert statment
      connection.query("SELECT * FROM `users` WHERE `User_Email` = ?", [institutionsData.email], (err, user, fields) => {
-        if(user.length === 0)
-        {
           connection.query(institutionsQuery, [institutionsData.school, institutionsData.logo,institutionsData.school + ".besideyou.ma",institutionsData.email,institutionsData.phone,institutionsData.whatsapp], (err, institutionResult, fields) => {
           if (err) {
             console.log(err);
@@ -56,7 +54,7 @@ var setupController = {
                 errorDesc: "Institution not saved"
               }]});
           } else {
-             connection.query(usersQuery, [institutionsData.school, institutionsData.logo,institutionsData.email,institutionsData.phone], (err, userResult, fields) => {
+             connection.query(usersQuery, [institutionsData.school, institutionsData.logo,institutionsData.email,institutionsData.phone,"Admin"], (err, userResult, fields) => {
                 if (err) {
                   console.log(err);
                     res.json({
@@ -158,8 +156,6 @@ var setupController = {
           console.log('Institution Id:' + institutionResult.insertId);
      
         });
-        } else
-          res.json({saved : false});
       })
   },
 };
