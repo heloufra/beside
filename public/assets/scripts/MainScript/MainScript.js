@@ -983,7 +983,7 @@ $(document).ready(function(){
 
 		$this_ = $(this);
 
-		alert($this_.hasClass("datepicker__"));
+		//alert($this_.hasClass("datepicker__"));
 
 		$this_.datepicker({
 			dateFormat: "dd/mm/yyyy",

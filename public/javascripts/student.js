@@ -228,6 +228,7 @@ $(document).on("click",".students_list",function(event){
 	$('#Attitude').find('.row-note').remove();
 	$('#Homework').find('.row-homework').remove();
 	$('#Exams').find('.row-exam').remove();
+	$('#Grades').find('.row-score').remove();
 	$.ajax({
     type: 'get',
     url: '/Students/one',
@@ -272,6 +273,14 @@ $(document).on("click",".students_list",function(event){
   		exams = res.exams;
   		for (var i = res.exams.length - 1; i >= 0; i--) {
   			$('#Exams').find('.exams-container').append('<tr class="row-exam" onClick="displayExam('+i+')"> <td data-label="Exam Title"> <!-- sections-main-sub-container-left-cards --> <div class="sections-main-sub-container-left-card"> <span class="sections-main-sub-container-left-card-main-img-text" style="background: '+res.exams[i].Subject_Color+';">'+res.exams[i].Subject_Label.slice(0,2)+'</span> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+res.exams[i].Exam_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+res.exams[i].Classe_Label+'</span> </div> </div> <!-- End sections-main-sub-container-left-cards --> </td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+res.exams[i].Exam_Date+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="Scores"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+(res.exams[i].Exam_Score === null ? "0.00" : res.exams[i].Exam_Score)+'" class="input-text" required="" placeholder="Scores"> </div> </td></tr>');
+  		}
+  		if (res.average)
+  			$('#Grades').find('.result-score').html(res.average)
+  		else
+  			$('#Grades').find('.result-score').html("0.00")
+  		for (var i = res.exams.length - 1; i >= 0; i--) {
+  			if (res.exams[i].Exam_Score !== null)
+  				$('#Grades').find('.scores-container').append('<tr class="row-score"> <td data-label="'+res.exams[i].Subject_Label+'" class="td-label">'+res.exams[i].Subject_Label+'</td> <td class="readonly" data-label="Scores"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+(res.exams[i].Exam_Score === null ? "0.00" : res.exams[i].Exam_Score)+'" class="input-text" required="" placeholder="Scores"> </div> </td> </tr>');
   		}
   		subStudent =  res.substudent;
 		for (var i = 0; i < subclasses.length; i++) {
