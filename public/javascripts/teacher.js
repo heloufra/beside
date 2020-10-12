@@ -275,7 +275,6 @@ $(document).on("click",".row-teacher",function(event){
 	$('#teacher_info').find('#Details').find('input[name="birthdate_detail"]').val(result[0].teacher.User_Birthdate)
 	$('#teacher_info').find('#Details').find('input[name="email"]').val(result[0].teacher.User_Email);
 	$('#teacher_info').find('#Details').addClass("dom-change-watcher");
-	//$('#AddTeacherAbsenceModal').find('input[name="ad_classe"]').val(result[0].Classe_Label);
 	$('#AddTeacherAbsenceModal').find('input[name="ad_teacher"]').val(name.first_name + " " + name.last_name);
 	//$('#EditAbsenceModal').find('input[name="edit-classe"]').val(result[0].Classe_Label);
 	//$('#EditAbsenceModal').find('input[name="edit-teacher"]').val(result[0].teacher_FirstName + " " + result[0].teacher_LastName);

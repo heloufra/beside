@@ -21,12 +21,14 @@ function getAllHomeworks() {
 	  			displayHomework(res.homeworks[res.homeworks.length - 1].Homework_ID);
 	  		}
 	  		var active = '';
+	  		var name = '';
 	  		for (var i = res.homeworks.length - 1; i >= 0; i--) {
 	  			if (i === res.homeworks.length - 1)
 	  				active = 'active';
 	  			else
 	  				active = '';
-	  			$('#list_homeworks').append('<div data-id="'+res.homeworks[i].Homework_ID+'" class="sections-main-sub-container-left-card homework-row '+active+'"><input name="homeworkId" type="hidden" value="'+res.homeworks[i].Homework_ID+'"> <div class="sections-main-sub-container-left-card-main-img-text" style="background: '+res.homeworks[i].Subject_Color+';" >'+res.homeworks[i].Subject_Label.slice(0,2)+'</div> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+res.homeworks[i].Homework_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+res.homeworks[i].Subject_Label+' - '+res.homeworks[i].Classe_Label+' - Teacher Name </span> </div> </div>')
+	  			name = JSON.parse(res.homeworks[i].User_Name);
+	  			$('#list_homeworks').append('<div data-id="'+res.homeworks[i].Homework_ID+'" class="sections-main-sub-container-left-card homework-row '+active+'"><input name="homeworkId" type="hidden" value="'+res.homeworks[i].Homework_ID+'"> <div class="sections-main-sub-container-left-card-main-img-text" style="background: '+res.homeworks[i].Subject_Color+';" >'+res.homeworks[i].Subject_Label.slice(0,2)+'</div> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+res.homeworks[i].Homework_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+res.homeworks[i].Subject_Label+' - '+res.homeworks[i].Classe_Label+' - '+name.first_name+' '+ name.last_name+' </span> </div> </div>')
 	  		}
 	  	}
 	  });
@@ -170,6 +172,7 @@ function displayHomework(index)
   		if (res.homework[0])
   		{
   			console.log(res.homework)
+  			var name = JSON.parse(res.homework[0].User_Name);
   		$('#homework_info').removeClass('hidden');
   		$('#homework_info').find('.homework_img').css('background-color',res.homework[0].Subject_Color);
   		$('#homework_info').find('.homework_img').html(res.homework[0].Subject_Label.slice(0,2))
@@ -177,7 +180,7 @@ function displayHomework(index)
   		$('#homework_info').find('input[name="homework_name"]').val(res.homework[0].Homework_Title);
   		$('#homework_info').find('input[name="homework_date"]').val(res.homework[0].Homework_DeliveryDate);
   		$('#homework_info').find('#homework_description').val(res.homework[0].Homework_Deatils);
-  		$('#homework_info').find('.sub-label-full-name').html(res.homework[0].Subject_Label+' - '+res.homework[0].Classe_Label+' - Teacher Name');
+  		$('#homework_info').find('.sub-label-full-name').html(res.homework[0].Subject_Label+' - '+res.homework[0].Classe_Label+' - '+name.first_name+' '+ name.last_name);
   		$('#HomeworkDetails').addClass("dom-change-watcher");
   		}
   	}

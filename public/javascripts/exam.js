@@ -21,12 +21,14 @@ function getAllExams() {
 	  			displayExam(res.exams[res.exams.length - 1].Exam_ID);
 	  		}
 	  		var active = '';
+	  		var name = '';
 	  		for (var i = res.exams.length - 1; i >= 0; i--) {
 	  			if (i === res.exams.length - 1)
 	  				active = 'active';
 	  			else
 	  				active = '';
-	  			$('#list_exams').append('<div class="sections-main-sub-container-left-card exam-row '+active+'"><input name="examId" type="hidden" value="'+res.exams[i].Exam_ID+'"> <div class="sections-main-sub-container-left-card-main-img-text" style="background: '+res.exams[i].Subject_Color+';" >'+res.exams[i].Subject_Label.slice(0,2)+'</div> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+res.exams[i].Exam_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+res.exams[i].Subject_Label+' - '+res.exams[i].Classe_Label+' - Teacher Name </span> </div> </div>')
+	  			name = JSON.parse(res.exams[i].User_Name)
+	  			$('#list_exams').append('<div class="sections-main-sub-container-left-card exam-row '+active+'"><input name="examId" type="hidden" value="'+res.exams[i].Exam_ID+'"> <div class="sections-main-sub-container-left-card-main-img-text" style="background: '+res.exams[i].Subject_Color+';" >'+res.exams[i].Subject_Label.slice(0,2)+'</div> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+res.exams[i].Exam_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+res.exams[i].Subject_Label+' - '+res.exams[i].Classe_Label+' - '+name.first_name + ' ' + name.last_name+' </span> </div> </div>')
 	  		}
 	  	}
 	  });
@@ -140,7 +142,7 @@ function displayExam(index)
   		if (res.exam[0])
   		{
   			for (var i = res.score.length - 1; i >= 0; i--) {
-  				$('.scores-container').append('<tr class="row-score"> <td data-label="Exam Title"> <!-- sections-main-sub-container-left-cards --> <div class="sections-main-sub-container-left-card"> <img class="sections-main-sub-container-left-card-main-img" src="'+res.score[i].Student_Image+'" alt="card-img"> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+res.score[i].Student_FirstName+ ' '+res.score[i].Student_LastName+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+res.score[i].Classe_Label+'</span> </div> </div> <!-- End sections-main-sub-container-left-cards --> </td> <td data-label="Score"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" data-gradid="'+res.score[i].Grad_ID+'" data-studentid="'+res.score[i].Student_ID+'" name="score" value="'+(res.score[i].Exam_Score === null ? "" : res.score[i].Exam_Score)  +'" class="input-text input-table-edit-field" required="" placeholder="Add score"> </div> </td> </tr>')
+  				$('.scores-container').append('<tr class="row-score"> <td data-label="Exam Title"> <!-- sections-main-sub-container-left-cards --> <div class="sections-main-sub-container-left-card"> <img class="sections-main-sub-container-left-card-main-img" src="'+res.score[i].Student_Image+'" alt="card-img"> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+res.score[i].Student_FirstName+ ' '+res.score[i].Student_LastName+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+res.score[i].Classe_Label+'</span> </div> </div> <!-- End sections-main-sub-container-left-cards --> </td> <td data-label="Score"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="number" data-gradid="'+res.score[i].Grad_ID+'" data-studentid="'+res.score[i].Student_ID+'" name="score" value="'+(res.score[i].Exam_Score === null ? "" : res.score[i].Exam_Score)  +'" class="input-text input-table-edit-field" required="" placeholder="Add score"> </div> </td> </tr>')
   			}
   		$('#exam_info').removeClass('hidden');
   		$('#exam_info').find('.exam_img').css('background-color',res.exam[0].Subject_Color);
@@ -153,7 +155,8 @@ function displayExam(index)
   		$('#exam_info').find('input[name="exam_name"]').val(res.exam[0].Exam_Title);
   		$('#exam_info').find('input[name="exam_date"]').val(res.exam[0].Exam_Date);
   		$('#exam_info').find('#exam_description').val(res.exam[0].Exam_Deatils);
-  		$('#exam_info').find('.sub-label-full-name').html(res.exam[0].Subject_Label+' - '+res.exam[0].Classe_Label+' - Teacher Name');
+  		var name = JSON.parse(res.exam[0].User_Name);
+  		$('#exam_info').find('.sub-label-full-name').html(res.exam[0].Subject_Label+' - '+res.exam[0].Classe_Label+' - '+name.first_name+' '+name.last_name);
   		$('#ExamsDetails').addClass("dom-change-watcher");
   		}
   	}
@@ -167,28 +170,41 @@ $(document).on("click",".sections-main-sub-container-left-card",function(event){
 });
 
 function saveScores() {
+	var valideScore = true;
 	var scores = $('input[name^=score]').map(function(idx, elem) {
-	    return {score:$(elem).val(),student:$(elem).data('studentid'),gradid:$(elem).data('gradid')};
+		if ($(elem).val() > 0)
+		{
+			$(elem).css("background", "none");
+	    	return {score:$(elem).val(),student:$(elem).data('studentid'),gradid:$(elem).data('gradid')};
+		}
+	    else
+	    {
+	    	$(elem).css("background", "#f6b8c1");
+	    	valideScore = false;
+	    	return;
+	    }
 	  }).get();
- $.ajax({
-	    type: 'post',
-	    url: '/Exams/score',
-	    data: {
-	    	scores:scores,
-	    	examId
-	    },
-	    dataType: 'json'
-	  })
-	  .done(function(res){
-	  	if(res.saved)
-	  	{
-	  		displayExam(examId);
-	  		$('#Scores .sub-container-form-footer').addClass('hide-footer');
-			$('#Scores .sub-container-form-footer').removeClass('show-footer');
-	  	} else {
+	if (valideScore)
+		 $.ajax({
+			    type: 'post',
+			    url: '/Exams/score',
+			    data: {
+			    	scores:scores,
+			    	examId
+			    },
+			    dataType: 'json'
+			  })
+			  .done(function(res){
+			  	if(res.saved)
+			  	{
+			  		displayExam(examId);
+			  		$('#Scores .sub-container-form-footer').addClass('hide-footer');
+					$('#Scores .sub-container-form-footer').removeClass('show-footer');
+			  	} else {
 
-	  	}
-	  });
+			  	}
+			  });
+
 }
 
 $('input[name="filter-classe"]').on( "change", function() {
