@@ -121,6 +121,7 @@ function saveExam() {
 
 function displayExam(index) 
 {
+	console.log("Index",index);
 	$('#ExamsDetails').removeClass("dom-change-watcher");
 	$('.row-score').remove();
 	$.ajax({
@@ -142,9 +143,11 @@ function displayExam(index)
   				$('.scores-container').append('<tr class="row-score"> <td data-label="Exam Title"> <!-- sections-main-sub-container-left-cards --> <div class="sections-main-sub-container-left-card"> <img class="sections-main-sub-container-left-card-main-img" src="'+res.score[i].Student_Image+'" alt="card-img"> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+res.score[i].Student_FirstName+ ' '+res.score[i].Student_LastName+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+res.score[i].Classe_Label+'</span> </div> </div> <!-- End sections-main-sub-container-left-cards --> </td> <td data-label="Score"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" data-gradid="'+res.score[i].Grad_ID+'" data-studentid="'+res.score[i].Student_ID+'" name="score" value="'+(res.score[i].Exam_Score === null ? "" : res.score[i].Exam_Score)  +'" class="input-text input-table-edit-field" required="" placeholder="Add score"> </div> </td> </tr>')
   			}
   		$('#exam_info').removeClass('hidden');
-  		console.log(res.score)
   		$('#exam_info').find('.exam_img').css('background-color',res.exam[0].Subject_Color);
-  		$('#exam_info').find('#avg').html(res.score[0].average);
+  		if (res.average.average)
+  			$('#exam_info').find('#avg').html(res.average.average);
+  		else
+  			$('#exam_info').find('#avg').html("0.00");
   		$('#exam_info').find('.exam_img').html(res.exam[0].Subject_Label.slice(0,2))
   		$('#exam_info').find('.label-full-name').html(res.exam[0].Exam_Title);
   		$('#exam_info').find('input[name="exam_name"]').val(res.exam[0].Exam_Title);
