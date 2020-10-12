@@ -201,13 +201,15 @@ $(document).on("click",".row-teacher",function(event){
 
  function displayteacher(index) 
 {
-	$('#teacher_info').find('#Details').removeClass("dom-change-watcher");
 	teacherId = parseInt(index);
 	$domChange = false;
 	var result = teachers.filter(function (el) {
 			  return el.teacher.User_ID === parseInt(index);
 			});
 	console.log("Result",result)
+	$('#teacher_info').find('#Details').removeClass("dom-change-watcher");
+	$('.subject-klon').remove();
+	$('.class-subject').remove();
 			/*
 	$("#reported_table").addClass('hidden');
   	$("#reported_title").addClass('hidden');
@@ -238,10 +240,34 @@ $(document).on("click",".row-teacher",function(event){
   	{
   		console.log(res.errors)
   	} else {
-  		console.log("Subjects",res.subjects);
-  		for (var i = res.subjects.length - 1; i >= 0; i--) {
-  			//res.subjects[i]
+  		var $div = $('div[id^="subjects-container"]:last');
+  		$div.find('input[name=subjects]').val(res.subjects[res.subjects.length - 1].Subject_Label);
+  		var classes = res.classes.filter(function (el) {
+			  return el.Subject_Label === res.subjects[res.subjects.length - 1].Subject_Label;
+			});
+		for (var j = classes.length - 1; j >= 0; j--) {
+			console.log("Classes:",classes[j]);
+			$div.find('.list-classes').append('<option class="class-subject" value="'+classes[j].Classe_Label+'" selected>'+classes[j].Classe_Label+'</option>');	
+		}
+		console.log("Div:",$div.html())
+  		for (var i = res.subjects.length - 2; i >= 0; i--) {
+  			$div = $('div[id^="subjects-container"]:last');
+		  	var num = parseInt( $div.prop("id").match(/\d+/g), 10 ) +1;
+		  	var $klon = $div.clone().prop('id', 'subjects-container'+num );
+		  	$klon = $klon.addClass('subject-klon');
+		  	$klon.find('input[name=subjects]').val(res.subjects[i].Subject_Label);
+		  	$klon.find('.class-subject').remove();
+		  	
+  			classes = res.classes.filter(function (el) {
+			  return el.Subject_Label === res.subjects[i].Subject_Label;
+			});			
+			for (var j = classes.length - 1; j >= 0; j--) {
+				$klon.find('.list-classes').append('<option class="class-subject" value="'+classes[j].Classe_Label+'" selected>'+classes[j].Classe_Label+'</option>');	
+			}
+			console.log("Klon:",$klon.html())
+		  	$div.append($klon);
   		}
+  		$('.input-text-subject-classes-select2').parents(".form-group-right").find(".input-label").addClass("input-label-move-to-top");
   		absences = res.absences;
 		for (var i = res.absences.length - 1; i >= 0; i--) {
 			var fromto = JSON.parse(res.absences[i].AD_FromTo)
@@ -258,6 +284,7 @@ $(document).on("click",".row-teacher",function(event){
 				$('#Absence').find('.table_delay').append('<tr class="row-absence" id="absence-'+res.absences[i].AD_ID+'"> <td data-label="Subject name" class="td-label">'+absenceArray[res.absences[i].AD_Type]+'</td> <td class="readonly" data-label="From"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.from+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg"> </div> </td> <td class="readonly" data-label="To"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.to+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg"> </div> </td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+res.absences[i].AD_Date+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> <!-- table-option-list --> <img class="table-option-icon" src="assets/icons/options.svg"> <div class="table-option-list"> <div class="table-option-list-li table-option-list-li-edit " onClick="displayAbsence('+i+')" data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/edit.svg" alt="edit"/> <span class="table-option-list-span">Edit</span> </div> <div class="table-option-list-li table-option-list-li-delete " data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/delete.svg" alt="delete"/> <span class="table-option-list-span">Delete</span> </div> <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg"> </div> <!-- End table-option-list --> </td> </tr>');
 			}
 		}
+		$('#teacher_info').find('#Details').addClass("dom-change-watcher");
   	}
   });
 	$('#teacher_info').removeClass('hidden');
@@ -274,7 +301,6 @@ $(document).on("click",".row-teacher",function(event){
 	$('#teacher_info').find('#Details').find('input[name="phone_number_detail"]').val(result[0].teacher.User_Phone);
 	$('#teacher_info').find('#Details').find('input[name="birthdate_detail"]').val(result[0].teacher.User_Birthdate)
 	$('#teacher_info').find('#Details').find('input[name="email"]').val(result[0].teacher.User_Email);
-	$('#teacher_info').find('#Details').addClass("dom-change-watcher");
 	$('#AddTeacherAbsenceModal').find('input[name="ad_teacher"]').val(name.first_name + " " + name.last_name);
 	//$('#EditAbsenceModal').find('input[name="edit-classe"]').val(result[0].Classe_Label);
 	//$('#EditAbsenceModal').find('input[name="edit-teacher"]').val(result[0].teacher_FirstName + " " + result[0].teacher_LastName);

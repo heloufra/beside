@@ -123,7 +123,6 @@ function saveExam() {
 
 function displayExam(index) 
 {
-	console.log("Index",index);
 	$('#ExamsDetails').removeClass("dom-change-watcher");
 	$('.row-score').remove();
 	$.ajax({
@@ -172,7 +171,7 @@ $(document).on("click",".sections-main-sub-container-left-card",function(event){
 function saveScores() {
 	var valideScore = true;
 	var scores = $('input[name^=score]').map(function(idx, elem) {
-		if ($(elem).val() > 0)
+		if ($(elem).val() >= 0 && $(elem).val() <= 20)
 		{
 			$(elem).css("background", "none");
 	    	return {score:$(elem).val(),student:$(elem).data('studentid'),gradid:$(elem).data('gradid')};
