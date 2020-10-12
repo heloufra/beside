@@ -215,11 +215,16 @@ $(document).on("click",".row-teacher",function(event){
   	$("#absence_title").addClass('hidden');
 	$('#Details').find('.input-parent').remove();
 	$('#Details').removeClass("dom-change-watcher");
-	$('#Absence').find('.row-absence').remove();
+	
 	$('#Details').find('.expense_col').remove();
 	$('#Attitude').find('.row-note').remove();
 	$('#Homework').find('.row-homework').remove();
 	$('#Exams').find('.row-exam').remove();*/
+	$('#Absence').find('.row-absence').remove();
+	$("#reported_table").addClass('hidden');
+  	$("#reported_title").addClass('hidden');
+	$("#absence_table").addClass('hidden');
+  	$("#absence_title").addClass('hidden');
 	$.ajax({
     type: 'get',
     url: '/Teachers/one',
@@ -235,12 +240,32 @@ $(document).on("click",".row-teacher",function(event){
   	} else {
   		console.log("Subjects",res.subjects);
   		for (var i = res.subjects.length - 1; i >= 0; i--) {
-  			res.subjects[i]
+  			//res.subjects[i]
   		}
+  		absences = res.absences;
+		for (var i = res.absences.length - 1; i >= 0; i--) {
+			var fromto = JSON.parse(res.absences[i].AD_FromTo)
+			if (res.absences[i].AD_Type === 2)
+			{
+				$("#reported_table").removeClass('hidden');
+  				$("#reported_title").removeClass('hidden');
+				$('#Absence').find('.table_reported').append('<tr class="row-absence" id="absence-'+res.absences[i].AD_ID+'"> <td data-label="Subject name" class="td-label">Absence</td> <td class="readonly" data-label="From"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.from+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="To"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.to+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> <!-- table-option-list --> <img class="table-option-icon" src="assets/icons/options.svg"> <div class="table-option-list"> <div class="table-option-list-li table-option-list-li-edit " onClick="displayAbsence('+i+')" data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/edit.svg" alt="edit"/> <span class="table-option-list-span">Edit</span> </div> <div class="table-option-list-li table-option-list-li-delete " data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/delete.svg" alt="delete"/> <span class="table-option-list-span">Delete</span> </div> <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg"> </div> <!-- End table-option-list --> </td> </tr>');
+			}
+			else
+			{
+				$("#absence_table").removeClass('hidden');
+  				$("#absence_title").removeClass('hidden');
+				$('#Absence').find('.table_delay').append('<tr class="row-absence" id="absence-'+res.absences[i].AD_ID+'"> <td data-label="Subject name" class="td-label">'+absenceArray[res.absences[i].AD_Type]+'</td> <td class="readonly" data-label="From"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.from+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg"> </div> </td> <td class="readonly" data-label="To"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.to+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg"> </div> </td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+res.absences[i].AD_Date+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> <!-- table-option-list --> <img class="table-option-icon" src="assets/icons/options.svg"> <div class="table-option-list"> <div class="table-option-list-li table-option-list-li-edit " onClick="displayAbsence('+i+')" data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/edit.svg" alt="edit"/> <span class="table-option-list-span">Edit</span> </div> <div class="table-option-list-li table-option-list-li-delete " data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/delete.svg" alt="delete"/> <span class="table-option-list-span">Delete</span> </div> <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg"> </div> <!-- End table-option-list --> </td> </tr>');
+			}
+		}
   	}
   });
 	$('#teacher_info').removeClass('hidden');
 	var name = JSON.parse(result[0].teacher.User_Name);
+	$('#AddTeacherAbsenceModal').find('.absence-classe').remove();
+	for (var i = result[0].classes.length - 1; i >= 0; i--) {
+		$('#AddTeacherAbsenceModal').find('.classes-list').append('<li class="absence-classe" data-val="'+result[0].classes[i].Classe_Label+'">'+result[0].classes[i].Classe_Label+'</li>');
+	}
 	$('#teacher_info').find('.label-full-name').text(name.first_name + " " + name.last_name);
 	$('#teacher_info').find('.input-img').attr('src',result[0].teacher.User_Image);
 	$('#teacher_info').find('#Details').find('input[name="f_name"]').val(name.first_name);
@@ -250,16 +275,10 @@ $(document).on("click",".row-teacher",function(event){
 	$('#teacher_info').find('#Details').find('input[name="birthdate_detail"]').val(result[0].teacher.User_Birthdate)
 	$('#teacher_info').find('#Details').find('input[name="email"]').val(result[0].teacher.User_Email);
 	$('#teacher_info').find('#Details').addClass("dom-change-watcher");
-	/*$('#AddteacherAbsenceModal').find('input[name="ad_classe"]').val(result[0].Classe_Label);
-	$('#AddteacherAbsenceModal').find('input[name="ad_teacher"]').val(result[0].teacher_FirstName + " " + result[0].teacher_LastName);
-	$('#Details').find('input[name="classe-detail"]').val(result[0].Classe_Label);
-	$('#Details').find('input[name="level-detail"]').val(result[0].Level_Label);
-	$('#AddAttitudeModal').find('input[name="at_classe"]').val(result[0].Classe_Label);
-	$('#AddAttitudeModal').find('input[name="at_teacher"]').val(result[0].teacher_FirstName + " " + result[0].teacher_LastName);
-	$('#EditAttitudeModal').find('input[name="edit-classe"]').val(result[0].Classe_Label);
-	$('#EditAttitudeModal').find('input[name="edit-teacher"]').val(result[0].teacher_FirstName + " " + result[0].teacher_LastName);
-	$('#EditAbsenceModal').find('input[name="edit-classe"]').val(result[0].Classe_Label);
-	$('#EditAbsenceModal').find('input[name="edit-teacher"]').val(result[0].teacher_FirstName + " " + result[0].teacher_LastName);*/
+	//$('#AddTeacherAbsenceModal').find('input[name="ad_classe"]').val(result[0].Classe_Label);
+	$('#AddTeacherAbsenceModal').find('input[name="ad_teacher"]').val(name.first_name + " " + name.last_name);
+	//$('#EditAbsenceModal').find('input[name="edit-classe"]').val(result[0].Classe_Label);
+	//$('#EditAbsenceModal').find('input[name="edit-teacher"]').val(result[0].teacher_FirstName + " " + result[0].teacher_LastName);
 }
 
 function displayAbsence(id) {
@@ -436,77 +455,75 @@ function discardChange() {
  }
 
 function saveAbsence() {
-var ad_classe = $('#AddteacherAbsenceModal').find('input[name="ad_classe"]').val();
+var ad_classe = $('#AddTeacherAbsenceModal').find('input[name="ad_classe"]').val();
 var ad_fromto = {};
 var ad_date = "";
 
-var ad_teacher = $('#AddteacherAbsenceModal').find('input[name="ad_teacher"]').val();
+var ad_teacher = $('#AddTeacherAbsenceModal').find('input[name="ad_teacher"]').val();
 
 var ad_absence;
 
-if ($('#AddteacherAbsenceModal').find('input[data-val="Absence"]:checked').val())
+if ($('#AddTeacherAbsenceModal').find('input[data-val="Absence"]:checked').val())
 {
-	if($('#AddteacherAbsenceModal').find('input[data-val="Session"]:checked').val())
+	if($('#AddTeacherAbsenceModal').find('input[data-val="Session"]:checked').val())
 	{
-		ad_absence = $('#AddteacherAbsenceModal').find('input[data-val="Session"]:checked').val();
+		ad_absence = $('#AddTeacherAbsenceModal').find('input[data-val="Session"]:checked').val();
 		ad_fromto = {
-			from: $('#AddteacherAbsenceModal').find('input[name="time_start"]').val(),
-			to: $('#AddteacherAbsenceModal').find('input[name="time_end"]').val(),
+			from: $('#AddTeacherAbsenceModal').find('input[name="time_start"]').val(),
+			to: $('#AddTeacherAbsenceModal').find('input[name="time_end"]').val(),
 		};
-		ad_date = $('#AddteacherAbsenceModal').find('input[name="ad_date"]').val();
+		ad_date = $('#AddTeacherAbsenceModal').find('input[name="ad_date"]').val();
 	} else 
 	{
-		ad_absence = $('#AddteacherAbsenceModal').find('input[data-val="Period"]:checked').val();
+		ad_absence = $('#AddTeacherAbsenceModal').find('input[data-val="Period"]:checked').val();
 		ad_fromto = {
-			from: $('#AddteacherAbsenceModal').find('input[name="period_start"]').val(),
-			to: $('#AddteacherAbsenceModal').find('input[name="period_end"]').val(),
+			from: $('#AddTeacherAbsenceModal').find('input[name="period_start"]').val(),
+			to: $('#AddTeacherAbsenceModal').find('input[name="period_end"]').val(),
 		}
 		ad_date = "null";
 	}
 } else 
 {
-	ad_absence = $('#AddteacherAbsenceModal').find('input[data-val="Retard"]:checked').val();
+	ad_absence = $('#AddTeacherAbsenceModal').find('input[data-val="Retard"]:checked').val();
 	ad_fromto = {
-			from: $('#AddteacherAbsenceModal').find('input[name="time_start"]').val(),
-			to: $('#AddteacherAbsenceModal').find('input[name="time_end"]').val(),
+			from: $('#AddTeacherAbsenceModal').find('input[name="time_start"]').val(),
+			to: $('#AddTeacherAbsenceModal').find('input[name="time_end"]').val(),
 		};
-	ad_date = $('#AddteacherAbsenceModal').find('input[name="ad_date"]').val();
+	ad_date = $('#AddTeacherAbsenceModal').find('input[name="ad_date"]').val();
 }
 
-console.log(ad_absence,ad_fromto,ad_date);
-
 	if (!ad_date && ad_absence !== "2")
-		$('#AddteacherAbsenceModal').find('.dynamic-form-input-container-one-date').css("border-color", "#f6b8c1");
+		$('#AddTeacherAbsenceModal').find('.dynamic-form-input-container-one-date').css("border-color", "#f6b8c1");
 	else
-		$('#AddteacherAbsenceModal').find('.dynamic-form-input-container-one-date').css("border-color", "#EFEFEF");
+		$('#AddTeacherAbsenceModal').find('.dynamic-form-input-container-one-date').css("border-color", "#EFEFEF");
 	if (!ad_classe)
-		$('#AddteacherAbsenceModal').find('.ad_classe').css("border-color", "#f6b8c1");
+		$('#AddTeacherAbsenceModal').find('.ad_classe').css("border-color", "#f6b8c1");
 	else
-		$('#AddteacherAbsenceModal').find('.ad_classe').css("border-color", "#EFEFEF");
+		$('#AddTeacherAbsenceModal').find('.ad_classe').css("border-color", "#EFEFEF");
 
 	if (!ad_teacher)
-		$('#AddteacherAbsenceModal').find('.ad_teacher').css("border-color", "#f6b8c1");
+		$('#AddTeacherAbsenceModal').find('.ad_teacher').css("border-color", "#f6b8c1");
 	else
-		$('#AddteacherAbsenceModal').find('.ad_teacher').css("border-color", "#EFEFEF");
+		$('#AddTeacherAbsenceModal').find('.ad_teacher').css("border-color", "#EFEFEF");
 
 	if (!ad_fromto.from && ad_absence !== "2")
 	{
-		$('#AddteacherAbsenceModal').find('input[name="time_start"]').css("border-color", "#f6b8c1");
-		$('#AddteacherAbsenceModal').find('input[name="time_end"]').css("border-color", "#f6b8c1");
+		$('#AddTeacherAbsenceModal').find('input[name="time_start"]').css("border-color", "#f6b8c1");
+		$('#AddTeacherAbsenceModal').find('input[name="time_end"]').css("border-color", "#f6b8c1");
 	}
 	else
 	{
-		$('#AddteacherAbsenceModal').find('input[name="time_start"]').css("border-color", "#EFEFEF");
-		$('#AddteacherAbsenceModal').find('input[name="time_end"]').css("border-color", "#EFEFEF");
+		$('#AddTeacherAbsenceModal').find('input[name="time_start"]').css("border-color", "#EFEFEF");
+		$('#AddTeacherAbsenceModal').find('input[name="time_end"]').css("border-color", "#EFEFEF");
 	}
 
 	if (!ad_fromto.to && ad_absence !== "2")
 	{
-		$('#AddteacherAbsenceModal').find('input[name="time_end"]').css("border-color", "#f6b8c1");
+		$('#AddTeacherAbsenceModal').find('input[name="time_end"]').css("border-color", "#f6b8c1");
 	}
 	else
 	{
-		$('#AddteacherAbsenceModal').find('input[name="time_end"]').css("border-color", "#EFEFEF");
+		$('#AddTeacherAbsenceModal').find('input[name="time_end"]').css("border-color", "#EFEFEF");
 	}
 
 	if (ad_absence && ad_date && ad_fromto.to && ad_fromto.from && ad_teacher && ad_classe)
@@ -527,12 +544,10 @@ console.log(ad_absence,ad_fromto,ad_date);
 		  .done(function(res){
 		  	if(res.saved)
 		  	{
-		  		$('#AddteacherAbsenceModal').modal('hide');
-			  	$('#AddteacherAbsenceModal').find('input[name="ad_classe"]').val("");
-				$('#AddteacherAbsenceModal').find('input[name="ad_teacher"]').val("");
-				$('#AddteacherAbsenceModal').find('input[name="ad_date"]').val("");
-	 			$('#AddteacherAbsenceModal').find('input[name="period_start"]').val("");
-				$('#AddteacherAbsenceModal').find('input[name="period_end"]').val("");
+		  		$('#AddTeacherAbsenceModal').modal('hide');
+			  	$('#AddTeacherAbsenceModal').find('input[name="ad_classe"]').val("");
+				$('#AddTeacherAbsenceModal').find('input[name="ad_teacher"]').val("");
+				$('#AddTeacherAbsenceModal').find('input[name="ad_date"]').val("");
 		  		displayteacher(teacherId);
 		  	} else {
 		  		console.log("not saved");

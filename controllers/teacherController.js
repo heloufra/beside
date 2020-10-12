@@ -45,11 +45,14 @@ var teacherController = {
   },
   getTeacher: function(req, res, next) {
     connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
+       connection.query("SELECT * FROM `absencesanddelays` WHERE User_ID = ? AND Declaredby_ID = ? AND AD_Status <> 0", [req.query.id,req.userId], (err, absences, fields) => {
         connection.query("SELECT DISTINCT subjects.Subject_Label FROM `users` INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Teacher_ID = users.User_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID WHERE users.User_ID = ? AND institutionsusers.Institution_ID = ? AND institutionsusers.User_Role = 'Teacher'", [req.query.id,institutions[0].Institution_ID],async (err, subjects, fields) => {
           res.json({
                   subjects:subjects,
+                  absences:absences
                 });
          })
+      })
     })
   },
   getClasses: function(req, res, next) {
@@ -77,7 +80,7 @@ var teacherController = {
        })
     })
   },  
-  saveteacher: function(req, res, next) {
+  saveTeacher: function(req, res, next) {
     console.log(req.body);
    connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
           connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [institutions[0].Institution_ID], (err, academic, fields) => {

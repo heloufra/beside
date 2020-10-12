@@ -7,9 +7,9 @@ router.get('/', teacherController.teacherView);
 router.get('/all', teacherController.getAllteachers);
 router.get('/one', teacherController.getTeacher);
 router.get('/classes', teacherController.getClasses);
-router.post('/save', teacherController.saveteacher);
-/*router.post('/update', teacherController.updateteacher);
+router.post('/save', teacherController.saveTeacher);
 router.post('/absence', teacherController.saveAbsence);
+/*router.post('/update', teacherController.updateteacher);
 router.post('/absence/remove', teacherController.deleteAbsence);
 router.post('/teacher/remove', teacherController.deleteteacher);*/
 

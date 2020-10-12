@@ -304,7 +304,7 @@
                               <!-- sections-main-sub-container-right-main-body : Absence -->
                               <div id="Absence" class="tab-pane fade  sections-main-sub-container-right-main-body">
 
-                                  <div class="sections-main-sub-container-right-main-label-divider">
+                                  <div id="reported_title" class="sections-main-sub-container-right-main-label-divider hidden">
                                         <p>Reported absence</p>
                                   </div>
 
@@ -312,94 +312,19 @@
 
                                     <div class="col-xs-12">
 
-                                      <table>
+                                      <table id="reported_table" class="hidden">
 
                                         <thead>
                                           <tr>
-                                            <th scope="col"></th>
+                                            <th scope="col">Type</th>
                                             <th scope="col">From</th>
                                             <th scope="col">To</th>
                                           </tr>
                                         </thead>
 
-                                        <tbody>
+                                        <tbody class="table_reported">
 
-                                          <tr>
-
-                                            <td data-label="Subject name" class="td-label">Absence</td>
-
-                                            <td class="readonly" data-label="From">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="09-05-2020" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                                                </div>
-                                            </td>
-
-
-                                            <td class="readonly"  data-label="To">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="09-05-2020" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                                                </div>
-
-                                                <!-- table-option-list -->
-                                                <img class="table-option-icon" src="assets/icons/options.svg">
-
-                                                <div class="table-option-list">
-                                                  <div class="table-option-list-li table-option-list-li-edit">
-                                                    <img src="assets/icons/edit.svg" alt="edit"/>   
-                                                    <span class="table-option-list-span">Edit</span>
-                                                  </div>
-                                                  <div class="table-option-list-li table-option-list-li-delete">
-                                                    <img src="assets/icons/delete.svg" alt="delete"/> 
-                                                    <span class="table-option-list-span">Delete</span>
-                                                  </div>
-                                                  <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg">
-                                                </div>
-                                                <!-- End table-option-list -->
-
-                                            </td>
-                                            
-                                          </tr>
-
-                                          <tr>
-
-                                            <td data-label="Subject name" class="td-label">Absence</td>
-
-                                            <td class="readonly" data-label="From">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="09-05-2020" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                                                </div>
-                                            </td>
-
-
-                                            <td class="readonly"  data-label="To">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="09-05-2020" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                                                </div>
-
-                                                <!-- table-option-list -->
-                                                <img class="table-option-icon" src="assets/icons/options.svg">
-
-                                                <div class="table-option-list">
-                                                  <div class="table-option-list-li table-option-list-li-edit">
-                                                    <img src="assets/icons/edit.svg" alt="edit"/>   
-                                                    <span class="table-option-list-span">Edit</span>
-                                                  </div>
-                                                  <div class="table-option-list-li table-option-list-li-delete">
-                                                    <img src="assets/icons/delete.svg" alt="delete"/> 
-                                                    <span class="table-option-list-span">Delete</span>
-                                                  </div>
-                                                  <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg">
-                                                </div>
-                                                <!-- End table-option-list -->
-
-                                            </td>
-                                            
-                                          </tr>
-
+                                        
                                         </tbody>
 
                                       </table>
@@ -407,7 +332,7 @@
 
                                   </div>                                            
 
-                                  <div class="sections-main-sub-container-right-main-label-divider">
+                                  <div id="absence_title" class="sections-main-sub-container-right-main-label-divider hidden">
                                         <p>Absence & Retard</p>
                                   </div>
 
@@ -415,7 +340,7 @@
 
                                     <div class="col-xs-12">
 
-                                      <table>
+                                      <table id="absence_table" class="hidden">
 
                                         <thead>
                                           <tr>
@@ -426,97 +351,7 @@
                                           </tr>
                                         </thead>
 
-                                        <tbody>
-
-                                          <tr>
-
-                                            <td data-label="Subject name" class="td-label">Absence</td>
-
-                                            <td class="readonly" data-label="From">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="10:00" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
-                                                </div>
-                                            </td>
-
-
-                                            <td class="readonly" data-label="To">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="12:00" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
-                                                </div>
-                                            </td>
-
-                                            <td class="readonly" data-label="Date">
-
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="09-05-2020" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                                                </div>
-
-                                                <img class="table-option-icon" src="assets/icons/options.svg">
-
-                                                <div class="table-option-list">
-                                                  <div class="table-option-list-li table-option-list-li-edit">
-                                                    <img src="assets/icons/edit.svg" alt="edit"/>   
-                                                    <span class="table-option-list-span">Edit</span>
-                                                  </div>
-                                                  <div class="table-option-list-li table-option-list-li-delete">
-                                                    <img src="assets/icons/delete.svg" alt="delete"/> 
-                                                    <span class="table-option-list-span">Delete</span>
-                                                  </div>
-                                                  <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg">
-                                                </div>
-
-                                            </td>
-                                            
-                                          </tr>
-
-                                          <tr>
-
-                                            <td data-label="Subject name" class="td-label">Absence</td>
-
-                                            <td class="readonly" data-label="From">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="10:00" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
-                                                </div>
-                                            </td>
-
-
-                                            <td class="readonly" data-label="To">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="12:00" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
-                                                </div>
-                                            </td>
-
-                                            <td class="readonly" data-label="Date">
-
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="09-05-2020" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                                                </div>
-
-                                                <!-- table-option-list -->
-                                                <img class="table-option-icon" src="assets/icons/options.svg">
-
-                                                <div class="table-option-list">
-                                                  <div class="table-option-list-li table-option-list-li-edit">
-                                                    <img src="assets/icons/edit.svg" alt="edit"/>   
-                                                    <span class="table-option-list-span">Edit</span>
-                                                  </div>
-                                                  <div class="table-option-list-li table-option-list-li-delete">
-                                                    <img src="assets/icons/delete.svg" alt="delete"/> 
-                                                    <span class="table-option-list-span">Delete</span>
-                                                  </div>
-                                                  <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg">
-                                                </div>
-                                                <!-- End table-option-list -->
-
-                                            </td>
-                                            
-                                          </tr>
+                                        <tbody class="table_delay">
 
                                         </tbody>
 
