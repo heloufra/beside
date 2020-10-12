@@ -22,6 +22,18 @@
   src:  url('fonts/Roboto/Roboto-Light.ttf');
 }
 
+/* Hide scrollbar for chrome  */
+*::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+* {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+
 /************* Roboto ****************/
 
 :root {
@@ -37,6 +49,11 @@
   --input-placeholder--color: rgba(21, 26, 59, 0.5);
   --input-active-bg-color:#fdfdfe;
   --input-border--color:#f0f0f6;
+
+  --progress-bar-bg-color :#7ebfee1f;
+
+  --side--bar--bg-color :#151a3b;
+  --side--bar--border-color :#343855;
 
   --empty-img-bg-color:#ecedf3;
 
@@ -77,6 +94,9 @@
   --element--gradient--from--btn--pink--color:#f6b8c1;
   --element--gradient--to--btn--pink--color:#f9c2cb;
 
+  --element--gradient--from--progressbar--color:#e8f5fd;
+  --element--gradient--to--progressbar--color:#dfecfb;
+
   --modal--background--color : rgba(21, 26, 59, 0.2);
 
 }
@@ -113,6 +133,10 @@
 :-moz-placeholder { /* Firefox 18- */
   color: var(--input-placeholder--color);
   font-size: 14px;
+}
+
+:focus {
+    outline: none !important; 
 }
 
 body {  
@@ -398,6 +422,7 @@ body {
     box-shadow: inset 0 1px 1px 0 rgba(21, 26, 59, 0.06);
     padding: 16px;
     background-color: var(--white-color);
+    z-index: 999999;
 }
 
 .sections-main-sub-container-right-main .sub-container-form-footer{
@@ -447,6 +472,10 @@ input{
 
 .setup-main-container .dynamic-form-input-dropdown-options{
 	top: 42px;
+}
+
+.dynamic-form-input-float-adjust .dynamic-form-input-dropdown-options{
+	max-height: 220px;
 }
 
 
@@ -1427,14 +1456,13 @@ input:focus ~ label,input:valid ~ label{
 }
 
 .sections-main-container .side-bar-header-conatiner{
-	margin-bottom: 32px;
+	margin-bottom: 16px; /*32*/
+	position: relative;
 }
-
 
 .sections-main-container .side-bar-header-conatiner .side-bar-brand{
 	display: inline-block;
 	vertical-align: middle;
-	border: 1px solid var(--input-border--color);
 	min-width: 32px !important;
 	max-width: 32px !important;
 	width: 32px !important;
@@ -1445,14 +1473,11 @@ input:focus ~ label,input:valid ~ label{
 	margin-right: 12px;
 }
 
-
 .sections-main-container .side-bar-header-conatiner .side-bar-brand-label{
 	display: inline-block;
 	font-size:16px; 
 	color:var(--input-active-bg-color);
 }
-
-
 
 .sections-main-container .side-bar  .rounded-button-primary{
     width: 100%;
@@ -1462,6 +1487,123 @@ input:focus ~ label,input:valid ~ label{
 
 .sections-main-container .side-bar  .rounded-button-primary:hover .button-icon {
 	 padding-right: 12px;
+}
+
+
+/************ .school-dropdown-list *********/
+
+.school-dropdown-list{
+	position: absolute;
+    background: var(--side--bar--bg-color);
+    width: 100%;
+    overflow: hidden;
+    overflow-y: scroll;
+    padding-top: 8px;
+}
+
+.main-selected-school{
+	min-height: 65px;
+	display: flex;
+	align-items: center;
+	border-bottom: 1px solid transparent;
+}
+
+.main-selected-school-border{
+	border-bottom: 1px solid var(--side--bar--border-color);
+	transition: border-bottom .25s ease-in ;
+}
+
+.main-selected-school-li{
+	min-height: 50px;
+	display: flex;
+	align-items: center;
+	border-radius: 3px;
+	padding: 4px;
+	padding-left: 0px;
+    margin: 4px;
+    margin-left: 0px;
+}
+
+
+.main-selected-school-li .side-bar-brand{
+	display:inline-block;
+	max-width: 24px;
+	max-height: 24px;
+}
+
+.sections-main-container .main-selected-school-li .side-bar-brand-label{
+	font-size: 14px !important;
+	color: var(--font--color-inactive);
+}
+
+.sections-main-container .side-bar{
+	padding-top: 0px;
+}
+
+.main-selected-school .button-icon{
+	position: absolute;
+	right: 0px;
+}
+
+.main-selected-school{
+	cursor: pointer;
+	transition: background .25s ease-in ;
+	margin: 0px -32px;
+    padding: 0px 32px;
+}
+
+.main-selected-school:hover{
+	background: rgba(255,255,255,.06);
+}
+
+.main-selected-school-li{
+	cursor: pointer;
+	transition: padding-left .25s ease-out;
+	font-weight: 300;
+}
+
+
+.main-selected-school-li:hover{
+	padding-left: 8px;
+	background: rgba(255,255,255,.06);
+}
+
+.sections-main-container .main-selected-school-li:hover .side-bar-brand-label{
+	color: var(--white-color);
+}
+
+.side-bar-brand-label{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 60%;
+}
+
+/************ .SlideToggle *********/
+.slide-down {
+  animation-name: slideDownAnimation;
+  animation-duration: .5s;
+  height: 0vh;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
+}
+
+.slide-up {
+  animation-name: slideUpAnimation;
+  animation-duration: .25s;
+  height: 0vh;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
+}
+
+@keyframes slideDownAnimation {
+    from {height: 0vh;}
+    to {height: 80vh;}
+}
+
+@keyframes slideUpAnimation {
+    from {height: 80vh;}
+    to {height: 0vh;}
 }
 
 /*********** sub-container-nav-bar **************/
@@ -1821,7 +1963,6 @@ input:focus ~ label,input:valid ~ label{
     height: 84.5vh;
     position: absolute;
     overflow: hidden;
-    overflow-y: scroll;
     text-align: center;
     background-color: var(--white-color);
 }
@@ -1929,6 +2070,10 @@ input:focus ~ label,input:valid ~ label{
 	padding-bottom: 120px;
 }
 
+
+form{
+	outline: none !important;
+}
 /****************** sections-main-sub-container-right-main-header ***************/
 
 .modal .sections-main-sub-container-right-main-header .sections-main-sub-container-right-main-header-info{
@@ -2820,7 +2965,7 @@ input:focus ~ label,input:valid ~ label{
 	line-height: 20px;
 }
 
-#FinanceModal , #ChangesModal , #ConfirmDeleteModal , #AddAbsenceModal , #AddTeacherAbsenceModal , #AddStudentAbsenceModal , #EditAbsenceModal , #AddAttitudeModal, #EditAttitudeModal , #AddExamModal , 
+#FinanceModal , #ChangesModal , #ConfirmDeleteModal , #AddAbsenceModal  , #ImportUsersModal , #AddTeacherAbsenceModal , #AddStudentAbsenceModal , #EditAbsenceModal , #AddAttitudeModal, #EditAttitudeModal , #AddExamModal , 
 #AddHomeworkModal , #AddStudentModal , #AddTeacherModal , #ExamDetailModal  , #HomeworkDetailModal , #NewActionModal {
 	background-color: var(--modal--background--color);
 }
@@ -2867,6 +3012,7 @@ input:focus ~ label,input:valid ~ label{
 .modal-dom-change-watcher .modal-content-container .modal-body{
 	height: 100% ;
 	max-height: 80vh;
+	overflow:scroll !important;
 }
 
 .modal.in .modal-dialog{
@@ -2903,6 +3049,7 @@ input:focus ~ label,input:valid ~ label{
 
 #FinanceModal .sub-container-form-footer .modal-confirm-button ,
 #AddAbsenceModal .sub-container-form-footer .modal-confirm-button ,
+#ImportUsersModal .sub-container-form-footer .modal-confirm-button ,
 #AddTeacherAbsenceModal .sub-container-form-footer .modal-confirm-button ,
 #AddStudentAbsenceModal .sub-container-form-footer .modal-confirm-button ,
 #EditAbsenceModal .sub-container-form-footer .modal-confirm-button ,
@@ -2929,7 +3076,7 @@ input:focus ~ label,input:valid ~ label{
 .modal-content-finance .modal-body,
 .modal-content-container .modal-body{
 	max-height: calc(100vh - 29.5vh);
-    overflow: scroll;
+    overflow-y: scroll !important;
     padding:0px;
 }
 
@@ -2946,6 +3093,7 @@ input:focus ~ label,input:valid ~ label{
 
 #FinanceModal .modal-dialog , 
 #AddAbsenceModal .modal-dialog ,
+#ImportUsersModal .modal-dialog ,
 #AddTeacherAbsenceModal .modal-dialog ,
 #AddStudentAbsenceModal .modal-dialog ,
 #EditAbsenceModal .modal-dialog , #AddAttitudeModal .modal-dialog , #AddHomeworkModal .modal-dialog , 
@@ -3439,6 +3587,9 @@ table td img {
   --animate-duration: .3s;
 }
 
+.modal-dom-change-watcher .hide-footer{
+	display: none !important;
+}
 /********************************* modal-body ***********************************/
 
 /********************************* input-text-area *****************************/
@@ -3977,6 +4128,7 @@ table td img {
 /********************************* sections-label-checkbox-container-left  *********************/
 
 #AddAbsenceModal .sections-label-checkbox-container-left ,
+#ImportUsersModal .sections-label-checkbox-container-left ,
 #AddTeacherAbsenceModal .sections-label-checkbox-container-left ,
 #AddStudentAbsenceModal .sections-label-checkbox-container-left ,
 #EditAbsenceModal .sections-label-checkbox-container-left ,
@@ -3992,6 +4144,7 @@ table td img {
 }
 
 #AddAbsenceModal .dynamic-form-input-container-extra-style input,
+#ImportUsersModal .dynamic-form-input-container-extra-style input,
 #AddTeacherAbsenceModal .dynamic-form-input-container-extra-style input,
 #AddStudentAbsenceModal .dynamic-form-input-container-extra-style input,
 #EditAbsenceModal .dynamic-form-input-container-extra-style input,
@@ -4005,6 +4158,7 @@ table td img {
 }
 
 #AddAbsenceModal .sections-checkboxes-main-container,
+#ImportUsersModal .sections-checkboxes-main-container,
 #AddTeacherAbsenceModal .sections-checkboxes-main-container,
 #AddStudentAbsenceModal .sections-checkboxes-main-container,
 #EditAbsenceModal .sections-checkboxes-main-container,
@@ -4020,6 +4174,7 @@ table td img {
 }
 
 #AddAbsenceModal  .sections-label-checkbox-container-left .expense_label,
+#ImportUsersModal  .sections-label-checkbox-container-left .expense_label,
 #AddTeacherAbsenceModal  .sections-label-checkbox-container-left .expense_label,
 #AddStudentAbsenceModal  .sections-label-checkbox-container-left .expense_label,
 #EditAbsenceModal  .sections-label-checkbox-container-left .expense_label,
@@ -4033,12 +4188,14 @@ table td img {
 }
 
 #AddAbsenceModal  .customCheckRounded label:after,
+#ImportUsersModal  .customCheckRounded label:after,
 #AddTeacherAbsenceModal  .customCheckRounded label:after,
 #AddStudentAbsenceModal  .customCheckRounded label:after,
 #EditAbsenceModal  .customCheckRounded label:after,
 #AddAttitudeModal  .customCheckRounded label:after,
 #EditAttitudeModal  .customCheckRounded label:after,
 #AddAbsenceModal  .customCheckRounded label:before,
+#ImportUsersModal  .customCheckRounded label:before,
 #AddTeacherAbsenceModal  .customCheckRounded label:before,
 #AddStudentAbsenceModal  .customCheckRounded label:before,
 #AddHomeworkModal  .customCheckRounded label:before,
@@ -4051,6 +4208,7 @@ table td img {
 }
 
 #AddAbsenceModal  .sections-label-checkbox-container-left .sections-label-checkbox-container,
+#ImportUsersModal  .sections-label-checkbox-container-left .sections-label-checkbox-container,
 #AddTeacherAbsenceModal  .sections-label-checkbox-container-left .sections-label-checkbox-container,
 #AddStudentAbsenceModal  .sections-label-checkbox-container-left .sections-label-checkbox-container,
 #EditAbsenceModal  .sections-label-checkbox-container-left .sections-label-checkbox-container,
@@ -4066,6 +4224,7 @@ table td img {
 
 
 #AddAbsenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left:first-child ,
+#ImportUsersModal .sections-checkboxes-main-container .sections-label-checkbox-container-left:first-child ,
 #AddTeacherAbsenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left:first-child ,
 #AddStudentAbsenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left:first-child ,
 #EditAbsenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left:first-child ,
@@ -4076,6 +4235,7 @@ table td img {
 }
 
 #AddAbsenceModal .input-date,
+#ImportUsersModal .input-date,
 #AddTeacherAbsenceModal .input-date,
 #AddStudentAbsenceModal .input-date,
 #EditAbsenceModal .input-date{
@@ -4098,6 +4258,7 @@ table td img {
 }
 
 #AddAbsenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left ,
+#ImportUsersModal .sections-checkboxes-main-container .sections-label-checkbox-container-left ,
 #AddTeacherAbsenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left ,
 #AddStudentAbsenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left ,
 #EditAbsenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left ,
@@ -4505,6 +4666,174 @@ table td img {
     z-index:99999;
 }
 
+
+/******************************** modal-btn-container ***************************/
+
+.modal-btn-container{
+	display: inline-block;
+	text-align: center;
+	width: 100%;
+	padding-top: 32px;
+    margin-bottom: -10px;
+}
+
+.modal-btn-container .modal-btn{
+	font-size: 12px;
+	padding:8px 12px;
+	border-radius: 3px;
+	border:1px solid var(--input-border--color);
+	display: inline-block;
+	cursor: pointer;
+	position: relative;
+	z-index: 2;
+}
+
+.modal-btn-container .modal-btn-text{
+	opacity: 0.3;
+	color: #151a3b;
+}
+
+.sections-main-sub-container-right-main-rows .progress{
+	position: absolute;
+	z-index: 1;
+	width: 100%;
+	height: 100%;
+	margin-bottom: 0px;
+    bottom: 0px;
+    box-shadow: none;
+    background:var(--white-color);
+    border-radius: 3px;
+}
+
+.sections-main-sub-container-right-main-rows .progress-bar{
+	background-image: linear-gradient(to left, var(--element--gradient--from--progressbar--color), var(--element--gradient--to--progressbar--color) 0%);
+	height: 101%;
+	box-shadow: unset;
+}
+
+.file-container-visibility{
+	display: none !important;
+}
+
+/******************************** import-users-Modal-file-container ***************************/
+
+.import-users-Modal-file-container{
+	min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    background: #fdfdfe;
+    border: 1px dashed var(--input-border--color);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 12px;
+	border-radius: 3px;
+	position: relative;
+	text-align: center;
+}
+
+.import-users-Modal-label{
+	font-size: 14px;
+	color: var(--black--color);
+	opacity: .5;
+	max-width: 250px;
+	text-align: center;
+	font-weight: 300 !important;
+	position: relative;
+	z-index: 2;
+}
+
+.import-users-Modal-file-container .modal-btn-container{
+	padding-top: 10px;
+}
+
+.import-users-Modal-file-container  .modal-btn-container .modal-btn-text{
+	opacity: 1;
+}
+
+.modal .button-icon-extra-style{
+	width: 24px;
+	height: 24px;
+}
+
+
+/*************** file-container ******************************/
+
+.file-container{
+	display: flex;
+    align-items: center;
+    padding: 8px;
+    border: 1px solid var(--input-border--color);
+    border-radius: 3px;
+    justify-content: space-between;
+    cursor: pointer;
+    margin-bottom: 16px;
+    position: relative;
+    overflow:hidden;
+}
+
+.file-loaded {
+	background: var(--input-border--color);
+}
+
+.file-container .file-icon{
+	margin-bottom: 0px;
+	position: relative;
+	z-index: 2;
+	margin-right: 4px;
+}
+
+.file-container .file-label{
+	font-size: 13px;
+}
+
+.file-container .file-icon-label{
+	display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.file-container .file-icon-close{
+	margin-bottom: 0px;
+	display: inline-block;
+	position: relative;
+	z-index: 2;
+}
+
+.file-container  .file-close{
+	margin-bottom: 0px;
+	transition: background .25s ease-in , opacity .25s ease-in-out;
+	border-radius: 100%;
+	position: relative;
+	z-index: 2;
+}
+
+.file-container .file-close:hover {
+    cursor: pointer;
+    background: var(--btn--secondary--bg--color);
+}
+
+.file-container .progress{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 101%;
+	width: 100%;
+	box-shadow: unset;
+}
+
+.file-add-btn-container{
+	text-align: left;
+}
+
+.file-add-btn{
+	width: auto ;
+    min-width: 200px ;
+    display: inline-flex ;
+    flex-direction: row ;
+}
+
 /*************** Resposive ***********************************/
 
 @media screen and (max-width: 1250px) {
@@ -4726,6 +5055,10 @@ table td img {
 
 	.sections-main-sub-container-right-main .sub-container-form-footer{
 		width: 64.2%;
+	}
+
+	.side-bar-conatiner-menu .icon.button-icon{
+		display: none;
 	}
 
 }

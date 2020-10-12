@@ -35,9 +35,5 @@
 
 	<!--______________________________ jQuery jquery.scrollbar ____________________________-->
 
-	<link rel="stylesheet" href="assets/includes/scrollbar/style.css" />
-	<link rel="stylesheet" href="assets/includes/scrollbar/prettify/prettify.css" />
-
-	<script src="assets/includes/scrollbar/prettify/prettify.js"></script>
-	<script src="assets/includes/scrollbar/jquery.scrollbar.js"></script>
+	<script src="assets/includes/nicescroll/jquery.nicescroll.min.js"></script>
 
