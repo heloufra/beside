@@ -207,15 +207,6 @@ $(document).on("click",".row-teacher",function(event){
 
  function displayteacher(index) 
 {
-	teacherId = parseInt(index);
-	$domChange = false;
-	var result = teachers.filter(function (el) {
-			  return el.teacher.User_ID === parseInt(index);
-			});
-	console.log("Result",result)
-	$('#teacher_info').find('#Details').removeClass("dom-change-watcher");
-	$('.subject-klon').remove();
-	$('.class-subject').remove();
 			/*
 	$("#reported_table").addClass('hidden');
   	$("#reported_title").addClass('hidden');
@@ -228,11 +219,6 @@ $(document).on("click",".row-teacher",function(event){
 	$('#Attitude').find('.row-note').remove();
 	$('#Homework').find('.row-homework').remove();
 	$('#Exams').find('.row-exam').remove();*/
-	$('#Absence').find('.row-absence').remove();
-	$("#reported_table").addClass('hidden');
-  	$("#reported_title").addClass('hidden');
-	$("#absence_table").addClass('hidden');
-  	$("#absence_title").addClass('hidden');
 	$.ajax({
     type: 'get',
     url: '/Teachers/one',
@@ -246,6 +232,20 @@ $(document).on("click",".row-teacher",function(event){
   	{
   		console.log(res.errors)
   	} else {
+  		$('#Absence').find('.row-absence').remove();
+		$("#reported_table").addClass('hidden');
+	  	$("#reported_title").addClass('hidden');
+		$("#absence_table").addClass('hidden');
+	  	$("#absence_title").addClass('hidden');
+  		teacherId = parseInt(index);
+		$domChange = false;
+		var result = teachers.filter(function (el) {
+				  return el.teacher.User_ID === parseInt(index);
+				});
+		console.log("Result",result)
+		$('#teacher_info').find('#Details').removeClass("dom-change-watcher");
+		$('.subject-klon').remove();
+		$('.class-subject').remove();
   		var $div = $('div[id^="subjects-container"]:last');
   		$div.find('input[name=subjects]').val(res.subjects[res.subjects.length - 1].Subject_Label);
   		var classes = res.classes.filter(function (el) {
@@ -303,6 +303,7 @@ $(document).on("click",".row-teacher",function(event){
 		$('#teacher_info').find('#Details').find('input[name="l_name"]').val(name.last_name);
 		$('#teacher_info').find('#Details').find('input[name="phone_number_detail"]').val(result[0].teacher.User_Phone);
 		$('#teacher_info').find('#Details').find('input[name="birthdate_detail"]').val(result[0].teacher.User_Birthdate)
+		console.log("Result",result);
 		$('#teacher_info').find('#Details').find('input[name="email"]').val(result[0].teacher.User_Email);
 		$('#AddTeacherAbsenceModal').find('input[name="ad_teacher"]').val(name.first_name + " " + name.last_name);
 		$('#teacher_info').find('#Details').addClass("dom-change-watcher");
@@ -460,6 +461,7 @@ function saveChange() {
 			first_name:$('#Details').find('input[name="f_name"]').val(),
 			teacher_address:$('#Details').find('input[name="teacher_address_detail"]').val(),
 			last_name:$('#Details').find('input[name="l_name"]').val(),
+			email:$('#Details').find('input[name="email"]').val(),
 			phone_number:$('#Details').find('input[name="phone_number_detail"]').val(),
 			birthdate:$('#Details').find('input[name="birthdate_detail"]').val(),
 	    },
