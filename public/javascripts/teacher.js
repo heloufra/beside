@@ -37,7 +37,7 @@ function getAllteachers(id) {
 	  		var active = '';
 	  		for (var i = res.teachers.length - 1; i >= 0; i--) {
 	  			if (id)
-	  				if(res.teachers[i].User_ID === id)
+	  				if(res.teachers[i].teacher.User_ID === id)
 	  					active = 'active';
 	  				else
 	  					active = ''
