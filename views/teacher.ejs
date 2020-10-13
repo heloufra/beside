@@ -103,9 +103,12 @@
 
                                   <div class="form-group">
                                     <div class="input-img-container input-rounded-img-container">
-                                      <img class="input-img" src="assets/images/profiles/Profile.jpg" alt="profile">
+                                      <img class="input-img profile-img" src="assets/images/profiles/Profile1.jpg" alt="profile">
+                                       <input type="file"  accept="image/*" name="profile_image" id="img-profile" style="display: none;">
                                       <div class="rounded-button">
                                         <img class="icon" src="assets/icons/plus.svg">
+                                        <label for="img-profile" style="cursor: pointer; display: block; height: 100%;width: 100%;">
+                                        </label></img>
                                       </div>
                                     </div>
                                   </div>
@@ -285,11 +288,11 @@
                                   <div class="sub-container-form-footer-container">
                                        
                                         <div class="sub-container-form-footer hide-footer">
-                                            <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate rounded-button-primary-green-color">
+                                            <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate rounded-button-primary-green-color" onclick="saveChange()">
                                                   <span class="button-text" id="">Save changes</span>
                                                   <img class="icon button-icon" src="assets/icons/check_small.svg">
                                             </div>
-                                            <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary secondary-pink-button" data-toggle="modal" data-target="#ChangesModal">
+                                            <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary secondary-pink-button" data-toggle="modal" data-target="#ChangesModal" onclick="discardChange()">
                                                   <span class="button-text discard-changes" >Discard</span>
                                             </div>
                                         </div>

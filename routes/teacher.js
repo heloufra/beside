@@ -9,7 +9,8 @@ router.get('/one', teacherController.getTeacher);
 router.get('/classes', teacherController.getClasses);
 router.post('/save', teacherController.saveTeacher);
 router.post('/absence', teacherController.saveAbsence);
-/*router.post('/update', teacherController.updateteacher);
+router.post('/update', teacherController.updateTeacher);
+/*
 router.post('/absence/remove', teacherController.deleteAbsence);
 router.post('/teacher/remove', teacherController.deleteteacher);*/
 

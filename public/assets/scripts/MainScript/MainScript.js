@@ -1238,7 +1238,16 @@ $(document).ready(function(){
 
 	/* End secondary-pink-button ________________________*/
 
-	
+	$(document).on("change","#img-profile",function(e) {
+		$(".tab-pane:visible .sub-container-form-footer").addClass("show-footer");
+  		$(".sections-main-sub-container-right-main").css("cssText","height:calc(100vh - 120px)");
+
+  		$domChange=true;
+
+  		setTimeout(function(){
+			$(".tab-pane:visible .sub-container-form-footer").removeClass("hide-footer");
+  		},25);
+	});
 
 
 	/* input-dropdown remove focus     _________________________*/

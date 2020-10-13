@@ -15,7 +15,7 @@ var filtredClass = [];
 $domChange = false;
 
 getAllteachers();
-function getAllteachers() {
+function getAllteachers(id) {
  	$('.row-teacher').remove();
 	$.ajax({
 	    type: 'get',
@@ -30,16 +30,22 @@ function getAllteachers() {
 	  		teachers = res.teachers;
 	  		filtredClass = res.teachers;
 	  		console.log(res.teachers);
-	  		if (res.teachers.length > 0)
-	  		{
+	  		if (id)
+	  			displayteacher(id);
+	  		else if (res.teachers.length > 0)
 	  			displayteacher(res.teachers[res.teachers.length - 1].teacher.User_ID);
-	  		}
 	  		var active = '';
 	  		for (var i = res.teachers.length - 1; i >= 0; i--) {
-	  			if (i === res.teachers.length - 1)
-	  				active = 'active';
-	  			else
-	  				active = '';
+	  			if (id)
+	  				if(res.teachers[i].User_ID === id)
+	  					active = 'active';
+	  				else
+	  					active = ''
+	  			else	
+		  			if (i === res.teachers.length - 1)
+		  				active = 'active';
+		  			else
+		  				active = '';
 	  			var name = JSON.parse(res.teachers[i].teacher.User_Name);
 	  			var html = '';
   				for (var j = res.teachers[i].classes.length - 1; j >= 0; j--) {
@@ -99,7 +105,7 @@ function readFile() {
 
 document.getElementById("profile-teacher").addEventListener("change", readFile);
 
-/*function readFileDetail() {
+function readFileDetail() {
   
   if (this.files && this.files[0]) {
     
@@ -114,7 +120,7 @@ document.getElementById("profile-teacher").addEventListener("change", readFile);
   
 }
 
-document.getElementById("img-profile").addEventListener("change", readFileDetail);*/
+document.getElementById("img-profile").addEventListener("change", readFileDetail);
 
  $('input[name=classe]').on( "change", function() {
   var value = $(this).val();
@@ -284,24 +290,24 @@ $(document).on("click",".row-teacher",function(event){
 				$('#Absence').find('.table_delay').append('<tr class="row-absence" id="absence-'+res.absences[i].AD_ID+'"> <td data-label="Subject name" class="td-label">'+absenceArray[res.absences[i].AD_Type]+'</td> <td class="readonly" data-label="From"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.from+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg"> </div> </td> <td class="readonly" data-label="To"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.to+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg"> </div> </td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+res.absences[i].AD_Date+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> <!-- table-option-list --> <img class="table-option-icon" src="assets/icons/options.svg"> <div class="table-option-list"> <div class="table-option-list-li table-option-list-li-edit " onClick="displayAbsence('+i+')" data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/edit.svg" alt="edit"/> <span class="table-option-list-span">Edit</span> </div> <div class="table-option-list-li table-option-list-li-delete " data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/delete.svg" alt="delete"/> <span class="table-option-list-span">Delete</span> </div> <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg"> </div> <!-- End table-option-list --> </td> </tr>');
 			}
 		}
+		$('#teacher_info').removeClass('hidden');
+		var name = JSON.parse(result[0].teacher.User_Name);
+		$('#AddTeacherAbsenceModal').find('.absence-classe').remove();
+		for (var i = result[0].classes.length - 1; i >= 0; i--) {
+			$('#AddTeacherAbsenceModal').find('.classes-list').append('<li class="absence-classe" data-val="'+result[0].classes[i].Classe_Label+'">'+result[0].classes[i].Classe_Label+'</li>');
+		}
+		$('#teacher_info').find('.label-full-name').text(name.first_name + " " + name.last_name);
+		$('#teacher_info').find('.input-img').attr('src',result[0].teacher.User_Image);
+		$('#teacher_info').find('#Details').find('input[name="f_name"]').val(name.first_name);
+		$('#teacher_info').find('#Details').find('input[name="teacher_address_detail"]').val(result[0].teacher.User_Address);
+		$('#teacher_info').find('#Details').find('input[name="l_name"]').val(name.last_name);
+		$('#teacher_info').find('#Details').find('input[name="phone_number_detail"]').val(result[0].teacher.User_Phone);
+		$('#teacher_info').find('#Details').find('input[name="birthdate_detail"]').val(result[0].teacher.User_Birthdate)
+		$('#teacher_info').find('#Details').find('input[name="email"]').val(result[0].teacher.User_Email);
+		$('#AddTeacherAbsenceModal').find('input[name="ad_teacher"]').val(name.first_name + " " + name.last_name);
 		$('#teacher_info').find('#Details').addClass("dom-change-watcher");
   	}
   });
-	$('#teacher_info').removeClass('hidden');
-	var name = JSON.parse(result[0].teacher.User_Name);
-	$('#AddTeacherAbsenceModal').find('.absence-classe').remove();
-	for (var i = result[0].classes.length - 1; i >= 0; i--) {
-		$('#AddTeacherAbsenceModal').find('.classes-list').append('<li class="absence-classe" data-val="'+result[0].classes[i].Classe_Label+'">'+result[0].classes[i].Classe_Label+'</li>');
-	}
-	$('#teacher_info').find('.label-full-name').text(name.first_name + " " + name.last_name);
-	$('#teacher_info').find('.input-img').attr('src',result[0].teacher.User_Image);
-	$('#teacher_info').find('#Details').find('input[name="f_name"]').val(name.first_name);
-	$('#teacher_info').find('#Details').find('input[name="teacher_address_detail"]').val(result[0].teacher.User_Address);
-	$('#teacher_info').find('#Details').find('input[name="l_name"]').val(name.last_name);
-	$('#teacher_info').find('#Details').find('input[name="phone_number_detail"]').val(result[0].teacher.User_Phone);
-	$('#teacher_info').find('#Details').find('input[name="birthdate_detail"]').val(result[0].teacher.User_Birthdate)
-	$('#teacher_info').find('#Details').find('input[name="email"]').val(result[0].teacher.User_Email);
-	$('#AddTeacherAbsenceModal').find('input[name="ad_teacher"]').val(name.first_name + " " + name.last_name);
 	//$('#EditAbsenceModal').find('input[name="edit-classe"]').val(result[0].Classe_Label);
 	//$('#EditAbsenceModal').find('input[name="edit-teacher"]').val(result[0].teacher_FirstName + " " + result[0].teacher_LastName);
 }
@@ -450,21 +456,19 @@ function saveChange() {
 	    url: '/Teachers/update',
 	    data: {
 	    	id:teacherId,
-	    	teacher_img:$('#teacher_info').find('.profile-img').attr('src'),
-			teacher_fname:$('#Details').find('input[name="f_name"]').val(),
+	    	profile_image:$('#teacher_info').find('.profile-img').attr('src'),
+			first_name:$('#Details').find('input[name="f_name"]').val(),
 			teacher_address:$('#Details').find('input[name="teacher_address_detail"]').val(),
-			teacher_lname:$('#Details').find('input[name="l_name"]').val(),
-			teacher_phone:$('#Details').find('input[name="phone_number_detail"]').val(),
-			teacher_birthdat:$('#Details').find('input[name="birthdate_detail"]').val(),
-			teacher_classe:$('#Details').find('input[name="classe-detail"]').val(),
-			teacher_level:$('#Details').find('input[name="level-detail"]').val()
+			last_name:$('#Details').find('input[name="l_name"]').val(),
+			phone_number:$('#Details').find('input[name="phone_number_detail"]').val(),
+			birthdate:$('#Details').find('input[name="birthdate_detail"]').val(),
 	    },
 	    dataType: 'json'
 	  })
 	  .done(function(res){
 	  	if(res.updated)
 	  	{
-	  		displayteacher(teacherId);
+	  		getAllteachers(teacherId);
 	  	} else {
 	  		console.log(res);
 	  	}

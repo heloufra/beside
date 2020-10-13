@@ -158,21 +158,20 @@ var teacherController = {
           }
      })
   },
-  updateteacher: function(req, res, next) {
-    console.log(req.body)
-    connection.query("UPDATE `teachers` SET `teacher_FirstName`=?,`teacher_LastName`=?,`teacher_Image`=?,`teacher_birthdate`=?,`teacher_Address`=?,`teacher_Phone`=? WHERE teacher_ID = ?", [req.body.teacher_fname,req.body.teacher_lname,req.body.teacher_img,req.body.teacher_birthdat,req.body.teacher_address,req.body.teacher_phone,req.body.id], (err, teacher, fields) => {
+  updateTeacher: function(req, res, next) {
+    connection.query("UPDATE `users` SET User_Name=?, User_Image=?, User_Email=?,User_Birthdate=?, User_Phone=?,User_Address=? WHERE User_ID = ?", [JSON.stringify({first_name:req.body.first_name, last_name:req.body.last_name}), req.body.profile_image,req.body.email,  req.body.birthdate,  req.body.phone_number,req.body.teacher_address,req.body.id], (err, teacher, fields) => {
        if (err) {
             console.log(err);
               res.json({
                 errors: [{
                 field: "Access denied",
-                errorDesc: "Cannot Remove it"
+                errorDesc: "Save teacher Error"
               }]});
-          } else 
-          {
-            res.json({updated : true});
-          }
-     })
+        } else 
+        {
+          res.json({updated:true})
+        }
+    })
   },
 };
 

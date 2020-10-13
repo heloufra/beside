@@ -18,7 +18,7 @@ var test = '<%- title %>';
 console.log(test);
 
 getAllStudents();
-function getAllStudents() {
+function getAllStudents(id) {
  	$('.students_list').remove();
 	$.ajax({
 	    type: 'get',
@@ -33,16 +33,23 @@ function getAllStudents() {
 	  		students = res.students;
 	  		filtredClass = res.students;
 	  		subclasses = res.subscription;
-	  		if (res.students.length > 0)
-	  		{
+	  		if (id)
+	  			displayStudent(id);
+	  		else if (res.students.length > 0)
 	  			displayStudent(res.students[res.students.length - 1].Student_ID);
-	  		}
+	  			
 	  		var active = '';
 	  		for (var i = res.students.length - 1; i >= 0; i--) {
-	  			if (i === res.students.length - 1)
-	  				active = 'active';
-	  			else
-	  				active = '';
+	  			if (id)
+	  				if(res.students[i].Student_ID === id)
+	  					active = 'active';
+	  				else
+	  					active = ''
+	  			else	
+		  			if (i === res.students.length - 1)
+		  				active = 'active';
+		  			else
+		  				active = '';
 	  			$('#list_classes').append('<div class="'+active+' sections-main-sub-container-left-card students_list"><img class="sections-main-sub-container-left-card-main-img" src="'+res.students[i].Student_Image+'" alt="card-img"><input name="studentId" type="hidden" value="'+res.students[i].Student_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+res.students[i].Student_FirstName+' '+res.students[i].Student_LastName+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+res.students[i].Classe_Label+'</span></div></div>')
 	  		}
 	  	}
@@ -212,23 +219,6 @@ $(document).on("click",".students_list",function(event){
 
  function displayStudent(index) 
 {
-	studentId = parseInt(index);
-	$domChange = false;
-	var result = students.filter(function (el) {
-			  return el.Student_ID === parseInt(index);
-			});
-	$("#reported_table").addClass('hidden');
-  	$("#reported_title").addClass('hidden');
-	$("#absence_table").addClass('hidden');
-  	$("#absence_title").addClass('hidden');
-	$('#Details').find('.input-parent').remove();
-	$('#Details').removeClass("dom-change-watcher");
-	$('#Absence').find('.row-absence').remove();
-	$('#Details').find('.expense_col').remove();
-	$('#Attitude').find('.row-note').remove();
-	$('#Homework').find('.row-homework').remove();
-	$('#Exams').find('.row-exam').remove();
-	$('#Grades').find('.row-score').remove();
 	$.ajax({
     type: 'get',
     url: '/Students/one',
@@ -243,6 +233,24 @@ $(document).on("click",".students_list",function(event){
   		console.log(res.errors)
   	} else {
   		var checked = '';
+  		studentId = parseInt(index);
+		$domChange = false;
+		var result = students.filter(function (el) {
+				  return el.Student_ID === parseInt(index);
+				});
+		$("#reported_table").addClass('hidden');
+	  	$("#reported_title").addClass('hidden');
+		$("#absence_table").addClass('hidden');
+	  	$("#absence_title").addClass('hidden');
+		$('#Details').find('.input-parent').remove();
+		$('#Details').removeClass("dom-change-watcher");
+		$('#Absence').find('.row-absence').remove();
+		$('#Details').find('.expense_col').remove();
+		$('#Attitude').find('.row-note').remove();
+		$('#Homework').find('.row-homework').remove();
+		$('#Exams').find('.row-exam').remove();
+		$('#Grades').find('.row-score').remove();
+  		$('#Details').find('.expense_col').remove();
   		$('#student_info').removeClass('hidden');
   		$("#attitude_table").removeClass('hidden');
   		$("#attitude_title").removeClass('hidden');
@@ -315,27 +323,26 @@ $(document).on("click",".students_list",function(event){
 				$('#Absence').find('.table_delay').append('<tr class="row-absence" id="absence-'+res.absences[i].AD_ID+'"> <td data-label="Subject name" class="td-label">'+absenceArray[res.absences[i].AD_Type]+'</td> <td class="readonly" data-label="From"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.from+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg"> </div> </td> <td class="readonly" data-label="To"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.to+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg"> </div> </td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+res.absences[i].AD_Date+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> <!-- table-option-list --> <img class="table-option-icon" src="assets/icons/options.svg"> <div class="table-option-list"> <div class="table-option-list-li table-option-list-li-edit " onClick="displayAbsence('+i+')" data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/edit.svg" alt="edit"/> <span class="table-option-list-span">Edit</span> </div> <div class="table-option-list-li table-option-list-li-delete " data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/delete.svg" alt="delete"/> <span class="table-option-list-span">Delete</span> </div> <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg"> </div> <!-- End table-option-list --> </td> </tr>');
 			}
 		}
+		$('#AddStudentAbsenceModal').find('input[name="ad_classe"]').val(result[0].Classe_Label);
+		$('#AddStudentAbsenceModal').find('input[name="ad_student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
+		$('#student_info').find('.profile-full-name').text(result[0].Student_FirstName + " " + result[0].Student_LastName);
+		$('#student_info').find('.profile-img').attr('src',result[0].Student_Image);
+		$('#Details').find('input[name="f_name"]').val(result[0].Student_FirstName);
+		$('#Details').find('input[name="student_address_detail"]').val(result[0].Student_Address);
+		$('#Details').find('input[name="l_name"]').val(result[0].Student_LastName);
+		$('#Details').find('input[name="phone_number_detail"]').val(result[0].Student_Phone);
+		$('#Details').find('input[name="birthdate_detail"]').val(result[0].Student_birthdate);
+		$('#Details').find('input[name="classe-detail"]').val(result[0].Classe_Label);
+		$('#Details').find('input[name="level-detail"]').val(result[0].Level_Label);
+		$('#AddAttitudeModal').find('input[name="at_classe"]').val(result[0].Classe_Label);
+		$('#AddAttitudeModal').find('input[name="at_student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
+		$('#EditAttitudeModal').find('input[name="edit-classe"]').val(result[0].Classe_Label);
+		$('#EditAttitudeModal').find('input[name="edit-student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
+		$('#EditAbsenceModal').find('input[name="edit-classe"]').val(result[0].Classe_Label);
+		$('#EditAbsenceModal').find('input[name="edit-student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
 		$('#Details').addClass("dom-change-watcher");
   	}
   });
-
-	$('#AddStudentAbsenceModal').find('input[name="ad_classe"]').val(result[0].Classe_Label);
-	$('#AddStudentAbsenceModal').find('input[name="ad_student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
-	$('#student_info').find('.profile-full-name').text(result[0].Student_FirstName + " " + result[0].Student_LastName);
-	$('#student_info').find('.profile-img').attr('src',result[0].Student_Image);
-	$('#Details').find('input[name="f_name"]').val(result[0].Student_FirstName);
-	$('#Details').find('input[name="student_address_detail"]').val(result[0].Student_Address);
-	$('#Details').find('input[name="l_name"]').val(result[0].Student_LastName);
-	$('#Details').find('input[name="phone_number_detail"]').val(result[0].Student_Phone);
-	$('#Details').find('input[name="birthdate_detail"]').val(result[0].Student_birthdate);
-	$('#Details').find('input[name="classe-detail"]').val(result[0].Classe_Label);
-	$('#Details').find('input[name="level-detail"]').val(result[0].Level_Label);
-	$('#AddAttitudeModal').find('input[name="at_classe"]').val(result[0].Classe_Label);
-	$('#AddAttitudeModal').find('input[name="at_student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
-	$('#EditAttitudeModal').find('input[name="edit-classe"]').val(result[0].Classe_Label);
-	$('#EditAttitudeModal').find('input[name="edit-student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
-	$('#EditAbsenceModal').find('input[name="edit-classe"]').val(result[0].Classe_Label);
-	$('#EditAbsenceModal').find('input[name="edit-student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
 }
 
 function displayHomework(id) {
@@ -587,7 +594,7 @@ function saveChange() {
 	  .done(function(res){
 	  	if(res.updated)
 	  	{
-	  		displayStudent(studentId);
+	  		getAllStudents(studentId);
 	  	} else {
 	  		console.log(res);
 	  	}
