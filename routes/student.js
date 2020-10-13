@@ -13,6 +13,6 @@ router.post('/absence', studentController.saveAbsence);
 router.post('/absence/remove', studentController.deleteAbsence);
 router.post('/attitude', studentController.saveAttitude);
 router.post('/attitude/remove', studentController.deleteAttitude);
-router.post('/student/remove', studentController.deleteStudent);
+router.post('/one/remove', studentController.deleteStudent);
 
 module.exports = router;

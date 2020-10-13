@@ -1806,7 +1806,7 @@ $(document).ready(function(){
 	/*.sections-main-sub-container-right-main-header-option-list-span-delete __________________________*/
 
 	$(document).on("click",".sections-main-sub-container-right-main-header-option-list-li-delete",function(){
-		$('#ConfirmDeleteModal').data('role',"student");
+		$('#ConfirmDeleteModal').data('role',"one");
 		$('#ConfirmDeleteModal').modal('show');
 	});
 

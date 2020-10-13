@@ -10,8 +10,7 @@ router.get('/classes', teacherController.getClasses);
 router.post('/save', teacherController.saveTeacher);
 router.post('/absence', teacherController.saveAbsence);
 router.post('/update', teacherController.updateTeacher);
-/*
 router.post('/absence/remove', teacherController.deleteAbsence);
-router.post('/teacher/remove', teacherController.deleteteacher);*/
+router.post('/one/remove', teacherController.deleteteacher);
 
 module.exports = router;

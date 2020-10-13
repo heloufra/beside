@@ -72,7 +72,7 @@ var teacherController = {
   getAllteachers: function(req, res, next) {
     var teachersArray = [];
     connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
-      connection.query("SELECT users.* FROM `institutionsusers` INNER JOIN users ON users.User_ID = institutionsusers.User_ID WHERE institutionsusers.`Institution_ID` = ? AND institutionsusers.User_Role = 'Teacher'", [institutions[0].Institution_ID],async (err, teachers, fields) => {
+      connection.query("SELECT users.* FROM `institutionsusers` INNER JOIN users ON users.User_ID = institutionsusers.User_ID WHERE institutionsusers.`Institution_ID` = ? AND institutionsusers.User_Role = 'Teacher' AND users.User_Status<>0", [institutions[0].Institution_ID],async (err, teachers, fields) => {
         for (var i = teachers.length - 1; i >= 0; i--) {  
           var classes = await teacherModel.findClasses(teachers[i].User_ID);
           teachersArray.push({teacher:teachers[i],classes:classes});
@@ -144,7 +144,7 @@ var teacherController = {
      })
   },
   deleteteacher: function(req, res, next) {
-    connection.query("UPDATE `teachers` SET `teacher_Status`=0 WHERE `teacher_ID` = ?", [req.body.id], (err, teacher, fields) => {
+    connection.query("UPDATE `users` SET `User_Status`=0 WHERE `User_ID` = ?", [req.body.id], (err, teacher, fields) => {
        if (err) {
             console.log(err);
               res.json({
