@@ -39,7 +39,7 @@ var studentController = {
             connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
               connection.query("SELECT * FROM `classes` WHERE AY_ID = ?", [academic[0].AY_ID], (err, classes, fields) => {
                 connection.query("SELECT * FROM `levels` WHERE AY_ID = ?", [academic[0].AY_ID], (err, levels, fields) => {
-                  res.render('student', { title: 'Students' , user: user[0], institution:req, classes:classes,levels:levels,accounts});
+                  res.render('student', { title: 'Students' , user: user[0], institution:institutions[0], classes:classes,levels:levels,accounts});
                 })
               })
             })
