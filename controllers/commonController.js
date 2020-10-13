@@ -1,5 +1,7 @@
 var connection  = require('../lib/db');
 var selectSubject = "SELECT DISTINCT subjects.* FROM `classes` INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = classes.Classe_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID WHERE classes.Classe_Label = ?";
+const jwt = require('jsonwebtoken');
+const config = require('../config');
 
 var commonController = {
   getSubjects: function(req, res, next) {
@@ -15,6 +17,17 @@ var commonController = {
 	                subjects:subjects,
 	              });
 	    })
+  },
+  switchAccount: function(req, res, next) {
+    var token = jwt.sign({
+          userId:req.userId,
+          role: req.role,
+          Institution_ID:req.body.id
+        }, config.privateKey);
+    req.session.token = token;
+    res.json({
+      switched:true
+    })
   },
 };
 

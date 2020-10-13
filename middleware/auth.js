@@ -18,6 +18,8 @@ module.exports = function(req, res, next) {
      try {
     const decoded = jwt.verify(token, config.privateKey);
     req.userId = decoded.userId;
+    req.Institution_ID = decoded.Institution_ID;
+    req.role = decoded.role;
     next();
     } catch (err) {
        res.json({

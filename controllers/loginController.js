@@ -86,15 +86,19 @@ var loginController = {
             {
               if (result)
               {
-                var userId = user[0].User_ID;
-                var token = jwt.sign({
-                      userId
-                    }, config.privateKey);
-                req.session.token = token;
-                console.log(token);
+                connection.query("SELECT institutions.* FROM users INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN institutions ON institutions.Institution_ID = institutionsusers.Institution_ID WHERE users.User_ID = ? LIMIT 1", [user[0].User_ID], (err, institutions, fields) => {
+                  var userId = user[0].User_ID;
+                  console.log(institutions);
+                  var token = jwt.sign({
+                        userId,
+                        role: user[0].User_Role,
+                        Institution_ID:institutions[0].Institution_ID,
+                      }, config.privateKey);
+                  req.session.token = token;
+                  res.json({login : result});
+                })
               } else
                 req.session.destroy();
-              res.json({login : result});
             }
           })
         }

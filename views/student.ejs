@@ -26,11 +26,11 @@
 
         <div class="sub-container-nav-bar">
             <span class="sub-container-nav-bar-title">Students</span>
-            <img  class="sub-container-nav-bar-img" src="<%= user.User_Image %>" alt="profile">
+            <img  class="sub-container-nav-bar-img" src="<%= institution.Institution_Logo %>" alt="profile">
         </div>
 
         <!-- nav -->
-          <%- include('./partials/nav_bar', {user: user}); %>
+          <%- include('./partials/nav_bar', {institution: institution,accounts:accounts}); %>
         <!-- End nav -->
 
         <!--  sections-main-sub-container 100%  -->
