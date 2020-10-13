@@ -39,7 +39,7 @@ var studentController = {
             connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
               connection.query("SELECT * FROM `classes` WHERE AY_ID = ?", [academic[0].AY_ID], (err, classes, fields) => {
                 connection.query("SELECT * FROM `levels` WHERE AY_ID = ?", [academic[0].AY_ID], (err, levels, fields) => {
-                  res.render('student', { title: 'Students' , user: user[0], institution:institutions[0], classes:classes,levels:levels,accounts});
+                  res.render('student', { title: 'Students' , user: user[0], institution:req, classes:classes,levels:levels,accounts});
                 })
               })
             })
@@ -84,7 +84,7 @@ var studentController = {
   },  
   getAllStudents: function(req, res, next) {
     connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
-      connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [institutions[0].Institution_ID], (err, academic, fields) => {
+      connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
             connection.query(queryAllStudents, [academic[0].AY_ID], (err, students, fields) => {
                 connection.query(queryAllSub, [academic[0].AY_ID], (err, subscription, fields) => {
                     res.json({
@@ -98,7 +98,7 @@ var studentController = {
   },  
   getSubscriptions: function(req, res, next) {
     connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
-      connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [institutions[0].Institution_ID], (err, academic, fields) => {
+      connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
           connection.query("SELECT Level_ID FROM `levels` WHERE `Level_Label` = ? LIMIT 1", [req.query.level_label], (err, level, fields) => {
             connection.query("SELECT * FROM `classes` WHERE `Level_ID` = ?", [level[0].Level_ID], (err, classes, fields) => {
               connection.query(querySubscriptions, [level[0].Level_ID,academic[0].AY_ID], (err, subscriptions, fields) => {
@@ -127,8 +127,8 @@ var studentController = {
         if(user.length === 0)
         {
            connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
-            connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [institutions[0].Institution_ID], (err, academic, fields) => {
-                  connection.query(studentQuery, [req.body.first_name,  req.body.last_name, req.body.profile_image,  req.body.birthdate,  req.body.student_address,  req.body.phone_number,institutions[0].Institution_ID], (err, student, fields) => {
+            connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
+                  connection.query(studentQuery, [req.body.first_name,  req.body.last_name, req.body.profile_image,  req.body.birthdate,  req.body.student_address,  req.body.phone_number,req.Institution_ID], (err, student, fields) => {
                      if (err) {
                           console.log(err);
                             res.json({
@@ -142,7 +142,7 @@ var studentController = {
                            console.log("Student",student.insertId);
                            for (var i = req.body.parent_name.length - 1; i >= 0; i--) {
                              
-                            connection.query(parentQuery, [req.body.parent_name[i],req.body.parent_phone[i],institutions[0].Institution_ID], (err, parent, fields) => {
+                            connection.query(parentQuery, [req.body.parent_name[i],req.body.parent_phone[i],req.Institution_ID], (err, parent, fields) => {
                              if (err) {
                                   console.log(err);
                                     res.json({
@@ -222,7 +222,7 @@ var studentController = {
   },
   saveAbsence: function(req, res, next) {
            connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
-            connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [institutions[0].Institution_ID], (err, academic, fields) => {
+            connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
                   connection.query(absenceQuery, [req.body.user_id,  "Student",  req.body.ad_type,  req.body.ad_fromto, req.body.ad_date, req.userId], (err, absence, fields) => {
                      if (err) {
                           console.log(err);
@@ -244,7 +244,7 @@ var studentController = {
         if(user.length === 0)
         {
            connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
-            connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [institutions[0].Institution_ID], (err, academic, fields) => {
+            connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
                   connection.query(paymentsQuery, [SS_ID, SP_Addeddate, SP_PaidPeriod], (err, student, fields) => {
                      if (err) {
                           console.log(err);
@@ -268,7 +268,7 @@ var studentController = {
   saveAttitude: function(req, res, next) {
     //Student_ID, Attitude_Interaction, Attitude_Note, Declaredby_ID, AY_ID
      connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
-            connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [institutions[0].Institution_ID], (err, academic, fields) => {
+            connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
                   connection.query(attitudeQuery, [req.body.user_id,  req.body.at_type,  req.body.at_note, req.body.at_date, req.userId,academic[0].AY_ID], (err, attitude, fields) => {
                      if (err) {
                           console.log(err);
