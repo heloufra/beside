@@ -374,7 +374,7 @@ function saveteacher() {
 	var phone_number = $('#teacher_form').find('input[name="phone_number"]').val();
 	var birthdate = $('#teacher_form').find('input[name="birthdate"]').val();
 	var subject = $('#teacher_form').find('input[name="subject"]').val();
-	var subjects = $('input[name^=subject]').map(function(idx, elem) {
+	var subjects =  $('#teacher_form').find('input[name^=subject]').map(function(idx, elem) {
 	    return {subject: $('#teacher_form').find('[data-val='+$(elem).val()+']').data('subjectid'),classes:$(this).closest('.dynamic-form-input-float-adjust').find('select').val()};
 	  }).get();
 

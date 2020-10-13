@@ -42,10 +42,8 @@ var setupController = {
     var academicQuery = `INSERT INTO academicyear(AY_Label, AY_Satrtdate, AY_EndDate, Institution_ID) VALUES(?,?,?,?)`;
     var levelsQuery = `INSERT INTO levels(Level_Label, AY_ID) VALUES(?,?)`;
     var classesQuery = `INSERT INTO classes(Level_ID, Classe_Label, AY_ID) VALUES(?,?,?)`;
-   
     // execute the insert statment
-     connection.query("SELECT * FROM `users` WHERE `User_Email` = ?", [institutionsData.email], (err, user, fields) => {
-          connection.query(institutionsQuery, [institutionsData.school, institutionsData.logo,institutionsData.school + ".besideyou.ma",institutionsData.email,institutionsData.phone,institutionsData.whatsapp], (err, institutionResult, fields) => {
+        connection.query(institutionsQuery, [institutionsData.school, institutionsData.logo,institutionsData.school + ".besideyou.ma",institutionsData.email,institutionsData.phone,institutionsData.whatsapp],async (err, institutionResult, fields) => {
           if (err) {
             console.log(err);
               res.json({
@@ -54,17 +52,17 @@ var setupController = {
                 errorDesc: "Institution not saved"
               }]});
           } else {
-             connection.query(usersQuery, [institutionsData.school, institutionsData.logo,institutionsData.email,institutionsData.phone,"Admin"], (err, userResult, fields) => {
-                if (err) {
-                  console.log(err);
-                    res.json({
-                      errors: [{
-                      field: "Save denied",
-                      errorDesc: "User not saved"
-                    }]});
-                } else 
-                {
-                  transporter.sendMail({
+             var user = await setupModel.findUser(institutionsData.email);
+             var userId;
+             if (user.length > 0)
+              userId = user[0].User_ID;
+            else
+             {
+                user = await setupModel.saveUser(institutionsData);
+                userId = user.insertId;
+             }
+              connection.query("INSERT INTO `institutionsusers`(`Institution_ID`, `User_ID`, `User_Role`) VALUES (?,?,?)",[institutionResult.insertId,userId,"Admin"])
+                transporter.sendMail({
                   from: 'besideyou@contact.com',
                   to: institutionsData.email,
                   subject: 'Verification Code',
@@ -83,7 +81,6 @@ var setupController = {
                       email:institutionsData.email,
                     }, config.privateKey);
                   res.json({saved : true,token});
-                   console.log('User Id:' + userResult.insertId);
                    connection.query(academicQuery, [academicData.year,academicData.start,academicData.end,institutionResult.insertId],async (err, academicResult, fields) => {
                     if (err) {
                       console.log(err);
@@ -146,9 +143,6 @@ var setupController = {
                               console.log(expenseResult);
                             }
                       }
-                    }
-                    // get inserted id
-                  });
                 }
                 // get inserted id
               });
@@ -156,7 +150,6 @@ var setupController = {
           console.log('Institution Id:' + institutionResult.insertId);
      
         });
-      })
   },
 };
 

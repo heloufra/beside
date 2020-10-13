@@ -56,6 +56,22 @@ var setupModel = {
         else resolve(expensesResult[0].Expense_ID);
       });
     })
+  }, 
+  findUser: function(Email) {
+     return new Promise((resolve, reject) => {
+      connection.query("SELECT * FROM `users` WHERE `User_Email` = ?", [Email], (err, user, fields) => {
+       if (err) reject(err);
+        else resolve(user);
+      });
+    })
+  },
+  saveUser: function(institutionsData) {
+     return new Promise((resolve, reject) => {
+      connection.query("INSERT INTO users(User_Name, User_Image, User_Email, User_Phone,User_Role) VALUES(?,?,?,?,?)", [institutionsData.school, institutionsData.logo,institutionsData.email,institutionsData.phone,"Admin"], (err, user, fields) => {
+       if (err) reject(err);
+        else resolve(user);
+      });
+    })
   },
 };
 
