@@ -18,7 +18,7 @@
     <div class="main-container">
 
       <!-- setup-main-container -->
-      <%- include('./partials/side_bar',{institution: institution}); %>
+      <%- include('./partials/side_bar',{institution: institution,accounts:accounts}); %>
       <!-- end setup-main-container -->
 
       <!-- sub-container -->
@@ -26,11 +26,11 @@
 
         <div class="sub-container-nav-bar">
             <span class="sub-container-nav-bar-title">Students</span>
-            <img  class="sub-container-nav-bar-img" src="<%= institution.Institution_Logo %>" alt="profile">
+            <img  class="sub-container-nav-bar-img" src="<%= user.User_Image %>" alt="profile">
         </div>
 
         <!-- nav -->
-          <%- include('./partials/nav_bar', {institution: institution,accounts:accounts}); %>
+          <%- include('./partials/nav_bar', {user: user,users:users}); %>
         <!-- End nav -->
 
         <!--  sections-main-sub-container 100%  -->

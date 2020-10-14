@@ -9,24 +9,12 @@
 		</div>
 
 	    <div class="school-dropdown-list slide-up">
-
-	    	<div class="main-selected-school-li">
-		    	<img class="side-bar-brand" src="assets/brand/side_bar_brand.svg" alt="brand"/>
-		    	<span class="side-bar-brand-label">School name</span>
+	     <% for(var i=0; i<accounts.length; i++) {%>
+	     	<div class="main-selected-school-li account"  data-id="<%=accounts[i].Institution_ID %>">
+		    	<img class="side-bar-brand" src="<%=accounts[i].Institution_Logo %>" alt="brand"/>
+		    	<span class="side-bar-brand-label"><%= accounts[i].Institution_Name %></span>
 			</div>
-	    	<div class="main-selected-school-li">
-		    	<img class="side-bar-brand" src="assets/brand/side_bar_brand.svg" alt="brand"/>
-		    	<span class="side-bar-brand-label">School name</span>
-			</div>
-	    	<div class="main-selected-school-li">
-		    	<img class="side-bar-brand" src="assets/brand/side_bar_brand.svg" alt="brand"/>
-		    	<span class="side-bar-brand-label">School name</span>
-			</div>
-	    	<div class="main-selected-school-li">
-		    	<img class="side-bar-brand" src="assets/brand/side_bar_brand.svg" alt="brand"/>
-		    	<span class="side-bar-brand-label">School name</span>
-			</div>
-
+          <% } %>
 	    </div>
 	  </div>
 
@@ -91,4 +79,23 @@
  	$('#url-'+pathname).find('span').removeClass('side-bar-li-span-inactive');
  	$('#url-'+pathname).find('span').addClass('side-bar-li-span-active');
  	$('#url-'+pathname).find('img').attr('src',img);
+$(document).on("click",".account",function(event){
+     $.ajax({
+      type: 'post',
+      url: '/Select/switch',
+      data:{
+      id:$(this).data('id')
+      },
+      dataType: 'json'
+    })
+    .done(function(res){
+      if(res.switched)
+      {
+        window.location.reload();
+      } else {
+       console.log(res.errors)
+      }
+    });
+
+});
  </script>

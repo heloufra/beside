@@ -9,6 +9,22 @@ var teacherModel = {
       });
     })
   },
+   findUser: function(Email) {
+     return new Promise((resolve, reject) => {
+      connection.query("SELECT * FROM `users` WHERE `User_Email` = ?", [Email], (err, user, fields) => {
+       if (err) reject(err);
+        else resolve(user);
+      });
+    })
+  },
+  saveUser: function(req) {
+     return new Promise((resolve, reject) => {
+      connection.query(teacherQuery, [JSON.stringify({first_name:req.body.first_name, last_name:req.body.last_name}), req.body.profile_image,req.body.email,  req.body.birthdate,  req.body.phone_number,req.body.teacher_address,"Teacher"], (err, teacher, fields) => {
+       if (err) reject(err);
+        else resolve(teacher);
+      });
+    })
+  },
 };
 
 module.exports = teacherModel;
