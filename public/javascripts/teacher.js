@@ -579,6 +579,9 @@ if ($('#AddTeacherAbsenceModal').find('input[data-val="Absence"]:checked').val()
 			  	$('#AddTeacherAbsenceModal').find('input[name="ad_classe"]').val("");
 				$('#AddTeacherAbsenceModal').find('input[name="ad_teacher"]').val("");
 				$('#AddTeacherAbsenceModal').find('input[name="ad_date"]').val("");
+				$('#AddTeacherAbsenceModal').find('input[name="period_start"]').val("");
+				$('#AddTeacherAbsenceModal').find('input[name="period_end"]').val("");
+				 $('#teacher_form').find('input[name^=subject]').val('');
 		  		displayteacher(teacherId);
 		  	} else {
 		  		console.log("not saved");

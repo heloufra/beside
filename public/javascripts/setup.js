@@ -25,6 +25,7 @@ document.getElementById("file").addEventListener("change", readFile);
 // Go to the next item
 var data = {};
 var levelsData = [];
+var expenses = [];
 
 function submit(value,inputs,next){
   $( ".alert-danger" ).remove();
@@ -173,6 +174,7 @@ function ValidateEmail(mail)
 
 function addExpenses(data) {
   $('.expense-items').remove();
+  expenses = data.expenseName;
   if (Array.isArray(data.expenseName))
    for (var i = 0; i <= data.expenseName.length - 1; i++) {
     $('.expense-list').append('<li data-val="'+data.expenseName[i]+'" class="expense-items"><span class="expense_label">'+data.expenseName[i]+'</span><span class="method_label">'+data.expenseTime[i]+'</span></li>');
@@ -205,7 +207,6 @@ function addLevels(data) {
           $('.'+levelsData[i].replace(/[^A-Z0-9]/ig, '')).remove();
         }
       }
-      console.log("Data::",data.levelName);
       for (var i = 0; i < data.levelName.length; i++) {
         if (!levelsData.includes(data.levelName[i]))
         {
@@ -216,6 +217,7 @@ function addLevels(data) {
       }
     levelsData = data.levelName;
   }
+  callSubjects();
    if($(".input-text-subject").length > 0){
     $(".input-text-subject").fastselect({
        userOptionAllowed: true,
@@ -256,7 +258,7 @@ function addLevels(data) {
   }
 }
 
-function select2() {
+function callSubjects() {
   $.ajax({
           type: 'get',
           url: '/setup/subjects',

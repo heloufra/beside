@@ -11,8 +11,10 @@ router.post('/save', studentController.saveStudent);
 router.post('/update', studentController.updateStudent);
 router.post('/absence', studentController.saveAbsence);
 router.post('/absence/remove', studentController.deleteAbsence);
+router.post('/absence/update', studentController.updateAbsence);
 router.post('/attitude', studentController.saveAttitude);
 router.post('/attitude/remove', studentController.deleteAttitude);
+router.post('/attitude/update', studentController.updateAttitude);
 router.post('/one/remove', studentController.deleteStudent);
 
 module.exports = router;

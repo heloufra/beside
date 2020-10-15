@@ -1,11 +1,12 @@
 var connection  = require('../lib/db');
 var setupModel  = require('../models/setupModel');
+var studentModel  = require('../models/studentModel');
 var queryStudents = "SELECT students.*,levels.Level_Label,classes.Classe_Label FROM students INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID INNER JOIN classes ON studentsclasses.Classe_ID = classes.Classe_ID INNER JOIN levels ON levels.Level_ID = classes.Level_ID WHERE studentsclasses.Classe_ID = ? AND studentsclasses.AY_ID = ? AND students.Student_Status <>'0';"
 var queryAllStudents = "SELECT students.*,levels.Level_Label,classes.Classe_Label FROM students INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID INNER JOIN classes ON studentsclasses.Classe_ID = classes.Classe_ID INNER JOIN levels ON levels.Level_ID = classes.Level_ID WHERE studentsclasses.AY_ID = ?  AND students.Student_Status <>'0';"
 var querySearch = "SELECT students.*,levels.Level_Label,classes.Classe_Label FROM students INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID INNER JOIN classes ON studentsclasses.Classe_ID = classes.Classe_ID INNER JOIN levels ON levels.Level_ID = classes.Level_ID WHERE (studentsclasses.Classe_ID = ? OR students.Student_FirstName LIKE ?) AND studentsclasses.AY_ID = ?;"
 var queryParents = "SELECT parents.* FROM parents INNER JOIN studentsparents ON studentsparents.Parent_ID = parents.Parent_ID INNER JOIN students ON studentsparents.Student_ID = students.Student_ID WHERE students.Student_ID = ?;"
-var querySubstudent = "SELECT levelexpenses.Expense_Cost,expenses.Expense_Label,expenses.Expense_PaymentMethod FROM students INNER JOIN studentsubscribtion ON students.Student_ID = studentsubscribtion.Student_ID INNER JOIN levelexpenses ON levelexpenses.LE_ID = studentsubscribtion.LE_ID INNER JOIN expenses ON expenses.Expense_ID = levelexpenses.Expense_ID WHERE students.Student_ID = ?;"
-var queryAllSub = "SELECT expenses.*,levelexpenses.Expense_Cost,classes.Classe_Label FROM expenses INNER JOIN levelexpenses ON levelexpenses.Expense_ID = expenses.Expense_ID INNER JOIN classes ON classes.Level_ID = levelexpenses.Level_ID WHERE levelexpenses.AY_ID = ?"
+var querySubstudent = "SELECT levelexpenses.Expense_Cost,expenses.Expense_Label,expenses.Expense_PaymentMethod FROM students INNER JOIN studentsubscribtion ON students.Student_ID = studentsubscribtion.Student_ID INNER JOIN levelexpenses ON levelexpenses.LE_ID = studentsubscribtion.LE_ID INNER JOIN expenses ON expenses.Expense_ID = levelexpenses.Expense_ID INNER JOIN academicyear ON academicyear.Institution_ID = students.Institution_ID WHERE students.Student_ID = ? AND students.Institution_ID = ? AND studentsubscribtion.Subscription_EndDate = academicyear.AY_EndDate"
+var queryAllSub = "SELECT expenses.*,levelexpenses.Expense_Cost,levelexpenses.LE_ID,classes.Classe_Label FROM expenses INNER JOIN levelexpenses ON levelexpenses.Expense_ID = expenses.Expense_ID INNER JOIN classes ON classes.Level_ID = levelexpenses.Level_ID WHERE levelexpenses.AY_ID = ?"
 var querySubclasse = "SELECT levelexpenses.Expense_Cost,expenses.Expense_Label,expenses.Expense_PaymentMethod FROM classes INNER JOIN levels ON levels.Level_ID = classes.Level_ID INNER JOIN levelexpenses ON levelexpenses.Level_ID = levels.Level_ID INNER JOIN expenses ON expenses.Expense_ID = levelexpenses.Expense_ID WHERE classes.Classe_ID = ? AND classes.AY_ID = ?"
 var querySubscriptions = "SELECT expenses.*,levelexpenses.Expense_Cost,levelexpenses.LE_ID FROM expenses INNER JOIN levelexpenses ON levelexpenses.Expense_ID = expenses.Expense_ID WHERE levelexpenses.Level_ID = ? AND levelexpenses.AY_ID = ?;"
 var studentQuery = `INSERT INTO students(Student_FirstName,  Student_LastName, Student_Image,  Student_birthdate,  Student_Address,  Student_Phone,Student_Status, Institution_ID) VALUES(?,?,?,?,?,?,1,?)`;
@@ -53,7 +54,7 @@ var studentController = {
     connection.query(queryParents, [req.query.user_id], (err, parents, fields) => {
       connection.query("SELECT * FROM `absencesanddelays` WHERE User_ID = ? AND Declaredby_ID = ? AND AD_Status <> 0", [req.query.user_id,req.userId], (err, absences, fields) => {
           connection.query(queryAttitude, [req.query.user_id], (err, attitudes, fields) => {
-            connection.query(querySubstudent, [req.query.user_id], (err, substudent, fields) => {
+            connection.query(querySubstudent, [req.query.user_id,req.Institution_ID], (err, substudent, fields) => {
               connection.query(homeworkQuery, [req.query.user_id], (err, homeworks, fields) => {
                 connection.query(examsQuery, [req.query.user_id], (err, exams, fields) => {
                    connection.query("SELECT AVG(grads.Exam_Score) as average FROM `students` INNER JOIN studentsclasses On studentsclasses.Student_ID = students.Student_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = studentsclasses.Classe_ID INNER JOIN exams ON exams.TSC_ID = teachersubjectsclasses.TSC_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = studentsclasses.Classe_ID LEFT JOIN grads ON grads.Student_ID = students.Student_ID AND  grads.Exam_ID = exams.Exam_ID WHERE students.Student_ID = ? AND exams.Exam_Status <> 0", [req.query.user_id], (err, grade, fields) => {
@@ -177,13 +178,9 @@ var studentController = {
 
                            if (req.body.checkbox_sub)
                              for (var i = req.body.checkbox_sub.length - 1; i >= 0; i--) {
-                                if (req.body.checkbox_sub[i].Expense_PaymentMethod === "Monthly")
-                                  adddate = 1
-                                else
-                                  adddate = 12;
                                 var startDate = new Date();
-                                var endDate = addMonths(new Date(),adddate);
-                                connection.query(ssQuery, [student.insertId,req.body.checkbox_sub[i].LE_ID,startDate,endDate,academic[0].AY_ID], (err, ssresult, fields) => {
+                                var endDate = addMonths(new Date(),12);
+                                connection.query(ssQuery, [student.insertId,req.body.checkbox_sub[i].LE_ID,academic[0].AY_Satrtdate,academic[0].AY_EndDate,academic[0].AY_ID], (err, ssresult, fields) => {
                                    if (err) {
                                         console.log(err);
                                           res.json({
@@ -333,14 +330,90 @@ var studentController = {
      })
   },
   updateStudent: function(req, res, next) {
-    console.log(req.body)
-    connection.query("UPDATE `students` SET `Student_FirstName`=?,`Student_LastName`=?,`Student_Image`=?,`Student_birthdate`=?,`Student_Address`=?,`Student_Phone`=? WHERE Student_ID = ?", [req.body.student_fname,req.body.student_lname,req.body.student_img,req.body.student_birthdat,req.body.student_address,req.body.student_phone,req.body.id], (err, student, fields) => {
+    connection.query("SELECT * FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
+      connection.query("UPDATE `students` SET `Student_FirstName`=?,`Student_LastName`=?,`Student_Image`=?,`Student_birthdate`=?,`Student_Address`=?,`Student_Phone`=? WHERE Student_ID = ?", [req.body.student_fname,req.body.student_lname,req.body.student_img,req.body.student_birthdat,req.body.student_address,req.body.student_phone,req.body.id],async (err, student, fields) => {
+         if (err) {
+              console.log(err);
+                res.json({
+                  errors: [{
+                  field: "Access denied",
+                  errorDesc: "Cannot Remove it"
+                }]});
+            } else 
+            {
+              for (var i = req.body.parent_name.length - 1; i >= 0; i--) {
+                if (req.body.parent_name[i].id === 'null')
+                {
+                  connection.query(parentQuery, [req.body.parent_name[i].name,req.body.parent_phone[i].phone,req.Institution_ID], (err, parent, fields) => {
+                     if (err) {
+                          console.log(err);
+                            res.json({
+                              errors: [{
+                              field: "Access denied",
+                              errorDesc: "List Students Error"
+                            }]});
+                        } else 
+                          {
+                           connection.query(spQuery, [req.body.id,parent.insertId], (err, spresult, fields) => {
+                             if (err) {
+                                  console.log(err);
+                                    res.json({
+                                      errors: [{
+                                      field: "Access denied",
+                                      errorDesc: "List Students Error"
+                                    }]});
+                                } else 
+                                {
+
+                                }
+                            })
+                           
+                        }
+                      })
+                }
+                else
+                  connection.query("UPDATE `parents` SET  Parent_Name = ?,Parent_Phone= ? WHERE `Parent_ID` = ?", [req.body.parent_name[i].name,req.body.parent_phone[i].phone,req.body.parent_name[i].id])
+              }
+              if (req.body.unchecked)
+                for (var i = req.body.unchecked.length - 1; i >= 0; i--) {
+                  connection.query("UPDATE `studentsubscribtion` SET `Subscription_EndDate`=? WHERE `LE_ID` = ?", [new Date(),req.body.unchecked[i]])
+                }
+              if (req.body.checked)
+                for (var i = req.body.checked.length - 1; i >= 0; i--) {
+                    var le_id = await studentModel.findLe(req.body.checked[i].LE_ID);
+                    if (le_id.length === 0)
+                    {
+                      connection.query("INSERT INTO studentsubscribtion(Student_ID, LE_ID, Subscription_StartDate, Subscription_EndDate, AY_ID) VALUES(?,?,?,?,?)", [req.body.id,req.body.checked[i],academic[0].AY_Satrtdate,academic[0].AY_EndDate,academic[0].AY_ID])
+                    }
+                }
+              res.json({updated : true});
+            }
+       })
+    })
+  },
+  updateAttitude: function(req, res, next) {
+    connection.query("UPDATE `attitude` SET  Attitude_Note = ?,Attitude_Addeddate= ? WHERE `Attitude_ID` = ?", [req.body.Attitude_Note,req.body.Attitude_Addeddate,req.body.id], (err, student, fields) => {
        if (err) {
             console.log(err);
               res.json({
                 errors: [{
                 field: "Access denied",
-                errorDesc: "Cannot Remove it"
+                errorDesc: "Cannot Update it"
+              }]});
+          } else 
+          {
+            res.json({updated : true});
+          }
+     })
+  }, 
+  updateAbsence: function(req, res, next) {
+    connection.query("UPDATE `absencesanddelays` SET  AD_FromTo = ?, AD_Date = ? WHERE `AD_ID` = ?", [req.body.AD_FromTo,req.body.AD_Date,req.body.id], (err, absence, fields) => {
+       if (err) {
+            console.log(err);
+              res.json({
+                errors: [{
+                field: "Access denied",
+                errorDesc: "Cannot Update it"
               }]});
           } else 
           {

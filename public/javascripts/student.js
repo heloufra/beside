@@ -211,10 +211,14 @@ document.getElementById("search-input").addEventListener('input', function (evt)
 });
 
 $(document).on("click",".students_list",function(event){
-	studentId = $(this).find('input[name="studentId"]').val();
-	$('.sections-main-sub-container-left-card').removeClass('active');
-	$(this).addClass('active');
-	displayStudent(studentId);
+	console.log()
+	if (!$("#ChangesModal").hasClass('in'))
+	{
+		studentId = $(this).find('input[name="studentId"]').val();
+		$('.sections-main-sub-container-left-card').removeClass('active');
+		$(this).addClass('active');
+		displayStudent(studentId);
+	}
 });
 
  function displayStudent(index) 
@@ -242,6 +246,7 @@ $(document).on("click",".students_list",function(event){
 	  	$("#reported_title").addClass('hidden');
 		$("#absence_table").addClass('hidden');
 	  	$("#absence_title").addClass('hidden');
+	  	$('#Grades').removeClass('hidden');
 		$('#Details').find('.input-parent').remove();
 		$('#Details').removeClass("dom-change-watcher");
 		$('#Absence').find('.row-absence').remove();
@@ -251,6 +256,7 @@ $(document).on("click",".students_list",function(event){
 		$('#Exams').find('.row-exam').remove();
 		$('#Grades').find('.row-score').remove();
   		$('#Details').find('.expense_col').remove();
+  		$('#Details').find('.row-parent').remove();
   		$('#student_info').removeClass('hidden');
   		$("#attitude_table").removeClass('hidden');
   		$("#attitude_title").removeClass('hidden');
@@ -282,14 +288,19 @@ $(document).on("click",".students_list",function(event){
   		for (var i = res.exams.length - 1; i >= 0; i--) {
   			$('#Exams').find('.exams-container').append('<tr class="row-exam" onClick="displayExam('+i+')"> <td data-label="Exam Title"> <!-- sections-main-sub-container-left-cards --> <div class="sections-main-sub-container-left-card"> <span class="sections-main-sub-container-left-card-main-img-text" style="background: '+res.exams[i].Subject_Color+';">'+res.exams[i].Subject_Label.slice(0,2)+'</span> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+res.exams[i].Exam_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+res.exams[i].Classe_Label+'</span> </div> </div> <!-- End sections-main-sub-container-left-cards --> </td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+res.exams[i].Exam_Date+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="Scores"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+(res.exams[i].Exam_Score === null || res.exams[i].Exam_Score === "" ? "0.00" : res.exams[i].Exam_Score)+'" class="input-text" required="" placeholder="Scores"> </div> </td></tr>');
   		}
-  		if (res.average)
-  			$('#Grades').find('.result-score').html(res.average)
+  		if (res.exams.length === 0)
+  			$('#Grades').addClass('hidden');
   		else
-  			$('#Grades').find('.result-score').html("0.00")
-  		for (var i = res.exams.length - 1; i >= 0; i--) {
-  			console.log(res.exams[i].Exam_Score);
-  			if (res.exams[i].Exam_Score !== null && res.exams[i].Exam_Score !== "")
-  				$('#Grades').find('.scores-container').append('<tr class="row-score"> <td data-label="'+res.exams[i].Subject_Label+'" class="td-label">'+res.exams[i].Subject_Label+'</td> <td class="readonly" data-label="Scores"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+(res.exams[i].Exam_Score === null || res.exams[i].Exam_Score === "" ? "0.00" : res.exams[i].Exam_Score)+'" class="input-text" required="" placeholder="Scores"> </div> </td> </tr>');
+  		{
+  			if (res.average)
+  			$('#Grades').find('.result-score').html(res.average)
+	  		else
+	  			$('#Grades').find('.result-score').html("0.00")
+	  		for (var i = res.exams.length - 1; i >= 0; i--) {
+	  			console.log(res.exams[i].Exam_Score);
+	  			if (res.exams[i].Exam_Score !== null && res.exams[i].Exam_Score !== "")
+	  				$('#Grades').find('.scores-container').append('<tr class="row-score"> <td data-label="'+res.exams[i].Subject_Label+'" class="td-label">'+res.exams[i].Subject_Label+'</td> <td class="readonly" data-label="Scores"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+(res.exams[i].Exam_Score === null || res.exams[i].Exam_Score === "" ? "0.00" : res.exams[i].Exam_Score)+'" class="input-text" required="" placeholder="Scores"> </div> </td> </tr>');
+	  		}
   		}
   		subStudent =  res.substudent;
 		for (var i = 0; i < subclasses.length; i++) {
@@ -300,11 +311,17 @@ $(document).on("click",".students_list",function(event){
 					if(subclasses[i].Expense_Label === res.substudent[j].Expense_Label)
 						checked = 'checked';
 				}
-				$('#Details').find('.sub_list').append('<div class="expense_col col-md-6 sections-label-checkbox-main-container "> <div class="sections-label-checkbox-container"> <div class="form-group group "> <span class="expense_label">'+subclasses[i].Expense_Label+'</span> <span class="method_label"> <span class="method_label_price">'+subclasses[i].Expense_Cost+'</span> <span class="method_label_period">'+subclasses[i].Expense_PaymentMethod+'</span> </span> </div> </div> <div class="customCheck"> <input type="checkbox" value="" name="checkbox" id="ck" '+checked+'/> <label for="ck"></label> </div> </div> ');
+				$('#Details').find('.sub_list').append('<div class="expense_col col-md-6 sections-label-checkbox-main-container "> <div class="sections-label-checkbox-container"> <div class="form-group group "> <span class="expense_label">'+subclasses[i].Expense_Label+'</span> <span class="method_label"> <span class="method_label_price">'+subclasses[i].Expense_Cost+'</span> <span class="method_label_period">'+subclasses[i].Expense_PaymentMethod+'</span> </span> </div> </div> <div class="customCheck"> <input type="checkbox"  value="'+subclasses[i].LE_ID+'" name="checkbox" id="ck" '+checked+'/> <label for="ck"></label> </div> </div> ');
 			}
 		}
+		var inputFirst = '';
+		parents = res.parents;
 	  	for (var i = res.parents.length - 1; i >= 0; i--) {
-			$('#Details').find('.dynamic-form-input-parent').prepend('<div class="input-parent"><div class="col-md-6"> <div class="form-group group "> <input type="text" required="" name="parent_name" value="'+res.parents[i].Parent_Name+'"> <label class="input-label"> <span class="input-label-text">Parent full name</span><span class="input-label-bg-mask"></span> </label> </div> </div><div class="col-md-5"> <div class="form-group group "> <input type="text" required="" name="parent_phone" value="'+res.parents[i].Parent_Phone+'"> <label class="input-label"> <span class="input-label-text">Parent phone number</span><span class="input-label-bg-mask"></span> </label> </div> </div></div>');
+	  		if (res.parents.length === 1 || i === 0)
+	  			inputFirst = 'dynamic-form-input-first';
+	  		else
+	  			inputFirst = '';
+			$('#Details').find('.sections-main-sub-container-right-main-rows-parents').prepend('<div class="dynamic-form-input-parent '+inputFirst+' row-parent"> <div class="input-parent "><div class="col-md-6"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_name" value="'+res.parents[i].Parent_Name+'"> <label class="input-label"> <span class="input-label-text">Parent full name</span><span class="input-label-bg-mask"></span> </label> </div> </div><div class="col-md-5"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_phone" value="'+res.parents[i].Parent_Phone+'"> <label class="input-label"> <span class="input-label-text">Parent phone number</span><span class="input-label-bg-mask"></span> </label> </div> </div></div><div class="col-md-1"> <div class="square-button"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div>');
 		}
 
 		absences = res.absences;
@@ -357,6 +374,7 @@ function displayAttitude(id) {
 	$('#EditAttitudeModal').find('textarea').val(attitudes[id].Attitude_Note);
 	$('#EditAttitudeModal').find('input[data-val=Positive]').prop('checked', false);
 	$('#EditAttitudeModal').find('input[data-val=Negative]').prop('checked', false);
+	$('#EditAttitudeModal').find('input[name="edit-student"]').data('id',id);
 	if (attitudes[id].Attitude_Interaction === 0)
 		$('#EditAttitudeModal').find('input[data-val=Positive]').prop('checked', true);
 	else
@@ -370,27 +388,43 @@ function displayAbsence(id) {
 	$('#EditAbsenceModal').find('input[data-val=Retard]').prop('checked', false);
 	$('#EditAbsenceModal').find('input[data-val=Session]').prop('checked', false);
 	$('#EditAbsenceModal').find('input[data-val=Period]').prop('checked', false);
+	$('#EditAbsenceModal').find('input[name="edit-student"]').data('id',id);
+	$('#EditAbsenceModal').removeClass('modal-dom-change-watcher');
 	if (absences[id].AD_Type === 2)
 	{
 		$('#EditAbsenceModal').find('input[data-val=Absence]').prop('checked', true);
 		$('#EditAbsenceModal').find('input[data-val=Period]').prop('checked', true);
 		$('#EditAbsenceModal').find('input[name=start-period]').val(fromto.from);
 		$('#EditAbsenceModal').find('input[name=end-period]').val(fromto.to);
+		$(".dynamic-form-input-container-session").fadeIn().slideDown();
+		$(".dynamic-form-input-container-multi-date").fadeIn().slideDown();
+		$(".dynamic-form-input-container-one-date").fadeOut().slideUp();
+		$(".dynamic-form-input-container-multi-time").fadeOut().slideUp();
 	}
 	else if (absences[id].AD_Type === 1)
 	{
 		$('#EditAbsenceModal').find('input[data-val=Absence]').prop('checked', true);
 		$('#EditAbsenceModal').find('input[data-val=Session]').prop('checked', true);
-		$('#EditAbsenceModal').find('input[name=start-time]').val(fromto.from);
-		$('#EditAbsenceModal').find('input[name=endTime]').val(fromto.to);
+		$(".dynamic-form-input-container-session").fadeIn().slideDown();
+		$(".dynamic-form-input-container-multi-date").fadeOut().slideUp();
+		$(".dynamic-form-input-container-one-date").fadeIn().slideDown();
+		$(".dynamic-form-input-container-multi-time").fadeIn().slideDown();
+		//$('#EditAbsenceModal').find('input[name=starTime]').val(fromto.from);
+		//$('#EditAbsenceModal').find('input[name=endTime]').val(fromto.to);
 		$('#EditAbsenceModal').find('input[name=editDate]').val(absences[id].AD_Date);
 	} else
 	{
 		$('#EditAbsenceModal').find('input[data-val=Retard]').prop('checked', true);
-		$('#EditAbsenceModal').find('input[name=start-time]').val(fromto.from);
-		$('#EditAbsenceModal').find('input[name=endTime]').val(fromto.to);
+		console.log("From:",fromto.from);
+		//$('#EditAbsenceModal').find('input[name=starTime]').val(fromto.from);
+		//$('#EditAbsenceModal').find('input[name=endTime]').val(fromto.to);
 		$('#EditAbsenceModal').find('input[name=editDate]').val(absences[id].AD_Date);
+		$(".dynamic-form-input-container-session").fadeOut().slideUp();
+		$(".dynamic-form-input-container-multi-date").fadeOut().slideUp();
+		$(".dynamic-form-input-container-one-date").slideDown();
+		$(".dynamic-form-input-container-multi-time").slideDown();
 	}
+	$('#EditAbsenceModal').addClass('modal-dom-change-watcher');
 }
 
 function displayExam(id) {
@@ -461,7 +495,7 @@ function displayExam(id) {
 					if(res.subscriptions[i].Expense_Label === subStudent[j].Expense_Label)
 						checked = 'checked';
 				}
-				$('#Details').find('.sub_list').append('<div class="expense_col col-md-6 sections-label-checkbox-main-container "> <div class="sections-label-checkbox-container"> <div class="form-group group "> <span class="expense_label">'+res.subscriptions[i].Expense_Label+'</span> <span class="method_label"> <span class="method_label_price">'+res.subscriptions[i].Expense_Cost+'</span> <span class="method_label_period">'+res.subscriptions[i].Expense_PaymentMethod+'</span> </span> </div> </div> <div class="customCheck"> <input type="checkbox" value="" name="checkbox" id="ck" '+checked+'/> <label for="ck"></label> </div> </div> ');
+				$('#Details').find('.sub_list').append('<div class="expense_col col-md-6 sections-label-checkbox-main-container "> <div class="sections-label-checkbox-container"> <div class="form-group group "> <span class="expense_label">'+res.subscriptions[i].Expense_Label+'</span> <span class="method_label"> <span class="method_label_price">'+res.subscriptions[i].Expense_Cost+'</span> <span class="method_label_period">'+res.subscriptions[i].Expense_PaymentMethod+'</span> </span> </div> </div> <div class="customCheck"> <input type="checkbox" value="'+res.subscriptions[i].LE_ID+'" name="checkbox" id="ck" '+checked+'/> <label for="ck"></label> </div> </div> ');
 			}
 				for (var i = res.classes.length - 1; i >= 0; i--) {
 		  			$('#Details').find('.list-classe').append(' <li class="row-classe" data-val="'+res.classes[i].Classe_Label+'">'+res.classes[i].Classe_Label+'</li>')
@@ -561,8 +595,13 @@ function saveStudent() {
 				$('#student_form').find('input[name="last_name"]').val("");
 				$('#student_form').find('input[name="level"]').val("");
 				$('#student_form').find('input[name="phone_number"]').val("");
+				$('#student_form').find('input[name="parent_name"]').val("");
+				$('#student_form').find('input[name="parent_phone"]').val("");
 				$('#output-img').attr("src",'assets/icons/Logo_placeholder.svg')
 				$('#student_form').find('input[name="classe"]').val("");
+				for (var i = subArray.length - 1; i >= 0; i--) {
+					$('input[name=checkbox_sub_'+i+']:checked').prop("checked", false);
+				}
 		  		getAllStudents();
 
 		  	} else {
@@ -575,6 +614,16 @@ function saveStudent() {
 }
 
 function saveChange() {
+	var parent_name = $('#Details').find('input[name=parent_name]').map(function(){return {name:$(this).val(),id:$(this).data('id')};}).get();
+	parent_name = parent_name.filter(function (el) {
+        return el.name != "";
+      });
+	var parent_phone = $('#Details').find('input[name=parent_phone]').map(function(){return {phone:$(this).val(),id:$(this).data('id')}}).get();
+	parent_phone = parent_phone.filter(function (el) {
+        return el.phone != "";
+      });
+	var subscriptions = $('#Details').find('input[name=checkbox]:not(:checked)').map(function(){return $(this).val()}).get();
+	var checkedSub = $('#Details').find('input[name=checkbox]:checked').map(function(){return $(this).val()}).get();
 	$.ajax({
 	    type: 'post',
 	    url: '/Students/update',
@@ -587,13 +636,19 @@ function saveChange() {
 			student_phone:$('#Details').find('input[name="phone_number_detail"]').val(),
 			student_birthdat:$('#Details').find('input[name="birthdate_detail"]').val(),
 			student_classe:$('#Details').find('input[name="classe-detail"]').val(),
-			student_level:$('#Details').find('input[name="level-detail"]').val()
+			student_level:$('#Details').find('input[name="level-detail"]').val(),
+			parent_name:parent_name,
+			parent_phone:parent_phone,
+			parents:parents,
+			checked:checkedSub,
+			unchecked:subscriptions
 	    },
 	    dataType: 'json'
 	  })
 	  .done(function(res){
 	  	if(res.updated)
 	  	{
+	  		$("#ChangesModal").modal('hide');
 	  		getAllStudents(studentId);
 	  	} else {
 	  		console.log(res);
@@ -601,6 +656,72 @@ function saveChange() {
 	  });
  	$('#Details .sub-container-form-footer').addClass('hide-footer');
  	$('#Details .sub-container-form-footer').removeClass('show-footer');
+}
+
+function updateAbsence() {
+	var id = $('#EditAbsenceModal').find('input[name="edit-student"]').data('id');
+	var from = {};
+	var date = 'null';
+	console.log("ID::",id);
+	if (absences[id].AD_Type === 2)
+	{
+		from.to = $('#EditAbsenceModal').find('input[name=start-period]').val();
+		from.from = $('#EditAbsenceModal').find('input[name=end-period]').val();
+	}
+	else if (absences[id].AD_Type === 1)
+	{
+
+		from.from = $('#EditAbsenceModal').find('input[name=starTime]').val();
+		from.to = $('#EditAbsenceModal').find('input[name=endTime]').val();
+		date = $('#EditAbsenceModal').find('input[name=editDate]').val();
+	} else
+	{
+		from.from = $('#EditAbsenceModal').find('input[name=starTime]').val();
+		from.to = $('#EditAbsenceModal').find('input[name=endTime]').val();
+		date = $('#EditAbsenceModal').find('input[name=editDate]').val();
+	}
+	$.ajax({
+	    type: 'post',
+	    url: '/Students/absence/update',
+	    data: {
+	    	id:absences[id].AD_ID,
+	    	AD_FromTo:JSON.stringify(from),
+			AD_Date:date,
+	    },
+	    dataType: 'json'
+	  })
+	  .done(function(res){
+	  	if(res.updated)
+	  	{
+	  		$('#EditAbsenceModal').modal('hide');
+	  		displayStudent(studentId);
+	  	} else {
+	  		console.log(res);
+	  	}
+	  });
+}
+
+function updateAttitude() {
+	var id = $('#EditAttitudeModal').find('input[name="edit-student"]').data('id');
+	$.ajax({
+	    type: 'post',
+	    url: '/Students/attitude/update',
+	    data: {
+	    	id:attitudes[id].Attitude_ID,
+	    	Attitude_Note:$('#EditAttitudeModal').find('textarea').val(),
+			Attitude_Addeddate:$('#EditAttitudeModal').find('input[name=date]').val(),
+	    },
+	    dataType: 'json'
+	  })
+	  .done(function(res){
+	  	if(res.updated)
+	  	{
+	  		$('#EditAttitudeModal').modal('hide');
+	  		displayStudent(studentId);
+	  	} else {
+	  		console.log(res);
+	  	}
+	  });
 }
 
 function discardChange() {
