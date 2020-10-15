@@ -363,7 +363,7 @@ function displayAbsence(id) {
 		  		console.log(res.errors)
 		  	} else {
 		  		console.log(res.classes);
-		  		$('#teacher_form').find('.list-classes').append('<option class="option-level-label" disabled="disabled">'+res.classes[0].Level_Label+'</option>')
+		  		$('#teacher_form').find('.list-classes').append('<option class="option-level-label row-classe" disabled="disabled">'+res.classes[0].Level_Label+'</option>')
 		  		for (var i = res.classes.length - 1; i >= 0; i--) {
 		  			$('#teacher_form').find('.list-classes').append('<option class="row-classe" value="'+res.classes[i].Classe_ID+'">'+res.classes[i].Classe_Label+'</option>')
 		  		}
