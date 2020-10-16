@@ -160,7 +160,7 @@ document.getElementById("search-teacher").addEventListener('input', function (ev
     var active = '';
   if (this.value.replace(/\s/g, '') !== '')
   {
-  	var value = new RegExp('^'+this.value.toLowerCase());
+  	var value = new RegExp(this.value.toLowerCase());
 	var filtred = teachers.filter(function (el) {
 				var name = JSON.parse(el.teacher.User_Name)
 			  return name.first_name.toLowerCase().match(value) || name.last_name.toLowerCase().match(value);

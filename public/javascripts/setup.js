@@ -38,8 +38,20 @@ function submit(value,inputs,next){
     for (var i = 0; i <= levels.levelName.length - 1; i++) {
       if ($('#subject-'+levels.levelName[i].replace(/[^A-Z0-9]/ig, '')).val().length > 0)
       {
+        var subjects =  $('#subject-'+levels.levelName[i].replace(/[^A-Z0-9]/ig, '')).val();
+        for (var j = subjects.length - 1; j >= 0; j--) {
+          console.log("Subjects:",subjects);
+          if (ValidateSubjects(subjects[j]))
+          {
+            $('.subject-'+levels.levelName[i].replace(/[^A-Z0-9]/ig, '')).css("border-color", "#EFEFEF");
+          } else
+          {
+            $('.subject-'+levels.levelName[i].replace(/[^A-Z0-9]/ig, '')).css("border-color", "#f6b8c1");
+            return;
+          }
+        }
          $('.subject-'+levels.levelName[i].replace(/[^A-Z0-9]/ig, '')).css("border-color", "#EFEFEF");
-        temp[levels.levelName[i]]= $('#subject-'+levels.levelName[i].replace(/[^A-Z0-9]/ig, '')).val();
+         temp[levels.levelName[i]]= $('#subject-'+levels.levelName[i].replace(/[^A-Z0-9]/ig, '')).val();
       }
       else {
         $('.subject-'+levels.levelName[i].replace(/[^A-Z0-9]/ig, '')).css("border-color", "#f6b8c1");
@@ -172,6 +184,15 @@ function ValidateEmail(mail)
     return (false)
 }
 
+function ValidateSubjects(subject) 
+{
+ if (/[a-zA-Z]{2,}/.test(subject))
+  {
+    return (true)
+  }
+    return (false)
+}
+
 function addExpenses(data) {
   $('.expense-items').remove();
   expenses = data.expenseName;
@@ -266,7 +287,13 @@ function callSubjects() {
         .done(function(res){
           if (res.subjects.length > 0)
             $(".input-text-subject-select2").select2({
-              data: res.subjects
+              data: res.subjects,
+              tags: true,
+              dropdownPosition: 'below',
+              tokenSeparators: [',', ' '],
+              minimumResultsForSearch: -1,
+              templateResult: hideSelected,
+              placeholder: "Select items",
             })
         });
  

@@ -22,7 +22,7 @@ var setupController = {
     res.render('setup', { title: 'Setup'});
   },
   getSubjects: function(req, res, next) {
-    connection.query("SELECT Subject_ID as id , Subject_Label as text FROM subjects", (err, subjects, fields) => {
+    connection.query("SELECT Subject_Label as id , Subject_Label as text FROM subjects", (err, subjects, fields) => {
         res.json({
           subjects:subjects
         })

@@ -184,7 +184,7 @@ document.getElementById("search-input").addEventListener('input', function (evt)
     var active = '';
   if (this.value.replace(/\s/g, '') !== '')
   {
-  	var value = new RegExp('^'+this.value.toLowerCase());
+  	var value = new RegExp(this.value.toLowerCase());
 	var filtred = students.filter(function (el) {
 			  return el.Student_FirstName.toLowerCase().match(value) || el.Student_LastName.toLowerCase().match(value);
 			});
@@ -303,17 +303,7 @@ $(document).on("click",".students_list",function(event){
 	  		}
   		}
   		subStudent =  res.substudent;
-		for (var i = 0; i < subclasses.length; i++) {
-			if (subclasses[i].Classe_Label === result[0].Classe_Label)
-			{
-				checked = ''
-				for (var j = res.substudent.length - 1; j >= 0; j--) {
-					if(subclasses[i].Expense_Label === res.substudent[j].Expense_Label)
-						checked = 'checked';
-				}
-				$('#Details').find('.sub_list').append('<div class="expense_col col-md-6 sections-label-checkbox-main-container "> <div class="sections-label-checkbox-container"> <div class="form-group group "> <span class="expense_label">'+subclasses[i].Expense_Label+'</span> <span class="method_label"> <span class="method_label_price">'+subclasses[i].Expense_Cost+'</span> <span class="method_label_period">'+subclasses[i].Expense_PaymentMethod+'</span> </span> </div> </div> <div class="customCheck"> <input type="checkbox"  value="'+subclasses[i].LE_ID+'" name="checkbox" id="ck" '+checked+'/> <label for="ck"></label> </div> </div> ');
-			}
-		}
+		
 		var inputFirst = '';
 		parents = res.parents;
 	  	for (var i = res.parents.length - 1; i >= 0; i--) {
@@ -340,23 +330,38 @@ $(document).on("click",".students_list",function(event){
 				$('#Absence').find('.table_delay').append('<tr class="row-absence" id="absence-'+res.absences[i].AD_ID+'"> <td data-label="Subject name" class="td-label">'+absenceArray[res.absences[i].AD_Type]+'</td> <td class="readonly" data-label="From"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.from+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg"> </div> </td> <td class="readonly" data-label="To"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.to+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg"> </div> </td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+res.absences[i].AD_Date+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> <!-- table-option-list --> <img class="table-option-icon" src="assets/icons/options.svg"> <div class="table-option-list"> <div class="table-option-list-li table-option-list-li-edit " onClick="displayAbsence('+i+')" data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/edit.svg" alt="edit"/> <span class="table-option-list-span">Edit</span> </div> <div class="table-option-list-li table-option-list-li-delete " data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/delete.svg" alt="delete"/> <span class="table-option-list-span">Delete</span> </div> <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg"> </div> <!-- End table-option-list --> </td> </tr>');
 			}
 		}
-		$('#AddStudentAbsenceModal').find('input[name="ad_classe"]').val(result[0].Classe_Label);
-		$('#AddStudentAbsenceModal').find('input[name="ad_student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
-		$('#student_info').find('.profile-full-name').text(result[0].Student_FirstName + " " + result[0].Student_LastName);
-		$('#student_info').find('.profile-img').attr('src',result[0].Student_Image);
-		$('#Details').find('input[name="f_name"]').val(result[0].Student_FirstName);
-		$('#Details').find('input[name="student_address_detail"]').val(result[0].Student_Address);
-		$('#Details').find('input[name="l_name"]').val(result[0].Student_LastName);
-		$('#Details').find('input[name="phone_number_detail"]').val(result[0].Student_Phone);
-		$('#Details').find('input[name="birthdate_detail"]').val(result[0].Student_birthdate);
-		$('#Details').find('input[name="classe-detail"]').val(result[0].Classe_Label);
-		$('#Details').find('input[name="level-detail"]').val(result[0].Level_Label);
-		$('#AddAttitudeModal').find('input[name="at_classe"]').val(result[0].Classe_Label);
-		$('#AddAttitudeModal').find('input[name="at_student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
-		$('#EditAttitudeModal').find('input[name="edit-classe"]').val(result[0].Classe_Label);
-		$('#EditAttitudeModal').find('input[name="edit-student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
-		$('#EditAbsenceModal').find('input[name="edit-classe"]').val(result[0].Classe_Label);
-		$('#EditAbsenceModal').find('input[name="edit-student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
+		console.log(result[0]);
+		if (result[0])
+  		{
+  			for (var i = 0; i < subclasses.length; i++) {
+				if (subclasses[i].Classe_Label === result[0].Classe_Label)
+				{
+					checked = '';
+					for (var j = res.substudent.length - 1; j >= 0; j--) {
+						if(subclasses[i].Expense_Label === res.substudent[j].Expense_Label)
+							checked = 'checked';
+					}
+					$('#Details').find('.sub_list').append('<div class="expense_col col-md-6 sections-label-checkbox-main-container "> <div class="sections-label-checkbox-container"> <div class="form-group group "> <span class="expense_label">'+subclasses[i].Expense_Label+'</span> <span class="method_label"> <span class="method_label_price">'+subclasses[i].Expense_Cost+'</span> <span class="method_label_period">'+subclasses[i].Expense_PaymentMethod+'</span> </span> </div> </div> <div class="customCheck"> <input type="checkbox"  value="'+subclasses[i].LE_ID+'" name="checkbox" id="ck" '+checked+'/> <label for="ck"></label> </div> </div> ');
+				}
+			}
+  			$('#AddStudentAbsenceModal').find('input[name="ad_classe"]').val(result[0].Classe_Label);
+			$('#AddStudentAbsenceModal').find('input[name="ad_student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
+			$('#student_info').find('.profile-full-name').text(result[0].Student_FirstName + " " + result[0].Student_LastName);
+			$('#student_info').find('.profile-img').attr('src',result[0].Student_Image);
+			$('#Details').find('input[name="f_name"]').val(result[0].Student_FirstName);
+			$('#Details').find('input[name="student_address_detail"]').val(result[0].Student_Address);
+			$('#Details').find('input[name="l_name"]').val(result[0].Student_LastName);
+			$('#Details').find('input[name="phone_number_detail"]').val(result[0].Student_Phone);
+			$('#Details').find('input[name="birthdate_detail"]').val(result[0].Student_birthdate);
+			$('#Details').find('input[name="classe-detail"]').val(result[0].Classe_Label);
+			$('#Details').find('input[name="level-detail"]').val(result[0].Level_Label);
+			$('#AddAttitudeModal').find('input[name="at_classe"]').val(result[0].Classe_Label);
+			$('#AddAttitudeModal').find('input[name="at_student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
+			$('#EditAttitudeModal').find('input[name="edit-classe"]').val(result[0].Classe_Label);
+			$('#EditAttitudeModal').find('input[name="edit-student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
+			$('#EditAbsenceModal').find('input[name="edit-classe"]').val(result[0].Classe_Label);
+			$('#EditAbsenceModal').find('input[name="edit-student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
+  		}
 		$('#Details').addClass("dom-change-watcher");
   	}
   });
@@ -461,7 +466,7 @@ function displayExam(id) {
 
 		  		for (var i = res.classes.length - 1; i >= 0; i--) {
 		  			
-		  			$('.list-classe').append(' <li class="row-classe" data-val="'+res.classes[i].Classe_Label+'">'+res.classes[i].Classe_Label+'</li>')
+		  			$('.list-classe').append(' <li class="row-classe" data-id="'+res.classes[i].Classe_ID+'" data-val="'+res.classes[i].Classe_Label+'">'+res.classes[i].Classe_Label+'</li>')
 		  		}
 		  	}
 		  });
@@ -498,7 +503,7 @@ function displayExam(id) {
 				$('#Details').find('.sub_list').append('<div class="expense_col col-md-6 sections-label-checkbox-main-container "> <div class="sections-label-checkbox-container"> <div class="form-group group "> <span class="expense_label">'+res.subscriptions[i].Expense_Label+'</span> <span class="method_label"> <span class="method_label_price">'+res.subscriptions[i].Expense_Cost+'</span> <span class="method_label_period">'+res.subscriptions[i].Expense_PaymentMethod+'</span> </span> </div> </div> <div class="customCheck"> <input type="checkbox" value="'+res.subscriptions[i].LE_ID+'" name="checkbox" id="ck" '+checked+'/> <label for="ck"></label> </div> </div> ');
 			}
 				for (var i = res.classes.length - 1; i >= 0; i--) {
-		  			$('#Details').find('.list-classe').append(' <li class="row-classe" data-val="'+res.classes[i].Classe_Label+'">'+res.classes[i].Classe_Label+'</li>')
+		  			$('#Details').find('.list-classe').append(' <li class="row-classe" data-id="'+res.classes[i].Classe_ID+'" data-val="'+res.classes[i].Classe_Label+'">'+res.classes[i].Classe_Label+'</li>')
 		  		}
 		  	}
 		  });
@@ -624,6 +629,7 @@ function saveChange() {
       });
 	var subscriptions = $('#Details').find('input[name=checkbox]:not(:checked)').map(function(){return $(this).val()}).get();
 	var checkedSub = $('#Details').find('input[name=checkbox]:checked').map(function(){return $(this).val()}).get();
+	console.log("ID",$('#Details').find('input[name="classe-detail"]').data('id'));
 	$.ajax({
 	    type: 'post',
 	    url: '/Students/update',
@@ -635,7 +641,7 @@ function saveChange() {
 			student_lname:$('#Details').find('input[name="l_name"]').val(),
 			student_phone:$('#Details').find('input[name="phone_number_detail"]').val(),
 			student_birthdat:$('#Details').find('input[name="birthdate_detail"]').val(),
-			student_classe:$('#Details').find('input[name="classe-detail"]').val(),
+			student_classe:$('#Details').find('li[data-val="'+$('#Details').find('input[name="classe-detail"]').val()+'"]').data('id'),
 			student_level:$('#Details').find('input[name="level-detail"]').val(),
 			parent_name:parent_name,
 			parent_phone:parent_phone,
@@ -665,8 +671,8 @@ function updateAbsence() {
 	console.log("ID::",id);
 	if (absences[id].AD_Type === 2)
 	{
-		from.to = $('#EditAbsenceModal').find('input[name=start-period]').val();
-		from.from = $('#EditAbsenceModal').find('input[name=end-period]').val();
+		from.from = $('#EditAbsenceModal').find('input[name=start-period]').val();
+		from.to = $('#EditAbsenceModal').find('input[name=end-period]').val();
 	}
 	else if (absences[id].AD_Type === 1)
 	{
