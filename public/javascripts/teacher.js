@@ -287,10 +287,6 @@ $(document).on("click",".row-teacher",function(event){
 		}
 		$('#teacher_info').removeClass('hidden');
 		var name = JSON.parse(result[0].teacher.User_Name);
-		$('#AddTeacherAbsenceModal').find('.absence-classe').remove();
-		for (var i = result[0].classes.length - 1; i >= 0; i--) {
-			$('#AddTeacherAbsenceModal').find('.classes-list').append('<li class="absence-classe" data-val="'+result[0].classes[i].Classe_Label+'">'+result[0].classes[i].Classe_Label+'</li>');
-		}
 
 		var classeHTML = '';
 		for (var i = result[0].classes.length - 1; i >= 0; i--) {
@@ -307,6 +303,7 @@ $(document).on("click",".row-teacher",function(event){
 		$('#AddTeacherAbsenceModal').find('input[name="ad_teacher"]').val(name.first_name + " " + name.last_name);
 		$('#EditAbsenceModal').find('input[name="ad_teacher"]').val(name.first_name + " " + name.last_name);
 		$('#EditAbsenceModal').find('input[name="ad_classe"]').val(classeHTML);
+		$('#AddTeacherAbsenceModal').find('input[name="ad_classe"]').val(classeHTML);
 		$('#teacher_info').find('#Details').addClass("dom-change-watcher");
   	}
   });
@@ -410,18 +407,23 @@ function updateAbsence() {
 		    type: 'get',
 		    url: '/Teachers/classes',
 		    data: {
-		    	level_id:$('#teacher_form').find('[data-val='+value+']').data('levelid'),
+		    	subject_id:$('#teacher_form').find('[data-val='+value+']').data('subjectid'),
 		    },
 		    dataType: 'json'
 		  })
 		  .done(function(res){
 		  	if(res.errors)
 		  	{
+
 		  		console.log(res.errors)
 		  	} else {
-		  		console.log(res.classes);
-		  		$('#teacher_form').find('.list-classes').append('<option class="option-level-label row-classe" disabled="disabled">'+res.classes[0].Level_Label+'</option>')
+		  		var first_label = '';
 		  		for (var i = res.classes.length - 1; i >= 0; i--) {
+		  			if (first_label !== res.classes[i].Level_Label)
+		  			{
+		  				first_label = res.classes[i].Level_Label;
+		  				$('#teacher_form').find('.list-classes').append('<option class="option-level-label row-classe" disabled="disabled">'+res.classes[i].Level_Label+'</option>')
+		  			}
 		  			$('#teacher_form').find('.list-classes').append('<option class="row-classe" value="'+res.classes[i].Classe_ID+'">'+res.classes[i].Classe_Label+'</option>')
 		  		}
 		  	}

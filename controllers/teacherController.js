@@ -61,7 +61,7 @@ var teacherController = {
   },
   getClasses: function(req, res, next) {
       connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {   
-          connection.query("SELECT classes.*,levels.Level_Label FROM `classes` INNER JOIN levels ON levels.Level_ID = classes.Level_ID WHERE classes.Level_ID = ? AND classes.AY_ID = ?", [req.query.level_id,academic[0].AY_ID], (err, classes, fields) => {
+          connection.query("SELECT classes.*,levels.Level_Label FROM levelsubjects INNER JOIN classes ON classes.Level_ID = levelsubjects.Level_ID INNER JOIN levels ON levels.Level_ID = levelsubjects.Level_ID WHERE levelsubjects.Subject_ID = ? AND levelsubjects.AY_ID = ?", [req.query.subject_id,academic[0].AY_ID], (err, classes, fields) => {
               res.json({
                     classes:classes,
                   });
