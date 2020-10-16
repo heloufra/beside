@@ -313,6 +313,7 @@ $(document).on("click",".row-teacher",function(event){
 
 function displayAbsence(id) {
 	var fromto = JSON.parse(absences[id].AD_FromTo);
+	$('.input-time').timepicker('destroy');
 	$('#EditAbsenceModal').find('input[data-val=Absence]').prop('checked', false);
 	$('#EditAbsenceModal').find('input[data-val=Retard]').prop('checked', false);
 	$('#EditAbsenceModal').find('input[data-val=Session]').prop('checked', false);
@@ -338,20 +339,29 @@ function displayAbsence(id) {
 		$(".dynamic-form-input-container-multi-date").fadeOut().slideUp();
 		$(".dynamic-form-input-container-one-date").fadeIn().slideDown();
 		$(".dynamic-form-input-container-multi-time").fadeIn().slideDown();
-		//$('#EditAbsenceModal').find('input[name=starTime]').val(fromto.from);
-		//$('#EditAbsenceModal').find('input[name=endTime]').val(fromto.to);
+		$('#EditAbsenceModal').find('input[name=starTime]').val(fromto.from);
+		$('#EditAbsenceModal').find('input[name=endTime]').val(fromto.to);
 		$('#EditAbsenceModal').find('input[name=editDate]').val(absences[id].AD_Date);
 	} else
 	{
 		$('#EditAbsenceModal').find('input[data-val=Retard]').prop('checked', true);
-		//$('#EditAbsenceModal').find('input[name=starTime]').val(fromto.from);
-		//$('#EditAbsenceModal').find('input[name=endTime]').val(fromto.to);
+		$('#EditAbsenceModal').find('input[name=starTime]').val(fromto.from);
+		$('#EditAbsenceModal').find('input[name=endTime]').val(fromto.to);
 		$('#EditAbsenceModal').find('input[name=editDate]').val(absences[id].AD_Date);
 		$(".dynamic-form-input-container-session").fadeOut().slideUp();
 		$(".dynamic-form-input-container-multi-date").fadeOut().slideUp();
 		$(".dynamic-form-input-container-one-date").slideDown();
 		$(".dynamic-form-input-container-multi-time").slideDown();
 	}
+	$('.input-time').timepicker({
+
+		timeFormat: 'HH:mm',
+	    interval: 60,
+	    dynamic: false,
+	    dropdown: true,
+	    scrollbar: true
+
+	});
 	$('#EditAbsenceModal').addClass('modal-dom-change-watcher');
 }
 
@@ -400,6 +410,7 @@ function updateAbsence() {
 
  $('#teacher_form').find('input[name="subject"]').on( "change", function() {
   var value = $(this).val();
+
   if (value.replace(/\s/g, '') !== '')
   {
   	$('#teacher_form').find('.row-classe').remove();
