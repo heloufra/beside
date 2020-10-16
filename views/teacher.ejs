@@ -472,64 +472,22 @@
                                                   <div class="row sections-main-sub-container-right-main-rows">
 
 
-                                                      <div class="col-md-6">
-
-                                                        <div class="dynamic-form-input-dropdown-container">
-                                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
-                                                            <div class="dynamic-form-input">
-                                                              <div class="dynamic-form-input-float-adjust">
-                                                              <div class="form-group group form-group-right">
-                                                                <input type="text" class="input-dropdown" required="">
-                                                                
-                                                                <label class="input-label">
-                                                                  <span class="input-label-text">Class</span><span class="input-label-bg-mask"></span>
-                                                                </label>
-
-                                                                <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
-                                                                <ul class="dynamic-form-input-dropdown-options" style="display: none; opacity: 0;">
-                                                                    <li data-val="Class 1">Class 1</li>
-                                                                    <li data-val="Class 2">Class 2</li>
-                                                                    <li data-val="Class 3">Class 3</li>
-                                                                </ul>
-                                                              </div>
-                                                              </div>
-                                                              <div class="square-button square-button-minus">
-                                                                <img class="icon" src="assets/icons/minus.svg">
-                                                              </div>
-                                                            </div>
-                                                          </div>
+                                                     <div class="col-md-6">
+                                                        <div class="form-group group readonly">
+                                                          <input type="text" required="" name="ad_classe">
+                                                          <label class="input-label">
+                                                            <span class="input-label-text">Class</span><span class="input-label-bg-mask"></span>
+                                                          </label>
                                                         </div>
-
                                                       </div>
 
-                                                      <div class="col-md-6">
-
-                                                        <div class="dynamic-form-input-dropdown-container">
-                                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
-                                                            <div class="dynamic-form-input">
-                                                              <div class="dynamic-form-input-float-adjust">
-                                                              <div class="form-group group form-group-right">
-                                                                <input type="text" class="input-dropdown" required="">
-                                                                
-                                                                <label class="input-label">
-                                                                  <span class="input-label-text">Teacher</span><span class="input-label-bg-mask"></span>
-                                                                </label>
-
-                                                                <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
-                                                                <ul class="dynamic-form-input-dropdown-options" style="display: inline-block; opacity: 1;">
-                                                                    <li data-val="Student 1">Teacher 1</li>
-                                                                    <li data-val="Student 2">Teacher 2</li>
-                                                                    <li data-val="Student 2">Teacher 3</li>
-                                                                </ul>
-                                                              </div>
-                                                              </div>
-                                                              <div class="square-button square-button-minus">
-                                                                <img class="icon" src="assets/icons/minus.svg">
-                                                              </div>
-                                                            </div>
-                                                          </div>
+                                                       <div class="col-md-6">
+                                                        <div class="form-group group readonly">
+                                                          <input type="text" required="" name="ad_teacher">
+                                                          <label class="input-label">
+                                                            <span class="input-label-text">Teacher</span><span class="input-label-bg-mask"></span>
+                                                          </label>
                                                         </div>
-
                                                       </div>
                                               
                                                   </div>
@@ -543,24 +501,24 @@
                                                         <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left   
                                                              dynamic-form-input-container-type" data-val="Absence" >
                                                             <div class="sections-label-checkbox-container " >
-                                                              <div class="form-group group ">
+                                                              <div class="form-group group">
                                                                 <span class="expense_label">Absence</span>
                                                               </div>
                                                             </div>
-                                                            <div class="customCheck customCheckRounded">
-                                                              <input type="checkbox" checked value="0" data-val="Absence" name="checkbox" id="" />
+                                                            <div class="customCheck customCheckRounded readonly">
+                                                              <input type="checkbox" class="readonly" checked value="0" data-val="Absence" name="checkbox" id="" />
                                                               <label for="ck"></label>
                                                             </div>
                                                         </div>
 
                                                         <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left container-background-style" data-val="Retard">
                                                             <div class="sections-label-checkbox-container ">
-                                                              <div class="form-group group ">
+                                                              <div class="form-group group">
                                                                 <span class="expense_label">Retard</span>
                                                               </div>
                                                             </div>
-                                                            <div class="customCheck customCheckRounded">
-                                                              <input type="checkbox" value="1" data-val="Retard"  name="checkbox" id="" />
+                                                            <div class="customCheck customCheckRounded readonly">
+                                                              <input type="checkbox" class="readonly" value="1" data-val="Retard"  name="checkbox" id="" />
                                                               <label for="ck"></label>
                                                             </div>
                                                         </div>
@@ -578,12 +536,12 @@
 
                                                         <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left container-background-style" data-val="Period">
                                                             <div class="sections-label-checkbox-container ">
-                                                              <div class="form-group group ">
+                                                              <div class="form-group group readonly">
                                                                 <span class="expense_label">Period</span>
                                                               </div>
                                                             </div>
-                                                            <div class="customCheck customCheckRounded">
-                                                              <input type="checkbox" value="0" data-val="Period" name="checkbox" id="" />
+                                                            <div class="customCheck customCheckRounded readonly">
+                                                              <input type="checkbox" value="0" data-val="Period" name="checkbox" id="" class="readonly" />
                                                               <label for="ck"></label>
                                                             </div>
                                                         </div>
@@ -591,12 +549,12 @@
                                                         <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left "
                                                              data-val="Session">
                                                             <div class="sections-label-checkbox-container" >
-                                                              <div class="form-group group ">
+                                                              <div class="form-group group readonly">
                                                                 <span class="expense_label">Session</span>
                                                               </div>
                                                             </div>
-                                                            <div class="customCheck customCheckRounded">
-                                                              <input type="checkbox" value="1" data-val="Session" checked  name="checkbox" id="" />
+                                                            <div class="customCheck customCheckRounded readonly">
+                                                              <input type="checkbox" value="1" data-val="Session" checked class="readonly"  name="checkbox" id="" />
                                                               <label for="ck"></label>
                                                             </div>
                                                         </div>
@@ -614,12 +572,12 @@
                                                     <div class="flex flex-form-group-container">
 
                                                       <div class="form-group group dynamic-form-input-text-container-icon">
-                                                         <input type="text" class="input-text input-date input-date-from-today" required="" placeholder="Start date">
+                                                         <input type="text" name="start-period" class="input-text input-date input-date-illimited" required="" placeholder="Start date">
                                                          <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                                       </div>
 
                                                        <div class="form-group group dynamic-form-input-text-container-icon">
-                                                         <input type="text" class="input-text input-date input-date-from-today" required="" placeholder="End Date">
+                                                         <input type="text" name="end-period" class="input-text input-date input-date-illimited" required="" placeholder="End Date">
                                                          <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                                       </div>
 
@@ -636,7 +594,7 @@
                                                     <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Date </span> <span class="input-label-bg-mask"></span></label>
 
                                                     <div class="form-group group dynamic-form-input-text-container-icon">
-                                                       <input type="text" class="input-text input-extra-border  input-date input-date-from-today" required="" placeholder="Select date">
+                                                       <input type="text" class="input-text input-extra-border  input-date input-date-illimited" name="editDate" required="" placeholder="Select date">
                                                        <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                                     </div>
 
@@ -650,12 +608,12 @@
                                                     <div class="flex flex-form-group-container">
 
                                                       <div class="form-group group dynamic-form-input-text-container-icon">
-                                                         <input type="text" class="input-text input-time" required="" placeholder="Time">
+                                                         <input type="text" name="starTime" value="" class="input-text input-time" required="" placeholder="Time">
                                                          <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
                                                       </div>
 
                                                        <div class="form-group group dynamic-form-input-text-container-icon">
-                                                         <input type="text" class="input-text input-time" required="" placeholder="Time">
+                                                         <input type="text" name="endTime" value="" class="input-text input-time" required="" placeholder="Time">
                                                          <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
                                                       </div>
 
@@ -663,11 +621,12 @@
 
                                                   </div>
 
+
                                                   <!--- End Show in case of Absense combined with Session || Retard -->
 
                                                   <!--  sub-container-form-footer -->
                                                   <div class="sub-container-form-footer">
-                                                      <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button ">
+                                                      <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button " onclick="updateAbsence()">
                                                             <span class="button-text" >Save Changes</span>
                                                             <img class="icon button-icon" src="assets/icons/check_small.svg">
                                                       </div>

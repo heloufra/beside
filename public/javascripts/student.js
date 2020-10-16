@@ -629,7 +629,7 @@ function saveChange() {
       });
 	var subscriptions = $('#Details').find('input[name=checkbox]:not(:checked)').map(function(){return $(this).val()}).get();
 	var checkedSub = $('#Details').find('input[name=checkbox]:checked').map(function(){return $(this).val()}).get();
-	console.log("ID",$('#Details').find('input[name="classe-detail"]').data('id'));
+
 	$.ajax({
 	    type: 'post',
 	    url: '/Students/update',
@@ -668,7 +668,6 @@ function updateAbsence() {
 	var id = $('#EditAbsenceModal').find('input[name="edit-student"]').data('id');
 	var from = {};
 	var date = 'null';
-	console.log("ID::",id);
 	if (absences[id].AD_Type === 2)
 	{
 		from.from = $('#EditAbsenceModal').find('input[name=start-period]').val();
@@ -774,7 +773,6 @@ if ($('#AddStudentAbsenceModal').find('input[data-val="Absence"]:checked').val()
 	ad_date = $('#AddStudentAbsenceModal').find('input[name="ad_date"]').val();
 }
 
-console.log(ad_absence,ad_fromto,ad_date);
 
 	if (!ad_date && ad_absence !== "2")
 		$('#AddStudentAbsenceModal').find('.dynamic-form-input-container-one-date').css("border-color", "#f6b8c1");
@@ -856,7 +854,6 @@ function saveAttitude() {
 	else
 		at_type = $('#AddAttitudeModal').find('input[data-val="Negative"]:checked').val();
 
-	console.log(at_classe,at_student,at_date,at_type,at_note);
 
 	if (!at_date)
 		$('#AddAttitudeModal').find('.at_date').css("border-color", "#f6b8c1");

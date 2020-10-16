@@ -168,6 +168,21 @@ var teacherController = {
         }
     })
   },
+  updateAbsence: function(req, res, next) {
+    connection.query("UPDATE `absencesanddelays` SET  AD_FromTo = ?, AD_Date = ? WHERE `AD_ID` = ?", [req.body.AD_FromTo,req.body.AD_Date,req.body.id], (err, absence, fields) => {
+       if (err) {
+            console.log(err);
+              res.json({
+                errors: [{
+                field: "Access denied",
+                errorDesc: "Cannot Update it"
+              }]});
+          } else 
+          {
+            res.json({updated : true});
+          }
+     })
+  },
 };
 
 module.exports = teacherController;

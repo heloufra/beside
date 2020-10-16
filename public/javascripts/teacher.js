@@ -29,7 +29,7 @@ function getAllteachers(id) {
 	  	} else {
 	  		teachers = res.teachers;
 	  		filtredClass = res.teachers;
-	  		console.log(res.teachers);
+
 	  		if (id)
 	  			displayteacher(id);
 	  		else if (res.teachers.length > 0)
@@ -133,7 +133,7 @@ $domChange = false;
 			});
 	if (value === "All")
 		filtred = teachers;
-	console.log("Filter",filtred);
+
 	var active = '';
 	filtredClass = filtred;
 	for (var i = filtred.length - 1; i >= 0; i--) {
@@ -202,7 +202,6 @@ $(document).on("click",".row-teacher",function(event){
 	$('.sections-main-sub-container-left-card').removeClass('active');
 	$(this).addClass('active');
 	displayteacher(teacherId);
-	console.log(teacherId)
 });
 
  function displayteacher(index) 
@@ -242,7 +241,6 @@ $(document).on("click",".row-teacher",function(event){
 		var result = teachers.filter(function (el) {
 				  return el.teacher.User_ID === parseInt(index);
 				});
-		console.log("Result",result)
 		$('#teacher_info').find('#Details').removeClass("dom-change-watcher");
 		$('.subject-klon').remove();
 		$('.class-subject').remove();
@@ -252,10 +250,8 @@ $(document).on("click",".row-teacher",function(event){
 			  return el.Subject_Label === res.subjects[res.subjects.length - 1].Subject_Label;
 			});
 		for (var j = classes.length - 1; j >= 0; j--) {
-			console.log("Classes:",classes[j]);
 			$div.find('.list-classes').append('<option class="class-subject" value="'+classes[j].Classe_Label+'" selected>'+classes[j].Classe_Label+'</option>');	
 		}
-		console.log("Div:",$div.html())
   		for (var i = res.subjects.length - 2; i >= 0; i--) {
   			$div = $('div[id^="subjects-container"]:last');
 		  	var num = parseInt( $div.prop("id").match(/\d+/g), 10 ) +1;
@@ -270,7 +266,6 @@ $(document).on("click",".row-teacher",function(event){
 			for (var j = classes.length - 1; j >= 0; j--) {
 				$klon.find('.list-classes').append('<option class="class-subject" value="'+classes[j].Classe_Label+'" selected>'+classes[j].Classe_Label+'</option>');	
 			}
-			console.log("Klon:",$klon.html())
 		  	$div.append($klon);
   		}
   		$('.input-text-subject-classes-select2').parents(".form-group-right").find(".input-label").addClass("input-label-move-to-top");
@@ -296,6 +291,11 @@ $(document).on("click",".row-teacher",function(event){
 		for (var i = result[0].classes.length - 1; i >= 0; i--) {
 			$('#AddTeacherAbsenceModal').find('.classes-list').append('<li class="absence-classe" data-val="'+result[0].classes[i].Classe_Label+'">'+result[0].classes[i].Classe_Label+'</li>');
 		}
+
+		var classeHTML = '';
+		for (var i = result[0].classes.length - 1; i >= 0; i--) {
+			classeHTML += result[0].classes[i].Classe_Label + " ";
+		}
 		$('#teacher_info').find('.label-full-name').text(name.first_name + " " + name.last_name);
 		$('#teacher_info').find('.input-img').attr('src',result[0].teacher.User_Image);
 		$('#teacher_info').find('#Details').find('input[name="f_name"]').val(name.first_name);
@@ -303,9 +303,10 @@ $(document).on("click",".row-teacher",function(event){
 		$('#teacher_info').find('#Details').find('input[name="l_name"]').val(name.last_name);
 		$('#teacher_info').find('#Details').find('input[name="phone_number_detail"]').val(result[0].teacher.User_Phone);
 		$('#teacher_info').find('#Details').find('input[name="birthdate_detail"]').val(result[0].teacher.User_Birthdate)
-		console.log("Result",result);
 		$('#teacher_info').find('#Details').find('input[name="email"]').val(result[0].teacher.User_Email);
 		$('#AddTeacherAbsenceModal').find('input[name="ad_teacher"]').val(name.first_name + " " + name.last_name);
+		$('#EditAbsenceModal').find('input[name="ad_teacher"]').val(name.first_name + " " + name.last_name);
+		$('#EditAbsenceModal').find('input[name="ad_classe"]').val(classeHTML);
 		$('#teacher_info').find('#Details').addClass("dom-change-watcher");
   	}
   });
@@ -314,35 +315,91 @@ $(document).on("click",".row-teacher",function(event){
 }
 
 function displayAbsence(id) {
-	console.log(absences[id]);
 	var fromto = JSON.parse(absences[id].AD_FromTo);
 	$('#EditAbsenceModal').find('input[data-val=Absence]').prop('checked', false);
 	$('#EditAbsenceModal').find('input[data-val=Retard]').prop('checked', false);
 	$('#EditAbsenceModal').find('input[data-val=Session]').prop('checked', false);
 	$('#EditAbsenceModal').find('input[data-val=Period]').prop('checked', false);
+	$('#EditAbsenceModal').find('input[name="ad_teacher"]').data('id',id);
+	$('#EditAbsenceModal').removeClass('modal-dom-change-watcher');
 	if (absences[id].AD_Type === 2)
 	{
 		$('#EditAbsenceModal').find('input[data-val=Absence]').prop('checked', true);
 		$('#EditAbsenceModal').find('input[data-val=Period]').prop('checked', true);
 		$('#EditAbsenceModal').find('input[name=start-period]').val(fromto.from);
 		$('#EditAbsenceModal').find('input[name=end-period]').val(fromto.to);
+		$(".dynamic-form-input-container-session").fadeIn().slideDown();
+		$(".dynamic-form-input-container-multi-date").fadeIn().slideDown();
+		$(".dynamic-form-input-container-one-date").fadeOut().slideUp();
+		$(".dynamic-form-input-container-multi-time").fadeOut().slideUp();
 	}
 	else if (absences[id].AD_Type === 1)
 	{
 		$('#EditAbsenceModal').find('input[data-val=Absence]').prop('checked', true);
 		$('#EditAbsenceModal').find('input[data-val=Session]').prop('checked', true);
-		$('#EditAbsenceModal').find('input[name=start-time]').val(fromto.from);
-		$('#EditAbsenceModal').find('input[name=endTime]').val(fromto.to);
+		$(".dynamic-form-input-container-session").fadeIn().slideDown();
+		$(".dynamic-form-input-container-multi-date").fadeOut().slideUp();
+		$(".dynamic-form-input-container-one-date").fadeIn().slideDown();
+		$(".dynamic-form-input-container-multi-time").fadeIn().slideDown();
+		//$('#EditAbsenceModal').find('input[name=starTime]').val(fromto.from);
+		//$('#EditAbsenceModal').find('input[name=endTime]').val(fromto.to);
 		$('#EditAbsenceModal').find('input[name=editDate]').val(absences[id].AD_Date);
 	} else
 	{
 		$('#EditAbsenceModal').find('input[data-val=Retard]').prop('checked', true);
-		$('#EditAbsenceModal').find('input[name=start-time]').val(fromto.from);
-		$('#EditAbsenceModal').find('input[name=endTime]').val(fromto.to);
+		//$('#EditAbsenceModal').find('input[name=starTime]').val(fromto.from);
+		//$('#EditAbsenceModal').find('input[name=endTime]').val(fromto.to);
 		$('#EditAbsenceModal').find('input[name=editDate]').val(absences[id].AD_Date);
+		$(".dynamic-form-input-container-session").fadeOut().slideUp();
+		$(".dynamic-form-input-container-multi-date").fadeOut().slideUp();
+		$(".dynamic-form-input-container-one-date").slideDown();
+		$(".dynamic-form-input-container-multi-time").slideDown();
 	}
+	$('#EditAbsenceModal').addClass('modal-dom-change-watcher');
 }
 
+function updateAbsence() {
+	var id = $('#EditAbsenceModal').find('input[name="ad_teacher"]').data('id');
+	var from = {};
+	var date = 'null';
+
+	if (absences[id].AD_Type === 2)
+	{
+		from.from = $('#EditAbsenceModal').find('input[name=start-period]').val();
+		from.to = $('#EditAbsenceModal').find('input[name=end-period]').val();
+	}
+	else if (absences[id].AD_Type === 1)
+	{
+
+		from.from = $('#EditAbsenceModal').find('input[name=starTime]').val();
+		from.to = $('#EditAbsenceModal').find('input[name=endTime]').val();
+		date = $('#EditAbsenceModal').find('input[name=editDate]').val();
+	} else
+	{
+		from.from = $('#EditAbsenceModal').find('input[name=starTime]').val();
+		from.to = $('#EditAbsenceModal').find('input[name=endTime]').val();
+		date = $('#EditAbsenceModal').find('input[name=editDate]').val();
+	}
+	$.ajax({
+	    type: 'post',
+	    url: '/Teachers/absence/update',
+	    data: {
+	    	id:absences[id].AD_ID,
+	    	AD_FromTo:JSON.stringify(from),
+			AD_Date:date,
+	    },
+	    dataType: 'json'
+	  })
+	  .done(function(res){
+	  	if(res.updated)
+	  	{
+	  		$('#EditAbsenceModal').modal('hide');
+	  		displayteacher(teacherId);
+	  	} else {
+	  		console.log(res);
+	  	}
+	  });
+}
 
  $('#teacher_form').find('input[name="subject"]').on( "change", function() {
   var value = $(this).val();
@@ -385,7 +442,7 @@ function saveteacher() {
 	    return {subject: $('#teacher_form').find('[data-val='+$(elem).val()+']').data('subjectid'),classes:$(this).closest('.dynamic-form-input-float-adjust').find('select').val()};
 	  }).get();
 
-	console.log("Subjects::",subjects);
+
 	if (!first_name)
 		$('#teacher_form').find('input[name="first_name"]').css("border-color", "#f6b8c1");
 	else
