@@ -12,7 +12,9 @@ var homeworks = [];
 var attitudes = [];
 var exams = [];
 var filtredClass = [];
+var months =  ["January", "February", "March", "April", "May", "June", "July", "August", "September", "Octobre", "November", "December"];
 $domChange = false;
+var start,end;
 
 var test = '<%- title %>';
 console.log(test);
@@ -257,6 +259,7 @@ $(document).on("click",".students_list",function(event){
 		$('#Grades').find('.row-score').remove();
   		$('#Details').find('.expense_col').remove();
   		$('#Details').find('.row-parent').remove();
+  		$("#Finance").find('.month-row').remove();
   		$('#student_info').removeClass('hidden');
   		$("#attitude_table").removeClass('hidden');
   		$("#attitude_title").removeClass('hidden');
@@ -266,6 +269,7 @@ $(document).on("click",".students_list",function(event){
   			$("#attitude_title").addClass('hidden');
   		}
 
+  		
   		if (res.homeworks.length > 0)
   			$("#Homework").removeClass('hidden');
   		else
@@ -303,7 +307,41 @@ $(document).on("click",".students_list",function(event){
 	  		}
   		}
   		subStudent =  res.substudent;
-		
+		start = res.start;
+		end = res.end;
+		var indStart = months.indexOf(start);
+		var indEnd = months.indexOf(end);
+		var htmlmonths = '';
+		var date = new Date();
+		for (var i = subStudent.length - 1; i >= 0; i--) {
+			if (subStudent[i].Expense_PaymentMethod === "Monthly")
+				$("#Finance").find('.list-expenses').append('<tr data-val="'+subStudent[i].Expense_Label+'"> <td data-label="'+subStudent[i].Expense_Label+'" class="td-label"> <span class="expense_label">'+subStudent[i].Expense_Label+'<span class="expense_label_method">'+subStudent[i].Expense_Cost+'</span></span> </td> </tr>')
+		}
+		for (var i = indStart; i < months.length; i++) {
+			htmlmonths += '<th scope="col" class="col-text-align month-row">'+months[i].slice(0,3)+'</th>';
+			if (i === indEnd)
+				break;
+			if (months[i] === months.length - 1)
+				i = 0;
+			for (var j = res.payStudent.length - 1; j >= 0; j--) {
+				if(res.payStudent[j].Expense_PaymentMethod === "Monthly")
+				{
+					console.log("Index::",res.payStudent[j].Expense_Label,"SubIndex::",j);
+					if (res.payStudent[j].SP_PaidPeriod === months[i])
+					{
+						$("#Finance").find('[data-val="'+res.payStudent[j].Expense_Label+'"]').append('<td scope="col" class="col-text-align"><img src="assets/icons/check_green.svg" alt="states"/></td>');
+					}
+				}
+			}
+		}
+
+		var yearlyExpense = res.payStudent.filter(function (el) {
+						        return el.Expense_PaymentMethod === "Annual";
+						      });
+		for (var i = yearlyExpense.length - 1; i >= 0; i--) {
+			$("#Finance").find('.yearly-expense').after(' <div class="month-row sections-main-sub-container-right-main-result sections-main-sub-container-right-main-result-extra-style"><span class="sections-main-sub-container-right-main-result-label sections-main-sub-container-right-main-result-label-extra-info"> <span class="expense_label">'+yearlyExpense[i].Expense_Label+'</span> <span class="expense_label_method">'+yearlyExpense[i].Expense_Cost+'</span> </span> <span class="sections-main-sub-container-right-main-result-value "><img src="assets/icons/green_check.svg" alt="states" /></span></div>');
+		}
+		$("#Finance").find('.list-months').append(htmlmonths);
 		var inputFirst = '';
 		parents = res.parents;
 	  	for (var i = res.parents.length - 1; i >= 0; i--) {
@@ -359,12 +397,80 @@ $(document).on("click",".students_list",function(event){
 			$('#AddAttitudeModal').find('input[name="at_student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
 			$('#EditAttitudeModal').find('input[name="edit-classe"]').val(result[0].Classe_Label);
 			$('#EditAttitudeModal').find('input[name="edit-student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
+			$('#FinanceModal').find('input[name="payment-classe"]').val(result[0].Classe_Label);
+			$('#FinanceModal').find('input[name="payment-student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
 			$('#EditAbsenceModal').find('input[name="edit-classe"]').val(result[0].Classe_Label);
 			$('#EditAbsenceModal').find('input[name="edit-student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
   		}
 		$('#Details').addClass("dom-change-watcher");
   	}
   });
+}
+
+function executePayment() {
+	$('#FinanceModal').find('.monthly-rows').remove();
+	$('#FinanceModal').find('.yearly-rows').remove();
+	$('#FinanceModal').find('.yearly').addClass('hidden');
+	$('#FinanceModal').find('.monthly').addClass('hidden');
+	console.log(subStudent)
+	var indStart = months.indexOf(start);
+	var indEnd = months.indexOf(end);
+	var htmlmonths = '';
+	for (var i = indStart; i < months.length; i++) {
+		htmlmonths += "<option value="+months[i]+">"+months[i]+" </option> ";
+		if (months[i] === end)
+			break;
+		if (months[i] === months.length - 1)
+			i = 0;
+	}
+	for (var i = subStudent.length - 1; i >= 0; i--) {
+		if (subStudent[i].Expense_PaymentMethod === "Monthly")
+		{
+			$('#FinanceModal').find('.monthly').removeClass('hidden');
+			$('#FinanceModal').find('.monthly').after('<div class="monthly-rows dynamic-form-input-container dynamic-form-input-container-extra-style"> <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+subStudent[i].Expense_Label+'</span> <span class="input-label-bg-mask"></span></label> <div class="dynamic-form-input-dropdown-container"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="form-group group"> <select class="input-text-month-select2 payment-select" data-val="Monthly" data-ssid="'+subStudent[i].SS_ID+'" multiple name="language"> '+htmlmonths+'</select> <img class="icon button-icon" src="assets/icons/caret.svg"> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div> </div>');
+		}
+		if (subStudent[i].Expense_PaymentMethod === "Annual")
+		{
+			$('#FinanceModal').find('.yearly').removeClass('hidden');
+			$('#FinanceModal').find('.yearly').after('<div class="yearly-rows dynamic-form-input-container dynamic-form-input-container-extra-style input-text-subject-select2-one-option"> <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+subStudent[i].Expense_Label+'</span> <span class="input-label-bg-mask"></span></label> <div class="dynamic-form-input-dropdown-container"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="form-group group"> <select class="input-text-year-select2 payment-select" data-val="Annual" data-ssid="'+subStudent[i].SS_ID+'" multiple name="language"> <option seleted value="2021-2022">2021-2022</option> </select> <img class="icon button-icon" src="assets/icons/caret.svg"> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div> </div>')
+		}
+	}
+	if($(".input-text-month-select2").length > 0){
+		$(".input-text-month-select2").select2({
+		  tags: true,
+		  dropdownPosition: 'below'
+		});
+	}
+
+	if($(".input-text-year-select2").length > 0){
+		$(".input-text-year-select2").select2({
+		  tags: true,
+		  dropdownPosition: 'below'
+		});
+	}
+
+}
+
+function savePayment() {
+	var payments = $('#FinanceModal').find('.payment-select').map(function(){return {period:$(this).val(),ssid:$(this).data('ssid')};}).get();
+
+	$.ajax({
+	    type: 'post',
+	    url: '/Students/payment',
+	    data: {
+	    	payments:payments
+	    },
+	    dataType: 'json'
+	  })
+	  .done(function(res){
+	  	if(res.saved)
+	  	{
+	  		$("#FinanceModal").modal('hide');
+	  		displayStudent(studentId);
+	  	} else {
+	  		console.log(res);
+	  	}
+	  });
 }
 
 function displayHomework(id) {
@@ -671,6 +777,8 @@ function saveChange() {
  	$('#Details .sub-container-form-footer').addClass('hide-footer');
  	$('#Details .sub-container-form-footer').removeClass('show-footer');
 }
+
+
 
 function updateAbsence() {
 	var id = $('#EditAbsenceModal').find('input[name="edit-student"]').data('id');

@@ -895,75 +895,14 @@
                                       <table>
 
                                         <thead>
-                                          <tr>
+                                          <tr class="list-months">
                                             <th class="col-extra-style" scope="col">Expenses</th>
-                                            <th scope="col" class="col-text-align">Sep</th>
-                                            <th scope="col" class="col-text-align">Oct</th>
-                                            <th scope="col" class="col-text-align">Nov</th>
-                                            <th scope="col" class="col-text-align">Dec</th>
-                                            <th scope="col" class="col-text-align">Jan</th>
-                                            <th scope="col" class="col-text-align">Feb</th>
-                                            <th scope="col" class="col-text-align">Mar</th>
-                                            <th scope="col" class="col-text-align">Apr</th>
-                                            <th scope="col" class="col-text-align">May</th>
                                           </tr>
                                         </thead>
 
-                                        <tbody>
+                                        <tbody class="list-expenses">
 
-                                          <tr>
-
-                                            <td data-label="School fees" class="td-label">
-                                              <span class="expense_label">School fees <span class="expense_label_method">500Dh</span></span>
-                                            </td>
-
-                                            <td scope="col" class="col-text-align"><img src="assets/icons/check_green.svg" alt="states"/></td>
-                                            <td scope="col" class="col-text-align"><img src="assets/icons/check_green.svg" alt="states"/></td>
-                                            <td scope="col" class="col-text-align"><img src="assets/icons/check_red.svg" alt="states"/></td>
-                                            <td scope="col" class="col-text-align"></td>
-                                            <td scope="col" class="col-text-align"></td>
-                                            <td scope="col" class="col-text-align"></td>
-                                            <td scope="col" class="col-text-align"></td>
-                                            <td scope="col" class="col-text-align"></td>
-                                            <td scope="col" class="col-text-align"></td>
-                                            
-                                          </tr>
-
-                                          <tr>
-
-                                            <td data-label="Insurance fees" class="td-label">
-                                              <span class="expense_label">Insurance fees <span class="expense_label_method">500Dh</span></span>
-                                            </td>
-
-                                            <td scope="col" class="col-text-align"><img src="assets/icons/check_green.svg" alt="states"/></td>
-                                            <td scope="col" class="col-text-align"><img src="assets/icons/check_red.svg" alt="states"/></td>
-                                            <td scope="col" class="col-text-align"><img src="assets/icons/check_red.svg" alt="states"/></td>
-                                            <td scope="col" class="col-text-align"></td>
-                                            <td scope="col" class="col-text-align"></td>
-                                            <td scope="col" class="col-text-align"></td>
-                                            <td scope="col" class="col-text-align"></td>
-                                            <td scope="col" class="col-text-align"></td>
-                                            <td scope="col" class="col-text-align"></td>
-                                            
-                                          </tr>     
-
-                                          <tr>
-
-                                            <td data-label="Insurance fees" class="td-label">
-                                              <span class="expense_label">Transport fees <span class="expense_label_method">500Dh</span></span>
-                                            </td>
-
-                                            <td scope="col" class="col-text-align"><img src="assets/icons/check_green.svg" alt="states"/></td>
-                                            <td scope="col" class="col-text-align"><img src="assets/icons/check_red.svg" alt="states"/></td>
-                                            <td scope="col" class="col-text-align"><img src="assets/icons/check_red.svg" alt="states"/></td>
-                                            <td scope="col" class="col-text-align"></td>
-                                            <td scope="col" class="col-text-align"></td>
-                                            <td scope="col" class="col-text-align"></td>
-                                            <td scope="col" class="col-text-align"></td>
-                                            <td scope="col" class="col-text-align"></td>
-                                            <td scope="col" class="col-text-align"></td>
-                                            
-                                          </tr>
+                                          
 
                                         </tbody>
 
@@ -972,17 +911,11 @@
 
                                   </div> 
 
-                                  <div class="sections-main-sub-container-right-main-label-divider">
+                                  <div class="sections-main-sub-container-right-main-label-divider yearly-expense">
                                         <p>Yearly expences</p>
                                   </div>
-
-                                  <div class="sections-main-sub-container-right-main-result sections-main-sub-container-right-main-result-extra-style">
-                                          <span class="sections-main-sub-container-right-main-result-label sections-main-sub-container-right-main-result-label-extra-info">
-                                            <span class="expense_label">Insurance fees</span>
-                                            <span class="expense_label_method">500 Dh</span>
-                                          </span>
-                                          <span class="sections-main-sub-container-right-main-result-value "><img src="assets/icons/green_check.svg" alt="states" /></span>
-                                  </div>                                           
+                                          
+                                                                           
 
                                   <div class="sections-main-sub-container-right-main-label-divider">
                                         <p>Unpaid expences</p>
@@ -997,7 +930,7 @@
                                   <div class="sub-container-form-footer-container">
                                         <!--  sub-container-form-footer -->
                                         <div class="sub-container-form-footer">
-                                            <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate " data-toggle="modal" data-target="#FinanceModal" >
+                                            <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate " data-toggle="modal" data-target="#FinanceModal" onclick="executePayment()">
                                                   <span class="button-text">Execute payment</span>
                                                   <img class="icon button-icon" src="assets/icons/plus.svg">
                                             </div>

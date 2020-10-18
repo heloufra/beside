@@ -5,13 +5,13 @@ var queryStudents = "SELECT students.*,levels.Level_Label,classes.Classe_Label F
 var queryAllStudents = "SELECT students.*,levels.Level_Label,classes.Classe_Label,classes.Classe_ID FROM students INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID INNER JOIN classes ON studentsclasses.Classe_ID = classes.Classe_ID INNER JOIN levels ON levels.Level_ID = classes.Level_ID WHERE studentsclasses.AY_ID = ?  AND students.Student_Status <>'0';"
 var querySearch = "SELECT students.*,levels.Level_Label,classes.Classe_Label FROM students INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID INNER JOIN classes ON studentsclasses.Classe_ID = classes.Classe_ID INNER JOIN levels ON levels.Level_ID = classes.Level_ID WHERE (studentsclasses.Classe_ID = ? OR students.Student_FirstName LIKE ?) AND studentsclasses.AY_ID = ?;"
 var queryParents = "SELECT parents.* FROM parents INNER JOIN studentsparents ON studentsparents.Parent_ID = parents.Parent_ID INNER JOIN students ON studentsparents.Student_ID = students.Student_ID WHERE students.Student_ID = ?;"
-var querySubstudent = "SELECT levelexpenses.Expense_Cost,expenses.Expense_Label,expenses.Expense_PaymentMethod FROM students INNER JOIN studentsubscribtion ON students.Student_ID = studentsubscribtion.Student_ID INNER JOIN levelexpenses ON levelexpenses.LE_ID = studentsubscribtion.LE_ID INNER JOIN expenses ON expenses.Expense_ID = levelexpenses.Expense_ID INNER JOIN academicyear ON academicyear.Institution_ID = students.Institution_ID WHERE students.Student_ID = ? AND students.Institution_ID = ? AND studentsubscribtion.Subscription_EndDate = academicyear.AY_EndDate"
+var querySubstudent = "SELECT levelexpenses.Expense_Cost,expenses.Expense_Label,expenses.Expense_PaymentMethod,studentsubscribtion.SS_ID FROM students INNER JOIN studentsubscribtion ON students.Student_ID = studentsubscribtion.Student_ID INNER JOIN levelexpenses ON levelexpenses.LE_ID = studentsubscribtion.LE_ID INNER JOIN expenses ON expenses.Expense_ID = levelexpenses.Expense_ID INNER JOIN academicyear ON academicyear.Institution_ID = students.Institution_ID WHERE students.Student_ID = ? AND students.Institution_ID = ? AND studentsubscribtion.Subscription_EndDate = academicyear.AY_EndDate"
 var queryAllSub = "SELECT expenses.*,levelexpenses.Expense_Cost,levelexpenses.LE_ID,classes.Classe_Label FROM expenses INNER JOIN levelexpenses ON levelexpenses.Expense_ID = expenses.Expense_ID INNER JOIN classes ON classes.Level_ID = levelexpenses.Level_ID WHERE levelexpenses.AY_ID = ?"
 var querySubclasse = "SELECT levelexpenses.Expense_Cost,expenses.Expense_Label,expenses.Expense_PaymentMethod FROM classes INNER JOIN levels ON levels.Level_ID = classes.Level_ID INNER JOIN levelexpenses ON levelexpenses.Level_ID = levels.Level_ID INNER JOIN expenses ON expenses.Expense_ID = levelexpenses.Expense_ID WHERE classes.Classe_ID = ? AND classes.AY_ID = ?"
 var querySubscriptions = "SELECT expenses.*,levelexpenses.Expense_Cost,levelexpenses.LE_ID FROM expenses INNER JOIN levelexpenses ON levelexpenses.Expense_ID = expenses.Expense_ID WHERE levelexpenses.Level_ID = ? AND levelexpenses.AY_ID = ?;"
 var studentQuery = `INSERT INTO students(Student_FirstName,  Student_LastName, Student_Image,  Student_birthdate,  Student_Address,  Student_Phone,Student_Status, Institution_ID) VALUES(?,?,?,?,?,?,1,?)`;
 var absenceQuery = `INSERT INTO absencesanddelays(User_ID,  User_Type,  AD_Type,  AD_FromTo, AD_Date,AD_Status, Declaredby_ID) VALUES(?,?,?,?,?,1,?)`;
-var paymentsQuery = `INSERT INTO studentspayments(SS_ID, SP_Addeddate, SP_PaidPeriod) VALUES(?,?,?)`;
+var paymentsQuery = `INSERT INTO studentspayments(SS_ID, SP_PaidPeriod) VALUES (?,?)`;
 var attitudeQuery = `INSERT INTO attitude(Student_ID, Attitude_Interaction, Attitude_Note,Attitude_Addeddate,Attitude_Status, Declaredby_ID, AY_ID) VALUES(?,?,?,?,1,?,?)`;
 var parentQuery = `INSERT INTO parents(Parent_Name,  Parent_Phone, Institution_ID) VALUES(?,?,?)`;
 var spQuery = `INSERT INTO studentsparents(Student_ID, Parent_ID) VALUES(?,?)`; 
@@ -20,6 +20,7 @@ var scQuery = `INSERT INTO studentsclasses(Student_ID, Classe_ID, AY_ID) VALUES(
 var queryAttitude = 'SELECT * FROM `attitude` WHERE `Student_ID` = ? AND Attitude_Status <> 0';
 var homeworkQuery = 'SELECT homeworks.*,subjects.Subject_Label,subjects.Subject_Color,classes.Classe_Label FROM `students` INNER JOIN studentsclasses On studentsclasses.Student_ID = students.Student_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = studentsclasses.Classe_ID INNER JOIN homeworks ON homeworks.TSC_ID = teachersubjectsclasses.TSC_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = studentsclasses.Classe_ID WHERE students.Student_ID = ? AND homeworks.Homework_Status <>0';
 var examsQuery = 'SELECT exams.*,subjects.Subject_Label,subjects.Subject_Color,classes.Classe_Label,grads.Exam_Score FROM `students` INNER JOIN studentsclasses On studentsclasses.Student_ID = students.Student_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = studentsclasses.Classe_ID INNER JOIN exams ON exams.TSC_ID = teachersubjectsclasses.TSC_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = studentsclasses.Classe_ID LEFT JOIN grads ON grads.Student_ID = students.Student_ID AND  grads.Exam_ID = exams.Exam_ID WHERE students.Student_ID = ? AND exams.Exam_Status <> 0';
+var studentPayment = "SELECT studentsubscribtion.SS_ID,expenses.Expense_PaymentMethod,expenses.Expense_Label,studentspayments.*,levelexpenses.Expense_Cost FROM `studentsubscribtion` INNER JOIN studentspayments ON studentspayments.SS_ID = studentsubscribtion.SS_ID INNER JOIN levelexpenses ON levelexpenses.LE_ID = studentsubscribtion.LE_ID INNER JOIN expenses ON expenses.Expense_ID = levelexpenses.Expense_ID WHERE studentsubscribtion.Student_ID = ?";
 var adddate = 1;
 var classeID;
 //SELECT students.*,levels.Level_Label FROM students INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID INNER JOIN studentsubscribtion ON studentsubscribtion.Student_ID = studentsclasses.Student_ID INNER JOIN levelexpenses ON levelexpenses.LE_ID = studentsubscribtion.LE_ID INNER JOIN levels ON levels.Level_ID = levelexpenses.Level_ID WHERE studentsclasses.Classe_ID = ? AND studentsclasses.AY_ID = ?;
@@ -51,32 +52,38 @@ var studentController = {
     })
   },
   getStudent: function(req, res, next) {
+    connection.query("SELECT * FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
     connection.query(queryParents, [req.query.user_id], (err, parents, fields) => {
       connection.query("SELECT * FROM `absencesanddelays` WHERE User_ID = ? AND Declaredby_ID = ? AND AD_Status <> 0", [req.query.user_id,req.userId], (err, absences, fields) => {
           connection.query(queryAttitude, [req.query.user_id], (err, attitudes, fields) => {
             connection.query(querySubstudent, [req.query.user_id,req.Institution_ID], (err, substudent, fields) => {
               connection.query(homeworkQuery, [req.query.user_id], (err, homeworks, fields) => {
                 connection.query(examsQuery, [req.query.user_id], (err, exams, fields) => {
-                   connection.query("SELECT AVG(grads.Exam_Score) as average FROM `students` INNER JOIN studentsclasses On studentsclasses.Student_ID = students.Student_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = studentsclasses.Classe_ID INNER JOIN exams ON exams.TSC_ID = teachersubjectsclasses.TSC_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = studentsclasses.Classe_ID LEFT JOIN grads ON grads.Student_ID = students.Student_ID AND  grads.Exam_ID = exams.Exam_ID WHERE students.Student_ID = ? AND exams.Exam_Status <> 0", [req.query.user_id], (err, grade, fields) => {
-                   if (err) {
-                        console.log(err);
-                          res.json({
-                            errors: [{
-                            field: "Access denied",
-                            errorDesc: "List Students Error"
-                          }]});
-                      } else 
-                      {
-                         res.json({
-                            parents:parents,
-                            substudent:substudent,
-                            absences:absences,
-                            attitudes:attitudes,
-                            homeworks:homeworks,
-                            exams:exams,
-                            average:grade[0].average
-                          });
-                      }
+                  connection.query(studentPayment, [req.query.user_id], (err, payStudent, fields) => {
+                    connection.query("SELECT AVG(grads.Exam_Score) as average FROM `students` INNER JOIN studentsclasses On studentsclasses.Student_ID = students.Student_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = studentsclasses.Classe_ID INNER JOIN exams ON exams.TSC_ID = teachersubjectsclasses.TSC_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = studentsclasses.Classe_ID LEFT JOIN grads ON grads.Student_ID = students.Student_ID AND  grads.Exam_ID = exams.Exam_ID WHERE students.Student_ID = ? AND exams.Exam_Status <> 0", [req.query.user_id], (err, grade, fields) => {
+                     if (err) {
+                          console.log(err);
+                            res.json({
+                              errors: [{
+                              field: "Access denied",
+                              errorDesc: "List Students Error"
+                            }]});
+                        } else 
+                        {
+                           res.json({
+                              parents:parents,
+                              substudent:substudent,
+                              absences:absences,
+                              attitudes:attitudes,
+                              homeworks:homeworks,
+                              exams:exams,
+                              start:academic[0].AY_Satrtdate,
+                              end:academic[0].AY_EndDate,
+                              average:grade[0].average,
+                              payStudent:payStudent
+                            });
+                        }
+                    })
                   })
                  })
                 })
@@ -84,6 +91,7 @@ var studentController = {
           })
         })
      })
+    })
   },  
   getAllStudents: function(req, res, next) {
     connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
@@ -239,30 +247,12 @@ var studentController = {
           })
   },
   savePayments: function(req, res, next) {
-     connection.query("SELECT * FROM `students` WHERE `Student_FirstName` = ? AND `Student_LastName` = ?", [req.body.first_name,  req.body.last_name], (err, user, fields) => {
-        if(user.length === 0)
-        {
-           connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
-            connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
-                  connection.query(paymentsQuery, [SS_ID, SP_Addeddate, SP_PaidPeriod], (err, student, fields) => {
-                     if (err) {
-                          console.log(err);
-                            res.json({
-                              errors: [{
-                              field: "Access denied",
-                              errorDesc: "List Students Error"
-                            }]});
-                        } else 
-                        {
-                        
-                        }
-                   })
-            })
-          })
-          res.json({saved : true});
-        } else
-          res.json({saved : false});
-        });
+    for (var i = req.body.payments.length - 1; i >= 0; i--) {
+      for (var j = req.body.payments[i].period.length - 1; j >= 0; j--) {
+        connection.query(paymentsQuery, [req.body.payments[i].ssid, req.body.payments[i].period[j]]);
+      }
+    }
+    res.json({saved : true});
   },
   saveAttitude: function(req, res, next) {
     //Student_ID, Attitude_Interaction, Attitude_Note, Declaredby_ID, AY_ID
@@ -381,10 +371,14 @@ var studentController = {
                 }
               if (req.body.checked)
                 for (var i = req.body.checked.length - 1; i >= 0; i--) {
-                    var le_id = await studentModel.findLe(req.body.checked[i].LE_ID);
+                    var le_id = await studentModel.findLe(req.body.checked[i],req.body.id);
+                    console.log("LEEE",le_id);
                     if (le_id.length === 0)
                     {
                       connection.query("INSERT INTO studentsubscribtion(Student_ID, LE_ID, Subscription_StartDate, Subscription_EndDate, AY_ID) VALUES(?,?,?,?,?)", [req.body.id,req.body.checked[i],academic[0].AY_Satrtdate,academic[0].AY_EndDate,academic[0].AY_ID])
+                    } else 
+                    {
+                      connection.query("UPDATE `studentsubscribtion` SET Subscription_StartDate=? , `Subscription_EndDate`=? WHERE `LE_ID` = ?", [academic[0].AY_Satrtdate,academic[0].AY_EndDate,req.body.checked[i]])
                     }
                 }
               res.json({updated : true});

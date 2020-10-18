@@ -9,6 +9,7 @@ router.get('/one', studentController.getStudent);
 router.get('/subscriptions', studentController.getSubscriptions);
 router.post('/save', studentController.saveStudent);
 router.post('/update', studentController.updateStudent);
+router.post('/payment', studentController.savePayments);
 router.post('/absence', studentController.saveAbsence);
 router.post('/absence/remove', studentController.deleteAbsence);
 router.post('/absence/update', studentController.updateAbsence);

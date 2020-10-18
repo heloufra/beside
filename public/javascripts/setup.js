@@ -253,8 +253,13 @@ function addLevels(data) {
       tags: true,
       dropdownPosition: 'below',
       tokenSeparators: [',', ' '],
-          minimumResultsForSearch: -1,
-          templateResult: hideSelected
+      minimumResultsForSearch: -1,
+      templateResult: hideSelected,
+       templateSelection: function (data, container) {
+            console.log("Selection>>",data);
+              $(container).attr("style","background-color:"+data.color+"!important;");
+              return data.text;
+          },
     });
   }
 
@@ -294,6 +299,11 @@ function callSubjects() {
               minimumResultsForSearch: -1,
               templateResult: hideSelected,
               placeholder: "Select items",
+              templateSelection: function (data, container) {
+                console.log("Selection>>",data);
+                  $(container).attr("style","background-color:"+data.color+"!important;");
+                  return data.text;
+              },
             })
         });
  
