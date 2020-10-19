@@ -17,6 +17,14 @@ var teacherModel = {
       });
     })
   },
+   findSubTeacher: function(teacher_id,subject_id,classe_id) {
+     return new Promise((resolve, reject) => {
+      connection.query("SELECT * FROM `teachersubjectsclasses` WHERE `Teacher_ID`=? AND `Subject_ID`=? AND `Classe_ID`=?", [teacher_id,subject_id,classe_id], (err, teacher, fields) => {
+       if (err) reject(err);
+        else resolve(teacher);
+      });
+    })
+  },
   saveUser: function(req) {
      return new Promise((resolve, reject) => {
       connection.query(teacherQuery, [JSON.stringify({first_name:req.body.first_name, last_name:req.body.last_name}), req.body.profile_image,req.body.email,  req.body.birthdate,  req.body.phone_number,req.body.teacher_address,"Teacher"], (err, teacher, fields) => {

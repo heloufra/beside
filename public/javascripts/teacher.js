@@ -252,7 +252,7 @@ $(document).on("click",".row-teacher",function(event){
 			  return el.Subject_Label === res.subjects[res.subjects.length - 1].Subject_Label;
 			});
 		for (var j = classes.length - 1; j >= 0; j--) {
-			$div.find('.list-classes').append('<option class="class-subject" value="'+classes[j].Classe_Label+'" selected>'+classes[j].Classe_Label+'</option>');	
+			$div.find('.list-classes').append('<option class="class-subject" value="'+classes[j].Classe_ID+'" selected>'+classes[j].Classe_Label+'</option>');	
 		}
   		for (var i = res.subjects.length - 2; i >= 0; i--) {
   			$div = $('div[id^="subjects-container"]:last');
@@ -266,7 +266,7 @@ $(document).on("click",".row-teacher",function(event){
 			  return el.Subject_Label === res.subjects[i].Subject_Label;
 			});			
 			for (var j = classes.length - 1; j >= 0; j--) {
-				$klon.find('.list-classes').append('<option class="class-subject" value="'+classes[j].Classe_Label+'" selected>'+classes[j].Classe_Label+'</option>');	
+				$klon.find('.list-classes').append('<option class="class-subject" value="'+classes[j].Classe_ID+'" selected>'+classes[j].Classe_Label+'</option>');	
 			}
 		  	$div.append($klon);
   		}
@@ -444,6 +444,40 @@ function updateAbsence() {
   }
 })
 
+ $('#subjects-container').find('input[name="subjects"]').on( "change", function() {
+  var value = $(this).val();
+	console.log("Subject!!",value);
+  if (value.replace(/\s/g, '') !== '')
+  {
+  	$('#subjects-container').find('.row-classe').remove();
+	  $.ajax({
+		    type: 'get',
+		    url: '/Teachers/classes',
+		    data: {
+		    	subject_id:$('#subjects-container').find('[data-val='+value+']').data('subjectid'),
+		    },
+		    dataType: 'json'
+		  })
+		  .done(function(res){
+		  	if(res.errors)
+		  	{
+
+		  		console.log(res.errors)
+		  	} else {
+		  		var first_label = '';
+		  		for (var i = res.classes.length - 1; i >= 0; i--) {
+		  			if (first_label !== res.classes[i].Level_Label)
+		  			{
+		  				first_label = res.classes[i].Level_Label;
+		  				$('#subjects-container').find('.list-classes').append('<option class="option-level-label row-classe" disabled="disabled">'+res.classes[i].Level_Label+'</option>')
+		  			}
+		  			$('#subjects-container').find('.list-classes').append('<option class="row-classe" value="'+res.classes[i].Classe_ID+'">'+res.classes[i].Classe_Label+'</option>')
+		  		}
+		  	}
+		  });
+  }
+})
+
 function saveteacher() {
 	var first_name = $('#teacher_form').find('input[name="first_name"]').val();
 	var email = $('#teacher_form').find('input[name="email"]').val();
@@ -452,7 +486,6 @@ function saveteacher() {
 	var last_name = $('#teacher_form').find('input[name="last_name"]').val();
 	var phone_number = $('#teacher_form').find('input[name="phone_number"]').val();
 	var birthdate = $('#teacher_form').find('input[name="birthdate"]').val();
-	var subject = $('#teacher_form').find('input[name="subject"]').val();
 	var subjects =  $('#teacher_form').find('input[name^=subject]').map(function(idx, elem) {
 	    return {subject: $('#teacher_form').find('[data-val='+$(elem).val()+']').data('subjectid'),classes:$(this).closest('.dynamic-form-input-float-adjust').find('select').val()};
 	  }).get();
@@ -524,6 +557,9 @@ function saveteacher() {
 }
 
 function saveChange() {
+	var subjects =  $('#subjects-container').find('input[name^=subjects]').map(function(idx, elem) {
+	    return {subject: $('#subjects-container').find('[data-val='+$(elem).val()+']').data('subjectid'),classes:$(this).closest('.dynamic-form-input-float-adjust').find('select').val()};
+	  }).get();
 	$.ajax({
 	    type: 'post',
 	    url: '/Teachers/update',
@@ -536,6 +572,7 @@ function saveChange() {
 			email:$('#Details').find('input[name="email"]').val(),
 			phone_number:$('#Details').find('input[name="phone_number_detail"]').val(),
 			birthdate:$('#Details').find('input[name="birthdate_detail"]').val(),
+			subjects:subjects,
 	    },
 	    dataType: 'json'
 	  })
