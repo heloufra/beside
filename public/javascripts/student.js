@@ -959,13 +959,23 @@ if ($('#AddStudentAbsenceModal').find('input[data-val="Absence"]:checked').val()
 		  .done(function(res){
 		  	if(res.saved)
 		  	{
-
+		  		$('.input-time').timepicker('destroy');
 		  		$('#AddStudentAbsenceModal').modal('hide');
 			  	$('#AddStudentAbsenceModal').find('input[name="ad_classe"]').val("");
 				$('#AddStudentAbsenceModal').find('input[name="ad_student"]').val("");
 				$('#AddStudentAbsenceModal').find('input[name="ad_date"]').val("");
 	 			$('#AddStudentAbsenceModal').find('input[name="period_start"]').val("");
 				$('#AddStudentAbsenceModal').find('input[name="period_end"]').val("");
+				$('#AddStudentAbsenceModal').find('input[name="time_start"]').val("");
+				$('#AddStudentAbsenceModal').find('input[name="time_end"]').val("");
+				$('.input-time').timepicker({
+					timeFormat: 'HH:mm',
+				    interval: 60,
+				    dynamic: false,
+				    dropdown: true,
+				    scrollbar: true
+
+				});
 		  		displayStudent(studentId);
 		  	} else {
 		  		console.log("not saved");

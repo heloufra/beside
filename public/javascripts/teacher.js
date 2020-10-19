@@ -647,13 +647,24 @@ if ($('#AddTeacherAbsenceModal').find('input[data-val="Absence"]:checked').val()
 		  .done(function(res){
 		  	if(res.saved)
 		  	{
+		  		$('.input-time').timepicker('destroy');
 		  		$('#AddTeacherAbsenceModal').modal('hide');
 			  	$('#AddTeacherAbsenceModal').find('input[name="ad_classe"]').val("");
 				$('#AddTeacherAbsenceModal').find('input[name="ad_teacher"]').val("");
 				$('#AddTeacherAbsenceModal').find('input[name="ad_date"]').val("");
 				$('#AddTeacherAbsenceModal').find('input[name="period_start"]').val("");
 				$('#AddTeacherAbsenceModal').find('input[name="period_end"]').val("");
+				$('#AddTeacherAbsenceModal').find('input[name="time_start"]').val("");
+				$('#AddTeacherAbsenceModal').find('input[name="time_end"]').val("");
 				 $('#teacher_form').find('input[name^=subject]').val('');
+				 $('.input-time').timepicker({
+					timeFormat: 'HH:mm',
+				    interval: 60,
+				    dynamic: false,
+				    dropdown: true,
+				    scrollbar: true
+
+				});
 		  		displayteacher(teacherId);
 		  	} else {
 		  		console.log("not saved");
