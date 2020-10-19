@@ -248,9 +248,10 @@ var studentController = {
   },
   savePayments: function(req, res, next) {
     for (var i = req.body.payments.length - 1; i >= 0; i--) {
-      for (var j = req.body.payments[i].period.length - 1; j >= 0; j--) {
-        connection.query(paymentsQuery, [req.body.payments[i].ssid, req.body.payments[i].period[j]]);
-      }
+      if (req.body.payments[i].period)
+        for (var j = req.body.payments[i].period.length - 1; j >= 0; j--) {
+          connection.query(paymentsQuery, [req.body.payments[i].ssid, req.body.payments[i].period[j]]);
+        }
     }
     res.json({saved : true});
   },
