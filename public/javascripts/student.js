@@ -260,6 +260,7 @@ $(document).on("click",".students_list",function(event){
   		$('#Details').find('.expense_col').remove();
   		$('#Details').find('.row-parent').remove();
   		$("#Finance").find('.month-row').remove();
+  		$("#Finance").find('.row-payment').remove();
   		$('#student_info').removeClass('hidden');
   		$("#attitude_table").removeClass('hidden');
   		$("#attitude_title").removeClass('hidden');
@@ -313,10 +314,13 @@ $(document).on("click",".students_list",function(event){
 		var indEnd = months.indexOf(end);
 		var htmlmonths = '';
 		var date = new Date();
+		console.log("SubStudent:::",subStudent);
 		for (var i = subStudent.length - 1; i >= 0; i--) {
 			if (subStudent[i].Expense_PaymentMethod === "Monthly")
-				$("#Finance").find('.list-expenses').append('<tr data-val="'+subStudent[i].Expense_Label+'"> <td data-label="'+subStudent[i].Expense_Label+'" class="td-label"> <span class="expense_label">'+subStudent[i].Expense_Label+'<span class="expense_label_method">'+subStudent[i].Expense_Cost+'</span></span> </td> </tr>')
+				$("#Finance").find('.list-expenses').append('<tr class="row-payment" data-val="'+subStudent[i].Expense_Label+'"> <td data-label="'+subStudent[i].Expense_Label+'" class="td-label"> <span class="expense_label">'+subStudent[i].Expense_Label+'<span class="expense_label_method">'+subStudent[i].Expense_Cost+'</span></span> </td> </tr>')
 		}
+
+		console.log("Payment:::",res.payStudent);
 		for (var i = indStart; i < months.length; i++) {
 			htmlmonths += '<th scope="col" class="col-text-align month-row">'+months[i].slice(0,3)+'</th>';
 			if (i === indEnd)
@@ -326,10 +330,9 @@ $(document).on("click",".students_list",function(event){
 			for (var j = res.payStudent.length - 1; j >= 0; j--) {
 				if(res.payStudent[j].Expense_PaymentMethod === "Monthly")
 				{
-					console.log("Index::",res.payStudent[j].Expense_Label,"SubIndex::",j);
 					if (res.payStudent[j].SP_PaidPeriod === months[i])
 					{
-						$("#Finance").find('[data-val="'+res.payStudent[j].Expense_Label+'"]').append('<td scope="col" class="col-text-align"><img src="assets/icons/check_green.svg" alt="states"/></td>');
+						$("#Finance").find('[data-val="'+res.payStudent[j].Expense_Label+'"]').append('<td scope="col" class="row-payment col-text-align"><img src="assets/icons/check_green.svg" alt="states"/></td>');
 					}
 				}
 			}
