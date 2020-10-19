@@ -186,9 +186,11 @@ document.getElementById("search-input").addEventListener('input', function (evt)
     var active = '';
   if (this.value.replace(/\s/g, '') !== '')
   {
-  	var value = new RegExp(this.value.toLowerCase());
+  	var value = new RegExp(this.value.toLowerCase().replace(/\s/g, ''));
 	var filtred = students.filter(function (el) {
-			  return el.Student_FirstName.toLowerCase().match(value) || el.Student_LastName.toLowerCase().match(value);
+				var forname = el.Student_FirstName.toLowerCase() +  el.Student_LastName.toLowerCase();
+				var backname = el.Student_LastName.toLowerCase()+el.Student_FirstName.toLowerCase();
+			  return forname.match(value) || backname.match(value);
 			});
 	for (var i = filtred.length - 1; i >= 0; i--) {
 		if (i === filtred.length - 1)

@@ -160,10 +160,12 @@ document.getElementById("search-teacher").addEventListener('input', function (ev
     var active = '';
   if (this.value.replace(/\s/g, '') !== '')
   {
-  	var value = new RegExp(this.value.toLowerCase());
+  	var value = new RegExp(this.value.toLowerCase().replace(/\s/g, ''));
 	var filtred = teachers.filter(function (el) {
 				var name = JSON.parse(el.teacher.User_Name)
-			  return name.first_name.toLowerCase().match(value) || name.last_name.toLowerCase().match(value);
+				var forname = name.first_name.toLowerCase()+name.last_name.toLowerCase();
+				var backname = name.last_name.toLowerCase()+name.first_name.toLowerCase();
+			  return forname.match(value) || backname.match(value);
 			});
 	for (var i = filtred.length - 1; i >= 0; i--) {
 		if (i === filtred.length - 1)
