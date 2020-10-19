@@ -67,7 +67,7 @@ var setupModel = {
   },
   saveUser: function(institutionsData) {
      return new Promise((resolve, reject) => {
-      connection.query("INSERT INTO users(User_Name, User_Image, User_Email, User_Phone,User_Role) VALUES(?,?,?,?,?)", [institutionsData.school, institutionsData.logo,institutionsData.email,institutionsData.phone,"Admin"], (err, user, fields) => {
+      connection.query("INSERT INTO users(User_Name, User_Image, User_Email, User_Phone,User_Role) VALUES(?,?,?,?,?)", [institutionsData.school, "assets/icons/Logo_placeholder.svg",institutionsData.email,institutionsData.phone,"Admin"], (err, user, fields) => {
        if (err) reject(err);
         else resolve(user);
       });
