@@ -200,10 +200,13 @@ document.getElementById("search-teacher").addEventListener('input', function (ev
 });
 
 $(document).on("click",".row-teacher",function(event){
-	teacherId = $(this).find('input[name="teacherId"]').val();
-	$('.sections-main-sub-container-left-card').removeClass('active');
-	$(this).addClass('active');
-	displayteacher(teacherId);
+	if (!$("#ChangesModal").hasClass('in'))
+	{
+		teacherId = $(this).find('input[name="teacherId"]').val();
+		$('.sections-main-sub-container-left-card').removeClass('active');
+		$(this).addClass('active');
+		displayteacher(teacherId);
+	}
 });
 
  function displayteacher(index) 
@@ -579,6 +582,7 @@ function saveChange() {
 	  .done(function(res){
 	  	if(res.updated)
 	  	{
+	  		$("#ChangesModal").modal('hide');
 	  		getAllteachers(teacherId);
 	  	} else {
 	  		console.log(res);
@@ -591,6 +595,7 @@ function saveChange() {
 function discardChange() {
  	$('#Details .sub-container-form-footer').addClass('hide-footer');
  	$('#Details .sub-container-form-footer').removeClass('show-footer');
+ 	$("#ChangesModal").modal('hide');
  	displayteacher(teacherId);
  }
 

@@ -865,6 +865,7 @@ function updateAttitude() {
 function discardChange() {
  	$('#Details .sub-container-form-footer').addClass('hide-footer');
  	$('#Details .sub-container-form-footer').removeClass('show-footer');
+ 	$("#ChangesModal").modal('hide');
  	displayStudent(studentId);
  }
 
