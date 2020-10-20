@@ -92,7 +92,6 @@ var examController = {
      })
   },
   updateExam: function(req, res, next) {
-    console.log(req.body)
     connection.query("UPDATE `exams` SET `Exam_Title` = ?,`Exam_Deatils` = ?, `Exam_Date` = ? WHERE Exam_ID = ?", [req.body.exam_name,req.body.exam_description,req.body.exam_date,req.body.id], (err, student, fields) => {
        if (err) {
             console.log(err);

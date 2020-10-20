@@ -150,6 +150,7 @@ function saveHomework() {
  function discardChange() {
  	$('#homework_info .sub-container-form-footer').addClass('hide-footer');
  	$('#homework_info .sub-container-form-footer').removeClass('show-footer');
+ 	$('#ChangesModal').modal('hide');
  	displayHomework(homeworkId);
  }
 
@@ -236,10 +237,13 @@ $('input[name="filter-classe"]').on( "change", function() {
 
 
 $(document).on("click",".sections-main-sub-container-left-card",function(event){
-	homeworkId = $(this).find('input[name="homeworkId"]').val();
-	$('.sections-main-sub-container-left-card').removeClass('active');
-	$(this).addClass('active');
-	displayHomework(homeworkId);
+	if (!$("#ChangesModal").hasClass('in'))
+	{
+		homeworkId = $(this).find('input[name="homeworkId"]').val();
+		$('.sections-main-sub-container-left-card').removeClass('active');
+		$(this).addClass('active');
+		displayHomework(homeworkId);
+	}
 });
 
 $('input[name="filter-subject"]').on( "change", function() {

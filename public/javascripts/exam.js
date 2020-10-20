@@ -162,10 +162,13 @@ function displayExam(index)
   });
 }
 $(document).on("click",".sections-main-sub-container-left-card",function(event){
-	examId = $(this).find('input[name="examId"]').val();
-	$('.sections-main-sub-container-left-card').removeClass('active');
-	$(this).addClass('active');
-	displayExam(examId);
+	if (!$("#ChangesModal").hasClass('in'))
+	{
+		examId = $(this).find('input[name="examId"]').val();
+		$('.sections-main-sub-container-left-card').removeClass('active');
+		$(this).addClass('active');
+		displayExam(examId);
+	}
 });
 
 function saveScores() {
@@ -320,7 +323,6 @@ $('.select-classe').on( "change", function() {
 	  	{
 	  			displayExam(examId);
 	  			$('#ChangesModal').modal('hide');
-	  			console.log($('#ChangesModal').data('id'));
 	  	} else {
 	  		console.log(res);
 	  	}
@@ -332,6 +334,7 @@ $('.select-classe').on( "change", function() {
  function discardChange() {
  	$('#exam_info .sub-container-form-footer').addClass('hide-footer');
  	$('#exam_info .sub-container-form-footer').removeClass('show-footer');
+ 	$('#ChangesModal').modal('hide');
  	displayExam(examId);
  } 
 
