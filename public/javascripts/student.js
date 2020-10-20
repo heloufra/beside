@@ -10,6 +10,7 @@ var subclasses = [];
 var subStudent = [];
 var homeworks = [];
 var attitudes = [];
+var payStudent = [];
 var exams = [];
 var filtredClass = [];
 var months =  ["January", "February", "March", "April", "May", "June", "July", "August", "September", "Octobre", "November", "December"];
@@ -285,7 +286,7 @@ $(document).on("click",".students_list",function(event){
   		for (var i = res.attitudes.length - 1; i >= 0; i--) {
   			$('#Attitude').find('.note_container').append(' <tr class="row-note"  id="attitude-'+res.attitudes[i].Attitude_ID+'"> <td class="readonly" data-label="Interaction"> <div class="sections-main-sub-container-right-main-rows"> <div class="dynamic-form-input-dropdown-container dynamic-form-input-dropdown-container-icon"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="dynamic-form-input-float-adjust"> <div class="form-group group form-group-right"><img class="icon button-icon" src="assets/icons/caret.svg"> '+(res.attitudes[i].Attitude_Interaction === 0 ? ('<img class="interaction_icon" src="assets/icons/emoji_good.svg" alt="interaction_icon"> <span>Positive</span>'):('<img class="interaction_icon" src="assets/icons/emoji_bad.svg" alt="interaction_icon"> <span>Negative</span>'))+'</div> </div> </div> </div> </div> </div> </td> <td data-label="Note" class="td-label td-description">'+res.attitudes[i].Attitude_Note+'</td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+res.attitudes[i].Attitude_Addeddate+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> <!-- table-option-list --> <img class="table-option-icon" src="assets/icons/options.svg"> <div class="table-option-list"> <div class="table-option-list-li table-option-list-li-edit" onClick="displayAttitude('+i+')" data-id="'+res.attitudes[i].Attitude_ID+'"> <img src="assets/icons/edit.svg" alt="edit"/> <span class="table-option-list-span" " data-id="'+res.attitudes[i].Attitude_ID+'">Edit</span> </div> <div class="table-option-list-li table-option-list-li-delete" data-id="'+res.attitudes[i].Attitude_ID+'"> <img src="assets/icons/delete.svg" alt="delete"/> <span class="table-option-list-span">Delete</span> </div> <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg"> </div> <!-- End table-option-list --> </td> </tr>');
   		}
-
+  		payStudent = res.payStudent;
   		homeworks = res.homeworks;
   		for (var i = res.homeworks.length - 1; i >= 0; i--) {
   			$('#Homework').find('.homework-container').append('<tr class="row-homework" onClick="displayHomework('+i+')"> <td data-label="Homework Title"> <!-- sections-main-sub-container-left-cards --> <div class="sections-main-sub-container-left-card"> <span class="sections-main-sub-container-left-card-main-img-text"  style="background: '+res.homeworks[i].Subject_Color+';">'+res.homeworks[i].Subject_Label.slice(0,2)+'</span> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+res.homeworks[i].Homework_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+res.homeworks[i].Classe_Label+'</span> </div> </div> <!-- End sections-main-sub-container-left-cards --> </td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+res.homeworks[i].Homework_DeliveryDate+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> </tr>');
@@ -443,24 +444,42 @@ function executePayment() {
 	$('#FinanceModal').find('.monthly').addClass('hidden');
 	var indStart = months.indexOf(start);
 	var indEnd = months.indexOf(end);
-	var htmlmonths = '';
-	for (var i = indStart; i < months.length; i++) {
-		htmlmonths += "<option value="+months[i]+">"+months[i]+" </option> ";
-		if (months[i] === end)
-			break;
-		if (months[i] === months.length - 1)
-			i = 0;
-	}
+
 	for (var i = subStudent.length - 1; i >= 0; i--) {
 		if (subStudent[i].Expense_PaymentMethod === "Monthly")
 		{
+			var MonthsFiltred = months;
+			var payFilter = payStudent.filter(function (el) {
+		        	return el.SS_ID === subStudent[i].SS_ID;
+		      	});
+			for (var j = payFilter.length - 1; j >= 0; j--) {
+				
+				MonthsFiltred = MonthsFiltred.filter(function (el) {
+		        	return el != payFilter[j].SP_PaidPeriod;
+		      	});
+			}
+			console.log("Filter!!",MonthsFiltred);
+			var htmlmonths = '';
+			for (var k = indStart; k < MonthsFiltred.length; k++) {
+				htmlmonths += "<option value="+MonthsFiltred[k]+">"+MonthsFiltred[k]+" </option> ";
+				if (MonthsFiltred[k] === end)
+					break;
+				if (MonthsFiltred[k] === MonthsFiltred.length - 1)
+					k = 0;
+			}
 			$('#FinanceModal').find('.monthly').removeClass('hidden');
 			$('#FinanceModal').find('.monthly').after('<div class="monthly-rows dynamic-form-input-container dynamic-form-input-container-extra-style"> <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+subStudent[i].Expense_Label+'</span> <span class="input-label-bg-mask"></span></label> <div class="dynamic-form-input-dropdown-container"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="form-group group"> <select class="input-text-month-select2 payment-select" data-val="Monthly" data-ssid="'+subStudent[i].SS_ID+'" multiple name="language"> '+htmlmonths+'</select> <img class="icon button-icon" src="assets/icons/caret.svg"> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div> </div>');
 		}
 		if (subStudent[i].Expense_PaymentMethod === "Annual")
 		{
-			$('#FinanceModal').find('.yearly').removeClass('hidden');
-			$('#FinanceModal').find('.yearly').after('<div class="yearly-rows dynamic-form-input-container dynamic-form-input-container-extra-style input-text-subject-select2-one-option"> <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+subStudent[i].Expense_Label+'</span> <span class="input-label-bg-mask"></span></label> <div class="dynamic-form-input-dropdown-container"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="form-group group"> <select class="input-text-year-select2 payment-select" data-val="Annual" data-ssid="'+subStudent[i].SS_ID+'" multiple name="language"> <option seleted value="2021-2022">2021-2022</option> </select> <img class="icon button-icon" src="assets/icons/caret.svg"> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div> </div>')
+			payFilter = payStudent.filter(function (el) {
+		        	return el.SS_ID === subStudent[i].SS_ID;
+		      	});
+			if (payFilter.length === 0)
+			{
+				$('#FinanceModal').find('.yearly').removeClass('hidden');
+				$('#FinanceModal').find('.yearly').after('<div class="yearly-rows dynamic-form-input-container dynamic-form-input-container-extra-style input-text-subject-select2-one-option"> <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+subStudent[i].Expense_Label+'</span> <span class="input-label-bg-mask"></span></label> <div class="dynamic-form-input-dropdown-container"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="form-group group"> <select class="input-text-year-select2 payment-select" data-val="Annual" data-ssid="'+subStudent[i].SS_ID+'" multiple name="language"> <option seleted value="2021-2022">2021-2022</option> </select> <img class="icon button-icon" src="assets/icons/caret.svg"> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div> </div>');
+			}
 		}
 	}
 	if($(".input-text-month-select2").length > 0){
