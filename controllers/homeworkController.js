@@ -26,7 +26,7 @@ var homeworkController = {
     })
   },
   saveHomework: function(req, res, next) {
-    console.log()
+    console.log("req.body",req.body);
     connection.query("SELECT teachersubjectsclasses.TSC_ID FROM `teachersubjectsclasses` INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID WHERE subjects.Subject_Label = ? AND classes.Classe_Label = ?  LIMIT 1", [req.body.homework_subject,req.body.homework_classe], (err, tsc, fields) => {
       connection.query(homeworkQuery, [tsc[0].TSC_ID,  req.body.homework_name,  req.body.homework_description, req.body.homework_deliverydate], (err, homework, fields) => {
          if (err) {
@@ -44,8 +44,9 @@ var homeworkController = {
     })
   },
   getHomeworks: function(req, res, next) {
+
     connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
-      connection.query(selectHomeworks,[institutions[0].Institution_ID], (err, homeworks, fields) => {
+      connection.query(selectHomeworks,[req.Institution_ID], (err, homeworks, fields) => {
         res.json({
                   homeworks:homeworks,
                 });
@@ -54,7 +55,7 @@ var homeworkController = {
   },
   getHomework: function(req, res, next) {
     connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
-      connection.query(selectHomework,[institutions[0].Institution_ID,req.query.homework_id], (err, homework, fields) => {
+      connection.query(selectHomework,[req.Institution_ID,req.query.homework_id], (err, homework, fields) => {
         res.json({
                   homework:homework,
                 });
