@@ -323,17 +323,22 @@ $(document).on("click",".students_list",function(event){
 		}
 
 		console.log("Payment:::",res.payStudent);
+		var unpaid = 0;
 		for (var i = indStart; i < months.length; i++) {
 			htmlmonths += '<th scope="col" class="col-text-align month-row">'+months[i].slice(0,3)+'</th>';
 			for (var k = subStudent.length - 1; k >= 0; k--) {
 				if (subStudent[k].Expense_PaymentMethod === "Monthly")
 				{
 					if (date.getMonth() >= i)
+					{
+						unpaid += parseInt(subStudent[k].Expense_Cost);
 						$("#Finance").find('[data-val="'+subStudent[k].Expense_Label+'"]').append('<td data-id="'+subStudent[k].SS_ID +"-"+months[i]+'" scope="col" class="row-payment col-text-align"><img class="img-pay" src="assets/icons/check_red.svg" alt="states"/></td>');
+					}
 					else
 						$("#Finance").find('[data-val="'+subStudent[k].Expense_Label+'"]').append('<td data-id="'+subStudent[k].SS_ID +"-"+months[i]+'" scope="col" class="row-payment col-text-align"></td>');
 				}
 			}
+			console.log("Unpaid::",unpaid);
 			if (i === indEnd)
 				break;
 			if (months[i] === months.length - 1)
