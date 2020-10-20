@@ -29,7 +29,6 @@ function getAllteachers(id) {
 	  	} else {
 	  		teachers = res.teachers;
 	  		filtredClass = res.teachers;
-
 	  		if (id)
 	  			displayteacher(id);
 	  		else if (res.teachers.length > 0)
@@ -292,7 +291,7 @@ $(document).on("click",".row-teacher",function(event){
 		}
 		$('#teacher_info').removeClass('hidden');
 		var name = JSON.parse(result[0].teacher.User_Name);
-
+		
 		var classeHTML = '';
 		for (var i = result[0].classes.length - 1; i >= 0; i--) {
 			classeHTML += result[0].classes[i].Classe_Label + " ";
@@ -547,6 +546,9 @@ function saveteacher() {
 				$('#teacher_form').find('input[name="last_name"]').val("");
 				$('#teacher_form').find('input[name="level"]').val("");
 				$('#teacher_form').find('input[name="phone_number"]').val("");
+				$('#teacher_form').find('input[name="email"]').val("");
+				$('#teacher_form').find('input[name="birthdate"]').val("");
+				$('#teacher_form').find('input[name^=subject]').val("");
 				$('#output-img-teacher').attr("src",'assets/icons/Logo_placeholder.svg')
 		  		getAllteachers();
 

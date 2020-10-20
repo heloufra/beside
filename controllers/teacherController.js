@@ -30,7 +30,7 @@ var teacherController = {
   teacherView: function(req, res, next) {
     connection.query("SELECT * FROM `users` WHERE `User_ID` = ? LIMIT 1", [req.userId], (err, user, fields) => {
       connection.query("SELECT institutions.* FROM users INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN institutions ON institutionsusers.Institution_ID = institutions.Institution_ID WHERE users.User_ID = ?", [req.userId], (err, accounts, fields) => {
-        connection.query("SELECT users.* FROM users INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN institutions ON institutionsusers.Institution_ID = institutions.Institution_ID WHERE institutions.Institution_ID = ? AND users.User_Email = ?", [req.Institution_ID,user[0].User_Email], (err, users, fields) => {            
+        connection.query("SELECT users.*,institutionsusers.User_Role as role FROM users INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN institutions ON institutionsusers.Institution_ID = institutions.Institution_ID WHERE institutions.Institution_ID = ? AND users.User_ID = ?", [req.Institution_ID,req.userId], (err, users, fields) => {            
           connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, institutions, fields) => {
             connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
               connection.query("SELECT * FROM `classes` WHERE AY_ID = ?", [academic[0].AY_ID], (err, classes, fields) => {
@@ -80,29 +80,28 @@ var teacherController = {
               });
        })
   },  
- saveTeacher: function(req, res, next) {
-    console.log(req.body);
-      connection.query(teacherQuery, [JSON.stringify({first_name:req.body.first_name, last_name:req.body.last_name}), req.body.profile_image,req.body.email,  req.body.birthdate,  req.body.phone_number,req.body.teacher_address,"Teacher"], (err, teacher, fields) => {
-         if (err) {
-              console.log(err);
-                res.json({
-                  errors: [{
-                  field: "Access denied",
-                  errorDesc: "Save teacher Error"
-                }]});
-          } else 
-          {
-            connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
-              connection.query("INSERT INTO `institutionsusers`(`Institution_ID`, `User_ID`, `User_Role`) VALUES (?,?,?)",[req.Institution_ID,teacher.insertId,"Teacher"])
-              for (var i = req.body.subjects.length - 1; i >= 0; i--) {
-                for (var j =  req.body.subjects[i].classes.length - 1; j >= 0; j--) {
-                   connection.query("INSERT INTO `teachersubjectsclasses`( `Teacher_ID`, `Subject_ID`, `Classe_ID`, `AY_ID`) VALUES (?,?,?,?)",[teacher.insertId,req.body.subjects[i].subject,req.body.subjects[i].classes[j],academic[0].AY_ID]);
-                }
-              }
-            })
-            res.json({saved:true})
+ saveTeacher: async function(req, res, next) {
+      var user = await teacherModel.findUser(req.body.email);
+      var userId;
+      if (user.length > 0)
+      {
+        userId = user[0].User_ID;
+        connection.query("UPDATE `users` SET User_Name=? WHERE User_ID = ?", [JSON.stringify({first_name:user[0].User_Name, last_name:""}),userId]);
+      }
+      else
+       {
+          user = await teacherModel.saveUser(req);
+          userId = user.insertId;
+       }
+        connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
+          connection.query("INSERT INTO `institutionsusers`(`Institution_ID`, `User_ID`, `User_Role`) VALUES (?,?,?)",[req.Institution_ID,userId,"Teacher"])
+          for (var i = req.body.subjects.length - 1; i >= 0; i--) {
+            for (var j =  req.body.subjects[i].classes.length - 1; j >= 0; j--) {
+               connection.query("INSERT INTO `teachersubjectsclasses`( `Teacher_ID`, `Subject_ID`, `Classe_ID`, `AY_ID`) VALUES (?,?,?,?)",[userId,req.body.subjects[i].subject,req.body.subjects[i].classes[j],academic[0].AY_ID]);
+            }
           }
-      })                    
+        })
+        res.json({saved:true})                    
   },
   saveAbsence: function(req, res, next) {
     connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {

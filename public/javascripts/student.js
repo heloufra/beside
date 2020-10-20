@@ -335,7 +335,7 @@ $(document).on("click",".students_list",function(event){
 			for (var k = subStudent.length - 1; k >= 0; k--) {
 				if (subStudent[k].Expense_PaymentMethod === "Monthly")
 				{
-					if (date.getMonth() >= i)
+					if (date.getMonth() >= i && i >= indStart)
 					{
 						unpaid += parseInt(subStudent[k].Expense_Cost);
 						$("#Finance").find('[data-val="'+subStudent[k].Expense_Label+'"]').append('<td data-id="'+subStudent[k].SS_ID +"-"+months[i]+'" scope="col" class="row-payment col-text-align "><img  src="assets/icons/check_red.svg" alt="states"/></td>');
@@ -346,8 +346,8 @@ $(document).on("click",".students_list",function(event){
 			}
 			if (i === indEnd)
 				break;
-			if (months[i] === months.length - 1)
-				i = 0;
+			if (i === months.length - 1)
+				i = -1;
 			console.log("PayStudent::",res.payStudent);
 			for (var j = res.payStudent.length - 1; j >= 0; j--) {
 				if(res.payStudent[j].Expense_PaymentMethod === "Monthly")
@@ -462,10 +462,10 @@ function executePayment() {
 			var htmlmonths = '';
 			for (var k = indStart; k < MonthsFiltred.length; k++) {
 				htmlmonths += "<option value="+MonthsFiltred[k]+">"+MonthsFiltred[k]+" </option> ";
-				if (MonthsFiltred[k] === end)
+				if (k === indEnd)
 					break;
-				if (MonthsFiltred[k] === MonthsFiltred.length - 1)
-					k = 0;
+				if (k === MonthsFiltred.length - 1)
+					k = -1;
 			}
 			$('#FinanceModal').find('.monthly').removeClass('hidden');
 			$('#FinanceModal').find('.monthly').after('<div class="monthly-rows dynamic-form-input-container dynamic-form-input-container-extra-style"> <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+subStudent[i].Expense_Label+'</span> <span class="input-label-bg-mask"></span></label> <div class="dynamic-form-input-dropdown-container"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="form-group group"> <select class="input-text-month-select2 payment-select" data-val="Monthly" data-ssid="'+subStudent[i].SS_ID+'" multiple name="language"> '+htmlmonths+'</select> <img class="icon button-icon" src="assets/icons/caret.svg"> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div> </div>');
