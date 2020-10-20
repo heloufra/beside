@@ -317,13 +317,15 @@ $(document).on("click",".students_list",function(event){
 		var htmlmonths = '';
 		var date = new Date();
 		console.log("SubStudent:::",subStudent);
+		var unpaid = 0;
 		for (var i = subStudent.length - 1; i >= 0; i--) {
 			if (subStudent[i].Expense_PaymentMethod === "Monthly")
-				$("#Finance").find('.list-expenses').append('<tr class="row-payment" data-val="'+subStudent[i].Expense_Label+'"> <td data-label="'+subStudent[i].Expense_Label+'" class="td-label"> <span class="expense_label">'+subStudent[i].Expense_Label+'<span class="expense_label_method">'+subStudent[i].Expense_Cost+'</span></span> </td> </tr>')
+				$("#Finance").find('.list-expenses').append('<tr class="row-payment" data-val="'+subStudent[i].Expense_Label+'"> <td data-label="'+subStudent[i].Expense_Label+'" class="td-label"> <span class="expense_label">'+subStudent[i].Expense_Label+'<span class="expense_label_method">'+subStudent[i].Expense_Cost+'</span></span> </td> </tr>');
+			else
+				unpaid += parseInt(subStudent[i].Expense_Cost);
 		}
 
 		console.log("Payment:::",res.payStudent);
-		var unpaid = 0;
 		for (var i = indStart; i < months.length; i++) {
 			htmlmonths += '<th scope="col" class="col-text-align month-row">'+months[i].slice(0,3)+'</th>';
 			for (var k = subStudent.length - 1; k >= 0; k--) {
@@ -338,7 +340,6 @@ $(document).on("click",".students_list",function(event){
 						$("#Finance").find('[data-val="'+subStudent[k].Expense_Label+'"]').append('<td data-id="'+subStudent[k].SS_ID +"-"+months[i]+'" scope="col" class="row-payment col-text-align"></td>');
 				}
 			}
-			console.log("Unpaid::",unpaid);
 			if (i === indEnd)
 				break;
 			if (months[i] === months.length - 1)
@@ -349,6 +350,7 @@ $(document).on("click",".students_list",function(event){
 				{
 					if (res.payStudent[j].SP_PaidPeriod === months[i])
 					{
+						unpaid -= parseInt(res.payStudent[j].Expense_Cost);
 						if ($("#Finance").find('[data-val="'+res.payStudent[j].Expense_Label+'"]').find('[data-id="'+res.payStudent[j].SS_ID+"-"+months[i]+'"]').find('.img-pay').length >= 0)
 							$("#Finance").find('[data-val="'+res.payStudent[j].Expense_Label+'"]').find('[data-id="'+res.payStudent[j].SS_ID+"-"+months[i]+'"]').find('.img-pay').remove();
 						$("#Finance").find('[data-val="'+res.payStudent[j].Expense_Label+'"]').find('[data-id="'+res.payStudent[j].SS_ID+"-"+months[i]+'"]').append('<img src="assets/icons/check_green.svg" alt="states"/>');
@@ -362,8 +364,11 @@ $(document).on("click",".students_list",function(event){
 						      });
 		console.log("YEars",yearlyExpense)
 		for (var i = yearlyExpense.length - 1; i >= 0; i--) {
+			unpaid -= yearlyExpense[i].Expense_Cost;
 			$("#Finance").find('.yearly-expense').after(' <div class="month-row sections-main-sub-container-right-main-result sections-main-sub-container-right-main-result-extra-style"><span class="sections-main-sub-container-right-main-result-label sections-main-sub-container-right-main-result-label-extra-info"> <span class="expense_label">'+yearlyExpense[i].Expense_Label+'</span> <span class="expense_label_method">'+yearlyExpense[i].Expense_Cost+'</span> </span> <span class="sections-main-sub-container-right-main-result-value "><img src="assets/icons/green_check.svg" alt="states" /></span></div>');
 		}
+
+		$('#Finance').find('.unpaid-expense').html(unpaid);
 		$("#Finance").find('.list-months').append(htmlmonths);
 		var inputFirst = '';
 		parents = res.parents;
