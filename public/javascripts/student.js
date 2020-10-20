@@ -322,7 +322,10 @@ $(document).on("click",".students_list",function(event){
 			if (subStudent[i].Expense_PaymentMethod === "Monthly")
 				$("#Finance").find('.list-expenses').append('<tr class="row-payment" data-val="'+subStudent[i].Expense_Label+'"> <td data-label="'+subStudent[i].Expense_Label+'" class="td-label"> <span class="expense_label">'+subStudent[i].Expense_Label+'<span class="expense_label_method">'+subStudent[i].Expense_Cost+'</span></span> </td> </tr>');
 			else
+			{
 				unpaid += parseInt(subStudent[i].Expense_Cost);
+				$("#Finance").find('.yearly-expense').after(' <div data-val="'+subStudent[i].Expense_Label+'" class="month-row sections-main-sub-container-right-main-result sections-main-sub-container-right-main-result-extra-style"><span class="sections-main-sub-container-right-main-result-label sections-main-sub-container-right-main-result-label-extra-info"> <span class="expense_label">'+subStudent[i].Expense_Label+'</span> <span class="expense_label_method">'+subStudent[i].Expense_Cost+'</span> </span> <span class="sections-main-sub-container-right-main-result-value img-yearly"><img src="assets/icons/check_red.svg" alt="states" /></span></div>');
+			}
 		}
 
 		console.log("Payment:::",res.payStudent);
@@ -334,7 +337,7 @@ $(document).on("click",".students_list",function(event){
 					if (date.getMonth() >= i)
 					{
 						unpaid += parseInt(subStudent[k].Expense_Cost);
-						$("#Finance").find('[data-val="'+subStudent[k].Expense_Label+'"]').append('<td data-id="'+subStudent[k].SS_ID +"-"+months[i]+'" scope="col" class="row-payment col-text-align"><img class="img-pay" src="assets/icons/check_red.svg" alt="states"/></td>');
+						$("#Finance").find('[data-val="'+subStudent[k].Expense_Label+'"]').append('<td data-id="'+subStudent[k].SS_ID +"-"+months[i]+'" scope="col" class="row-payment col-text-align "><img  src="assets/icons/check_red.svg" alt="states"/></td>');
 					}
 					else
 						$("#Finance").find('[data-val="'+subStudent[k].Expense_Label+'"]').append('<td data-id="'+subStudent[k].SS_ID +"-"+months[i]+'" scope="col" class="row-payment col-text-align"></td>');
@@ -351,9 +354,7 @@ $(document).on("click",".students_list",function(event){
 					if (res.payStudent[j].SP_PaidPeriod === months[i])
 					{
 						unpaid -= parseInt(res.payStudent[j].Expense_Cost);
-						if ($("#Finance").find('[data-val="'+res.payStudent[j].Expense_Label+'"]').find('[data-id="'+res.payStudent[j].SS_ID+"-"+months[i]+'"]').find('.img-pay').length >= 0)
-							$("#Finance").find('[data-val="'+res.payStudent[j].Expense_Label+'"]').find('[data-id="'+res.payStudent[j].SS_ID+"-"+months[i]+'"]').find('.img-pay').remove();
-						$("#Finance").find('[data-val="'+res.payStudent[j].Expense_Label+'"]').find('[data-id="'+res.payStudent[j].SS_ID+"-"+months[i]+'"]').append('<img src="assets/icons/check_green.svg" alt="states"/>');
+						$("#Finance").find('[data-val="'+res.payStudent[j].Expense_Label+'"]').find('[data-id="'+res.payStudent[j].SS_ID+"-"+months[i]+'"]').html('<img src="assets/icons/check_green.svg" alt="states"/>');
 					}
 				}
 			}
@@ -365,7 +366,7 @@ $(document).on("click",".students_list",function(event){
 		console.log("YEars",yearlyExpense)
 		for (var i = yearlyExpense.length - 1; i >= 0; i--) {
 			unpaid -= yearlyExpense[i].Expense_Cost;
-			$("#Finance").find('.yearly-expense').after(' <div class="month-row sections-main-sub-container-right-main-result sections-main-sub-container-right-main-result-extra-style"><span class="sections-main-sub-container-right-main-result-label sections-main-sub-container-right-main-result-label-extra-info"> <span class="expense_label">'+yearlyExpense[i].Expense_Label+'</span> <span class="expense_label_method">'+yearlyExpense[i].Expense_Cost+'</span> </span> <span class="sections-main-sub-container-right-main-result-value "><img src="assets/icons/green_check.svg" alt="states" /></span></div>');
+			$("#Finance").find('[data-val="'+yearlyExpense[i].Expense_Label+'"]').find('.img-yearly').html('<img src="assets/icons/green_check.svg" alt="states" />');
 		}
 
 		$('#Finance').find('.unpaid-expense').html(unpaid);
