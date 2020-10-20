@@ -1,7 +1,7 @@
 getAllExams();
 var exams = [];
 var examId = 0;
-function getAllExams() {
+function getAllExams(id) {
  	$('.exam-row').remove();
 	$.ajax({
 	    type: 'get',
@@ -18,7 +18,10 @@ function getAllExams() {
 	  		if (res.exams.length > 0)
 	  		{
 	  			examId = res.exams[res.exams.length - 1].Exam_ID;
-	  			displayExam(res.exams[res.exams.length - 1].Exam_ID);
+	  			if (id)
+	  				displayExam(id);
+	  			else
+	  				displayExam(res.exams[res.exams.length - 1].Exam_ID);
 	  		}
 	  		var active = '';
 	  		var name = '';
@@ -321,7 +324,7 @@ $('.select-classe').on( "change", function() {
 	  .done(function(res){
 	  	if(res.updated)
 	  	{
-	  			displayExam(examId);
+	  			getAllExams(examId);
 	  			$('#ChangesModal').modal('hide');
 	  	} else {
 	  		console.log(res);

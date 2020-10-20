@@ -1,7 +1,7 @@
 getAllHomeworks();
 var homeworks = [];
 var homeworkId = 0;
-function getAllHomeworks() {
+function getAllHomeworks(id) {
  	$('.homework-row').remove();
 	$.ajax({
 	    type: 'get',
@@ -18,7 +18,10 @@ function getAllHomeworks() {
 	  		if (res.homeworks.length > 0)
 	  		{
 	  			homeworkId = res.homeworks[res.homeworks.length - 1].Homework_ID;
-	  			displayHomework(res.homeworks[res.homeworks.length - 1].Homework_ID);
+	  			if (id)
+	  				displayHomework(id);
+	  			else
+	  				displayHomework(res.homeworks[res.homeworks.length - 1].Homework_ID);
 	  		}
 	  		var active = '';
 	  		var name = '';
@@ -137,7 +140,7 @@ function saveHomework() {
 	  .done(function(res){
 	  	if(res.updated)
 	  	{
-	  			displayHomework(homeworkId);
+	  			getAllHomeworks(homeworkId);
 	  			$('#ChangesModal').modal('hide');
 	  			console.log($('#ChangesModal').data('id'));
 	  	} else {
