@@ -319,36 +319,35 @@ $(document).on("click",".students_list",function(event){
 		var date = new Date();
 		console.log("SubStudent:::",subStudent);
 		var unpaid = 0;
-		for (var i = subStudent.length - 1; i >= 0; i--) {
-			if (subStudent[i].Expense_PaymentMethod === "Monthly")
-				$("#Finance").find('.list-expenses').append('<tr class="row-payment" data-val="'+subStudent[i].Expense_Label+'"> <td data-label="'+subStudent[i].Expense_Label+'" class="td-label"> <span class="expense_label">'+subStudent[i].Expense_Label+'<span class="expense_label_method">'+subStudent[i].Expense_Cost+'</span></span> </td> </tr>');
+		for (var i = res.substudentpay.length - 1; i >= 0; i--) {
+			if (res.substudentpay[i].Expense_PaymentMethod === "Monthly")
+				$("#Finance").find('.list-expenses').append('<tr class="row-payment" data-val="'+res.substudentpay[i].Expense_Label+'"> <td data-label="'+res.substudentpay[i].Expense_Label+'" class="td-label"> <span class="expense_label">'+res.substudentpay[i].Expense_Label+'<span class="expense_label_method">'+res.substudentpay[i].Expense_Cost+'</span></span> </td> </tr>');
 			else
 			{
-				unpaid += parseInt(subStudent[i].Expense_Cost);
-				$("#Finance").find('.yearly-expense').after(' <div data-val="'+subStudent[i].Expense_Label+'" class="month-row sections-main-sub-container-right-main-result sections-main-sub-container-right-main-result-extra-style"><span class="sections-main-sub-container-right-main-result-label sections-main-sub-container-right-main-result-label-extra-info"> <span class="expense_label">'+subStudent[i].Expense_Label+'</span> <span class="expense_label_method">'+subStudent[i].Expense_Cost+'</span> </span> <span class="sections-main-sub-container-right-main-result-value img-yearly"><img src="assets/icons/check_red.svg" alt="states" /></span></div>');
+				unpaid += parseInt(res.substudentpay[i].Expense_Cost);
+				$("#Finance").find('.yearly-expense').after(' <div data-val="'+res.substudentpay[i].Expense_Label+'" class="month-row sections-main-sub-container-right-main-result sections-main-sub-container-right-main-result-extra-style"><span class="sections-main-sub-container-right-main-result-label sections-main-sub-container-right-main-result-label-extra-info"> <span class="expense_label">'+res.substudentpay[i].Expense_Label+'</span> <span class="expense_label_method">'+res.substudentpay[i].Expense_Cost+'</span> </span> <span class="sections-main-sub-container-right-main-result-value img-yearly"><img src="assets/icons/check_red.svg" alt="states" /></span></div>');
 			}
 		}
 
-		console.log("Payment:::",res.payStudent);
 		for (var i = indStart; i < months.length; i++) {
 			htmlmonths += '<th scope="col" class="col-text-align month-row">'+months[i].slice(0,3)+'</th>';
-			for (var k = subStudent.length - 1; k >= 0; k--) {
-				if (subStudent[k].Expense_PaymentMethod === "Monthly")
+			for (var k = res.substudentpay.length - 1; k >= 0; k--) {
+				if (res.substudentpay[k].Expense_PaymentMethod === "Monthly")
 				{
-					if (date.getMonth() >= i && i >= indStart)
+					var endDate = new Date(res.substudentpay[k].Subscription_EndDate);
+					if (isNaN(endDate.getMonth()))
+						endDate = i;
+					else
+						endDate = endDate.getMonth();
+					if (date.getMonth() >= i && i >= indStart && endDate >= i)
 					{
-						unpaid += parseInt(subStudent[k].Expense_Cost);
-						$("#Finance").find('[data-val="'+subStudent[k].Expense_Label+'"]').append('<td data-id="'+subStudent[k].SS_ID +"-"+months[i]+'" scope="col" class="row-payment col-text-align "><img  src="assets/icons/check_red.svg" alt="states"/></td>');
+						unpaid += parseInt(res.substudentpay[k].Expense_Cost);
+						$("#Finance").find('[data-val="'+res.substudentpay[k].Expense_Label+'"]').append('<td data-id="'+res.substudentpay[k].SS_ID +"-"+months[i]+'" scope="col" class="row-payment col-text-align "><img  src="assets/icons/check_red.svg" alt="states"/></td>');
 					}
 					else
-						$("#Finance").find('[data-val="'+subStudent[k].Expense_Label+'"]').append('<td data-id="'+subStudent[k].SS_ID +"-"+months[i]+'" scope="col" class="row-payment col-text-align"></td>');
+						$("#Finance").find('[data-val="'+res.substudentpay[k].Expense_Label+'"]').append('<td data-id="'+res.substudentpay[k].SS_ID +"-"+months[i]+'" scope="col" class="row-payment col-text-align"></td>');
 				}
 			}
-			if (i === indEnd)
-				break;
-			if (i === months.length - 1)
-				i = -1;
-			console.log("PayStudent::",res.payStudent);
 			for (var j = res.payStudent.length - 1; j >= 0; j--) {
 				if(res.payStudent[j].Expense_PaymentMethod === "Monthly")
 				{
@@ -359,6 +358,10 @@ $(document).on("click",".students_list",function(event){
 					}
 				}
 			}
+			if (i === indEnd)
+				break;
+			if (i === months.length - 1)
+				i = -1;
 		}
 
 		var yearlyExpense = res.payStudent.filter(function (el) {
@@ -369,7 +372,8 @@ $(document).on("click",".students_list",function(event){
 			unpaid -= yearlyExpense[i].Expense_Cost;
 			$("#Finance").find('[data-val="'+yearlyExpense[i].Expense_Label+'"]').find('.img-yearly').html('<img src="assets/icons/green_check.svg" alt="states" />');
 		}
-
+		if (unpaid < 0)
+			unpaid = "0.00";
 		$('#Finance').find('.unpaid-expense').html(unpaid);
 		$("#Finance").find('.list-months').append(htmlmonths);
 		var inputFirst = '';
@@ -444,11 +448,18 @@ function executePayment() {
 	$('#FinanceModal').find('.monthly').addClass('hidden');
 	var indStart = months.indexOf(start);
 	var indEnd = months.indexOf(end);
-
+	var MonthsFiltred = [];
 	for (var i = subStudent.length - 1; i >= 0; i--) {
 		if (subStudent[i].Expense_PaymentMethod === "Monthly")
 		{
-			var MonthsFiltred = months;
+			MonthsFiltred = [];
+			for (var j = indStart; j < months.length; j++) {
+				MonthsFiltred.push(months[j]);
+				if (j === indEnd)
+					break;
+				if (j === months.length - 1)
+					j = -1;
+			}
 			var payFilter = payStudent.filter(function (el) {
 		        	return el.SS_ID === subStudent[i].SS_ID;
 		      	});
@@ -460,12 +471,8 @@ function executePayment() {
 			}
 			console.log("Filter!!",MonthsFiltred);
 			var htmlmonths = '';
-			for (var k = indStart; k < MonthsFiltred.length; k++) {
+			for (var k = 0; k < MonthsFiltred.length; k++) {
 				htmlmonths += "<option value="+MonthsFiltred[k]+">"+MonthsFiltred[k]+" </option> ";
-				if (k === indEnd)
-					break;
-				if (k === MonthsFiltred.length - 1)
-					k = -1;
 			}
 			$('#FinanceModal').find('.monthly').removeClass('hidden');
 			$('#FinanceModal').find('.monthly').after('<div class="monthly-rows dynamic-form-input-container dynamic-form-input-container-extra-style"> <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+subStudent[i].Expense_Label+'</span> <span class="input-label-bg-mask"></span></label> <div class="dynamic-form-input-dropdown-container"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="form-group group"> <select class="input-text-month-select2 payment-select" data-val="Monthly" data-ssid="'+subStudent[i].SS_ID+'" multiple name="language"> '+htmlmonths+'</select> <img class="icon button-icon" src="assets/icons/caret.svg"> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div> </div>');

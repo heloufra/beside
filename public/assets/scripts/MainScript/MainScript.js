@@ -2318,11 +2318,10 @@ $(document).ready(function(){
 	
 	/* .finance-page-extra-style .col-text-align img _______________________*/
 
-	$(".finance-page-extra-style .col-text-align img").on("mouseenter",function(e){
+	$(document).on("mouseenter",".finance-page-extra-style .col-text-align img",function(e){
 
 			$this = $(this);
-
-			$obj = JSON.parse($(this).attr("data-obj"));
+			$obj = JSON.parse($(this).data("obj").replace(/\\|\//g,''));
 
 
 			$(".custmized-tooltip").css({
@@ -2394,7 +2393,7 @@ $(document).ready(function(){
 
 	});
 
-	$(".finance-page-extra-style .col-text-align img ").on("mouseleave",function(e){
+	$(document).on("mouseleave",".finance-page-extra-style .col-text-align img",function(e){
 		$(".custmized-tooltip").css({
 			display:"none",
 			opacity:0

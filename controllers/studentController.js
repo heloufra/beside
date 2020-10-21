@@ -6,6 +6,7 @@ var queryAllStudents = "SELECT students.*,levels.Level_Label,classes.Classe_Labe
 var querySearch = "SELECT students.*,levels.Level_Label,classes.Classe_Label FROM students INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID INNER JOIN classes ON studentsclasses.Classe_ID = classes.Classe_ID INNER JOIN levels ON levels.Level_ID = classes.Level_ID WHERE (studentsclasses.Classe_ID = ? OR students.Student_FirstName LIKE ?) AND studentsclasses.AY_ID = ?;"
 var queryParents = "SELECT parents.* FROM parents INNER JOIN studentsparents ON studentsparents.Parent_ID = parents.Parent_ID INNER JOIN students ON studentsparents.Student_ID = students.Student_ID WHERE students.Student_ID = ?;"
 var querySubstudent = "SELECT levelexpenses.Expense_Cost,expenses.Expense_Label,expenses.Expense_PaymentMethod,studentsubscribtion.SS_ID FROM students INNER JOIN studentsubscribtion ON students.Student_ID = studentsubscribtion.Student_ID INNER JOIN levelexpenses ON levelexpenses.LE_ID = studentsubscribtion.LE_ID INNER JOIN expenses ON expenses.Expense_ID = levelexpenses.Expense_ID INNER JOIN academicyear ON academicyear.Institution_ID = students.Institution_ID WHERE students.Student_ID = ? AND students.Institution_ID = ? AND studentsubscribtion.Subscription_EndDate = academicyear.AY_EndDate"
+var querySubstudentPay = "SELECT levelexpenses.Expense_Cost,expenses.Expense_Label,expenses.Expense_PaymentMethod,studentsubscribtion.* FROM students INNER JOIN studentsubscribtion ON students.Student_ID = studentsubscribtion.Student_ID INNER JOIN levelexpenses ON levelexpenses.LE_ID = studentsubscribtion.LE_ID INNER JOIN expenses ON expenses.Expense_ID = levelexpenses.Expense_ID INNER JOIN academicyear ON academicyear.Institution_ID = students.Institution_ID WHERE students.Student_ID = ? AND students.Institution_ID = ?"
 var queryAllSub = "SELECT expenses.*,levelexpenses.Expense_Cost,levelexpenses.LE_ID,classes.Classe_Label FROM expenses INNER JOIN levelexpenses ON levelexpenses.Expense_ID = expenses.Expense_ID INNER JOIN classes ON classes.Level_ID = levelexpenses.Level_ID WHERE levelexpenses.AY_ID = ?"
 var querySubclasse = "SELECT levelexpenses.Expense_Cost,expenses.Expense_Label,expenses.Expense_PaymentMethod FROM classes INNER JOIN levels ON levels.Level_ID = classes.Level_ID INNER JOIN levelexpenses ON levelexpenses.Level_ID = levels.Level_ID INNER JOIN expenses ON expenses.Expense_ID = levelexpenses.Expense_ID WHERE classes.Classe_ID = ? AND classes.AY_ID = ?"
 var querySubscriptions = "SELECT expenses.*,levelexpenses.Expense_Cost,levelexpenses.LE_ID FROM expenses INNER JOIN levelexpenses ON levelexpenses.Expense_ID = expenses.Expense_ID WHERE levelexpenses.Level_ID = ? AND levelexpenses.AY_ID = ?;"
@@ -57,37 +58,40 @@ var studentController = {
       connection.query("SELECT * FROM `absencesanddelays` WHERE User_ID = ? AND Declaredby_ID = ? AND AD_Status <> 0", [req.query.user_id,req.userId], (err, absences, fields) => {
           connection.query(queryAttitude, [req.query.user_id], (err, attitudes, fields) => {
             connection.query(querySubstudent, [req.query.user_id,req.Institution_ID], (err, substudent, fields) => {
-              connection.query(homeworkQuery, [req.query.user_id], (err, homeworks, fields) => {
-                connection.query(examsQuery, [req.query.user_id], (err, exams, fields) => {
-                  connection.query(studentPayment, [req.query.user_id], (err, payStudent, fields) => {
-                    connection.query("SELECT AVG(grads.Exam_Score) as average FROM `students` INNER JOIN studentsclasses On studentsclasses.Student_ID = students.Student_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = studentsclasses.Classe_ID INNER JOIN exams ON exams.TSC_ID = teachersubjectsclasses.TSC_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = studentsclasses.Classe_ID LEFT JOIN grads ON grads.Student_ID = students.Student_ID AND  grads.Exam_ID = exams.Exam_ID WHERE students.Student_ID = ? AND exams.Exam_Status <> 0", [req.query.user_id], (err, grade, fields) => {
-                     if (err) {
-                          console.log(err);
-                            res.json({
-                              errors: [{
-                              field: "Access denied",
-                              errorDesc: "List Students Error"
-                            }]});
-                        } else 
-                        {
-                           res.json({
-                              parents:parents,
-                              substudent:substudent,
-                              absences:absences,
-                              attitudes:attitudes,
-                              homeworks:homeworks,
-                              exams:exams,
-                              start:academic[0].AY_Satrtdate,
-                              end:academic[0].AY_EndDate,
-                              average:grade[0].average,
-                              payStudent:payStudent
-                            });
-                        }
+              connection.query(querySubstudentPay, [req.query.user_id,req.Institution_ID], (err, substudentpay, fields) => {
+                connection.query(homeworkQuery, [req.query.user_id], (err, homeworks, fields) => {
+                  connection.query(examsQuery, [req.query.user_id], (err, exams, fields) => {
+                    connection.query(studentPayment, [req.query.user_id], (err, payStudent, fields) => {
+                      connection.query("SELECT AVG(grads.Exam_Score) as average FROM `students` INNER JOIN studentsclasses On studentsclasses.Student_ID = students.Student_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = studentsclasses.Classe_ID INNER JOIN exams ON exams.TSC_ID = teachersubjectsclasses.TSC_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = studentsclasses.Classe_ID LEFT JOIN grads ON grads.Student_ID = students.Student_ID AND  grads.Exam_ID = exams.Exam_ID WHERE students.Student_ID = ? AND exams.Exam_Status <> 0", [req.query.user_id], (err, grade, fields) => {
+                       if (err) {
+                            console.log(err);
+                              res.json({
+                                errors: [{
+                                field: "Access denied",
+                                errorDesc: "List Students Error"
+                              }]});
+                          } else 
+                          {
+                             res.json({
+                                parents:parents,
+                                substudent:substudent,
+                                substudentpay:substudentpay,
+                                absences:absences,
+                                attitudes:attitudes,
+                                homeworks:homeworks,
+                                exams:exams,
+                                start:academic[0].AY_Satrtdate,
+                                end:academic[0].AY_EndDate,
+                                average:grade[0].average,
+                                payStudent:payStudent
+                              });
+                          }
+                      })
                     })
+                   })
                   })
-                 })
-                })
-             })
+               })
+              })
           })
         })
      })
@@ -203,7 +207,7 @@ var studentController = {
                                       }
                                   })
                              }
-                            connection.query("SELECT Classe_ID FROM `classes` WHERE `Classe_Label` = ? LIMIT 1", [req.body.classe], (err, classe, fields) => {
+                            connection.query("SELECT Classe_ID FROM `classes` WHERE `Classe_Label` = ? AND AY_ID = ? LIMIT 1", [req.body.classe,academic[0].AY_ID], (err, classe, fields) => {
                               connection.query(scQuery, [student.insertId,classe[0].Classe_ID,academic[0].AY_ID], (err, scresult, fields) => {
                                  if (err) {
                                       console.log(err);
