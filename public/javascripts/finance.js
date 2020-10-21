@@ -6,6 +6,7 @@ var subscription=[];
 var payments=[];
 var indStart,indEnd;
 var date = new Date();
+var filtredClass = [];
 function getAllFinances(id) {
 	$.ajax({
 	    type: 'get',
@@ -23,6 +24,7 @@ function getAllFinances(id) {
 	  		var studentList = '';
 	  		console.log("students::",res.students);
 	  		students = res.students;
+	  		filtredClass = res.students;
 	  		subscription = res.subscription;
 	  		payments = res.payments;
 	  		indStart = months.indexOf(res.start);
@@ -36,7 +38,7 @@ function getAllFinances(id) {
 			}
 			$("#Finance").find('.list-months').append(htmlmonths);
 			for (var i = 0; i <= students.length - 1; i++) {
-				$('#Finance').find('.list-students').append('<tr data-studentid="'+students[i].Student_ID+'"> <td data-label="Subject name" class="td-label"><div class="sections-main-sub-container-left-card"> <img class="sections-main-sub-container-left-card-main-img" src="'+students[i].Student_Image+'" alt="card-img"> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+students[i].Student_FirstName +' '+students[i].Student_LastName+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+students[i].Classe_Label+'</span> </div> </div></td> </tr>');
+				$('#Finance').find('.list-students').append('<tr class="students_list" data-studentid="'+students[i].Student_ID+'"> <td data-label="Subject name" class="td-label"><div class="sections-main-sub-container-left-card"> <img class="sections-main-sub-container-left-card-main-img" src="'+students[i].Student_Image+'" alt="card-img"> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+students[i].Student_FirstName +' '+students[i].Student_LastName+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+students[i].Classe_Label+'</span> </div> </div></td> </tr>');
 				displayFinance(students[i].Student_ID);
 			}
 			
@@ -86,4 +88,47 @@ function getAllFinances(id) {
 			i = -1;
 	}
  }
+
+ document.getElementById("search-input").addEventListener('input', function (evt) {
+    $('.students_list').remove();
+    var active = '';
+  if (this.value.replace(/\s/g, '') !== '')
+  {
+  	var value = new RegExp(this.value.toLowerCase().replace(/\s/g, ''));
+	var filtred = students.filter(function (el) {
+				var forname = el.Student_FirstName.toLowerCase() +  el.Student_LastName.toLowerCase();
+				var backname = el.Student_LastName.toLowerCase()+el.Student_FirstName.toLowerCase();
+			  return forname.match(value) || backname.match(value);
+			});
+	for (var i = 0; i <= filtred.length - 1; i++) {
+				$('#Finance').find('.list-students').append('<tr class="students_list" data-studentid="'+filtred[i].Student_ID+'"> <td data-label="Subject name" class="td-label"><div class="sections-main-sub-container-left-card"> <img class="sections-main-sub-container-left-card-main-img" src="'+filtred[i].Student_Image+'" alt="card-img"> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+filtred[i].Student_FirstName +' '+filtred[i].Student_LastName+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+filtred[i].Classe_Label+'</span> </div> </div></td> </tr>');
+				displayFinance(filtred[i].Student_ID);
+			}
+  } else
+  {
+  	for (var i = 0; i <= filtredClass.length - 1; i++) {
+				$('#Finance').find('.list-students').append('<tr class="students_list" data-studentid="'+filtredClass[i].Student_ID+'"> <td data-label="Subject name" class="td-label"><div class="sections-main-sub-container-left-card"> <img class="sections-main-sub-container-left-card-main-img" src="'+filtredClass[i].Student_Image+'" alt="card-img"> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+filtredClass[i].Student_FirstName +' '+filtredClass[i].Student_LastName+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+filtredClass[i].Classe_Label+'</span> </div> </div></td> </tr>');
+				displayFinance(filtredClass[i].Student_ID);
+			}
+  }
+});
+
+  $('input[name=classe]').on( "change", function() {
+  var value = $(this).val();
+  if (value.replace(/\s/g, '') !== '')
+  {
+  	$('.students_list').remove();
+	var filtred = students.filter(function (el) {
+			  return el.Classe_Label === value ;
+			});
+	if (value === "All")
+		filtred = students;
+	var active = '';
+	filtredClass = filtred;
+	for (var i = 0; i <= filtredClass.length - 1; i++) {
+			$('#Finance').find('.list-students').append('<tr class="students_list" data-studentid="'+filtredClass[i].Student_ID+'"> <td data-label="Subject name" class="td-label"><div class="sections-main-sub-container-left-card"> <img class="sections-main-sub-container-left-card-main-img" src="'+filtredClass[i].Student_Image+'" alt="card-img"> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+filtredClass[i].Student_FirstName +' '+filtredClass[i].Student_LastName+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+filtredClass[i].Classe_Label+'</span> </div> </div></td> </tr>');
+			displayFinance(filtredClass[i].Student_ID);
+		}
+  }
+})
 
