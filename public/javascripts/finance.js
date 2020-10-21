@@ -54,6 +54,8 @@ function getAllFinances(id) {
 						      });
  		var studentPayment = '';
 		for (var k = subscriptionStudent.length - 1; k >= 0; k--) {
+			if (subscriptionStudent[k].Expense_PaymentMethod === "Monthly")
+			{
 				var endPay = new Date(subscriptionStudent[k].Subscription_EndDate);
 				if (isNaN(endPay.getMonth()))
 					endPay = i;
@@ -66,15 +68,17 @@ function getAllFinances(id) {
 				}
 				else
 					studentPayment += '<img class="disabled" data-pay="'+subscriptionStudent[k].SS_ID+'-'+months[i]+'" src="assets/icons/check_gray.svg" alt="states"/>';
+			}
 		}
 		$("#Finance").find('[data-studentid="'+id+'"]').append(' <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">'+studentPayment+'</td>');
 		for (var j = paymentFiltred.length - 1; j >= 0; j--) {
-			if (paymentFiltred[j].SP_PaidPeriod === months[i])
-			{
-				$("#Finance").find('[data-studentid="'+id+'"]').find('[data-pay="'+paymentFiltred[j].SS_ID+"-"+months[i]+'"]').attr('src',"assets/icons/check_green.svg");
-				$("#Finance").find('[data-studentid="'+id+'"]').find('[data-pay="'+paymentFiltred[j].SS_ID+"-"+months[i]+'"]').removeClass('disabled');
-				$("#Finance").find('[data-studentid="'+id+'"]').find('[data-pay="'+paymentFiltred[j].SS_ID+"-"+months[i]+'"]').data('obj','{"Expence":"'+paymentFiltred[j].Expense_Label+'","Amount":'+paymentFiltred[j].Expense_Cost+',"Status":"Paid","BoolStatus":"0"}')
-			}
+			if (paymentFiltred[j].Expense_PaymentMethod === "Monthly")
+				if (paymentFiltred[j].SP_PaidPeriod === months[i])
+				{
+					$("#Finance").find('[data-studentid="'+id+'"]').find('[data-pay="'+paymentFiltred[j].SS_ID+"-"+months[i]+'"]').attr('src',"assets/icons/check_green.svg");
+					$("#Finance").find('[data-studentid="'+id+'"]').find('[data-pay="'+paymentFiltred[j].SS_ID+"-"+months[i]+'"]').removeClass('disabled');
+					$("#Finance").find('[data-studentid="'+id+'"]').find('[data-pay="'+paymentFiltred[j].SS_ID+"-"+months[i]+'"]').data('obj','{"Expence":"'+paymentFiltred[j].Expense_Label+'","Amount":'+paymentFiltred[j].Expense_Cost+',"Status":"Paid","BoolStatus":"0"}')
+				}
 		}
 		if (i === indEnd)
 			break;
