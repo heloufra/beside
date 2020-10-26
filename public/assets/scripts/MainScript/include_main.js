@@ -55,15 +55,6 @@ $(document).on("change","#img-profile",function(e) {
 
 /* #Details #Parents_New_Dynamic_Form_Input _______________________*/
 
-	$(document).on("click",".dom-change-watcher #Parents_New_Dynamic_Form_Input",function(){
-
-		if(!$(this).parents(".modal").length == 1){
-			$dynamic_form_input.find("input").data('id','null');
-	  	}
-
-
-	});
-
 	/* #Absence .table-option-list-li-delete __________________________*/
 
 	$(document).on("click","#Absence .table-option-list-li-delete",function(){

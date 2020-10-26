@@ -2128,8 +2128,8 @@ $(document).ready(function(){
 			$("#Details .sections-main-sub-container-right-main-rows-parents-details .dynamic-form-input-parent").removeClass("dynamic-form-input-first");
 			$dynamic_form_input = $("#Details .sections-main-sub-container-right-main-rows-parents-details .dynamic-form-input-parent").first().clone();
 			$dynamic_form_input.find("input").val("");
+			$dynamic_form_input.find("input").data('id','null');
 			$(this).parent().before($dynamic_form_input);
-
 			$(".sub-container-form-footer").addClass("show-footer");
 	  		$(".sections-main-sub-container-right-main").css("cssText","height:calc(100vh - 120px)");
 	  		$domChange=true;

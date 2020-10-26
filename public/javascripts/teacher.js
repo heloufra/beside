@@ -238,7 +238,11 @@ $(document).on("click",".row-teacher",function(event){
 		displayteacher(teacherId);
 	}
 });
-
+function hideSelected(value) {
+	  if (value && !value.selected) {
+	    return $('<span>' + value.text + '</span>');
+	  }
+	}
  function displayteacher(index) 
 {
 			/*
@@ -279,30 +283,35 @@ $(document).on("click",".row-teacher",function(event){
 		$('#teacher_info').find('#Details').removeClass("dom-change-watcher");
 		$('.subject-klon').remove();
 		$('.class-subject').remove();
-  		var $div = $('div[id^="subjects-container"]:last');
-  		$div.find('input[name=subjects]').val(res.subjects[res.subjects.length - 1].Subject_Label);
-  		var classes = res.classes.filter(function (el) {
-			  return el.Subject_Label === res.subjects[res.subjects.length - 1].Subject_Label;
-			});
-		for (var j = classes.length - 1; j >= 0; j--) {
-			$div.find('.list-classes').append('<option class="class-subject" value="'+classes[j].Classe_ID+'" selected>'+classes[j].Classe_Label+'</option>');	
-		}
-  		for (var i = res.subjects.length - 2; i >= 0; i--) {
-  			$div = $('div[id^="subjects-container"]:last');
-		  	var num = parseInt( $div.prop("id").match(/\d+/g), 10 ) +1;
-		  	var $klon = $div.clone().prop('id', 'subjects-container'+num );
-		  	$klon = $klon.addClass('subject-klon');
-		  	$klon.find('input[name=subjects]').val(res.subjects[i].Subject_Label);
-		  	$klon.find('.class-subject').remove();
-		  	
-  			classes = res.classes.filter(function (el) {
-			  return el.Subject_Label === res.subjects[i].Subject_Label;
-			});			
-			for (var j = classes.length - 1; j >= 0; j--) {
-				$klon.find('.list-classes').append('<option class="class-subject" value="'+classes[j].Classe_ID+'" selected>'+classes[j].Classe_Label+'</option>');	
-			}
-		  	$div.append($klon);
+  		for (var i = res.subjects.length - 1; i >= 0; i--) {
+  			var selected = "";
+  			var exist = "";
+  			var allSubjects = "";
+  			for (var n = res.allsubjects.length - 1; n >= 0; n--) {
+  				allSubjects += '<li data-subjectid="'+res.allsubjects[n].Subject_ID+'" data-levelid="'+res.allsubjects[n].Level_ID+'" data-val="'+res.allsubjects[n].Subject_Label+'">'+res.allsubjects[n].Subject_Label+'</li>';
+  			}
+	  		var classes = res.classes.filter(function (el) {
+				  return el.Subject_Label === res.subjects[i].Subject_Label;
+				});
+	  		for (var k = res.classes.length - 1; k >= 0; k--) {
+	  			if (classes.some( value => { return value.Subject_Label == res.classes[k].Subject_Label } ))
+	  				exist = "selected"
+	  			else
+	  				exist = "";
+	  			selected += '<option class="class-subject" value="'+res.classes[k].Classe_ID+'" '+exist+'>'+res.classes[k].Classe_Label+'</option>'
+	  		}
+			$('.subjects-list').prepend('<div class="dynamic-form-input-dropdown-container sections-main-sub-container-right-main-rows-dropdown-tags-container" id="subjects-container"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="dynamic-form-input-float-adjust"> <div class="form-group group form-group-left"> <input type="text" class="input-text input-dropdown" value="'+res.subjects[i].Subject_Label+'" name="subjects" required> <label class="input-label"><span class="input-label-text">Subjects</span> <span class="input-label-bg-mask"></span></label> <img class="icon button-icon" src="assets/icons/caret.svg"> <ul class="dynamic-form-input-dropdown-options">'+allSubjects+'</ul> </div> <div class="form-group group form-group-right"> <select class="input-text-subject-classes-select2 list-classes" multiple >'+selected+' </select> <img class="icon button-icon" src="assets/icons/caret.svg"> <label class="input-label"> <span class="input-label-text">Classes</span><span class="input-label-bg-mask"></span> </label> </div> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div>')
   		}
+  		if($(".input-text-subject-classes-select2").length > 0)
+			$(".input-text-subject-classes-select2").select2({
+			  tags: true,
+			  dropdownPosition: 'below',
+	  		  placeholder: "Classes",
+	  		  minimumResultsForSearch: -1,
+	  		  templateResult: hideSelected
+			});
+
+		
   		$('.input-text-subject-classes-select2').parents(".form-group-right").find(".input-label").addClass("input-label-move-to-top");
   		absences = res.absences;
 		for (var i = res.absences.length - 1; i >= 0; i--) {

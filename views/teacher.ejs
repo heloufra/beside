@@ -242,53 +242,9 @@
 
                                   <!-- Subject Class ------------------------------------------------------------------------------------->
 
-                                  <div class="sections-main-sub-container-right-main-rows sections-main-sub-container-right-main-rows-dropdown-tags">
+                                  <div class="sections-main-sub-container-right-main-rows sections-main-sub-container-right-main-rows-dropdown-tags subjects-list">
 
-                                      <div class="dynamic-form-input-dropdown-container sections-main-sub-container-right-main-rows-dropdown-tags-container" id="subjects-container">
-
-                                        <div class="dynamic-form-input-dropdown dynamic-form-input-first">
-
-                                          <div class="dynamic-form-input">
-
-                                            <div class="dynamic-form-input-float-adjust">
-
-                                                <div class="form-group group form-group-left">
-                                                  <input type="text" class="input-text input-dropdown" name="subjects" required>
-                                                  <label class="input-label"><span class="input-label-text">Subjects</span> <span class="input-label-bg-mask"></span></label>
-
-                                                  <img class="icon button-icon" src="assets/icons/caret.svg">
-                                                  <ul class="dynamic-form-input-dropdown-options">
-                                                    <% for(var i=0; i<subjects.length; i++) {%>
-                                                       <li data-subjectid="<%= subjects[i].Subject_ID %>" data-levelid="<%= subjects[i].Level_ID %>" data-val="<%= subjects[i].Subject_Label %>"><%= subjects[i].Subject_Label %></li>
-                                                    <% } %>
-                                                  </ul>
-                                                </div>
-
-                                                <div class="form-group group form-group-right">
-
-                                                  <select class="input-text-subject-classes-select2 list-classes" multiple >
-                                                    
-                                                  </select>
-
-                                                  <img class="icon button-icon" src="assets/icons/caret.svg">
-
-                                                  <label class="input-label">
-                                                    <span class="input-label-text">Classes</span><span class="input-label-bg-mask"></span>
-                                                  </label>
-
-                                                </div>
-
-                                            </div>
-
-                                            <div class="square-button square-button-minus">
-                                              <img class="icon" src="assets/icons/minus.svg">
-                                            </div>
-                                            
-                                          </div>
-
-                                        </div>
-
-                                      </div>
+                                      
 
                                       <div class="square-button square-button-extra-style" id="Subject_Class_New_Dynamic_Form_Input">
                                         <img class="icon" src="assets/icons/plus.svg">
