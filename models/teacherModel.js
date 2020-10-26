@@ -9,6 +9,14 @@ var teacherModel = {
       });
     })
   },
+   findSubjects: function(Teacher_ID) {
+     return new Promise((resolve, reject) => {
+      connection.query("SELECT DISTINCT subjects.Subject_Label FROM `teachersubjectsclasses` INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID  WHERE teachersubjectsclasses.Teacher_ID = ?", [Teacher_ID], (err, classesResult, fields) => {
+       if (err) reject(err);
+        else resolve(classesResult);
+      });
+    })
+  },
    findUser: function(Email) {
      return new Promise((resolve, reject) => {
       connection.query("SELECT * FROM `users` WHERE `User_Email` = ?", [Email], (err, user, fields) => {

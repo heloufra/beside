@@ -83,12 +83,15 @@
                                             <div class="dynamic-form-input">
                                               <div class="dynamic-form-input-float-adjust">
                                               <div class="form-group group form-group-right ">
-                                                <input type="text" class="input-dropdown" placeholder="Expences"  required>
+                                                <input type="text" class="input-dropdown" name="expense" placeholder="Expences"  required>
                                                 <img class="icon button-icon" src="assets/icons/caret.svg">
-                                                <ul class="dynamic-form-input-dropdown-options">
-                                                    <li data-val="School fees">School fees </li>
-                                                    <li data-val="Insurance fees">Insurance fees </li>
-                                                    <li data-val="Transport fees">Transport fees </li>
+                                                <ul class="dynamic-form-input-dropdown-options" id="expenses-filter">
+                                                  <li data-val="All">All</li>
+                                                    <%if (locals.expenses) { %>
+                                                       <% for(var i=0; i<expenses.length; i++) {%>
+                                                         <li data-expenseid="<%= expenses[i].Expense_ID %>" data-val="<%= expenses[i].Expense_Label %>"><%= expenses[i].Expense_Label %></li>
+                                                      <% } %>
+                                                    <% } %>
                                                 </ul>
                                               </div>
                                               </div>
@@ -110,8 +113,8 @@
                                             </div>
                                           </div>
                                           <div class="customCheck">
-                                            <input type="checkbox" value="" name="checkbox" id="ck" />
-                                            <label for="ck"></label>
+                                            <input type="checkbox" value="" name="checkbox" id="unpaid" checked=""/>
+                                            <label for="unpaid"></label>
                                           </div>
                                         </div>
 
@@ -123,8 +126,8 @@
                                             </div>
                                           </div>
                                           <div class="customCheck">
-                                            <input type="checkbox" value="" name="checkbox" id="ck" />
-                                            <label for="ck"></label>
+                                            <input type="checkbox" value="" name="checkbox" id="paid" checked="" />
+                                            <label for="paid"></label>
                                           </div>
                                         </div>
 
@@ -136,8 +139,8 @@
                                             </div>
                                           </div>
                                           <div class="customCheck">
-                                            <input type="checkbox" value="" name="checkbox" id="ck" />
-                                            <label for="ck"></label>
+                                            <input type="checkbox" value="" name="checkbox" id="monthly" checked=""/>
+                                            <label for="monthly"></label>
                                           </div>
                                         </div>
 
@@ -149,8 +152,8 @@
                                             </div>
                                           </div>
                                           <div class="customCheck">
-                                            <input type="checkbox" value="" name="checkbox" id="ck" />
-                                            <label for="ck"></label>
+                                            <input type="checkbox" value="" name="checkbox" id="yearly" checked="" />
+                                            <label for="yearly"></label> 
                                           </div>
                                         </div>
 

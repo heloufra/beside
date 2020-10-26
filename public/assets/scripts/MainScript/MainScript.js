@@ -452,7 +452,7 @@ $(document).ready(function(){
 
 	});
 
-	$(document).on("click",function(){
+	$(document).on("click",function(event){
 
 		$(".dynamic-form-input-dropdown-container").find(".button-icon").removeClass("caret-rotate");
 		$(".dynamic-form-input-dropdown-container").find(".button-icon").addClass("caret-rotate-reset");
@@ -474,6 +474,25 @@ $(document).ready(function(){
 			$(".sections-main-sub-container-right-main-header-option-icon").css({"display":"inline-block"});
 			$(".sections-main-sub-container-right-main-header-option-icon").addClass("sub-container-nav-bar-img-animation");
 		},1);
+
+		/****************************************/
+
+		if($(".form-group-search").length >= 1 ){
+
+			if($(".form-group-search .input-text").val().length == 0){
+
+				$(".form-group-search").css("cssText","z-index : -10 !important ; border-radius : 3px !important; opacity : 0 !important;");
+
+				$(".form-group-search .button-icon").attr("src","assets/icons/sidebar_icons/close.svg");
+
+				setTimeout(function(){
+					$(".hide-controler").css("opacity","1");
+				},200);
+			
+
+			}
+
+		}
 	});
 
 	$(document).on("keyPress",".input-dropdown",function(){
@@ -679,6 +698,101 @@ $(document).ready(function(){
 
 	/* Academic Year Section _______________________*/
 
+	$year = new Date();
+
+	$(".setup-main-container .start-month .date-form-input-header-picker-label").text(($year.getFullYear()*1)-1);
+	$(".setup-main-container .end-month  .date-form-input-header-picker-label").text(($year.getFullYear()*1));
+
+	$(".setup-main-container .start-month .date-form-input-header-picker-controllers.left-arrow").css("opacity","0.6");
+	$(".setup-main-container .end-month .date-form-input-header-picker-controllers.left-arrow").css("opacity","0.6");
+
+	$(".academic-year-input-label").val($(".setup-main-container .start-month .date-form-input-header-picker-label").text()+' - '+$(".setup-main-container .end-month  .date-form-input-header-picker-label").text());
+
+	/* start-month _______________________*/
+
+
+	/* start-month _______________________*/
+
+	$(document).on("click",".setup-main-container .start-month .date-form-input-header-picker-controllers.right-arrow",function(event){
+
+		$current_year = $(this).parents(".date-form-input-container").find(".date-form-input-header-picker-label").text();
+
+		$(this).parents(".date-form-input-container").find(".date-form-input-header-picker-label").text(($current_year*1)+1);
+
+		$(".setup-main-container .end-month .date-form-input-header-picker-label").text(($current_year*1)+2);
+
+		$(this).parents(".date-form-input-container").find(".date-form-input-header-picker-controllers.left-arrow").css("opacity","1");
+
+		$(".setup-main-container .end-month .date-form-input-header-picker-controllers.left-arrow").css("opacity","1");
+		
+		event.preventDefault();
+		event.stopPropagation();
+
+	});
+
+	$(document).on("click",".setup-main-container .start-month .date-form-input-header-picker-controllers.left-arrow",function(event){
+
+		$current_year = $(this).parents(".date-form-input-container").find(".date-form-input-header-picker-label").text();
+
+		if($current_year >= $year.getFullYear() ){
+			$(".setup-main-container .end-month .date-form-input-header-picker-label").text($current_year);
+			$(this).parents(".date-form-input-container").find(".date-form-input-header-picker-label").text(($current_year*1)-1);
+			
+		}else{
+			$(this).css("opacity","0.6");
+			$(".setup-main-container .end-month .date-form-input-header-picker-label").text(($current_year*1)+1);
+			$(".setup-main-container .end-month .date-form-input-header-picker-controllers.left-arrow").css("opacity","0.6");
+		}
+		
+		event.preventDefault();
+		event.stopPropagation();
+	});
+
+	/* End start-month _______________________*/
+
+	/* end-month _______________________*/
+
+	$(document).on("click",".setup-main-container .end-month .date-form-input-header-picker-controllers.right-arrow",function(event){
+
+		$current_year = $(this).parents(".date-form-input-container").find(".date-form-input-header-picker-label").text();
+
+		$(this).parents(".date-form-input-container").find(".date-form-input-header-picker-label").text(($current_year*1)+1);
+
+		$(this).parents(".date-form-input-container").find(".date-form-input-header-picker-controllers.left-arrow").css("opacity","1");
+		
+		event.preventDefault();
+		event.stopPropagation();
+	});
+
+	$(document).on("click",".setup-main-container .end-month .date-form-input-header-picker-controllers.left-arrow",function(event){
+
+		$current_year = ($(this).parents(".date-form-input-container").find(".date-form-input-header-picker-label").text() * 1 );
+
+		if( ($current_year > ($year.getFullYear()*1)) && ($current_year *1) > ($(".setup-main-container .start-month .date-form-input-header-picker-label").text() * 1) ){
+			$(this).parents(".date-form-input-container").find(".date-form-input-header-picker-label").text(($current_year*1)-1);
+		}else{
+			$(this).css("opacity","0.6");
+		}
+		
+		
+		event.preventDefault();
+		event.stopPropagation();
+	});
+
+	/* End end-month _______________________*/
+
+	$(document).on("click",".setup-main-container .date-form-input-header-picker-controllers",function(event){
+
+		$start_month = $(".setup-main-container .start-month .date-form-input-header-picker-label").text();
+		$end_month   = $(".setup-main-container .end-month   .date-form-input-header-picker-label").text();
+
+		$(".academic-year-input-label").val($start_month+' - '+$end_month);
+		
+		event.preventDefault();
+		event.stopPropagation();
+
+	});
+
 	$(document).on("click",".date-form-input",function(event){
 
 
@@ -797,7 +911,12 @@ $(document).ready(function(){
 	  }
 	}
 
+	/****** append new options to all dropdown *********/
+
+	$tag_data = "";
+
 	if($(".input-text-subject-select2").length > 0){
+
 		$(".input-text-subject-select2").select2({
 		  tags: true,
 		  dropdownPosition: 'below',
@@ -805,14 +924,56 @@ $(document).ready(function(){
   		  minimumResultsForSearch: -1,
   		  templateResult: hideSelected,
   		  placeholder: "Select items",
-  		  templateSelection: function (data, container) {
+  		  templateSelection: function (data, container){
 		      console.log(">>Selection",data);
 		      $(container).attr("style","background-color:#"+Math.random().toString(16).substr(2,6)+"!important;");
+			  $tag_data = data;
 		      return data.text;
 		  }
 
 		});
+
 	}
+
+	/****** trigger changes on select **************/
+
+	$('.input-text-subject-select2').on('select2:select', function (e) {
+
+		$dataSelect2Id = $(this).attr("data-select2-id");
+		$('.input-text-subject-select2').each(function(){
+
+			$this  = $(this);
+			$exist = false;
+
+			$dataSelect2IdCurrent = $(this).attr("data-select2-id");
+
+			if($dataSelect2Id != $dataSelect2IdCurrent){
+
+				$select2Data = $(this).select2('data');
+
+				for($i = 0 ; $i < $select2Data.length; $i++){
+
+				    if (String($select2Data[$i].text).toLowerCase() == String($tag_data.text).toLowerCase()) {
+				       	$exist = true;
+				       	break;
+				    }
+
+				}
+
+				if(!$exist){
+					$(this).append('<option value="'+$tag_data.id+'">'+$tag_data.text+'</option>');
+					$(this).trigger('change');
+				}
+
+			}
+			
+		});
+		
+		$tag_data ="";
+
+	});
+
+	/****** End append new options to all dropdown *********/
 
 	/**__ input-text-subject-classes-select2 _____________________________*/
 
@@ -846,10 +1007,6 @@ $(document).ready(function(){
 	$('.input-text-subject-classes-select2').on('select2:selecting', function (e) {
 
 		$(this).parents(".form-group-right").find(".input-label").addClass("input-label-move-to-top");
-
-	});
-
-	$('.input-text-subject-classes-select2').on('select2:select', function (e) {
 
 	});
 
@@ -925,7 +1082,7 @@ $(document).ready(function(){
 
 			$dynamic_form_input.find(".input-label").removeClass("input-label-move-to-top");
 
-			$(this).parent().prepend($dynamic_form_input);
+			$(this).parent().find(".sections-main-sub-container-right-main-rows-dropdown-tags-container").last().after($dynamic_form_input);
 
 			$(this).parents(".sections-main-sub-container-right-main-rows-dropdown-tags").find(".input-text-subject-classes-select2").select2({
 			  tags: true,
@@ -1041,7 +1198,7 @@ $(document).ready(function(){
 
 			$dynamic_form_input.find(".input-label").removeClass("input-label-move-to-top");
 
-			$(this).parent().prepend($dynamic_form_input);
+			$(this).parent().find(".sections-main-sub-container-right-main-rows-dropdown-tags-container").last().after($dynamic_form_input);
 
 			$(this).parents(".sections-main-sub-container-right-main-rows-dropdown-tags").find(".input-text-subject-classes-select2").select2({
 			  tags: true,
@@ -2661,6 +2818,88 @@ $(document).ready(function(){
 
 	/* End .dashboard-chat-side-bar-body-extra-style _________________*/
 
+	/* .nav-bar-account-settings  _________________*/
+
+	$(document).on("click",".nav-bar-account-settings",function(event){
+
+		$(".sub-container-nav-bar-profile-dropdown-mask").css({"opacity":"0"});
+
+		setTimeout(function(){
+			$(".sub-container-nav-bar-profile-dropdown-mask").css({"display":"none"});
+		},25);
+
+		$(".sub-container-nav-bar-img").css({"display":"inline-block"});
+
+		$(".sub-container-nav-bar-img").addClass("sub-container-nav-bar-img-animation");
+
+
+		setTimeout(function(){
+			$("#ProfileSettings").modal("show");
+		},150);
+		
+		event.preventDefault();
+		event.stopPropagation();
+		return false;
+	});
+
+	/* .form-group-search  _________________*/
+
+	/* .form-group-search-btn  _________________*/
+
+	$(document).on("click",".form-group-search-btn",function(event){
+		
+		$(".hide-controler").css("opacity","0");
+
+		setTimeout(function(){
+			$(".form-group-search").css("cssText","z-index : 4 !important ; opacity : 1 !important;");
+		},225);
+
+		$(".form-group-search .button-icon").attr("src","assets/icons/sidebar_icons/close.svg");
+
+		$(".form-group-search .button-icon").addClass("input-text-empty");
+
+		event.preventDefault();
+		event.stopPropagation();
+		return false;
+
+	});
+
+	/* .form-group-search-btn  _________________*/
+
+	$(document).on("click",".form-group-search .button-icon",function(event){
+
+		$(".form-group-search").css("cssText","z-index : -10 !important ; border-radius : 3px !important; opacity : 0 !important;");
+
+		$(".form-group-search .button-icon").attr("src","assets/icons/sidebar_icons/close.svg");
+
+		setTimeout(function(){
+			$(".hide-controler").css("opacity","1");
+		},200);
+		
+
+		event.preventDefault();
+		event.stopPropagation();
+		return false;
+
+	});
+
+	$(document).on("keyup blur focus click",".sections-main-sub-container-left-search-bar .form-group-search .input-text",function(event){
+		if($(this).val().length == 0 ){
+			$(this).siblings(".icon").attr("src","assets/icons/sidebar_icons/close.svg");
+			$(this).siblings(".icon").addClass("input-text-empty");
+		}else{
+			$(this).siblings(".icon").attr("src","assets/icons/sidebar_icons/close.svg");
+			$(this).siblings(".icon").removeClass("input-text-empty");
+		}
+
+		event.preventDefault();
+		event.stopPropagation();
+
+	});
+
+
+	/* toggleSlide  _________________*/
+	
 	function toggleSlide($selector) {
 
 	  let $container = $($selector);

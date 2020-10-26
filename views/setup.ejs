@@ -134,11 +134,6 @@
 
                 <form class="sub-container-form">
 
-                  <div class="form-group group">
-                    <input type="text" required name="year">
-                    <label class="input-label"><span class="input-label-text">Academic Year Label</span> <span class="input-label-bg-mask"></span></label>
-                  </div>
-
 
                   <div class="date-form-input-container">
 
@@ -153,7 +148,12 @@
                         <label class="input-label"><span class="input-label-text">Select Month</span> <span class="input-label-bg-mask"></span></label>
                         <img class="icon button-icon" src="assets/icons/caret.svg">
 
-                        <div class="date-form-input-picker-container">
+                        <div class="date-form-input-picker-container start-month">
+                          <div class="date-form-input-header-picker-container">
+                            <img  class="date-form-input-header-picker-controllers left-arrow" src="assets/icons/left-arrow.svg">
+                            <span class="date-form-input-header-picker-label">2020</span>
+                            <img  class="date-form-input-header-picker-controllers right-arrow" src="assets/icons/right-arrow.svg">
+                          </div>
                           <div class="date-form-input-picker row">
                               <span class="col-md-3 date-form-input-picker-label date-form-input-picker-label-first-of-line">January</span>
                               <span class="col-md-3 date-form-input-picker-label">February</span>
@@ -190,7 +190,12 @@
                         <label class="input-label"><span class="input-label-text">Select Month</span> <span class="input-label-bg-mask"></span></label>
                         <img class="icon button-icon" src="assets/icons/caret.svg">
 
-                        <div class="date-form-input-picker-container">
+                        <div class="date-form-input-picker-container end-month">
+                          <div class="date-form-input-header-picker-container">
+                            <img  class="date-form-input-header-picker-controllers left-arrow" src="assets/icons/left-arrow.svg">
+                            <span class="date-form-input-header-picker-label">2020</span>
+                            <img  class="date-form-input-header-picker-controllers right-arrow" src="assets/icons/right-arrow.svg">
+                          </div>
                           <div class="date-form-input-picker row">
                               <span class="col-md-3 date-form-input-picker-label date-form-input-picker-label-first-of-line">January</span>
                               <span class="col-md-3 date-form-input-picker-label">February</span>
@@ -214,6 +219,10 @@
 
                   </div>
 
+                  <div class="form-group group">
+                    <input type="text" class="academic-year-input-label" name="year" required>
+                    <label class="input-label"><span class="input-label-text">Academic Year Label</span> <span class="input-label-bg-mask"></span></label>
+                  </div>
                 </form>
 
               </div>

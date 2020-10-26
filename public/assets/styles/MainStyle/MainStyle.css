@@ -52,6 +52,8 @@
 
   --setup-side-bar-left-bg--color:#f0f0f6;
 
+  --sub--header-color:#8f8da1;
+
   --dashboard-bg-color:#f1f1f4;
   --dashboard-sub-label-color:rgba(21, 26, 59, 0.6);
   --dashboard-progressbar-bg-color:#92ddff;
@@ -270,6 +272,10 @@ body {
 	height: 90vh;
 	overflow: hidden;
 	overflow-y: scroll;
+}
+
+#Academic_Year_Section{
+	padding-bottom: 120px;
 }
 
 .setup-main-container{
@@ -967,6 +973,35 @@ input:focus ~ label,input:valid ~ label{
 }
 
 /********** End date-form-input ***********/
+
+/********** date-form-input-header-picker-container ***********/
+
+.date-form-input-header-picker-container{
+	display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    min-height: 40px;
+}
+
+.date-form-input-header-picker-controllers{
+	margin-bottom: 0;
+	border-radius: 3px;
+	border:1px solid var(--input-border--color);
+	padding:4px;
+	cursor: pointer;
+}
+
+.date-form-input-header-picker-label{
+	border-radius: 3px;
+    border: 1px solid var(--input-border--color);
+   
+    flex-basis: 70%;
+    min-height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 /************** dynamic-form-input-dropdown *************/
 
@@ -1736,6 +1771,25 @@ input:focus ~ label,input:valid ~ label{
 
 
 
+/********************* styling fix ***********************/
+
+.sections-main-sub-container-left-search-bar .form-group{
+	display: flex;
+	position: unset;
+}
+
+
+.sections-main-sub-container-left-search-bar .dynamic-form-input-dropdown .button-icon{
+	position: unset;
+	margin-bottom: 0px;
+}
+
+.sections-main-sub-container-left-search-bar .dynamic-form-input-dropdown-options{
+	width: calc(100% - 38px);
+}
+
+/********************* End styling fix ***********************/
+
 .sections-main-sub-container-left-search-bar .dynamic-form-input-dropdown-options{
 	margin-bottom: 0px;
 	top: 32px !important;
@@ -1789,6 +1843,80 @@ input:focus ~ label,input:valid ~ label{
 }
 
 /******* End .sections-main-sub-container-left-search-bar .dynamic-form-input-first *****************/
+
+
+.hide-controler{
+	transition: opacity .25s ease-out;
+}
+
+.form-group-search-btn{
+	margin-right: 2%;
+}
+
+.square-button-search{
+	margin-right: 2%;
+	border:0px !important;
+}
+
+.form-group-search{
+	width: calc(100% - 32px - 2% ) !important;
+	position: absolute !important;
+	left: 0px !important;
+	background:var(--white-color);
+	opacity: 0;
+	overflow: hidden;
+    border-radius: 3px !important;
+    background-image: red !important;
+    transition: border-radius .25s ease-out , opacity .25s ease-out;
+    z-index: -10;
+}
+
+.form-group-search .input-text {
+	max-width: 100% !important;
+	border-radius: 0px !important;
+	border:0px !important;
+	padding-right: 0px;
+}
+
+.form-group-search .button-icon {
+	padding:0px 4px;
+}
+
+/******* form-group-search *********************
+
+.form-group-search{
+	min-width: 32px !important;
+    flex-basis: 0% !important;
+    justify-content: center;
+    height: 32px;
+}
+
+.form-group-search .input-text{
+	display: none;
+}
+
+.form-group-search .button-icon{
+	position: relative !important;
+	top: unset !important;
+	left: unset !important;
+	right: unset !important;
+	background:red !important; 
+}
+
+.form-group-search .input-text{
+	display: inline-block;
+    width: 100%;
+    position: absolute;
+    left: 1px;
+    border-radius: 3px;
+   	background:var(--white-color) !important;
+
+}
+
+
+/******* End form-group-search *****************/
+
+
 
 /****** .sections-main-sub-container-left-search-bar .dynamic-form-input-first *********************/
 
@@ -1940,11 +2068,11 @@ input:focus ~ label,input:valid ~ label{
 }
 
 .sections-main-sub-container-left-card-main-img-text{
-    width: 40px;
-    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
     border-radius: 100%;
     display: inline-block;
-    margin-right: 5px;
+    margin-right: 8px;
     display: inline-block;
     background-color: #e9ddfd;
 }
@@ -3005,29 +3133,30 @@ form{
 }
 
 #FinanceModal , #ChangesModal , #ConfirmDeleteModal , #AddAbsenceModal  , #ImportUsersModal , #AddTeacherAbsenceModal , #AddStudentAbsenceModal , #EditAbsenceModal , #AddAttitudeModal, #EditAttitudeModal , #AddExamModal , 
-#AddHomeworkModal , #AddStudentModal , #AddTeacherModal , #ExamDetailModal  , #HomeworkDetailModal , #NewActionModal {
+#AddHomeworkModal , #AddStudentModal , #AddStudentModal , #ProfileSettings , #AddTeacherModal , #ExamDetailModal  , #HomeworkDetailModal , #NewActionModal {
 	background-color: var(--modal--background--color);
 	z-index: 999999;
 }
 
 
-#AddTeacherModal  .input-rounded-img-container , #AddStudentModal  .input-rounded-img-container {
+#AddTeacherModal  .input-rounded-img-container , #ProfileSettings  .input-rounded-img-container , #AddStudentModal  .input-rounded-img-container {
 	width: 80px;
 	height: 80px;
 }
 
-#AddTeacherModal  .input-img-container .rounded-button , #AddStudentModal  .input-img-container .rounded-button{
+#AddTeacherModal  .input-img-container .rounded-button ,#ProfileSettings  .input-img-container .rounded-button , #AddStudentModal  .input-img-container .rounded-button{
 	position: absolute;
     top: 24px;
     right: -16px;
 }
 
-#AddTeacherModal  .sections-main-sub-container-right-main-header .rounded-button , #AddStudentModal  .sections-main-sub-container-right-main-header .rounded-button{
+#AddTeacherModal  .sections-main-sub-container-right-main-header .rounded-button , #ProfileSettings  .sections-main-sub-container-right-main-header .rounded-button , #AddStudentModal  .sections-main-sub-container-right-main-header .rounded-button {
 	width: 32px;
 	height: 32px;
 }
 
 #AddTeacherModal  .sections-main-sub-container-right-main-header .input-rounded-img-container, 
+#ProfileSettings  .sections-main-sub-container-right-main-header .input-rounded-img-container, 
 #AddStudentModal  .sections-main-sub-container-right-main-header .input-rounded-img-container{
 	margin:0px auto;
 	margin-bottom: 16px;
@@ -3098,6 +3227,7 @@ form{
 #HomeworkDetailModal .sub-container-form-footer .modal-confirm-button ,
 #AddHomeworkModal .sub-container-form-footer .modal-confirm-button ,
 #AddStudentModal .sub-container-form-footer .modal-confirm-button ,
+#ProfileSettings .sub-container-form-footer .modal-confirm-button ,
 #AddTeacherModal .sub-container-form-footer .modal-confirm-button ,
 #AddAttitudeModal .sub-container-form-footer .modal-confirm-button ,
 #EditAttitudeModal .sub-container-form-footer .modal-confirm-button{
@@ -3137,7 +3267,8 @@ form{
 #AddTeacherAbsenceModal .modal-dialog ,
 #AddStudentAbsenceModal .modal-dialog ,
 #EditAbsenceModal .modal-dialog , #AddAttitudeModal .modal-dialog , #AddHomeworkModal .modal-dialog , 
-#AddExamModal .modal-dialog , #ExamDetailModal .modal-dialog , #HomeworkDetailModal .modal-dialog , #AddStudentModal .modal-dialog , #AddTeacherModal .modal-dialog {
+#AddExamModal .modal-dialog , #ExamDetailModal .modal-dialog , #HomeworkDetailModal .modal-dialog , 
+#ProfileSettings .modal-dialog, #AddStudentModal .modal-dialog , #AddTeacherModal .modal-dialog {
 	height: 80vh;
     background: var(--white-color);
     margin-top: 10vh;
@@ -4094,16 +4225,19 @@ table td img {
 .finance-page-extra-style .sections-main-sub-container-right-main-tabs-filter .filter-sections-dropdowns-container{
 	width: 200px;
 	margin: 0px 8px;
+	flex-grow: 1;
 }
 
 .finance-page-extra-style .sections-main-sub-container-right-main-tabs-filter .filter-sections-checkboxes-container{
 	width: 432px;
 	margin: 0px 8px;
+	flex-grow: 1;
 }
 
 .finance-page-extra-style .sections-main-sub-container-right-main-tabs-filter .filter-sections-search-container{
 	width: 268px;
 	margin: 0px 8px;
+	flex-grow: 1;
 }
 
 .finance-page-extra-style  .sections-main-sub-container-right-main .form-group input{
@@ -4113,6 +4247,7 @@ table td img {
 .finance-page-extra-style  .sections-main-sub-container-right-main .dynamic-form-input-dropdown-options{
 	top: 43px;
 	padding:16px 8px;
+	border:0px;
 }
 
 /********************************* End sections-main-sub-container-right-main-tabs-filter   *************************/
@@ -5212,6 +5347,7 @@ table td img {
 	display: none;
     flex-direction: column;
     justify-content: space-between;
+    z-index: 10;
 }
 
 .dashboard-new-message-side-bar-container .dashboard-chat-side-bar-header-container{
@@ -5225,10 +5361,9 @@ table td img {
 
 .dashboard-chat-side-bar-header-sub-label {
     font-size: 13px;
-    opacity: .6;
 }
 
-.dashboard-chat-side-bar-header-close-icon {
+.dashboard-chat-side-bar-header-close-icon , .dashboard-chat-side-bar-header-add-new-close-icon{
     cursor: pointer;
     display: inline-flex;
     align-self: flex-start;
@@ -5337,6 +5472,10 @@ table td img {
 	padding-top: 16px;
 }
 
+.dashboard-chat-side-bar-header-new-message-close-icon{
+	cursor: pointer;
+}
+
 .dashboard-add-new-message-side-bar-container{
 	position: absolute;
 	width: 100%;
@@ -5382,7 +5521,23 @@ table td img {
 
 .dashboard-chat-side-bar-header-sub-label {
     font-size: 13px;
-    opacity: .6;
+    display: flex;
+    align-items: center;
+    color: var(--sub--header-color);
+    cursor: pointer;
+}
+
+.dashboard-chat-side-bar-header-sub-label-to{
+	min-height: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.dashboard-chat-side-bar-header-sub-label-icon{
+	margin-bottom: 0px;
+	display: inline-block;
+	width : 24px;
+	height: 24px;
 }
 
 .dashboard-chat-side-bar-header-close-icon {
@@ -5457,6 +5612,29 @@ table td img {
 	padding:0px 0px !important;
 }
 
+.dashboard-chat-side-bar-to-container{
+	padding: 16px;
+    position: absolute;
+    overflow: hidden;
+    overflow-y: scroll;
+    top: 70px;
+    z-index: 3 ;
+    height: calc(100vh - 15.5vh);
+    background:var(--white-color);
+    top: -100%;
+	left: 0%;
+	transition: top .3s cubic-bezier(.85,.4,.57,.73);
+}
+
+.dashboard-chat-side-bar-to-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.dashboard-chat-side-bar-to-name {
+    flex: 0 50%;
+}
+
 /*************** End dashboard-add-new-message-side-bar-container  ********************/
 
 /*************** dashboard-filter-message-side-bar-container  *************************/
@@ -5523,7 +5701,6 @@ table td img {
 
 .dashboard-chat-side-bar-header-sub-label {
     font-size: 13px;
-    opacity: .6;
 }
 
 .dashboard-chat-side-bar-header-close-icon {
@@ -5607,6 +5784,83 @@ table td img {
 }
 
 /*************** End dashboard-filter-message-side-bar-container  ********************/
+
+
+/*************** dashboard-multi-message-side-bar-container  *************************/
+
+.dashboard-multi-message-side-bar-container{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0%;
+	left: 100%;
+	z-index: 2;
+	overflow: scroll;
+	background:var(--white-color);
+	transition: left .3s cubic-bezier(.85,.4,.57,.73);
+	display: none;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.dashboard-multi-message-side-bar-container .sections-main-sub-container-right-main-rows-dropdown-tags .dynamic-form-input-first .dynamic-form-input-float-adjust .form-group-right{
+	flex-basis: 100% !important;
+}
+
+
+.dashboard-multi-message-side-bar-container .dynamic-form-input-dropdown-container .dynamic-form-input-first .form-group-right{
+	width: 100%;
+	border:0px;
+}
+
+.dashboard-multi-message-side-bar-container .dynamic-form-input-dropdown-container .dynamic-form-input-dropdown-options{
+	top: 43px;
+}
+
+.dashboard-multi-message-side-bar-container .sections-label-checkbox-main-container{
+	position: relative;
+}
+
+
+.dashboard-multi-message-side-bar-container .expense_label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100% !important;
+    display: inline-block;
+    vertical-align: middle;
+    text-indent: 28px;
+    line-height: 16px;
+    font-size: 13px;
+}
+
+.dashboard-multi-message-side-bar-container  .customCheck {
+	left: 12px;
+    top: 20px;
+}
+
+.dashboard-multi-message-side-bar-container  .sections-label-checkbox-container{
+	margin-bottom: 12px;
+}
+
+.dashboard-chat-side-bar-header-label-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-chat-side-bar-header-sub-label {
+    font-size: 13px;
+}
+
+.dashboard-chat-side-bar-header-close-icon {
+    cursor: pointer;
+    display: inline-flex;
+    align-self: flex-start;
+}
+
+
+/*************** End dashboard-multi-message-side-bar-container  ********************/
+
 
 .dashboard-add-new-message-side-bar-container .dashboard-chat-side-bar-header-container,
 .dashboard-new-message-side-bar-container .dashboard-chat-side-bar-header-container,
@@ -5769,6 +6023,12 @@ table td img {
 .card-multi-receivers-extra-style .sections-main-sub-container-left-card-main-img-text {
     box-shadow: #dcdce7 -5px -5px 0px;
 }
+
+.card-multi-receivers-extra-style{
+	display: flex;
+	align-items: center;
+}
+
 
 /*************** End dashboard-chat-side-bar-container ***********************************/
 

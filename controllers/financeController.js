@@ -12,7 +12,9 @@ var financeController = {
             connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
               connection.query("SELECT * FROM `classes` WHERE AY_ID = ?", [academic[0].AY_ID], (err, classes, fields) => {
                 connection.query("SELECT * FROM `levels` WHERE AY_ID = ?", [academic[0].AY_ID], (err, levels, fields) => {
-                  res.render('finance', { title: 'Finance' , user: user[0], institution:institutions[0], classes:classes,levels:levels,accounts,users});
+                  connection.query("SELECT * FROM `expenses` WHERE AY_ID = ?", [academic[0].AY_ID], (err, expenses, fields) => {
+                    res.render('finance', { title: 'Finance' , user: user[0], institution:institutions[0], classes:classes,levels:levels,accounts,users,expenses});
+                  }) 
                 })
               })
             })

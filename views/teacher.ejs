@@ -41,7 +41,7 @@
                   <!--  sections-main-sub-container-left-search-bar  -->
 
                   <!-- .disable-action to disable user actions based on view role -->
-                  <div class="sections-main-sub-container-left-search-bar ">
+                  <div class="sections-main-sub-container-left-search-bar sections-main-sub-container-left-search-bar">
 
 
                     <div class="dynamic-form-input-dropdown-container">
@@ -49,7 +49,7 @@
                         <div class="dynamic-form-input">
 
                           <div class="dynamic-form-input-float-adjust">
-                            <div class="form-group group form-group-left">
+                            <div class="form-group group form-group-left hide-controler">
                               <input type="text" value="Classes" class="input-dropdown" name="classe" required="">
                               <img class="icon button-icon" src="assets/icons/caret.svg">
                               <ul class="dynamic-form-input-dropdown-options">
@@ -59,7 +59,21 @@
                                   <% } %>
                               </ul>
                             </div>
-                            <div class="form-group group form-group-right">
+                             <div class="form-group group form-group-left hide-controler">
+                              <input type="text" value="Subjects" name="filter-subject" class="input-dropdown" required="">
+                              <img class="icon button-icon" src="assets/icons/caret.svg">
+                              <ul class="dynamic-form-input-dropdown-options">
+                                <li data-val="All">All</li>
+                                <% for(var i=0; i<subjects.length; i++) {%>
+                                     <li class="row-subject" data-val="<%= subjects[i].Subject_Label %>"><%= subjects[i].Subject_Label %></li>
+                                <% } %>
+                              </ul>
+                            </div>
+                            <div class="square-button square-button-minus form-group-search-btn hide-controler">
+                              <img class="icon" src="assets/icons/sidebar_icons/search.svg">
+                            </div>
+
+                            <div class="form-group group form-group-right form-group-search">
                                <input type="text" class="input-text" id="search-teacher" required="" placeholder="Search teacher">
                                <img class="icon button-icon caret-disable-rotate" src="assets/icons/sidebar_icons/search.svg">
                             </div>

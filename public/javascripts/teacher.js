@@ -152,6 +152,37 @@ $domChange = false;
   }
 })
 
+$('input[name="filter-subject"]').on( "change", function() {
+  var value = $(this).val();
+  if (value.replace(/\s/g, '') !== '')
+  {
+  	$('.row-teacher').remove();
+$domChange = false;
+	var filtred = teachers.filter(function (el) {
+			  return el.subjects.some(subject => subject.Subject_Label === value);
+			});
+	if (value === "All")
+		filtred = teachers;
+
+	var active = '';
+	filtredClass = filtred;
+	for (var i = filtred.length - 1; i >= 0; i--) {
+		if (i === filtred.length - 1)
+		{
+			displayteacher(filtred[i].teacher.User_ID);
+			active = 'active';
+		} else
+			active = '';
+		var name = JSON.parse(filtred[i].teacher.User_Name);
+		var html = '';
+		for (var j = filtred[i].classes.length - 1; j >= 0; j--) {
+			html += filtred[i].classes[j].Classe_Label + " ";
+		}
+	  	$('#list_teachers').append('<div class="'+active+' sections-main-sub-container-left-card row-teacher"><img class="sections-main-sub-container-left-card-main-img" src="'+filtred[i].teacher.User_Image+'" alt="card-img"><input name="teacherId" type="hidden" value="'+filtred[i].teacher.User_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+name.first_name+' '+name.last_name+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+html+'</span></div></div>')
+	}
+  }
+})
+
 
 document.getElementById("search-teacher").addEventListener('input', function (evt) {
     
