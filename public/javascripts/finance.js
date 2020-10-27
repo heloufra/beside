@@ -29,8 +29,13 @@ function getAllFinances(id) {
 	  		payments = res.payments;
 	  		indStart = months.indexOf(res.start);
 		 	indEnd = months.indexOf(res.end);
+		 	var style ="";
 		 	for (var i = indStart; i < months.length; i++) {
-				htmlmonths += '<th scope="col" class="col-text-align month-row">'+months[i].slice(0,3)+'</th>';
+		 		if (date.getMonth() === i)
+					style = 'style="background: #f9f9f9 !important"';
+				else
+					style = "";
+				htmlmonths += '<th scope="col" class="col-text-align month-row" '+style+'>'+months[i].slice(0,3)+'</th>';
 				if (i === indEnd)
 					break;
 				if (i === months.length - 1)
@@ -77,7 +82,11 @@ function getAllFinances(id) {
 				studentPayment += '<img src="assets/icons/check_red.svg" alt="states" data-payment="unpaid" data-type="yearly" data-expense="'+subscriptionStudent[k].Expense_ID+'" data-pay="'+subscriptionStudent[k].SS_ID+'-'+months[i]+'" data-obj={"Expence":"'+subscriptionStudent[k].Expense_Label+'","Amount":'+subscriptionStudent[k].Expense_Cost+',"Status":"Unpaid","BoolStatus":"1"}/>'
 			}
 		}
-		$("#Finance").find('[data-studentid="'+id+'"]').append(' <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center">'+studentPayment+'</td>');
+		if (date.getMonth() === i)
+			style = 'style="background: #f9f9f9"';
+		else
+			style = "";
+		$("#Finance").find('[data-studentid="'+id+'"]').append(' <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center" '+style+'>'+studentPayment+'</td>');
 		for (var j = paymentFiltred.length - 1; j >= 0; j--) {
 			if (paymentFiltred[j].Expense_PaymentMethod === "Monthly")
 				if (paymentFiltred[j].SP_PaidPeriod === months[i])
