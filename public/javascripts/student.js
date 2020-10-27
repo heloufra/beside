@@ -13,6 +13,7 @@ var attitudes = [];
 var payStudent = [];
 var exams = [];
 var filtredClass = [];
+var academicyear = "2020-2021";
 var months =  ["January", "February", "March", "April", "May", "June", "July", "August", "September", "Octobre", "November", "December"];
 $domChange = false;
 var start,end;
@@ -312,6 +313,7 @@ $(document).on("click",".students_list",function(event){
   		subStudent =  res.substudent;
 		start = res.start;
 		end = res.end;
+		academicyear = res.academicyear;
 		var indStart = months.indexOf(start);
 		var indEnd = months.indexOf(end);
 		var htmlmonths = '';
@@ -468,14 +470,13 @@ function executePayment() {
 			var payFilter = payStudent.filter(function (el) {
 		        	return el.SS_ID === subStudent[i].SS_ID;
 		      	});
+			var htmlmonths = '';
 			for (var j = payFilter.length - 1; j >= 0; j--) {
-				
+				htmlmonths += "<option value="+payFilter[j].SP_PaidPeriod+" seleted>"+payFilter[j].SP_PaidPeriod+" </option> ";
 				MonthsFiltred = MonthsFiltred.filter(function (el) {
 		        	return el != payFilter[j].SP_PaidPeriod;
 		      	});
 			}
-			console.log("Filter!!",MonthsFiltred);
-			var htmlmonths = '';
 			for (var k = 0; k < MonthsFiltred.length; k++) {
 				htmlmonths += "<option value="+MonthsFiltred[k]+">"+MonthsFiltred[k]+" </option> ";
 			}
@@ -490,7 +491,7 @@ function executePayment() {
 			if (payFilter.length === 0)
 			{
 				$('#FinanceModal').find('.yearly').removeClass('hidden');
-				$('#FinanceModal').find('.yearly').after('<div class="yearly-rows dynamic-form-input-container dynamic-form-input-container-extra-style input-text-subject-select2-one-option"> <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+subStudent[i].Expense_Label+'</span> <span class="input-label-bg-mask"></span></label> <div class="dynamic-form-input-dropdown-container"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="form-group group"> <select class="input-text-year-select2 payment-select" data-val="Annual" data-ssid="'+subStudent[i].SS_ID+'" multiple name="language"> <option seleted value="2021-2022">2021-2022</option> </select> <img class="icon button-icon" src="assets/icons/caret.svg"> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div> </div>');
+				$('#FinanceModal').find('.yearly').after('<div class="yearly-rows dynamic-form-input-container dynamic-form-input-container-extra-style input-text-subject-select2-one-option"> <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+subStudent[i].Expense_Label+'</span> <span class="input-label-bg-mask"></span></label> <div class="dynamic-form-input-dropdown-container"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="form-group group"> <select class="input-text-year-select2 payment-select" data-val="Annual" data-ssid="'+subStudent[i].SS_ID+'" multiple name="language"> <option seleted value="'+academicyear+'">'+academicyear+'</option> </select> <img class="icon button-icon" src="assets/icons/caret.svg"> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div> </div>');
 			}
 		}
 	}
