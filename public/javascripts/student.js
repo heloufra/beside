@@ -327,9 +327,13 @@ $(document).on("click",".students_list",function(event){
 				$("#Finance").find('.yearly-expense').after(' <div data-val="'+res.substudentpay[i].Expense_Label+'" class="month-row sections-main-sub-container-right-main-result sections-main-sub-container-right-main-result-extra-style"><span class="sections-main-sub-container-right-main-result-label sections-main-sub-container-right-main-result-label-extra-info"> <span class="expense_label">'+res.substudentpay[i].Expense_Label+'</span> <span class="expense_label_method">'+res.substudentpay[i].Expense_Cost+'</span> </span> <span class="sections-main-sub-container-right-main-result-value img-yearly"><img src="assets/icons/check_red.svg" alt="states" /></span></div>');
 			}
 		}
-
+		var style = "";
 		for (var i = indStart; i < months.length; i++) {
-			htmlmonths += '<th scope="col" class="col-text-align month-row">'+months[i].slice(0,3)+'</th>';
+			if (date.getMonth() === i)
+				style = 'style="background: #f9f9f9"';
+			else
+				style = "";
+			htmlmonths += '<th scope="col" class="col-text-align month-row" '+style+'>'+months[i].slice(0,3)+'</th>';
 			for (var k = res.substudentpay.length - 1; k >= 0; k--) {
 				if (res.substudentpay[k].Expense_PaymentMethod === "Monthly")
 				{
@@ -341,7 +345,7 @@ $(document).on("click",".students_list",function(event){
 					if (date.getMonth() >= i && i >= indStart && endDate >= i)
 					{
 						unpaid += parseInt(res.substudentpay[k].Expense_Cost);
-						$("#Finance").find('[data-val="'+res.substudentpay[k].Expense_Label+'"]').append('<td data-id="'+res.substudentpay[k].SS_ID +"-"+months[i]+'" scope="col" class="row-payment col-text-align "><img  src="assets/icons/check_red.svg" alt="states"/></td>');
+						$("#Finance").find('[data-val="'+res.substudentpay[k].Expense_Label+'"]').append('<td data-id="'+res.substudentpay[k].SS_ID +"-"+months[i]+'" '+style+' scope="col" class="row-payment col-text-align "><img  src="assets/icons/check_red.svg" alt="states"/></td>');
 					}
 					else
 						$("#Finance").find('[data-val="'+res.substudentpay[k].Expense_Label+'"]').append('<td data-id="'+res.substudentpay[k].SS_ID +"-"+months[i]+'" scope="col" class="row-payment col-text-align"></td>');
