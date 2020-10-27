@@ -12,8 +12,8 @@ var absenceQuery = `INSERT INTO absencesanddelays(User_ID,  User_Type,  AD_Type,
 var scQuery = `INSERT INTO teachersclasses(teacher_ID, Classe_ID, AY_ID) VALUES(?,?,?)`;
 var teacherQuery = 'INSERT INTO users(User_Name, User_Image, User_Email,User_Birthdate, User_Phone,User_Address,User_Role) VALUES(?,?,?,?,?,?,?)';
 var queryAttitude = 'SELECT * FROM `attitude` WHERE `teacher_ID` = ? AND Attitude_Status <> 0';
-var homeworkQuery = 'SELECT homeworks.*,subjects.Subject_Label,subjects.Subject_Color,classes.Classe_Label FROM `teachers` INNER JOIN teachersclasses On teachersclasses.teacher_ID = teachers.teacher_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = teachersclasses.Classe_ID INNER JOIN homeworks ON homeworks.TSC_ID = teachersubjectsclasses.TSC_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = teachersclasses.Classe_ID WHERE teachers.teacher_ID = ? AND homeworks.Homework_Status <>0';
-var examsQuery = 'SELECT exams.*,subjects.Subject_Label,subjects.Subject_Color,classes.Classe_Label,grads.Exam_Score FROM `teachers` INNER JOIN teachersclasses On teachersclasses.teacher_ID = teachers.teacher_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = teachersclasses.Classe_ID INNER JOIN exams ON exams.TSC_ID = teachersubjectsclasses.TSC_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = teachersclasses.Classe_ID LEFT JOIN grads ON grads.teacher_ID = teachers.teacher_ID WHERE teachers.teacher_ID = ? AND exams.Exam_Status <> 0';
+var homeworkQuery = 'SELECT homeworks.*,subjects.Subject_Label,subjects.Subject_Color,classes.Classe_Label FROM `teachers` INNER JOIN teachersclasses On teachersclasses.teacher_ID = teachers.teacher_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = teachersclasses.Classe_ID INNER JOIN homeworks ON homeworks.TSC_ID = teachersubjectsclasses.TSC_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = teachersclasses.Classe_ID WHERE teachers.teacher_ID = ? AND homeworks.Homework_Status <>0 AND teachersubjectsclasses.TSC_Status <>0';
+var examsQuery = 'SELECT exams.*,subjects.Subject_Label,subjects.Subject_Color,classes.Classe_Label,grads.Exam_Score FROM `teachers` INNER JOIN teachersclasses On teachersclasses.teacher_ID = teachers.teacher_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = teachersclasses.Classe_ID INNER JOIN exams ON exams.TSC_ID = teachersubjectsclasses.TSC_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = teachersclasses.Classe_ID LEFT JOIN grads ON grads.teacher_ID = teachers.teacher_ID WHERE teachers.teacher_ID = ? AND exams.Exam_Status <> 0 AND teachersubjectsclasses.TSC_Status <>0';
 var adddate = 1;
 var classeID;
 //SELECT teachers.*,levels.Level_Label FROM teachers INNER JOIN teachersclasses ON teachersclasses.teacher_ID = teachers.teacher_ID INNER JOIN teachersubscribtion ON teachersubscribtion.teacher_ID = teachersclasses.teacher_ID INNER JOIN levelexpenses ON levelexpenses.LE_ID = teachersubscribtion.LE_ID INNER JOIN levels ON levels.Level_ID = levelexpenses.Level_ID WHERE teachersclasses.Classe_ID = ? AND teachersclasses.AY_ID = ?;
@@ -49,8 +49,8 @@ var teacherController = {
   getTeacher: function(req, res, next) {
     connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
        connection.query("SELECT * FROM `absencesanddelays` WHERE User_ID = ? AND Declaredby_ID = ? AND AD_Status <> 0", [req.query.id,req.userId], (err, absences, fields) => {
-        connection.query("SELECT DISTINCT subjects.Subject_Label FROM `users` INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Teacher_ID = users.User_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID WHERE users.User_ID = ? AND institutionsusers.Institution_ID = ? AND institutionsusers.User_Role = 'Teacher'", [req.query.id,req.Institution_ID],async (err, subjects, fields) => {
-          connection.query("SELECT DISTINCT subjects.Subject_Label,classes.Classe_Label,classes.Classe_ID FROM `users` INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Teacher_ID = users.User_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID WHERE users.User_ID = ? AND institutionsusers.Institution_ID = ? AND institutionsusers.User_Role = 'Teacher'", [req.query.id,req.Institution_ID],async (err, classes, fields) => {
+        connection.query("SELECT DISTINCT subjects.Subject_Label,subjects.Subject_ID FROM `users` INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Teacher_ID = users.User_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID WHERE users.User_ID = ? AND institutionsusers.Institution_ID = ? AND institutionsusers.User_Role = 'Teacher' AND teachersubjectsclasses.TSC_Status <>0", [req.query.id,req.Institution_ID],async (err, subjects, fields) => {
+          connection.query("SELECT DISTINCT subjects.Subject_Label,classes.Classe_Label,classes.Classe_ID FROM `users` INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Teacher_ID = users.User_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID WHERE users.User_ID = ? AND institutionsusers.Institution_ID = ? AND institutionsusers.User_Role = 'Teacher' AND teachersubjectsclasses.TSC_Status <>0", [req.query.id,req.Institution_ID],async (err, classes, fields) => {
             connection.query("SELECT subjects.*,levelsubjects.Level_ID FROM subjects INNER JOIN levelsubjects ON levelsubjects.Subject_ID = subjects.Subject_ID WHERE levelsubjects.AY_ID = ?", [academic[0].AY_ID], (err, allsubjects, fields) => {
             res.json({
                     subjects:subjects,
@@ -159,30 +159,38 @@ var teacherController = {
      })
   },
   updateTeacher: function(req, res, next) {
-  connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
-    connection.query("UPDATE `users` SET User_Name=?, User_Image=?, User_Email=?,User_Birthdate=?, User_Phone=?,User_Address=? WHERE User_ID = ?", [JSON.stringify({first_name:req.body.first_name, last_name:req.body.last_name}), req.body.profile_image,req.body.email,  req.body.birthdate,  req.body.phone_number,req.body.teacher_address,req.body.id],async (err, teacher, fields) => {
-       if (err) {
-            console.log(err);
-              res.json({
-                errors: [{
-                field: "Access denied",
-                errorDesc: "Save teacher Error"
-              }]});
-        } else 
-        {
-          for (var i = req.body.subjects.length - 1; i >= 0; i--) {
-            for (var j =  req.body.subjects[i].classes.length - 1; j >= 0; j--) {
-                var teacher = await teacherModel.findSubTeacher(req.body.id,req.body.subjects[i].subject,req.body.subjects[i].classes[j])
-                if (teacher.length === 0)
-                {
-                  connection.query("INSERT INTO `teachersubjectsclasses`( `Teacher_ID`, `Subject_ID`, `Classe_ID`, `AY_ID`) VALUES (?,?,?,?)",[req.body.id,req.body.subjects[i].subject,req.body.subjects[i].classes[j],academic[0].AY_ID]);
+    console.log("Old::",req.body.olddata)
+    connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
+      connection.query("UPDATE `users` SET User_Name=?, User_Image=?, User_Email=?,User_Birthdate=?, User_Phone=?,User_Address=? WHERE User_ID = ?", [JSON.stringify({first_name:req.body.first_name, last_name:req.body.last_name}), req.body.profile_image,req.body.email,  req.body.birthdate,  req.body.phone_number,req.body.teacher_address,req.body.id],async (err, teacher, fields) => {
+         if (err) {
+              console.log(err);
+                res.json({
+                  errors: [{
+                  field: "Access denied",
+                  errorDesc: "Save teacher Error"
+                }]});
+          } else 
+          {
+            if (req.body.subjects)
+            {
+              for (var n = req.body.olddata.length - 1; n >= 0; n--) {
+                if(!req.body.subjects.some( value => { return req.body.olddata[n].subject === value.subject && value.classes.some( value => {return   req.body.olddata[n].classe === value})}))
+                  connection.query("UPDATE `teachersubjectsclasses` SET  TSC_Status = 0 WHERE `Teacher_ID`=? AND `Subject_ID`=? AND `Classe_ID`=?", [req.body.id,req.body.olddata[n].subject,req.body.olddata[n].classe])
+              }
+              for (var i = req.body.subjects.length - 1; i >= 0; i--) {
+                for (var j =  req.body.subjects[i].classes.length - 1; j >= 0; j--) {
+                  var teacher = await teacherModel.findSubTeacher(req.body.id,req.body.subjects[i].subject,req.body.subjects[i].classes[j])
+                  if (teacher.length === 0)
+                  {
+                    connection.query("INSERT INTO `teachersubjectsclasses`( `Teacher_ID`, `Subject_ID`, `Classe_ID`, `AY_ID`) VALUES (?,?,?,?)",[req.body.id,req.body.subjects[i].subject,req.body.subjects[i].classes[j],academic[0].AY_ID]);
+                  }
                 }
+              }
             }
+            res.json({updated:true})
           }
-          res.json({updated:true})
-        }
+      })
     })
-  })
   },
   updateAbsence: function(req, res, next) {
     connection.query("UPDATE `absencesanddelays` SET  AD_FromTo = ?, AD_Date = ? WHERE `AD_ID` = ?", [req.body.AD_FromTo,req.body.AD_Date,req.body.id], (err, absence, fields) => {

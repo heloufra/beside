@@ -13,6 +13,7 @@ var attitudes = [];
 var exams = [];
 var filtredClass = [];
 $domChange = false;
+var olddata = [];
 
 getAllteachers();
 function getAllteachers(id) {
@@ -275,6 +276,7 @@ function hideSelected(value) {
 	  	$("#reported_title").addClass('hidden');
 		$("#absence_table").addClass('hidden');
 	  	$("#absence_title").addClass('hidden');
+	  	$('.subjects-container').remove();
   		teacherId = parseInt(index);
 		$domChange = false;
 		var result = teachers.filter(function (el) {
@@ -283,6 +285,7 @@ function hideSelected(value) {
 		$('#teacher_info').find('#Details').removeClass("dom-change-watcher");
 		$('.subject-klon').remove();
 		$('.class-subject').remove();
+		olddata = [];
   		for (var i = res.subjects.length - 1; i >= 0; i--) {
   			var selected = "";
   			var exist = "";
@@ -295,12 +298,15 @@ function hideSelected(value) {
 				});
 	  		for (var k = res.classes.length - 1; k >= 0; k--) {
 	  			if (classes.some( value => { return value.Subject_Label == res.classes[k].Subject_Label } ))
+	  			{
+	  				olddata.push({subject:res.subjects[i].Subject_ID,classe:res.classes[k].Classe_ID});
 	  				exist = "selected"
+	  			}
 	  			else
 	  				exist = "";
 	  			selected += '<option class="class-subject" value="'+res.classes[k].Classe_ID+'" '+exist+'>'+res.classes[k].Classe_Label+'</option>'
 	  		}
-			$('.subjects-list').prepend('<div class="dynamic-form-input-dropdown-container sections-main-sub-container-right-main-rows-dropdown-tags-container" id="subjects-container"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="dynamic-form-input-float-adjust"> <div class="form-group group form-group-left"> <input type="text" class="input-text input-dropdown" value="'+res.subjects[i].Subject_Label+'" name="subjects" required> <label class="input-label"><span class="input-label-text">Subjects</span> <span class="input-label-bg-mask"></span></label> <img class="icon button-icon" src="assets/icons/caret.svg"> <ul class="dynamic-form-input-dropdown-options">'+allSubjects+'</ul> </div> <div class="form-group group form-group-right"> <select class="input-text-subject-classes-select2 list-classes" multiple >'+selected+' </select> <img class="icon button-icon" src="assets/icons/caret.svg"> <label class="input-label"> <span class="input-label-text">Classes</span><span class="input-label-bg-mask"></span> </label> </div> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div>')
+			$('.subjects-list').prepend('<div class="dynamic-form-input-dropdown-container sections-main-sub-container-right-main-rows-dropdown-tags-container subjects-container" > <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="dynamic-form-input-float-adjust"> <div class="form-group group form-group-left"> <input type="text" class="input-text input-dropdown" value="'+res.subjects[i].Subject_Label+'" name="subjects" required> <label class="input-label"><span class="input-label-text">Subjects</span> <span class="input-label-bg-mask"></span></label> <img class="icon button-icon" src="assets/icons/caret.svg"> <ul class="dynamic-form-input-dropdown-options">'+allSubjects+'</ul> </div> <div class="form-group group form-group-right"> <select class="input-text-subject-classes-select2 list-classes" multiple >'+selected+' </select> <img class="icon button-icon" src="assets/icons/caret.svg"> <label class="input-label"> <span class="input-label-text">Classes</span><span class="input-label-bg-mask"></span> </label> </div> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div>')
   		}
   		if($(".input-text-subject-classes-select2").length > 0)
 			$(".input-text-subject-classes-select2").select2({
@@ -602,9 +608,10 @@ function saveteacher() {
 }
 
 function saveChange() {
-	var subjects =  $('#subjects-container').find('input[name^=subjects]').map(function(idx, elem) {
-	    return {subject: $('#subjects-container').find('[data-val='+$(elem).val()+']').data('subjectid'),classes:$(this).closest('.dynamic-form-input-float-adjust').find('select').val()};
+	var subjects =  $('.subjects-container').find('input[name^=subjects]').map(function(idx, elem) {
+	    return {subject: $('.subjects-container').find('[data-val='+$(elem).val()+']').data('subjectid'),classes:$(this).closest('.dynamic-form-input-float-adjust').find('select').val()};
 	  }).get();
+	console.log("Subjects",subjects);
 	$.ajax({
 	    type: 'post',
 	    url: '/Teachers/update',
@@ -618,6 +625,7 @@ function saveChange() {
 			phone_number:$('#Details').find('input[name="phone_number_detail"]').val(),
 			birthdate:$('#Details').find('input[name="birthdate_detail"]').val(),
 			subjects:subjects,
+			olddata:olddata,
 	    },
 	    dataType: 'json'
 	  })
