@@ -318,11 +318,13 @@ $(document).on("click",".students_list",function(event){
 		var date = new Date();
 		console.log("SubStudent:::",subStudent);
 		var unpaid = 0;
+		$("#Finance").find('.yearly-expense').addClass('hidden');
 		for (var i = res.substudentpay.length - 1; i >= 0; i--) {
 			if (res.substudentpay[i].Expense_PaymentMethod === "Monthly")
 				$("#Finance").find('.list-expenses').append('<tr class="row-payment" data-val="'+res.substudentpay[i].Expense_Label+'"> <td data-label="'+res.substudentpay[i].Expense_Label+'" class="td-label"> <span class="expense_label">'+res.substudentpay[i].Expense_Label+'<span class="expense_label_method">'+res.substudentpay[i].Expense_Cost+'</span></span> </td> </tr>');
 			else
 			{
+				$("#Finance").find('.yearly-expense').removeClass('hidden');
 				unpaid += parseInt(res.substudentpay[i].Expense_Cost);
 				$("#Finance").find('.yearly-expense').after(' <div data-val="'+res.substudentpay[i].Expense_Label+'" class="month-row sections-main-sub-container-right-main-result sections-main-sub-container-right-main-result-extra-style"><span class="sections-main-sub-container-right-main-result-label sections-main-sub-container-right-main-result-label-extra-info"> <span class="expense_label">'+res.substudentpay[i].Expense_Label+'</span> <span class="expense_label_method">'+res.substudentpay[i].Expense_Cost+'</span> </span> <span class="sections-main-sub-container-right-main-result-value img-yearly"><img src="assets/icons/check_red.svg" alt="states" /></span></div>');
 			}
