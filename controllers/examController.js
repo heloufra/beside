@@ -53,7 +53,7 @@ var examController = {
     res.json({saved : true});
   },
   getExams: function(req, res, next) {
-    connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
+    connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, institutions, fields) => {
     connection.query(selectExams,[req.Institution_ID], (err, exams, fields) => {
       res.json({
                 exams:exams,
@@ -62,7 +62,7 @@ var examController = {
   })
   },
   getExam: function(req, res, next) {
-    connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
+    connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, institutions, fields) => {
     connection.query(selectExam,[req.Institution_ID,req.query.exam_id], (err, exam, fields) => {
       connection.query(selectScore,[req.query.exam_id], (err, score, fields) => {
         connection.query("SELECT AVG(grads.Exam_Score) as average FROM `exams` INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.TSC_ID = exams.TSC_ID INNER JOIN studentsclasses ON studentsclasses.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN students ON students.Student_ID = studentsclasses.Student_ID INNER JOIN classes ON classes.Classe_ID = studentsclasses.Classe_ID LEFT JOIN grads ON grads.Exam_ID = exams.Exam_ID WHERE exams.Exam_ID = ?  AND students.Student_Status <> 0",[req.query.exam_id], (err, average, fields) => {

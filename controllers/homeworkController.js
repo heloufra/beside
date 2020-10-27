@@ -45,7 +45,7 @@ var homeworkController = {
   },
   getHomeworks: function(req, res, next) {
 
-    connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
+    connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, institutions, fields) => {
       connection.query(selectHomeworks,[req.Institution_ID], (err, homeworks, fields) => {
         res.json({
                   homeworks:homeworks,
@@ -54,7 +54,7 @@ var homeworkController = {
     })
   },
   getHomework: function(req, res, next) {
-    connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
+    connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, institutions, fields) => {
       connection.query(selectHomework,[req.Institution_ID,req.query.homework_id], (err, homework, fields) => {
         res.json({
                   homework:homework,
