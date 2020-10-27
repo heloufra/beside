@@ -472,7 +472,6 @@ function executePayment() {
 		      	});
 			var htmlmonths = '';
 			for (var j = payFilter.length - 1; j >= 0; j--) {
-				htmlmonths += "<option value="+payFilter[j].SP_PaidPeriod+" seleted>"+payFilter[j].SP_PaidPeriod+" </option> ";
 				MonthsFiltred = MonthsFiltred.filter(function (el) {
 		        	return el != payFilter[j].SP_PaidPeriod;
 		      	});
