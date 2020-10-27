@@ -2,12 +2,12 @@
 <html>
 <head>
 
-  <title><%= title %></title>
+    <title><%= title %></title>
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-  <%- include('./partials/main'); %>
+ <%- include('./partials/main'); %>
 
 </head>
 
@@ -32,6 +32,7 @@
         <!-- nav -->
           <%- include('./partials/nav_bar', {user: user,users:users}); %>
         <!-- End nav -->
+
         <!--  sections-main-sub-container 100%  -->
         <div class="sections-main-sub-container dashboard-main-sub-container">
 
@@ -105,7 +106,7 @@
                                               </div>
                                             </div>
                                             <div class="customCheck">
-                                              <input type="checkbox" value="" name="checkbox" id="ck" />
+                                              <input type="checkbox" value="" name="checkbox" checked id="ck" />
                                               <label for="ck"></label>
                                             </div>
                                           </div>
@@ -118,7 +119,7 @@
                                               </div>
                                             </div>
                                             <div class="customCheck">
-                                              <input type="checkbox" value="" name="checkbox" id="ck" />
+                                              <input type="checkbox" value="" name="checkbox" checked id="ck" />
                                               <label for="ck"></label>
                                             </div>
                                           </div>
@@ -522,7 +523,7 @@
 
                             <?php for($i = 0 ; $i < 10 ; $i++) { ?>
                               <!--  sections-main-sub-container-left-cards  -->
-                              <div class="sections-main-sub-container-left-card dashboard-chat-side-bar-body-extra-style">
+                              <div class="sections-main-sub-container-left-card dashboard-chat-side-bar-body-extra-style card-single-receiver-extra-style">
                                     <img class="sections-main-sub-container-left-card-main-img" src="assets/images/profiles/Profile1.jpg" alt="card-img">
                                     <span class="dashboard-chat-side-bar-body-notification">3</span>
                                     <div class="sections-main-sub-container-left-card-info">
@@ -535,19 +536,17 @@
                               <!--  End sections-main-sub-container-left-cards  -->
 
                               <!--  sections-main-sub-container-left-cards  -->
-                              <div class="sections-main-sub-container-left-card dashboard-chat-side-bar-body-extra-style read-card-extra-style">
+                              <div class="sections-main-sub-container-left-card dashboard-chat-side-bar-body-extra-style read-card-extra-style card-multi-receivers-extra-style">
                                     <div class="sections-main-sub-container-left-card-main-img-text">Cp</div>
                                     <div class="sections-main-sub-container-left-card-info">
                                         <p class="sections-main-sub-container-left-card-main-info">Cp</p>
-                                        <span  class="sections-main-sub-container-left-card-sub-info">
-                                            There are many variations of and  passages available...
-                                        </span>
                                     </div>
+                                    <img  class="" src="assets/icons/right_dropdown_arrow.svg" alt="right_dropdown_arrow" />
                               </div>
                               <!--  End sections-main-sub-container-left-cards  -->
 
                               <!--  sections-main-sub-container-left-cards  -->
-                              <div class="sections-main-sub-container-left-card dashboard-chat-side-bar-body-extra-style read-card-extra-style">
+                              <div class="sections-main-sub-container-left-card dashboard-chat-side-bar-body-extra-style read-card-extra-style card-single-receiver-extra-style">
                                     <img class="sections-main-sub-container-left-card-main-img" src="assets/images/profiles/Profile1.jpg" alt="card-img">
                                     <div class="sections-main-sub-container-left-card-info">
                                         <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
@@ -557,15 +556,14 @@
                                     </div>
                               </div>
                               <!--  End sections-main-sub-container-left-cards  -->
+
                               <!--  sections-main-sub-container-left-cards  -->
                               <div class="sections-main-sub-container-left-card dashboard-chat-side-bar-body-extra-style card-multi-receivers-extra-style">
                                     <div class="sections-main-sub-container-left-card-main-img-text">Cp1</div>
                                     <div class="sections-main-sub-container-left-card-info">
                                         <p class="sections-main-sub-container-left-card-main-info">Cp1 - Cp2 - Ce3 - Ce4 </p>
-                                        <span  class="sections-main-sub-container-left-card-sub-info">
-                                            There are many variations of and  passages available...
-                                        </span>
                                     </div>
+                                    <img  class="" src="assets/icons/right_dropdown_arrow.svg" alt="right_dropdown_arrow" />
                               </div>
                               <!--  End sections-main-sub-container-left-cards  -->
 
@@ -590,12 +588,43 @@
                         <!--  dashboard-chat-side-bar-header  -->
                         <div class="dashboard-chat-side-bar-header-container">
                             <div class="dashboard-chat-side-bar-header-label-container">
-                              <span class="dashboard-chat-side-bar-header-label">Alexandre Paiva</span>
-                              <span class="dashboard-chat-side-bar-header-sub-label">Student parent</span>
+                              <span class="dashboard-chat-side-bar-header-label">Multiple people</span>
+                              <span class="dashboard-chat-side-bar-header-sub-label">
+                                 <span class="dashboard-chat-side-bar-header-sub-label-to">Students-Parent</span>
+                                 <img class="dashboard-chat-side-bar-header-sub-label-icon caret-rotate" src="assets/icons/chevron.svg" alt="close" />
+                              </span>
                             </div>
-                            <img  class="dashboard-chat-side-bar-header-filter-icon dashboard-chat-side-bar-header-close-icon" src="assets/icons/close-big.svg" alt="close" />
+                            <img  class="dashboard-chat-side-bar-header-add-new-close-icon" src="assets/icons/close-big.svg" alt="close" />
                         </div>
                         <!--  End dashboard-chat-side-bar-header  -->
+
+                        <!--  dashboard-chat-side-bar-to-container  -->
+                        <div class="dashboard-chat-side-bar-to-container">
+
+                          <div class="sections-main-sub-container-right-main-label-divider">
+                              <p>Students</p>
+                          </div>
+
+                          <div class="dashboard-chat-side-bar-to-list">
+                            <p class="dashboard-chat-side-bar-to-name">Rey Mibourne</p>
+                            <p class="dashboard-chat-side-bar-to-name">Sampson Totton</p>
+                            <p class="dashboard-chat-side-bar-to-name">Sergio Pliego</p>
+                            <p class="dashboard-chat-side-bar-to-name">Siri Jakobsson</p>
+                          </div>
+
+                          <div class="sections-main-sub-container-right-main-label-divider">
+                              <p>Parents</p>
+                          </div>
+
+                          <div class="dashboard-chat-side-bar-to-list">
+                            <p class="dashboard-chat-side-bar-to-name">Rey Mibourne</p>
+                            <p class="dashboard-chat-side-bar-to-name">Sampson Totton</p>
+                            <p class="dashboard-chat-side-bar-to-name">Sergio Pliego</p>
+                            <p class="dashboard-chat-side-bar-to-name">Siri Jakobsson</p>
+                          </div>
+                          
+                        </div>
+                        <!--  End dashboard-chat-side-bar-to-container  -->
 
                         <!--  dashboard-new-message-side-bar-body  -->
                         <div class="dashboard-new-message-side-bar-body">
@@ -622,12 +651,19 @@
 
                         <!--  dashboard-new-message-side-bar-body  -->
                         <div class="dashboard-new-message-side-bar-input-container">
-                           <div class="dashboard-new-message-side-bar-input">
+
+                            <div class="rounded-button default-button btn-secondary" id="">
+                                 <img class="icon" src="assets/icons/attach.svg">
+                            </div>
+
+                            <div class="dashboard-new-message-side-bar-input">
                                <textarea oninput="Auto_grow(this)" onfocus="Auto_grow(this)" type="text" class="message-input" placeholder="Add text" required=""></textarea>
                             </div>
+
                             <div class="rounded-button" id="Send_Btn">
                                 <img class="icon" src="assets/icons/right_arrow.svg">
                             </div>
+
                         </div>
                         <!--  End dashboard-new-message-side-bar-body  -->
 
@@ -642,7 +678,7 @@
                             <div class="dashboard-chat-side-bar-header-label-container">
                               <span class="dashboard-chat-side-bar-header-label">New message</span>
                             </div>
-                            <img  class="dashboard-chat-side-bar-header-filter-icon dashboard-chat-side-bar-header-close-icon" src="assets/icons/close-big.svg" alt="close" />
+                            <img  class="dashboard-chat-side-bar-header-new-message-close-icon" src="assets/icons/close-big.svg" alt="close" />
                         </div>
                         <!--  End dashboard-chat-side-bar-header  -->
 
@@ -905,7 +941,7 @@
                         <!--  End dashboard-add-new-message-side-bar-body  -->
 
                         <div class="dashboard-add-new-message-side-bar-footer">
-                          <div class="rounded-button" id="">
+                          <div class="rounded-button" id="NewMessageNext">
                                   <img class="icon" src="assets/icons/right_arrow.svg">
                           </div>
                         </div>
@@ -1098,6 +1134,82 @@
                       </div>
                       <!--  End dashboard-filter-message-side-bar-container  -->
 
+                      <!--  dashboard-filter-message-side-bar-container -->
+                      <div class="dashboard-multi-message-side-bar-container">
+
+                        <!--  dashboard-chat-side-bar-header  -->
+                        <div class="dashboard-chat-side-bar-header-container">
+                            <div class="dashboard-chat-side-bar-header-label-container">
+                              <span class="dashboard-chat-side-bar-header-label">Cp1 - Cp2 - Ce3 - Ce4</span>
+                            </div>
+                            <img  class="dashboard-chat-side-bar-header-filter-icon dashboard-chat-side-bar-header-close-icon dashboard-chat-side-bar-header-multi-close-icon" src="assets/icons/close-big.svg" alt="close" />
+                        </div>
+                        <!--  End dashboard-chat-side-bar-header  -->
+
+                        <!--  dashboard-filter-message-side-bar-body  -->
+                        <div class="dashboard-chat-side-bar-body">
+
+                            <?php for($i = 0 ; $i < 10 ; $i++) { ?>
+                              <!--  sections-main-sub-container-left-cards  -->
+                              <div class="sections-main-sub-container-left-card dashboard-chat-side-bar-body-extra-style card-single-receiver-extra-style">
+                                    <img class="sections-main-sub-container-left-card-main-img" src="assets/images/profiles/Profile1.jpg" alt="card-img">
+                                    <span class="dashboard-chat-side-bar-body-notification">3</span>
+                                    <div class="sections-main-sub-container-left-card-info">
+                                        <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
+                                        <span  class="sections-main-sub-container-left-card-sub-info">
+                                            There are many variations of and  passages available...
+                                        </span>
+                                    </div>
+                              </div>
+                              <!--  End sections-main-sub-container-left-cards  -->
+
+                              <!--  sections-main-sub-container-left-cards  -->
+                              <div class="sections-main-sub-container-left-card dashboard-chat-side-bar-body-extra-style read-card-extra-style card-single-receiver-extra-style">
+                                    <img class="sections-main-sub-container-left-card-main-img" src="assets/images/profiles/Profile.jpg" alt="card-img">
+                                    <span class="dashboard-chat-side-bar-body-notification">2</span>
+                                    <div class="sections-main-sub-container-left-card-info">
+                                        <p class="sections-main-sub-container-left-card-main-info">Diane Lansdowne</p>
+                                        <span  class="sections-main-sub-container-left-card-sub-info">
+                                            There are many variations of and  passages available...
+                                        </span>
+                                    </div>
+                              </div>
+                              <!--  End sections-main-sub-container-left-cards  -->
+
+                              <!--  sections-main-sub-container-left-cards  -->
+                              <div class="sections-main-sub-container-left-card dashboard-chat-side-bar-body-extra-style card-single-receiver-extra-style">
+                                    <img class="sections-main-sub-container-left-card-main-img" src="assets/images/profiles/Profile1.jpg" alt="card-img">
+                                    <div class="sections-main-sub-container-left-card-info">
+                                        <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
+                                        <span  class="sections-main-sub-container-left-card-sub-info">
+                                            There are many variations of and  passages available...
+                                        </span>
+                                    </div>
+                              </div>
+                              <!--  End sections-main-sub-container-left-cards  -->
+
+                              <!--  sections-main-sub-container-left-cards  -->
+                              <div class="sections-main-sub-container-left-card dashboard-chat-side-bar-body-extra-style read-card-extra-style card-single-receiver-extra-style">
+                                    <img class="sections-main-sub-container-left-card-main-img" src="assets/images/profiles/Profile.jpg" alt="card-img">
+                                    <span class="dashboard-chat-side-bar-body-notification">1</span>
+                                    <div class="sections-main-sub-container-left-card-info">
+                                        <p class="sections-main-sub-container-left-card-main-info">Diane Lansdowne</p>
+                                        <span  class="sections-main-sub-container-left-card-sub-info">
+                                            There are many variations of and  passages available...
+                                        </span>
+                                    </div>
+                              </div>
+                              <!--  End sections-main-sub-container-left-cards  -->
+
+                          <?php } ?>
+
+
+                        </div>
+                        <!--  End dashboard-filter-message-side-bar-body  -->
+
+                      </div>
+                      <!--  End dashboard-filter-message-side-bar-container  -->
+
                 </div>
 
         </div>
@@ -1200,9 +1312,9 @@
       </div>
     <!--_____________ End ConfirmDelete modal _____________-->
 
-    <!--________________ Modals _____________-->
+     <!--________________ Modals _____________-->
 
-            <?php include_once("Views/Includes_master/modals.php"); ?>
+           <%- include('./partials/modals',{classes: classes}); %>
 
     <!--________________ End Modals _____________-->
 

@@ -12,6 +12,8 @@ var usersRouter = require('./routes/users');
 var setupRouter = require('./routes/setup');
 var studentRouter = require('./routes/student');
 var financeRouter = require('./routes/finance');
+var dashboardRouter = require('./routes/dashboard');
+var settingsRouter = require('./routes/settings');
 var examRouter = require('./routes/exam');
 var teacherRouter = require('./routes/teacher');
 var homeworkRouter = require('./routes/homework');
@@ -54,6 +56,8 @@ app.use('/Exams',auth, examRouter);
 app.use('/Homeworks',auth, homeworkRouter);
 app.use('/Students',auth, studentRouter);
 app.use('/Finances',auth, financeRouter);
+app.use('/Dashboard',auth, dashboardRouter);
+app.use('/Settings',auth, settingsRouter);
 app.use('/Select',auth, selectRouter);
 
 // catch 404 and forward to error handler

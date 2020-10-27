@@ -1550,22 +1550,6 @@ $(document).ready(function(){
 		}
 	}
 
-	$(".side-bar-extra-style .side-bar-li").each(function(){
-
-		
-		$(".side-bar-li-span").removeClass("side-bar-li-span-active");
-		$(".side-bar-li-span").addClass("side-bar-li-span-inactive");
-
-		if($(this).find("a").attr("href").includes($pathname)){
-			$(this).addClass("active");
-			$(this).find(".side-bar-li-img").attr("src","assets/icons/sidebar_icons/side_bar_menu/"+$(this).attr("data-asset-active"));
-	  	   	$(this).find(".side-bar-li-span").addClass("side-bar-li-span-active");
-	  	   	$(this).find(".side-bar-li-span").removeClass("side-bar-li-span-inactive");
-			return false;
-		}
-
-	});
-
 	/* End side-bar-li auto select  ________________________*/
 
 	/* side-bar-li a  ________________________*/

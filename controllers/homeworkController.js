@@ -26,21 +26,23 @@ var homeworkController = {
     })
   },
   saveHomework: function(req, res, next) {
-    console.log("req.body",req.body);
-    connection.query("SELECT teachersubjectsclasses.TSC_ID FROM `teachersubjectsclasses` INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID WHERE subjects.Subject_Label = ? AND classes.Classe_Label = ?  LIMIT 1", [req.body.homework_subject,req.body.homework_classe], (err, tsc, fields) => {
-      connection.query(homeworkQuery, [tsc[0].TSC_ID,  req.body.homework_name,  req.body.homework_description, req.body.homework_deliverydate], (err, homework, fields) => {
-         if (err) {
-              console.log(err);
-                res.json({
-                  errors: [{
-                  field: "Access denied",
-                  errorDesc: "List homeworks Error"
-                }]});
-            } else 
-            {
-              res.json({saved : true});
-            }
-       })
+    connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
+      connection.query("SELECT teachersubjectsclasses.TSC_ID FROM `teachersubjectsclasses` INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID WHERE subjects.Subject_Label = ? AND classes.Classe_Label = ? AND teachersubjectsclasses.AY_ID = ? LIMIT 1", [req.body.homework_subject,req.body.homework_classe,academic[0].AY_ID], (err, tsc, fields) => {
+        if (tsc[0])
+          connection.query(homeworkQuery, [tsc[0].TSC_ID,  req.body.homework_name,  req.body.homework_description, req.body.homework_deliverydate], (err, homework, fields) => {
+             if (err) {
+                  console.log(err);
+                    res.json({
+                      errors: [{
+                      field: "Access denied",
+                      errorDesc: "List homeworks Error"
+                    }]});
+                } else 
+                {
+                  res.json({saved : true});
+                }
+           })
+      })
     })
   },
   getHomeworks: function(req, res, next) {
