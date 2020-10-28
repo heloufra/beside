@@ -120,7 +120,7 @@ var teacherController = {
             var token = jwt.sign({
                       email:req.body.email,
                     }, config.privateKey);
-            var url = 'http://localhost:3000/?redir='+token;
+            var url = 'http://beside.ma/?redir='+token;
            transporter.sendMail({
             from: 'besideyou@contact.com',
             to: req.body.email,
