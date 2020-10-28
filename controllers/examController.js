@@ -1,6 +1,7 @@
 var connection  = require('../lib/db');
 var examQuery = `INSERT INTO exams(TSC_ID,  Exam_Title, Exam_Deatils, Exam_Date,Exam_Status) VALUES(?,?,?,?,1)`;
-var selectExams = 'SELECT exams.*,classes.Classe_Label,subjects.Subject_Label,subjects.Subject_Color,users.User_Name FROM `institutionsusers` INNER JOIN users ON institutionsusers.User_ID = users.User_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Teacher_ID = users.User_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN exams ON exams.TSC_ID = teachersubjectsclasses.TSC_ID WHERE exams.Exam_Status <> "0" AND institutionsusers.Institution_ID = ?';
+var selectExams = 'SELECT DISTINCT exams.*,classes.Classe_Label,subjects.Subject_Label,subjects.Subject_Color,users.User_Name FROM `institutionsusers` INNER JOIN users ON institutionsusers.User_ID = users.User_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Teacher_ID = users.User_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN exams ON exams.TSC_ID = teachersubjectsclasses.TSC_ID WHERE exams.Exam_Status <> "0" AND teachersubjectsclasses.AY_ID = ?';
+var selectExamsTeacher = 'SELECT DISTINCT exams.*,classes.Classe_Label,subjects.Subject_Label,subjects.Subject_Color,users.User_Name FROM `institutionsusers` INNER JOIN users ON institutionsusers.User_ID = users.User_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Teacher_ID = users.User_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN exams ON exams.TSC_ID = teachersubjectsclasses.TSC_ID WHERE exams.Exam_Status <> "0" AND teachersubjectsclasses.AY_ID = ? AND teachersubjectsclasses.Teacher_ID = ?';
 var selectExam = 'SELECT exams.*,classes.Classe_Label,subjects.Subject_Label,subjects.Subject_Color,users.User_Name FROM `institutionsusers` INNER JOIN users ON institutionsusers.User_ID = users.User_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Teacher_ID = users.User_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN exams ON exams.TSC_ID = teachersubjectsclasses.TSC_ID WHERE exams.Exam_Status <> "0" AND institutionsusers.Institution_ID = ? AND exams.Exam_ID = ?';
 var selectScore = 'SELECT students.*,grads.Exam_Score,grads.Grad_ID,classes.Classe_Label FROM `exams` INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.TSC_ID = exams.TSC_ID INNER JOIN studentsclasses ON studentsclasses.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN students ON students.Student_ID = studentsclasses.Student_ID INNER JOIN classes ON classes.Classe_ID = studentsclasses.Classe_ID LEFT JOIN grads ON grads.Student_ID = students.Student_ID AND grads.Exam_ID = exams.Exam_ID WHERE exams.Exam_ID = ?  AND students.Student_Status <> 0'
 
@@ -14,7 +15,7 @@ var examController = {
                 connection.query("SELECT * FROM `classes` WHERE AY_ID = ?", [academic[0].AY_ID], (err, classes, fields) => {
                   connection.query("SELECT * FROM `levels` WHERE AY_ID = ?", [academic[0].AY_ID], (err, levels, fields) => {
                     connection.query("SELECT * FROM `subjects`", (err, subjects, fields) => {
-                      res.render('exam', { title: 'Exams' , user: user[0], institution:institutions[0], classes:classes,subjects:subjects,levels:levels,accounts,users});
+                      res.render('exam', { title: 'Exams' , user: user[0], institution:institutions[0], classes:classes,subjects:subjects,levels:levels,accounts,users,role:req.role});
                     })
                   })
                 })
@@ -25,20 +26,22 @@ var examController = {
       })
   },
   saveExams: function(req, res, next) {
-    connection.query("SELECT teachersubjectsclasses.TSC_ID FROM `teachersubjectsclasses` INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID WHERE subjects.Subject_Label = ? AND classes.Classe_Label = ?  LIMIT 1", [req.body.exam_subject,req.body.exam_classe], (err, tsc, fields) => {
-      connection.query(examQuery, [tsc[0].TSC_ID,  req.body.exam_name,  req.body.exam_description, req.body.exam_date], (err, exam, fields) => {
-         if (err) {
-              console.log(err);
-                res.json({
-                  errors: [{
-                  field: "Access denied",
-                  errorDesc: "List exams Error"
-                }]});
-            } else 
-            {
-              res.json({saved : true});
-            }
-       })
+    connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
+      connection.query("SELECT teachersubjectsclasses.TSC_ID FROM `teachersubjectsclasses` INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID WHERE subjects.Subject_Label = ? AND classes.Classe_Label = ? AND teachersubjectsclasses.Teacher_ID = ? AND teachersubjectsclasses.AY_ID LIMIT 1", [req.body.exam_subject,req.body.exam_classe,req.userId,academic[0].AY_ID], (err, tsc, fields) => {
+        connection.query(examQuery, [tsc[0].TSC_ID,  req.body.exam_name,  req.body.exam_description, req.body.exam_date], (err, exam, fields) => {
+           if (err) {
+                console.log(err);
+                  res.json({
+                    errors: [{
+                    field: "Access denied",
+                    errorDesc: "List exams Error"
+                  }]});
+              } else 
+              {
+                res.json({saved : true});
+              }
+         })
+      })
     })
   },
   saveScores: function(req, res, next) {
@@ -53,13 +56,20 @@ var examController = {
     res.json({saved : true});
   },
   getExams: function(req, res, next) {
-    connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, institutions, fields) => {
-    connection.query(selectExams,[req.Institution_ID], (err, exams, fields) => {
-      res.json({
-                exams:exams,
-              });
+    connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
+      if (req.role === 'Admin')
+        connection.query(selectExams,[academic[0].AY_ID], (err, exams, fields) => {
+          res.json({
+                    exams:exams,
+                  });
+        })
+      else
+        connection.query(selectExamsTeacher,[academic[0].AY_ID,req.userId], (err, exams, fields) => {
+          res.json({
+                    exams:exams,
+                  });
+        })
     })
-  })
   },
   getExam: function(req, res, next) {
     connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, institutions, fields) => {

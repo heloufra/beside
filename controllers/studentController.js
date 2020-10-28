@@ -3,6 +3,7 @@ var setupModel  = require('../models/setupModel');
 var studentModel  = require('../models/studentModel');
 var queryStudents = "SELECT students.*,levels.Level_Label,classes.Classe_Label FROM students INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID INNER JOIN classes ON studentsclasses.Classe_ID = classes.Classe_ID INNER JOIN levels ON levels.Level_ID = classes.Level_ID WHERE studentsclasses.Classe_ID = ? AND studentsclasses.AY_ID = ? AND students.Student_Status <>'0';"
 var queryAllStudents = "SELECT students.*,levels.Level_Label,classes.Classe_Label,classes.Classe_ID FROM students INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID INNER JOIN classes ON studentsclasses.Classe_ID = classes.Classe_ID INNER JOIN levels ON levels.Level_ID = classes.Level_ID WHERE studentsclasses.AY_ID = ?  AND students.Student_Status <>'0';"
+var queryAllStudentsTeacher = "SELECT students.*,levels.Level_Label,classes.Classe_Label,classes.Classe_ID FROM students INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID INNER JOIN classes ON studentsclasses.Classe_ID = classes.Classe_ID INNER JOIN levels ON levels.Level_ID = classes.Level_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = studentsclasses.Classe_ID WHERE studentsclasses.AY_ID = ?  AND students.Student_Status <>'0' AND teachersubjectsclasses.Teacher_ID = ?;"
 var querySearch = "SELECT students.*,levels.Level_Label,classes.Classe_Label FROM students INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID INNER JOIN classes ON studentsclasses.Classe_ID = classes.Classe_ID INNER JOIN levels ON levels.Level_ID = classes.Level_ID WHERE (studentsclasses.Classe_ID = ? OR students.Student_FirstName LIKE ?) AND studentsclasses.AY_ID = ?;"
 var queryParents = "SELECT parents.* FROM parents INNER JOIN studentsparents ON studentsparents.Parent_ID = parents.Parent_ID INNER JOIN students ON studentsparents.Student_ID = students.Student_ID WHERE students.Student_ID = ?;"
 var querySubstudent = "SELECT levelexpenses.Expense_Cost,expenses.Expense_Label,expenses.Expense_PaymentMethod,studentsubscribtion.SS_ID FROM students INNER JOIN studentsubscribtion ON students.Student_ID = studentsubscribtion.Student_ID INNER JOIN levelexpenses ON levelexpenses.LE_ID = studentsubscribtion.LE_ID INNER JOIN expenses ON expenses.Expense_ID = levelexpenses.Expense_ID INNER JOIN academicyear ON academicyear.Institution_ID = students.Institution_ID WHERE students.Student_ID = ? AND students.Institution_ID = ? AND studentsubscribtion.Subscription_EndDate = academicyear.AY_EndDate"
@@ -43,7 +44,8 @@ var studentController = {
             connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
               connection.query("SELECT * FROM `classes` WHERE AY_ID = ?", [academic[0].AY_ID], (err, classes, fields) => {
                 connection.query("SELECT * FROM `levels` WHERE AY_ID = ?", [academic[0].AY_ID], (err, levels, fields) => {
-                  res.render('student', { title: 'Students' , user: user[0], institution:institutions[0], classes:classes,levels:levels,accounts,users});
+                  console.log("Role::",req.role);
+                  res.render('student', { title: 'Students' , user: user[0], institution:institutions[0], classes:classes,levels:levels,accounts,users,role:req.role});
                 })
               })
             })
@@ -101,14 +103,22 @@ var studentController = {
   getAllStudents: function(req, res, next) {
     connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
       connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
+        connection.query(queryAllSub, [academic[0].AY_ID], (err, subscription, fields) => {
+          if (req.role === 'Admin')
             connection.query(queryAllStudents, [academic[0].AY_ID], (err, students, fields) => {
-                connection.query(queryAllSub, [academic[0].AY_ID], (err, subscription, fields) => {
                     res.json({
                           students:students,
                           subscription:subscription
                         });
-                 })
              })
+          else
+            connection.query(queryAllStudentsTeacher, [academic[0].AY_ID,req.userId], (err, students, fields) => {
+                    res.json({
+                          students:students,
+                          subscription:subscription
+                        });
+             })
+        })
       })
     })
   },  

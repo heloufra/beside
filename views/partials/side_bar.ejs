@@ -33,13 +33,14 @@
 	        	<span class="side-bar-li-span side-bar-li-span-inactive">Students</span>
 	    	</a>
 	      </li>
-
-	      <li id="url-Teachers" class="side-bar-li" data-asset-active="teachers_active.svg" data-asset-inactive="teachers_inactive.svg">
+	       <%if (role === 'Admin') { %>
+             <li id="url-Teachers" class="side-bar-li" data-asset-active="teachers_active.svg" data-asset-inactive="teachers_inactive.svg">
 	      	<a href="/Teachers" >
 	        	<img class="side-bar-li-img" src="assets/icons/sidebar_icons/side_bar_menu/teachers_inactive.svg" alt="check"/>
 	        	<span class="side-bar-li-span side-bar-li-span-inactive">Teachers</span>
 	    	</a>
 	      </li>
+           <% } %>
 
 	      <li id="url-Exams" class="side-bar-li" data-asset-active="exams_active.svg" data-asset-inactive="exams_inactive.svg">
 	      	<a href="/Exams" >
@@ -55,7 +56,8 @@
 	    	</a>
 	      </li>
 
-	      <li id="url-Finances" class="side-bar-li" data-asset-active="finances_active.svg" data-asset-inactive="finances_inactive.svg">
+	      <%if (role === 'Admin') { %>
+        	<li id="url-Finances" class="side-bar-li" data-asset-active="finances_active.svg" data-asset-inactive="finances_inactive.svg">
 	      	<a href="/Finances">
 	        	<img class="side-bar-li-img" src="assets/icons/sidebar_icons/side_bar_menu/finances_inactive.svg" alt="check"/>
 	        	<span class="side-bar-li-span side-bar-li-span-inactive">Finances</span>
@@ -68,6 +70,7 @@
 	        	<span class="side-bar-li-span side-bar-li-span-inactive">Settings</span>
 	    	</a>
 	      </li>
+          <% } %>
 
 	  </ul>
 

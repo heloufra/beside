@@ -15,7 +15,7 @@
     <div class="main-container">
 
       <!-- setup-main-container -->
-      <%- include('./partials/side_bar',{institution: institution,accounts:accounts}); %>
+      <%- include('./partials/side_bar',{institution: institution,accounts:accounts,role:role}); %>
       <!-- end setup-main-container -->
 
       <!-- sub-container -->
@@ -27,7 +27,7 @@
         </div>
 
         <!-- nav -->
-          <%- include('./partials/nav_bar', {user: user,users:users}); %>
+          <%- include('./partials/nav_bar', {user: user,users:users,role:role}); %>
         <!-- End nav -->
 
         <!--  sections-main-sub-container 100%  -->
@@ -69,10 +69,11 @@
                                 <% } %>
                               </ul>
                             </div>
-
+                            <%if (role === 'Teacher') { %>
                             <div class="square-button square-button-minus" data-toggle="modal" data-target="#AddExamModal">
                               <img class="icon" src="assets/icons/plus.svg">
                             </div>
+                            <%} %>
 
                           </div>
 
@@ -122,6 +123,7 @@
 
 
                                 <!-- sections-main-sub-container-right-main-header-option-list -->
+                                <%if (role === 'Teacher') { %>
                                 <div class="sections-main-sub-container-right-main-header-option-list-container">
                                 <img class="sections-main-sub-container-right-main-header-option-icon" src="assets/icons/options.svg">
                                 <div class="sections-main-sub-container-right-main-header-option-list">
@@ -133,6 +135,7 @@
                                   <img class="sections-main-sub-container-right-main-header-option-icon-close" alt="close" src="assets/icons/close.svg">
                                 </div>
                                 </div>
+                                <% }%>
                                 <!-- End sections-main-sub-container-right-main-header-option-list -->
 
                             </div>

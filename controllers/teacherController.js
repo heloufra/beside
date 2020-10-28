@@ -16,6 +16,11 @@ var homeworkQuery = 'SELECT homeworks.*,subjects.Subject_Label,subjects.Subject_
 var examsQuery = 'SELECT exams.*,subjects.Subject_Label,subjects.Subject_Color,classes.Classe_Label,grads.Exam_Score FROM `teachers` INNER JOIN teachersclasses On teachersclasses.teacher_ID = teachers.teacher_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = teachersclasses.Classe_ID INNER JOIN exams ON exams.TSC_ID = teachersubjectsclasses.TSC_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = teachersclasses.Classe_ID LEFT JOIN grads ON grads.teacher_ID = teachers.teacher_ID WHERE teachers.teacher_ID = ? AND exams.Exam_Status <> 0 AND teachersubjectsclasses.TSC_Status <>0';
 var adddate = 1;
 var classeID;
+
+var transporter  = require('../middleware/transporter');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const config = require('../config');
 //SELECT teachers.*,levels.Level_Label FROM teachers INNER JOIN teachersclasses ON teachersclasses.teacher_ID = teachers.teacher_ID INNER JOIN teachersubscribtion ON teachersubscribtion.teacher_ID = teachersclasses.teacher_ID INNER JOIN levelexpenses ON levelexpenses.LE_ID = teachersubscribtion.LE_ID INNER JOIN levels ON levels.Level_ID = levelexpenses.Level_ID WHERE teachersclasses.Classe_ID = ? AND teachersclasses.AY_ID = ?;
 const addMonths = (date, months) => {
     var d = date.getDate();
@@ -25,6 +30,18 @@ const addMonths = (date, months) => {
     }
     return date;
 }
+
+const makeid = (length) => {
+       var result           = '';
+       var characters       = '0123456789';
+       var charactersLength = characters.length;
+       for ( var i = 0; i < length; i++ ) {
+          result += characters.charAt(Math.floor(Math.random() * charactersLength));
+          if ((i + 1) % 2 === 0)
+            result += " ";
+       }
+       return result;
+    }
 
 var teacherController = {
   teacherView: function(req, res, next) {
@@ -36,7 +53,7 @@ var teacherController = {
               connection.query("SELECT * FROM `classes` WHERE AY_ID = ?", [academic[0].AY_ID], (err, classes, fields) => {
                 connection.query("SELECT * FROM `levels` WHERE AY_ID = ?", [academic[0].AY_ID], (err, levels, fields) => {
                   connection.query("SELECT subjects.*,levelsubjects.Level_ID FROM subjects INNER JOIN levelsubjects ON levelsubjects.Subject_ID = subjects.Subject_ID WHERE levelsubjects.AY_ID = ?", [academic[0].AY_ID], (err, subjects, fields) => {
-                    res.render('teacher', { title: 'Teachers' , user: user[0], institution:institutions[0], classes:classes,levels:levels,subjects,accounts,users});
+                    res.render('teacher', { title: 'Teachers' , user: user[0], institution:institutions[0], classes:classes,levels:levels,subjects,accounts,users,role:req.role});
                   })
                 })
               })
@@ -89,15 +106,36 @@ var teacherController = {
  saveTeacher: async function(req, res, next) {
       var user = await teacherModel.findUser(req.body.email);
       var userId;
+
       if (user.length > 0)
       {
         userId = user[0].User_ID;
-        connection.query("UPDATE `users` SET User_Name=? WHERE User_ID = ?", [JSON.stringify({first_name:user[0].User_Name, last_name:""}),userId]);
+        connection.query("UPDATE `users` SET User_Name=?,User_Image=? WHERE User_ID = ?", [JSON.stringify({first_name:user[0].User_Name, last_name:""}),req.body.profile_image,userId]);
       }
       else
        {
+          var password = makeid(6);
           user = await teacherModel.saveUser(req);
           userId = user.insertId;
+            var token = jwt.sign({
+                      email:req.body.email,
+                    }, config.privateKey);
+            var url = 'http://localhost:3000/?redir='+token;
+           transporter.sendMail({
+            from: 'besideyou@contact.com',
+            to: req.body.email,
+            subject: 'Verification Code',
+            html: '<h1>Login From this link!</h1><h4>'+ url +'</h4><h1>Verification Code!</h1><h4>'+ password + '</h4>'
+          }, function(error, info) {
+            if (error) {
+              console.log(error);
+            } else {
+              console.log('Email sent: ' + info.response);
+            }
+          });
+           bcrypt.hash(password.replace(/\s/g, ''), 10, function(err, hash) {
+              connection.query("UPDATE `users` SET `User_Password`= ? WHERE  `User_ID` = ? LIMIT 1", [hash,userId]);
+           })
        }
         connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
           connection.query("INSERT INTO `institutionsusers`(`Institution_ID`, `User_ID`, `User_Role`) VALUES (?,?,?)",[req.Institution_ID,userId,"Teacher"])

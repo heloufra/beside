@@ -18,7 +18,7 @@
     <div class="main-container">
 
       <!-- setup-main-container -->
-      <%- include('./partials/side_bar',{institution: institution}); %>
+      <%- include('./partials/side_bar',{institution: institution,accounts:accounts,role:role}); %>
       <!-- end setup-main-container -->
 
       <!-- sub-container -->
@@ -30,7 +30,7 @@
         </div>
 
         <!-- nav -->
-          <%- include('./partials/nav_bar', {user: user}); %>
+          <%- include('./partials/nav_bar', {user: user,users:users,role:role}); %>
         <!-- End nav -->
 
         <!--  sections-main-sub-container 100%  -->

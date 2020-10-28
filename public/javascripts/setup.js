@@ -248,20 +248,69 @@ function addLevels(data) {
     });
   }
 
+    /****** append new options to all dropdown *********/
+
+  $tag_data = "";
+
   if($(".input-text-subject-select2").length > 0){
+
     $(".input-text-subject-select2").select2({
       tags: true,
       dropdownPosition: 'below',
       tokenSeparators: [',', ' '],
-      minimumResultsForSearch: -1,
-      templateResult: hideSelected,
-       templateSelection: function (data, container) {
-            console.log("Selection>>",data);
-              $(container).attr("style","background-color:"+data.color+"!important;");
-              return data.text;
-          },
+        minimumResultsForSearch: -1,
+        templateResult: hideSelected,
+        placeholder: "Select items",
+        templateSelection: function (data, container){
+          console.log(">>Selection",data);
+          $(container).attr("style","background-color:#"+Math.random().toString(16).substr(2,6)+"!important;");
+        $tag_data = data;
+          return data.text;
+      }
+
     });
+
   }
+
+  /****** trigger changes on select **************/
+
+  $('.input-text-subject-select2').on('select2:select', function (e) {
+
+    $dataSelect2Id = $(this).attr("data-select2-id");
+    $('.input-text-subject-select2').each(function(){
+
+      $this  = $(this);
+      $exist = false;
+
+      $dataSelect2IdCurrent = $(this).attr("data-select2-id");
+
+      if($dataSelect2Id != $dataSelect2IdCurrent){
+
+        $select2Data = $(this).select2('data');
+
+        for($i = 0 ; $i < $select2Data.length; $i++){
+
+            if (String($select2Data[$i].text).toLowerCase() == String($tag_data.text).toLowerCase()) {
+                $exist = true;
+                break;
+            }
+
+        }
+
+        if(!$exist){
+          $(this).append('<option value="'+$tag_data.id+'">'+$tag_data.text+'</option>');
+          $(this).trigger('change');
+        }
+
+      }
+      
+    });
+    
+    $tag_data ="";
+
+  });
+
+  /****** End append new options to all dropdown *********/
 
   if($(".input-text-month-select2").length > 0){
     $(".input-text-month-select2").select2({

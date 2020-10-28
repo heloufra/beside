@@ -8,7 +8,7 @@
                           <img class="sections-main-sub-container-left-card-main-img" src="<%= user.User_Image %>">
                           <div class="sections-main-sub-container-left-card-info">
                               <p class="sections-main-sub-container-left-card-main-info"><%= user.User_Email.slice(0,10) + "..." %></p>
-                              <span  class="sections-main-sub-container-left-card-sub-info">Admin</span>
+                              <span  class="sections-main-sub-container-left-card-sub-info"><%= role %></span>
                           </div>
                     </div>
                     <!--  End sections-main-sub-container-left-cards  -->
@@ -27,7 +27,7 @@
                                       name = JSON.parse(users[i].User_Name);
                                       name = name.first_name + " " + name.last_name;
                                   } %>
-                                  <a href="#" data-id="<%=users[i].User_ID %>">
+                                  <a href="#" data-id="<%=users[i].User_ID %>" data-role="<%=users[i].role %>" class="role">
                                         <!--  sections-main-sub-container-left-cards  -->
                                         <div class="sections-main-sub-container-left-card">
                                               <img class="sections-main-sub-container-left-card-main-img" src="<%= users[i].User_Image %>" alt="card-img">
@@ -61,5 +61,23 @@ $(document).on("click","#logout_btn",function(event){
 
 });
 
+$(document).on("click",".role",function(event){
+     $.ajax({
+      type: 'post',
+      url: '/Select/roles',
+      data:{
+      role:$(this).data('role')
+      },
+      dataType: 'json'
+    })
+    .done(function(res){
+      if(res.switched)
+      {
+        window.location.href = "/";
+      } else {
+       console.log(res.errors)
+      }
+    });
+});
 
 </script>

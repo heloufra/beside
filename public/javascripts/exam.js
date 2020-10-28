@@ -200,6 +200,12 @@ function saveScores() {
 			    dataType: 'json'
 			  })
 			  .done(function(res){
+			  	if(res.errors)
+	  			{
+	  				displayExam(examId);
+			  		$('#Scores .sub-container-form-footer').addClass('hide-footer');
+					$('#Scores .sub-container-form-footer').removeClass('show-footer');
+	  			}
 			  	if(res.saved)
 			  	{
 			  		displayExam(examId);

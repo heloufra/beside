@@ -18,7 +18,7 @@
     <div class="main-container">
 
       <!-- setup-main-container -->
-      <%- include('./partials/side_bar',{institution: institution,accounts:accounts}); %>
+      <%- include('./partials/side_bar',{institution: institution,accounts:accounts,role:role}); %>
       <!-- end setup-main-container -->
 
       <!-- sub-container -->
@@ -30,7 +30,7 @@
         </div>
 
         <!-- nav -->
-          <%- include('./partials/nav_bar', {user: user,users:users}); %>
+          <%- include('./partials/nav_bar', {user: user,users:users,role:role}); %>
         <!-- End nav -->
 
         <!--  sections-main-sub-container 100%  -->
@@ -65,10 +65,11 @@
                                <img class="icon button-icon caret-disable-rotate" src="assets/icons/sidebar_icons/search.svg">
                             </div>
 
-                            <div class="square-button square-button-minus" data-toggle="modal" data-target="#AddStudentModal">
-                              <img class="icon" src="assets/icons/plus.svg">
-                            </div>
-
+                            <%if (role === 'Admin') { %>
+                              <div class="square-button square-button-minus" data-toggle="modal" data-target="#AddStudentModal">
+                                <img class="icon" src="assets/icons/plus.svg">
+                              </div>
+                            <% } %>
                           </div>
 
 
@@ -118,17 +119,20 @@
                                 </div>
 
                                 <!-- sections-main-sub-container-right-main-header-option-list -->
-                                <div class="sections-main-sub-container-right-main-header-option-list-container">
-                                <img class="sections-main-sub-container-right-main-header-option-icon" src="assets/icons/options.svg">
-                                <div class="sections-main-sub-container-right-main-header-option-list">
-                                  <div class="sections-main-sub-container-right-main-header-option-list-li
-                                              sections-main-sub-container-right-main-header-option-list-li-delete">
-                                    <img src="assets/icons/delete.svg" alt="edit"/>   
-                                    <span class="sections-main-sub-container-right-main-header-option-list-span">Delete</span>
+                                <%if (role === 'Admin') { %>
+                                 <div class="sections-main-sub-container-right-main-header-option-list-container">
+                                  <img class="sections-main-sub-container-right-main-header-option-icon" src="assets/icons/options.svg">
+                                  <div class="sections-main-sub-container-right-main-header-option-list">
+                                    <div class="sections-main-sub-container-right-main-header-option-list-li
+                                                sections-main-sub-container-right-main-header-option-list-li-delete">
+                                      <img src="assets/icons/delete.svg" alt="edit"/>   
+                                      <span class="sections-main-sub-container-right-main-header-option-list-span">Delete</span>
+                                    </div>
+                                    <img class="sections-main-sub-container-right-main-header-option-icon-close" alt="close" src="assets/icons/close.svg">
                                   </div>
-                                  <img class="sections-main-sub-container-right-main-header-option-icon-close" alt="close" src="assets/icons/close.svg">
-                                </div>
-                                </div>
+                                  </div>
+                                <% } %>
+                               
                                 <!-- End sections-main-sub-container-right-main-header-option-list -->
 
                             </div>
@@ -137,7 +141,9 @@
                                 <ul class="clearfix nav nav-tabs">
                                   <li class="active"><a data-toggle="tab" href="#Details">Details</a></li>
                                   <li><a data-toggle="tab" href="#Absence">Absence</a></li>
-                                  <li><a data-toggle="tab" href="#Finance">Finance</a></li>
+                                  <%if (role === 'Admin') { %>
+                                    <li><a data-toggle="tab" href="#Finance">Finance</a></li>
+                                  <% } %>
                                   <li><a data-toggle="tab" href="#Exams">Exams</a></li>
                                   <li><a data-toggle="tab" href="#Homework">Homework</a></li>
                                   <li><a data-toggle="tab" href="#Attitude">Attitude</a></li>
@@ -886,7 +892,8 @@
 
                             
                               <!-- sections-main-sub-container-right-main-body : Finance -->
-                              <div id="Finance" class="tab-pane fade  sections-main-sub-container-right-main-body">
+                              <%if (role === 'Admin') { %>
+                               <div id="Finance" class="tab-pane fade  sections-main-sub-container-right-main-body">
 
                                   <div class="row sections-main-sub-container-right-main-rows">
 
@@ -952,6 +959,8 @@
                                   <!-- End sub-container-form-footer-container -->
 
                               </div>
+                              <% } %>
+                             
                               <!-- End sections-main-sub-container-right-main-body : Finance -->
 
                             </div>

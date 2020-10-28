@@ -28,6 +28,17 @@ var commonController = {
     res.json({
       switched:true
     })
+  }, 
+  switchRole: function(req, res, next) {
+    var token = jwt.sign({
+          userId:req.userId,
+          role: req.body.role,
+          Institution_ID:req.Institution_ID
+        }, config.privateKey);
+    req.session.token = token;
+    res.json({
+      switched:true
+    })
   },
 };
 

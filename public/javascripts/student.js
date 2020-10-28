@@ -75,6 +75,8 @@ function getAllStudents(id) {
 		    dataType: 'json'
 		  })
 		  .done(function(res){
+		  	if(res.errors)
+	  			discardChange();
 		  	if(res.removed)
 		  	{
 		  		$('#ConfirmDeleteModal').modal('hide');
@@ -832,12 +834,14 @@ function saveChange() {
 	    dataType: 'json'
 	  })
 	  .done(function(res){
+	  	if(res.errors)
+	  		discardChange();
 	  	if(res.updated)
 	  	{
 	  		$("#ChangesModal").modal('hide');
 	  		getAllStudents(studentId);
 	  	} else {
-	  		console.log(res);
+	  		discardChange();
 	  	}
 	  });
  	$('#Details .sub-container-form-footer').addClass('hide-footer');
