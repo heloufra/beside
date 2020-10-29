@@ -12,7 +12,7 @@ router.get('/',authAdmin, function(req, res, next) {
               connection.query("SELECT * FROM `classes` WHERE AY_ID = ?", [academic[0].AY_ID], (err, classes, fields) => {
                 connection.query("SELECT * FROM `levels` WHERE AY_ID = ?", [academic[0].AY_ID], (err, levels, fields) => {
                   connection.query("SELECT * FROM `expenses` WHERE AY_ID = ?", [academic[0].AY_ID], (err, expenses, fields) => {
-                    res.render('settings', { title: 'Settings' , user: user[0], institution:institutions[0], classes:classes,levels:levels,accounts,users,expenses});
+                    res.render('settings', { title: 'Settings' , user: user[0], institution:institutions[0], classes:classes,levels:levels,accounts,users,expenses,role:req.role});
                   }) 
                 })
               })
