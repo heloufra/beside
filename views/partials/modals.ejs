@@ -24,7 +24,19 @@
 
                <!--________________ Only visibible for Teacher Role _____________-->
                <!-- modal-card-container -->
-                <div class="modal-card-container visibility" data-toggle="modal" data-target="#AddExamModal" data-val="Exam">
+               <%
+                 var admin,teacher = "";
+                 if (role === 'Admin') {
+                    admin = "";
+                    teacher = "visibility";
+                 } else
+                 {
+                    admin = "visibility";
+                    teacher = "";
+                 }
+
+               %>
+                <div class="modal-card-container <%= teacher %>" data-toggle="modal" data-target="#AddExamModal" data-val="Exam">
                   <div class="modal-card-sub-container">
                     <div class="modal-card-img-container" 
                          style="background-image: linear-gradient(to bottom, #ebefff, #e1e4fe);">
@@ -35,7 +47,7 @@
                 </div>
                <!-- End modal-card-container -->
                <!-- modal-card-container -->
-                <div class="modal-card-container visibility" data-toggle="modal" data-target="#AddHomeworkModal" data-val="Homework">
+                <div class="modal-card-container <%= teacher %>" data-toggle="modal" data-target="#AddHomeworkModal" data-val="Homework">
                   <div class="modal-card-sub-container">
                     <div class="modal-card-img-container" 
                          style="background-image: linear-gradient(to bottom, #fee8f7, #f6d4e7);">
@@ -49,7 +61,7 @@
                 <!--________________ Only visibible for Teacher Role _____________-->
 
                <!-- modal-card-container -->
-                <div class="modal-card-container"  data-toggle="modal" data-target="#AddStudentModal" data-val="Student">
+                <div class="modal-card-container <%= admin %>"  data-toggle="modal" data-target="#AddStudentModal" data-val="Student">
                   <div class="modal-card-sub-container">
                     <div class="modal-card-img-container" 
                          style="background-image: linear-gradient(to bottom, #ebefff, #e1e4fe);">
@@ -60,7 +72,7 @@
                 </div>
                <!-- End modal-card-container -->
                <!-- modal-card-container -->
-                <div class="modal-card-container"  data-toggle="modal" data-target="#AddTeacherModal" data-val="Teacher">
+                <div class="modal-card-container <%= admin %>"  data-toggle="modal" data-target="#AddTeacherModal" data-val="Teacher">
                   <div class="modal-card-sub-container">
                     <div class="modal-card-img-container" 
                          style="background-image: linear-gradient(to bottom, #fee8f7, #f6d4e7);">
@@ -73,7 +85,7 @@
 
                 <!--________________ Only visibible for Admin Role _____________-->
                <!-- modal-card-container -->
-                <div class="modal-card-container" data-toggle="modal" data-target="#FinanceModal" data-val="Payment">
+                <div class="modal-card-container <%= admin %>" data-toggle="modal" data-target="#FinanceModal" data-val="Payment">
                   <div class="modal-card-sub-container">
                     <div class="modal-card-img-container"
                         style="background-image: linear-gradient(to bottom, #dfffeb, #d2f3db);">
@@ -1943,6 +1955,6 @@
       </div>
 
     </div>
-
+<script src="/javascripts/modals.js" type="text/javascript" charset="utf-8" async defer></script>
 <!--_____________ End Teacher modal _____________-->
 

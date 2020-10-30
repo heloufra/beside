@@ -1,12 +1,14 @@
 var connection  = require('../lib/db');
 var homeworkQuery = `INSERT INTO homeworks(TSC_ID,  Homework_Title, Homework_Deatils, Homework_DeliveryDate,Homework_Status) VALUES(?,?,?,?,1)`;
 var selectHomeworks = 'SELECT DISTINCT homeworks.*,classes.Classe_Label,subjects.Subject_Label,subjects.Subject_Color,users.User_Name FROM `institutionsusers` INNER JOIN users ON institutionsusers.User_ID = users.User_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Teacher_ID = users.User_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN homeworks ON homeworks.TSC_ID = teachersubjectsclasses.TSC_ID WHERE homeworks.Homework_Status <> "0" AND teachersubjectsclasses.AY_ID = ?';
+var selectHomeworksTeacher = 'SELECT DISTINCT homeworks.*,classes.Classe_Label,subjects.Subject_Label,subjects.Subject_Color,users.User_Name FROM `institutionsusers` INNER JOIN users ON institutionsusers.User_ID = users.User_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Teacher_ID = users.User_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN homeworks ON homeworks.TSC_ID = teachersubjectsclasses.TSC_ID WHERE homeworks.Homework_Status <> "0" AND teachersubjectsclasses.AY_ID = ? AND teachersubjectsclasses.Teacher_ID = ?';
 var selectHomework = 'SELECT homeworks.*,classes.Classe_Label,subjects.Subject_Label,subjects.Subject_Color,users.User_Name FROM `institutionsusers` INNER JOIN users ON institutionsusers.User_ID = users.User_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Teacher_ID = users.User_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN homeworks ON homeworks.TSC_ID = teachersubjectsclasses.TSC_ID WHERE homeworks.Homework_Status <> "0" AND institutionsusers.Institution_ID = ? AND homeworks.Homework_ID = ?';
+var teacherModel  = require('../models/teacherModel');
 /*
 INSERT INTO `teachersubjectsclasses`(`Teacher_ID`, `Subject_ID`, `Classe_ID`, `AY_ID`) VALUES (1,1,1,1),(1,1,2,1),(1,2,1,1),(1,2,2,1),(1,1,3,1),(1,2,4,1)
 */
 var homeworkController = {
-  homeworkView: function(req, res, next) {
+  homeworkView:  function(req, res, next) {
     connection.query("SELECT * FROM `users` WHERE `User_ID` = ? LIMIT 1", [req.userId], (err, user, fields) => {
       connection.query("SELECT institutions.* FROM users INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN institutions ON institutionsusers.Institution_ID = institutions.Institution_ID WHERE users.User_ID = ? AND institutionsusers.User_Role='Admin'", [req.userId], (err, accounts, fields) => {
         connection.query("SELECT users.*,institutionsusers.User_Role as role FROM users INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN institutions ON institutionsusers.Institution_ID = institutions.Institution_ID WHERE institutions.Institution_ID = ? AND users.User_ID = ?", [req.Institution_ID,req.userId], (err, users, fields) => {
@@ -14,7 +16,9 @@ var homeworkController = {
             connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
               connection.query("SELECT * FROM `classes` WHERE AY_ID = ?", [academic[0].AY_ID], (err, classes, fields) => {
                 connection.query("SELECT * FROM `levels` WHERE AY_ID = ?", [academic[0].AY_ID], (err, levels, fields) => {
-                  connection.query("SELECT * FROM `subjects`", (err, subjects, fields) => {
+                  connection.query("SELECT * FROM `subjects`",async (err, subjects, fields) => {
+                    if (req.role === 'Teacher')
+                      classes = await teacherModel.findClasses(req.userId);
                     res.render('homework', { title: 'Homeworks' , user: user[0], institution:institutions[0], classes:classes,subjects:subjects,levels:levels,accounts,users,role:req.role});
                   })
                 })
@@ -49,6 +53,12 @@ var homeworkController = {
     connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
       if (req.role === 'Admin')
         connection.query(selectHomeworks,[academic[0].AY_ID], (err, homeworks, fields) => {
+          res.json({
+                    homeworks:homeworks,
+                  });
+        })
+      else
+        connection.query(selectHomeworksTeacher,[academic[0].AY_ID,req.userId], (err, homeworks, fields) => {
           res.json({
                     homeworks:homeworks,
                   });

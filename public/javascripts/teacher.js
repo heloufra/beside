@@ -527,6 +527,7 @@ function updateAbsence() {
 })
 
 function saveteacher() {
+	console.log('Modal Origin');
 	var first_name = $('#teacher_form').find('input[name="first_name"]').val();
 	var email = $('#teacher_form').find('input[name="email"]').val();
 	var teacher_address = $('#teacher_form').find('input[name="teacher_address"]').val();
@@ -535,7 +536,8 @@ function saveteacher() {
 	var phone_number = $('#teacher_form').find('input[name="phone_number"]').val();
 	var birthdate = $('#teacher_form').find('input[name="birthdate"]').val();
 	var subjects =  $('#teacher_form').find('input[name^=subject]').map(function(idx, elem) {
-	    return {subject: $('#teacher_form').find('[data-val='+$(elem).val()+']').data('subjectid'),classes:$(this).closest('.dynamic-form-input-float-adjust').find('select').val()};
+		if ($(elem).val())
+	    	return {subject: $('#teacher_form').find('[data-val='+$(elem).val()+']').data('subjectid'),classes:$(this).closest('.dynamic-form-input-float-adjust').find('select').val()};
 	  }).get();
 
 
@@ -599,8 +601,7 @@ function saveteacher() {
 		  		getAllteachers();
 
 		  	} else {
-		  		$('#teacher_form').find('input[name="first_name"]').css("border-color", "#f6b8c1");
-		  		$('#teacher_form').find('input[name="last_name"]').css("border-color", "#f6b8c1");
+		  		$('#teacher_form').find('input[name="email"]').css("border-color", "#f6b8c1");
 		  	}
 		  });
 	}

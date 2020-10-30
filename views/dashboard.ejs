@@ -46,10 +46,10 @@
                       <div class="dashboard-card-info">
                           <span class="dashboard-card-info-label">Students</span>
                           <span class="dashboard-card-info-sub-label">Number of absent students</span>
-                          <span class="dashboard-card-info-counter">16</span>
+                          <span class="dashboard-card-info-counter"><%= studentAD %></span>
                           <div class="progress dashboard-card-info-progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="70" 
-                                 aria-valuemin="0" aria-valuemax="100" style="width:70%"></div>
+                            <div class="progress-bar" role="progressbar" aria-valuenow="<%= percentageS %>" 
+                                 aria-valuemin="0" aria-valuemax="100" style="<%= 'width:'+ percentageS + '%' %>"></div>
                           </div>
                       </div>
                       <!-- End dashboard-card-info -->
@@ -58,10 +58,10 @@
                       <div class="dashboard-card-info">
                           <span class="dashboard-card-info-label">Teachers</span>
                           <span class="dashboard-card-info-sub-label">Number of absent teachers</span>
-                          <span class="dashboard-card-info-counter">01</span>
+                          <span class="dashboard-card-info-counter"><%= teacherAD %></span>
                           <div class="progress dashboard-card-info-progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="25" 
-                                 aria-valuemin="0" aria-valuemax="100" style="width:25%"></div>
+                            <div class="progress-bar" role="progressbar" aria-valuenow="<%= percentageT %>" 
+                                 aria-valuemin="0" aria-valuemax="100" style="<%= 'width:'+ percentageT + '%' %>"></div>
                           </div>
                       </div>
                       <!-- End dashboard-card-info -->   
@@ -70,10 +70,10 @@
                       <div class="dashboard-card-info">
                           <span class="dashboard-card-info-label">Finances</span>
                           <span class="dashboard-card-info-sub-label">Revune for this month</span>
-                          <span class="dashboard-card-info-counter">86500 <span class="dashboard-card-info-counter-currency">MAD</span> </span>
+                          <span class="dashboard-card-info-counter"><%= totalPay %><span class="dashboard-card-info-counter-currency">MAD</span> </span>
                           <div class="progress dashboard-card-info-progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="90" 
-                                 aria-valuemin="0" aria-valuemax="100" style="width:90%"></div>
+                            <div class="progress-bar" role="progressbar" aria-valuenow="<%= percentagePay %>" 
+                                 aria-valuemin="0" aria-valuemax="100" style="<%= 'width:'+ percentagePay + '%' %>"></div>
                           </div>
                       </div>
                       <!-- End dashboard-card-info -->
@@ -1312,9 +1312,9 @@
       </div>
     <!--_____________ End ConfirmDelete modal _____________-->
 
-     <!--________________ Modals _____________-->
+    <!--________________ Modals _____________-->
 
-           <%- include('./partials/modals',{classes: classes}); %>
+           <%- include('./partials/modals',{role:role}); %>
 
     <!--________________ End Modals _____________-->
 
