@@ -61,11 +61,67 @@ $(document).on("click","#logout_btn",function(event){
 
 });
 
-$(document).on("click","#settings_btn",function(event){
+function readFile() {
+  
+  if (this.files && this.files[0]) {
+    
+    var FR= new FileReader();
+    
+    FR.addEventListener("load", function(e) {
+      document.getElementById("output-settings").src = e.target.result;
+    }); 
+    
+    FR.readAsDataURL( this.files[0] );
+  }
+  
+}
 
+$(document).on("click","#settings_btn",function(event){
+    document.getElementById("profile_settings").addEventListener("change", readFile);
     $('#ProfileSettings').modal('show');
+     $.ajax({
+      type: 'get',
+      url: '/Select/me',
+    })
+    .done(function(res){
+      console.log("USer::",res.user);
+      $('#ProfileSettings').find('#output-settings').attr('src',res.user.User_Image);
+      var name = JSON.parse(res.user.User_Name);
+      $('#ProfileSettings').find('input[name=fname-settings]').val(name.first_name);
+      $('#ProfileSettings').find('input[name=lname-settings]').val(name.last_name);
+      $('#ProfileSettings').find('input[name=date-settings]').val(res.user.User_Birthdate);
+      $('#ProfileSettings').find('input[name=address-settings]').val(res.user.User_Address);
+      $('#ProfileSettings').find('input[name=phone-settings]').val(res.user.User_Phone);
+      $('#ProfileSettings').find('input[name=email-settings]').val(res.user.User_Email);
+    });
 
 });
+
+function updateProfile() 
+{
+   $.ajax({
+      type: 'post',
+      url: '/Select/me/update',
+      data:{
+        user_image:$('#ProfileSettings').find('#output-settings').attr('src'),
+        user_fname:$('#ProfileSettings').find('input[name=fname-settings]').val(),
+        user_lname:$('#ProfileSettings').find('input[name=lname-settings]').val(),
+        user_date:$('#ProfileSettings').find('input[name=date-settings]').val(),
+        user_address:$('#ProfileSettings').find('input[name=address-settings]').val(),
+        user_phone:$('#ProfileSettings').find('input[name=phone-settings]').val(),
+        user_email:$('#ProfileSettings').find('input[name=email-settings]').val(),
+      },
+      dataType: 'json'
+    })
+    .done(function(res){
+      if(res.update)
+      {
+        $('#ProfileSettings').modal('hide');
+      } else {
+       console.log(res.errors)
+      }
+    });
+}
 
 $(document).on("click",".role",function(event){
      $.ajax({

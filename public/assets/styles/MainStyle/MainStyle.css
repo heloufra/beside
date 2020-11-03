@@ -23,16 +23,15 @@
 }
 
 /* Hide scrollbar for chrome  */
+
 *::-webkit-scrollbar {
     display: none;
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
 * {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;  
+  scrollbar-width: none;  
 }
-
 
 /************* Roboto ****************/
 
@@ -274,8 +273,22 @@ body {
 	overflow-y: scroll;
 }
 
-#Academic_Year_Section{
-	padding-bottom: 120px;
+#Details_Section  .dynamic-form-input-float-adjust,
+#Level_Section  .dynamic-form-input-float-adjust,
+#Classe_Section  .dynamic-form-input-float-adjust,
+#Academic_Year_Section  .dynamic-form-input-float-adjust,
+#Expense_Section  .dynamic-form-input-float-adjust,
+#Costs_Section  .dynamic-form-input-float-adjust,
+#Subject_Section  .dynamic-form-input-float-adjust,
+#Login_Section  .dynamic-form-input-float-adjust,
+#Code_Section   .dynamic-form-input-float-adjust{
+	display: flex;
+}
+
+
+
+#Academic_Year_Section .sub-main-container{
+	padding-bottom: 100%;
 }
 
 .setup-main-container{
@@ -780,6 +793,7 @@ input:focus ~ label,input:valid ~ label{
 	padding: 8px 16px;
 	font-weight: 400;
 	line-height: 24px;
+	color: var(--black--color);
 }
 
 .button-icon{
@@ -1543,6 +1557,7 @@ input:focus ~ label,input:valid ~ label{
 	margin:0px;
 	font-size: 0px;
 	margin-right: 12px;
+	object-fit: contain;
 }
 
 .sections-main-container .side-bar-header-conatiner .side-bar-brand-label{
@@ -1571,6 +1586,7 @@ input:focus ~ label,input:valid ~ label{
     overflow: hidden;
     overflow-y: scroll;
     padding-top: 8px;
+    visibility: hidden;
 }
 
 .main-selected-school{
@@ -1720,7 +1736,7 @@ input:focus ~ label,input:valid ~ label{
 }
 
 .sections-main-sub-container-left {
-    height: 94vh;
+    height: 100vh;
     width: 30%;
     position: absolute;
     left: 0px;
@@ -1733,7 +1749,7 @@ input:focus ~ label,input:valid ~ label{
 
 .sections-main-sub-container-right {
     width: 70%;
-    height: 94vh;
+    height: 100vh;
     position: absolute;
     right: 0px;
     overflow:hidden;
@@ -1785,14 +1801,14 @@ input:focus ~ label,input:valid ~ label{
 }
 
 .sections-main-sub-container-left-search-bar .dynamic-form-input-dropdown-options{
-	width: calc(100% - 38px);
+	width: calc(100%);
 }
 
 /********************* End styling fix ***********************/
 
 .sections-main-sub-container-left-search-bar .dynamic-form-input-dropdown-options{
 	margin-bottom: 0px;
-	top: 32px !important;
+	top: 34px !important;
 }
 
 .sections-main-sub-container-left-search-bar .dynamic-form-input-dropdown {
@@ -1950,11 +1966,11 @@ input:focus ~ label,input:valid ~ label{
 }
 
 .sections-main-sub-container-left-search-bar  .square-button {
-	width: 32px;
-	height: 32px;
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
 
-	min-width: 32px;
-	min-height: 32px;
 }
 
 .sections-main-sub-container-left-search-bar .form-group-left .button-icon,
@@ -1970,12 +1986,14 @@ input:focus ~ label,input:valid ~ label{
 .sections-main-sub-container-left-search-bar .dynamic-form-input-float-adjust .form-group-right {
 	flex-shrink: 1;
 	text-align: center;
-	flex-basis: 43%;
+	flex-basis: 100%;
+	justify-content: space-between;
 }
 
 .sections-main-sub-container-left-search-bar  .dynamic-form-input-float-adjust .form-group-right {
 	margin-right: 2%;
 	left: 0px;
+	background-color: var(--input-active-bg-color);
 }
 
 .sections-main-sub-container-left-search-bar  .dynamic-form-input-float-adjust .square-button{
@@ -2025,14 +2043,18 @@ input:focus ~ label,input:valid ~ label{
 .sections-main-sub-container-left-search-bar .dynamic-form-input-dropdown .input-text ,
 .sections-main-sub-container-left-search-bar .dynamic-form-input-dropdown .input-dropdown{
 	font-size: 12px;
-	border-radius: 3px;
+	border-radius: 0px;
 	text-indent: 4px;
-	height: 30px;
-	max-width: 80%;
+	height: 100%;
+	max-width: 100%;
 }
 
 .sections-main-sub-container-left-search-bar .dynamic-form-input-dropdown .input-text{
 	background-color: var(--input-active-bg-color);
+}
+
+.sections-main-sub-container-left-search-bar .dynamic-form-input-dropdown  .input-text + .icon {
+	background-color: var(--input-active-bg-color) !important;
 }
 
 .sections-main-sub-container-left-search-bar .dynamic-form-input-dropdown-options li{
@@ -2044,14 +2066,17 @@ input:focus ~ label,input:valid ~ label{
 /********* sections-main-sub-container-left-cards ********/
 
 .sections-main-sub-container-left-card-container {
-	height: 86.5vh;
+	height: 100%;
     overflow: scroll;
+    padding-bottom: 100%;
 }
 
 .sections-main-sub-container-left-card{
 	padding: 16px;
-	box-shadow: inset 0 -1px 0 0 var(--input-border--color);
-	cursor: pointer;
+    box-shadow: inset 0 -1px 0 0 var(--input-border--color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
 }
 
 .sections-main-sub-container-left-card.active{
@@ -2060,11 +2085,12 @@ input:focus ~ label,input:valid ~ label{
 }
 
 .sections-main-sub-container-left-card-main-img{
-    width: 40px;
+	width: 40px;
     height: 40px;
     border-radius: 100%;
     display: inline-block;
-    margin-right: 5px;
+    margin-right: 8px;
+    align-self: start;
 }
 
 .sections-main-sub-container-left-card-main-img-text{
@@ -2103,19 +2129,54 @@ input:focus ~ label,input:valid ~ label{
 
 .sections-main-sub-container-left-card-main-info {
     font-size: 14px;
+    line-height: 14px;
     font-weight: 500;
     margin-bottom: 0px;
     color: var(--black--color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    width: 100%;
 }
+
 
 .sections-main-sub-container-left-card-sub-info {
     font-size: 14px;
+    line-height: 14px;
     font-weight: normal;
     color: var(--input-placeholder--color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    width: 100%;
+
+}
+
+.sections-main-sub-container-left-search-bar .dynamic-form-input-float-adjust .button-icon{
+	margin:4px;
+}
+
+.sections-main-sub-container-left-search-bar .dynamic-form-input-float-adjust .input-text{
+	height: 100%;
 }
 
 .sections-main-sub-container-left-card:hover{
 	background-color: var(--input-active-bg-color);
+}
+
+.sections-main-sub-container-left-search-bar-adjust-style {
+
+}
+
+.sections-main-sub-container-left-search-bar-adjust-style .dynamic-form-input-float-adjust .form-group-left, 
+.sections-main-sub-container-left-search-bar-adjust-style .dynamic-form-input-float-adjust .form-group-right{
+	flex-basis: 50%;
+}
+
+.sections-main-sub-container-left-search-bar-adjust-style .form-group-right{
+	margin-right: 0px !important;
 }
 
 /********* End sections-main-sub-container-left-cards ********/
@@ -2223,6 +2284,7 @@ input:focus ~ label,input:valid ~ label{
 	font-size: 18px;
 	font-weight: 500px;
 	margin-bottom: 0px;
+	color: var(--black--color);
 }
 
 
@@ -2348,13 +2410,16 @@ form{
 	padding: 0;
 	margin-bottom: 0px;
 	width: 100%;
+	display: flex;
 }
 
 
 .sections-main-sub-container-right-main-tabs ul li{
 	margin: 0px;
-    float: left;
-    width: 14.28%;
+    float: unset;
+    width: unset;
+    flex-grow: 1;
+    color: var(--black--color);
 }
 
 .sections-main-sub-container-right-main-tabs ul li a{
@@ -2675,17 +2740,22 @@ form{
 	padding: 0px;
 	box-shadow: unset;
 	padding:8px 12px;
+	display: flex;
+	align-items:flex-start;
 }
 
 .sections-main-sub-container-right-main-body table  .sections-main-sub-container-left-card .sections-main-sub-container-left-card-main-img{
 	width: 32px;
 	height: 32px;
 	vertical-align: top;
+	margin-right: 8px !important;
+	align-self: center;
 }
 
 .sections-main-sub-container-right-main-body table .sections-main-sub-container-left-card-sub-info{
 	font-size: 13px;
 	line-height: 13px;
+	margin-top: 0px !important;
 }
 
 .sections-main-sub-container-right-main-body table .dynamic-form-input-dropdown {
@@ -2693,21 +2763,40 @@ form{
 }
 
 .sections-main-sub-container-right-main-body table  .sections-main-sub-container-left-card .sections-main-sub-container-left-card-main-img-text{
-    display: inline-block;
+    display: inline-flex;
     font-size: 12px;
     font-weight: 700;
     width: 32px;
     height: 32px;
+    min-width: 32px;
+    min-height: 32px;
     background: #e9ddfd;
     text-align: center;
     line-height: 32px;
     color: var(--black--color);
+    align-items: center;
+    justify-content: center;
 }
 
 .sections-main-sub-container-right-main-body table  .sections-main-sub-container-left-card .sections-main-sub-container-left-card-main-info{
 	font-size: 13px;
 	line-height: 13px;
     margin-top: 2px;
+    margin-bottom: -4px;
+}
+
+.finance-page-extra-style .sections-main-sub-container-right-main-body table  .sections-main-sub-container-left-card .sections-main-sub-container-left-card-main-info{
+	font-size: 13px;
+	line-height: 13px;
+    margin-top: 2px;
+    margin-bottom: 0px !important;
+}
+
+.sections-main-sub-container-right-main-body table  .sections-main-sub-container-left-card .sections-main-sub-container-left-card-main-info{
+	font-size: 13px;
+	line-height: 13px;
+    margin-top: 2px;
+    margin-bottom: -4px;
 }
 
 .sections-main-sub-container-right-main-body table {
@@ -3132,7 +3221,7 @@ form{
 	line-height: 20px;
 }
 
-#FinanceModal , #ChangesModal , #ConfirmDeleteModal , #AddAbsenceModal  , #ImportUsersModal , #AddTeacherAbsenceModal , #AddStudentAbsenceModal , #EditAbsenceModal , #AddAttitudeModal, #EditAttitudeModal , #AddExamModal , 
+#FinanceModal , #FinanceBillModal , #ChangesModal , #ConfirmDeleteModal , #AddAbsenceModal  , #ImportUsersModal , #AddTeacherAbsenceModal , #AddStudentAbsenceModal , #EditAbsenceModal , #AddAttitudeModal, #EditAttitudeModal , #AddExamModal , 
 #AddHomeworkModal , #AddStudentModal , #AddStudentModal , #ProfileSettings , #AddTeacherModal , #ExamDetailModal  , #HomeworkDetailModal , #NewActionModal {
 	background-color: var(--modal--background--color);
 	z-index: 999999;
@@ -3217,6 +3306,7 @@ form{
 }
 
 #FinanceModal .sub-container-form-footer .modal-confirm-button ,
+#FinanceBillModal .sub-container-form-footer .modal-confirm-button ,
 #AddAbsenceModal .sub-container-form-footer .modal-confirm-button ,
 #ImportUsersModal .sub-container-form-footer .modal-confirm-button ,
 #AddTeacherAbsenceModal .sub-container-form-footer .modal-confirm-button ,
@@ -3262,6 +3352,7 @@ form{
 }
 
 #FinanceModal .modal-dialog , 
+#FinanceBillModal .modal-dialog , 
 #AddAbsenceModal .modal-dialog ,
 #ImportUsersModal .modal-dialog ,
 #AddTeacherAbsenceModal .modal-dialog ,
@@ -3305,7 +3396,8 @@ form{
 	display: none;
 }
 
-#FinanceModal .sections-main-sub-container-right-main-label-divider p {
+#FinanceModal .sections-main-sub-container-right-main-label-divider p ,
+#FinanceBillModal .sections-main-sub-container-right-main-label-divider p {
     position: absolute;
     margin: 0px auto;
     top: -10px;
@@ -3317,7 +3409,8 @@ form{
     transform: translate(-50%,0%);
 }
 
-#FinanceModal .dynamic-form-input-container-extra-style .dynamic-form-input-dropdown.dynamic-form-input-first{
+#FinanceModal .dynamic-form-input-container-extra-style .dynamic-form-input-dropdown.dynamic-form-input-first ,
+#FinanceBillModal .dynamic-form-input-container-extra-style .dynamic-form-input-dropdown.dynamic-form-input-first{
   	margin-bottom: 0px;
 }
 
@@ -3407,27 +3500,32 @@ table td img {
 
 /******* .select2-container **************/
 
-#FinanceModal .select2-container{
+#FinanceModal .select2-container,
+#FinanceBillModal .select2-container{
 	width:100% !important;
 	padding-right: 32px !important;
 }
 
-#FinanceModal .select2-container--default .select2-search--inline .select2-search__field{
+#FinanceModal .select2-container--default .select2-search--inline .select2-search__field,
+#FinanceBillModal .select2-container--default .select2-search--inline .select2-search__field{
 	display: inline-block !important;
 	width: auto !important;
 }
 
-#FinanceModal .select2-container--default.select2-container--focus .select2-selection--multiple{
+#FinanceModal .select2-container--default.select2-container--focus .select2-selection--multiple,
+#FinanceBillModal .select2-container--default.select2-container--focus .select2-selection--multiple{
 	border:0px solid var(--input-border--color) !important;
 	padding:0px !important;
 }
 
-#FinanceModal .select2-container--default .select2-selection--multiple .select2-selection__choice{
+#FinanceModal .select2-container--default .select2-selection--multiple .select2-selection__choice,
+#FinanceBillModal .select2-container--default .select2-selection--multiple .select2-selection__choice{
 	margin:4px !important;
 }
 
 
-#FinanceModal .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+#FinanceModal .select2-container--default .select2-selection--multiple .select2-selection__choice__remove ,
+#FinanceBillModal .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
     background-color: transparent !important;
     border: none !important;
     border-right: 0px solid #aaa !important;
@@ -3443,7 +3541,8 @@ table td img {
     line-height: 24px;
 }
 
-#FinanceModal .select2-container--default .select2-selection--multiple .select2-selection__choice__display {
+#FinanceModal .select2-container--default .select2-selection--multiple .select2-selection__choice__display ,
+#FinanceBillModal .select2-container--default .select2-selection--multiple .select2-selection__choice__display {
     cursor: default !important;
     padding-left: 4px !important;
     padding-right: 4px !important;
@@ -3458,29 +3557,35 @@ table td img {
 }
 
 
-#FinanceModal .select2-container--default .select2-search--inline .select2-search__field{
+#FinanceModal .select2-container--default .select2-search--inline .select2-search__field,
+#FinanceBillModal .select2-container--default .select2-search--inline .select2-search__field{
 	height: auto !important;
     margin: 4px !important;
     text-indent: 4px;
     font-size: 12px !important;
 }
 
-#FinanceModal .select2-container--open .select2-dropdown{
+#FinanceModal .select2-container--open .select2-dropdown,
+#FinanceBillModal .select2-container--open .select2-dropdown{
 	top: 2px !important;
 }
 
-#FinanceModal .select2-container{
+#FinanceModal .select2-container,
+#FinanceBillModal .select2-container{
 	min-height:40px !important;
 	padding: 4px;
 }
 
 #FinanceModal .select2-container--default.select2-container--focus .select2-selection--multiple,
-#FinanceModal .select2-container--default .select2-selection--multiple {
+#FinanceBillModal .select2-container--default.select2-container--focus .select2-selection--multiple,
+#FinanceModal .select2-container--default .select2-selection--multiple ,
+#FinanceBillModal .select2-container--default .select2-selection--multiple {
 	border:0px !important;
 }
 
 
-#FinanceModal .select2-container--default .select2-selection--multiple .select2-selection__choice__remove span {
+#FinanceModal .select2-container--default .select2-selection--multiple .select2-selection__choice__remove span ,
+#FinanceBillModal .select2-container--default .select2-selection--multiple .select2-selection__choice__remove span {
     position: relative !important;
     font-weight: 200 !important;
     font-size: 15px !important;
@@ -3490,7 +3595,8 @@ table td img {
     vertical-align: middle;
 }
 
-#FinanceModal .select2-results__option{
+#FinanceModal .select2-results__option,
+#FinanceBillModal .select2-results__option{
 	font-size:14px;
 	color: var(--input-placeholder--color);
     margin: 8px !important;
@@ -3499,19 +3605,23 @@ table td img {
     border-radius: 3px !important;
 }
 
-#FinanceModal .select2-results__option:hover{
+#FinanceModal .select2-results__option:hover,
+#FinanceBillModal .select2-results__option:hover{
 	color: var(--black--color) !important;
 	background-image: linear-gradient(to bottom, var(--dropdown--item--hover--top), var(--dropdown--item--hover--bottom)) !important;
 }
 
 #FinanceModal .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable,
-#FinanceModal .select2-container--default .select2-results__option--selected
+#FinanceModal .select2-container--default .select2-results__option--selected,
+#FinanceBillModal .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable,
+#FinanceBillModal .select2-container--default .select2-results__option--selected
 {
 	color: var(--input-placeholder--color) !important;
 	background-color: var(--white-color) !important;
 }
 
-#FinanceModal .select2-dropdown{
+#FinanceModal .select2-dropdown,
+#FinanceBillModal .select2-dropdown{
 	border:0px !important;
 	box-shadow: 0px 38px 50px 0px rgba(21, 29, 84, 0.10) !important;
 }
@@ -3520,14 +3630,16 @@ table td img {
 	padding-bottom: 0px !important;
 }
 
-#FinanceModal .sub-container-form-footer{
+#FinanceModal .sub-container-form-footer,
+#FinanceBillModal .sub-container-form-footer{
 	width: 99%;
     margin: 2px;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
 
-#FinanceModal .sub-container-form-footer .modal-confirm-button{
+#FinanceModal .sub-container-form-footer .modal-confirm-button,
+#FinanceBillModal .sub-container-form-footer .modal-confirm-button{
 	background-image: linear-gradient(to left, var(--element--gradient--from--color), var(--element--gradient--to--color)) !important;
 }
 
@@ -3678,6 +3790,7 @@ table td img {
 
 .sections-main-sub-container-right-main-rows-dropdown-tags .select2-container{
 	padding:0px !important;
+	padding-bottom: 6px !important;
 	padding-left:4px !important;
 
 }
@@ -3736,7 +3849,7 @@ table td img {
 }
 
 .sections-main-sub-container-right-main-rows-dropdown-tags .select2-container--default.select2-container--focus .select2-selection--multiple{
-	padding-bottom: 4px !important;
+	padding-bottom: 0px !important;
 	cursor: pointer !important;
 }
 
@@ -3800,6 +3913,97 @@ table td img {
 	display: none !important;
 }
 /********************************* modal-body ***********************************/
+
+/********************************* FinanceBillModal *****************************/
+
+.finance-page-extra-style .finance-tbody-tr , .finance-page-extra-style .td-label{
+	cursor: pointer !important;
+}
+
+#FinanceBillModal .input-img-container{
+	width: 80px;
+	height: 80px;
+	margin: 0px auto;
+	margin-bottom: 16px;
+}
+
+#FinanceBillModal .label-full-name.label-full-name-modal{
+	font-size: 18px;
+	font-weight: 500;
+	margin-bottom: 36px;
+}
+
+#FinanceBillModal .finance-bill-modal-table-container table{
+	width: 100%;
+	margin: 16px 0px 32px 0px;
+}
+
+#FinanceBillModal .expense_td_container{
+	display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#FinanceBillModal .expense_label_container{
+	display: flex;
+    flex-direction: column;
+}
+
+#FinanceBillModal .expense_td_container .expense_label_method{
+	margin-left: 0px;
+	font-size: 12px;
+}
+
+#FinanceBillModal .finance-bill-modal-table-container table .expense_label{
+	text-align: left;
+    color: var(--black--color) !important;
+    font-size: 12px;
+    font-weight: 300;
+}
+
+#FinanceBillModal .finance-bill-modal-table-container table th {
+	text-align: left;
+    color: var(--input-placeholder--color);
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100% !important;
+}
+
+#FinanceBillModal .finance-bill-modal-table-container table .td-label{
+	text-align: left;
+    color: var(--input-placeholder--color);
+    font-size: 12px;
+    font-weight: 500;
+}
+
+
+#FinanceBillModal .finance-bill-modal-table-container table th , #FinanceBillModal .finance-bill-modal-table-container table td{
+	border: 1px solid var(--input-border--color);
+    padding: 10px 12px;
+}
+
+.td-align-right{
+	text-align: right;
+}
+
+.default-button-simple{
+	background-image: unset !important;
+	border:1px solid var(--input-border--color);
+}
+
+.default-button-simple .button-icon{
+	float: left;
+	margin-right:4px;
+}
+
+.finance-page-extra-style .sections-main-sub-container-right-main-body table td{
+	pointer-events: initial !important; 
+}
+
+/********************************* End FinanceBillModal ************************/
 
 /********************************* input-text-area *****************************/
 
@@ -5054,7 +5258,7 @@ table td img {
 .dashboard-main-sub-container{
 	display: flex;
 	width: 100%;
-    height: 94vh;
+    height: 100vh;
     overflow: hidden;
 }
 
@@ -5064,6 +5268,8 @@ table td img {
 	padding: 24px;
 	overflow: hidden;
     overflow-y: scroll;
+
+    padding-bottom: 100%;
 }
 
 .dashboard-main-sub-right-container{
@@ -5074,6 +5280,22 @@ table td img {
     position: relative;
 }
 
+.dashboard-chat-side-bar-body{
+	padding-bottom: 100%;
+}
+
+.dashboard-main-sub-container .sections-main-sub-container-right-main-rows-finance{
+	border: 0px !important;
+}
+
+.dashboard-main-sub-container .tooltip {
+	color: var(--black--color);
+	font-size: 13px;
+}
+
+.dashboard-main-sub-container .tooltip-blue {
+	color: var(--blue--color);
+}
 
 /*************** dashboard-card-info *******************/
 
@@ -5892,6 +6114,7 @@ table td img {
 .dashboard-chat-side-bar-container {
     position: absolute;
     height: 100%;
+    width: 100%;
     overflow: hidden;
     overflow-y: scroll;/*scroll*/
 }
@@ -5919,6 +6142,8 @@ table td img {
 .dashboard-chat-side-bar-body{}
 
 /*************** dashboard-chat-side-bar-body-extra-style *******************************/
+
+
 
 .dashboard-chat-side-bar-body-extra-style .sections-main-sub-container-left-card-sub-info{
 	line-height: 14px;
@@ -5958,8 +6183,18 @@ table td img {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    left: 43px;
+    left: 46px;
 }
+
+.dashboard-main-sub-right-container .dashboard-chat-side-bar-body-notification{
+	top: 16px;
+	left: 45px;
+}
+
+.dashboard-main-sub-right-container .sections-main-sub-container-left-card-main-img{
+	margin-right: 12px;
+}
+
 
 
 .dashboard-main-sub-container .rounded-button{
@@ -6029,6 +6264,14 @@ table td img {
 	align-items: center;
 }
 
+.card-multi-receivers-extra-style img{
+	margin-bottom:0px;
+}
+
+.dashboard-chat-side-bar-body-extra-style .sections-main-sub-container-left-card-main-info{
+    line-height:20px;
+    display: inline-flex;
+}
 
 /*************** End dashboard-chat-side-bar-container ***********************************/
 
@@ -6564,8 +6807,6 @@ table td img {
 }
 
 /*************** End Resposive ***********************************/
-
-
 
 
 

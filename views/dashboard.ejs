@@ -70,7 +70,7 @@
                       <div class="dashboard-card-info">
                           <span class="dashboard-card-info-label">Finances</span>
                           <span class="dashboard-card-info-sub-label">Revune for this month</span>
-                          <span class="dashboard-card-info-counter"><%= totalPay %><span class="dashboard-card-info-counter-currency">MAD</span> </span>
+                          <span class="dashboard-card-info-counter"><%= totalPay ? totalPay : 0 %><span class="dashboard-card-info-counter-currency"> MAD</span> </span>
                           <div class="progress dashboard-card-info-progress">
                             <div class="progress-bar" role="progressbar" aria-valuenow="<%= percentagePay %>" 
                                  aria-valuemin="0" aria-valuemax="100" style="<%= 'width:'+ percentagePay + '%' %>"></div>
@@ -176,16 +176,27 @@
                                         </thead>
                                         <tbody>
 
-                                          <?php for($i = 0 ; $i < 50 ; $i++) { ?>
-
+                                          <% for(var i = 0 ; i <= absencesT.length - 1  ; i++) { %>
                                           <tr>
                                             <td data-label="Persons">
                                               <!--  sections-main-sub-container-left-cards  -->
                                                 <div class="sections-main-sub-container-left-card">
                                                       <img class="sections-main-sub-container-left-card-main-img" src="assets/images/profiles/Profile.jpg" alt="card-img">
                                                       <div class="sections-main-sub-container-left-card-info">
-                                                          <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
-                                                          <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
+                                                          <p class="sections-main-sub-container-left-card-main-info"><%
+                                                              var name = JSON.parse(absencesT[i].User_Name)
+                                                              var fromTo = JSON.parse(absencesT[i].AD_FromTo)
+                                                              var absenceArray = ["Retard","Absence"];
+                                                              var type;
+
+                                                              if(absencesT[i].AD_Type === 2)
+                                                                type = 'Absence';
+                                                              else
+                                                                type = absenceArray[absencesT[i].AD_Type];
+                                                             %>
+                                                              <%= name.first_name + ' ' + name.last_name %>
+                                                            </p>
+                                                          <span  class="sections-main-sub-container-left-card-sub-info"><%= absencesT[i].Classe_Label %></span>
                                                       </div>
                                                 </div>
                                               <!--  End sections-main-sub-container-left-cards  -->
@@ -193,21 +204,21 @@
 
                                             <td class="readonly" data-label="Type">
                                                 <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="Absence" class="input-text" required="" placeholder="Date">
+                                                   <input type="text" value="<%= type %>" class="input-text" required="" placeholder="Date">
                                                    <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                                 </div>
                                             </td>
 
                                             <td class="readonly" data-label="From">
                                                 <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="09-05-2020" class="input-text" required="" placeholder="Date">
+                                                   <input type="text" value="<%= fromTo.from %>" class="input-text" required="" placeholder="Date">
                                                    <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                                 </div>
                                             </td>
 
                                             <td class="readonly" data-label="To">
                                                 <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="09-05-2020" class="input-text" required="" placeholder="Date">
+                                                   <input type="text" value="<%= fromTo.to %>" class="input-text" required="" placeholder="Date">
                                                    <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                                 </div>
                                             </td>
@@ -219,50 +230,7 @@
                                             </td>
 
                                           </tr>
-
-                                          <tr>
-                                            <td data-label="Persons">
-                                              <!--  sections-main-sub-container-left-cards  -->
-                                                <div class="sections-main-sub-container-left-card">
-                                                      <img class="sections-main-sub-container-left-card-main-img" src="assets/images/profiles/Profile1.jpg" alt="card-img">
-                                                      <div class="sections-main-sub-container-left-card-info">
-                                                          <p class="sections-main-sub-container-left-card-main-info">Alicia Stanger</p>
-                                                          <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
-                                                      </div>
-                                                </div>
-                                              <!--  End sections-main-sub-container-left-cards  -->
-                                            </td>
-
-                                            <td class="readonly" data-label="Type">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="Retard" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                                                </div>
-                                            </td>
-
-                                            <td class="readonly" data-label="From">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="09:00" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                                                </div>
-                                            </td>
-
-                                            <td class="readonly" data-label="To">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="09:15" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                                                </div>
-                                            </td>
-
-                                            <td class="readonly" data-label="Reported by">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="Alex Edwards" class="input-text" required="" placeholder="Reported by">
-                                                </div>
-                                            </td>
-
-                                          </tr>
-
-                                          <?php } ?>
+                                          <% } %>
 
                                         </tbody>
 
@@ -332,7 +300,11 @@
                           <div class="dashboard-card-table-info-body sections-main-sub-container-right-main-body">
 
                               <!-- sections-main-sub-container-right-main-rows -->
-                                  <div class="sections-main-sub-container-right-main-rows">
+                                  <div class="sections-main-sub-container-right-main-rows sections-main-sub-container-right-main-rows-finance">
+
+                                    <div style="width:100%;">
+                                      <canvas id="canvas" style="display: block; width: 100%; height: 235px;" width="100%" height="235px" class="chartjs-render-monitor"></canvas>
+                                    </div>
 
                                   </div>
                               <!-- End sections-main-sub-container-right-main-rows -->
@@ -411,17 +383,17 @@
                                         </thead>
                                         <tbody>
 
-                                          <?php for($i = 0 ; $i < 50 ; $i++) { ?>
+                                          <% for(var i = 0 ; i <= payments.length - 1  ; i++) { %>
 
                                           <tr>
 
                                             <td data-label="Student">
                                               <!--  sections-main-sub-container-left-cards  -->
                                                 <div class="sections-main-sub-container-left-card">
-                                                      <img class="sections-main-sub-container-left-card-main-img" src="assets/images/profiles/Profile.jpg" alt="card-img">
+                                                      <img class="sections-main-sub-container-left-card-main-img" src="<%= payments[i].Student_Image %>" alt="card-img">
                                                       <div class="sections-main-sub-container-left-card-info">
-                                                          <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
-                                                          <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
+                                                          <p class="sections-main-sub-container-left-card-main-info"><%= payments[i].Student_FirstName + ' ' + payments[i].Student_LastName %></p>
+                                                          <span  class="sections-main-sub-container-left-card-sub-info"><%= payments[i].Classe_Label %></span>
                                                       </div>
                                                 </div>
                                               <!--  End sections-main-sub-container-left-cards  -->
@@ -429,63 +401,27 @@
 
                                             <td class="readonly" data-label="Date">
                                                 <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="09-05-2020" class="input-text" required="" placeholder="Date">
+                                                   <input type="text" value="<%= payments[i].SP_Addeddate.toDateString() %>" class="input-text" required="" placeholder="Date">
                                                    <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                                 </div>
                                             </td>
 
                                             <td class="readonly" data-label="Paid amount">
                                                 <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="1000 Dhs" class="input-text input-text-blue" required="" placeholder="Paid amount">
+                                                   <input type="text" value="<%= payments[i].Expense_Cost %>" class="input-text input-text-blue" required="" placeholder="Paid amount">
                                                    <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                                                 </div>
                                             </td>
 
                                             <td class="readonly" data-label="Outstanding">
                                                 <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="500 Dhs" class="input-text" required="" placeholder="Outstanding">
+                                                   <img  src="assets/icons/green_check.svg" alt="green_check">
                                                 </div>
                                             </td>
 
                                           </tr>
 
-                                          <tr>
-
-                                            <td data-label="Student">
-                                              <!--  sections-main-sub-container-left-cards  -->
-                                                <div class="sections-main-sub-container-left-card">
-                                                      <img class="sections-main-sub-container-left-card-main-img" src="assets/images/profiles/Profile.jpg" alt="card-img">
-                                                      <div class="sections-main-sub-container-left-card-info">
-                                                          <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
-                                                          <span  class="sections-main-sub-container-left-card-sub-info">Class</span>
-                                                      </div>
-                                                </div>
-                                              <!--  End sections-main-sub-container-left-cards  -->
-                                            </td>
-
-                                            <td class="readonly" data-label="Date">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="09-05-2020" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                                                </div>
-                                            </td>
-
-                                            <td class="readonly" data-label="Paid amount">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="1000 Dhs" class="input-text input-text-blue" required="" placeholder="Paid amount">
-                                                </div>
-                                            </td>
-
-                                            <td class="readonly" data-label="Outstanding">
-                                                <div class="form-group group dynamic-form-input-text-container-icon icon-extra-style">
-                                                  <img  src="assets/icons/green_check.svg" alt="green_check">
-                                                </div>
-                                            </td>
-
-                                          </tr>
-
-                                          <?php } ?>
-
+                                          <% } %>
                                         </tbody>
 
                                       </table>

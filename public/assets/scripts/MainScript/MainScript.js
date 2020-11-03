@@ -166,6 +166,27 @@ $(document).ready(function(){
 		$('head').append(script);
 	}
 
+
+	/*var script = `<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+				  <script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>`;
+	$('head').append(script);*/
+
+	
+	var script = `<script type="text/javascript" src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+				  <link rel="stylesheet" href="https://printjs-4de6.kxcdn.com/print.min.css">
+				  <link rel="stylesheet" href="assets/styles/MainStyle/MainStyle.css" type="text/css" media="print" />`;
+
+
+	$('head').append(script);
+
+	var script = `<script type="text/javascript" src="https://cdn2.hubspot.net/hubfs/476360/Chart.js"></script>
+				  <script type="text/javascript" src="https://cdn2.hubspot.net/hubfs/476360/utils.js"></script>`;
+
+
+	$('head').append(script);
+
+	$("input").attr("autocomplete","off");
+
 	$(document).on("click",".setup-main-container",function(){
 
 		$(".dynamic-form-input-dropdown-options").css({"opacity":"0"});
@@ -178,8 +199,288 @@ $(document).ready(function(){
 
 	/* Form Component ______________________*/
 
+	$(".sections-main-sub-container-right-main-header-info .input-img").each(function(){
+
+		if($(this).attr("src") == ""){
+		   $(this).attr("src","assets/icons/Logo_placeholder.svg");
+		}
+
+	});
+
+	/* Chart.js _______________________________________________*/
+
+	$chartDays = [];
+
+	for(d=1;d<32;d++){
+		d = d < 9 ? '0'+d : d; 
+		$chartDays.push(d);
+	}
+
+	function randomData(){
+
+		$chartData = [];
+	
+		for(d=1;d<32;d++){
+
+			$obj = {};
+
+			$obj.paymentCount  = Math.floor(Math.random() * 100);
+			$obj.y 			  = Math.floor(Math.random() * 1000);
+
+			$chartData.push($obj);
+		}
+
+		return $chartData;
+
+	}
+
+	var config = {
+			type: 'line',
+			data: {
+				labels:$chartDays,
+				datasets: [{
+					label: 'Payment',
+					backgroundColor:"#45bcff",
+					borderColor: "#45bcff",
+			        fill: true,
+			        borderColor: "rgb(75, 192, 192)",
+			        backgroundColor: "rgba(146, 221, 255, 0.08)",
+			        borderWidth: 2,
+			        lineTension: 0,
+			        /* point options */
+			        pointBorderColor: "#45bcff", // blue point border
+			        pointBackgroundColor: "#45bcff", // wite point fill
+			        pointBorderWidth: 1, // point border width 
+					data: randomData()
+				}]
+			},
+			options: {
+				responsive: true,
+            	maintainAspectRatio: false,
+				title: {
+					display: false,
+					text: 'Finance'
+				},
+				legend: {
+			    	display: false
+			    },
+			    tooltips: {
+				   callbacks: {
+                    	label : function(tooltipItem, data) {
+                        	var item = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+				     		return item;
+                   		 }
+				  },
+				  enabled: false,
+			      backgroundColor: '#FFF',
+			      titleFontSize: 16,
+			      titleFontColor: '#0066ff',
+			      bodyFontColor: '#000',
+			      bodyFontSize: 14,
+			      displayColors: false,
+			      custom: 	/*********************************************************************************************/
+							function(tooltip) {
+
+							    // Tooltip Element
+							    var tooltipEl = document.getElementById('chartjs-tooltip');
+							    if (!tooltipEl) {
+							        tooltipEl = document.createElement('div');
+							        tooltipEl.id = 'chartjs-tooltip';
+							        tooltipEl.innerHTML = "<table></table>"
+							        document.body.appendChild(tooltipEl);
+							    }
+							    // Hide if no tooltip
+							    if (tooltip.opacity === 0) {
+							        tooltipEl.style.opacity = 0;
+							        return;
+							    }
+							    // Set caret Position
+							    //tooltipEl.classList.remove('above', 'below', 'no-transform');
+							    if (tooltip.yAlign) {
+							        tooltipEl.classList.add(tooltip.yAlign);
+							    } else {
+							        tooltipEl.classList.add('no-transform');
+							    }
+							    function getBody(bodyItem) {
+							        return bodyItem.lines[0];
+							    }
+							    // Set Text
+							    if (tooltip.body) {
+							        var titleLines = tooltip.title || [];
+							        var bodyLines = tooltip.body.map(getBody);
+							        //PUT CUSTOM HTML TOOLTIP CONTENT HERE (innerHTML)
+							        var innerHtml = '<thead>';
+							        /*titleLines.forEach(function(title) {
+							            innerHtml += '<tr><th>' +  + '</th></tr>';
+							        });
+							        innerHtml += '</thead><tbody>';*/
+							        bodyLines.forEach(function(body, i) {
+							            var colors = tooltip.labelColors[i];
+							            var style = 'background:' + colors.backgroundColor;
+							            style += '; border-color:' + colors.borderColor;
+							            style += '; border-width: 2px'; 
+							            var span = '<span class="chartjs-tooltip-key" style="' + style + '"></span>';
+							            console.log("body");
+							            console.log(body);
+							            innerHtml += '<tr style="font-size:13px;color:#151a3b"><td>'+ span + body.paymentCount + ' payment(s) </td></tr>';
+							            innerHtml += '<tr style="font-size:13px;color:#151a3b"><td><span style="color:#279fe3"> + ' + span + body.y + '</span> Dh </td></tr>';
+							        });
+							        innerHtml += '</tbody>';
+							        var tableRoot = tooltipEl.querySelector('table');
+							        tableRoot.innerHTML = innerHtml;
+							    }
+							    var position = this._chart.canvas.getBoundingClientRect();
+
+								// Display, position, and set styles for font
+								tooltipEl.style.opacity = 1;
+								tooltipEl.style.position = 'absolute';
+								tooltipEl.style.left = position.left + window.pageXOffset + tooltip.caretX + 'px';
+								tooltipEl.style.top = position.top + window.pageYOffset + tooltip.caretY + 'px';
+								tooltipEl.style.fontFamily = tooltip._bodyFontFamily;
+								tooltipEl.style.fontSize = tooltip.bodyFontSize + 'px';
+								tooltipEl.style.fontStyle = tooltip._bodyFontStyle;
+								tooltipEl.style.padding = tooltip.yPadding + 'px ' + tooltip.xPadding + 'px';
+								tooltipEl.style.pointerEvents = 'none';
+								tooltipEl.style.backgroundColor = '#FFF';
+								tooltipEl.style.borderRadius = '3px';
+							}
+							/*********************************************************************************************/
+			    },
+				scales: {
+					xAxes: [{
+						display: true,
+						gridLines: {
+						  display: true,
+						  color: "#f0f0f6"
+						},
+			       		scaleLabel: {
+			           		display: false,
+			           		labelString: 'Date'
+		        		}
+					}],
+					yAxes: [{
+						display: true,
+						gridLines: {
+						  display: false,
+						  color: "#f0f0f6"
+						},
+						//type: 'logarithmic',
+	          			scaleLabel: {
+							display: false,
+							labelString: 'Index Returns'
+						},
+						ticks: {
+							min: 0,
+							max: 1000,
+							// forces step size to be 5 units
+							stepSize: 100
+						}
+					}]
+				}
+			}
+	};
+
+	window.onload = function() {
+		var ctx = document.getElementById('canvas').getContext('2d');
+		window.myLine = new Chart(ctx, config);
+	};
 
 
+	/***** 	window.myLine.update() *********************
+	config.data.datasets.forEach(function(dataset) {
+		dataset.data = dataset.data.map(function() {
+			return Data();
+		});
+
+	});
+
+	window.myLine.update();
+	/***************************************************
+
+
+
+
+	/* End Chart.js ___________________________________________*/
+
+	
+
+
+	//Create PDf from HTML...
+	function CreatePDFfromHTML() {
+
+		
+		/**************************
+
+	    var HTML_Width = $(".html-content").width();
+	    var HTML_Height = $(".html-content").height();
+	    var top_left_margin = 15;
+	    var PDF_Width = HTML_Width + (top_left_margin * 2);
+	    var PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+	    var canvas_image_width = HTML_Width;
+	    var canvas_image_height = HTML_Height;
+
+	    var totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
+
+	    html2canvas($(".html-content")[0]).then(function (canvas) {
+	        var imgData = canvas.toDataURL("image/jpeg", 1.0);
+	        var pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
+	        pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
+	        for (var i = 1; i <= totalPDFPages; i++) { 
+	            pdf.addPage(PDF_Width, PDF_Height);
+	            pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
+	        }
+	        pdf.save("Your_PDF_Name.pdf");
+	    });
+
+	    /**************************/
+
+	    var doc = new jsPDF("p", "mm", "a4");
+
+		var width = doc.internal.pageSize.getWidth();
+		var height = doc.internal.pageSize.getHeight();
+
+		html2canvas($(".html-content")[0]).then(function (canvas) {
+	        var imgData = canvas.toDataURL("image/jpeg", 1.0);
+	        var pdf = new jsPDF('p', 'pt', [width, height]);
+	        pdf.addImage(imgData, 'JPEG', 0, 0, width, height);
+	        var totalPDFPages = Math.ceil(height / height) - 1;
+	        for (var i = 1; i <= totalPDFPages; i++) { 
+	            pdf.addPage(width, height);
+	            pdf.addImage(imgData, 'JPEG', 0, 0, width, height);
+	        }
+	        pdf.save("Your_PDF_Name.pdf");
+	    });
+
+		doc.addImage(imgData, 'JPEG', 0, 0, width, height);
+
+	}
+
+	$(document).on("click","#printTheBill",function(){
+		
+		//CreatePDFfromHTML();
+
+		printJS({printable: 'html-content',
+		scanStyles:true,
+		type:'html',
+		honorColor: true,
+		css: [$href+"assets/styles/MainStyle/MainStyle.css"]
+		})
+
+		//assets/styles/MainStyle/MainStyle.css
+
+		/*$('.html-content').printThis({
+              importCSS: true,
+              base:'true',
+              loadCSS: $href+"assets/styles/MainStyle/print.css",
+              header: "",
+              debug: true,
+              importCSS: true,
+              importStyle: true
+          });*/
+
+	});
+
+	
 	/* nicescroll ____________________________*/
 
 	if(getOS() == 'Mac OS_'){

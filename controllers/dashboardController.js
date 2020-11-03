@@ -1,5 +1,7 @@
 var connection  = require('../lib/db');
 var date = new Date();
+var PaymentsQuery = 'SELECT students.*,levelexpenses.Expense_Cost , studentspayments.SP_Addeddate,classes.Classe_Label FROM `students` LEFT JOIN studentsubscribtion ON studentsubscribtion.Student_ID = students.Student_ID LEFT JOIN levelexpenses ON levelexpenses.LE_ID = studentsubscribtion.LE_ID LEFT JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID LEFT JOIN classes ON studentsclasses.Classe_ID = classes.Classe_ID INNER JOIN studentspayments ON studentspayments.SS_ID = studentsubscribtion.SS_ID  WHERE `Institution_ID`= ?'
+var AdTeacher = "SELECT DISTINCT users.*, absencesanddelays.*,classes.* FROM `absencesanddelays` LEFT JOIN users ON users.User_ID = absencesanddelays.User_ID LEFT JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID LEFT JOIN teachersubjectsclasses ON teachersubjectsclasses.Teacher_ID = users.User_ID LEFT JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID WHERE institutionsusers.Institution_ID = ? AND absencesanddelays.User_Type ='teacher'";
 
 var dashboardController = {
   dashboardView:function(req, res, next) {
@@ -17,20 +19,26 @@ var dashboardController = {
                           connection.query("SELECT COUNT(*) as total FROM `students` WHERE `Institution_ID`=? ", [req.Institution_ID], (err, percentageS, fields) => {
                             connection.query("SELECT SUM(levelexpenses.Expense_Cost) as total FROM `studentspayments` INNER JOIN studentsubscribtion ON studentsubscribtion.SS_ID = studentspayments.SS_ID INNER JOIN levelexpenses ON levelexpenses.LE_ID = studentsubscribtion.LE_ID WHERE MONTH( studentspayments.`SP_Addeddate` ) = ? AND studentsubscribtion.AY_ID = ?", [date.getMonth() + 1,academic[0].AY_ID], (err, totalPay, fields) => {
                               connection.query("SELECT SUM(levelexpenses.Expense_Cost) as total FROM `studentspayments` INNER JOIN studentsubscribtion ON studentsubscribtion.SS_ID = studentspayments.SS_ID INNER JOIN levelexpenses ON levelexpenses.LE_ID = studentsubscribtion.LE_ID WHERE studentsubscribtion.AY_ID = ?", [academic[0].AY_ID], (err, percentagePay, fields) => {
-                                res.render('dashboard', { 
-                                  title: 'Dashboard' , 
-                                  user: user[0], 
-                                  institution:institutions[0], 
-                                  classes:classes,levels:levels,
-                                  accounts,users,expenses,
-                                  role:req.role,
-                                  teacherAD:teacherAD[0].total,
-                                  studentAD:studentAD[0].total,
-                                  totalPay:totalPay[0].total,
-                                  percentageT:(teacherAD[0].total * 100)/percentageT[0].total ,
-                                  percentageS:(studentAD[0].total * 100)/percentageS[0].total ,
-                                  percentagePay:(totalPay[0].total * 100)/percentagePay[0].total
-                                });
+                                connection.query(PaymentsQuery, [req.Institution_ID], (err, payments, fields) => {
+                                  connection.query(AdTeacher, [req.Institution_ID], (err, absencesT, fields) => {
+                                    res.render('dashboard', { 
+                                      title: 'Dashboard' , 
+                                      user: user[0], 
+                                      institution:institutions[0], 
+                                      classes:classes,levels:levels,
+                                      accounts,users,expenses,
+                                      role:req.role,
+                                      teacherAD:teacherAD[0].total,
+                                      studentAD:studentAD[0].total,
+                                      totalPay:totalPay[0].total,
+                                      payments,
+                                      absencesT,
+                                      percentageT:(teacherAD[0].total * 100)/percentageT[0].total ,
+                                      percentageS:(studentAD[0].total * 100)/percentageS[0].total ,
+                                      percentagePay:(totalPay[0].total * 100)/percentagePay[0].total
+                                    });
+                                  })
+                                })
                               })
                             })
                           })
