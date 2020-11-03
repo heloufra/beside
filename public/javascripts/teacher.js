@@ -122,7 +122,7 @@ function readFileDetail() {
 
 document.getElementById("img-profile").addEventListener("change", readFileDetail);
 
- $('input[name=classe]').on( "change", function() {
+ $('#teacher-leftSide').find('input[name=classe]').on( "change", function() {
   var value = $(this).val();
   if (value.replace(/\s/g, '') !== '')
   {
@@ -153,7 +153,7 @@ $domChange = false;
   }
 })
 
-$('input[name="filter-subject"]').on( "change", function() {
+$('#teacher-leftSide').find('input[name="filter-subject"]').on( "change", function() {
   var value = $(this).val();
   if (value.replace(/\s/g, '') !== '')
   {

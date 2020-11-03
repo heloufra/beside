@@ -488,14 +488,23 @@
                     <label class="input-label dynamic-form-input-container-label"><span class="input-label-text"> Period or Session </span> <span class="input-label-bg-mask"></span></label>
 
                     <div class="sections-checkboxes-main-container">
+                    <%
+                       var period = "";
+                       if (role === 'Admin') {
+                          admin = "";
+                       } else
+                       {
+                          period = "readonly";
+                       }
 
+                     %>
                       <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left container-background-style" data-val="Period">
                           <div class="sections-label-checkbox-container ">
                             <div class="form-group group ">
                               <span class="expense_label">Period</span>
                             </div>
                           </div>
-                          <div class="customCheck customCheckRounded">
+                          <div class="customCheck customCheckRounded <%= period %> ">
                             <input type="checkbox" value="2" data-val="Period" name="checkbox" id="" />
                             <label for="ck"></label>
                           </div>
@@ -519,6 +528,7 @@
                 </div>
 
                 <!--- Show in case of Absense combined with Period -->
+                <%if (role === 'Admin') { %>
                 <div class="dynamic-form-input-container dynamic-form-input-container-extra-style
                      dynamic-form-input-container-multi-date">
 
@@ -539,6 +549,7 @@
                   </div>
 
                 </div>
+                <% }  %>
                 <!--- End Show in case of Absense combined with Period -->
 
                 <!--- Show in case of Absense combined with Session || Retard -->

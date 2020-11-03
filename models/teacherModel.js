@@ -3,7 +3,7 @@ var connection  = require('../lib/db');
 var teacherModel = {
   findClasses: function(Teacher_ID) {
      return new Promise((resolve, reject) => {
-      connection.query("SELECT DISTINCT classes.* FROM `teachersubjectsclasses` INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID  WHERE teachersubjectsclasses.Teacher_ID = ?", [Teacher_ID], (err, classesResult, fields) => {
+      connection.query("SELECT DISTINCT subjects.Subject_Label,classes.Classe_Label,classes.Classe_ID FROM `users` INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Teacher_ID = users.User_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID WHERE users.User_ID = ? AND institutionsusers.User_Role = 'Teacher' AND teachersubjectsclasses.TSC_Status <>0 AND institutionsusers.IU_Status<>0", [Teacher_ID], (err, classesResult, fields) => {
        if (err) reject(err);
         else resolve(classesResult);
       });
@@ -11,7 +11,7 @@ var teacherModel = {
   },
    findSubjects: function(Teacher_ID) {
      return new Promise((resolve, reject) => {
-      connection.query("SELECT DISTINCT subjects.Subject_Label FROM `teachersubjectsclasses` INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID  WHERE teachersubjectsclasses.Teacher_ID = ?", [Teacher_ID], (err, classesResult, fields) => {
+      connection.query("SELECT DISTINCT subjects.Subject_Label FROM `teachersubjectsclasses` INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID  WHERE teachersubjectsclasses.Teacher_ID = ? AND teachersubjectsclasses.TSC_Status<>0", [Teacher_ID], (err, classesResult, fields) => {
        if (err) reject(err);
         else resolve(classesResult);
       });
@@ -19,7 +19,7 @@ var teacherModel = {
   },
    findUser: function(Email) {
      return new Promise((resolve, reject) => {
-      connection.query("SELECT * FROM `users` WHERE `User_Email` = ?", [Email], (err, user, fields) => {
+      connection.query("SELECT users.*,institutionsusers.User_Role as role FROM `users` INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID WHERE `User_Email` = ? AND institutionsusers.IU_Status<>0", [Email], (err, user, fields) => {
        if (err) reject(err);
         else resolve(user);
       });

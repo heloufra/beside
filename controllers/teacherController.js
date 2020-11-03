@@ -47,7 +47,7 @@ var teacherController = {
   teacherView: function(req, res, next) {
     connection.query("SELECT * FROM `users` WHERE `User_ID` = ? LIMIT 1", [req.userId], (err, user, fields) => {
       connection.query("SELECT institutions.* FROM users INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN institutions ON institutionsusers.Institution_ID = institutions.Institution_ID WHERE users.User_ID = ? AND institutionsusers.User_Role='Admin'", [req.userId], (err, accounts, fields) => {
-        connection.query("SELECT users.*,institutionsusers.User_Role as role FROM users INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN institutions ON institutionsusers.Institution_ID = institutions.Institution_ID WHERE institutions.Institution_ID = ? AND users.User_ID = ?", [req.Institution_ID,req.userId], (err, users, fields) => {            
+        connection.query("SELECT users.*,institutionsusers.User_Role as role FROM users INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN institutions ON institutionsusers.Institution_ID = institutions.Institution_ID WHERE institutions.Institution_ID = ? AND users.User_ID = ? AND institutionsusers.IU_Status <> 0", [req.Institution_ID,req.userId], (err, users, fields) => {            
           connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, institutions, fields) => {
             connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
               connection.query("SELECT * FROM `classes` WHERE AY_ID = ?", [academic[0].AY_ID], (err, classes, fields) => {
@@ -92,7 +92,7 @@ var teacherController = {
   },
   getAllteachers: function(req, res, next) {
     var teachersArray = [];
-      connection.query("SELECT users.* FROM `institutionsusers` INNER JOIN users ON users.User_ID = institutionsusers.User_ID WHERE institutionsusers.`Institution_ID` = ? AND institutionsusers.User_Role = 'Teacher' AND users.User_Status<>0", [req.Institution_ID],async (err, teachers, fields) => {
+      connection.query("SELECT users.* FROM `institutionsusers` INNER JOIN users ON users.User_ID = institutionsusers.User_ID WHERE institutionsusers.`Institution_ID` = ? AND institutionsusers.User_Role = 'Teacher' AND institutionsusers.IU_Status<>0", [req.Institution_ID],async (err, teachers, fields) => {
         for (var i = teachers.length - 1; i >= 0; i--) {  
           var classes = await teacherModel.findClasses(teachers[i].User_ID);
           var subjects = await teacherModel.findSubjects(teachers[i].User_ID);
@@ -109,10 +109,10 @@ var teacherController = {
 
       if (user.length > 0)
       {
-        if (user[0].User_Role === 'Admin')
+        if (!user.some(user => user.role === 'Teacher'))
         {
           userId = user[0].User_ID;
-          connection.query("UPDATE `users` SET User_Name=?,User_Image=? WHERE User_ID = ?", [JSON.stringify({first_name:user[0].User_Name, last_name:""}),req.body.profile_image,userId]);
+          connection.query("UPDATE `users` SET User_Name=?,User_Image=? WHERE User_ID = ?", [JSON.stringify({first_name:req.body.first_name, last_name:req.body.last_name}),req.body.profile_image,userId]);
         } else {
           res.json({saved:false})
         }
@@ -190,18 +190,22 @@ var teacherController = {
      })
   },
   deleteteacher: function(req, res, next) {
-    connection.query("UPDATE `users` SET `User_Status`=0 WHERE `User_ID` = ?", [req.body.id], (err, teacher, fields) => {
-       if (err) {
-            console.log(err);
-              res.json({
-                errors: [{
-                field: "Access denied",
-                errorDesc: "Cannot Remove it"
-              }]});
-          } else 
-          {
-            res.json({removed : true});
-          }
+    connection.query("UPDATE `users` SET `User_Status`=0 WHERE `User_ID` = ? AND User_Role=Teacher", [req.body.id], (err, user, fields) => {
+      connection.query("UPDATE `institutionsusers` SET `IU_Status`=0 WHERE `User_ID` = ? AND User_Role='Teacher'", [req.body.id], (err, teacher, fields) => {
+        connection.query("UPDATE `teachersubjectsclasses` SET `TSC_Status`=0 WHERE `Teacher_ID` = ?", [req.body.id], (err, user, fields) => {
+         if (err) {
+              console.log(err);
+                res.json({
+                  errors: [{
+                  field: "Access denied",
+                  errorDesc: "Cannot Remove it"
+                }]});
+            } else 
+            {
+              res.json({removed : true});
+            }
+          })
+        })
      })
   },
   updateTeacher: function(req, res, next) {

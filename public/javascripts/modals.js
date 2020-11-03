@@ -125,7 +125,7 @@ if (pathname !== 'Students')
 					for (var i = subArray.length - 1; i >= 0; i--) {
 						$('input[name=checkbox_sub_'+i+']:checked').prop("checked", false);
 					}
-
+					window.location.href = '/Students'
 			  	} else {
 			  		$('#student_form').find('input[name="first_name"]').css("border-color", "#f6b8c1");
 			  		$('#student_form').find('input[name="last_name"]').css("border-color", "#f6b8c1");
@@ -248,7 +248,8 @@ if (pathname !== 'Teachers')
 					$('#teacher_form').find('input[name="email"]').val("");
 					$('#teacher_form').find('input[name="birthdate"]').val("");
 					$('#teacher_form').find('input[name^=subject]').val("");
-					$('#output-img-teacher').attr("src",'assets/icons/Logo_placeholder.svg')
+					$('#output-img-teacher').attr("src",'assets/icons/Logo_placeholder.svg');
+					window.location.href = '/Teachers';
 			  	} else {
 			  		$('#teacher_form').find('input[name="email"]').css("border-color", "#f6b8c1");
 			  	}
@@ -350,6 +351,7 @@ if (pathname !== 'Exams')
 					$('#AddExamModal').find('#exam_description').val("");
 			  		$('#AddExamModal').modal('hide');
 					console.log('Saved');
+					window.location.href = '/Exams';
 			  	} else {
 			  		console.log("not saved");
 			  	}
@@ -442,6 +444,7 @@ if (pathname !== 'Homeworks')
 					$('#AddHomeworkModal').find('#homework_description').val("");
 			  		$('#AddHomeworkModal').modal('hide');
 					console.log('Saved');
+					window.location.href = '/Homeworks';
 			  	} else {
 			  		console.log("not saved");
 			  	}

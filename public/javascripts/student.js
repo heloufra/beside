@@ -60,50 +60,32 @@ function getAllStudents(id) {
 	  });
  }
 
- function remove() {
- 	var id;
+function remove() {
+ 	var id,declaredBy;
+ 	var temp = [];
  	if ($('#ConfirmDeleteModal').data('role') === 'attitude' || $('#ConfirmDeleteModal').data('role') === 'absence')
 		id = $('#ConfirmDeleteModal').data('id');
 	else
 		id = studentId;
-	$.ajax({
-		    type: 'post',
-		    url: '/Students/'+$('#ConfirmDeleteModal').data('role')+'/remove',
-		    data: {
-		    	id:id
-		    },
-		    dataType: 'json'
-		  })
-		  .done(function(res){
-		  	if(res.errors)
-	  			discardChange();
-		  	if(res.removed)
-		  	{
-		  		$('#ConfirmDeleteModal').modal('hide');
-		  		if ($('#ConfirmDeleteModal').data('role') === 'attitude' || $('#ConfirmDeleteModal').data('role') === 'absence')
-		  			$('#'+$('#ConfirmDeleteModal').data('role')+'-'+$('#ConfirmDeleteModal').data('id')).remove();
-		  		else
-		  		{
-		  			$('#student_info').addClass('hidden');
-		  			getAllStudents();
-		  		}
-		  	} else {
-		  		console.log(res);
-		  	}
-		  });
- }
+	if ($('#ConfirmDeleteModal').data('role') === 'attitude')
+	{
+		temp = attitudes.filter((el) => el.Attitude_ID === id)
+		console.log("Temp::",temp)
+		declaredBy = temp[0].Declaredby_ID;
+	}
+	if ($('#ConfirmDeleteModal').data('role') === 'absence')
+	{
+		temp = absences.filter((el) => el.AD_ID === id)
+		console.log("Temp::",temp)
+		declaredBy = temp[0].Declaredby_ID;
+	}
 
- function remove() {
- 	var id;
- 	if ($('#ConfirmDeleteModal').data('role') === 'attitude' || $('#ConfirmDeleteModal').data('role') === 'absence')
-		id = $('#ConfirmDeleteModal').data('id');
-	else
-		id = studentId;
 	$.ajax({
 		    type: 'post',
 		    url: '/Students/'+$('#ConfirmDeleteModal').data('role')+'/remove',
 		    data: {
-		    	id:id
+		    	id:id,
+		    	declaredBy:declaredBy
 		    },
 		    dataType: 'json'
 		  })
@@ -120,9 +102,10 @@ function getAllStudents(id) {
 		  		}
 		  	} else {
 		  		console.log(res);
+		  		$('#ConfirmDeleteModal').modal('hide');
 		  	}
 		  });
- }
+}
 
 function readFile() {
   
@@ -285,8 +268,9 @@ $(document).on("click",".students_list",function(event){
   		else
   			$("#Exams").addClass('hidden');
   		attitudes = res.attitudes;
+  		console.log("Attitudes::",res.declaredBy)
   		for (var i = res.attitudes.length - 1; i >= 0; i--) {
-  			$('#Attitude').find('.note_container').append(' <tr class="row-note"  id="attitude-'+res.attitudes[i].Attitude_ID+'"> <td class="readonly" data-label="Interaction"> <div class="sections-main-sub-container-right-main-rows"> <div class="dynamic-form-input-dropdown-container dynamic-form-input-dropdown-container-icon"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="dynamic-form-input-float-adjust"> <div class="form-group group form-group-right"><img class="icon button-icon" src="assets/icons/caret.svg"> '+(res.attitudes[i].Attitude_Interaction === 0 ? ('<img class="interaction_icon" src="assets/icons/emoji_good.svg" alt="interaction_icon"> <span>Positive</span>'):('<img class="interaction_icon" src="assets/icons/emoji_bad.svg" alt="interaction_icon"> <span>Negative</span>'))+'</div> </div> </div> </div> </div> </div> </td> <td data-label="Note" class="td-label td-description">'+res.attitudes[i].Attitude_Note+'</td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+res.attitudes[i].Attitude_Addeddate+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> <!-- table-option-list --> <img class="table-option-icon" src="assets/icons/options.svg"> <div class="table-option-list"> <div class="table-option-list-li table-option-list-li-edit" onClick="displayAttitude('+i+')" data-id="'+res.attitudes[i].Attitude_ID+'"> <img src="assets/icons/edit.svg" alt="edit"/> <span class="table-option-list-span" " data-id="'+res.attitudes[i].Attitude_ID+'">Edit</span> </div> <div class="table-option-list-li table-option-list-li-delete" data-id="'+res.attitudes[i].Attitude_ID+'"> <img src="assets/icons/delete.svg" alt="delete"/> <span class="table-option-list-span">Delete</span> </div> <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg"> </div> <!-- End table-option-list --> </td> </tr>');
+  			$('#Attitude').find('.note_container').append(' <tr class="row-note"  id="attitude-'+res.attitudes[i].Attitude_ID+'"> <td class="readonly" data-label="Interaction"> <div class="sections-main-sub-container-right-main-rows"> <div class="dynamic-form-input-dropdown-container dynamic-form-input-dropdown-container-icon"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="dynamic-form-input-float-adjust"> <div class="form-group group form-group-right"><img class="icon button-icon" src="assets/icons/caret.svg"> '+(res.attitudes[i].Attitude_Interaction === 0 ? ('<img class="interaction_icon" src="assets/icons/emoji_good.svg" alt="interaction_icon"> <span>Positive</span>'):('<img class="interaction_icon" src="assets/icons/emoji_bad.svg" alt="interaction_icon"> <span>Negative</span>'))+'</div> </div> </div> </div> </div> </div> </td> <td data-label="Note" class="td-label td-description">'+res.attitudes[i].Attitude_Note+'</td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+res.attitudes[i].Attitude_Addeddate+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> <!-- table-option-list -->' +(parseInt(res.attitudes[i].Declaredby_ID) === res.declaredBy ?('<img class="table-option-icon" src="assets/icons/options.svg"> <div class="table-option-list"><div class="table-option-list-li table-option-list-li-edit" onClick="displayAttitude('+i+')" data-id="'+res.attitudes[i].Attitude_ID+'"> <img src="assets/icons/edit.svg" alt="edit"/> <span class="table-option-list-span" " data-id="'+res.attitudes[i].Attitude_ID+'">Edit</span> </div> <div class="table-option-list-li table-option-list-li-delete" data-id="'+res.attitudes[i].Attitude_ID+'"> <img src="assets/icons/delete.svg" alt="delete"/> <span class="table-option-list-span">Delete</span> </div> <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg"> </div>'): ' ')+' <!-- End table-option-list --> </td> </tr>');
   		}
   		payStudent = res.payStudent;
   		homeworks = res.homeworks;
@@ -876,6 +860,7 @@ function updateAbsence() {
 	    url: '/Students/absence/update',
 	    data: {
 	    	id:absences[id].AD_ID,
+	    	declaredBy:absences[id].Declaredby_ID,
 	    	AD_FromTo:JSON.stringify(from),
 			AD_Date:date,
 	    },
@@ -888,6 +873,7 @@ function updateAbsence() {
 	  		displayStudent(studentId);
 	  	} else {
 	  		console.log(res);
+	  		$('#EditAbsenceModal').modal('hide');
 	  	}
 	  });
 }
@@ -899,6 +885,7 @@ function updateAttitude() {
 	    url: '/Students/attitude/update',
 	    data: {
 	    	id:attitudes[id].Attitude_ID,
+	    	declaredBy:attitudes[id].Declaredby_ID,
 	    	Attitude_Note:$('#EditAttitudeModal').find('textarea').val(),
 			Attitude_Addeddate:$('#EditAttitudeModal').find('input[name=date]').val(),
 	    },
@@ -911,6 +898,7 @@ function updateAttitude() {
 	  		displayStudent(studentId);
 	  	} else {
 	  		console.log(res);
+	  		$('#EditAttitudeModal').modal('hide');
 	  	}
 	  });
 }

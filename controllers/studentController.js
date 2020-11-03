@@ -40,7 +40,7 @@ var studentController = {
   studentView:  function(req, res, next) {
     connection.query("SELECT * FROM `users` WHERE `User_ID` = ? LIMIT 1", [req.userId], (err, user, fields) => {
       connection.query("SELECT institutions.* FROM users INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN institutions ON institutionsusers.Institution_ID = institutions.Institution_ID WHERE users.User_ID = ? AND institutionsusers.User_Role='Admin'", [req.userId], (err, accounts, fields) => {
-        connection.query("SELECT users.*,institutionsusers.User_Role as role FROM users INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN institutions ON institutionsusers.Institution_ID = institutions.Institution_ID WHERE institutions.Institution_ID = ? AND users.User_ID = ?", [req.Institution_ID,req.userId], (err, users, fields) => {                
+        connection.query("SELECT users.*,institutionsusers.User_Role as role FROM users INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN institutions ON institutionsusers.Institution_ID = institutions.Institution_ID WHERE institutions.Institution_ID = ? AND users.User_ID = ? AND institutionsusers.IU_Status <> 0", [req.Institution_ID,req.userId], (err, users, fields) => {                
           connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, institutions, fields) => {
             connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
               connection.query("SELECT * FROM `classes` WHERE AY_ID = ?", [academic[0].AY_ID], (err, classes, fields) => {
@@ -58,48 +58,49 @@ var studentController = {
   },
   getStudent: function(req, res, next) {
     connection.query("SELECT * FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
-    connection.query(queryParents, [req.query.user_id], (err, parents, fields) => {
-      connection.query("SELECT * FROM `absencesanddelays` WHERE User_ID = ? AND Declaredby_ID = ? AND AD_Status <> 0 AND User_Type='Student'", [req.query.user_id,req.userId], (err, absences, fields) => {
-          connection.query(queryAttitude, [req.query.user_id], (err, attitudes, fields) => {
-            connection.query(querySubstudent, [req.query.user_id,req.Institution_ID], (err, substudent, fields) => {
-              connection.query(querySubstudentPay, [req.query.user_id,req.Institution_ID], (err, substudentpay, fields) => {
-                connection.query(homeworkQuery, [req.query.user_id], (err, homeworks, fields) => {
-                  connection.query(examsQuery, [req.query.user_id], (err, exams, fields) => {
-                    connection.query(studentPayment, [req.query.user_id], (err, payStudent, fields) => {
-                      connection.query("SELECT AVG(grads.Exam_Score) as average FROM `students` INNER JOIN studentsclasses On studentsclasses.Student_ID = students.Student_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = studentsclasses.Classe_ID INNER JOIN exams ON exams.TSC_ID = teachersubjectsclasses.TSC_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = studentsclasses.Classe_ID LEFT JOIN grads ON grads.Student_ID = students.Student_ID AND  grads.Exam_ID = exams.Exam_ID WHERE students.Student_ID = ? AND exams.Exam_Status <> 0", [req.query.user_id], (err, grade, fields) => {
-                       if (err) {
-                            console.log(err);
-                              res.json({
-                                errors: [{
-                                field: "Access denied",
-                                errorDesc: "List Students Error"
-                              }]});
-                          } else 
-                          {
-                             res.json({
-                                parents:parents,
-                                substudent:substudent,
-                                substudentpay:substudentpay,
-                                absences:absences,
-                                attitudes:attitudes,
-                                homeworks:homeworks,
-                                exams:exams,
-                                start:academic[0].AY_Satrtdate,
-                                end:academic[0].AY_EndDate,
-                                academicyear:academic[0].AY_Label,
-                                average:grade[0].average,
-                                payStudent:payStudent
-                              });
-                          }
+      connection.query(queryParents, [req.query.user_id], (err, parents, fields) => {
+        connection.query("SELECT * FROM `absencesanddelays` WHERE User_ID = ? AND Declaredby_ID = ? AND AD_Status <> 0 AND User_Type='Student'", [req.query.user_id,req.userId], (err, absences, fields) => {
+            connection.query(queryAttitude, [req.query.user_id], (err, attitudes, fields) => {
+              connection.query(querySubstudent, [req.query.user_id,req.Institution_ID], (err, substudent, fields) => {
+                connection.query(querySubstudentPay, [req.query.user_id,req.Institution_ID], (err, substudentpay, fields) => {
+                  connection.query(homeworkQuery, [req.query.user_id], (err, homeworks, fields) => {
+                    connection.query(examsQuery, [req.query.user_id], (err, exams, fields) => {
+                      connection.query(studentPayment, [req.query.user_id], (err, payStudent, fields) => {
+                        connection.query("SELECT AVG(grads.Exam_Score) as average FROM `students` INNER JOIN studentsclasses On studentsclasses.Student_ID = students.Student_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = studentsclasses.Classe_ID INNER JOIN exams ON exams.TSC_ID = teachersubjectsclasses.TSC_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = studentsclasses.Classe_ID LEFT JOIN grads ON grads.Student_ID = students.Student_ID AND  grads.Exam_ID = exams.Exam_ID WHERE students.Student_ID = ? AND exams.Exam_Status <> 0", [req.query.user_id], (err, grade, fields) => {
+                         if (err) {
+                              console.log(err);
+                                res.json({
+                                  errors: [{
+                                  field: "Access denied",
+                                  errorDesc: "List Students Error"
+                                }]});
+                            } else 
+                            {
+                               res.json({
+                                  parents:parents,
+                                  substudent:substudent,
+                                  substudentpay:substudentpay,
+                                  absences:absences,
+                                  attitudes:attitudes,
+                                  homeworks:homeworks,
+                                  exams:exams,
+                                  start:academic[0].AY_Satrtdate,
+                                  end:academic[0].AY_EndDate,
+                                  academicyear:academic[0].AY_Label,
+                                  average:grade[0].average,
+                                  payStudent:payStudent,
+                                  declaredBy:req.userId
+                                });
+                            }
+                        })
                       })
+                     })
                     })
-                   })
-                  })
-               })
-              })
+                 })
+                })
+            })
           })
-        })
-     })
+       })
     })
   },  
   getAllStudents: function(req, res, next) {
@@ -293,34 +294,41 @@ var studentController = {
           })
   },
   deleteAttitude: function(req, res, next) {
-    connection.query("UPDATE  `attitude` SET Attitude_Status = 0 WHERE `Attitude_ID` = ?", [req.body.id], (err, student, fields) => {
-       if (err) {
-            console.log(err);
-              res.json({
-                errors: [{
-                field: "Access denied",
-                errorDesc: "Cannot Remove it"
-              }]});
-          } else 
-          {
-            res.json({removed : true});
-          }
-     })
+    console.log("declaredBy",req.body.declaredBy)
+    if (parseInt(req.body.declaredBy) === req.userId)
+      connection.query("UPDATE  `attitude` SET Attitude_Status = 0 WHERE `Attitude_ID` = ?", [req.body.id], (err, student, fields) => {
+         if (err) {
+              console.log(err);
+                res.json({
+                  errors: [{
+                  field: "Access denied",
+                  errorDesc: "Cannot Remove it"
+                }]});
+            } else 
+            {
+              res.json({removed : true});
+            }
+       })
+    else
+      res.json({removed : false});
   },
   deleteAbsence: function(req, res, next) {
-    connection.query("UPDATE `absencesanddelays` SET  `AD_Status`=0 WHERE `AD_ID` = ?", [req.body.id], (err, student, fields) => {
-       if (err) {
-            console.log(err);
-              res.json({
-                errors: [{
-                field: "Access denied",
-                errorDesc: "Cannot Remove it"
-              }]});
-          } else 
-          {
-            res.json({removed : true});
-          }
-     })
+    if (parseInt(req.body.declaredBy) === req.userId)
+      connection.query("UPDATE `absencesanddelays` SET  `AD_Status`=0 WHERE `AD_ID` = ?", [req.body.id], (err, student, fields) => {
+         if (err) {
+              console.log(err);
+                res.json({
+                  errors: [{
+                  field: "Access denied",
+                  errorDesc: "Cannot Remove it"
+                }]});
+            } else 
+            {
+              res.json({removed : true});
+            }
+       })
+    else
+      res.json({removed : false});
   },
   deleteStudent: function(req, res, next) {
     connection.query("UPDATE `students` SET `Student_Status`=0 WHERE `Student_ID` = ?", [req.body.id], (err, student, fields) => {
@@ -405,34 +413,40 @@ var studentController = {
     })
   },
   updateAttitude: function(req, res, next) {
-    connection.query("UPDATE `attitude` SET  Attitude_Note = ?,Attitude_Addeddate= ? WHERE `Attitude_ID` = ?", [req.body.Attitude_Note,req.body.Attitude_Addeddate,req.body.id], (err, student, fields) => {
-       if (err) {
-            console.log(err);
-              res.json({
-                errors: [{
-                field: "Access denied",
-                errorDesc: "Cannot Update it"
-              }]});
-          } else 
-          {
-            res.json({updated : true});
-          }
-     })
+    if (parseInt(req.body.declaredBy) === req.userId)
+      connection.query("UPDATE `attitude` SET  Attitude_Note = ?,Attitude_Addeddate= ? WHERE `Attitude_ID` = ?", [req.body.Attitude_Note,req.body.Attitude_Addeddate,req.body.id], (err, student, fields) => {
+         if (err) {
+              console.log(err);
+                res.json({
+                  errors: [{
+                  field: "Access denied",
+                  errorDesc: "Cannot Update it"
+                }]});
+            } else 
+            {
+              res.json({updated : true});
+            }
+       })
+    else
+      res.json({updated : false});
   }, 
   updateAbsence: function(req, res, next) {
-    connection.query("UPDATE `absencesanddelays` SET  AD_FromTo = ?, AD_Date = ? WHERE `AD_ID` = ?", [req.body.AD_FromTo,req.body.AD_Date,req.body.id], (err, absence, fields) => {
-       if (err) {
-            console.log(err);
-              res.json({
-                errors: [{
-                field: "Access denied",
-                errorDesc: "Cannot Update it"
-              }]});
-          } else 
-          {
-            res.json({updated : true});
-          }
-     })
+    if (parseInt(req.body.declaredBy) === req.userId)
+      connection.query("UPDATE `absencesanddelays` SET  AD_FromTo = ?, AD_Date = ? WHERE `AD_ID` = ?", [req.body.AD_FromTo,req.body.AD_Date,req.body.id], (err, absence, fields) => {
+         if (err) {
+              console.log(err);
+                res.json({
+                  errors: [{
+                  field: "Access denied",
+                  errorDesc: "Cannot Update it"
+                }]});
+            } else 
+            {
+              res.json({updated : true});
+            }
+       })
+    else
+      res.json({updated : false});
   },
 };
 

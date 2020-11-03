@@ -25,8 +25,8 @@ function getAllExams(id) {
 	  		}
 	  		var active = '';
 	  		var name = '';
-	  		for (var i = res.exams.length - 1; i >= 0; i--) {
-	  			if (i === res.exams.length - 1)
+	  		for (var i = 0; i <= res.exams.length - 1; i++) {
+	  			if (i === 0)
 	  				active = 'active';
 	  			else
 	  				active = '';
