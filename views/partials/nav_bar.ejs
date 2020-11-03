@@ -42,7 +42,7 @@
                           </div>
                           <!--  End sub-container-nav-bar-profile-dropdown-ul -->
                       </li>
-                      <li><a href="/Settings">Acount Settings</a></li>
+                      <li><a href="#" id="settings_btn">Acount Settings</a></li>
                       <li><a href="" id="logout_btn">Logout</a></li>
                     </ul>
                     <!--  End sub-container-nav-bar-profile-dropdown-ul -->
@@ -58,6 +58,12 @@
 $(document).on("click","#logout_btn",function(event){
 
     $.ajax({type: 'get',url: '/logout'});
+
+});
+
+$(document).on("click","#settings_btn",function(event){
+
+    $('#ProfileSettings').modal('show');
 
 });
 

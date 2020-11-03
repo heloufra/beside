@@ -66,7 +66,6 @@ var loginController = {
       });
   },
   checkCode: function(req, res, next) {
-    console.log(req.body)
      connection.query("SELECT `User_ID`,`User_Password`,User_Role FROM `users` WHERE `User_Email` = ? OR `User_Phone` = ? LIMIT 1", [req.body.email, req.body.email], (err, user, fields) => {
        if (err)   res.json({
             errors: [{
@@ -97,7 +96,10 @@ var loginController = {
                   res.json({login : result});
                 })
               } else
+              {
+                res.json({login : false});
                 req.session.destroy();
+              }
             }
           })
         }
