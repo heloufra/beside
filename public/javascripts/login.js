@@ -77,7 +77,7 @@ if (params.redir)
               email:$('input[name=email]').val(),
             },
             dataType: 'json'
-          });
+          })
 
   });
 
@@ -129,7 +129,7 @@ if (params.redir)
                 // login failed : enable btn  => 
                 console.log("Not Valide:");
                   $img =`<img class="icon button-icon" src="assets/icons/right_arrow.svg"> `;
-                  $(this).find("svg").replaceWith($img);
+                  $('#Code_Section_Btn').find("svg").replaceWith($img);
                   $('.input-user-code').addClass("input-validation-error");
                   $("#Code_Section .sections-main-sub-container-right-main-note").removeClass("input-validation-error-feedback-hide");
                   $("#Code_Section .sections-main-sub-container-right-main-note").addClass("input-validation-error-feedback-show");
