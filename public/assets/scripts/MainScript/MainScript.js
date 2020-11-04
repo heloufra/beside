@@ -380,10 +380,11 @@ $(document).ready(function(){
 			}
 	};
 
-	window.onload = function() {
-		var ctx = document.getElementById('canvas').getContext('2d');
-		window.myLine = new Chart(ctx, config);
-	};
+	if (document.getElementById('canvas'))
+		window.onload = function() {
+			var ctx = document.getElementById('canvas').getContext('2d');
+			window.myLine = new Chart(ctx, config);
+		};
 
 
 	/***** 	window.myLine.update() *********************
