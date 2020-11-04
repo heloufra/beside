@@ -159,14 +159,13 @@ $('#teacher-leftSide').find('input[name="filter-subject"]').on( "change", functi
   {
   	$('.row-teacher').remove();
 $domChange = false;
-	var filtred = teachers.filter(function (el) {
+	var filtred = filtredClass.filter(function (el) {
 			  return el.subjects.some(subject => subject.Subject_Label === value);
 			});
 	if (value === "All")
-		filtred = teachers;
+		filtred = filtredClass;
 
 	var active = '';
-	filtredClass = filtred;
 	for (var i = filtred.length - 1; i >= 0; i--) {
 		if (i === filtred.length - 1)
 		{

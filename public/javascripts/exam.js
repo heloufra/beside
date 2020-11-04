@@ -1,6 +1,7 @@
 getAllExams();
 var exams = [];
 var examId = 0;
+var ClasseFilter = [];
 function getAllExams(id) {
  	$('.exam-row').remove();
 	$.ajax({
@@ -249,6 +250,7 @@ $('input[name="filter-classe"]').on( "change", function() {
 			});
 		  if(value === "All")
 		  	filtred = exams;
+		  ClasseFilter = filtred;
 		  var active = '';
 	  		for (var i = filtred.length - 1; i >= 0; i--) {
 	  			if (i === filtred.length - 1)
@@ -268,11 +270,11 @@ $('input[name="filter-subject"]').on( "change", function() {
   if (value.replace(/\s/g, '') !== '')
   {
   	$('#list_exams').find('.exam-row').remove();
-  	  var filtred = exams.filter(function (el) {
+  	  var filtred = ClasseFilter.filter(function (el) {
 			  return el.Subject_Label === value ;
 			});
   	  if(value === "All")
-		  	filtred = exams;
+		  	filtred = ClasseFilter;
 		  var active = '';
   		for (var i = filtred.length - 1; i >= 0; i--) {
   			if (i === filtred.length - 1)

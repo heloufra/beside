@@ -1,6 +1,7 @@
 getAllHomeworks();
 var homeworks = [];
 var homeworkId = 0;
+var ClasseFilter = [];
 function getAllHomeworks(id) {
  	$('.homework-row').remove();
 	$.ajax({
@@ -223,7 +224,7 @@ $('input[name="filter-classe"]').on( "change", function() {
 			});
 		  if(value === "All")
 		  	filtred = homeworks;
-		  console.log("Filtred::",filtred);
+		  ClasseFilter = filtred;
 		  var active = '';
 	  		for (var i = filtred.length - 1; i >= 0; i--) {
 	  			if (i === filtred.length - 1)
@@ -254,23 +255,22 @@ $('input[name="filter-subject"]').on( "change", function() {
   if (value.replace(/\s/g, '') !== '')
   {
   	$('#list_homeworks').find('.homework-row').remove();
-  	  var filtred = homeworks.filter(function (el) {
+  	  var filtred = ClasseFilter.filter(function (el) {
 			  return el.Subject_Label === value ;
 			});
   	  if(value === "All")
-		  	filtred = homeworks;
-		  console.log("Filtred::",filtred);
-		  var active = '';
-	  		for (var i = filtred.length - 1; i >= 0; i--) {
-	  			if (i === filtred.length - 1)
-	  			{
-	  				displayHomework(filtred[i].Homework_ID);
-	  				active = 'active';
-	  			}
-	  			else
-	  				active = '';
-	  			$('#list_homeworks').append('<div data-id="'+filtred[i].Homework_ID+'" class="sections-main-sub-container-left-card homework-row '+active+'"><input name="homeworkId" type="hidden" value="'+filtred[i].Homework_ID+'"> <div class="sections-main-sub-container-left-card-main-img-text" style="background: '+filtred[i].Subject_Color+';" >'+filtred[i].Subject_Label.slice(0,2)+'</div> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+filtred[i].Homework_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+filtred[i].Subject_Label+' - '+filtred[i].Classe_Label+' - Teacher Name </span> </div> </div>')
-	  		}
+		  	filtred = ClasseFilter;
+	  var active = '';
+  		for (var i = filtred.length - 1; i >= 0; i--) {
+  			if (i === filtred.length - 1)
+  			{
+  				displayHomework(filtred[i].Homework_ID);
+  				active = 'active';
+  			}
+  			else
+  				active = '';
+  			$('#list_homeworks').append('<div data-id="'+filtred[i].Homework_ID+'" class="sections-main-sub-container-left-card homework-row '+active+'"><input name="homeworkId" type="hidden" value="'+filtred[i].Homework_ID+'"> <div class="sections-main-sub-container-left-card-main-img-text" style="background: '+filtred[i].Subject_Color+';" >'+filtred[i].Subject_Label.slice(0,2)+'</div> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+filtred[i].Homework_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+filtred[i].Subject_Label+' - '+filtred[i].Classe_Label+' - Teacher Name </span> </div> </div>')
+  		}
   }
 })
 
