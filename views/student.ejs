@@ -152,6 +152,18 @@
                             </div>
                             <!-- End sections-main-sub-container-right-main-header -->
 
+                             <%
+                             var readonly,inputLabel,inputDate = "";
+                             if (role === 'Admin') {
+                                readonly = "";
+                                inputLabel = "";
+                                inputDate = "input-date input-date-illimited";
+                             } else
+                             {
+                              inputLabel = "input-label-move-to-top";
+                              inputDate = "";
+                                readonly = "readonly"
+                             } %>
                             <!-- tab-content -->
                             <div class="tab-content">
 
@@ -166,8 +178,8 @@
 
                                     <div class="col-md-6">
                                       <div class="form-group group">
-                                        <input type="text" required="" name="f_name">
-                                        <label class="input-label">
+                                        <input type="text" required="" name="f_name" <%= readonly %>>
+                                        <label class="input-label <%= inputLabel %>">
                                           <span class="input-label-text">First name</span><span class="input-label-bg-mask"></span>
                                         </label>
                                       </div>
@@ -175,8 +187,8 @@
 
                                     <div class="col-md-6">
                                       <div class="form-group group">
-                                        <input type="text" required="" name="l_name">
-                                        <label class="input-label">
+                                        <input type="text" required="" name="l_name" <%= readonly %>>
+                                        <label class="input-label <%= inputLabel %>">
                                           <span class="input-label-text">Last name</span><span class="input-label-bg-mask"></span>
                                         </label>
                                       </div>
@@ -193,18 +205,19 @@
                                           <div class="dynamic-form-input">
                                             <div class="dynamic-form-input-float-adjust">
                                             <div class="form-group group form-group-right ">
-                                              <input type="text" class="input-dropdown" required name="level-detail">
-                                              
-                                              <label class="input-label">
+                                              <input type="text" class="input-dropdown" required name="level-detail" <%= readonly %>>
+                                              <label class="input-label <%= inputLabel %>">
                                                 <span class="input-label-text">Level</span><span class="input-label-bg-mask"></span>
                                               </label>
 
                                               <img class="icon button-icon" src="assets/icons/caret.svg">
+                                              <% if (role === 'Admin') { %>
                                               <ul class="dynamic-form-input-dropdown-options">
                                                   <% for(var i=0; i<levels.length; i++) {%>
                                                      <li data-val="<%= levels[i].Level_Label %>"><%= levels[i].Level_Label %></li>
                                                   <% } %>
                                               </ul>
+                                              <% } %>
                                             </div>
                                             </div>
                                             <div class="square-button square-button-minus">
@@ -223,16 +236,17 @@
                                           <div class="dynamic-form-input">
                                             <div class="dynamic-form-input-float-adjust">
                                             <div class="form-group group form-group-right">
-                                              <input type="text" class="input-dropdown" value="" required name="classe-detail">
-                                              
-                                              <label class="input-label">
+                                              <input type="text" class="input-dropdown" value="" required name="classe-detail" <%= readonly %>>
+                                              <label class="input-label <%= inputLabel %>">
                                                 <span class="input-label-text">Class</span><span class="input-label-bg-mask"></span>
                                               </label>
 
                                               <img class="icon button-icon" src="assets/icons/caret.svg">
+                                              <% if (role === 'Admin') { %>
                                               <ul class="dynamic-form-input-dropdown-options list-classe">
 
                                               </ul>
+                                              <% }%>
                                             </div>
                                             </div>
                                             <div class="square-button square-button-minus">
@@ -250,8 +264,8 @@
 
                                     <div class="col-md-6">
                                       <div class="form-group group ">
-                                        <input type="text" required="" name="phone_number_detail">
-                                        <label class="input-label">
+                                        <input type="text" required="" name="phone_number_detail" <%= readonly %>>
+                                          <label class="input-label <%= inputLabel %>">
                                           <span class="input-label-text">Phone number</span><span class="input-label-bg-mask"></span>
                                         </label>
                                       </div>
@@ -259,9 +273,9 @@
 
                                     <div class="col-md-6">
                                       <div class="form-group group dynamic-form-input-text-container-icon">
-                                         <input type="text" class="input-text input-date input-date-illimited" name="birthdate_detail" required="" placeholder="">
+                                         <input type="text" class="input-text <%= inputDate %>" name="birthdate_detail" required="" placeholder="" <%= readonly %>>
                                          <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                                          <label class="input-label">
+                                          <label class="input-label <%= inputLabel %>">
                                             <span class="input-label-text">Birthdate</span><span class="input-label-bg-mask"></span>
                                           </label>
                                       </div>
@@ -273,8 +287,8 @@
 
                                     <div class="col-md-12">
                                       <div class="form-group group ">
-                                        <input type="text" required="" name="student_address_detail">
-                                        <label class="input-label">
+                                        <input type="text" required="" name="student_address_detail" <%= readonly %>>
+                                        <label class="input-label <%= inputLabel %>">
                                           <span class="input-label-text">Address</span><span class="input-label-bg-mask"></span>
                                         </label>
                                       </div>
@@ -291,15 +305,15 @@
                                   ">
 
                                     
-
+                                    <% if (role === 'Admin') { %>
                                     <div class="col-md-6">
                                       <div class="square-button square-button-extra-style" id="Parents_New_Dynamic_Form_Input">
                                         <img class="icon" src="assets/icons/plus.svg">
                                       </div>
                                     </div>
-                                    
+                                    <% } %>
                                   </div>
-
+                                  <% if (role === 'Admin') { %>
                                   <div class="sections-main-sub-container-right-main-label-divider">
                                         <p>Subscription</p>
                                   </div>
@@ -309,7 +323,7 @@
                                    
 
                                   </div>
-
+                                  <% }%>
                                   <!--  sub-container-form-footer -->
                                   <div class="sub-container-form-footer-container">
                                        

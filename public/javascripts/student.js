@@ -18,8 +18,7 @@ var months =  ["January", "February", "March", "April", "May", "June", "July", "
 $domChange = false;
 var start,end;
 
-var test = '<%- title %>';
-console.log(test);
+
 
 getAllStudents();
 function getAllStudents(id) {
@@ -371,14 +370,19 @@ $(document).on("click",".students_list",function(event){
 			unpaid = "0.00";
 		$('#Finance').find('.unpaid-expense').html(unpaid);
 		$("#Finance").find('.list-months').append(htmlmonths);
-		var inputFirst = '';
+		var inputFirst,readOnly,inputLabel = '';
 		parents = res.parents;
+		if (res.role === "Teacher")
+		{
+			inputLabel = "input-label-move-to-top"
+			readOnly = 'readonly';
+		}
 	  	for (var i = res.parents.length - 1; i >= 0; i--) {
 	  		if (res.parents.length === 1 || i === 0)
 	  			inputFirst = 'dynamic-form-input-first';
 	  		else
 	  			inputFirst = '';
-			$('#Details').find('.sections-main-sub-container-right-main-rows-parents').prepend('<div class="row-payment dynamic-form-input-parent '+inputFirst+' row-parent"> <div class="input-parent "><div class="col-md-6"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_name" value="'+res.parents[i].Parent_Name+'"> <label class="input-label"> <span class="input-label-text">Parent full name</span><span class="input-label-bg-mask"></span> </label> </div> </div><div class="col-md-5"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_phone" value="'+res.parents[i].Parent_Phone+'"> <label class="input-label"> <span class="input-label-text">Parent phone number</span><span class="input-label-bg-mask"></span> </label> </div> </div></div><div class="col-md-1"> <div class="square-button"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div>');
+			$('#Details').find('.sections-main-sub-container-right-main-rows-parents').prepend('<div class="row-payment dynamic-form-input-parent '+inputFirst+' row-parent"> <div class="input-parent "><div class="col-md-6"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_name" value="'+res.parents[i].Parent_Name+'"  '+readOnly+'> <label class="input-label '+inputLabel+'"> <span class="input-label-text">Parent full name</span><span class="input-label-bg-mask"></span> </label> </div> </div><div class="col-md-5"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_phone" value="'+res.parents[i].Parent_Phone+'"  '+readOnly+'> <label class="input-label '+inputLabel+'"> <span class="input-label-text">Parent phone number</span><span class="input-label-bg-mask"></span> </label> </div> </div></div><div class="col-md-1"> <div class="square-button"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div>');
 		}
 
 		absences = res.absences;

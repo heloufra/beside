@@ -89,7 +89,8 @@ var studentController = {
                                   academicyear:academic[0].AY_Label,
                                   average:grade[0].average,
                                   payStudent:payStudent,
-                                  declaredBy:req.userId
+                                  declaredBy:req.userId,
+                                  role:req.role
                                 });
                             }
                         })
