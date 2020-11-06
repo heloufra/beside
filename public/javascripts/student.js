@@ -121,6 +121,7 @@ function readFile() {
   
 }
 
+if (document.getElementById("profile"))
 document.getElementById("profile").addEventListener("change", readFile);
 
 function readFileDetail() {
@@ -137,7 +138,7 @@ function readFileDetail() {
   }
   
 }
-
+if (document.getElementById("img-profile"))
 document.getElementById("img-profile").addEventListener("change", readFileDetail);
 
  $('#classes_list').find('input[name=classe]').on( "change", function() {
@@ -166,7 +167,7 @@ $domChange = false;
   }
 })
 
-
+if (document.getElementById("search-input"))
 document.getElementById("search-input").addEventListener('input', function (evt) {
     $('.students_list').remove();
     var active = '';
@@ -267,7 +268,6 @@ $(document).on("click",".students_list",function(event){
   		else
   			$("#Exams").addClass('hidden');
   		attitudes = res.attitudes;
-  		console.log("Attitudes::",res.declaredBy)
   		for (var i = res.attitudes.length - 1; i >= 0; i--) {
   			$('#Attitude').find('.note_container').append(' <tr class="row-note"  id="attitude-'+res.attitudes[i].Attitude_ID+'"> <td class="readonly" data-label="Interaction"> <div class="sections-main-sub-container-right-main-rows"> <div class="dynamic-form-input-dropdown-container dynamic-form-input-dropdown-container-icon"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="dynamic-form-input-float-adjust"> <div class="form-group group form-group-right"><img class="icon button-icon" src="assets/icons/caret.svg"> '+(res.attitudes[i].Attitude_Interaction === 0 ? ('<img class="interaction_icon" src="assets/icons/emoji_good.svg" alt="interaction_icon"> <span>Positive</span>'):('<img class="interaction_icon" src="assets/icons/emoji_bad.svg" alt="interaction_icon"> <span>Negative</span>'))+'</div> </div> </div> </div> </div> </div> </td> <td data-label="Note" class="td-label td-description">'+res.attitudes[i].Attitude_Note+'</td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+res.attitudes[i].Attitude_Addeddate+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> <!-- table-option-list -->' +(parseInt(res.attitudes[i].Declaredby_ID) === res.declaredBy ?('<img class="table-option-icon" src="assets/icons/options.svg"> <div class="table-option-list"><div class="table-option-list-li table-option-list-li-edit" onClick="displayAttitude('+i+')" data-id="'+res.attitudes[i].Attitude_ID+'"> <img src="assets/icons/edit.svg" alt="edit"/> <span class="table-option-list-span" " data-id="'+res.attitudes[i].Attitude_ID+'">Edit</span> </div> <div class="table-option-list-li table-option-list-li-delete" data-id="'+res.attitudes[i].Attitude_ID+'"> <img src="assets/icons/delete.svg" alt="delete"/> <span class="table-option-list-span">Delete</span> </div> <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg"> </div>'): ' ')+' <!-- End table-option-list --> </td> </tr>');
   		}
@@ -305,7 +305,6 @@ $(document).on("click",".students_list",function(event){
 		var indEnd = months.indexOf(end);
 		var htmlmonths = '';
 		var date = new Date();
-		console.log("SubStudent:::",subStudent);
 		var unpaid = 0;
 		$("#Finance").find('.yearly-expense').addClass('hidden');
 		for (var i = res.substudentpay.length - 1; i >= 0; i--) {
@@ -361,7 +360,6 @@ $(document).on("click",".students_list",function(event){
 		var yearlyExpense = res.payStudent.filter(function (el) {
 						        return el.Expense_PaymentMethod === "Annual";
 						      });
-		console.log("YEars",yearlyExpense)
 		for (var i = yearlyExpense.length - 1; i >= 0; i--) {
 			unpaid -= yearlyExpense[i].Expense_Cost;
 			$("#Finance").find('[data-val="'+yearlyExpense[i].Expense_Label+'"]').find('.img-yearly').html('<img src="assets/icons/green_check.svg" alt="states" />');
@@ -392,13 +390,13 @@ $(document).on("click",".students_list",function(event){
 			{
 				$("#reported_table").removeClass('hidden');
   				$("#reported_title").removeClass('hidden');
-				$('#Absence').find('.table_reported').append('<tr class="row-absence" id="absence-'+res.absences[i].AD_ID+'"> <td data-label="Subject name" class="td-label">Absence</td> <td class="readonly" data-label="From"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.from+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="To"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.to+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> <!-- table-option-list --> <img class="table-option-icon" src="assets/icons/options.svg"> <div class="table-option-list"> <div class="table-option-list-li table-option-list-li-edit " onClick="displayAbsence('+i+')" data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/edit.svg" alt="edit"/> <span class="table-option-list-span">Edit</span> </div> <div class="table-option-list-li table-option-list-li-delete " data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/delete.svg" alt="delete"/> <span class="table-option-list-span">Delete</span> </div> <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg"> </div> <!-- End table-option-list --> </td> </tr>');
+				$('#Absence').find('.table_reported').append('<tr class="row-absence" id="absence-'+res.absences[i].AD_ID+'"> <td data-label="Subject name" class="td-label">Absence</td> <td class="readonly" data-label="From"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.from+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="To"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.to+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> <!-- table-option-list --> '+(parseInt(res.absences[i].Declaredby_ID) === res.declaredBy ?(' <img class="table-option-icon" src="assets/icons/options.svg"> <div class="table-option-list"> <div class="table-option-list-li table-option-list-li-edit " onClick="displayAbsence('+i+')" data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/edit.svg" alt="edit"/> <span class="table-option-list-span">Edit</span> </div> <div class="table-option-list-li table-option-list-li-delete " data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/delete.svg" alt="delete"/> <span class="table-option-list-span">Delete</span> </div> <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg"> </div>'): ' ')+' <!-- End table-option-list --> </td> </tr>');
 			}
 			else
 			{
 				$("#absence_table").removeClass('hidden');
   				$("#absence_title").removeClass('hidden');
-				$('#Absence').find('.table_delay').append('<tr class="row-absence" id="absence-'+res.absences[i].AD_ID+'"> <td data-label="Subject name" class="td-label">'+absenceArray[res.absences[i].AD_Type]+'</td> <td class="readonly" data-label="From"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.from+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg"> </div> </td> <td class="readonly" data-label="To"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.to+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg"> </div> </td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+res.absences[i].AD_Date+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> <!-- table-option-list --> <img class="table-option-icon" src="assets/icons/options.svg"> <div class="table-option-list"> <div class="table-option-list-li table-option-list-li-edit " onClick="displayAbsence('+i+')" data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/edit.svg" alt="edit"/> <span class="table-option-list-span">Edit</span> </div> <div class="table-option-list-li table-option-list-li-delete " data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/delete.svg" alt="delete"/> <span class="table-option-list-span">Delete</span> </div> <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg"> </div> <!-- End table-option-list --> </td> </tr>');
+				$('#Absence').find('.table_delay').append('<tr class="row-absence" id="absence-'+res.absences[i].AD_ID+'"> <td data-label="Subject name" class="td-label">'+absenceArray[res.absences[i].AD_Type]+'</td> <td class="readonly" data-label="From"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.from+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg"> </div> </td> <td class="readonly" data-label="To"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.to+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg"> </div> </td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+res.absences[i].AD_Date+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> <!-- table-option-list -->'+(parseInt(res.absences[i].Declaredby_ID) === res.declaredBy ?(' <img class="table-option-icon" src="assets/icons/options.svg"> <div class="table-option-list"> <div class="table-option-list-li table-option-list-li-edit " onClick="displayAbsence('+i+')" data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/edit.svg" alt="edit"/> <span class="table-option-list-span">Edit</span> </div> <div class="table-option-list-li table-option-list-li-delete " data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/delete.svg" alt="delete"/> <span class="table-option-list-span">Delete</span> </div> <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg"> </div>'): ' ')+' <!-- End table-option-list --> </td> </tr>');
 			}
 		}
 

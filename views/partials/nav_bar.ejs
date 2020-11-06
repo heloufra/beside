@@ -1,5 +1,4 @@
 <!-- nav -->
-
 <!-- sub-container-nav-bar-profile-dropdown-mask -->
     <div class="sub-container-nav-bar-profile-dropdown-mask">
         <div class="sub-container-nav-bar-profile-dropdown">
@@ -7,7 +6,24 @@
                     <div class="sections-main-sub-container-left-card">
                           <img class="sections-main-sub-container-left-card-main-img" src="<%= user.User_Image %>">
                           <div class="sections-main-sub-container-left-card-info">
-                              <p class="sections-main-sub-container-left-card-main-info"><%= user.User_Email.slice(0,10) + "..." %></p>
+                               <% 
+
+                                function isJson(str) {
+                                    try {
+                                        JSON.parse(str);
+                                    } catch (e) {
+                                        return false;
+                                    }
+                                    return true;
+                                }
+                                  var userNAme = user.User_Email.slice(0,10) + "...";
+                                  if(isJson(user.User_Name)) { 
+                                        userNAme = JSON.parse(user.User_Name);
+                                        userNAme = userNAme.first_name + " " + userNAme.last_name;
+                                    } 
+
+                              %>
+                              <p class="sections-main-sub-container-left-card-main-info"><%= userNAme %></p>
                               <span  class="sections-main-sub-container-left-card-sub-info"><%= role %></span>
                           </div>
                     </div>
@@ -23,10 +39,12 @@
                           <div class="sub-container-nav-bar-profile-dropdown-ul sub-container-nav-bar-profile-dropdown-sub-ul">
                              <% for(var i=0; i<users.length; i++) {%>
                                   <% var name = users[i].User_Email.slice(0,10)  + "..." %>
-                                  <%if (users[i].User_Role === 'Teacher') { 
-                                      name = JSON.parse(users[i].User_Name);
-                                      name = name.first_name + " " + name.last_name;
-                                  } %>
+                                  <% if(isJson(users[i].User_Name)) { 
+                                        name = JSON.parse(users[i].User_Name);
+                                        name = name.first_name + " " + name.last_name;
+                                    } 
+
+                                  %>
                                   <a href="#" data-id="<%=users[i].User_ID %>" data-role="<%=users[i].role %>" class="role">
                                         <!--  sections-main-sub-container-left-cards  -->
                                         <div class="sections-main-sub-container-left-card">
@@ -57,7 +75,10 @@
 <script>
 $(document).on("click","#logout_btn",function(event){
 
-    $.ajax({type: 'get',url: '/logout'});
+    $.ajax({type: 'get',url: '/logout'}).done(function(res){
+      if (res.logout)
+        window.location.href = "/";
+    });
 
 });
 
@@ -84,7 +105,6 @@ $(document).on("click","#settings_btn",function(event){
       url: '/Select/me',
     })
     .done(function(res){
-      console.log("USer::",res.user);
       $('#ProfileSettings').find('#output-settings').attr('src',res.user.User_Image);
       var name = JSON.parse(res.user.User_Name);
       $('#ProfileSettings').find('input[name=fname-settings]').val(name.first_name);

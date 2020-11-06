@@ -224,7 +224,6 @@ $('input[name="filter-classe"]').on( "change", function() {
   if (value.replace(/\s/g, '') !== '')
   {
   	 $('.filter-subject').find('.row-subject').remove();
-  	 $('#list_exams').find('.exam-row').remove();
 	  $.ajax({
 		    type: 'get',
 		    url: '/Select/subjects',
@@ -238,54 +237,58 @@ $('input[name="filter-classe"]').on( "change", function() {
 		  	{
 		  		console.log(res.errors)
 		  	} else {
-
 		  		for (var i = res.subjects.length - 1; i >= 0; i--) {
 		  			
 		  			$('.filter-subject').append(' <li class="row-subject" data-val="'+res.subjects[i].Subject_Label+'">'+res.subjects[i].Subject_Label+'</li>')
 		  		}
 		  	}
 		  });
-		  var filtred = exams.filter(function (el) {
-			  return el.Classe_Label === value ;
-			});
-		  if(value === "All")
-		  	filtred = exams;
-		  ClasseFilter = filtred;
-		  var active = '';
-	  		for (var i = filtred.length - 1; i >= 0; i--) {
-	  			if (i === filtred.length - 1)
-	  			{
-	  				displayExam(filtred[i].Exam_ID);
-	  				active = 'active';
-	  			}
-	  			else
-	  				active = '';
-	  			$('#list_exams').append('<div class="sections-main-sub-container-left-card exam-row '+active+'"><input name="examId" type="hidden" value="'+filtred[i].Exam_ID+'"> <div class="sections-main-sub-container-left-card-main-img-text" style="background: '+filtred[i].Subject_Color+';" >'+filtred[i].Subject_Label.slice(0,2)+'</div> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+filtred[i].Exam_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+filtred[i].Subject_Label+' - '+filtred[i].Classe_Label+' - Teacher Name </span> </div> </div>')
-	  		}
   }
 })
 
-$('input[name="filter-subject"]').on( "change", function() {
+function isJson(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
+$('.exam-filters').on( "change", function() {
+	var subjectVal = $('input[name="filter-subject"]').val();
+  	var classeVal = $('input[name="filter-classe"]').val();
+	var filtred,filtredClass = [];
   var value = $(this).val();
   if (value.replace(/\s/g, '') !== '')
   {
   	$('#list_exams').find('.exam-row').remove();
-  	  var filtred = ClasseFilter.filter(function (el) {
-			  return el.Subject_Label === value ;
+	filtredClass = exams.filter(function (el) {
+			  return el.Classe_Label === classeVal ;
 			});
-  	  if(value === "All")
-		  	filtred = ClasseFilter;
-		  var active = '';
-  		for (var i = filtred.length - 1; i >= 0; i--) {
-  			if (i === filtred.length - 1)
-  			{
-  				displayExam(filtred[i].Exam_ID);
-  				active = 'active';
-  			}
-  			else
-  				active = '';
-  			$('#list_exams').append('<div class="sections-main-sub-container-left-card exam-row '+active+'"><input name="examId" type="hidden" value="'+filtred[i].Exam_ID+'"> <div class="sections-main-sub-container-left-card-main-img-text" style="background: '+filtred[i].Subject_Color+';" >'+filtred[i].Subject_Label.slice(0,2)+'</div> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+filtred[i].Exam_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+filtred[i].Subject_Label+' - '+filtred[i].Classe_Label+' - Teacher Name </span> </div> </div>')
-  		}
+	if (classeVal === "All" || classeVal.replace(/\s/g, '') === 'Classes' )
+		filtredClass = exams;
+	filtred = filtredClass.filter(function (el) {
+			  return el.Subject_Label === subjectVal ;
+			});
+	if (subjectVal === "All" || subjectVal.replace(/\s/g, '') === 'Subject')
+		filtred = filtredClass;
+
+	var active,name = '';
+	for (var i = filtred.length - 1; i >= 0; i--) {
+		if (isJson(filtred[i].User_Name))
+			name = JSON.parse(filtred[i].User_Name);
+		else
+			name = filtred[i].User_Name;
+		if (i === filtred.length - 1)
+		{
+			displayExam(filtred[i].Exam_ID);
+			active = 'active';
+		}
+		else
+			active = '';
+		$('#list_exams').append('<div class="sections-main-sub-container-left-card exam-row '+active+'"><input name="examId" type="hidden" value="'+filtred[i].Exam_ID+'"> <div class="sections-main-sub-container-left-card-main-img-text" style="background: '+filtred[i].Subject_Color+';" >'+filtred[i].Subject_Label.slice(0,2)+'</div> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+filtred[i].Exam_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+filtred[i].Subject_Label+' - '+filtred[i].Classe_Label+' - '+name.first_name + ' ' + name.last_name+' </span> </div> </div>')
+	}
   }
 })
 

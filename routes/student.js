@@ -6,6 +6,7 @@ const authAdmin = require("../middleware/adminAuth");
 router.get('/', studentController.studentView);
 router.get('/all', studentController.getAllStudents);
 router.get('/one', studentController.getStudent);
+router.get('/list', studentController.getStudentsByClasse);
 router.get('/subscriptions', studentController.getSubscriptions);
 router.post('/save',authAdmin, studentController.saveStudent);
 router.post('/update',authAdmin, studentController.updateStudent);

@@ -8,6 +8,7 @@ router.get('/',authAdmin, teacherController.teacherView);
 router.get('/all',authAdmin, teacherController.getAllteachers);
 router.get('/one',authAdmin, teacherController.getTeacher);
 router.get('/classes',authAdmin, teacherController.getClasses);
+router.get('/list',authAdmin, teacherController.getTeachersByClasse);
 router.post('/save',authAdmin, teacherController.saveTeacher);
 router.post('/absence',authAdmin, teacherController.saveAbsence);
 router.post('/update',authAdmin, teacherController.updateTeacher);

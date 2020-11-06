@@ -59,7 +59,7 @@ var studentController = {
   getStudent: function(req, res, next) {
     connection.query("SELECT * FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
       connection.query(queryParents, [req.query.user_id], (err, parents, fields) => {
-        connection.query("SELECT * FROM `absencesanddelays` WHERE User_ID = ? AND Declaredby_ID = ? AND AD_Status <> 0 AND User_Type='Student'", [req.query.user_id,req.userId], (err, absences, fields) => {
+        connection.query("SELECT * FROM `absencesanddelays` WHERE User_ID = ? AND AD_Status <> 0 AND User_Type='Student'", [req.query.user_id], (err, absences, fields) => {
             connection.query(queryAttitude, [req.query.user_id], (err, attitudes, fields) => {
               connection.query(querySubstudent, [req.query.user_id,req.Institution_ID], (err, substudent, fields) => {
                 connection.query(querySubstudentPay, [req.query.user_id,req.Institution_ID], (err, substudentpay, fields) => {
@@ -125,7 +125,14 @@ var studentController = {
         })
       })
     })
-  },  
+  },
+  getStudentsByClasse: function(req, res, next) {
+      connection.query("SELECT students.* FROM `studentsclasses` INNER JOIN classes ON classes.Classe_ID = studentsclasses.Classe_ID INNER JOIN students ON students.Student_ID = studentsclasses.Student_ID WHERE classes.Classe_Label = ? AND students.Institution_ID = ? AND students.Student_Status<>0", [req.query.class_label,req.Institution_ID],async (err, names, fields) => {
+         res.json({
+                names
+              });
+      })
+  },
   getSubscriptions: function(req, res, next) {
     connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
       connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
