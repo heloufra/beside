@@ -732,8 +732,11 @@ function saveStudent() {
 		$('.input_classe').css("border-color", "#f6b8c1");
 	else
 		$('.input_classe').css("border-color", "#EFEFEF");
-	if ( checkbox_sub.length === 0)
+	if ( checkbox_sub.length <= 0)
+	{
 		$('#student_form').find('.subscription-divider').css("background", "#f6b8c1");
+		 $("#student_form").animate({ scrollTop: $('#student_form').find('.subscription-divider').prop("scrollHeight")}, 1000);
+	}
 	else
 		$('#student_form').find('.subscription-divider').css("background", "#f0f0f6");
 	if (first_name && level && classe && parent_phone.length > 0 && parent_name.length > 0 && student_address && phone_number && birthdate && checkbox_sub.length > 0)
