@@ -26,6 +26,8 @@ var examsQuery = 'SELECT exams.*,subjects.Subject_Label,subjects.Subject_Color,c
 var studentPayment = "SELECT studentsubscribtion.SS_ID,expenses.Expense_PaymentMethod,expenses.Expense_Label,studentspayments.*,levelexpenses.Expense_Cost FROM `studentsubscribtion` INNER JOIN studentspayments ON studentspayments.SS_ID = studentsubscribtion.SS_ID INNER JOIN levelexpenses ON levelexpenses.LE_ID = studentsubscribtion.LE_ID INNER JOIN expenses ON expenses.Expense_ID = levelexpenses.Expense_ID WHERE studentsubscribtion.Student_ID = ?";
 var adddate = 1;
 var classeID;
+var startDate = new Date();
+var months =  ["January", "February", "March", "April", "May", "June", "July", "August", "September", "Octobre", "November", "December"];
 //SELECT students.*,levels.Level_Label FROM students INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID INNER JOIN studentsubscribtion ON studentsubscribtion.Student_ID = studentsclasses.Student_ID INNER JOIN levelexpenses ON levelexpenses.LE_ID = studentsubscribtion.LE_ID INNER JOIN levels ON levels.Level_ID = levelexpenses.Level_ID WHERE studentsclasses.Classe_ID = ? AND studentsclasses.AY_ID = ?;
 const addMonths = (date, months) => {
     var d = date.getDate();
@@ -212,9 +214,8 @@ var studentController = {
 
                            if (req.body.checkbox_sub)
                              for (var i = req.body.checkbox_sub.length - 1; i >= 0; i--) {
-                                var startDate = new Date();
-                                var endDate = addMonths(new Date(),12);
-                                connection.query(ssQuery, [student.insertId,req.body.checkbox_sub[i].LE_ID,academic[0].AY_Satrtdate,academic[0].AY_EndDate,academic[0].AY_ID], (err, ssresult, fields) => {
+                                startDate = new Date();
+                                connection.query(ssQuery, [student.insertId,req.body.checkbox_sub[i].LE_ID,months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID], (err, ssresult, fields) => {
                                    if (err) {
                                         console.log(err);
                                           res.json({
@@ -406,10 +407,11 @@ var studentController = {
               if (req.body.checked)
                 for (var i = req.body.checked.length - 1; i >= 0; i--) {
                     var le_id = await studentModel.findLe(req.body.checked[i],req.body.id);
-                    console.log("LEEE",le_id);
+
+                    startDate = new Date();
                     if (le_id.length === 0)
                     {
-                      connection.query("INSERT INTO studentsubscribtion(Student_ID, LE_ID, Subscription_StartDate, Subscription_EndDate, AY_ID) VALUES(?,?,?,?,?)", [req.body.id,req.body.checked[i],academic[0].AY_Satrtdate,academic[0].AY_EndDate,academic[0].AY_ID])
+                      connection.query("INSERT INTO studentsubscribtion(Student_ID, LE_ID, Subscription_StartDate, Subscription_EndDate, AY_ID) VALUES(?,?,?,?,?)", [req.body.id,req.body.checked[i],months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID])
                     } else 
                     {
                       connection.query("UPDATE `studentsubscribtion` SET Subscription_StartDate=? , `Subscription_EndDate`=? WHERE `LE_ID` = ?", [academic[0].AY_Satrtdate,academic[0].AY_EndDate,req.body.checked[i]])

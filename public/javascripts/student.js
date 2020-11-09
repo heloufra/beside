@@ -327,12 +327,13 @@ $(document).on("click",".students_list",function(event){
 			for (var k = res.substudentpay.length - 1; k >= 0; k--) {
 				if (res.substudentpay[k].Expense_PaymentMethod === "Monthly")
 				{
+					console.log("Finance:::",res.substudentpay[k]);
 					var endDate = new Date(res.substudentpay[k].Subscription_EndDate);
 					if (isNaN(endDate.getMonth()))
 						endDate = i;
 					else
 						endDate = endDate.getMonth();
-					if (date.getMonth() >= i && i >= indStart && endDate >= i)
+					if (date.getMonth() >= i && i >=  months.indexOf(res.substudentpay[k].Subscription_StartDate) && endDate >= i)
 					{
 						unpaid += parseInt(res.substudentpay[k].Expense_Cost);
 						$("#Finance").find('[data-val="'+res.substudentpay[k].Expense_Label+'"]').append('<td data-id="'+res.substudentpay[k].SS_ID +"-"+months[i]+'" '+style+' scope="col" class="row-payment col-text-align "><img  src="assets/icons/check_red.svg" alt="states"/></td>');
