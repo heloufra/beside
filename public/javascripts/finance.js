@@ -68,7 +68,7 @@ function getAllFinances(id) {
 					endPay = i;
 				else
 					endPay = endPay.getMonth();
-				if (date.getMonth() >= i && i >= indStart && endPay >= i)
+				if (date.getMonth() >= i && i >= months.indexOf(subscriptionStudent[k].Subscription_StartDate) && endPay >= i)
 				{
 					var obj = '{Expence:subscriptionStudent[k].Expense_Label,Amount:subscriptionStudent[k].Expense_Cost,Status:"Unpaid",BoolStatus:"1"}'
 					studentPayment += '<img src="assets/icons/check_red.svg" alt="states" data-payment="unpaid" data-exist="true"  data-type="monthly" data-expense="'+subscriptionStudent[k].Expense_ID+'" data-pay="'+subscriptionStudent[k].SS_ID+'-'+months[i]+'" data-obj={"Expence":"'+subscriptionStudent[k].Expense_Label+'","Amount":'+subscriptionStudent[k].Expense_Cost+',"Status":"Unpaid","BoolStatus":"1"}/>'
