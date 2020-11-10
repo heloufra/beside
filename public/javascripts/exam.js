@@ -18,11 +18,11 @@ function getAllExams(id) {
 
 	  		if (res.exams.length > 0)
 	  		{
-	  			examId = res.exams[res.exams.length - 1].Exam_ID;
+	  			examId = res.exams[0].Exam_ID;
 	  			if (id)
 	  				displayExam(id);
 	  			else
-	  				displayExam(res.exams[res.exams.length - 1].Exam_ID);
+	  				displayExam(res.exams[0].Exam_ID);
 	  		}
 	  		var active = '';
 	  		var name = '';
@@ -150,7 +150,7 @@ function displayExam(index)
   		$('#exam_info').removeClass('hidden');
   		$('#exam_info').find('.exam_img').css('background-color',res.exam[0].Subject_Color);
   		if (res.average.average)
-  			$('#exam_info').find('#avg').html(res.average.average);
+  			$('#exam_info').find('#avg').html(res.average.average.toFixed(2));
   		else
   			$('#exam_info').find('#avg').html("0.00");
   		$('#exam_info').find('.exam_img').html(res.exam[0].Subject_Label.slice(0,2))
@@ -190,6 +190,7 @@ function saveScores() {
 	    	return;
 	    }
 	  }).get();
+
 	if (valideScore)
 		 $.ajax({
 			    type: 'post',
@@ -201,6 +202,7 @@ function saveScores() {
 			    dataType: 'json'
 			  })
 			  .done(function(res){
+			  	console.log("Score",res);
 			  	if(res.errors)
 	  			{
 	  				displayExam(examId);
@@ -209,6 +211,7 @@ function saveScores() {
 	  			}
 			  	if(res.saved)
 			  	{
+
 			  		displayExam(examId);
 			  		$('#Scores .sub-container-form-footer').addClass('hide-footer');
 					$('#Scores .sub-container-form-footer').removeClass('show-footer');
