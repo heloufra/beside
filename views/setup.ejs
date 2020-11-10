@@ -82,7 +82,7 @@
                   <div class="form-group group">
                     <div class="input-img-container input-square-img-container logo">
                       <img class="input-img" src="assets/icons/Logo_placeholder.svg" id="output" />
-                      <input type="file"  accept="image/*" name="logo" id="file" style="display: none;">
+                      <input oninput="hideNext('#Details_Section')" type="file"  accept="image/*" name="logo" id="file" style="display: none;">
                       <div class="rounded-button">
                         <img class="icon" src="assets/icons/plus.svg">
                         <label for="file" style="cursor: pointer; display: block; height: 100%;width: 100%;">
@@ -92,22 +92,22 @@
                   </div>
 
                   <div class="form-group group">
-                    <input type="text" name="school" required>
+                    <input oninput="hideNext('#Details_Section')" type="text" name="school" required>
                     <label class="input-label"><span class="input-label-text">Shcool name</span> <span class="input-label-bg-mask"></span></label>
                   </div>
 
                   <div class="form-group group">
-                    <input type="text" name="email" required >
+                    <input oninput="hideNext('#Details_Section')" type="text" name="email" required >
                     <label class="input-label"><span class="input-label-text">Email address</span> <span class="input-label-bg-mask"></span></label>
                   </div>
 
                   <div class="form-group group">
-                    <input type="text" name="phone" required >
+                    <input oninput="hideNext('#Details_Section')" type="text" name="phone" required >
                     <label class="input-label"><span class="input-label-text">Phone number</span> <span class="input-label-bg-mask"></span></label>
                   </div>
 
                   <div class="form-group group">
-                    <input type="text" name="whatsapp" required >
+                    <input oninput="hideNext('#Details_Section')" type="text" name="whatsapp" required >
                     <label class="input-label"><span class="input-label-text">Whatsapp business number</span> <span class="input-label-bg-mask"></span></label>
                   </div>
 
@@ -116,7 +116,7 @@
               </div>
 
               <div class="sub-container-form-footer">
-                  <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn" onClick="submit('detail',['school','email','phone','whatsapp','logo'],'academic')">
+                  <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn hidden" onClick="submit('detail',['school','email','phone','whatsapp','logo'],'academic')">
                         <span class="button-text">Next</span>
                         <img class="icon button-icon" src="assets/icons/right_arrow.svg">
                   </div>
@@ -143,7 +143,7 @@
 
                       <div class="form-group group form-group-extra-style">
 
-                        <input type="text" required name="start">
+                        <input onchange="hideNext('#Academic_Year_Section')" type="text" required name="start">
 
                         <label class="input-label"><span class="input-label-text">Select Month</span> <span class="input-label-bg-mask"></span></label>
                         <img class="icon button-icon" src="assets/icons/caret.svg">
@@ -185,7 +185,7 @@
 
                       <div class="form-group group form-group-extra-style">
 
-                        <input type="text" required name="end">
+                        <input onchange="hideNext('#Academic_Year_Section')" type="text" required name="end">
 
                         <label class="input-label"><span class="input-label-text">Select Month</span> <span class="input-label-bg-mask"></span></label>
                         <img class="icon button-icon" src="assets/icons/caret.svg">
@@ -220,7 +220,7 @@
                   </div>
 
                   <div class="form-group group">
-                    <input type="text" class="academic-year-input-label" name="year" required>
+                    <input oninput="hideNext('#Academic_Year_Section')" type="text" class="academic-year-input-label" name="year" required>
                     <label class="input-label"><span class="input-label-text">Academic Year Label</span> <span class="input-label-bg-mask"></span></label>
                   </div>
                 </form>
@@ -231,7 +231,7 @@
                   <div class="rounded-button btn-secondary customPrevBtn"  onClick="prev('academic','detail')">
                         <img class="icon" src="assets/icons/left_arrow.svg">
                   </div>
-                  <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn" onClick="submit('academic',['year','start','end'],'levels')">
+                  <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn hidden" onClick="submit('academic',['year','start','end'],'levels')">
                         <span class="button-text">Next</span>
                         <img class="icon button-icon" src="assets/icons/right_arrow.svg">
                   </div>
@@ -250,7 +250,7 @@
 
                   <div class="dynamic-form-input dynamic-form-input-first">
                     <div class="form-group group">
-                      <input type="text" required name="levelName">
+                      <input oninput="hideNext('#Academic_Year_Section')" type="text" required name="levelName">
                       <label class="input-label"><span class="input-label-text">Level name</span> <span class="input-label-bg-mask"></span></label>
                     </div>
                     <div class="square-button">
@@ -270,7 +270,7 @@
                   <div class="rounded-button btn-secondary customPrevBtn" onClick="prev('levels','academic')">
                         <img class="icon" src="assets/icons/left_arrow.svg">
                   </div>
-                  <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn" onClick="submit('levels',['levelName'],'classes')">
+                  <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn hidden" onClick="submit('levels',['levelName'],'classes')">
                         <span class="button-text">Next</span>
                         <img class="icon button-icon" src="assets/icons/right_arrow.svg">
                   </div>
@@ -295,7 +295,7 @@
                   <div class="rounded-button btn-secondary customPrevBtn" onClick="prev('classes','levels')">
                         <img class="icon" src="assets/icons/left_arrow.svg">
                   </div>
-                  <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn" onClick="submit('classes',['classeName'],'subjects')">
+                  <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn hidden" onClick="submit('classes',['classeName'],'subjects')">
                         <span class="button-text">Next</span>
                         <img class="icon button-icon" src="assets/icons/right_arrow.svg">
                   </div>
@@ -320,7 +320,7 @@
                   <div class="rounded-button btn-secondary customPrevBtn" onClick="prev('subjects','classes')">
                         <img class="icon" src="assets/icons/left_arrow.svg">
                   </div>
-                  <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn" onClick="submit('subjects',['language'],'expenses')">
+                  <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn hidden" onClick="submit('subjects',['language'],'expenses')">
                         <span class="button-text">Next</span>
                         <img class="icon button-icon" src="assets/icons/right_arrow.svg">
                   </div>
@@ -343,11 +343,11 @@
                         <div class="dynamic-form-input">
                           <div class="dynamic-form-input-float-adjust">
                           <div class="form-group group form-group-left">
-                            <input type="text" class="input-text" required name="expenseName">
+                            <input oninput="hideNext('#Expense_Section')" type="text" class="input-text" required name="expenseName">
                             <label class="input-label"><span class="input-label-text">Expense name</span> <span class="input-label-bg-mask"></span></label>
                           </div>
                           <div class="form-group group form-group-right">
-                            <input type="text" value="Monthly" class="input-dropdown" required name="expenseTime">
+                            <input onchange="hideNext('#Expense_Section')" type="text" value="Monthly" class="input-dropdown" required name="expenseTime">
                             <img class="icon button-icon" src="assets/icons/caret.svg">
                             <ul class="dynamic-form-input-dropdown-options">
                                 <li data-val="Monthly">Monthly</li>
@@ -374,7 +374,7 @@
                   <div class="rounded-button btn-secondary customPrevBtn" onClick="prev('expenses','subjects')">
                         <img class="icon" src="assets/icons/left_arrow.svg">
                   </div>
-                  <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn" onClick="submit('expenses',['expenseName','expenseTime'],'costs')">
+                  <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn hidden" onClick="submit('expenses',['expenseName','expenseTime'],'costs')">
                         <span class="button-text">Next</span>
                         <img class="icon button-icon" src="assets/icons/right_arrow.svg">
                   </div>
@@ -400,7 +400,7 @@
                   <div class="rounded-button btn-secondary customPrevBtn" onClick="prev('costs','expenses')">
                         <img class="icon" src="assets/icons/left_arrow.svg">
                   </div>
-                  <div class="rounded-button rounded-button-primary rounded-button-float-right login-done" onClick="submit('costs',['costsName','price'])">
+                  <div class="rounded-button rounded-button-primary rounded-button-float-right login-done customNextBtn hidden" onClick="submit('costs',['costsName','price'])">
                         <span class="button-text">Done</span>
                         <img class="icon button-icon" src="assets/icons/right_arrow.svg">
                   </div>
