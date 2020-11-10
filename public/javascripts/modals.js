@@ -30,6 +30,24 @@ function savePayment() {
 
 if (pathname !== 'Students')
 {
+
+	function readFile() {
+  
+  if (this.files && this.files[0]) {
+    
+    var FR= new FileReader();
+    
+    FR.addEventListener("load", function(e) {
+      document.getElementById("output-img").src = e.target.result;
+    }); 
+    
+    FR.readAsDataURL( this.files[0] );
+  }
+  
+}
+
+if (document.getElementById("profile"))
+document.getElementById("profile").addEventListener("change", readFile);
 	function saveStudent() {
 		var first_name = $('#student_form').find('input[name="first_name"]').val();
 		var student_address = $('#student_form').find('input[name="student_address"]').val();
@@ -348,7 +366,6 @@ if ($('#AddAbsenceModal').find('input[data-val="Absence"]:checked').val())
 	ad_date = $('#AddAbsenceModal').find('input[name="ad_date"]').val();
 }
 
-console.log("Absence:",ad_absence,ad_date ,ad_fromto.to,ad_fromto.from, ad_student, ad_classe)
 	if (!ad_date && ad_absence !== "2")
 		$('#AddAbsenceModal').find('.dynamic-form-input-container-one-date').css("border-color", "#f6b8c1");
 	else
@@ -489,8 +506,44 @@ function saveAttitudeModal() {
 	}
 }
 
+
+function readFileSettings() {
+  
+  if (this.files && this.files[0]) {
+    
+    var FR= new FileReader();
+    
+    FR.addEventListener("load", function(e) {
+      document.getElementById("output-settings").src = e.target.result;
+    }); 
+    
+    FR.readAsDataURL( this.files[0] );
+  }
+  
+}
+
+if (document.getElementById("profile_settings"))
+document.getElementById("profile_settings").addEventListener("change", readFileSettings);
+
 if (pathname !== 'Teachers')
 {
+
+	function readFile() {
+  
+  if (this.files && this.files[0]) {
+    
+    var FR= new FileReader();
+    
+    FR.addEventListener("load", function(e) {
+      document.getElementById("output-img-teacher").src = e.target.result;
+    }); 
+    
+    FR.readAsDataURL( this.files[0] );
+  }
+  
+}
+if (document.getElementById("profile-teacher"))
+document.getElementById("profile-teacher").addEventListener("change", readFile);
  function saveteacher() {
  	
  		console.log('Modal Teacher');

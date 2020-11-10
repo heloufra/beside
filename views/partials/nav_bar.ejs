@@ -4,7 +4,7 @@
         <div class="sub-container-nav-bar-profile-dropdown">
                     <!--  sections-main-sub-container-left-cards  -->
                     <div class="sections-main-sub-container-left-card">
-                          <img class="sections-main-sub-container-left-card-main-img" src="<%= user.User_Image %>">
+                          <img class="sections-main-sub-container-left-card-main-img user_image" src="<%= user.User_Image %>">
                           <div class="sections-main-sub-container-left-card-info">
                                <% 
 
@@ -23,7 +23,7 @@
                                     } 
 
                               %>
-                              <p class="sections-main-sub-container-left-card-main-info"><%= userNAme %></p>
+                              <p class="sections-main-sub-container-left-card-main-info user_name" ><%= userNAme %></p>
                               <span  class="sections-main-sub-container-left-card-sub-info"><%= role %></span>
                           </div>
                     </div>
@@ -48,9 +48,9 @@
                                   <a href="#" data-id="<%=users[i].User_ID %>" data-role="<%=users[i].role %>" class="role">
                                         <!--  sections-main-sub-container-left-cards  -->
                                         <div class="sections-main-sub-container-left-card">
-                                              <img class="sections-main-sub-container-left-card-main-img" src="<%= users[i].User_Image %>" alt="card-img">
+                                              <img class="sections-main-sub-container-left-card-main-img user_image" src="<%= users[i].User_Image %>" alt="card-img">
                                               <div class="sections-main-sub-container-left-card-info">
-                                                  <p class="sections-main-sub-container-left-card-main-info"><%= name %></p>
+                                                  <p class="sections-main-sub-container-left-card-main-info user_name"><%= name %></p>
                                                   <span  class="sections-main-sub-container-left-card-sub-info"><%= users[i].role %></span>
                                               </div>
                                         </div>
@@ -73,6 +73,7 @@
 
 <!-- nav -->
 <script>
+var pathname = window.location.pathname.replace('/','');
 $(document).on("click","#logout_btn",function(event){
 
     $.ajax({type: 'get',url: '/logout'}).done(function(res){
@@ -136,6 +137,10 @@ function updateProfile()
     .done(function(res){
       if(res.update)
       {
+        if (pathname === 'Teachers')
+          getAllteachers();
+        $('.user_name').html($('#ProfileSettings').find('input[name=fname-settings]').val() + " " + $('#ProfileSettings').find('input[name=lname-settings]').val());
+      $('.user_image').attr('src',$('#ProfileSettings').find('#output-settings').attr('src'));
         $('#ProfileSettings').modal('hide');
       } else {
        console.log(res.errors)
