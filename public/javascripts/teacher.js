@@ -222,18 +222,6 @@ function hideSelected(value) {
 	}
  function displayteacher(index) 
 {
-			/*
-	$("#reported_table").addClass('hidden');
-  	$("#reported_title").addClass('hidden');
-	$("#absence_table").addClass('hidden');
-  	$("#absence_title").addClass('hidden');
-	$('#Details').find('.input-parent').remove();
-	$('#Details').removeClass("dom-change-watcher");
-	
-	$('#Details').find('.expense_col').remove();
-	$('#Attitude').find('.row-note').remove();
-	$('#Homework').find('.row-homework').remove();
-	$('#Exams').find('.row-exam').remove();*/
 	$.ajax({
     type: 'get',
     url: '/Teachers/one',
@@ -272,29 +260,29 @@ function hideSelected(value) {
 	  		var classes = res.classes.filter(function (el) {
 				  return el.Subject_Label === res.subjects[i].Subject_Label;
 				});
+	  		$('.subjects-list').prepend('<div class="dynamic-form-input-dropdown-container sections-main-sub-container-right-main-rows-dropdown-tags-container subjects-container" > <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="dynamic-form-input-float-adjust"> <div class="form-group group form-group-left"> <input type="text" class="input-text input-dropdown" onchange="subjectsChange(this)" value="'+res.subjects[i].Subject_Label+'" name="subjects" required> <label class="input-label"><span class="input-label-text">Subjects</span> <span class="input-label-bg-mask"></span></label> <img class="icon button-icon" src="assets/icons/caret.svg"> <ul class="dynamic-form-input-dropdown-options">'+allSubjects+'</ul> </div> <div class="form-group group form-group-right"> <select data-select='+i+' class="input-text-subject-classes-select2 list-classes" multiple > </select> <img class="icon button-icon" src="assets/icons/caret.svg"> <label class="input-label"> <span class="input-label-text">Classes</span><span class="input-label-bg-mask"></span> </label> </div> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div>')
+	  		if($('[data-select='+i+']').length > 0)
+				$('[data-select='+i+']').select2({
+				  tags: true,
+				  dropdownPosition: 'below',
+		  		  placeholder: "Classes",
+		  		  minimumResultsForSearch: -1,
+		  		  templateResult: hideSelected
+				});
 	  		for (var k = res.classes.length - 1; k >= 0; k--) {
 	  			if (classes.some( value => { return value.Subject_Label == res.classes[k].Subject_Label } ))
 	  			{
 	  				olddata.push({subject:res.subjects[i].Subject_ID,classe:res.classes[k].Classe_ID});
 	  				exist = "selected"
+	  				var option = new Option(res.classes[k].Classe_Label,res.classes[k].Classe_ID, true, true);
+    				$('.subjects-list').find('[data-select='+i+']').append(option).trigger('change');
 	  			}
-	  			else
-	  				exist = "";
-	  			selected += '<option class="class-subject" value="'+res.classes[k].Classe_ID+'" '+exist+'>'+res.classes[k].Classe_Label+'</option>'
 	  		}
-			$('.subjects-list').prepend('<div class="dynamic-form-input-dropdown-container sections-main-sub-container-right-main-rows-dropdown-tags-container subjects-container" > <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="dynamic-form-input-float-adjust"> <div class="form-group group form-group-left"> <input type="text" class="input-text input-dropdown" value="'+res.subjects[i].Subject_Label+'" name="subjects" required> <label class="input-label"><span class="input-label-text">Subjects</span> <span class="input-label-bg-mask"></span></label> <img class="icon button-icon" src="assets/icons/caret.svg"> <ul class="dynamic-form-input-dropdown-options">'+allSubjects+'</ul> </div> <div class="form-group group form-group-right"> <select class="input-text-subject-classes-select2 list-classes" multiple >'+selected+' </select> <img class="icon button-icon" src="assets/icons/caret.svg"> <label class="input-label"> <span class="input-label-text">Classes</span><span class="input-label-bg-mask"></span> </label> </div> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div>')
+	  		$('[data-select='+i+']').parents(".form-group-right").find(".input-label").addClass("input-label-move-to-top");
   		}
-  		if($(".input-text-subject-classes-select2").length > 0)
-			$(".input-text-subject-classes-select2").select2({
-			  tags: true,
-			  dropdownPosition: 'below',
-	  		  placeholder: "Classes",
-	  		  minimumResultsForSearch: -1,
-	  		  templateResult: hideSelected
-			});
+  		
 
 		
-  		$('.input-text-subject-classes-select2').parents(".form-group-right").find(".input-label").addClass("input-label-move-to-top");
   		absences = res.absences;
 		for (var i = res.absences.length - 1; i >= 0; i--) {
 			var fromto = JSON.parse(res.absences[i].AD_FromTo)
@@ -468,17 +456,18 @@ function updateAbsence() {
   }
 })
 
- $('#subjects-container').find('input[name="subjects"]').on( "change", function() {
-  var value = $(this).val();
-	console.log("Subject!!",value);
+function subjectsChange(subject) {
+  var value = subject.value
   if (value.replace(/\s/g, '') !== '')
   {
-  	$('#subjects-container').find('.row-classe').remove();
+  	console.log("Subjects!!",value);
+
+  	$('.subjects-container').find('.row-classe').remove();
 	  $.ajax({
 		    type: 'get',
 		    url: '/Teachers/classes',
 		    data: {
-		    	subject_id:$('#subjects-container').find('[data-val='+value+']').data('subjectid'),
+		    	subject_id:$('.subjects-container').find('[data-val='+value+']').data('subjectid'),
 		    },
 		    dataType: 'json'
 		  })
@@ -493,14 +482,14 @@ function updateAbsence() {
 		  			if (first_label !== res.classes[i].Level_Label)
 		  			{
 		  				first_label = res.classes[i].Level_Label;
-		  				$('#subjects-container').find('.list-classes').append('<option class="option-level-label row-classe" disabled="disabled">'+res.classes[i].Level_Label+'</option>')
+		  				$('.subjects-container').find('.list-classes').append('<option class="option-level-label row-classe" disabled="disabled">'+res.classes[i].Level_Label+'</option>')
 		  			}
-		  			$('#subjects-container').find('.list-classes').append('<option class="row-classe" value="'+res.classes[i].Classe_ID+'">'+res.classes[i].Classe_Label+'</option>')
+		  			$('.subjects-container').find('.list-classes').append('<option class="row-classe" value="'+res.classes[i].Classe_ID+'">'+res.classes[i].Classe_Label+'</option>')
 		  		}
 		  	}
 		  });
   }
-})
+}
 
 function saveteacher() {
 	console.log('Modal Origin');

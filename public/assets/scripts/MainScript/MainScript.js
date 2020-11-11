@@ -1377,12 +1377,15 @@ $(document).ready(function(){
 			$(".sections-main-sub-container-right-main-rows-dropdown-tags .dynamic-form-input-dropdown").removeClass("dynamic-form-input-first");
 
 			$dynamic_form_input = $(".sections-main-sub-container-right-main-rows-dropdown-tags .dynamic-form-input-dropdown-container").first().clone();
-
+			$select_id = $(".sections-main-sub-container-right-main-rows-dropdown-tags .dynamic-form-input-dropdown-container").last().find('.input-text-subject-classes-select2').data('select');
+			console.log("Select ID",$select_id);
 			$dynamic_form_input.find(".input-text-subject-classes-select2").select2("destroy");
 
 			$dynamic_form_input.find(".select2").remove();
 
 			$dynamic_form_input.find(".input-label").removeClass("input-label-move-to-top");
+			$dynamic_form_input.find("input").val("");
+			$dynamic_form_input.find("select").val("");
 
 			$(this).parent().find(".sections-main-sub-container-right-main-rows-dropdown-tags-container").last().after($dynamic_form_input);
 
@@ -2952,7 +2955,7 @@ $(document).ready(function(){
 		$(".main-selected-school").toggleClass("main-selected-school-border");
 
 		toggleSlide(".school-dropdown-list");
-
+		$(".school-dropdown-list").css("visibility","visible");
 		if($(".sub-container-nav-bar-profile-dropdown-mask").css("opacity") == 1 ){
 			$(".sub-container-nav-bar-profile-dropdown-close").click();
 		}

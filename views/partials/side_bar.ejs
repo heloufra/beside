@@ -9,12 +9,15 @@
 		</div>
 
 	    <div class="school-dropdown-list slide-up">
-	     <% for(var i=0; i<accounts.length; i++) {%>
+	    <%if (role === 'Admin') { %>
+	     <% for(var i=0; i <= accounts.length - 1; i++) {%>
+	     	<% console.log('Accounts',accounts[i].Institution_Name) %>
 	     	<div class="main-selected-school-li account"  data-id="<%=accounts[i].Institution_ID %>">
 		    	<img class="side-bar-brand" src="<%=accounts[i].Institution_Logo %>" alt="brand"/>
 		    	<span class="side-bar-brand-label"><%= accounts[i].Institution_Name %></span>
 			</div>
           <% } %>
+          <%} %>
 	    </div>
 	  </div>
 

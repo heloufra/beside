@@ -414,7 +414,7 @@ var studentController = {
                       connection.query("INSERT INTO studentsubscribtion(Student_ID, LE_ID, Subscription_StartDate, Subscription_EndDate, AY_ID) VALUES(?,?,?,?,?)", [req.body.id,req.body.checked[i],months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID])
                     } else 
                     {
-                      connection.query("UPDATE `studentsubscribtion` SET Subscription_StartDate=? , `Subscription_EndDate`=? WHERE `LE_ID` = ?", [academic[0].AY_Satrtdate,academic[0].AY_EndDate,req.body.checked[i]])
+                      connection.query("UPDATE `studentsubscribtion` SET Subscription_StartDate=? , `Subscription_EndDate`=? WHERE `LE_ID` = ?", [months[startDate.getMonth()],academic[0].AY_EndDate,req.body.checked[i]])
                     }
                 }
               res.json({updated : true});
