@@ -18,7 +18,6 @@ function hideNext(id) {
   else
     input = " input";
   $(id + input).each(function() {
-    console.log("Value!!",$(this).val());
     if (id == "#subjectsForm" && $(this).val().length === 0)
     {
       $('.customNextBtn').addClass("hidden");
@@ -332,6 +331,7 @@ function addLevels(data) {
         }
 
         if(!$exist){
+          console.log("Tag Data!!",$tag_data);
           $(this).append('<option value="'+$tag_data.id+'">'+$tag_data.text+'</option>');
           $(this).trigger('change');
         }
@@ -367,12 +367,15 @@ function addLevels(data) {
   }
 }
 
+
+$tag_data = "";
 function callSubjects() {
   $.ajax({
           type: 'get',
           url: '/setup/subjects',
         })
         .done(function(res){
+          console.log("Subjects::",res.subjects);
           if (res.subjects.length > 0)
             $(".input-text-subject-select2").select2({
               data: res.subjects,
@@ -384,6 +387,7 @@ function callSubjects() {
               placeholder: "Select items",
               templateSelection: function (data, container) {
                 console.log("Selection>>",data);
+                $tag_data = data;
                   $(container).attr("style","background-color:"+data.color+"!important;");
                   return data.text;
               },
