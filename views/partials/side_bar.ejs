@@ -1,13 +1,13 @@
 <div class="side-bar side-bar-extra-style">
 
 	<div class="side-bar-conatiner-menu">
-	  <div class="side-bar-header-conatiner"> 
+	  <div class="side-bar-header-conatiner">
+	  <%if (accounts.length > 1) { %>
 	  	<div class="main-selected-school">
 	    <img class="side-bar-brand" src="<%= institution.Institution_Logo %>" alt="brand"/>
 	    <span class="side-bar-brand-label"><%= institution.Institution_Name %></span>
 	     <img class="icon button-icon" src="assets/icons/caret_brand.svg">
 		</div>
-
 	    <div class="school-dropdown-list slide-up">
 	    <%if (role === 'Admin') { %>
 	     <% for(var i=0; i <= accounts.length - 1; i++) {%>
@@ -19,6 +19,7 @@
           <% } %>
           <%} %>
 	    </div>
+	    <% } %>
 	  </div>
 
 	  <ul class="side-bar-ul">
