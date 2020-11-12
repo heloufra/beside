@@ -38,13 +38,33 @@ function getAllHomeworks(id) {
 	  });
  }
 
+var filePdf = "";
+function readFilePdf() {
+  
+  if (this.files && this.files[0]) {
+    
+    var FR= new FileReader();
+    
+    FR.addEventListener("load", function(e) {
+      filePdf = e.target.result;
+    }); 
+    
+    FR.readAsDataURL( this.files[0] );
+  }
+  
+}
+
+if (document.getElementById("uploaded_file"))
+	document.getElementById("uploaded_file").addEventListener("change", readFilePdf);
 function saveHomework() {
 	var homework_classe = $('#AddHomeworkModal').find('input[name="homework_classe"]').val();
 	var homework_deliverydate = $('#AddHomeworkModal').find('input[name="homework_deliverydate"]').val();
 
 	var homework_subject = $('#AddHomeworkModal').find('input[name="homework_subject"]').val();
 	var homework_name = $('#AddHomeworkModal').find('input[name="homework_name"]').val();
+	var uploaded_file = $('#AddHomeworkModal').find('input[name="uploaded_file"]').prop('files')[0];
 	var homework_description = $('#AddHomeworkModal').find('#homework_description').val();
+	console.log("File!!",uploaded_file)
 	var at_type = "";
 
 
@@ -82,7 +102,8 @@ function saveHomework() {
 		    	homework_deliverydate,
 		    	homework_description,
 		    	homework_classe,
-		    	homework_subject
+		    	homework_subject,
+		    	file:filePdf
 		    },
 		    dataType: 'json'
 		  })

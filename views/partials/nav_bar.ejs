@@ -16,11 +16,13 @@
                                     }
                                     return true;
                                 }
-                                  var userNAme = user.User_Email.slice(0,10) + "...";
-                                  if(isJson(user.User_Name)) { 
-                                        userNAme = JSON.parse(user.User_Name);
+
+                                  var userNAme = JSON.parse(user.User_Name);
+    
+                                    if(userNAme.first_name) { 
                                         userNAme = userNAme.first_name + " " + userNAme.last_name;
-                                    } 
+                                    } else 
+                                      userNAme = user.User_Email.slice(0,10) + "...";
 
                               %>
                               <p class="sections-main-sub-container-left-card-main-info user_name" ><%= userNAme %></p>
@@ -38,11 +40,12 @@
                           <!--  sub-container-nav-bar-profile-dropdown-ul  -->
                           <div class="sub-container-nav-bar-profile-dropdown-ul sub-container-nav-bar-profile-dropdown-sub-ul">
                              <% for(var i=0; i<users.length; i++) {%>
-                                  <% var name = users[i].User_Email.slice(0,10)  + "..." %>
-                                  <% if(isJson(users[i].User_Name)) { 
-                                        name = JSON.parse(users[i].User_Name);
+                                  <%   var name = JSON.parse(users[i].User_Name);
+    
+                                    if(name.first_name) { 
                                         name = name.first_name + " " + name.last_name;
-                                    } 
+                                    } else 
+                                      name = users[i].User_Email.slice(0,10) + "...";
 
                                   %>
                                   <a href="#" data-id="<%=users[i].User_ID %>" data-role="<%=users[i].role %>" class="role">

@@ -532,6 +532,8 @@ function readFileSettings() {
 if (document.getElementById("profile_settings"))
 document.getElementById("profile_settings").addEventListener("change", readFileSettings);
 
+
+
 if (pathname !== 'Teachers')
 {
 
@@ -763,10 +765,28 @@ $('.select-classe').on( "change", function() {
 
 
 if (pathname !== 'Homeworks')
-	function saveHomework() {
+{
+	var filePdf = "";
+function readFilePdf() {
+  
+  if (this.files && this.files[0]) {
+    
+    var FR= new FileReader();
+    
+    FR.addEventListener("load", function(e) {
+      filePdf = e.target.result;
+    }); 
+    
+    FR.readAsDataURL( this.files[0] );
+  }
+  
+}
+
+if (document.getElementById("uploaded_file"))
+	document.getElementById("uploaded_file").addEventListener("change", readFilePdf);
+function saveHomework() {
 		var homework_classe = $('#AddHomeworkModal').find('input[name="homework_classe"]').val();
 		var homework_deliverydate = $('#AddHomeworkModal').find('input[name="homework_deliverydate"]').val();
-
 		var homework_subject = $('#AddHomeworkModal').find('input[name="homework_subject"]').val();
 		var homework_name = $('#AddHomeworkModal').find('input[name="homework_name"]').val();
 		var homework_description = $('#AddHomeworkModal').find('#homework_description').val();
@@ -804,7 +824,8 @@ if (pathname !== 'Homeworks')
 			    	homework_deliverydate,
 			    	homework_description,
 			    	homework_classe,
-			    	homework_subject
+			    	homework_subject,
+			    	file:filePdf
 			    },
 			    dataType: 'json'
 			  })
@@ -825,6 +846,7 @@ if (pathname !== 'Homeworks')
 			  });
 		}
 	}
+}
 
 function savePaymentModal() {
 	var payments = $('#FinanceNewModal').find('.payment-select').map(function(){return {period:$(this).val(),ssid:$(this).data('ssid')};}).get();
