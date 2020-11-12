@@ -311,6 +311,7 @@ function hideSelected(value) {
 		$('#teacher_info').find('.input-img').attr('src',result[0].teacher.User_Image);
 		$('#teacher_info').find('#Details').find('input[name="f_name"]').val(name.first_name);
 		$('#teacher_info').find('#Details').find('input[name="teacher_address_detail"]').val(result[0].teacher.User_Address);
+		$('#teacher_info').find('#Details').find('input[name="teacher_gender_detail"]').val(result[0].teacher.User_Gender);
 		$('#teacher_info').find('#Details').find('input[name="l_name"]').val(name.last_name);
 		$('#teacher_info').find('#Details').find('input[name="phone_number_detail"]').val(result[0].teacher.User_Phone);
 		$('#teacher_info').find('#Details').find('input[name="birthdate_detail"]').val(result[0].teacher.User_Birthdate)
@@ -497,6 +498,7 @@ function saveteacher() {
 	var first_name = $('#teacher_form').find('input[name="first_name"]').val();
 	var email = $('#teacher_form').find('input[name="email"]').val();
 	var teacher_address = $('#teacher_form').find('input[name="teacher_address"]').val();
+	var teacher_gender = $('#teacher_form').find('input[name="teacher_gender"]').val();
 	var profile_image = $('#teacher_form').find('input[name="profile_image"]').val();
 	var last_name = $('#teacher_form').find('input[name="last_name"]').val();
 	var phone_number = $('#teacher_form').find('input[name="phone_number"]').val();
@@ -542,6 +544,7 @@ function saveteacher() {
 			birthdate,
 			email,
 			teacher_address,
+			teacher_gender,
 			subjects:subjects
 		}
 		$.ajax({
@@ -589,6 +592,7 @@ function saveChange() {
 	    	profile_image:$('#teacher_info').find('.profile-img').attr('src'),
 			first_name:$('#Details').find('input[name="f_name"]').val(),
 			teacher_address:$('#Details').find('input[name="teacher_address_detail"]').val(),
+			teacher_gender:$('#Details').find('input[name="teacher_gender_detail"]').val(),
 			last_name:$('#Details').find('input[name="l_name"]').val(),
 			email:$('#Details').find('input[name="email"]').val(),
 			phone_number:$('#Details').find('input[name="phone_number_detail"]').val(),

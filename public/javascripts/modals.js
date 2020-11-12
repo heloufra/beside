@@ -560,6 +560,7 @@ document.getElementById("profile-teacher").addEventListener("change", readFile);
 		var email = $('#teacher_form').find('input[name="email"]').val();
 		var teacher_address = $('#teacher_form').find('input[name="teacher_address"]').val();
 		var profile_image = $('#teacher_form').find('input[name="profile_image"]').val();
+		var teacher_gender = $('#teacher_form').find('input[name="teacher_gender"]').val();
 		var last_name = $('#teacher_form').find('input[name="last_name"]').val();
 		var phone_number = $('#teacher_form').find('input[name="phone_number"]').val();
 		var birthdate = $('#teacher_form').find('input[name="birthdate"]').val();
@@ -604,6 +605,7 @@ document.getElementById("profile-teacher").addEventListener("change", readFile);
 				birthdate,
 				email,
 				teacher_address,
+				teacher_gender,
 				subjects:subjects
 			}
 			$.ajax({

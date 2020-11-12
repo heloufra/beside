@@ -117,6 +117,7 @@ $(document).on("click","#settings_btn",function(event){
       $('#ProfileSettings').find('input[name=address-settings]').val(res.user.User_Address);
       $('#ProfileSettings').find('input[name=phone-settings]').val(res.user.User_Phone);
       $('#ProfileSettings').find('input[name=email-settings]').val(res.user.User_Email);
+      $('#ProfileSettings').find('input[name=gender-settings]').val(res.user.User_Gender);
     });
 
 });
@@ -134,6 +135,7 @@ function updateProfile()
         user_address:$('#ProfileSettings').find('input[name=address-settings]').val(),
         user_phone:$('#ProfileSettings').find('input[name=phone-settings]').val(),
         user_email:$('#ProfileSettings').find('input[name=email-settings]').val(),
+        user_gender:$('#ProfileSettings').find('input[name=gender-settings]').val()
       },
       dataType: 'json'
     })

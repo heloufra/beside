@@ -37,3 +37,12 @@
 
 	<script src="assets/includes/nicescroll/jquery.nicescroll.min.js"></script>
 
+	<!--______________________________ classyscroll ____________________________-->
+
+	<script src="assets/includes/animatescroll/jquery.classyscroll.js"></script>
+
+	<link href="assets/includes/animatescroll/jquery.classyscroll.css" rel="stylesheet">
+
+	<!--______________________________ inputmask ____________________________-->
+
+	<script src="assets/includes/inputmask/inputmask.js"></script>

@@ -122,7 +122,7 @@ var teacherController = {
         {
           userId = user[0].User_ID;
           exist = true;
-          connection.query("UPDATE `users` SET User_Name=?,User_Image=?,User_Birthdate = ?, User_Address = ? WHERE User_ID = ?", [JSON.stringify({first_name:req.body.first_name, last_name:req.body.last_name}),req.body.profile_image, req.body.birthdate, req.body.teacher_address,userId]);
+          connection.query("UPDATE `users` SET User_Name=?,User_Image=?,User_Birthdate = ?, User_Address = ?, User_Gender=? WHERE User_ID = ?", [JSON.stringify({first_name:req.body.first_name, last_name:req.body.last_name}),req.body.profile_image, req.body.birthdate, req.body.teacher_address,req.body.teacher_gender,userId]);
         } else {
           res.json({saved:false})
         }
@@ -221,7 +221,7 @@ var teacherController = {
   },
   updateTeacher: function(req, res, next) {
     connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
-      connection.query("UPDATE `users` SET User_Name=?, User_Image=?, User_Email=?,User_Birthdate=?, User_Phone=?,User_Address=? WHERE User_ID = ?", [JSON.stringify({first_name:req.body.first_name, last_name:req.body.last_name}), req.body.profile_image,req.body.email,  req.body.birthdate,  req.body.phone_number,req.body.teacher_address,req.body.id],async (err, teacher, fields) => {
+      connection.query("UPDATE `users` SET User_Name=?, User_Image=?, User_Email=?,User_Birthdate=?, User_Phone=?,User_Address=?,User_Gender=? WHERE User_ID = ?", [JSON.stringify({first_name:req.body.first_name, last_name:req.body.last_name}), req.body.profile_image,req.body.email,  req.body.birthdate,  req.body.phone_number,req.body.teacher_address,req.body.teacher_gender,req.body.id],async (err, teacher, fields) => {
          if (err) {
               console.log(err);
                 res.json({

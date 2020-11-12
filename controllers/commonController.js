@@ -57,14 +57,14 @@ var commonController = {
     })
   },
    getUser: function(req, res, next) {
-    connection.query("SELECT `User_Name`,`User_Email`,`User_Phone`,`User_Image`,`User_Address`,`User_Birthdate` FROM `users` WHERE User_ID=?", [req.userId], (err, user, fields) => {
+    connection.query("SELECT `User_Name`,`User_Email`,`User_Phone`,`User_Image`,`User_Address`,`User_Birthdate`,User_Gender FROM `users` WHERE User_ID=?", [req.userId], (err, user, fields) => {
        res.json({
         user:user[0]
       })
     })
   },
   updateUser: function(req, res, next) {
-    connection.query("UPDATE `users` SET  `User_Name` = ?,`User_Email` = ?,`User_Phone` = ?,`User_Image` = ?,`User_Address` = ?,`User_Birthdate` = ? WHERE `User_ID` = ?", [JSON.stringify({first_name:req.body.user_fname, last_name:req.body.user_lname}),req.body.user_email,req.body.user_phone,req.body.user_image,req.body.user_address,req.body.user_date,req.userId], (err, teacher, fields) => {
+    connection.query("UPDATE `users` SET  `User_Name` = ?,`User_Email` = ?,`User_Phone` = ?,`User_Image` = ?,`User_Address` = ?,`User_Birthdate` = ?, `User_Gender` = ? WHERE `User_ID` = ?", [JSON.stringify({first_name:req.body.user_fname, last_name:req.body.user_lname}),req.body.user_email,req.body.user_phone,req.body.user_image,req.body.user_address,req.body.user_date,req.body.user_gender,req.userId], (err, teacher, fields) => {
        if (err) {
             console.log(err);
               res.json({

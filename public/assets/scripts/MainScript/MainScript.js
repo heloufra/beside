@@ -3276,4 +3276,39 @@ $(document).on("click",".save-changes",function(){
 	});
 
 
+/* .input-label-text-gender  _________________*/
 
+	$(document).on("click",".dynamic-form-input-dropdown-gender-options li",function(event){
+
+		$profile_img = "";
+
+		$profile_src = "avatar_"+$(this).attr("data-user")+"_"+$(this).attr("data-val")+".svg";
+
+		$profile_src = String($profile_src).toLowerCase();
+
+		if(!$(this).parents(".modal").length == 1){
+
+			$profile_img =  $(".sections-main-sub-container-right-main .input-img");
+
+			if($profile_img.attr("src") == "" 
+				|| String($profile_img.attr("src")).includes("avatar") 
+				|| String($profile_img.attr("src")).includes("Logo_placeholder") )
+			{
+				$profile_img.attr("src","assets/images/profiles/"+$profile_src);
+			}
+			
+		}else{
+			$profile_img =  $(".modal .input-img");
+			
+			if($profile_img.attr("src") == "" 
+				|| String($profile_img.attr("src")).includes("avatar") 
+				|| String($profile_img.attr("src")).includes("Logo_placeholder") )
+			{
+				$profile_img.attr("src","assets/images/profiles/"+$profile_src);
+			}
+		}
+		
+		event.preventDefault();
+		event.stopPropagation();
+
+	});
