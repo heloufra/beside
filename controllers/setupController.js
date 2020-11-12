@@ -4,6 +4,19 @@ var transporter  = require('../middleware/transporter');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
+var handlebars = require('handlebars');
+var fs = require('fs');
+var readHTMLFile = function(path, callback) {
+                    fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
+                        if (err) {
+                            throw err;
+                            callback(err);
+                        }
+                        else {
+                            callback(null, html);
+                        }
+                    });
+                };
 
 const makeid = (length) => {
        var result           = '';
@@ -62,21 +75,29 @@ var setupController = {
                 userId = user.insertId;
              }
               connection.query("INSERT INTO `institutionsusers`(`Institution_ID`, `User_ID`, `User_Role`) VALUES (?,?,?)",[institutionResult.insertId,userId,"Admin"])
-                transporter.sendMail({
-                  from: 'besideyou@contact.com',
-                  to: institutionsData.email,
-                  subject: 'Verification Code',
-                  html: '<h1>Verification Code!</h1><h4>'+ password + '</h4>'
-                }, function(error, info) {
-                  if (error) {
-                    console.log(error);
-                  } else {
-                    console.log('Email sent: ' + info.response);
-                  }
-                });
-                 bcrypt.hash(password.replace(/\s/g, ''), 10, function(err, hash) {
-                    connection.query("UPDATE `users` SET `User_Password`= ? WHERE  `User_Email` = ? LIMIT 1", [hash,institutionsData.email]);
-                 })
+                readHTMLFile(__dirname + '/templates/email_login_template.html', function(err, html) {
+                    var template = handlebars.compile(html);
+                    var replacements = {
+                         code: password,
+                         name:institutionsData.school
+                    };
+                    var htmlToSend = template(replacements);
+                    transporter.sendMail({
+                      from: 'besideyou@contact.com',
+                      to: institutionsData.email,
+                      subject: 'Verification Code',
+                      html: htmlToSend
+                    }, function(error, info) {
+                      if (error) {
+                        console.log(error);
+                      } else {
+                        console.log('Email sent: ' + info.response);
+                      }
+                    });
+                     bcrypt.hash(password.replace(/\s/g, ''), 10, function(err, hash) {
+                        connection.query("UPDATE `users` SET `User_Password`= ? WHERE  `User_Email` = ? LIMIT 1", [hash,institutionsData.email]);
+                     })
+                 });
                  var token = jwt.sign({
                       email:institutionsData.email,
                     }, config.privateKey);
