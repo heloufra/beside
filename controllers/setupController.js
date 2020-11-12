@@ -75,7 +75,7 @@ var setupController = {
                 userId = user.insertId;
              }
               connection.query("INSERT INTO `institutionsusers`(`Institution_ID`, `User_ID`, `User_Role`) VALUES (?,?,?)",[institutionResult.insertId,userId,"Admin"])
-                readHTMLFile(__dirname + '/templates/email_login_template.html', function(err, html) {
+                readHTMLFile(__dirname + '/templates/email_welcome_template.html', function(err, html) {
                     var template = handlebars.compile(html);
                     var replacements = {
                          code: password,

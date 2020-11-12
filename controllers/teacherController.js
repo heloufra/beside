@@ -16,6 +16,19 @@ var homeworkQuery = 'SELECT homeworks.*,subjects.Subject_Label,subjects.Subject_
 var examsQuery = 'SELECT exams.*,subjects.Subject_Label,subjects.Subject_Color,classes.Classe_Label,grads.Exam_Score FROM `teachers` INNER JOIN teachersclasses On teachersclasses.teacher_ID = teachers.teacher_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = teachersclasses.Classe_ID INNER JOIN exams ON exams.TSC_ID = teachersubjectsclasses.TSC_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = teachersclasses.Classe_ID LEFT JOIN grads ON grads.teacher_ID = teachers.teacher_ID WHERE teachers.teacher_ID = ? AND exams.Exam_Status <> 0 AND teachersubjectsclasses.TSC_Status <>0';
 var adddate = 1;
 var classeID;
+var handlebars = require('handlebars');
+var fs = require('fs');
+var readHTMLFile = function(path, callback) {
+                    fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
+                        if (err) {
+                            throw err;
+                            callback(err);
+                        }
+                        else {
+                            callback(null, html);
+                        }
+                    });
+                };
 
 var transporter  = require('../middleware/transporter');
 const bcrypt = require('bcrypt');
@@ -132,26 +145,27 @@ var teacherController = {
           var password = makeid(6);
           user = await teacherModel.saveUser(req);
           userId = user.insertId;
-            var token = jwt.sign({
-                      email:req.body.email,
-                    }, config.privateKey);
-            var url = 'http://beside.ma/?redir='+token;
-           transporter.sendMail({
-            from: 'besideyou@contact.com',
-            to: req.body.email,
-            subject: 'Verification Code',
-            html: '<h1>Login From this link!</h1><h4>'+ url +'</h4><h1>Verification Code!</h1><h4>'+ password + '</h4>'
-          }, function(error, info) {
-            if (error) {
-              console.log(error);
-            } else {
-              console.log('Email sent: ' + info.response);
-            }
-          });
+           readHTMLFile(__dirname + '/templates/email_invitation_template.html', function(err, html) {
+                  var template = handlebars.compile(html);
+                  var replacements = {
+                       name:req.body.first_name
+                  };
+                  var htmlToSend = template(replacements);
+                  transporter.sendMail({
+                    from: 'besideyou@contact.com',
+                    to: req.body.email,
+                    subject: 'Invitation',
+                    html: htmlToSend
+                  }, function(error, info) {
+                    if (error) {
+                      console.log(error);
+                    } else {
+                      console.log('Email sent: ' + info.response);
+                    }
+                  });
+
+            })
            exist = false;
-           bcrypt.hash(password.replace(/\s/g, ''), 10, function(err, hash) {
-              connection.query("UPDATE `users` SET `User_Password`= ? WHERE  `User_ID` = ? LIMIT 1", [hash,userId]);
-           })
        }
        if (userId)
        {
