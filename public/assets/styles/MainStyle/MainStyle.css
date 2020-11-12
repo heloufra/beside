@@ -22,7 +22,6 @@
   src:  url('fonts/Roboto/Roboto-Light.ttf');
 }
 
-/* Hide scrollbar for chrome  
 
 *::-webkit-scrollbar {
     display: none;
@@ -67,7 +66,6 @@
   transition: opacity 5s ease-in-out;
 }
 
-*/
 
 /********* Scrollbar Chrome **************************
 
