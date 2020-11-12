@@ -121,7 +121,7 @@ var teacherController = {
         if (!user.some(user => user.role === 'Teacher'))
         {
           userId = user[0].User_ID;
-          connection.query("UPDATE `users` SET User_Name=?,User_Image=?,,User_Birthdate = ?, User_Address = ?, WHERE User_ID = ?", [JSON.stringify({first_name:req.body.first_name, last_name:req.body.last_name}),req.body.profile_image, req.body.birthdate, req.body.teacher_address,userId]);
+          connection.query("UPDATE `users` SET User_Name=?,User_Image=?,User_Birthdate = ?, User_Address = ?, WHERE User_ID = ?", [JSON.stringify({first_name:req.body.first_name, last_name:req.body.last_name}),req.body.profile_image, req.body.birthdate, req.body.teacher_address,userId]);
         } else {
           res.json({saved:false})
         }
