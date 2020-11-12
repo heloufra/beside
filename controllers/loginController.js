@@ -3,6 +3,19 @@ var transporter  = require('../middleware/transporter');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
+var handlebars = require('handlebars');
+var fs = require('fs');
+var readHTMLFile = function(path, callback) {
+                    fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
+                        if (err) {
+                            throw err;
+                            callback(err);
+                        }
+                        else {
+                            callback(null, html);
+                        }
+                    });
+                };
 
 var loginController = {
   loginView: function(req, res, next) {
@@ -29,7 +42,7 @@ var loginController = {
 
     var password = makeid(6);
     console.log(req.body)
-     connection.query("SELECT `User_ID`,`User_Email` FROM `users` WHERE `User_Email` = ? OR `User_Phone` = ? LIMIT 1", [req.body.email, req.body.email], (err, userResult, fields) => {
+     connection.query("SELECT `User_ID`,`User_Email`,User_Name FROM `users` WHERE `User_Email` = ? OR `User_Phone` = ? LIMIT 1", [req.body.email, req.body.email], (err, userResult, fields) => {
        if (err)   res.json({
             errors: [{
             field: "Access denied",
@@ -46,11 +59,24 @@ var loginController = {
            else
            {
               res.json({exist : true});
-               transporter.sendMail({
+              var name = JSON.parse(userResult[0].User_Name)
+
+              if (name.first_name)
+                name = name.first_name + " " + name.last_name;
+              else
+                name = userResult[0].User_Name
+                readHTMLFile(__dirname + '/templates/email_login_template.html', function(err, html) {
+                  var template = handlebars.compile(html);
+                  var replacements = {
+                       code: password,
+                       name
+                  };
+                  var htmlToSend = template(replacements);
+                  transporter.sendMail({
                   from: 'besideyou@contact.com',
                   to: userResult[0].User_Email,
                   subject: 'Verification Code',
-                  html: '<h1>Verification Code!</h1><h4>'+ password + '</h4>'
+                  html: htmlToSend
                 }, function(error, info) {
                   if (error) {
                     console.log(error);
@@ -61,6 +87,7 @@ var loginController = {
                  bcrypt.hash(password.replace(/\s/g, ''), 10, function(err, hash) {
                     connection.query("UPDATE `users` SET `User_Password`= ? WHERE  `User_Email` = ? OR `User_Phone` = ? LIMIT 1", [hash,req.body.email, req.body.email]);
                  })
+              });
            }
         }
       });
