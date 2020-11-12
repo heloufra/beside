@@ -626,6 +626,8 @@ document.getElementById("profile-teacher").addEventListener("change", readFile);
 					$('#teacher_form').find('input[name="birthdate"]').val("");
 					$('#teacher_form').find('input[name^=subject]').val("");
 					$('#output-img-teacher').attr("src",'assets/icons/Logo_placeholder.svg');
+					if (res.exist)
+						location.reload();
 					window.location.href = '/Teachers';
 			  	} else {
 			  		$('#teacher_form').find('input[name="email"]').css("border-color", "#f6b8c1");

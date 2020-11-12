@@ -115,12 +115,13 @@ var teacherController = {
  saveTeacher: async function(req, res, next) {
       var user = await teacherModel.findUser(req.body.email);
       var userId;
-
+      var exist = false;
       if (user.length > 0)
       {
         if (!user.some(user => user.role === 'Teacher'))
         {
           userId = user[0].User_ID;
+          exist = true;
           connection.query("UPDATE `users` SET User_Name=?,User_Image=?,User_Birthdate = ?, User_Address = ? WHERE User_ID = ?", [JSON.stringify({first_name:req.body.first_name, last_name:req.body.last_name}),req.body.profile_image, req.body.birthdate, req.body.teacher_address,userId]);
         } else {
           res.json({saved:false})
@@ -147,6 +148,7 @@ var teacherController = {
               console.log('Email sent: ' + info.response);
             }
           });
+           exist = false;
            bcrypt.hash(password.replace(/\s/g, ''), 10, function(err, hash) {
               connection.query("UPDATE `users` SET `User_Password`= ? WHERE  `User_ID` = ? LIMIT 1", [hash,userId]);
            })
@@ -161,7 +163,7 @@ var teacherController = {
               }
             }
           })
-          res.json({saved:true}) 
+          res.json({saved:true,exist});
        }                   
   },
   saveAbsence: function(req, res, next) {

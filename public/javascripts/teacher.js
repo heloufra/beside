@@ -80,6 +80,7 @@ function getAllteachers(id) {
 		  		else
 		  		{
 		  			$('#teacher_info').addClass('hidden');
+		  			location.reload();
 		  			getAllteachers();
 		  		}
 		  	} else {
@@ -562,7 +563,9 @@ function saveteacher() {
 				$('#teacher_form').find('input[name="email"]').val("");
 				$('#teacher_form').find('input[name="birthdate"]').val("");
 				$('#teacher_form').find('input[name^=subject]').val("");
-				$('#output-img-teacher').attr("src",'assets/icons/Logo_placeholder.svg')
+				$('#output-img-teacher').attr("src",'assets/icons/Logo_placeholder.svg');
+				if (res.exist)
+					location.reload();
 		  		getAllteachers();
 
 		  	} else {
