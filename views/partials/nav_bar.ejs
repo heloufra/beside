@@ -7,7 +7,7 @@
                           <img class="sections-main-sub-container-left-card-main-img user_image" src="<%= user.User_Image %>">
                           <div class="sections-main-sub-container-left-card-info">
                                <% 
-                                  var userNAme = JSON.parse(user.User_Name);
+                                  var userNAme = JSON.parse(user.User_Name.replace(/\s/g, ''));
     
                                     if(userNAme.first_name) { 
                                         userNAme = userNAme.first_name + " " + userNAme.last_name;
