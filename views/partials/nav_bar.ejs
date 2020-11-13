@@ -7,16 +7,6 @@
                           <img class="sections-main-sub-container-left-card-main-img user_image" src="<%= user.User_Image %>">
                           <div class="sections-main-sub-container-left-card-info">
                                <% 
-
-                                function isJson(str) {
-                                    try {
-                                        JSON.parse(str);
-                                    } catch (e) {
-                                        return false;
-                                    }
-                                    return true;
-                                }
-
                                   var userNAme = JSON.parse(user.User_Name);
     
                                     if(userNAme.first_name) { 
