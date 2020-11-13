@@ -5,5 +5,6 @@ var dashboardController  = require('../controllers/dashboardController');
 const authAdmin = require("../middleware/adminAuth");
 /* GET users listing. */
 router.get('/',authAdmin, dashboardController.dashboardView);
+router.get('/absences',authAdmin, dashboardController.getAllAbsences);
 
 module.exports = router;
