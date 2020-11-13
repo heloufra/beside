@@ -126,7 +126,7 @@ var teacherController = {
     })
   },
  saveTeacher: async function(req, res, next) {
-      var user = await teacherModel.findUser(req.body.email);
+      var user = await teacherModel.findUser(req.body.email,req.Institution_ID);
       var userId;
       var exist = false;
       if (user.length > 0)

@@ -285,7 +285,7 @@
                                             <div class="dynamic-form-input">
                                               <div class="dynamic-form-input-float-adjust">
                                               <div class="form-group group form-group-right ">
-                                                <input type="text" value="Today" class="input-dropdown" placeholder="Period"  required>
+                                                <input type="text" value="Today" name="filter-payments" class="input-dropdown" placeholder="Period"  required>
                                                 <img class="icon button-icon" src="assets/icons/date_icon.svg">
                                                 <ul class="dynamic-form-input-dropdown-options">
                                                     <li data-val="This year">This year </li>
@@ -325,47 +325,7 @@
                                             <th scope="col">Outstanding</th>
                                           </tr>
                                         </thead>
-                                        <tbody>
-
-                                          <% for(var i = 0 ; i <= payments.length - 1  ; i++) { %>
-
-                                          <tr>
-
-                                            <td data-label="Student">
-                                              <!--  sections-main-sub-container-left-cards  -->
-                                                <div class="sections-main-sub-container-left-card">
-                                                      <img class="sections-main-sub-container-left-card-main-img" src="<%= payments[i].Student_Image %>" alt="card-img">
-                                                      <div class="sections-main-sub-container-left-card-info">
-                                                          <p class="sections-main-sub-container-left-card-main-info"><%= payments[i].Student_FirstName + ' ' + payments[i].Student_LastName %></p>
-                                                          <span  class="sections-main-sub-container-left-card-sub-info"><%= payments[i].Classe_Label %></span>
-                                                      </div>
-                                                </div>
-                                              <!--  End sections-main-sub-container-left-cards  -->
-                                            </td>
-
-                                            <td class="readonly" data-label="Date">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="<%= payments[i].SP_Addeddate.toDateString() %>" class="input-text" required="" placeholder="Date">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                                                </div>
-                                            </td>
-
-                                            <td class="readonly" data-label="Paid amount">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <input type="text" value="<%= payments[i].Expense_Cost %>" class="input-text input-text-blue" required="" placeholder="Paid amount">
-                                                   <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                                                </div>
-                                            </td>
-
-                                            <td class="readonly" data-label="Outstanding">
-                                                <div class="form-group group dynamic-form-input-text-container-icon">
-                                                   <img  src="assets/icons/green_check.svg" alt="green_check">
-                                                </div>
-                                            </td>
-
-                                          </tr>
-
-                                          <% } %>
+                                        <tbody id="list-payments">
                                         </tbody>
 
                                       </table>

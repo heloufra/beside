@@ -1,9 +1,10 @@
-var absencesT,absencesS = [];
+var absencesT,absencesS,Payments = [];
 var absenceArray = ["Retard","Absence"];
 var today = new Date();
 var currentDate = today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear();
 
 getAbsences();
+getPayments();
 function getAbsences() {
 	$.ajax({
 	    type: 'get',
@@ -41,6 +42,43 @@ function getAbsences() {
           	displaySAbsences(filtredS);
 	  	}
 	  });
+}
+
+function getPayments()
+{
+	$.ajax({
+	    type: 'get',
+	    url: '/Dashboard/payments',
+	    dataType: 'json'
+	  })
+	  .done(function(res){
+	  	if(res.errors)
+	  	{
+	  		console.log(res.errors)
+	  	} else {
+	  		Payments = res.payments;
+	  		console.log("Payments",res.payments)
+	  		displayPayments(res.payments);
+	  	}
+	  });
+}
+
+function displayPayments(payments) 
+{
+	var result = [];
+	$('#list-payments').find('.row-payments').remove();
+	payments.forEach(function (a) {
+	    if (!this[a.Student_ID]) {
+	        this[a.Student_ID] = { Student_ID: a.Student_ID, Expense_Cost: 0,SP_Addeddate:a.SP_Addeddate,Student_Image:a.Student_Image,Student_FirstName:a.Student_FirstName,Student_LastName:a.Student_LastName,Classe_Label:a.Classe_Label };
+	        result.push(this[a.Student_ID]);
+	    }
+    	this[a.Student_ID].Expense_Cost += parseInt(a.Expense_Cost);
+	}, Object.create(null));
+
+	for (var i = 0; i <= result.length - 1; i++) {
+		var date = new Date(result[i].SP_Addeddate);
+		$('#list-payments').append('<tr class="row-payments"> <td data-label="Student"> <!-- sections-main-sub-container-left-cards --> <div class="sections-main-sub-container-left-card"> <img class="sections-main-sub-container-left-card-main-img" src="'+result[i].Student_Image+'" alt="card-img"> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+result[i].Student_FirstName + ' ' + result[i].Student_LastName +'</p> <span class="sections-main-sub-container-left-card-sub-info">'+ result[i].Classe_Label +'</span> </div> </div> <!-- End sections-main-sub-container-left-cards --> </td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+ date.toDateString() +'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="Paid amount"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+ result[i].Expense_Cost +'" class="input-text input-text-blue" required="" placeholder="Paid amount"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="Outstanding"> <div class="form-group group dynamic-form-input-text-container-icon"> <img src="assets/icons/green_check.svg" alt="green_check"> </div> </td> </tr> ')
+	}
 }
 
 function displayTAbsences(Tabsences) 
@@ -188,3 +226,31 @@ $('.filter-absence').change(function () {
     else
     	$('#absence-list').find('.row-student').remove();
  });
+
+$('input[name=filter-payments]').change(function () {
+	var filtred;
+	if (this.value.replace(/\s/g, ''))
+	{
+		if (this.value === 'Today')
+		{
+			filtred = Payments.filter(payment => {
+				var date = new Date(payment.SP_Addeddate)
+				return date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear();
+			})
+		} else if (this.value === 'This year')
+		{
+			filtred = Payments.filter(payment => {
+				var date = new Date(payment.SP_Addeddate);
+				return date.getFullYear() === today.getFullYear();
+			})
+		}else if (this.value === 'This Month')
+		{
+			filtred = Payments.filter(payment => {
+				var date = new Date(payment.SP_Addeddate);
+				return date.getMonth() === today.getMonth();
+			})
+		}
+
+		displayPayments(filtred || []);
+	}
+})

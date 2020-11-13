@@ -17,9 +17,9 @@ var teacherModel = {
       });
     })
   },
-   findUser: function(Email) {
+   findUser: function(Email,instution_id) {
      return new Promise((resolve, reject) => {
-      connection.query("SELECT users.*,institutionsusers.User_Role as role FROM `users` INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID WHERE `User_Email` = ? AND institutionsusers.IU_Status<>0", [Email], (err, user, fields) => {
+      connection.query("SELECT users.*,institutionsusers.User_Role as role FROM `users` INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID WHERE `User_Email` = ? AND institutionsusers.Institution_ID = ? AND institutionsusers.IU_Status<>0", [Email,instution_id], (err, user, fields) => {
        if (err) reject(err);
         else resolve(user);
       });

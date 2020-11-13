@@ -20,8 +20,6 @@ var dashboardController = {
                           connection.query("SELECT COUNT(*) as total FROM `students` WHERE `Institution_ID`=? ", [req.Institution_ID], (err, percentageS, fields) => {
                             connection.query("SELECT SUM(levelexpenses.Expense_Cost) as total FROM `studentspayments` INNER JOIN studentsubscribtion ON studentsubscribtion.SS_ID = studentspayments.SS_ID INNER JOIN levelexpenses ON levelexpenses.LE_ID = studentsubscribtion.LE_ID WHERE MONTH( studentspayments.`SP_Addeddate` ) = ? AND studentsubscribtion.AY_ID = ?", [date.getMonth() + 1,academic[0].AY_ID], (err, totalPay, fields) => {
                               connection.query("SELECT SUM(levelexpenses.Expense_Cost) as total FROM `studentspayments` INNER JOIN studentsubscribtion ON studentsubscribtion.SS_ID = studentspayments.SS_ID INNER JOIN levelexpenses ON levelexpenses.LE_ID = studentsubscribtion.LE_ID WHERE studentsubscribtion.AY_ID = ?", [academic[0].AY_ID], (err, percentagePay, fields) => {
-                                connection.query(PaymentsQuery, [req.Institution_ID], (err, payments, fields) => {
-
                                         res.render('dashboard', { 
                                           title: 'Dashboard' , 
                                           user: user[0], 
@@ -32,11 +30,9 @@ var dashboardController = {
                                           teacherAD:teacherAD[0].total,
                                           studentAD:studentAD[0].total,
                                           totalPay:totalPay[0].total,
-                                          payments,
                                           percentageT:(teacherAD[0].total * 100)/percentageT[0].total ,
                                           percentageS:(studentAD[0].total * 100)/percentageS[0].total ,
                                           percentagePay:(totalPay[0].total * 100)/percentagePay[0].total
-                                  })
                                 })
                               })
                             })
@@ -72,6 +68,13 @@ var dashboardController = {
             absencesT:teachersArray,
             absencesS:studentArray,
           })
+      })
+    })
+  },
+  getAllPayments:function(req, res, next) {
+    connection.query(PaymentsQuery, [req.Institution_ID], (err, payments, fields) => {
+      res.json({
+        payments
       })
     })
   }
