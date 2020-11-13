@@ -450,7 +450,8 @@ function executePayment() {
 		if (subStudent[i].Expense_PaymentMethod === "Monthly")
 		{
 			MonthsFiltred = [];
-			for (var j = indStart; j < months.length; j++) {
+			console.log("Start::",subStudent[i].Subscription_StartDate);
+			for (var j = months.indexOf(subStudent[i].Subscription_StartDate); j < months.length; j++) {
 				MonthsFiltred.push(months[j]);
 				if (j === indEnd)
 					break;
