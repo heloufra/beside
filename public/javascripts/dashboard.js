@@ -57,8 +57,11 @@ function getPayments()
 	  		console.log(res.errors)
 	  	} else {
 	  		Payments = res.payments;
-	  		console.log("Payments",res.payments)
-	  		displayPayments(res.payments);
+	  		var filtred = Payments.filter(payment => {
+				var date = new Date(payment.SP_Addeddate)
+				return date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear();
+			})
+	  		displayPayments(filtred);
 	  	}
 	  });
 }
