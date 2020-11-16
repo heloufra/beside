@@ -167,22 +167,28 @@ $('.finance-filter').on( "change", function() {
 	}
 	console.log("ExpenceF",ExpenceF);
 	PaidF = ExpenceF;
+	var temp = [];
 	if ($('input[name=filter-payment]').val() === "Paid")
 	{
+		temp = [];
 	    for (var i = 0; i <= ExpenceF.length - 1; i++) {
-			if($('[data-studentid='+ExpenceF[i].Student_ID+']').find('[data-payment="unpaid"]').length === $('[data-studentid='+ExpenceF[i].Student_ID+']').find('[data-exist="true"]').length )
-				PaidF = PaidF.filter(function (el) {
-						        return el.Student_ID !== ExpenceF[i].Student_ID;
-						      });
+			if($('[data-studentid='+ExpenceF[i].Student_ID+']').find('[data-payment="unpaid"]').length ===  0)
+				temp.push(PaidF.filter(function (el) {
+						        return el.Student_ID === ExpenceF[i].Student_ID;
+						      })[0]);
 		}
+		console.log('Temp',temp)
+		PaidF = temp;
 	} else if ($('input[name=filter-payment]').val() === "Unpaid")
 	{
+		temp = [];
 		for (var i = 0; i <= ExpenceF.length - 1; i++) {
-			if($('[data-studentid='+ExpenceF[i].Student_ID+']').find('[data-payment="paid"]').length === $('[data-studentid='+ExpenceF[i].Student_ID+']').find('[data-exist="true"]').length)
-				PaidF = PaidF.filter(function (el) {
-						        return el.Student_ID !== ExpenceF[i].Student_ID;
-						      });
+			if($('[data-studentid='+ExpenceF[i].Student_ID+']').find('[data-payment="unpaid"]').length > 0)
+				temp.push(PaidF.filter(function (el) {
+						        return el.Student_ID === ExpenceF[i].Student_ID;
+						      })[0]);
 		}
+		PaidF = temp;
 	}
 
 	console.log("Payments",PaidF);
