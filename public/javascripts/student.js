@@ -484,11 +484,14 @@ function executePayment() {
 			payFilter = payStudent.filter(function (el) {
 		        	return el.SS_ID === subStudent[i].SS_ID;
 		      	});
-			if (payFilter.length === 0)
-			{
+			var htmlYearly = '';
+				if (payFilter.length === 0)
+					htmlYearly = '<option value="'+academicyear+'">'+academicyear+'</option> ';
 				$('#FinanceModal').find('.yearly').removeClass('hidden');
-				$('#FinanceModal').find('.yearly').after('<div class="yearly-rows dynamic-form-input-container dynamic-form-input-container-extra-style input-text-subject-select2-one-option"> <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+subStudent[i].Expense_Label+'</span> <span class="input-label-bg-mask"></span></label> <div class="dynamic-form-input-dropdown-container"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="form-group group"> <select class="input-text-year-select2 payment-select" data-val="Annual" data-ssid="'+subStudent[i].SS_ID+'" multiple name="language"> <option seleted value="'+academicyear+'">'+academicyear+'</option> </select> <img class="icon button-icon" src="assets/icons/caret.svg"> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div> </div>');
-			}
+				$('#FinanceModal').find('.yearly').after('<div class="yearly-rows dynamic-form-input-container dynamic-form-input-container-extra-style input-text-subject-select2-one-option"> <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+subStudent[i].Expense_Label+'</span> <span class="input-label-bg-mask"></span></label> <div class="dynamic-form-input-dropdown-container"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="form-group group"> <select class="input-text-year-select2 payment-select" data-val="Annual" data-ssid="'+subStudent[i].SS_ID+'" multiple name="language"> '+htmlYearly+'</select> <img class="icon button-icon" src="assets/icons/caret.svg"> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div> </div>');
+		      	if (payFilter.length > 0)
+			      	var option = new Option(payFilter[0].SP_PaidPeriod,payFilter[0].SP_PaidPeriod, true, true);
+	    			$('#FinanceModal').find('[data-ssid="'+subStudent[i].SS_ID+'"]').append(option).trigger('change');
 		}
 	}
 	if($(".input-text-month-select2").length > 0){
@@ -509,11 +512,13 @@ function executePayment() {
 
 function savePayment() {
 	var payments = $('#FinanceModal').find('.payment-select').map(function(){return {period:$(this).val(),ssid:$(this).data('ssid')};}).get();
-	for (var j = alreadyPay.length - 1; j >= 0; j--) {
-		for (var i = payments.length - 1; i >= 0; i--) {
-			payments[i].period = payments[i].period.filter(pay => pay !== alreadyPay[j].SP_PaidPeriod)
+	var filtred;
+	for (var i = payments.length - 1; i >= 0; i--) {
+		filtred = payStudent.filter(paystu => paystu.SS_ID === payments[i].ssid)
+		for (var j = filtred.length - 1; j >= 0; j--) {
+			payments[i].period = payments[i].period.filter(pay => pay !== filtred[j].SP_PaidPeriod)
 		}
-    }
+	}
 	$.ajax({
 	    type: 'post',
 	    url: '/Students/payment',
