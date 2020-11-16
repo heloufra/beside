@@ -509,7 +509,6 @@ function executePayment() {
 
 function savePayment() {
 	var payments = $('#FinanceModal').find('.payment-select').map(function(){return {period:$(this).val(),ssid:$(this).data('ssid')};}).get();
-	console.log("PAyments",payments);
 	for (var j = alreadyPay.length - 1; j >= 0; j--) {
 		for (var i = payments.length - 1; i >= 0; i--) {
 			payments[i].period = payments[i].period.filter(pay => pay !== alreadyPay[j].SP_PaidPeriod)
