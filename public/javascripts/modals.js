@@ -6,12 +6,7 @@ var end = "";
 var academicyear = "";
 var months =  ["January", "February", "March", "April", "May", "June", "July", "August", "September", "Octobre", "November", "December"];
 
- $(document).ready(function(){         
-    $('input').attr("autocomplete","off");
-    $('form').attr("autocomplete","off");
-    $('input').attr("autocorrect","off");
-    $('input').attr("autocapitalize","off");
-});
+
 
 function savePayment() {
 	var payments = $('#FinanceNewModal').find('.payment-select').map(function(){return {period:$(this).val(),ssid:$(this).data('ssid')};}).get();

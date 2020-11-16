@@ -185,7 +185,6 @@ $(document).ready(function(){
 
 	$('head').append(script);
 
-	$("input").attr("autocomplete","off");
 
 	$(document).on("click",".setup-main-container",function(){
 
@@ -3342,3 +3341,26 @@ $(document).on("click",".save-changes",function(){
 		event.stopPropagation();
 
 	});
+
+
+ function makeid(length) {
+		var result           = '';
+		var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+		var charactersLength = characters.length;
+		for ( var i = 0; i < length; i++ ) {
+		  result += characters.charAt(Math.floor(Math.random() * charactersLength));
+		}
+		return result;
+	}
+ $(document).ready(function(){         
+
+$("input").each(function(){
+
+		$(this).attr("autocomplete",makeid(50));
+		$(this).attr("autofill",'off');
+		if($(this).attr("name")=="phone" || $(this).attr("name")=="whatsapp"){
+			$(this).attr("maxlength","13");
+		}
+
+	});
+});

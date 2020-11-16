@@ -17,6 +17,7 @@ var academicyear = "2020-2021";
 var months =  ["January", "February", "March", "April", "May", "June", "July", "August", "September", "Octobre", "November", "December"];
 $domChange = false;
 var start,end;
+var alreadyPay = [];
 
 
 
@@ -461,6 +462,7 @@ function executePayment() {
 			var payFilter = payStudent.filter(function (el) {
 		        	return el.SS_ID === subStudent[i].SS_ID;
 		      	});
+			alreadyPay = payFilter;
 			var htmlmonths = '';
 			for (var j = payFilter.length - 1; j >= 0; j--) {
 				MonthsFiltred = MonthsFiltred.filter(function (el) {
@@ -472,6 +474,10 @@ function executePayment() {
 			}
 			$('#FinanceModal').find('.monthly').removeClass('hidden');
 			$('#FinanceModal').find('.monthly').after('<div class="monthly-rows dynamic-form-input-container dynamic-form-input-container-extra-style"> <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+subStudent[i].Expense_Label+'</span> <span class="input-label-bg-mask"></span></label> <div class="dynamic-form-input-dropdown-container"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="form-group group"> <select class="input-text-month-select2 payment-select" data-val="Monthly" data-ssid="'+subStudent[i].SS_ID+'" multiple name="language"> '+htmlmonths+'</select> <img class="icon button-icon" src="assets/icons/caret.svg"> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div> </div>');
+			for (var j = payFilter.length - 1; j >= 0; j--) {
+		      	var option = new Option(payFilter[j].SP_PaidPeriod,payFilter[j].SP_PaidPeriod, true, true);
+    			$('#FinanceModal').find('[data-ssid="'+subStudent[i].SS_ID+'"]').append(option).trigger('change');
+			}
 		}
 		if (subStudent[i].Expense_PaymentMethod === "Annual")
 		{
@@ -504,6 +510,11 @@ function executePayment() {
 function savePayment() {
 	var payments = $('#FinanceModal').find('.payment-select').map(function(){return {period:$(this).val(),ssid:$(this).data('ssid')};}).get();
 	console.log("PAyments",payments);
+	for (var j = alreadyPay.length - 1; j >= 0; j--) {
+		for (var i = payments.length - 1; i >= 0; i--) {
+			payments[i].period = payments[i].period.filter(pay => pay !== alreadyPay[j].SP_PaidPeriod)
+		}
+    }
 	$.ajax({
 	    type: 'post',
 	    url: '/Students/payment',
