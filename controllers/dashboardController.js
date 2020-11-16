@@ -72,9 +72,14 @@ var dashboardController = {
     })
   },
   getAllPayments:function(req, res, next) {
-    connection.query(PaymentsQuery, [req.Institution_ID], (err, payments, fields) => {
-      res.json({
-        payments
+    connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
+      connection.query(PaymentsQuery, [req.Institution_ID], (err, payments, fields) => {
+       connection.query('SELECT ss.*,le.Expense_Cost,e.Expense_PaymentMethod FROM studentsubscribtion ss INNER JOIN levelexpenses le ON le.LE_ID = ss.LE_ID INNER JOIN expenses e ON e.Expense_ID = le.Expense_ID  WHERE ss.AY_ID=? AND ss.SS_Status=1', [academic[0].AY_ID], (err, studentsSub, fields) => {
+          res.json({
+            payments,
+            studentsSub
+          })
+        })
       })
     })
   }

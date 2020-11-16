@@ -22,7 +22,6 @@ function getAllFinances(id) {
 	  		$("#Finance").find('.month-row').remove();
 	  		var htmlmonths = '';
 	  		var studentList = '';
-	  		console.log("students::",res.students);
 	  		students = res.students;
 	  		filtredClass = res.students;
 	  		subscription = res.subscription;
@@ -76,7 +75,7 @@ function getAllFinances(id) {
 				else
 					studentPayment += '<img class="disabled" data-pay="'+subscriptionStudent[k].SS_ID+'-'+months[i]+'" src="assets/icons/check_gray.svg" alt="states"/>';
 			}
-			if (subscriptionStudent[k].Expense_PaymentMethod === "Annual" && indStart === i)
+			if (subscriptionStudent[k].Expense_PaymentMethod === "Annual" && i === months.indexOf(subscriptionStudent[k].Subscription_StartDate))
 			{
 				var obj = '{Expence:subscriptionStudent[k].Expense_Label,Amount:subscriptionStudent[k].Expense_Cost,Status:"Unpaid",BoolStatus:"1"}'
 				studentPayment += '<img src="assets/icons/check_red.svg" alt="states" data-payment="unpaid" data-exist="true"   data-type="yearly" data-expense="'+subscriptionStudent[k].Expense_ID+'" data-pay="'+subscriptionStudent[k].SS_ID+'-'+months[i]+'" data-obj={"Expence":"'+subscriptionStudent[k].Expense_Label+'","Amount":'+subscriptionStudent[k].Expense_Cost+',"Status":"Unpaid","BoolStatus":"1"}/>'
@@ -96,7 +95,7 @@ function getAllFinances(id) {
 					$("#Finance").find('[data-studentid="'+id+'"]').find('[data-pay="'+paymentFiltred[j].SS_ID+"-"+months[i]+'"]').data('obj','{"Expence":"'+paymentFiltred[j].Expense_Label+'","Amount":'+paymentFiltred[j].Expense_Cost+',"Status":"Paid","BoolStatus":"0"}');
 					$("#Finance").find('[data-studentid="'+id+'"]').find('[data-pay="'+paymentFiltred[j].SS_ID+"-"+months[i]+'"]').attr('data-payment',"paid");
 				}
-			if (paymentFiltred[j].Expense_PaymentMethod === "Annual" && indStart === i)
+			if (paymentFiltred[j].Expense_PaymentMethod === "Annual" && i === months.indexOf(paymentFiltred[j].Subscription_StartDate))
 			{
 				$("#Finance").find('[data-studentid="'+id+'"]').find('[data-pay="'+paymentFiltred[j].SS_ID+"-"+months[i]+'"]').attr('src',"assets/icons/check_green.svg");
 				$("#Finance").find('[data-studentid="'+id+'"]').find('[data-pay="'+paymentFiltred[j].SS_ID+"-"+months[i]+'"]').removeClass('disabled');
