@@ -291,7 +291,6 @@ function hideSelected(value) {
 	  				var option = new Option(uniqueClasses[k].Classe_Label,uniqueClasses[k].Classe_ID, false, false);
     				$('.subjects-list').find('[data-select='+i+']').append(option).trigger('change');
 	  		}
-			console.log('Unique Classe',uniqueClasses);
 	  		$('[data-select='+i+']').parents(".form-group-right").find(".input-label").addClass("input-label-move-to-top");
   		}
   		

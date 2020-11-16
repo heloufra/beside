@@ -86,7 +86,6 @@ var teacherController = {
                 for (var i = classes.length - 1; i >= 0; i--) {
                   allClasses.push(await teacherModel.getAllClasses(classes[i].Subject_ID,academic[0].AY_ID)) 
                 }
-                console.log('All Classes',allClasses);
                 res.json({
                         subjects:subjects,
                         absences:absences,
