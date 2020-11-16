@@ -59,12 +59,17 @@ var loginController = {
            else
            {
               res.json({exist : true});
-              var name = JSON.parse(userResult[0].User_Name)
+              var name = userResult[0].User_Name;
+              try {
+                    name = JSON.parse(userResult[0].User_Name);
+                    if (name.first_name)
+                      name = userNAme.first_name + " " + userNAme.last_name;
+                    else
+                      name =  userResult[0].User_Name;
+                } catch (e) {
+                    name =  userResult[0].User_Name;
+                }
 
-              if (name.first_name)
-                name = name.first_name + " " + name.last_name;
-              else
-                name = userResult[0].User_Name
                 readHTMLFile(__dirname + '/templates/email_login_template.html', function(err, html) {
                   var template = handlebars.compile(html);
                   var replacements = {
