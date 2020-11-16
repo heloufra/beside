@@ -251,6 +251,7 @@ function hideSelected(value) {
 		$('.subject-klon').remove();
 		$('.class-subject').remove();
 		olddata = [];
+		console.log('Classes',res.allClasses);
   		for (var i = res.subjects.length - 1; i >= 0; i--) {
   			var selected = "";
   			var exist = "";
@@ -270,15 +271,27 @@ function hideSelected(value) {
 		  		  minimumResultsForSearch: -1,
 		  		  templateResult: hideSelected
 				});
+
 	  		for (var k = res.classes.length - 1; k >= 0; k--) {
 	  			if (classes.some( value => { return value.Subject_Label == res.classes[k].Subject_Label } ))
 	  			{
 	  				olddata.push({subject:res.subjects[i].Subject_ID,classe:res.classes[k].Classe_ID});
-	  				exist = "selected"
 	  				var option = new Option(res.classes[k].Classe_Label,res.classes[k].Classe_ID, true, true);
     				$('.subjects-list').find('[data-select='+i+']').append(option).trigger('change');
 	  			}
 	  		}
+	  		var uniqueClasses = [];
+
+	  		for (var j = res.allClasses.length - 1; j >= 0; j--) {
+	  			if(!uniqueClasses.some( value => { return value.Subject_ID == res.allClasses[j].Subject_ID } )) 
+			    	uniqueClasses.push(res.allClasses[j]);
+	  		}
+	  		for (var k = uniqueClasses.length - 1; k >= 0; k--) {
+	  			if (uniqueClasses[k].Subject_ID === res.subjects[i].Subject_ID)
+	  				var option = new Option(uniqueClasses[k].Classe_Label,uniqueClasses[k].Classe_ID, false, false);
+    				$('.subjects-list').find('[data-select='+i+']').append(option).trigger('change');
+	  		}
+			console.log('Unique Classe',uniqueClasses);
 	  		$('[data-select='+i+']').parents(".form-group-right").find(".input-label").addClass("input-label-move-to-top");
   		}
   		
@@ -462,9 +475,8 @@ function subjectsChange(subject) {
   var value = subject.value
   if (value.replace(/\s/g, '') !== '')
   {
-  	console.log("Subjects!!",value);
+  	$(subject).parents('.dynamic-form-input-dropdown').find('.list-classes').find('option').remove();
 
-  	$('.subjects-container').find('.row-classe').remove();
 	  $.ajax({
 		    type: 'get',
 		    url: '/Teachers/classes',
@@ -484,9 +496,9 @@ function subjectsChange(subject) {
 		  			if (first_label !== res.classes[i].Level_Label)
 		  			{
 		  				first_label = res.classes[i].Level_Label;
-		  				$('.subjects-container').find('.list-classes').append('<option class="option-level-label row-classe" disabled="disabled">'+res.classes[i].Level_Label+'</option>')
+		  				$(subject).parents('.dynamic-form-input-dropdown').find('.list-classes').append('<option class="option-level-label row-classe" disabled="disabled">'+res.classes[i].Level_Label+'</option>')
 		  			}
-		  			$('.subjects-container').find('.list-classes').append('<option class="row-classe" value="'+res.classes[i].Classe_ID+'">'+res.classes[i].Classe_Label+'</option>')
+		  			$(subject).parents('.dynamic-form-input-dropdown').find('.list-classes').append('<option class="row-classe" value="'+res.classes[i].Classe_ID+'">'+res.classes[i].Classe_Label+'</option>')
 		  		}
 		  	}
 		  });

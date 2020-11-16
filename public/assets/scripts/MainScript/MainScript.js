@@ -1328,9 +1328,17 @@ $(document).ready(function(){
 			$dynamic_form_input.find(".input-label").removeClass("input-label-move-to-top");
 			$dynamic_form_input.find("input").val("");
 			$dynamic_form_input.find("select").val("");
+			$dynamic_form_input.find('option').remove();
+			var subjects = [];
+			$('.subjects-list .input-dropdown').each(function() {
+				subjects.push($(this).val());
+			})
 
+			$dynamic_form_input.find('.dynamic-form-input-dropdown-options li').each(function() {
+				if(subjects.includes($(this).attr('data-val')))
+					$(this).addClass('hidden');
+			})
 			$(this).parent().find(".sections-main-sub-container-right-main-rows-dropdown-tags-container").last().after($dynamic_form_input);
-
 			$(this).parents(".sections-main-sub-container-right-main-rows-dropdown-tags").find(".input-text-subject-classes-select2").select2({
 			  tags: true,
 			  dropdownPosition: 'below',
@@ -1373,12 +1381,26 @@ $(document).ready(function(){
 
 		if(!$(this).parents(".modal").length == 1){
 
+			/* Display Hidden Subjects   */
+
+				if ($(this).hasClass('square-button-minus'))
+				{
+					$subject = $(this).parents(".details-teacher .dynamic-form-input-dropdown-container").find('.input-dropdown').val();
+					$(".details-teacher .dynamic-form-input-dropdown-options li").each(function(){
+						console.log("Subject",$subject);
+						if ($(this).attr('data-val') === $subject)
+						{
+							$(this).removeClass('hidden');
+						}
+					})
+				}
+
+			/* End Display Hidden Subjects   */
 			$(this).parents(".details-teacher .dynamic-form-input-dropdown-container").remove();
 
 			if($(".details-teacher .sections-main-sub-container-right-main-rows-dropdown-tags .sections-main-sub-container-right-main-rows-dropdown-tags-container").length == 1 ){
 				$(".details-teacher .sections-main-sub-container-right-main-rows-dropdown-tags .sections-main-sub-container-right-main-rows-dropdown-tags-container .dynamic-form-input-dropdown").addClass("dynamic-form-input-first");
 			}
-
 			$(".sub-container-form-footer").addClass("show-footer");
 	  		$(".sections-main-sub-container-right-main").css("cssText","height:calc(100vh - 120px)");
 	  		$domChange=true;
@@ -3129,6 +3151,14 @@ $(document).ready(function(){
 
 	});
 
+	$(document).on("click",".finance-tbody-tr",function(event){
+
+		$("#FinanceBillModal").modal("show");
+
+		event.preventDefault();
+		event.stopPropagation();
+
+	});
 
 	/* toggleSlide  _________________*/
 	
