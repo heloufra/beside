@@ -117,6 +117,7 @@ var homeworkController = {
      })
   },
   updateHomework: function(req, res, next) {
+    console.log("File0",req.file);
     connection.query("UPDATE `homeworks` SET `Homework_Title` = ?,`Homework_Deatils` = ?, `Homework_DeliveryDate` = ? WHERE Homework_ID = ?", [req.body.homework_name,req.body.homework_description,req.body.homework_date,req.body.id], (err, student, fields) => {
       if (req.file)
         connection.query(homeworkFileQuery, [req.body.id,req.file.path.replace(/\\/g, "/").replace('public',''),req.body.homework_name], (err, homeworkfile, fields) => {
