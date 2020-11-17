@@ -38,24 +38,22 @@ function getAllHomeworks(id) {
 	  });
  }
 
-var filePdf = "";
-function readFilePdf() {
-  
-  if (this.files && this.files[0]) {
-    
-    var FR= new FileReader();
-    
-    FR.addEventListener("load", function(e) {
-      filePdf = e.target.result;
-    }); 
-    
-    FR.readAsDataURL( this.files[0] );
-  }
-  
+var fileData = null;
+
+function loadFile() {
+    var file    = document.getElementByID('uploaded_file').files[0];
+    var reader  = new FileReader();
+
+    reader.onloadend = function () {
+        fileData = file;
+    }
+    if (file) {
+        reader.readAsDataURL(file);
+    }
 }
 
 if (document.getElementById("uploaded_file"))
-	document.getElementById("uploaded_file").addEventListener("change", readFilePdf);
+	document.getElementById("uploaded_file").addEventListener("change", loadFile);
 function saveHomework() {
 	var homework_classe = $('#AddHomeworkModal').find('input[name="homework_classe"]').val();
 	var homework_deliverydate = $('#AddHomeworkModal').find('input[name="homework_deliverydate"]').val();
@@ -64,7 +62,6 @@ function saveHomework() {
 	var homework_name = $('#AddHomeworkModal').find('input[name="homework_name"]').val();
 	var uploaded_file = $('#AddHomeworkModal').find('input[name="uploaded_file"]').prop('files')[0];
 	var homework_description = $('#AddHomeworkModal').find('#homework_description').val();
-	console.log("File!!",uploaded_file)
 	var at_type = "";
 
 
@@ -94,18 +91,19 @@ function saveHomework() {
 
 	if (homework_name && homework_description && homework_deliverydate && homework_subject && homework_classe)
 	{
+		var formData = new FormData();
+        formData.append('homework_name', homework_name);
+        formData.append('homework_deliverydate', homework_deliverydate);
+        formData.append('homework_description', homework_description);
+        formData.append('homework_classe', homework_classe);
+        formData.append('homework_subject', homework_subject);
+        formData.append('file', uploaded_file);
 		$.ajax({
 		    type: 'post',
 		    url: '/Homeworks/save',
-		    data: {
-		    	homework_name,
-		    	homework_deliverydate,
-		    	homework_description,
-		    	homework_classe,
-		    	homework_subject,
-		    	file:filePdf
-		    },
-		    dataType: 'json'
+		    data: formData,
+		    processData: false,
+        	contentType: false
 		  })
 		  .done(function(res){
 		  	if(res.saved)
@@ -148,16 +146,19 @@ function saveHomework() {
 
 
  function saveChange() {
+ 	var formData = new FormData();
+ 	formData.append('id', homeworkId);
+    formData.append('homework_name', $('#homework_info').find('input[name="homework_name"]').val());
+    formData.append('homework_date', $('#homework_info').find('input[name="homework_date"]').val());
+    formData.append('homework_description', $('#homework_info').find('#homework_description').val());
+    formData.append('file', $('#homework_info').find('input[name="uploaded_file"]').prop('files')[0]);
 	$.ajax({
 	    type: 'post',
 	    url: '/Homeworks/update',
-	    data: {
-	    	id:homeworkId,
-	    	homework_name:$('#homework_info').find('input[name="homework_name"]').val(),
-  			homework_date:$('#homework_info').find('input[name="homework_date"]').val(),
-  			homework_description:$('#homework_info').find('#homework_description').val(),
-	    },
-	    dataType: 'json'
+	    data: formData,
+	    processData: false,
+        contentType: false
+
 	  })
 	  .done(function(res){
 	  	if(res.updated)
@@ -195,10 +196,12 @@ function displayHomework(index)
   	{
   		console.log(res.errors)
   	} else {
+  		console.log(res.homeworkFiles)
   		if (res.homework[0])
   		{
   			var name = JSON.parse(res.homework[0].User_Name);
   		$('#homework_info').removeClass('hidden');
+  		$('#homework_info').find('.file-forms').remove();
   		$('#homework_info').find('.homework_img').css('background-color',res.homework[0].Subject_Color);
   		$('#homework_info').find('.homework_img').html(res.homework[0].Subject_Label.slice(0,2))
   		$('#homework_info').find('.label-full-name').html(res.homework[0].Homework_Title);
@@ -206,12 +209,14 @@ function displayHomework(index)
   		$('#homework_info').find('input[name="homework_date"]').val(res.homework[0].Homework_DeliveryDate);
   		$('#homework_info').find('#homework_description').val(res.homework[0].Homework_Deatils);
   		$('#homework_info').find('.sub-label-full-name').html(res.homework[0].Subject_Label+' - '+res.homework[0].Classe_Label+' - '+name.first_name+' '+ name.last_name);
+  		for (var i = res.homeworkFiles.length - 1; i >= 0; i--) {
+  			$('#homework_info').find('.list-files').prepend('<div class="file-container file-loaded"><a style="text-decoration: none; color: inherit;" download href="'+res.homeworkFiles[i].Homework_Link+'"> <div class="file-icon-label"> <img class="file-icon" src="assets/icons/file.svg" alt="file"/> <span class="file-label">'+res.homeworkFiles[i].Homework_Title+'-'+i+'</span> </div></a> <img class="file-close" src="assets/icons/close-gray.svg" alt="close"/> </div>');
+  		}
   		$('#HomeworkDetails').addClass("dom-change-watcher");
   		}
   	}
   });
 }
-
 $('input[name="filter-classe"]').on( "change", function() {
   var value = $(this).val();
   if (value.replace(/\s/g, '') !== '')
