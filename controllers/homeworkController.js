@@ -39,21 +39,37 @@ var homeworkController = {
     connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
       connection.query("SELECT teachersubjectsclasses.TSC_ID FROM `teachersubjectsclasses` INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID WHERE subjects.Subject_Label = ? AND classes.Classe_Label = ? AND teachersubjectsclasses.Teacher_ID = ? AND teachersubjectsclasses.AY_ID = ? LIMIT 1", [req.body.homework_subject,req.body.homework_classe,req.userId,academic[0].AY_ID], (err, tsc, fields) => {
         if (tsc[0])
+        {
+
           connection.query(homeworkQuery, [tsc[0].TSC_ID,  req.body.homework_name,  req.body.homework_description, req.body.homework_deliverydate], (err, homework, fields) => {
-            connection.query(homeworkFileQuery, [homework.insertId,req.file.path.replace(/\\/g, "/").replace('public',''),req.body.homework_name], (err, homeworkfile, fields) => {
-             if (err) {
-                  console.log(err);
-                    res.json({
-                      errors: [{
-                      field: "Access denied",
-                      errorDesc: "List homeworks Error"
-                    }]});
-                } else 
-                {
-                  res.json({saved : true});
-                }
-           })
+            if (req.file)
+              connection.query(homeworkFileQuery, [homework.insertId,req.file.path.replace(/\\/g, "/").replace('public',''),req.body.homework_name], (err, homeworkfile, fields) => {
+               if (err) {
+                    console.log(err);
+                      res.json({
+                        errors: [{
+                        field: "Access denied",
+                        errorDesc: "List homeworks Error"
+                      }]});
+                  } else 
+                  {
+                    res.json({saved : true});
+                  }
+             })
+            else
+              if (err) {
+                    console.log(err);
+                      res.json({
+                        errors: [{
+                        field: "Access denied",
+                        errorDesc: "List homeworks Error"
+                      }]});
+                  } else 
+                  {
+                    res.json({saved : true});
+                  }
           })
+        }
       })
     })
   },
@@ -102,19 +118,32 @@ var homeworkController = {
   },
   updateHomework: function(req, res, next) {
     connection.query("UPDATE `homeworks` SET `Homework_Title` = ?,`Homework_Deatils` = ?, `Homework_DeliveryDate` = ? WHERE Homework_ID = ?", [req.body.homework_name,req.body.homework_description,req.body.homework_date,req.body.id], (err, student, fields) => {
-      connection.query(homeworkFileQuery, [req.body.id,req.file.path.replace(/\\/g, "/").replace('public',''),req.body.homework_name], (err, homeworkfile, fields) => {
+      if (req.file)
+        connection.query(homeworkFileQuery, [homework.insertId,req.file.path.replace(/\\/g, "/").replace('public',''),req.body.homework_name], (err, homeworkfile, fields) => {
+         if (err) {
+              console.log(err);
+                res.json({
+                  errors: [{
+                  field: "Access denied",
+                  errorDesc: "List homeworks Error"
+                }]});
+            } else 
+            {
+              res.json({saved : true});
+            }
+       })
+      else
         if (err) {
-            console.log(err);
-              res.json({
-                errors: [{
-                field: "Access denied",
-                errorDesc: "Cannot Remove it"
-              }]});
-          } else 
-          {
-            res.json({updated : true});
-          }
-     })
+              console.log(err);
+                res.json({
+                  errors: [{
+                  field: "Access denied",
+                  errorDesc: "List homeworks Error"
+                }]});
+            } else 
+            {
+              res.json({updated : true});
+            }
     })
   },
 };
