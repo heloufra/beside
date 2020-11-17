@@ -64,19 +64,26 @@ var commonController = {
     })
   },
   updateUser: function(req, res, next) {
-    connection.query("UPDATE `users` SET  `User_Name` = ?,`User_Email` = ?,`User_Phone` = ?,`User_Image` = ?,`User_Address` = ?,`User_Birthdate` = ?, `User_Gender` = ? WHERE `User_ID` = ?", [JSON.stringify({first_name:req.body.user_fname, last_name:req.body.user_lname}),req.body.user_email,req.body.user_phone,req.body.user_image,req.body.user_address,req.body.user_date,req.body.user_gender,req.userId], (err, teacher, fields) => {
-       if (err) {
-            console.log(err);
-              res.json({
-                errors: [{
-                field: "Access denied",
-                errorDesc: "Cannot Remove it"
-              }]});
-          } else 
-          {
-            res.json({update : true});
-          }
-     })
+    var name;
+    connection.query("SELECT `User_Name` FROM `users` WHERE User_ID=?", [req.userId], (err, user, fields) => {
+      if (req.body.user_fname === "")
+        name = user[0].User_Name;
+      else
+        name = JSON.stringify({first_name:req.body.user_fname, last_name:req.body.user_lname});
+      connection.query("UPDATE `users` SET  `User_Name` = ?,`User_Email` = ?,`User_Phone` = ?,`User_Image` = ?,`User_Address` = ?,`User_Birthdate` = ?, `User_Gender` = ? WHERE `User_ID` = ?", [name,req.body.user_email,req.body.user_phone,req.body.user_image,req.body.user_address,req.body.user_date,req.body.user_gender,req.userId], (err, teacher, fields) => {
+         if (err) {
+              console.log(err);
+                res.json({
+                  errors: [{
+                  field: "Access denied",
+                  errorDesc: "Cannot Remove it"
+                }]});
+            } else 
+            {
+              res.json({update : true});
+            }
+       })
+    })
   },
 };
 

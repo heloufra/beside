@@ -4,7 +4,7 @@ var months =  ["January", "February", "March", "April", "May", "June", "July", "
 var StudentSub = [];
 var today = new Date();
 var currentDate = today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear();
-
+var maxChart = 0;
 getAbsences();
 getPayments();
 function getAbsences() {
@@ -60,6 +60,11 @@ function getPayments()
 	  	} else {
 	  		Payments = res.payments;
 	  		StudentSub = res.studentsSub;
+	  		for (var i = StudentSub.length - 1; i >= 0; i--) {
+	  			maxChart += parseInt(StudentSub[i].Expense_Cost);
+	  		}
+	  		console.log("Payments",Payments)
+	  		ChartJS();
 	  		var filtred = Payments.filter(payment => {
 				var date = new Date(payment.SP_Addeddate)
 				return date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear();
@@ -282,3 +287,187 @@ $('input[name=filter-payments]').change(function () {
 		displayPayments(filtred || []);
 	}
 })
+
+	/* Chart.js _______________________________________________*/
+
+function ChartJS() {
+		$chartDays = [];
+
+	for(d=1;d<32;d++){
+		d = d < 9 ? '0'+d : d; 
+		$chartDays.push(d);
+	}
+
+	function randomData(){
+
+		$chartData = [];
+		$filtreDate = [];
+		for(d=1;d<32;d++){
+
+			$obj = {};
+			$filtreDate = Payments.filter(payment => {
+				
+				var temp = new Date(payment.SP_Addeddate);
+				return temp.getDate() === d;
+			})
+			$obj.paymentCount  = 0;
+			$obj.y = 0;
+			for (var i = $filtreDate.length - 1; i >= 0; i--) {
+				$obj.paymentCount  += 1;
+				$obj.y 			  += parseInt($filtreDate[i].Expense_Cost);
+			}
+			$chartData.push($obj);
+		}
+
+		return $chartData;
+
+	}
+
+	var config = {
+			type: 'line',
+			data: {
+				labels:$chartDays,
+				datasets: [{
+					label: 'Payment',
+					backgroundColor:"#45bcff",
+					borderColor: "#45bcff",
+			        fill: true,
+			        borderColor: "rgb(75, 192, 192)",
+			        backgroundColor: "rgba(146, 221, 255, 0.08)",
+			        borderWidth: 2,
+			        lineTension: 0,
+			        /* point options */
+			        pointBorderColor: "#45bcff", // blue point border
+			        pointBackgroundColor: "#45bcff", // wite point fill
+			        pointBorderWidth: 1, // point border width 
+					data: randomData()
+				}]
+			},
+			options: {
+				responsive: true,
+            	maintainAspectRatio: false,
+				title: {
+					display: false,
+					text: 'Finance'
+				},
+				legend: {
+			    	display: false
+			    },
+			    tooltips: {
+				   callbacks: {
+                    	label : function(tooltipItem, data) {
+                        	var item = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+				     		return item;
+                   		 }
+				  },
+				  enabled: false,
+			      backgroundColor: '#FFF',
+			      titleFontSize: 16,
+			      titleFontColor: '#0066ff',
+			      bodyFontColor: '#000',
+			      bodyFontSize: 14,
+			      displayColors: false,
+			      custom: 	/*********************************************************************************************/
+							function(tooltip) {
+
+							    // Tooltip Element
+							    var tooltipEl = document.getElementById('chartjs-tooltip');
+							    if (!tooltipEl) {
+							        tooltipEl = document.createElement('div');
+							        tooltipEl.id = 'chartjs-tooltip';
+							        tooltipEl.innerHTML = "<table></table>"
+							        document.body.appendChild(tooltipEl);
+							    }
+							    // Hide if no tooltip
+							    if (tooltip.opacity === 0) {
+							        tooltipEl.style.opacity = 0;
+							        return;
+							    }
+							    // Set caret Position
+							    //tooltipEl.classList.remove('above', 'below', 'no-transform');
+							    if (tooltip.yAlign) {
+							        tooltipEl.classList.add(tooltip.yAlign);
+							    } else {
+							        tooltipEl.classList.add('no-transform');
+							    }
+							    function getBody(bodyItem) {
+							        return bodyItem.lines[0];
+							    }
+							    // Set Text
+							    if (tooltip.body) {
+							        var titleLines = tooltip.title || [];
+							        var bodyLines = tooltip.body.map(getBody);
+							        //PUT CUSTOM HTML TOOLTIP CONTENT HERE (innerHTML)
+							        var innerHtml = '<thead>';
+							        /*titleLines.forEach(function(title) {
+							            innerHtml += '<tr><th>' +  + '</th></tr>';
+							        });
+							        innerHtml += '</thead><tbody>';*/
+							        bodyLines.forEach(function(body, i) {
+							            var colors = tooltip.labelColors[i];
+							            var style = 'background:' + colors.backgroundColor;
+							            style += '; border-color:' + colors.borderColor;
+							            style += '; border-width: 2px'; 
+							            var span = '<span class="chartjs-tooltip-key" style="' + style + '"></span>';
+							            innerHtml += '<tr style="font-size:13px;color:#151a3b"><td>'+ span + body.paymentCount + ' payment(s) </td></tr>';
+							            innerHtml += '<tr style="font-size:13px;color:#151a3b"><td><span style="color:#279fe3"> + ' + span + body.y + '</span> Dh </td></tr>';
+							        });
+							        innerHtml += '</tbody>';
+							        var tableRoot = tooltipEl.querySelector('table');
+							        tableRoot.innerHTML = innerHtml;
+							    }
+							    var position = this._chart.canvas.getBoundingClientRect();
+
+								// Display, position, and set styles for font
+								tooltipEl.style.opacity = 1;
+								tooltipEl.style.position = 'absolute';
+								tooltipEl.style.left = position.left + window.pageXOffset + tooltip.caretX + 'px';
+								tooltipEl.style.top = position.top + window.pageYOffset + tooltip.caretY + 'px';
+								tooltipEl.style.fontFamily = tooltip._bodyFontFamily;
+								tooltipEl.style.fontSize = tooltip.bodyFontSize + 'px';
+								tooltipEl.style.fontStyle = tooltip._bodyFontStyle;
+								tooltipEl.style.padding = tooltip.yPadding + 'px ' + tooltip.xPadding + 'px';
+								tooltipEl.style.pointerEvents = 'none';
+								tooltipEl.style.backgroundColor = '#FFF';
+								tooltipEl.style.borderRadius = '3px';
+							}
+							/*********************************************************************************************/
+			    },
+				scales: {
+					xAxes: [{
+						display: true,
+						gridLines: {
+						  display: true,
+						  color: "#f0f0f6"
+						},
+			       		scaleLabel: {
+			           		display: false,
+			           		labelString: 'Date'
+		        		}
+					}],
+					yAxes: [{
+						display: true,
+						gridLines: {
+						  display: false,
+						  color: "#f0f0f6"
+						},
+						//type: 'logarithmic',
+	          			scaleLabel: {
+							display: false,
+							labelString: 'Index Returns'
+						},
+						ticks: {
+							min: 0,
+							max: maxChart,
+							// forces step size to be 5 units
+							stepSize: 1000
+						}
+					}]
+				}
+			}
+	};
+
+	if (document.getElementById('canvas'))
+			var ctx = document.getElementById('canvas').getContext('2d');
+			window.myLine = new Chart(ctx, config);
+}
