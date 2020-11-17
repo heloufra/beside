@@ -77,11 +77,12 @@ function displayPayments(payments)
 
 	console.log('StudentSub',StudentSub);
 	for (var i = StudentSub.length - 1; i >= 0; i--) {
-		subScription[StudentSub[i].Student_ID] = {Student_ID:StudentSub[i].Student_ID,Expense_Cost:0};
+		if (!subScription[StudentSub[i].Student_ID])
+			subScription[StudentSub[i].Student_ID] = {Student_ID:StudentSub[i].Student_ID,Expense_Cost:0};
 		if (StudentSub[i].Expense_PaymentMethod === 'Monthly')
 			for (var j = months.indexOf(StudentSub[i].Subscription_StartDate); j <= months.length - 1; j++) {
-				subScription[StudentSub[i].Student_ID].Expense_Cost += parseInt(StudentSub[i].Expense_Cost);
-				if (j === months.indexOf(StudentSub[i].Subscription_EndDate))
+					subScription[StudentSub[i].Student_ID].Expense_Cost += parseInt(StudentSub[i].Expense_Cost);
+				if (j === today.getMonth())
 					break;
 				if (i === months.length - 1)
 					i = -1;
@@ -89,18 +90,22 @@ function displayPayments(payments)
 		else
 			subScription[StudentSub[i].Student_ID].Expense_Cost += parseInt(StudentSub[i].Expense_Cost)
 	}
+	console.log('subScription',subScription);
+	var tempDate;
 	payments.forEach(function (a) {
-	    if (!this[a.Student_ID+ '-' +a.SP_Addeddate]) {
-	        this[a.Student_ID+ '-' +a.SP_Addeddate] = { Student_ID: a.Student_ID, Expense_Cost: 0,SP_Addeddate:a.SP_Addeddate,Student_Image:a.Student_Image,Student_FirstName:a.Student_FirstName,Student_LastName:a.Student_LastName,Classe_Label:a.Classe_Label };
-	        result.push(this[a.Student_ID+ '-' +a.SP_Addeddate]);
+		tempDate = new Date(a.SP_Addeddate);
+	    if (!this[a.Student_ID+ '-' +tempDate.toDateString()]) {
+	        this[a.Student_ID+ '-'  +tempDate.toDateString()] = { Student_ID: a.Student_ID, Expense_Cost: 0,SP_Addeddate:a.SP_Addeddate,Student_Image:a.Student_Image,Student_FirstName:a.Student_FirstName,Student_LastName:a.Student_LastName,Classe_Label:a.Classe_Label };
+	        result.push(this[a.Student_ID+ '-'  +tempDate.toDateString()]);
 	    }
-	    subScription[a.Student_ID].Expense_Cost -= parseInt(a.Expense_Cost);
-    	this[a.Student_ID+ '-' +a.SP_Addeddate].Expense_Cost += parseInt(a.Expense_Cost);
+    	this[a.Student_ID+ '-'  +tempDate.toDateString()].Expense_Cost += parseInt(a.Expense_Cost);
 	}, Object.create(null));
-	console.log('Subsription',subScription);
+	Payments.forEach(function (a) {
+	    subScription[a.Student_ID].Expense_Cost -= parseInt(a.Expense_Cost);
+	}, Object.create(null));
 	for (var i = 0; i <= result.length - 1; i++) {
 		var date = new Date(result[i].SP_Addeddate);
-		$('#list-payments').append('<tr class="row-payments"> <td data-label="Student"> <!-- sections-main-sub-container-left-cards --> <div class="sections-main-sub-container-left-card"> <img class="sections-main-sub-container-left-card-main-img" src="'+result[i].Student_Image+'" alt="card-img"> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+result[i].Student_FirstName + ' ' + result[i].Student_LastName +'</p> <span class="sections-main-sub-container-left-card-sub-info">'+ result[i].Classe_Label +'</span> </div> </div> <!-- End sections-main-sub-container-left-cards --> </td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+ date.toDateString() +'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="Paid amount"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+ result[i].Expense_Cost +'" class="input-text input-text-blue" required="" placeholder="Paid amount"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="Outstanding"> <div class="form-group group dynamic-form-input-text-container-icon"> '+(subScription[result[i].Student_ID].Expense_Cost <= 0 ?('<img src="assets/icons/green_check.svg" alt="green_check">') : subScription[result[i].Student_ID].Expense_Cost)+' </div> </td> </tr> ')
+		$('#list-payments').append('<tr class="row-payments"> <td data-label="Student"> <!-- sections-main-sub-container-left-cards --> <div class="sections-main-sub-container-left-card"> <img class="sections-main-sub-container-left-card-main-img" src="'+result[i].Student_Image+'" alt="card-img"> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+result[i].Student_FirstName + ' ' + result[i].Student_LastName +'</p> <span class="sections-main-sub-container-left-card-sub-info">'+ result[i].Classe_Label +'</span> </div> </div> <!-- End sections-main-sub-container-left-cards --> </td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+ date.toDateString() +'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="Paid amount"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+ result[i].Expense_Cost +'" class="input-text input-text-blue" required="" placeholder="Paid amount"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="Outstanding"> <div class="form-group group dynamic-form-input-text-container-icon"> '+(subScription[result[i].Student_ID].Expense_Cost <= 0 ?('<img src="assets/icons/green_check.svg" alt="green_check">') : ('<input type="text" value="'+subScription[result[i].Student_ID].Expense_Cost+'" class="input-text" required="" placeholder="Outstanding">'))+' </div> </td> </tr> ')
 	}
 }
 

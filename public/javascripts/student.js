@@ -451,7 +451,6 @@ function executePayment() {
 		if (subStudent[i].Expense_PaymentMethod === "Monthly")
 		{
 			MonthsFiltred = [];
-			console.log("Start::",subStudent[i].Subscription_StartDate);
 			for (var j = months.indexOf(subStudent[i].Subscription_StartDate); j < months.length; j++) {
 				MonthsFiltred.push(months[j]);
 				if (j === indEnd)
@@ -490,8 +489,10 @@ function executePayment() {
 				$('#FinanceModal').find('.yearly').removeClass('hidden');
 				$('#FinanceModal').find('.yearly').after('<div class="yearly-rows dynamic-form-input-container dynamic-form-input-container-extra-style input-text-subject-select2-one-option"> <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+subStudent[i].Expense_Label+'</span> <span class="input-label-bg-mask"></span></label> <div class="dynamic-form-input-dropdown-container"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="form-group group"> <select class="input-text-year-select2 payment-select" data-val="Annual" data-ssid="'+subStudent[i].SS_ID+'" multiple name="language"> '+htmlYearly+'</select> <img class="icon button-icon" src="assets/icons/caret.svg"> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div> </div>');
 		      	if (payFilter.length > 0)
-			      	var option = new Option(payFilter[0].SP_PaidPeriod,payFilter[0].SP_PaidPeriod, true, true);
+		      	{
+		      		var option = new Option(payFilter[0].SP_PaidPeriod,payFilter[0].SP_PaidPeriod, true, true);
 	    			$('#FinanceModal').find('[data-ssid="'+subStudent[i].SS_ID+'"]').append(option).trigger('change');
+		      	}
 		}
 	}
 	if($(".input-text-month-select2").length > 0){
