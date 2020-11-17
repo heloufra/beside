@@ -119,7 +119,7 @@ var homeworkController = {
   updateHomework: function(req, res, next) {
     connection.query("UPDATE `homeworks` SET `Homework_Title` = ?,`Homework_Deatils` = ?, `Homework_DeliveryDate` = ? WHERE Homework_ID = ?", [req.body.homework_name,req.body.homework_description,req.body.homework_date,req.body.id], (err, student, fields) => {
       if (req.file)
-        connection.query(homeworkFileQuery, [homework.insertId,req.file.path.replace(/\\/g, "/").replace('public',''),req.body.homework_name], (err, homeworkfile, fields) => {
+        connection.query(homeworkFileQuery, [req.body.id,req.file.path.replace(/\\/g, "/").replace('public',''),req.body.homework_name], (err, homeworkfile, fields) => {
          if (err) {
               console.log(err);
                 res.json({
@@ -129,7 +129,7 @@ var homeworkController = {
                 }]});
             } else 
             {
-              res.json({saved : true});
+              res.json({updated : true});
             }
        })
       else
