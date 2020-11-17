@@ -210,7 +210,7 @@ function displayHomework(index)
   		$('#homework_info').find('#homework_description').val(res.homework[0].Homework_Deatils);
   		$('#homework_info').find('.sub-label-full-name').html(res.homework[0].Subject_Label+' - '+res.homework[0].Classe_Label+' - '+name.first_name+' '+ name.last_name);
   		for (var i = res.homeworkFiles.length - 1; i >= 0; i--) {
-  			$('#homework_info').find('.list-files').prepend('<div class="file-container file-loaded"><a style="text-decoration: none; color: inherit;" download href="'+res.homeworkFiles[i].Homework_Link+'"> <div class="file-icon-label"> <img class="file-icon" src="assets/icons/file.svg" alt="file"/> <span class="file-label">'+res.homeworkFiles[i].Homework_Title+'-'+i+'</span> </div></a> <img class="file-close" src="assets/icons/close-gray.svg" alt="close"/> </div>');
+  			$('#homework_info').find('.list-files').prepend('<div class="file-container file-loaded file-forms"><a style="text-decoration: none; color: inherit;" download href="'+res.homeworkFiles[i].Homework_Link+'"> <div class="file-icon-label"> <img class="file-icon" src="assets/icons/file.svg" alt="file"/> <span class="file-label">'+res.homeworkFiles[i].Homework_Title+'-'+(i + 1)+'</span> </div></a> <img class="file-close" src="assets/icons/close-gray.svg" alt="close"/> </div>');
   		}
   		$('#HomeworkDetails').addClass("dom-change-watcher");
   		}
