@@ -7214,6 +7214,10 @@ table td img {
 
 }
 
+#Costs_Section .square-button-plus {
+  display: none;
+}
+
 /*************** End data-loading ***********************************/
 
 

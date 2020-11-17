@@ -460,13 +460,12 @@ function ChartJS() {
 							min: 0,
 							max: maxChart,
 							// forces step size to be 5 units
-							stepSize: 1000
+							stepSize: 1000,
 						}
 					}]
 				}
 			}
 	};
-
 	if (document.getElementById('canvas'))
 			var ctx = document.getElementById('canvas').getContext('2d');
 			window.myLine = new Chart(ctx, config);

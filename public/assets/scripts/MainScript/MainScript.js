@@ -998,7 +998,7 @@ $(document).ready(function(){
 
 	/* Costs Section _______________________*/
 
-	$(document).on("click","#Costs_Section .square-button-plus",function(){
+	/*$(document).on("click","#Costs_Section .square-button-plus",function(){
 
 		$(this).parents(".dynamic-form-input-container-extra-style-composed").find(".dynamic-form-input-dropdown").removeClass("dynamic-form-input-first");
 		$dynamic_form_input = $(this).parent().children(".dynamic-form-input-dropdown-container").first().clone();
@@ -1010,13 +1010,14 @@ $(document).ready(function(){
 
 	$(document).on("click","#Costs_Section .square-button-minus",function(){
 
+
 		if($(this).parents(".dynamic-form-input-container-extra-style").children(".dynamic-form-input-dropdown-container").length <= 2 ){
 			$(this).parents(".dynamic-form-input-container-extra-style").children(".dynamic-form-input-dropdown-container").children(".dynamic-form-input-dropdown").addClass("dynamic-form-input-first");
 		}
-
+		$(this).parents(".dynamic-form-input-dropdown-container").parent('.dynamic-form-input-container-extra-style-composed').find('.square-button-plus').css('display','block');
 		$(this).parents(".dynamic-form-input-dropdown-container").remove();
 
-	});
+	});*/
 
 	/* Subject Section _______________________*/
 

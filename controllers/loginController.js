@@ -69,7 +69,6 @@ var loginController = {
                 } catch (e) {
                     name =  userResult[0].User_Name;
                 }
-                console.log("Name",name);
                 readHTMLFile(__dirname + '/templates/email_login_template.html', function(err, html) {
                   var template = handlebars.compile(html);
                   var replacements = {
