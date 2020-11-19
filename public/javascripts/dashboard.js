@@ -61,7 +61,8 @@ function getPayments()
 	  		Payments = res.payments;
 	  		StudentSub = res.studentsSub;
 	  		for (var i = StudentSub.length - 1; i >= 0; i--) {
-	  			maxChart += parseInt(StudentSub[i].Expense_Cost);
+	  			if (StudentSub[i].Expense_PaymentMethod === 'Monthly')
+	  				maxChart += parseInt(StudentSub[i].Expense_Cost);
 	  		}
 	  		console.log("Payments",Payments)
 	  		ChartJS();
