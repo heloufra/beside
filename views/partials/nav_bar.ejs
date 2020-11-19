@@ -107,16 +107,8 @@ $(document).on("click","#settings_btn",function(event){
     })
     .done(function(res){
       $('#ProfileSettings').find('#output-settings').attr('src',res.user.User_Image);
-      var  name = {first_name:res.user.User_Name,last_name:""};
-      try {
-          name = JSON.parse(res.user.User_Name);
-          if (name.first_name)
-            name = name.first_name + " " + name.last_name;
-          else
-            name = {first_name:res.user.User_Name,last_name:""};
-      } catch (e) {
-           name = {first_name:res.user.User_Name,last_name:""};
-      }
+         var name = JSON.parse(res.user.User_Name);
+
       
       $('#ProfileSettings').find('input[name=fname-settings]').val(name.first_name);
       $('#ProfileSettings').find('input[name=lname-settings]').val(name.last_name);
