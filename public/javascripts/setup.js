@@ -390,9 +390,8 @@ function addLevels(data) {
         }
 
         if(!$exist){
-          console.log("Tag Data!!",$tag_data);
-          $(this).append('<option value="'+$tag_data.id+'">'+$tag_data.text+'</option>');
-          $(this).trigger('change');
+          var newOption = new Option($tag_data.text, $tag_data.id, false, false);
+          $(this).append(newOption).trigger('change');
         }
 
       }
@@ -403,6 +402,44 @@ function addLevels(data) {
 
   });
 
+
+$tag_data_unselect ="";
+
+  $(".input-text-subject-select2").on("select2:unselect", (e) => {
+
+    $tag_data_unselect = e.params.data;
+
+  });
+
+  $('.input-text-subject-select2').on('select2:open', function (e) {
+
+    var a = new Array();
+
+      $(this).children("option").each(function(x){
+
+          test = false;
+          b = a[x] = $(this).val();
+
+          for(i=0;i<a.length-1;i++){
+              if(b ==a[i]){
+                test =true;
+              }
+          }
+
+          if(test){
+            $(this).remove();
+          }
+
+      })
+
+    if( $tag_data_unselect != "" ) {
+      var newOption = new Option($tag_data_unselect.text, $tag_data_unselect.id, false, false);
+      $(this).append(newOption).trigger('change');
+    }
+
+    $tag_data_unselect = "" ;
+
+  });
   /****** End append new options to all dropdown *********/
 
   if($(".input-text-month-select2").length > 0){

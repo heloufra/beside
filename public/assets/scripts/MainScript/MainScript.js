@@ -754,8 +754,21 @@ $(document).ready(function(){
 
 	/* End finance-page-extra-style _________________*/
 
-	
+	$(document).on("click",".sub-main-container",function(){
 
+		if($(".select2").length > 0 ){
+			$('body').trigger('mousedown');
+		}
+		
+	});
+
+	/*$(document).on("blur",".select2",function(){
+
+		$('body').trigger('mousedown');
+		
+	});*/
+
+	
 	/* Form Component ______________________*/
 
 
