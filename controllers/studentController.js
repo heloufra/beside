@@ -163,7 +163,7 @@ var studentController = {
     })
   },
   saveStudent: function(req, res, next) {
-     connection.query("SELECT * FROM `students` WHERE `Student_FirstName` = ? AND `Student_LastName` = ? AND Student_Status <> '0'", [req.body.first_name,  req.body.last_name], (err, user, fields) => {
+     connection.query("SELECT * FROM `students` WHERE `Student_FirstName` = ? AND `Student_LastName` = ? AND Student_Status <> 0", [req.body.first_name,  req.body.last_name], (err, user, fields) => {
         if(user.length === 0)
         {
            connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {

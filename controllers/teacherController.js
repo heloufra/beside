@@ -77,14 +77,16 @@ var teacherController = {
     })
   },
   getTeacher:function(req, res, next) {
-    var allClasses = [];
+    var allClasses = [],temp;
     connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
        connection.query("SELECT * FROM `absencesanddelays` WHERE User_ID = ? AND Declaredby_ID = ? AND AD_Status <> 0 AND User_Type='teacher'", [req.query.id,req.userId], (err, absences, fields) => {
         connection.query("SELECT DISTINCT subjects.Subject_Label,subjects.Subject_ID FROM `users` INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Teacher_ID = users.User_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID WHERE users.User_ID = ? AND institutionsusers.Institution_ID = ? AND institutionsusers.User_Role = 'Teacher' AND teachersubjectsclasses.TSC_Status <>0", [req.query.id,req.Institution_ID],async (err, subjects, fields) => {
           connection.query("SELECT DISTINCT subjects.Subject_Label, subjects.Subject_ID,classes.Classe_Label,classes.Classe_ID FROM `users` INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Teacher_ID = users.User_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID WHERE users.User_ID = ? AND institutionsusers.Institution_ID = ? AND institutionsusers.User_Role = 'Teacher' AND teachersubjectsclasses.TSC_Status <>0", [req.query.id,req.Institution_ID],async (err, classes, fields) => {
             connection.query("SELECT subjects.*,levelsubjects.Level_ID FROM subjects INNER JOIN levelsubjects ON levelsubjects.Subject_ID = subjects.Subject_ID WHERE levelsubjects.AY_ID = ?", [academic[0].AY_ID],async (err, allsubjects, fields) => {
                 for (var i = classes.length - 1; i >= 0; i--) {
-                  allClasses.push(await teacherModel.getAllClasses(classes[i].Subject_ID,academic[0].AY_ID)) 
+                  temp = await teacherModel.getAllClasses(classes[i].Subject_ID,academic[0].AY_ID);
+                  if (temp)
+                    allClasses.push(temp);
                 }
                 res.json({
                         subjects:subjects,
