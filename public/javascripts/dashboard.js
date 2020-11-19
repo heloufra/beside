@@ -308,7 +308,8 @@ function ChartJS() {
 			$filtreDate = Payments.filter(payment => {
 				
 				var temp = new Date(payment.SP_Addeddate);
-				return temp.getDate() === d;
+				var mois = months.indexOf(payment.SP_PaidPeriod);
+				return temp.getDate() === d && mois === today.getMonth();
 			})
 			$obj.paymentCount  = 0;
 			$obj.y = 0;
