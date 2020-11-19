@@ -208,15 +208,37 @@ function displayHomework(index)
   		$('#homework_info').find('input[name="homework_name"]').val(res.homework[0].Homework_Title);
   		$('#homework_info').find('input[name="homework_date"]').val(res.homework[0].Homework_DeliveryDate);
   		$('#homework_info').find('#homework_description').val(res.homework[0].Homework_Deatils);
+  		$('#homework_info').find('input[name="uploaded_file"]').val('');
   		$('#homework_info').find('.sub-label-full-name').html(res.homework[0].Subject_Label+' - '+res.homework[0].Classe_Label+' - '+name.first_name+' '+ name.last_name);
   		for (var i = res.homeworkFiles.length - 1; i >= 0; i--) {
-  			$('#homework_info').find('.list-files').prepend('<div class="file-container file-loaded file-forms"><a style="text-decoration: none; color: inherit;" download href="'+res.homeworkFiles[i].Homework_Link+'"> <div class="file-icon-label"> <img class="file-icon" src="assets/icons/file.svg" alt="file"/> <span class="file-label">'+res.homeworkFiles[i].Homework_Title+'-'+(i + 1)+'</span> </div></a> <img class="file-close" src="assets/icons/close-gray.svg" alt="close"/> </div>');
+  			$('#homework_info').find('.list-files').prepend('<div class="file-container file-loaded file-forms"><a style="text-decoration: none; color: inherit;" download href="'+res.homeworkFiles[i].Homework_Link+'"> <div class="file-icon-label"> <img class="file-icon" src="assets/icons/file.svg" alt="file"/> <span class="file-label">'+res.homeworkFiles[i].Homework_Title+'</span> </div></a>'+ (res.role === "Teacher" ? ('<img class="file-close" onclick="removeFile('+res.homeworkFiles[i].HA_ID+')" src="assets/icons/close-gray.svg" alt="close"/>') : (''))+' </div>');
   		}
   		$('#HomeworkDetails').addClass("dom-change-watcher");
   		}
   	}
   });
 }
+
+function removeFile(id) {
+	console.log("ID:::",id);
+	$.ajax({
+		    type: 'post',
+		    url: '/Homeworks/file/remove',
+		    data: {
+		    	id:id
+		    },
+		    dataType: 'json'
+		  })
+		  .done(function(res){
+		  	if(res.removed)
+		  	{
+		  		displayHomework(homeworkId);
+		  	} else {
+		  		console.log(res);
+		  	}
+		  });
+}
+
 $('input[name="filter-classe"]').on( "change", function() {
   var value = $(this).val();
   if (value.replace(/\s/g, '') !== '')

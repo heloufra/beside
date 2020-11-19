@@ -43,7 +43,7 @@ var homeworkController = {
 
           connection.query(homeworkQuery, [tsc[0].TSC_ID,  req.body.homework_name,  req.body.homework_description, req.body.homework_deliverydate], (err, homework, fields) => {
             if (req.file)
-              connection.query(homeworkFileQuery, [homework.insertId,req.file.path.replace(/\\/g, "/").replace('public',''),req.body.homework_name], (err, homeworkfile, fields) => {
+              connection.query(homeworkFileQuery, [homework.insertId,req.file.path.replace(/\\/g, "/").replace('public',''),req.body.homework_name + '-' + req.file.originalname], (err, homeworkfile, fields) => {
                if (err) {
                     console.log(err);
                       res.json({
@@ -95,7 +95,8 @@ var homeworkController = {
         connection.query(selectHomeworkFiles,[req.query.homework_id], (err, homeworkFiles, fields) => {
           res.json({
                     homework,
-                    homeworkFiles
+                    homeworkFiles,
+                    role:req.role
                   });
         })
       })
@@ -116,11 +117,27 @@ var homeworkController = {
           }
      })
   },
+  deleteFileHomework: function(req, res, next) {
+    console.log("ID::",req.body)
+    connection.query("UPDATE `homeworks_attachement` SET `HA_Status` = 0 WHERE `HA_ID` = ?", [req.body.id], (err, files, fields) => {
+       if (err) {
+            console.log(err);
+              res.json({
+                errors: [{
+                field: "Access denied",
+                errorDesc: "Cannot Remove it"
+              }]});
+          } else 
+          {
+            res.json({removed : true});
+          }
+     })
+  },
   updateHomework: function(req, res, next) {
     console.log("File0",req.file);
     connection.query("UPDATE `homeworks` SET `Homework_Title` = ?,`Homework_Deatils` = ?, `Homework_DeliveryDate` = ? WHERE Homework_ID = ?", [req.body.homework_name,req.body.homework_description,req.body.homework_date,req.body.id], (err, student, fields) => {
       if (req.file)
-        connection.query(homeworkFileQuery, [req.body.id,req.file.path.replace(/\\/g, "/").replace('public',''),req.body.homework_name], (err, homeworkfile, fields) => {
+        connection.query(homeworkFileQuery, [req.body.id,req.file.path.replace(/\\/g, "/").replace('public',''),req.body.homework_name + '-' + req.file.originalname], (err, homeworkfile, fields) => {
          if (err) {
               console.log(err);
                 res.json({
