@@ -547,6 +547,7 @@ function saveteacher() {
 
 	if (first_name && last_name && teacher_address && phone_number && birthdate && email && (subjects.length > 0))
 	{
+		$('#AddTeacherModal').modal('hide');
 		var data = {
 			first_name,
 			last_name,
@@ -567,7 +568,6 @@ function saveteacher() {
 		  .done(function(res){
 		  	if(res.saved)
 		  	{
-		  		$('#AddTeacherModal').modal('hide');
 		  		$('#teacher_form').find('input[name="first_name"]').val("");
 				$('#teacher_form').find('input[name="teacher_address"]').val("");
 				$('#teacher_form').find('input[name="profile_image"]').val("");

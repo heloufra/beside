@@ -129,6 +129,7 @@ function saveHomework() {
 		$('#AddHomeworkModal').find('#homework_description').css("border-color", "#EFEFEF");
 	if (homework_name && homework_description && homework_deliverydate && homework_subject && homework_classe)
 	{
+		$('#AddHomeworkModal').modal('hide');
 		var formData = new FormData();
         formData.append('homework_name', homework_name);
         formData.append('homework_deliverydate', homework_deliverydate);
@@ -155,7 +156,6 @@ function saveHomework() {
 				$('#AddHomeworkModal').find('input[name="homework_name"]').val("");
 				$('#AddHomeworkModal').find('#homework_description').val("");
 				$('#AddHomeworkModal').find('input[name="upload_file_modal"]').val('');
-		  		$('#AddHomeworkModal').modal('hide');
 				console.log('Saved');
 		  	} else {
 		  		console.log("not saved");
