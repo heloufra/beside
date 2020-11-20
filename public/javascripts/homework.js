@@ -2,6 +2,7 @@ getAllHomeworks();
 var homeworks = [];
 var homeworkId = 0;
 var ClasseFilter = [];
+
 function getAllHomeworks(id) {
  	$('.homework-row').remove();
 	$.ajax({
@@ -40,27 +41,65 @@ function getAllHomeworks(id) {
 
 var fileData = null;
 
-function loadFile() {
-    var file    = document.getElementByID('uploaded_file').files[0];
-    var reader  = new FileReader();
 
-    reader.onloadend = function () {
-        fileData = file;
-    }
-    if (file) {
-        reader.readAsDataURL(file);
-    }
+
+/*
+<div class="file-container file-container-visibility">
+<div class="file-icon-label">
+   <img  class="file-icon" src="assets/icons/file.svg" alt="file"/>
+    <span class="file-label">Filename_uploading_file_state.pdf</span>
+  </div>
+  <img  class="file-close" src="assets/icons/close-gray.svg" alt="close"/>
+
+  <div class="progress">
+      <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" 
+       aria-valuemin="0" aria-valuemax="100">
+       </div>
+  </div>
+
+</div>
+*/
+
+/*$('#AddHomeworkModal').find('input[name="upload_file_modal"]').on( "change", function() {
+	if ($(this).val().replace(/\s/g, '') !== '')
+	{
+		console.log('File Val',$(this).val());
+		$('#AddHomeworkModal').find('.file-upload').addClass('file-container-visibility');
+	 	$('#AddHomeworkModal').find('.list-files').append('<div class="file-container file-upload"> <div class="file-icon-label"> <img class="file-icon" src="assets/icons/file.svg" alt="file"/> <span class="file-label">'+$(this).val().split("\\")[2]+'</span> </div> <img class="file-close" onclick="discardFileModal()" src="assets/icons/close-gray.svg" alt="close"/> <div class="progress"> <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"> </div> </div> </div>');
+	 	setTimeout(function(){
+				$('#AddHomeworkModal').find('.file-container .progress-bar').css('width', '100%').attr('aria-valuenow', 100); 
+			},500);
+	}
+})
+
+$('#homework_info').find('input[name="upload_file"]').on( "change", function() {
+	if ($(this).val().replace(/\s/g, '') !== '')
+	{
+		console.log('File Val',$(this).val());
+		$('#homework_info').find('.file-upload').addClass('file-container-visibility');
+	 	$('#homework_info').find('.list-files').append('<div class="file-container file-upload"> <div class="file-icon-label"> <img class="file-icon" src="assets/icons/file.svg" alt="file"/> <span class="file-label">'+$(this).val().split("\\")[2]+'</span> </div> <img class="file-close" onclick="discardFile()" src="assets/icons/close-gray.svg" alt="close"/> <div class="progress"> <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"> </div> </div> </div>');
+	 	setTimeout(function(){
+				$('#homework_info').find('.file-container .progress-bar').css('width', '100%').attr('aria-valuenow', 100); 
+			},500);
+	}
+})
+
+function discardFileModal() {
+	$('#AddHomeworkModal').find('.file-upload').addClass('file-container-visibility');
+	$('#AddHomeworkModal').find('input[name="upload_file_modal"]').val('');
 }
 
-if (document.getElementById("uploaded_file"))
-	document.getElementById("uploaded_file").addEventListener("change", loadFile);
+function discardFile() {
+	$('#homework_info').find('.file-upload').addClass('file-container-visibility');
+	$('#homework_info').find('input[name="upload_file"]').val('');
+}*/
+
 function saveHomework() {
 	var homework_classe = $('#AddHomeworkModal').find('input[name="homework_classe"]').val();
 	var homework_deliverydate = $('#AddHomeworkModal').find('input[name="homework_deliverydate"]').val();
 
 	var homework_subject = $('#AddHomeworkModal').find('input[name="homework_subject"]').val();
 	var homework_name = $('#AddHomeworkModal').find('input[name="homework_name"]').val();
-	var uploaded_file = $('#AddHomeworkModal').find('input[name="uploaded_file"]').prop('files')[0];
 	var homework_description = $('#AddHomeworkModal').find('#homework_description').val();
 	var at_type = "";
 
@@ -88,7 +127,6 @@ function saveHomework() {
 		$('#AddHomeworkModal').find('#homework_description').css("border-color", "#f6b8c1");
 	else
 		$('#AddHomeworkModal').find('#homework_description').css("border-color", "#EFEFEF");
-
 	if (homework_name && homework_description && homework_deliverydate && homework_subject && homework_classe)
 	{
 		var formData = new FormData();
@@ -97,7 +135,8 @@ function saveHomework() {
         formData.append('homework_description', homework_description);
         formData.append('homework_classe', homework_classe);
         formData.append('homework_subject', homework_subject);
-        formData.append('file', uploaded_file);
+       	formData.append('file', $('#AddHomeworkModal').find('input[name="upload_file_modal"]').prop('files')[0]);
+       	console.log('File Save!!',$('#AddHomeworkModal').find('input[name="upload_file_modal"]').prop('files'));
 		$.ajax({
 		    type: 'post',
 		    url: '/Homeworks/save',
@@ -109,11 +148,13 @@ function saveHomework() {
 		  	if(res.saved)
 		  	{
 		  		getAllHomeworks();
+		  		$('#AddHomeworkModal').find('.file-upload').addClass('file-container-visibility');
 				$('#AddHomeworkModal').find('input[name="homework_classe"]').val("");
 				$('#AddHomeworkModal').find('input[name="homework_deliverydate"]').val("");
 				$('#AddHomeworkModal').find('input[name="homework_subject"]').val("");
 				$('#AddHomeworkModal').find('input[name="homework_name"]').val("");
 				$('#AddHomeworkModal').find('#homework_description').val("");
+				$('#AddHomeworkModal').find('input[name="upload_file_modal"]').val('');
 		  		$('#AddHomeworkModal').modal('hide');
 				console.log('Saved');
 		  	} else {
@@ -144,14 +185,13 @@ function saveHomework() {
 		  });
  }
 
-
  function saveChange() {
  	var formData = new FormData();
  	formData.append('id', homeworkId);
     formData.append('homework_name', $('#homework_info').find('input[name="homework_name"]').val());
     formData.append('homework_date', $('#homework_info').find('input[name="homework_date"]').val());
     formData.append('homework_description', $('#homework_info').find('#homework_description').val());
-    formData.append('file', $('#homework_info').find('input[name="uploaded_file"]').prop('files')[0]);
+    formData.append('file', $('#homework_info').find('input[name="upload_file"]').prop('files')[0]);
 	$.ajax({
 	    type: 'post',
 	    url: '/Homeworks/update',
@@ -164,7 +204,9 @@ function saveHomework() {
 	  	if(res.updated)
 	  	{
 	  			getAllHomeworks(homeworkId);
+	  			$('#homework_info').find('.file-upload').addClass('file-container-visibility');
 	  			$('#ChangesModal').modal('hide');
+	  			$('#homework_info').find('input[name="upload_file"]').val('');
 	  			console.log($('#ChangesModal').data('id'));
 	  	} else {
 	  		console.log(res);
@@ -176,6 +218,8 @@ function saveHomework() {
  function discardChange() {
  	$('#homework_info .sub-container-form-footer').addClass('hide-footer');
  	$('#homework_info .sub-container-form-footer').removeClass('show-footer');
+ 	$('#homework_info').find('.file-upload').addClass('file-container-visibility');
+ 	$('#homework_info').find('input[name="upload_file"]').val('');
  	$('#ChangesModal').modal('hide');
  	displayHomework(homeworkId);
  }
@@ -200,27 +244,27 @@ function displayHomework(index)
   		if (res.homework[0])
   		{
   			var name = JSON.parse(res.homework[0].User_Name);
-  		$('#homework_info').removeClass('hidden');
-  		$('#homework_info').find('.file-forms').remove();
-  		$('#homework_info').find('.homework_img').css('background-color',res.homework[0].Subject_Color);
-  		$('#homework_info').find('.homework_img').html(res.homework[0].Subject_Label.slice(0,2))
-  		$('#homework_info').find('.label-full-name').html(res.homework[0].Homework_Title);
-  		$('#homework_info').find('input[name="homework_name"]').val(res.homework[0].Homework_Title);
-  		$('#homework_info').find('input[name="homework_date"]').val(res.homework[0].Homework_DeliveryDate);
-  		$('#homework_info').find('#homework_description').val(res.homework[0].Homework_Deatils);
-  		$('#homework_info').find('input[name="uploaded_file"]').val('');
-  		$('#homework_info').find('.sub-label-full-name').html(res.homework[0].Subject_Label+' - '+res.homework[0].Classe_Label+' - '+name.first_name+' '+ name.last_name);
-  		for (var i = res.homeworkFiles.length - 1; i >= 0; i--) {
-  			$('#homework_info').find('.list-files').prepend('<div class="file-container file-loaded file-forms"><a style="text-decoration: none; color: inherit;" download href="'+res.homeworkFiles[i].Homework_Link+'"> <div class="file-icon-label"> <img class="file-icon" src="assets/icons/file.svg" alt="file"/> <span class="file-label">'+res.homeworkFiles[i].Homework_Title+'</span> </div></a>'+ (res.role === "Teacher" ? ('<img class="file-close" onclick="removeFile('+res.homeworkFiles[i].HA_ID+')" src="assets/icons/close-gray.svg" alt="close"/>') : (''))+' </div>');
-  		}
-  		$('#HomeworkDetails').addClass("dom-change-watcher");
+	  		$('#homework_info').removeClass('hidden');
+	  		$('#homework_info').find('.file-forms').remove();
+	  		$('#homework_info').find('.homework_img').css('background-color',res.homework[0].Subject_Color);
+	  		$('#homework_info').find('.homework_img').html(res.homework[0].Subject_Label.slice(0,2))
+	  		$('#homework_info').find('.label-full-name').html(res.homework[0].Homework_Title);
+	  		$('#homework_info').find('input[name="homework_name"]').val(res.homework[0].Homework_Title);
+	  		$('#homework_info').find('input[name="homework_date"]').val(res.homework[0].Homework_DeliveryDate);
+	  		$('#homework_info').find('#homework_description').val(res.homework[0].Homework_Deatils);
+	  		$('#homework_info').find('input[name="upload_file"]').val('');
+	  		$('#homework_info').find('.file-upload').addClass('file-container-visibility');
+	  		$('#homework_info').find('.sub-label-full-name').html(res.homework[0].Subject_Label+' - '+res.homework[0].Classe_Label+' - '+name.first_name+' '+ name.last_name);
+	  		for (var i = res.homeworkFiles.length - 1; i >= 0; i--) {
+	  			$('#homework_info').find('.list-files').prepend('<div class="file-container file-loaded file-forms"><a style="text-decoration: none; color: inherit;" download href="'+res.homeworkFiles[i].Homework_Link+'"> <div class="file-icon-label"> <img class="file-icon" src="assets/icons/file.svg" alt="file"/> <span class="file-label">'+res.homeworkFiles[i].Homework_Title+'</span> </div></a>'+ (res.role === "Teacher" ? ('<img class="file-close" onclick="removeFile('+res.homeworkFiles[i].HA_ID+')" src="assets/icons/close-gray.svg" alt="close"/>') : (''))+' </div>');
+	  		}
+	  		$('#HomeworkDetails').addClass("dom-change-watcher");
   		}
   	}
   });
 }
 
 function removeFile(id) {
-	console.log("ID:::",id);
 	$.ajax({
 		    type: 'post',
 		    url: '/Homeworks/file/remove',

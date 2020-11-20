@@ -3,6 +3,7 @@
 $Href = "";
 $Api  = "";
 $Path = "";
+$href = "/beside/";
 
 $domChange  = false;
 $redirectTo = "";
@@ -286,7 +287,7 @@ $(document).ready(function(){
 		scanStyles:true,
 		type:'html',
 		honorColor: true,
-		css: [$href+"assets/styles/MainStyle/MainStyle.css"]
+		css: ["assets/styles/MainStyle/MainStyle.css"]
 		})
 
 		//assets/styles/MainStyle/MainStyle.css
@@ -623,6 +624,30 @@ $(document).ready(function(){
 		return null;
 	});
 
+	$(document).on("click","#printTheBill",function(){
+		
+		//CreatePDFfromHTML();
+
+		printJS({printable: 'html-content',
+		scanStyles:true,
+		type:'html',
+		honorColor: true,
+		css: [window.location.origin+"/assets/styles/MainStyle/MainStyle.css"]
+		})
+
+		//assets/styles/MainStyle/MainStyle.css
+
+		/*$('.html-content').printThis({
+              importCSS: true,
+              base:'true',
+              loadCSS: $href+"assets/styles/MainStyle/print.css",
+              header: "",
+              debug: true,
+              importCSS: true,
+              importStyle: true
+          });*/
+
+	});
 
 	/* sections-label-checkbox-container _________________*/
 
