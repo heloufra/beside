@@ -205,10 +205,7 @@ function saveHomework() {
 	  	if(res.updated)
 	  	{
 	  			getAllHomeworks(homeworkId);
-	  			$('#homework_info').find('.file-upload').addClass('file-container-visibility');
 	  			$('#ChangesModal').modal('hide');
-	  			$('#homework_info').find('input[name="upload_file"]').val('');
-	  			console.log($('#ChangesModal').data('id'));
 	  	} else {
 	  		console.log(res);
 	  	}
@@ -227,6 +224,7 @@ function saveHomework() {
 
 function displayHomework(index)
 {
+	$('#HomeworkDetails').removeClass("dom-change-watcher");
 	$.ajax({
     type: 'get',
     url: '/Homeworks/one',
@@ -243,8 +241,8 @@ function displayHomework(index)
   		console.log(res.homeworkFiles)
   		if (res.homework[0])
   		{
-  			$('#HomeworkDetails').removeClass("dom-change-watcher");
   			var name = JSON.parse(res.homework[0].User_Name);
+  			$('#homework_info').find('input[name="upload_file"]').val('');
 	  		$('#homework_info').removeClass('hidden');
 	  		$('#homework_info').find('.file-forms').remove();
 	  		$('#homework_info').find('.homework_img').css('background-color',res.homework[0].Subject_Color);
@@ -257,7 +255,7 @@ function displayHomework(index)
 	  		$('#homework_info').find('.file-upload').addClass('file-container-visibility');
 	  		$('#homework_info').find('.sub-label-full-name').html(res.homework[0].Subject_Label+' - '+res.homework[0].Classe_Label+' - '+name.first_name+' '+ name.last_name);
 	  		for (var i = res.homeworkFiles.length - 1; i >= 0; i--) {
-	  			$('#homework_info').find('.list-files').prepend('<div class="file-container file-loaded file-forms"><a style="text-decoration: none; color: inherit;" download href="'+res.homeworkFiles[i].Homework_Link+'"> <div class="file-icon-label"> <img class="file-icon" src="assets/icons/file.svg" alt="file"/> <span class="file-label">'+res.homeworkFiles[i].Homework_Title+'</span> </div></a>'+ (res.role === "Teacher" ? ('<img class="file-close" onclick="removeFile('+res.homeworkFiles[i].HA_ID+')" src="assets/icons/close-gray.svg" alt="close"/>') : (''))+' </div>');
+	  			$('#homework_info').find('.list-files').prepend('<div class="file-container file-forms"><a style="text-decoration: none; color: inherit;" download href="'+res.homeworkFiles[i].Homework_Link+'"> <div class="file-icon-label"> <img class="file-icon" src="assets/icons/file.svg" alt="file"/> <span class="file-label">'+res.homeworkFiles[i].Homework_Title+'</span> </div></a>'+ (res.role === "Teacher" ? ('<img class="file-close" onclick="removeFile('+res.homeworkFiles[i].HA_ID+')" src="assets/icons/close-gray.svg" alt="close"/>') : (''))+' </div>');
 	  		}
 	  		if (res.role === "Teacher")
 	  			$('#HomeworkDetails').addClass("dom-change-watcher");
