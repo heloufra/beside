@@ -60,7 +60,7 @@ var fileData = null;
 </div>
 */
 
-
+/*
 $('#AddHomeworkModal').find('input[name="upload_file_modal"]').on( "change", function() {
 	if ($(this).val().replace(/\s/g, '') !== '')
 	{
@@ -93,7 +93,7 @@ function discardFileModal() {
 function discardFile() {
 	$('#homework_info').find('.file-upload').addClass('file-container-visibility');
 	document.getElementById("upload_file").value=null; 
-}
+}*/
 
 function saveHomework() {
 	var homework_classe = $('#AddHomeworkModal').find('input[name="homework_classe"]').val();
@@ -227,7 +227,6 @@ function saveHomework() {
 
 function displayHomework(index)
 {
-	$('#HomeworkDetails').removeClass("dom-change-watcher");
 	$.ajax({
     type: 'get',
     url: '/Homeworks/one',
@@ -244,6 +243,7 @@ function displayHomework(index)
   		console.log(res.homeworkFiles)
   		if (res.homework[0])
   		{
+  			$('#HomeworkDetails').removeClass("dom-change-watcher");
   			var name = JSON.parse(res.homework[0].User_Name);
 	  		$('#homework_info').removeClass('hidden');
 	  		$('#homework_info').find('.file-forms').remove();
