@@ -540,6 +540,12 @@ function savePayment() {
 }
 
 function displayHomework(id) {
+	console.log("Filess!!",homeworks[id].files)
+	$('#HomeworkDetailModal').find('.list_files .row-file').remove();
+	for (var i = homeworks[id].files.length - 1; i >= 0; i--) {
+		
+		$('#HomeworkDetailModal').find('.list_files').append('<div class="file-container file-loaded row-file"><a style="text-decoration: none; color: inherit;" download href="'+homeworks[id].files[i].Homework_Link+'"> <div class="file-icon-label"> <img class="file-icon" src="assets/icons/file.svg" alt="file"/> <span class="file-label">'+homeworks[id].files[i].Homework_Title+'</span> </div></a> </div>')
+	}
 	$('#HomeworkDetailModal').find('.sub-container-main-header').html(homeworks[id].Homework_Title);
 	$('#HomeworkDetailModal').find('.sub-container-sub-header').html(''+homeworks[id].Subject_Label+' - '+homeworks[id].Classe_Label+' - Teacher Name');
 	$('#HomeworkDetailModal').find('input').val(homeworks[id].Homework_DeliveryDate);

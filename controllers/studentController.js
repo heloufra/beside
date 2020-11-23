@@ -68,8 +68,7 @@ var studentController = {
                   connection.query(homeworkQuery, [req.query.user_id], (err, homeworks, fields) => {
                     connection.query(examsQuery, [req.query.user_id], (err, exams, fields) => {
                       connection.query(studentPayment, [req.query.user_id], (err, payStudent, fields) => {
-                        console.log("payStudent",err);
-                        connection.query("SELECT AVG(grads.Exam_Score) as average FROM `students` INNER JOIN studentsclasses On studentsclasses.Student_ID = students.Student_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = studentsclasses.Classe_ID INNER JOIN exams ON exams.TSC_ID = teachersubjectsclasses.TSC_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = studentsclasses.Classe_ID LEFT JOIN grads ON grads.Student_ID = students.Student_ID AND  grads.Exam_ID = exams.Exam_ID WHERE students.Student_ID = ? AND exams.Exam_Status <> 0", [req.query.user_id], (err, grade, fields) => {
+                        connection.query("SELECT AVG(grads.Exam_Score) as average FROM `students` INNER JOIN studentsclasses On studentsclasses.Student_ID = students.Student_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = studentsclasses.Classe_ID INNER JOIN exams ON exams.TSC_ID = teachersubjectsclasses.TSC_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = studentsclasses.Classe_ID LEFT JOIN grads ON grads.Student_ID = students.Student_ID AND  grads.Exam_ID = exams.Exam_ID WHERE students.Student_ID = ? AND exams.Exam_Status <> 0", [req.query.user_id],async (err, grade, fields) => {
                          if (err) {
                               console.log(err);
                                 res.json({
@@ -79,6 +78,9 @@ var studentController = {
                                 }]});
                             } else 
                             {
+                                for (var i = homeworks.length - 1; i >= 0; i--) {
+                                  homeworks[i].files = await studentModel.findHomeworkFiles(homeworks[i].Homework_ID);
+                                }
                                res.json({
                                   parents:parents,
                                   substudent:substudent,

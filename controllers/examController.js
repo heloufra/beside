@@ -85,7 +85,8 @@ var examController = {
           res.json({
                     exam:exam,
                     score:score,
-                    average:average[0]
+                    average:average[0],
+                    role:req.role
                   });
         })
       })

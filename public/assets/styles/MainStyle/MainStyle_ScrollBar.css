@@ -1,0 +1,43 @@
+/* Hide scrollbar for chrome  
+
+*::-webkit-scrollbar {
+    display: none;
+}
+
+* {
+  -ms-overflow-style: none;  
+  scrollbar-width: none;  
+}
+
+*/
+
+::-webkit-scrollbar {
+  width: 8px;
+  opacity: 0;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #d6dee1;
+  border-radius: 20px;
+  border: 6px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #a8bbbf;
+}
+
+:hover::-webkit-scrollbar-thumb {
+    background: #a8bbbf;
+    transition: background .5s ease-in-out;
+}
+
+:hover::-webkit-scrollbar {
+  width: 8px;
+  opacity: 1;
+  transition: opacity 5s ease-in-out;
+}
