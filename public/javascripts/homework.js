@@ -259,7 +259,8 @@ function displayHomework(index)
 	  		for (var i = res.homeworkFiles.length - 1; i >= 0; i--) {
 	  			$('#homework_info').find('.list-files').prepend('<div class="file-container file-loaded file-forms"><a style="text-decoration: none; color: inherit;" download href="'+res.homeworkFiles[i].Homework_Link+'"> <div class="file-icon-label"> <img class="file-icon" src="assets/icons/file.svg" alt="file"/> <span class="file-label">'+res.homeworkFiles[i].Homework_Title+'</span> </div></a>'+ (res.role === "Teacher" ? ('<img class="file-close" onclick="removeFile('+res.homeworkFiles[i].HA_ID+')" src="assets/icons/close-gray.svg" alt="close"/>') : (''))+' </div>');
 	  		}
-	  		$('#HomeworkDetails').addClass("dom-change-watcher");
+	  		if (res.role === "Teacher")
+	  			$('#HomeworkDetails').addClass("dom-change-watcher");
   		}
   	}
   });

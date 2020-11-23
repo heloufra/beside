@@ -423,6 +423,7 @@ $(document).on("click",".students_list",function(event){
 			$('#Details').find('input[name="l_name"]').val(result[0].Student_LastName);
 			$('#Details').find('input[name="phone_number_detail"]').val(result[0].Student_Phone);
 			$('#Details').find('input[name="birthdate_detail"]').val(result[0].Student_birthdate);
+			$('#Details').find('input[name="student_gender_detail"]').val(result[0].Student_Gender);
 			$('#Details').find('input[name="classe-detail"]').val(result[0].Classe_Label);
 			$('#Details').find('input[name="level-detail"]').val(result[0].Level_Label);
 			$('#AddAttitudeModal').find('input[name="at_classe"]').val(result[0].Classe_Label);
@@ -700,6 +701,7 @@ function displayExam(id) {
 function saveStudent() {
 	var first_name = $('#student_form').find('input[name="first_name"]').val();
 	var student_address = $('#student_form').find('input[name="student_address"]').val();
+	var student_gender = $('#student_form').find('input[name="student_gender"]').val();
 	var profile_image = $('#student_form').find('input[name="profile_image"]').val();
 	var last_name = $('#student_form').find('input[name="last_name"]').val();
 	var level = $('#student_form').find('input[name="level"]').val();
@@ -751,6 +753,10 @@ function saveStudent() {
 		$('.input_level').css("border-color", "#f6b8c1");
 	else
 		$('.input_level').css("border-color", "#EFEFEF");
+	/*if (!student_gender)
+		$('.input_gender').css("border-color", "#f6b8c1");
+	else
+		$('.input_gender').css("border-color", "#EFEFEF");*/
 	if (!classe)
 		$('.input_classe').css("border-color", "#f6b8c1");
 	else
@@ -762,13 +768,14 @@ function saveStudent() {
 	}
 	else
 		$('#student_form').find('.subscription-divider').css("background", "#f0f0f6");
-	if (first_name && level && classe && parent_phone.length > 0 && parent_name.length > 0 && student_address && phone_number && birthdate && checkbox_sub.length > 0)
+	if (first_name && level && classe && parent_phone.length > 0  && parent_name.length > 0 && student_address && phone_number && birthdate && checkbox_sub.length > 0)
 	{
 		var data = {
 			first_name,
 			last_name,
 			level,
 			classe,
+			student_gender,
 			profile_image:$('#output-img').attr("src"),
 			parent_phone:parent_phone,
 			parent_name:parent_name,
@@ -831,6 +838,7 @@ function saveChange() {
 	    	id:studentId,
 	    	student_img:$('#student_info').find('.profile-img').attr('src'),
 			student_fname:$('#Details').find('input[name="f_name"]').val(),
+			student_gender:$('#Details').find('input[name="student_gender_detail"]').val(),
 			student_address:$('#Details').find('input[name="student_address_detail"]').val(),
 			student_lname:$('#Details').find('input[name="l_name"]').val(),
 			student_phone:$('#Details').find('input[name="phone_number_detail"]').val(),

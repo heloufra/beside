@@ -12,7 +12,7 @@ var querySubstudentPay = "SELECT levelexpenses.Expense_Cost,expenses.Expense_Lab
 var queryAllSub = "SELECT expenses.*,levelexpenses.Expense_Cost,levelexpenses.LE_ID,classes.Classe_Label FROM expenses INNER JOIN levelexpenses ON levelexpenses.Expense_ID = expenses.Expense_ID INNER JOIN classes ON classes.Level_ID = levelexpenses.Level_ID WHERE levelexpenses.AY_ID = ?"
 var querySubclasse = "SELECT levelexpenses.Expense_Cost,expenses.Expense_Label,expenses.Expense_PaymentMethod FROM classes INNER JOIN levels ON levels.Level_ID = classes.Level_ID INNER JOIN levelexpenses ON levelexpenses.Level_ID = levels.Level_ID INNER JOIN expenses ON expenses.Expense_ID = levelexpenses.Expense_ID WHERE classes.Classe_ID = ? AND classes.AY_ID = ?"
 var querySubscriptions = "SELECT expenses.*,levelexpenses.Expense_Cost,levelexpenses.LE_ID FROM expenses INNER JOIN levelexpenses ON levelexpenses.Expense_ID = expenses.Expense_ID WHERE levelexpenses.Level_ID = ? AND levelexpenses.AY_ID = ?;"
-var studentQuery = `INSERT INTO students(Student_FirstName,  Student_LastName, Student_Image,  Student_birthdate,  Student_Address,  Student_Phone,Student_Status, Institution_ID) VALUES(?,?,?,?,?,?,1,?)`;
+var studentQuery = `INSERT INTO students(Student_FirstName,  Student_LastName, Student_Image,  Student_birthdate,  Student_Address,  Student_Phone,Student_Gender,Student_Status, Institution_ID) VALUES(?,?,?,?,?,?,?,1,?)`;
 var absenceQuery = `INSERT INTO absencesanddelays(User_ID,  User_Type,  AD_Type,  AD_FromTo, AD_Date,AD_Status, Declaredby_ID) VALUES(?,?,?,?,?,1,?)`;
 var paymentsQuery = `INSERT INTO studentspayments(SS_ID, SP_PaidPeriod) VALUES (?,?)`;
 var attitudeQuery = `INSERT INTO attitude(Student_ID, Attitude_Interaction, Attitude_Note,Attitude_Addeddate,Attitude_Status, Declaredby_ID, AY_ID) VALUES(?,?,?,?,1,?,?)`;
@@ -170,7 +170,7 @@ var studentController = {
         {
            connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
             connection.query("SELECT * FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
-                  connection.query(studentQuery, [req.body.first_name,  req.body.last_name, req.body.profile_image,  req.body.birthdate,  req.body.student_address,  req.body.phone_number,req.Institution_ID], (err, student, fields) => {
+                  connection.query(studentQuery, [req.body.first_name,  req.body.last_name, req.body.profile_image,  req.body.birthdate,  req.body.student_address,  req.body.phone_number,req.body.student_gender,req.Institution_ID], (err, student, fields) => {
                      if (err) {
                           console.log(err);
                             res.json({
@@ -359,7 +359,7 @@ var studentController = {
   },
   updateStudent: function(req, res, next) {
     connection.query("SELECT * FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
-      connection.query("UPDATE `students` SET `Student_FirstName`=?,`Student_LastName`=?,`Student_Image`=?,`Student_birthdate`=?,`Student_Address`=?,`Student_Phone`=? WHERE Student_ID = ?", [req.body.student_fname,req.body.student_lname,req.body.student_img,req.body.student_birthdat,req.body.student_address,req.body.student_phone,req.body.id],async (err, student, fields) => {
+      connection.query("UPDATE `students` SET `Student_FirstName`=?,`Student_LastName`=?,`Student_Image`=?,`Student_birthdate`=?,`Student_Address`=?,`Student_Phone`=?,Student_Gender=? WHERE Student_ID = ?", [req.body.student_fname,req.body.student_lname,req.body.student_img,req.body.student_birthdat,req.body.student_address,req.body.student_phone,req.body.student_gender,req.body.id],async (err, student, fields) => {
          if (err) {
               console.log(err);
                 res.json({

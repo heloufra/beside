@@ -163,7 +163,8 @@ function displayExam(index)
   		$('#exam_info').find('#exam_description').val(res.exam[0].Exam_Deatils);
   		var name = JSON.parse(res.exam[0].User_Name);
   		$('#exam_info').find('.sub-label-full-name').html(res.exam[0].Subject_Label+' - '+res.exam[0].Classe_Label+' - '+name.first_name+' '+name.last_name);
-  		$('#ExamsDetails').addClass("dom-change-watcher");
+  		if (res.role === "Teacher")
+  			$('#ExamsDetails').addClass("dom-change-watcher");
   		}
   	}
   });
