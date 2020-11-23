@@ -1116,7 +1116,7 @@
                  <h4 class="sub-container-sub-header">
                   There are many variations of passages of Lorem Ipsum available.
                  </h4>
-
+                 <% if (role === 'Admin') { %>
                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style add-absence-modal-type">
 
                       <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Student or Teacher</span> <span class="input-label-bg-mask"></span></label>
@@ -1149,6 +1149,36 @@
 
                       </div>
 
+                  </div>
+                  <% } %>
+                  <% 
+                  var search = 'Search Students';
+                  if (role === 'Admin') 
+                    search = 'Search';
+                  %>
+                   <div class="row sections-main-sub-container-right-main-rows">
+
+                      <div class="col-md-12">
+
+                        <div class="dynamic-form-input-dropdown-container dynamic-form-input-dropdown-search-container">
+                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                            <div class="dynamic-form-input">
+                              <div class="dynamic-form-input-float-adjust">
+                              <div class="form-group group form-group-right">
+                                <input type="text" class="input-dropdown-search" placeholder="<%= search %>" required="">
+
+                                <img class="icon button-icon caret-rotate" src="assets/icons/sidebar_icons/search.svg">
+                                <ul class="dynamic-form-input-dropdown-options">
+                                </ul>
+                              </div>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+              
                   </div>
 
                   <div class="row sections-main-sub-container-right-main-rows">

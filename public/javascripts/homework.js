@@ -59,7 +59,6 @@ var fileData = null;
 
 </div>
 */
-
 /*
 $('#AddHomeworkModal').find('input[name="upload_file_modal"]').on( "change", function() {
 	if ($(this).val().replace(/\s/g, '') !== '')
@@ -87,12 +86,12 @@ $('#homework_info').find('input[name="upload_file"]').on( "change", function() {
 
 function discardFileModal() {
 	$('#AddHomeworkModal').find('.file-upload').addClass('file-container-visibility');
-	document.getElementById("upload_file_modal").value=null; 
+	$('#AddHomeworkModal').find('.file-upload #upload_file_modal').val(null); 
 }
 
 function discardFile() {
 	$('#homework_info').find('.file-upload').addClass('file-container-visibility');
-	document.getElementById("upload_file").value=null; 
+	$('#homework_info').find('.file-upload #upload_file').val(null); 
 }*/
 
 function saveHomework() {

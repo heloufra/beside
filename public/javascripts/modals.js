@@ -10,7 +10,6 @@ var months =  ["January", "February", "March", "April", "May", "June", "July", "
 
 function savePayment() {
 	var payments = $('#FinanceNewModal').find('.payment-select').map(function(){return {period:$(this).val(),ssid:$(this).data('ssid')};}).get();
-	console.log("PAyments",payments);
 	$.ajax({
 	    type: 'post',
 	    url: '/Students/payment',
@@ -161,6 +160,129 @@ document.getElementById("profile").addEventListener("change", readFile);
 	}
 }
 
+var students,teachers = [];
+getAllteachers();
+function getAllteachers(id) {
+	$.ajax({
+	    type: 'get',
+	    url: '/Teachers/all',
+	    dataType: 'json'
+	  })
+	  .done(function(res){
+	  	if(res.errors)
+	  	{
+	  		console.log(res.errors)
+	  	} else {
+	  		teachers = res.teachers;
+	  	}
+	  });
+ }
+getAllStudents();
+function getAllStudents(id) {
+	$.ajax({
+	    type: 'get',
+	    url: '/Students/all',
+	    dataType: 'json'
+	  })
+	  .done(function(res){
+	  	if(res.errors)
+	  	{
+	  		console.log(res.errors)
+	  	} else {
+	  		students = res.students;
+	  		 console.log('Students Modal',students);
+	  	}
+	  });
+ }
+/* .dynamic-form-input-dropdown-search-container .input-dropdown-search _________________________________________________________________________________________*/
+
+	$(document).on("keyup blur",".dynamic-form-input-dropdown-search-container .input-dropdown-search",function(event){
+
+		$this = $(this);
+		if($(this).val().length == 0 ){
+			$(this).siblings(".icon").attr("src","assets/icons/sidebar_icons/search.svg");
+			$(this).siblings(".icon").removeClass("input-text-empty");
+			$this.parent().find(".dynamic-form-input-dropdown-options").css({"display":"none"});
+		}else{
+			$(this).siblings(".icon").attr("src","assets/icons/sidebar_icons/close.svg");
+			$(this).siblings(".icon").addClass("input-text-empty");
+				var value = new RegExp(this.value.toLowerCase().replace(/\s/g, ''));
+				$this.parent().find(".dynamic-form-input-dropdown-options .search-output").remove();
+				if($('#AddAbsenceModal').find('input[data-val=Teacher]').is(':checked'))
+			 		searchTeacher($this,value);
+			 	else
+			 		searchStudents($this,value);
+			$this.parent().find(".dynamic-form-input-dropdown-options").css({"display":"inline-block"});
+
+			setTimeout(function(){
+				$this.parent().find(".dynamic-form-input-dropdown-options").css({"opacity":"1"});
+			},50);
+
+			event.stopPropagation();
+			event.preventDefault();
+		}
+
+	});
+
+	function searchStudents($this,value) {
+		var filtred = students.filter(function (el) {
+							var forname = el.Student_FirstName.toLowerCase() +  el.Student_LastName.toLowerCase();
+							var backname = el.Student_LastName.toLowerCase()+el.Student_FirstName.toLowerCase();
+						  return forname.match(value) || backname.match(value);
+						});	
+			for (var i = filtred.length - 1; i >= 0; i--) {
+				$this.parent().find(".dynamic-form-input-dropdown-options").append('<li class="search-output" data-val="'+filtred[i].Student_FirstName + ' ' + filtred[i].Student_LastName+'" data-class="'+filtred[i].Classe_Label+'" data-student="'+filtred[i].Student_FirstName + ' ' + filtred[i].Student_LastName+'" data-student-id="'+filtred[i].Student_ID+'"> <div class="sections-main-sub-container-left-card"> <img class="sections-main-sub-container-left-card-main-img" src="'+filtred[i].Student_Image+'" alt="card-img"/> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+filtred[i].Student_FirstName + ' ' + filtred[i].Student_LastName+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+filtred[i].Classe_Label+'</span> </div> </div> </li>');
+			}
+	}
+
+	function searchTeacher($this,value) {
+		var filtred = teachers.filter(function (el) {
+				var name = JSON.parse(el.teacher.User_Name)
+				var forname = name.first_name.toLowerCase()+name.last_name.toLowerCase();
+				var backname = name.last_name.toLowerCase()+name.first_name.toLowerCase();
+			  return forname.match(value) || backname.match(value);
+			});
+			for (var i = filtred.length - 1; i >= 0; i--) {
+				var name = JSON.parse(filtred[i].teacher.User_Name);
+	  			var html = '';
+  				for (var j = filtred[i].classes.length - 1; j >= 0; j--) {
+  					html += filtred[i].classes[j].Classe_Label + " ";
+  				}
+				$this.parent().find(".dynamic-form-input-dropdown-options").append('<li class="search-output" data-val="'+name.first_name + ' ' + name.last_name+'" data-class="'+html+'" data-student="'+name.first_name + ' ' + name.last_name+'" data-student-id="'+filtred[i].teacher.User_ID+'"> <div class="sections-main-sub-container-left-card"> <img class="sections-main-sub-container-left-card-main-img" src="'+filtred[i].teacher.User_Image+'" alt="card-img"/> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+name.first_name + ' ' + name.last_name+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+html+'</span> </div> </div> </li>');
+			}
+
+	}
+
+	$(document).on("click","#AddAbsenceModal .search-output",function(event){
+			if($('#AddAbsenceModal').find('input[data-val=Teacher]').is(':checked'))
+			{
+				var filtred = teachers.filter(teacher => teacher.teacher.User_ID === parseInt($(this).attr("data-student-id")));
+				var name = JSON.parse(filtred[0].teacher.User_Name);
+				var html = '';
+  				for (var j = filtred[0].classes.length - 1; j >= 0; j--) {
+  					html += filtred[0].classes[j].Classe_Label + " ";
+  				}
+				$('#AddAbsenceModal').find('input[name=modal-classe]').val(html);
+	 	 		$('#AddAbsenceModal').find('input[name=modal-student]').val(name.first_name + ' ' + name.last_name);
+	 	 		$('#AddAbsenceModal').find('input[name=modal-student]').attr('data-id',filtred[0].teacher.User_ID);
+			} else {
+				var filtred = students.filter(student => student.Student_ID === parseInt($(this).attr("data-student-id")));
+				$('#AddAbsenceModal').find('input[name=modal-classe]').val(filtred[0].Classe_Label);
+				$('#AddAbsenceModal').find('input[name=modal-student]').attr('data-id',filtred[0].Student_ID);
+	 	 		$('#AddAbsenceModal').find('input[name=modal-student]').val(filtred[0].Student_FirstName + ' ' + filtred[0].Student_LastName);
+			}
+			$('#AddAbsenceModal').find('.dynamic-form-input-dropdown-search-container .input-dropdown-search').val($(this).attr("data-val"))
+	});
+	/* .dynamic-form-input-dropdown-search-container .input-text-empty ________________________*/
+
+	$(document).on("click",".dynamic-form-input-dropdown-search-container .input-text-empty",function(event){
+			$(this).attr("src","assets/icons/sidebar_icons/search.svg");
+			$(this).siblings(".input-dropdown-search").val("");
+			$(this).removeClass("input-text-empty");
+	});
+
+	/* End input-text-empty ________________________*/
+
  $('#student_form').find('input[name="level"]').on( "change", function() {
   var value = $(this).val();
   
@@ -221,6 +343,8 @@ function checkChange() {
 
 	if (value.replace(/\s/g, '') !== '')
 	{
+		$('#AddAbsenceModal').find('input[name=modal-student]').val("");
+		$('#AddAbsenceModal').find('.input-dropdown-search').val("");
 	 	if($('input[data-val=Teacher]').is(':checked'))
 	 		name = "Teachers";
 	 	else
@@ -413,7 +537,7 @@ if ($('#AddAbsenceModal').find('input[data-val="Absence"]:checked').val())
 		    	ad_date,
 		    	ad_classe,
 		    	ad_student,
-		    	user_id:$('#AddAbsenceModal').find('li[data-val='+ad_student.replace(/\s/g, '')+']').data('id')
+		    	user_id:$('#AddAbsenceModal').find('input[name=modal-student]').attr('data-id')
 		    },
 		    dataType: 'json'
 		  })
@@ -636,7 +760,6 @@ document.getElementById("profile-teacher").addEventListener("change", readFile);
 
 $('#subjects-container').find('input[name="subjects"]').on( "change", function() {
   var value = $(this).val();
-	console.log("Subject!!",value);
   if (value.replace(/\s/g, '') !== '' && pathname !== 'Teachers')
   {
   	$('#subjects-container').find('.row-classe').remove();
@@ -677,9 +800,6 @@ if (pathname !== 'Exams')
 		var exam_name = $('#AddExamModal').find('input[name="exam_name"]').val();
 		var exam_description = $('#AddExamModal').find('#exam_description').val();
 		var at_type = "";
-
-
-		console.log(exam_classe,exam_subject,exam_date,exam_description,exam_name);
 
 		if (!exam_date)
 			$('#AddExamModal').find('.exam_date').css("border-color", "#f6b8c1");
@@ -849,7 +969,6 @@ function saveHomework() {
 
 function savePaymentModal() {
 	var payments = $('#FinanceNewModal').find('.payment-select').map(function(){return {period:$(this).val(),ssid:$(this).data('ssid')};}).get();
-	console.log("PAyments",payments);
 	$.ajax({
 	    type: 'post',
 	    url: '/Students/payment',

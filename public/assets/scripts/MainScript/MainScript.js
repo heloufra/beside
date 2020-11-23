@@ -1392,6 +1392,7 @@ $(document).ready(function(){
 
 		if(!$(this).parents(".modal").length == 1){
 
+			$(this).parents(".file-loaded").find('input').val(null);
 			$(this).parents(".file-loaded").remove();
 
 			$(".sub-container-form-footer").addClass("show-footer");
@@ -1460,6 +1461,11 @@ $(document).ready(function(){
 
 	/* End #Details #Parents_New_Dynamic_Form_Input _______________________*/
 
+
+
+	
+
+	/* End input-dropdown-search ______________________________________________________________________________________*/
 
 	/**__ End input-text-subject-classes-select2 _____________________________*/
 
