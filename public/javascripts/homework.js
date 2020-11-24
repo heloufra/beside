@@ -43,23 +43,7 @@ var fileData = null;
 
 
 
-/*
-<div class="file-container file-container-visibility">
-<div class="file-icon-label">
-   <img  class="file-icon" src="assets/icons/file.svg" alt="file"/>
-    <span class="file-label">Filename_uploading_file_state.pdf</span>
-  </div>
-  <img  class="file-close" src="assets/icons/close-gray.svg" alt="close"/>
 
-  <div class="progress">
-      <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" 
-       aria-valuemin="0" aria-valuemax="100">
-       </div>
-  </div>
-
-</div>
-*/
-/*
 $('#AddHomeworkModal').find('input[name="upload_file_modal"]').on( "change", function() {
 	if ($(this).val().replace(/\s/g, '') !== '')
 	{
@@ -86,13 +70,13 @@ $('#homework_info').find('input[name="upload_file"]').on( "change", function() {
 
 function discardFileModal() {
 	$('#AddHomeworkModal').find('.file-upload').addClass('file-container-visibility');
-	$('#AddHomeworkModal').find('.file-upload #upload_file_modal').val(null); 
+	$('#AddHomeworkModal').find('#upload_file_modal').val(null);
 }
 
 function discardFile() {
 	$('#homework_info').find('.file-upload').addClass('file-container-visibility');
-	$('#homework_info').find('.file-upload #upload_file').val(null); 
-}*/
+	$('#homework_info').find('input[name="upload_file"]').val(null); 
+}
 
 function saveHomework() {
 	var homework_classe = $('#AddHomeworkModal').find('input[name="homework_classe"]').val();

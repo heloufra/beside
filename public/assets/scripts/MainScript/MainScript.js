@@ -2820,15 +2820,6 @@ $(document).ready(function(){
 		$('#ImportUsersModal .progress-bar').css('width', '100%').attr('aria-valuenow', 100); 
 	});
 
-	/* .file-add-btn _________________*/
-
-	$(document).on("click",".file-add-btn",function(){	
-		$(".file-container").removeClass("file-container-visibility");
-		setTimeout(function(){
-			$('.file-container .progress-bar').css('width', '100%').attr('aria-valuenow', 100); 
-		},500);
-		
-	});
 
 	/* ImportUsersModal  ________________*/
 
