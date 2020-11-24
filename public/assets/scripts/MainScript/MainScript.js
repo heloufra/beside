@@ -3114,15 +3114,6 @@ $(document).ready(function(){
 
 	});
 
-	$(document).on("click",".finance-tbody-tr",function(event){
-
-		$("#FinanceBillModal").modal("show");
-
-		event.preventDefault();
-		event.stopPropagation();
-
-	});
-
 	/* toggleSlide  _________________*/
 	
 	function toggleSlide($selector) {

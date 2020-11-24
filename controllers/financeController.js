@@ -34,6 +34,7 @@ var financeController = {
                     payments:payments,
                     start:academic[0].AY_Satrtdate,
                     end:academic[0].AY_EndDate,
+                    academicyear:academic[0].AY_Label
                   });
               })
            })

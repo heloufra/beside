@@ -8,7 +8,7 @@ var months =  ["January", "February", "March", "April", "May", "June", "July", "
 
 
 
-function savePayment() {
+function savePaymentModal() {
 	var payments = $('#FinanceNewModal').find('.payment-select').map(function(){return {period:$(this).val(),ssid:$(this).data('ssid')};}).get();
 	$.ajax({
 	    type: 'post',

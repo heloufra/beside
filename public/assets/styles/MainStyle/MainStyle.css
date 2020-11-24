@@ -3279,11 +3279,16 @@ form{
 	line-height: 20px;
 }
 
-#FinanceModal , #FinanceBillModal , #ChangesModal , #ConfirmDeleteModal , #AddAbsenceModal  , #ImportUsersModal , #AddTeacherAbsenceModal , #AddStudentAbsenceModal , #EditAbsenceModal , #AddAttitudeModal,#AddNewAttitudeModal, #EditAttitudeModal , #AddExamModal , 
+#FinanceModal,#FinanceNewModal , #ChangesModal , #ConfirmDeleteModal , #AddAbsenceModal  , #ImportUsersModal , #AddTeacherAbsenceModal , #AddStudentAbsenceModal , #EditAbsenceModal , #AddAttitudeModal,#AddNewAttitudeModal, #EditAttitudeModal , #AddExamModal , 
 #AddHomeworkModal , #EditHomeworkModal  , #EditExamModal , #AddStudentModal , #EditStudentModal , #ProfileSettings , #AddTeacherModal, #EditTeacherModal , #ExamDetailModal  , #HomeworkDetailModal , #NewActionModal {
 	background-color: var(--modal--background--color);
 	z-index: 999999;
 }
+
+ #FinanceBillModal {
+ 	background-color: var(--modal--background--color);
+	z-index: 999998;
+ }
 
 
 #AddTeacherModal  .input-rounded-img-container ,#EditTeacherModal  .input-rounded-img-container , 
@@ -3380,6 +3385,7 @@ form{
 }
 
 #FinanceModal .sub-container-form-footer .modal-confirm-button ,
+#FinanceNewModal .sub-container-form-footer .modal-confirm-button ,
 #FinanceBillModal .sub-container-form-footer .modal-confirm-button ,
 #AddAbsenceModal .sub-container-form-footer .modal-confirm-button ,
 #ImportUsersModal .sub-container-form-footer .modal-confirm-button ,

@@ -7,6 +7,8 @@ var payments=[];
 var indStart,indEnd;
 var date = new Date();
 var filtredClass = [];
+var academicyear = "2020-2021";
+var StudentId = 0;
 function getAllFinances(id) {
 	$.ajax({
 	    type: 'get',
@@ -20,11 +22,14 @@ function getAllFinances(id) {
 
 	  	} else {
 	  		$("#Finance").find('.month-row').remove();
+	  		$("#Finance").find('.students_list').remove();
+	  		$('#Finance').find('.row-finance').remove();
 	  		var htmlmonths = '';
 	  		var studentList = '';
 	  		students = res.students;
 	  		filtredClass = res.students;
 	  		subscription = res.subscription;
+	  		academicyear = res.academicyear;
 	  		payments = res.payments;
 	  		indStart = months.indexOf(res.start);
 		 	indEnd = months.indexOf(res.end);
@@ -85,7 +90,7 @@ function getAllFinances(id) {
 			style = 'style="background: #f9f9f9"';
 		else
 			style = "";
-		$("#Finance").find('[data-studentid="'+id+'"]').append(' <td scope="col" class="col-text-align col-text-align-extra-style col-text-align-extra-style-center" '+style+'>'+studentPayment+'</td>');
+		$("#Finance").find('[data-studentid="'+id+'"]').append(' <td scope="col" class="row-finance col-text-align col-text-align-extra-style col-text-align-extra-style-center" '+style+'>'+studentPayment+'</td>');
 		for (var j = paymentFiltred.length - 1; j >= 0; j--) {
 			if (paymentFiltred[j].Expense_PaymentMethod === "Monthly")
 				if (paymentFiltred[j].SP_PaidPeriod === months[i])
@@ -110,6 +115,197 @@ function getAllFinances(id) {
 			i = -1;
 	}
  }
+
+var start,end;
+ function displayBillFinance(id) {
+ 	var subscriptionStudent = subscription.filter(function (el) {
+						        return el.Student_ID === id;
+						      });
+ 	StudentId = id;
+ 	$("#FinanceBillModal").find('.row-expense').remove();
+ 	$("#FinanceBillModal").find('.row-bill').remove();
+ 	var Subtotal = '';
+ 	for (var i = subscriptionStudent.length - 1; i >= 0; i--) {
+ 		if (subscriptionStudent[i].Expense_PaymentMethod ===  "Monthly")
+ 		{
+ 			$("#FinanceBillModal").find('.expense-bill').append('<th class="row-expense" scope="col">'+subscriptionStudent[i].Expense_Label+'</th>');
+ 			Subtotal += '<td scope="col" class="td-align-right red-color"> <span data-sub="'+subscriptionStudent[i].Expense_Label+'">0</span>Dh </td>';
+ 		}
+ 	}
+ 	var total = 0;
+ 	$("#FinanceBillModal").find('.months-bill').append('<tr class="row-subtotal row-expense"><td data-label="School fees" class="td-label">Subtotal</td>'+Subtotal+'</tr>')
+ 	for (var i = indStart; i < months.length; i++) {
+ 		if (date.getMonth() === i)
+			style = 'style="background: #f9f9f9"';
+		else
+			style = "";
+ 		var paymentFiltred = payments.filter(function (el) {
+						        return el.Student_ID === id;
+						      });
+ 		var studentPayment = '';
+		var htmltPayed = '';
+		for (var k = subscriptionStudent.length - 1; k >= 0; k--) {
+	 		if (subscriptionStudent[k].Expense_PaymentMethod ===  "Monthly")
+	 		{
+	 			if (!Subtotal[subscriptionStudent[k].Expense_Label])
+					Subtotal[subscriptionStudent[k].Expense_Label] = {unpaid:0}
+	 			var endPay = new Date(subscriptionStudent[k].Subscription_EndDate);
+				if (isNaN(endPay.getMonth()))
+					endPay = i;
+				else
+					endPay = endPay.getMonth();
+				if (paymentFiltred.some(e => e.SS_ID === subscriptionStudent[k].SS_ID && e.SP_PaidPeriod === months[i]))
+	 			{
+	 					htmltPayed += '<td scope="col"> <div class="expense_td_container"> <div class="expense_label_container"> <span class="expense_label">Paid </span> <span class="expense_label_method">'+subscriptionStudent[k].Expense_Cost+'</span> </div> <img src="assets/icons/check_green.svg" alt="states"/> </div> </td>';
+	 			} else if (date.getMonth() >= i && i >= months.indexOf(subscriptionStudent[k].Subscription_StartDate) && endPay >= i)
+	 			{
+	 				total += parseInt(subscriptionStudent[k].Expense_Cost);
+	 				$("#FinanceBillModal").find('[data-sub="'+subscriptionStudent[k].Expense_Label+'"]').html(parseInt(subscriptionStudent[k].Expense_Cost)+parseInt($("#FinanceBillModal").find('[data-sub="'+subscriptionStudent[k].Expense_Label+'"]').html()))
+	 				htmltPayed += '<td scope="col"> <div class="expense_td_container"> <div class="expense_label_container"> <span class="expense_label">Unpaid </span> <span class="expense_label_method">'+subscriptionStudent[k].Expense_Cost+'</span> </div> <img src="assets/icons/check_red.svg" alt="states"/> </div> </td>';
+	 			}
+	 			else
+	 				htmltPayed += '<td scope="col"> <div class="expense_td_container"> <div class="expense_label_container"> <span class="expense_label"> </span> <span class="expense_label_method"></span> </div> <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/> </div> </td>';
+					
+	 		} else if (subscriptionStudent[k].Expense_PaymentMethod === "Annual" && i === months.indexOf(subscriptionStudent[k].Subscription_StartDate))
+			{
+				if (paymentFiltred.some(e => e.SS_ID === subscriptionStudent[k].SS_ID))
+					$("#FinanceBillModal").find('.yearly-expense').append('<div class="row-bill sections-main-sub-container-right-main-result sections-main-sub-container-right-main-result-extra-style"> <span class="sections-main-sub-container-right-main-result-label sections-main-sub-container-right-main-result-label-extra-info"> <span class="expense_label">'+subscriptionStudent[k].Expense_Label+'</span> <span class="expense_label_method">'+subscriptionStudent[k].Expense_Cost+'</span> </span> <span class="sections-main-sub-container-right-main-result-value "><img src="assets/icons/green_check.svg" alt="states" /></span> </div> ')
+				else
+				{
+					total += parseInt(subscriptionStudent[k].Expense_Cost);
+					$("#FinanceBillModal").find('.yearly-expense').append('<div class="row-bill sections-main-sub-container-right-main-result sections-main-sub-container-right-main-result-extra-style"> <span class="sections-main-sub-container-right-main-result-label sections-main-sub-container-right-main-result-label-extra-info"> <span class="expense_label">'+subscriptionStudent[k].Expense_Label+'</span> <span class="expense_label_method">'+subscriptionStudent[k].Expense_Cost+'</span> </span> <span class="sections-main-sub-container-right-main-result-value "><img src="assets/icons/red_check.svg" alt="states" /></span> </div> ')
+				}
+			}
+	 	}
+		$("#FinanceBillModal").find('.months-bill .row-subtotal').before('<tr '+style+' class="row-bill"> <td data-label="School fees" class="td-label"> '+months[i].slice(0,3)+' </td>'+htmltPayed+' </tr>')
+		if (i === indEnd)
+			break;
+		if (i === months.length - 1)
+			i = -1;
+	}
+	$("#FinanceBillModal").find('.total-unpaid').html(total + ' DH')
+	console.log('SubTotal',Subtotal);
+ }
+
+function savePayment() {
+	var payments = $('#FinanceModal').find('.payment-select').map(function(){return {period:$(this).val(),ssid:$(this).data('ssid')};}).get();
+	var filtred;
+	for (var i = payments.length - 1; i >= 0; i--) {
+		filtred = payStudent.filter(paystu => paystu.SS_ID === payments[i].ssid)
+		for (var j = filtred.length - 1; j >= 0; j--) {
+			payments[i].period = payments[i].period.filter(pay => pay !== filtred[j].SP_PaidPeriod)
+		}
+	}
+	console.log('Payments',payments);
+	$.ajax({
+	    type: 'post',
+	    url: '/Students/payment',
+	    data: {
+	    	payments:payments
+	    },
+	    dataType: 'json'
+	  })
+	  .done(function(res){
+	  	if(res.saved)
+	  	{
+	  		$("#FinanceModal").modal('hide');
+	  		$("#FinanceBillModal").modal("hide");
+	  		getAllFinances();
+	  	} else {
+	  		console.log(res);
+	  	}
+	  });
+}
+ function executePaymentFinance() {
+ 	var id = StudentId;
+	$('#FinanceModal').find('.monthly-rows').remove();
+	$('#FinanceModal').find('.yearly-rows').remove();
+	$('#FinanceModal').find('.yearly').addClass('hidden');
+	$('#FinanceModal').find('.monthly').addClass('hidden');
+	var MonthsFiltred = [];
+	var subStudent = subscription.filter(function (el) {
+						        return el.Student_ID === id;
+						      });
+	var payStudent = payments.filter(function (el) {
+						        return el.Student_ID === id;
+						      });
+	for (var i = subStudent.length - 1; i >= 0; i--) {
+		if (subStudent[i].Expense_PaymentMethod === "Monthly")
+		{
+			MonthsFiltred = [];
+			for (var j = months.indexOf(subStudent[i].Subscription_StartDate); j < months.length; j++) {
+				MonthsFiltred.push(months[j]);
+				if (j === indEnd)
+					break;
+				if (j === months.length - 1)
+					j = -1;
+			}
+			var payFilter = payStudent.filter(function (el) {
+		        	return el.SS_ID === subStudent[i].SS_ID;
+		      	});
+			alreadyPay = payFilter;
+			var htmlmonths = '';
+			for (var j = payFilter.length - 1; j >= 0; j--) {
+				MonthsFiltred = MonthsFiltred.filter(function (el) {
+		        	return el != payFilter[j].SP_PaidPeriod;
+		      	});
+			}
+			for (var k = 0; k < MonthsFiltred.length; k++) {
+				htmlmonths += "<option value="+MonthsFiltred[k]+">"+MonthsFiltred[k]+" </option> ";
+			}
+			$('#FinanceModal').find('.monthly').removeClass('hidden');
+			$('#FinanceModal').find('.monthly').after('<div class="monthly-rows dynamic-form-input-container dynamic-form-input-container-extra-style"> <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+subStudent[i].Expense_Label+'</span> <span class="input-label-bg-mask"></span></label> <div class="dynamic-form-input-dropdown-container"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="form-group group"> <select class="input-text-month-select2 payment-select" data-val="Monthly" data-ssid="'+subStudent[i].SS_ID+'" multiple name="language"> '+htmlmonths+'</select> <img class="icon button-icon" src="assets/icons/caret.svg"> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div> </div>');
+			for (var j = payFilter.length - 1; j >= 0; j--) {
+		      	var option = new Option(payFilter[j].SP_PaidPeriod,payFilter[j].SP_PaidPeriod, true, true);
+    			$('#FinanceModal').find('[data-ssid="'+subStudent[i].SS_ID+'"]').append(option).trigger('change');
+			}
+		}
+		if (subStudent[i].Expense_PaymentMethod === "Annual")
+		{
+			payFilter = payStudent.filter(function (el) {
+		        	return el.SS_ID === subStudent[i].SS_ID;
+		      	});
+			var htmlYearly = '';
+				if (payFilter.length === 0)
+					htmlYearly = '<option value="'+academicyear+'">'+academicyear+'</option> ';
+				$('#FinanceModal').find('.yearly').removeClass('hidden');
+				$('#FinanceModal').find('.yearly').after('<div class="yearly-rows dynamic-form-input-container dynamic-form-input-container-extra-style input-text-subject-select2-one-option"> <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+subStudent[i].Expense_Label+'</span> <span class="input-label-bg-mask"></span></label> <div class="dynamic-form-input-dropdown-container"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="form-group group"> <select class="input-text-year-select2 payment-select" data-val="Annual" data-ssid="'+subStudent[i].SS_ID+'" multiple name="language"> '+htmlYearly+'</select> <img class="icon button-icon" src="assets/icons/caret.svg"> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div> </div>');
+		      	if (payFilter.length > 0)
+		      	{
+		      		var option = new Option(payFilter[0].SP_PaidPeriod,payFilter[0].SP_PaidPeriod, true, true);
+	    			$('#FinanceModal').find('[data-ssid="'+subStudent[i].SS_ID+'"]').append(option).trigger('change');
+		      	}
+		}
+	}
+	if($(".input-text-month-select2").length > 0){
+		$(".input-text-month-select2").select2({
+		  tags: true,
+		  dropdownPosition: 'below'
+		});
+	}
+
+	if($(".input-text-year-select2").length > 0){
+		$(".input-text-year-select2").select2({
+		  tags: true,
+		  dropdownPosition: 'below'
+		});
+	}
+}
+
+
+$(document).on("click",".finance-tbody-tr",function(event){
+	$("#FinanceBillModal").modal("show");
+	var filtred = students.filter(student => student.Student_ID === parseInt($(this).attr('data-studentid')));
+
+	displayBillFinance(parseInt($(this).attr('data-studentid')));
+	console.log('ID:::',$(this).attr('data-studentid'));
+	$("#FinanceBillModal").find('.input-img').attr('src',filtred[0].Student_Image)
+	$('#FinanceModal').find('input[name="payment-classe"]').val(filtred[0].Classe_Label);
+	$('#FinanceModal').find('input[name="payment-student"]').val(filtred[0].Student_FirstName + " " + filtred[0].Student_LastName);
+	$("#FinanceBillModal").find('.label-full-name-modal').html(filtred[0].Student_FirstName + ' ' + filtred[0].Student_LastName);
+	event.preventDefault();
+	event.stopPropagation();
+});
 
  document.getElementById("search-input").addEventListener('input', function (evt) {
     $('.students_list').remove();
