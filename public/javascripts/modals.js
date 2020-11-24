@@ -1072,6 +1072,11 @@ var payments = $('#FinanceNewModal').find('.payment-select').map(function(){retu
 	  		$('.input-dropdown-search').val("");
 	  		$('input[name="modal-student"]').val("");
 	  		$('input[name="modal-classe"]').val("");
+	  		$('#FinanceNewModal').find('.payment-select').val("");
+	  		$('#FinanceNewModal').find('.yearly').addClass('hidden');
+			$('#FinanceNewModal').find('.monthly').addClass('hidden');
+			$('#FinanceNewModal').find('.monthly-rows').remove();
+			$('#FinanceNewModal').find('.yearly-rows').remove();
 	  		displayStudent(studentId);
 	  	} else {
 	  		console.log(res);
