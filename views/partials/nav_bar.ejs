@@ -75,10 +75,9 @@
 <script>
 var pathname = window.location.pathname.replace('/','');
 $(document).on("click","#logout_btn",function(event){
-
+    window.location.href = "/";
     $.ajax({type: 'get',url: '/logout'}).done(function(res){
-      if (res.logout)
-        window.location.href = "/";
+        
     });
 
 });
