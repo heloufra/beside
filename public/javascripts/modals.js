@@ -196,7 +196,7 @@ function getAllStudents(id) {
  }
 /* .dynamic-form-input-dropdown-search-container .input-dropdown-search _________________________________________________________________________________________*/
 
-	$(document).on("keyup blur",".dynamic-form-input-dropdown-search-container .input-dropdown-search",function(event){
+	$(document).on("keyup blur","#AddAbsenceModal .dynamic-form-input-dropdown-search-container .input-dropdown-search",function(event){
 
 		$this = $(this);
 		if($(this).val().length == 0 ){
@@ -212,6 +212,56 @@ function getAllStudents(id) {
 			 		searchTeacher($this,value);
 			 	else
 			 		searchStudents($this,value);
+			$this.parent().find(".dynamic-form-input-dropdown-options").css({"display":"inline-block"});
+
+			setTimeout(function(){
+				$this.parent().find(".dynamic-form-input-dropdown-options").css({"opacity":"1"});
+			},50);
+
+			event.stopPropagation();
+			event.preventDefault();
+		}
+
+	});
+
+	$(document).on("keyup blur","#AddNewAttitudeModal .dynamic-form-input-dropdown-search-container .input-dropdown-search",function(event){
+
+		$this = $(this);
+		if($(this).val().length == 0 ){
+			$(this).siblings(".icon").attr("src","assets/icons/sidebar_icons/search.svg");
+			$(this).siblings(".icon").removeClass("input-text-empty");
+			$this.parent().find(".dynamic-form-input-dropdown-options").css({"display":"none"});
+		}else{
+			$(this).siblings(".icon").attr("src","assets/icons/sidebar_icons/close.svg");
+			$(this).siblings(".icon").addClass("input-text-empty");
+				var value = new RegExp(this.value.toLowerCase().replace(/\s/g, ''));
+				$this.parent().find(".dynamic-form-input-dropdown-options .search-output").remove();
+			 	searchStudents($this,value);
+			$this.parent().find(".dynamic-form-input-dropdown-options").css({"display":"inline-block"});
+
+			setTimeout(function(){
+				$this.parent().find(".dynamic-form-input-dropdown-options").css({"opacity":"1"});
+			},50);
+
+			event.stopPropagation();
+			event.preventDefault();
+		}
+
+	});
+
+	$(document).on("keyup blur","#FinanceNewModal .dynamic-form-input-dropdown-search-container .input-dropdown-search",function(event){
+
+		$this = $(this);
+		if($(this).val().length == 0 ){
+			$(this).siblings(".icon").attr("src","assets/icons/sidebar_icons/search.svg");
+			$(this).siblings(".icon").removeClass("input-text-empty");
+			$this.parent().find(".dynamic-form-input-dropdown-options").css({"display":"none"});
+		}else{
+			$(this).siblings(".icon").attr("src","assets/icons/sidebar_icons/close.svg");
+			$(this).siblings(".icon").addClass("input-text-empty");
+				var value = new RegExp(this.value.toLowerCase().replace(/\s/g, ''));
+				$this.parent().find(".dynamic-form-input-dropdown-options .search-output").remove();
+			 	searchStudents($this,value);
 			$this.parent().find(".dynamic-form-input-dropdown-options").css({"display":"inline-block"});
 
 			setTimeout(function(){
@@ -272,6 +322,21 @@ function getAllStudents(id) {
 	 	 		$('#AddAbsenceModal').find('input[name=modal-student]').val(filtred[0].Student_FirstName + ' ' + filtred[0].Student_LastName);
 			}
 			$('#AddAbsenceModal').find('.dynamic-form-input-dropdown-search-container .input-dropdown-search').val($(this).attr("data-val"))
+	});
+	$(document).on("click","#AddNewAttitudeModal .search-output",function(event){
+		var filtred = students.filter(student => student.Student_ID === parseInt($(this).attr("data-student-id")));
+		$('#AddNewAttitudeModal').find('input[name=modal-classe]').val(filtred[0].Classe_Label);
+		$('#AddNewAttitudeModal').find('input[name=modal-student]').attr('data-id',filtred[0].Student_ID);
+ 		$('#AddNewAttitudeModal').find('input[name=modal-student]').val(filtred[0].Student_FirstName + ' ' + filtred[0].Student_LastName);
+		$('#AddNewAttitudeModal').find('.dynamic-form-input-dropdown-search-container .input-dropdown-search').val($(this).attr("data-val"))
+	});
+
+	$(document).on("click","#FinanceNewModal .search-output",function(event){
+		var filtred = students.filter(student => student.Student_ID === parseInt($(this).attr("data-student-id")));
+		$('#FinanceNewModal').find('input[name=modal-classe]').val(filtred[0].Classe_Label);
+		$('#FinanceNewModal').find('input[name=modal-student]').attr('data-id',filtred[0].Student_ID);
+ 		$('#FinanceNewModal').find('input[name=modal-student]').val(filtred[0].Student_FirstName + ' ' + filtred[0].Student_LastName);
+		$('#FinanceNewModal').find('.dynamic-form-input-dropdown-search-container .input-dropdown-search').val($(this).attr("data-val"))
 	});
 	/* .dynamic-form-input-dropdown-search-container .input-text-empty ________________________*/
 
@@ -387,6 +452,8 @@ function checkChange() {
 
 	if (value.replace(/\s/g, '') !== '')
 	{
+		$('#AddNewAttitudeModal').find('input[name=modal-student]').val("");
+		$('#AddNewAttitudeModal').find('.input-dropdown-search').val("");
 	 	 $.ajax({
 		    type: 'get',
 		    url: '/Students/list',
@@ -417,6 +484,8 @@ function checkChange() {
 
 	if (value.replace(/\s/g, '') !== '')
 	{
+		$('#FinanceNewModal').find('input[name=modal-student]').val("");
+		$('#FinanceNewModal').find('.input-dropdown-search').val("");
 	 	 $.ajax({
 		    type: 'get',
 		    url: '/Students/list',
@@ -441,12 +510,24 @@ function checkChange() {
 	}
  })
 
-$('#FinanceNewModal').find('input[name="modal-student"]').on( "change", function() {
- 	 var value = $(this).val();
+$('input[name="modal-student"]').on( "change", function() {
+	var value = $(this).val();
 	if (value.replace(/\s/g, '') !== '')
 	{
-		console.log("Student ID::",$('#FinanceNewModal').find('li[data-val='+value.replace(/\s/g, '')+']').data('id'));
-	 	 displayStudentModal($('#FinanceNewModal').find('li[data-val='+value.replace(/\s/g, '')+']').data('id'))
+		$('.input-dropdown-search').val("");
+	}
+ })
+
+$('#FinanceNewModal').find('input[name="modal-student"]').on( "change", function() {
+ 	 var value = $(this).val();
+ 	 var id;
+	if (value.replace(/\s/g, '') !== '')
+	{
+		if ($('#FinanceNewModal').find('li[data-val='+value.replace(/\s/g, '')+']').data('id'))
+	 		id = $('#FinanceNewModal').find('li[data-val='+value.replace(/\s/g, '')+']').data('id');
+	 	else
+	 		id = $(this).attr('data-id');
+	 	displayStudentModal(id)
 	}
  })
 
@@ -968,7 +1049,14 @@ function saveHomework() {
 }
 
 function savePaymentModal() {
-	var payments = $('#FinanceNewModal').find('.payment-select').map(function(){return {period:$(this).val(),ssid:$(this).data('ssid')};}).get();
+var payments = $('#FinanceNewModal').find('.payment-select').map(function(){return {period:$(this).val(),ssid:$(this).data('ssid')};}).get();
+	var filtred;
+	for (var i = payments.length - 1; i >= 0; i--) {
+		filtred = payStudent.filter(paystu => paystu.SS_ID === payments[i].ssid)
+		for (var j = filtred.length - 1; j >= 0; j--) {
+			payments[i].period = payments[i].period.filter(pay => pay !== filtred[j].SP_PaidPeriod)
+		}
+	}
 	$.ajax({
 	    type: 'post',
 	    url: '/Students/payment',
@@ -980,7 +1068,11 @@ function savePaymentModal() {
 	  .done(function(res){
 	  	if(res.saved)
 	  	{
-	  		window.location.href = '/Students';
+	  		$("#FinanceNewModal").modal('hide');
+	  		$('.input-dropdown-search').val("");
+	  		$('input[name="modal-student"]').val("");
+	  		$('input[name="modal-classe"]').val("");
+	  		displayStudent(studentId);
 	  	} else {
 	  		console.log(res);
 	  	}
@@ -1024,7 +1116,7 @@ function executePaymentModal() {
 		if (subStudent[i].Expense_PaymentMethod === "Monthly")
 		{
 			MonthsFiltred = [];
-			for (var j = indStart; j < months.length; j++) {
+			for (var j = months.indexOf(subStudent[i].Subscription_StartDate); j < months.length; j++) {
 				MonthsFiltred.push(months[j]);
 				if (j === indEnd)
 					break;
@@ -1034,6 +1126,7 @@ function executePaymentModal() {
 			var payFilter = payStudent.filter(function (el) {
 		        	return el.SS_ID === subStudent[i].SS_ID;
 		      	});
+			alreadyPay = payFilter;
 			var htmlmonths = '';
 			for (var j = payFilter.length - 1; j >= 0; j--) {
 				MonthsFiltred = MonthsFiltred.filter(function (el) {
@@ -1045,17 +1138,26 @@ function executePaymentModal() {
 			}
 			$('#FinanceNewModal').find('.monthly').removeClass('hidden');
 			$('#FinanceNewModal').find('.monthly').after('<div class="monthly-rows dynamic-form-input-container dynamic-form-input-container-extra-style"> <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+subStudent[i].Expense_Label+'</span> <span class="input-label-bg-mask"></span></label> <div class="dynamic-form-input-dropdown-container"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="form-group group"> <select class="input-text-month-select2 payment-select" data-val="Monthly" data-ssid="'+subStudent[i].SS_ID+'" multiple name="language"> '+htmlmonths+'</select> <img class="icon button-icon" src="assets/icons/caret.svg"> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div> </div>');
+			for (var j = payFilter.length - 1; j >= 0; j--) {
+		      	var option = new Option(payFilter[j].SP_PaidPeriod,payFilter[j].SP_PaidPeriod, true, true);
+    			$('#FinanceNewModal').find('[data-ssid="'+subStudent[i].SS_ID+'"]').append(option).trigger('change');
+			}
 		}
 		if (subStudent[i].Expense_PaymentMethod === "Annual")
 		{
 			payFilter = payStudent.filter(function (el) {
 		        	return el.SS_ID === subStudent[i].SS_ID;
 		      	});
-			if (payFilter.length === 0)
-			{
+			var htmlYearly = '';
+				if (payFilter.length === 0)
+					htmlYearly = '<option value="'+academicyear+'">'+academicyear+'</option> ';
 				$('#FinanceNewModal').find('.yearly').removeClass('hidden');
-				$('#FinanceNewModal').find('.yearly').after('<div class="yearly-rows dynamic-form-input-container dynamic-form-input-container-extra-style input-text-subject-select2-one-option"> <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+subStudent[i].Expense_Label+'</span> <span class="input-label-bg-mask"></span></label> <div class="dynamic-form-input-dropdown-container"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="form-group group"> <select class="input-text-year-select2 payment-select" data-val="Annual" data-ssid="'+subStudent[i].SS_ID+'" multiple name="language"> <option seleted value="'+academicyear+'">'+academicyear+'</option> </select> <img class="icon button-icon" src="assets/icons/caret.svg"> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div> </div>');
-			}
+				$('#FinanceNewModal').find('.yearly').after('<div class="yearly-rows dynamic-form-input-container dynamic-form-input-container-extra-style input-text-subject-select2-one-option"> <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+subStudent[i].Expense_Label+'</span> <span class="input-label-bg-mask"></span></label> <div class="dynamic-form-input-dropdown-container"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="form-group group"> <select class="input-text-year-select2 payment-select" data-val="Annual" data-ssid="'+subStudent[i].SS_ID+'" multiple name="language"> '+htmlYearly+'</select> <img class="icon button-icon" src="assets/icons/caret.svg"> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div> </div>');
+		      	if (payFilter.length > 0)
+		      	{
+		      		var option = new Option(payFilter[0].SP_PaidPeriod,payFilter[0].SP_PaidPeriod, true, true);
+	    			$('#FinanceNewModal').find('[data-ssid="'+subStudent[i].SS_ID+'"]').append(option).trigger('change');
+		      	}
 		}
 	}
 	if($(".input-text-month-select2").length > 0){

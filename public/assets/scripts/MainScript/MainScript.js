@@ -313,7 +313,10 @@ $(document).ready(function(){
 
 /* osDetector _________________________________*/
 
-	   osDetector(window);
+	   	if( getOS() == "Windows"){
+	   		var script = `<link rel="stylesheet" href="assets/styles/MainStyle/MainStyle_ScrollBar.css">`;
+			$('head').append(script);
+	    }
 
 	/* End osDetector _________________________________*/
 
