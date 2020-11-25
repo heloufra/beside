@@ -138,6 +138,12 @@
                                 <div class="sections-main-sub-container-right-main-header-option-list-container">
                                 <img class="sections-main-sub-container-right-main-header-option-icon" src="assets/icons/options.svg">
                                 <div class="sections-main-sub-container-right-main-header-option-list">
+                                   <div class="sections-main-sub-container-right-main-header-option-list-li
+                                              sections-main-sub-container-right-main-header-option-list-li-exam-edit
+                                              ">
+                                    <img src="assets/icons/edit.svg" alt="edit"/>   
+                                    <span class="sections-main-sub-container-right-main-header-option-list-span">Edit</span>
+                                  </div>
                                   <div class="sections-main-sub-container-right-main-header-option-list-li
                                               sections-main-sub-container-right-main-header-option-list-li-delete">
                                     <img src="assets/icons/delete.svg" alt="edit"/>   
@@ -173,8 +179,8 @@
 
                                     <div class="col-md-6">
                                       <div class="form-group group">
-                                        <input <%= readonly %> type="text" name="exam_name" required="" >
-                                        <label class="input-label <%= inputLabel %>">
+                                        <input readonly type="text" name="exam_name" required="" >
+                                        <label class="input-label input-label-move-to-top">
                                           <span class="input-label-text">Exam name</span><span class="input-label-bg-mask"></span>
                                         </label>
                                       </div>
@@ -182,9 +188,9 @@
 
                                     <div class="col-md-6">
                                       <div class="form-group group dynamic-form-input-text-container-icon dynamic-form-input-text-container-icon-extra-style ">
-                                          <input <%= readonly %> type="text" name="exam_date" class="input-text <%= inputDate %>" required="" placeholder="">
+                                          <input readonly type="text" name="exam_date" class="input-text " required="" placeholder="">
                                           <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                                          <label class="input-label <%= inputLabel %>">
+                                          <label class="input-label input-label-move-to-top">
                                             <span class="input-label-text">Date</span><span class="input-label-bg-mask"></span>
                                           </label>
                                       </div>
@@ -197,8 +203,8 @@
 
                                     <div class="col-md-12">
                                       <div class="form-group group">
-                                        <textarea <%= readonly %> class="input-text input-text-area" id="exam_description"></textarea>
-                                        <label class="input-label <%= inputLabel %>">
+                                        <textarea readonly class="input-text input-text-area" id="exam_description"></textarea>
+                                        <label class="input-label input-label-move-to-top">
                                           <span class="input-label-text">Exam description</span><span class="input-label-bg-mask"></span>
                                         </label>
                                       </div>

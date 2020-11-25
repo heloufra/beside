@@ -56,14 +56,14 @@ $('#AddHomeworkModal').find('input[name="upload_file_modal"]').on( "change", fun
 	}
 })
 
-$('#homework_info').find('input[name="upload_file"]').on( "change", function() {
+$('#EditHomeworkModal').find('input[name="upload_file"]').on( "change", function() {
 	if ($(this).val().replace(/\s/g, '') !== '')
 	{
 		console.log('File Val',$(this).val());
-		$('#homework_info').find('.file-upload').addClass('file-container-visibility');
-	 	$('#homework_info').find('.list-files').append('<div class="file-container file-upload"> <div class="file-icon-label"> <img class="file-icon" src="assets/icons/file.svg" alt="file"/> <span class="file-label">'+$(this).val().split("\\")[2]+'</span> </div> <img class="file-close" onclick="discardFile()" src="assets/icons/close-gray.svg" alt="close"/> <div class="progress"> <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"> </div> </div> </div>');
+		$('#EditHomeworkModal').find('.file-upload').addClass('file-container-visibility');
+	 	$('#EditHomeworkModal').find('.list-files').append('<div class="file-container file-upload"> <div class="file-icon-label"> <img class="file-icon" src="assets/icons/file.svg" alt="file"/> <span class="file-label">'+$(this).val().split("\\")[2]+'</span> </div> <img class="file-close" onclick="discardFile()" src="assets/icons/close-gray.svg" alt="close"/> <div class="progress"> <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"> </div> </div> </div>');
 	 	setTimeout(function(){
-				$('#homework_info').find('.file-container .progress-bar').css('width', '100%').attr('aria-valuenow', 100); 
+				$('#EditHomeworkModal').find('.file-container .progress-bar').css('width', '100%').attr('aria-valuenow', 100); 
 			},500);
 	}
 })
@@ -74,8 +74,8 @@ function discardFileModal() {
 }
 
 function discardFile() {
-	$('#homework_info').find('.file-upload').addClass('file-container-visibility');
-	$('#homework_info').find('input[name="upload_file"]').val(null); 
+	$('#EditHomeworkModal').find('.file-upload').addClass('file-container-visibility');
+	$('#EditHomeworkModal').find('input[name="upload_file"]').val(null); 
 }
 
 function saveHomework() {
@@ -172,10 +172,10 @@ function saveHomework() {
  function saveChange() {
  	var formData = new FormData();
  	formData.append('id', homeworkId);
-    formData.append('homework_name', $('#homework_info').find('input[name="homework_name"]').val());
-    formData.append('homework_date', $('#homework_info').find('input[name="homework_date"]').val());
-    formData.append('homework_description', $('#homework_info').find('#homework_description').val());
-    formData.append('file', $('#homework_info').find('input[name="upload_file"]').prop('files')[0]);
+    formData.append('homework_name', $('#EditHomeworkModal').find('input[name="homework_name"]').val());
+    formData.append('homework_date', $('#EditHomeworkModal').find('input[name="homework_date"]').val());
+    formData.append('homework_description', $('#EditHomeworkModal').find('#homework_description').val());
+    formData.append('file', $('#EditHomeworkModal').find('input[name="upload_file"]').prop('files')[0]);
 	$.ajax({
 	    type: 'post',
 	    url: '/Homeworks/update',
@@ -188,26 +188,27 @@ function saveHomework() {
 	  	if(res.updated)
 	  	{
 	  			getAllHomeworks(homeworkId);
-	  			$('#ChangesModal').modal('hide');
+	  			$('#EditHomeworkModal').modal('hide');
 	  	} else {
 	  		console.log(res);
 	  	}
 	  });
- 	$('#homework_info .sub-container-form-footer').addClass('hide-footer');
- 	$('#homework_info .sub-container-form-footer').removeClass('show-footer');
+ 	$('#EditHomeworkModal .sub-container-form-footer').addClass('hide-footer');
+ 	$('#EditHomeworkModal .sub-container-form-footer').removeClass('show-footer');
  }
  function discardChange() {
- 	$('#homework_info .sub-container-form-footer').addClass('hide-footer');
- 	$('#homework_info .sub-container-form-footer').removeClass('show-footer');
- 	$('#homework_info').find('.file-upload').addClass('file-container-visibility');
- 	$('#homework_info').find('input[name="upload_file"]').val('');
- 	$('#ChangesModal').modal('hide');
+ 	$('#EditHomeworkModal .sub-container-form-footer').addClass('hide-footer');
+ 	$('#EditHomeworkModal .sub-container-form-footer').removeClass('show-footer');
+ 	$('#EditHomeworkModal').find('.file-upload').addClass('file-container-visibility');
+ 	$('#EditHomeworkModal').find('input[name="upload_file"]').val('');
+ 	$('#EditHomeworkModal').modal('hide');
  	displayHomework(homeworkId);
  }
 
 function displayHomework(index)
 {
 	$('#HomeworkDetails').removeClass("dom-change-watcher");
+	$('#EditHomeworkModal').removeClass("dom-change-watcher");
 	$.ajax({
     type: 'get',
     url: '/Homeworks/one',
@@ -234,14 +235,21 @@ function displayHomework(index)
 	  		$('#homework_info').find('input[name="homework_name"]').val(res.homework[0].Homework_Title);
 	  		$('#homework_info').find('input[name="homework_date"]').val(res.homework[0].Homework_DeliveryDate);
 	  		$('#homework_info').find('#homework_description').val(res.homework[0].Homework_Deatils);
-	  		$('#homework_info').find('input[name="upload_file"]').val('');
 	  		$('#homework_info').find('.file-upload').addClass('file-container-visibility');
 	  		$('#homework_info').find('.sub-label-full-name').html(res.homework[0].Subject_Label+' - '+res.homework[0].Classe_Label+' - '+name.first_name+' '+ name.last_name);
+	  		$('#EditHomeworkModal').find('input[name="upload_file"]').val('');
+	  		$('#EditHomeworkModal').removeClass('hidden');
+	  		$('#EditHomeworkModal').find('.file-forms').remove();
+	  		$('#EditHomeworkModal').find('input[name="homework_name"]').val(res.homework[0].Homework_Title);
+	  		$('#EditHomeworkModal').find('input[name="homework_date"]').val(res.homework[0].Homework_DeliveryDate);
+	  		$('#EditHomeworkModal').find('#homework_description').val(res.homework[0].Homework_Deatils);
+	  		$('#EditHomeworkModal').find('input[name="upload_file"]').val('');
+	  		$('#EditHomeworkModal').find('.file-upload').addClass('file-container-visibility');
 	  		for (var i = res.homeworkFiles.length - 1; i >= 0; i--) {
-	  			$('#homework_info').find('.list-files').prepend('<a style="text-decoration: none; color: inherit;" download href="'+res.homeworkFiles[i].Homework_Link+'"><div class="file-container file-loaded file-forms"> <div class="file-icon-label"> <img class="file-icon" src="assets/icons/file.svg" alt="file"/> <span class="file-label">'+res.homeworkFiles[i].Homework_Title+'</span> </div>'+ (res.role === "Teacher" ? ('<img class="file-close" onclick="removeFile('+res.homeworkFiles[i].HA_ID+')" src="assets/icons/close-gray.svg" alt="close"/>') : (''))+' </div></a>');
+	  			$('#homework_info').find('.list-files').prepend('<a style="text-decoration: none; color: inherit;" download href="'+res.homeworkFiles[i].Homework_Link+'"><div class="file-container file-loaded file-forms"> <div class="file-icon-label"> <img class="file-icon" src="assets/icons/file.svg" alt="file"/> <span class="file-label">'+res.homeworkFiles[i].Homework_Title+'</span> </div></div></a>');
+	  			$('#EditHomeworkModal').find('.list-files').prepend('<a style="text-decoration: none; color: inherit;" download href="'+res.homeworkFiles[i].Homework_Link+'"><div class="file-container file-loaded file-forms"> <div class="file-icon-label"> <img class="file-icon" src="assets/icons/file.svg" alt="file"/> <span class="file-label">'+res.homeworkFiles[i].Homework_Title+'</span> </div><img class="file-close" onclick="removeFile('+res.homeworkFiles[i].HA_ID+')" src="assets/icons/close-gray.svg" alt="close"/> </div></a>');
 	  		}
-	  		if (res.role === "Teacher")
-	  			$('#HomeworkDetails').addClass("dom-change-watcher");
+	  		$('#EditHomeworkModal').addClass("dom-change-watcher");
   		}
   	}
   });
@@ -365,3 +373,9 @@ $('.select-classe').on( "change", function() {
 		  });
   }
 })
+
+ /*.sections-main-sub-container-right-main-header-option-list-span-edit __________________________*/
+
+$(document).on("click",".sections-main-sub-container-right-main-header-option-list-li-homework-edit",function(){
+	$('#EditHomeworkModal').modal('show');
+});

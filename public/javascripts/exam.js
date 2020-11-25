@@ -128,6 +128,7 @@ function saveExam() {
 function displayExam(index) 
 {
 	$('#ExamsDetails').removeClass("dom-change-watcher");
+	$('#EditExamModal').removeClass("dom-change-watcher");
 	$('.row-score').remove();
 	$.ajax({
     type: 'get',
@@ -161,10 +162,12 @@ function displayExam(index)
   		$('#exam_info').find('input[name="exam_name"]').val(res.exam[0].Exam_Title);
   		$('#exam_info').find('input[name="exam_date"]').val(res.exam[0].Exam_Date);
   		$('#exam_info').find('#exam_description').val(res.exam[0].Exam_Deatils);
+  		$('#EditExamModal').find('input[name="exam_name"]').val(res.exam[0].Exam_Title);
+  		$('#EditExamModal').find('input[name="exam_date"]').val(res.exam[0].Exam_Date);
+  		$('#EditExamModal').find('#exam_description').val(res.exam[0].Exam_Deatils);
   		var name = JSON.parse(res.exam[0].User_Name);
   		$('#exam_info').find('.sub-label-full-name').html(res.exam[0].Subject_Label+' - '+res.exam[0].Classe_Label+' - '+name.first_name+' '+name.last_name);
-  		if (res.role === "Teacher")
-  			$('#ExamsDetails').addClass("dom-change-watcher");
+  		$('#EditExamModal').addClass("dom-change-watcher");
   		}
   	}
   });
@@ -333,9 +336,9 @@ $('.select-classe').on( "change", function() {
 	    url: '/Exams/update',
 	    data: {
 	    	id:examId,
-	    	exam_name:$('#exam_info').find('input[name="exam_name"]').val(),
-  			exam_date:$('#exam_info').find('input[name="exam_date"]').val(),
-  			exam_description:$('#exam_info').find('#exam_description').val(),
+	    	exam_name:$('#EditExamModal').find('input[name="exam_name"]').val(),
+  			exam_date:$('#EditExamModal').find('input[name="exam_date"]').val(),
+  			exam_description:$('#EditExamModal').find('#exam_description').val(),
 	    },
 	    dataType: 'json'
 	  })
@@ -343,19 +346,19 @@ $('.select-classe').on( "change", function() {
 	  	if(res.updated)
 	  	{
 	  			getAllExams(examId);
-	  			$('#ChangesModal').modal('hide');
+	  			$('#EditExamModal').modal('hide');
 	  	} else {
 	  		console.log(res);
 	  	}
 	  });
- 	$('#exam_info .sub-container-form-footer').addClass('hide-footer');
- 	$('#exam_info .sub-container-form-footer').removeClass('show-footer');
+ 	$('#EditExamModal .sub-container-form-footer').addClass('hide-footer');
+ 	$('#EditExamModal .sub-container-form-footer').removeClass('show-footer');
  }
 
  function discardChange() {
- 	$('#exam_info .sub-container-form-footer').addClass('hide-footer');
- 	$('#exam_info .sub-container-form-footer').removeClass('show-footer');
- 	$('#ChangesModal').modal('hide');
+ 	$('#EditExamModal .sub-container-form-footer').addClass('hide-footer');
+ 	$('#EditExamModal .sub-container-form-footer').removeClass('show-footer');
+ 	$('#EditExamModal').modal('hide');
  	displayExam(examId);
  } 
 
@@ -364,3 +367,9 @@ $('.select-classe').on( "change", function() {
  	$('#Scores .sub-container-form-footer').removeClass('show-footer');
  	displayExam(examId);
  }
+
+/*.sections-main-sub-container-right-main-header-option-list-span-edit __________________________*/
+
+$(document).on("click",".sections-main-sub-container-right-main-header-option-list-li-exam-edit",function(){
+	$('#EditExamModal').modal('show');
+});

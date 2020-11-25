@@ -4057,7 +4057,20 @@ table td img {
 #FinanceBillModal .label-full-name.label-full-name-modal{
 	font-size: 18px;
 	font-weight: 500;
-	margin-bottom: 36px;
+	margin-bottom: 4px;
+}
+
+#FinanceBillModal .sub-label-full-name{
+    font-size: 14px;
+    line-height: 14px;
+    font-weight: normal;
+    color: var(--input-placeholder--color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 0px;
 }
 
 #FinanceBillModal .finance-bill-modal-table-container table{
@@ -6720,6 +6733,9 @@ table td img {
     	width: 70%;
 	}
 
+	.sections-main-sub-container-right-extra-style{
+		width: 100%;
+	}
 	/*************** sections-main-sub-container-left-search-bar *************
 
 	.sections-main-sub-container-left-search-bar .form-group-left{
@@ -7298,4 +7314,157 @@ table td img {
 /*************** End data-loading ***********************************/
 
 
+  @media print {
+
+        html, body {
+            width: 210mm;
+            height: 297mm;        
+        }
+
+        @page {
+        	size: A4;
+        	margin: 32px;
+    	}
+
+    	.form-group-modal-extra-style {
+    		margin-bottom: 32px;
+    		text-align: center;
+		}
+
+		.sections-main-sub-container-right-main-rows{
+			width: 100%;
+		}
+
+		.finance-bill-modal-table-container table th, .finance-bill-modal-table-container table td {
+		    border: 1px solid var(--input-border--color) !important;
+		    padding: 8px !important;
+		}
+
+		.expense_td_container {
+		    display: flex;
+		    flex-direction: row;
+		    justify-content: space-between;
+		}
+
+		.expense_td_container {
+		    display: flex;
+		    flex-direction: row;
+		    justify-content: space-between;
+		}
+
+		.expense_label_container {
+		    display: flex;
+		    flex-direction: column;
+		}
+
+		.finance-bill-modal-table-container table .expense_label {
+		    text-align: left;
+		    color: var(--black--color) !important;
+		    font-size: 12px;
+		    font-weight: 300;
+		}
+
+		.expense_td_container .expense_label_method {
+			margin-left: 0px;
+			font-size: 12px;
+		}
+
+		.sections-main-sub-container-right-main-label-divider p {
+		    position: absolute;
+		    margin: 0px auto;
+		    top: -10px;
+		    left: 50%; 
+		    padding: 0px 5px 0px 5px;
+		    background: white;
+		    font-size: 14px;
+		    color: var(--black--gray--color);
+		    transform: translate(-50%,0%);
+		    background:white!important;
+		}
+
+		.sub-label-full-name{
+		    font-size: 14px;
+		    line-height: 14px;
+		    font-weight: normal;
+		    color: var(--input-placeholder--color);
+		    white-space: nowrap;
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+		    display: inline-block;
+		    width: 100%;
+		    margin-bottom: -8px !important;
+		}
+
+		.label-date{
+			font-size: 14px;
+		    line-height: 14px;
+		    font-weight: normal;
+		    color: var(--black--gray--color);
+		    white-space: nowrap;
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+		    display: inline-block;
+		    width: 100%;
+		    margin-bottom: -8px !important;
+		}
+
+		.input-img-container {
+		    width: 60px;
+		    height: 60px;
+		    margin: 0px auto;
+		    margin-bottom: -8px;
+		}
+
+		.label-full-name {
+		    font-size: 18px;
+		    font-weight: 500;
+		    margin-bottom: -8px !important;
+		}
+
+		.finance-bill-modal-table-container table th {
+		    text-align: left;
+		    color: var(--input-placeholder--color);
+		    font-size: 12px;
+		    font-weight: 500;
+		    white-space: nowrap;
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+		    max-width: 100% !important;
+		}
+
+		.finance-bill-modal-table-container table .td-label {
+		    text-align: left;
+		    color: var(--input-placeholder--color);
+		    font-size: 12px;
+		    font-weight: 500;
+		}
+
+		.finance-bill-modal-table-container {
+			width: 100%;
+			margin-bottom: 32px;
+		}
+
+		.visibility{
+			display: inline-block !important;
+		}
+
+		table {
+		    width: 100%;
+		    border-spacing: 0;
+    		border-collapse: collapse;
+		}
+
+
+		.sections-main-sub-container-right-main-result {
+		    border: 1px solid var(--input-border--color);
+		    border-radius: 3px;
+		    padding: 8px;
+		    text-align: left;
+		}
+
+		.td-align-right{
+			
+		}
+
+    }
 

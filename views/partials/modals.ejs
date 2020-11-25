@@ -3074,4 +3074,191 @@
 
 <!--_____________ End Teacher modal _____________-->
 
+<!--_____________ EditHomeworkModal modal _____________-->
+
+<!-- Trigger the modal with a button -->
+ 
+  <!-- Modal -->
+  <div id="EditHomeworkModal" class="modal modal-dom-change-watcher" role="dialog">
+
+    <div class="modal-dialog modal-dialog-cente animate__animated animate__fadeIn ">
+
+      <!-- Modal content-->
+      <div class="modal-content modal-content-finance">
+
+        <div class="modal-body">
+
+            <!-- modal-body-container -->
+
+            <div class="modal-body-container">
+
+               <h1 class="sub-container-main-header">Edit Homework</h1>
+               <h4 class="sub-container-sub-header">
+                There are many variations of passages of Lorem Ipsum available.
+               </h4>
+
+                <div class="dynamic-form-input-container dynamic-form-input-container-extra-style ">
+
+                  <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Homework name</span> <span class="input-label-bg-mask"></span></label>
+
+                  <div class="form-group group dynamic-form-input-text-container-icon">
+                     <input type="text" class="input-text input-extra-border" required="" 
+                            placeholder="Type homework name" name="homework_name">
+                  </div>
+
+                </div>
+
+                <div class="dynamic-form-input-container dynamic-form-input-container-extra-style ">
+
+                  <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Date</span> <span class="input-label-bg-mask"></span></label>
+
+                  <div class="form-group group dynamic-form-input-text-container-icon">
+                     <input type="text" class="input-text input-extra-border input-date input-date-from-today" required="" 
+                            placeholder="Select date" name="homework_date">
+                     <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
+                  </div>
+
+                </div>
+
+                <div class="row sections-main-sub-container-right-main-rows">
+                  <div class="col-xs-12">
+                    <div class="form-group group">
+                      <textarea class="input-text input-text-area" id="homework_description"></textarea>
+                      <label class="input-label">
+                        <span class="input-label-text">Homework description</span><span class="input-label-bg-mask"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <!--____________ add attachement _________________-->
+                <div class="row sections-main-sub-container-right-main-rows">
+
+                  <div class="col-md-12">
+
+                    <div class="form-group group list-files">
+                    </div>
+                  </div>
+
+                 <div class="col-md-12 file-add-btn-container" >
+                  <input type="file" name="upload_file" id="upload_file" style="display: none;" multiple="">
+                  <label for="upload_file" style="cursor: pointer; display: block; height: 100%;width: 100%;">
+                    <div class="file-container file-add-btn" >
+                        <div class="file-icon-label">
+                         <img  class="file-icon" src="assets/icons/attach.svg" alt="attach"/>
+                          <span class="file-label">add attachement
+                          </label>
+                          </span>
+                        </div>
+                    </div>
+                  </div>
+
+                </div>
+                <!--____________ End add attachement _________________-->
+
+                <!--  sub-container-form-footer -->
+                <div class="sub-container-form-footer hide-footer">
+                    <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button cancel-change" onclick="saveChange()">
+                          <span class="button-text" >Save changes</span>
+                          <img class="icon button-icon" src="assets/icons/check_small.svg">
+                    </div>
+                    <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary cancel-change" data-dismiss="modal" onclick="discardChange()">
+                          <span class="button-text">Cancel</span>
+                    </div>
+                </div>
+                <!--  End sub-container-form-footer -->
+
+            </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+<!--_____________ End EditHomeworkModal modal _____________-->
+
+<!--_____________ Exam modal _____________-->
+
+<!-- Trigger the modal with a button -->
+ 
+  <!-- Modal -->
+  <div id="EditExamModal" class="modal modal-dom-change-watcher" role="dialog">
+
+    <div class="modal-dialog modal-dialog-cente animate__animated animate__fadeIn ">
+
+      <!-- Modal content-->
+      <div class="modal-content modal-content-finance">
+
+        <div class="modal-body">
+
+            <!-- modal-body-container -->
+
+            <div class="modal-body-container">
+
+               <h1 class="sub-container-main-header">Edit Exam</h1>
+               <h4 class="sub-container-sub-header">
+                There are many variations of passages of Lorem Ipsum available.
+               </h4>
+
+                <div class="dynamic-form-input-container dynamic-form-input-container-extra-style  ">
+
+                  <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Exam name</span> <span class="input-label-bg-mask"></span></label>
+
+                  <div class="form-group group dynamic-form-input-text-container-icon">
+                     <input type="text" class="input-text input-extra-border" required="" 
+                            placeholder="Type exam name" name="exam_name">
+                  </div>
+
+                </div>
+
+                <div class="dynamic-form-input-container dynamic-form-input-container-extra-style ">
+
+                  <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Date</span> <span class="input-label-bg-mask"></span></label>
+
+                  <div class="form-group group dynamic-form-input-text-container-icon">
+                     <input type="text" class="input-text input-extra-border input-date input-date-from-today" required="" 
+                            placeholder="Select date" name="exam_date">
+                     <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
+                  </div>
+
+                </div>
+
+                <div class="row sections-main-sub-container-right-main-rows">
+                  <div class="col-xs-12">
+                    <div class="form-group group">
+                      <textarea class="input-text input-text-area" id="exam_description"></textarea>
+                      <label class="input-label">
+                        <span class="input-label-text">Exam description</span><span class="input-label-bg-mask"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <!--  sub-container-form-footer -->
+                <div class="sub-container-form-footer hide-footer">
+                    <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button cancel-change" onclick="saveChange()">
+                          <span class="button-text" >Save changes</span>
+                          <img class="icon button-icon" src="assets/icons/check_small.svg">
+                    </div>
+                    <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary cancel-change" data-dismiss="modal" onclick="discardChange()">
+                          <span class="button-text">Cancel</span>
+                    </div>
+                </div>
+                <!--  End sub-container-form-footer -->
+
+            </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+<!--_____________ End Exam modal _____________-->
+
 <script src="/javascripts/modals.js" type="text/javascript" charset="utf-8" async defer></script>

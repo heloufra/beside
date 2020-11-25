@@ -140,6 +140,13 @@
                                 <img class="sections-main-sub-container-right-main-header-option-icon" src="assets/icons/options.svg">
                                 <div class="sections-main-sub-container-right-main-header-option-list">
                                   <div class="sections-main-sub-container-right-main-header-option-list-li
+                                              sections-main-sub-container-right-main-header-option-list-li-homework-edit
+                                              ">
+                                    <img src="assets/icons/edit.svg" alt="edit"/>   
+                                    <span class="sections-main-sub-container-right-main-header-option-list-span">Edit
+                                    </span>
+                                  </div>
+                                  <div class="sections-main-sub-container-right-main-header-option-list-li
                                               sections-main-sub-container-right-main-header-option-list-li-delete">
                                     <img src="assets/icons/delete.svg" alt="edit"/>   
                                     <span class="sections-main-sub-container-right-main-header-option-list-span">Delete</span>
@@ -168,8 +175,8 @@
 
                                     <div class="col-md-6">
                                       <div class="form-group group ">
-                                        <input  <%= readonly %> type="text" required="" name="homework_name">
-                                        <label class="input-label <%= inputLabel %>">
+                                        <input  readonly type="text" required="" name="homework_name">
+                                        <label class="input-label input-label-move-to-top">
                                           <span class="input-label-text">Homework name</span><span class="input-label-bg-mask"></span>
                                         </label>
                                       </div>
@@ -177,9 +184,9 @@
 
                                     <div class="col-md-6">
                                       <div class="form-group group dynamic-form-input-text-container-icon dynamic-form-input-text-container-icon-extra-style ">
-                                          <input <%= readonly %> type="text" name="homework_date" class="input-text  <%= inputDate %>" required="" placeholder="">
+                                          <input readonly  type="text" name="homework_date" class="input-text" required="" placeholder="">
                                           <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                                          <label class="input-label <%= inputLabel %>">
+                                          <label class="input-label input-label-move-to-top">
                                             <span class="input-label-text">Delivery Date</span><span class="input-label-bg-mask"></span>
                                           </label>
                                       </div>
@@ -192,8 +199,8 @@
 
                                     <div class="col-md-12">
                                       <div class="form-group group ">
-                                        <textarea  <%= readonly %> class="input-text input-text-area" id="homework_description"></textarea>
-                                        <label class="input-label <%= inputLabel %>">
+                                        <textarea  readonly  class="input-text input-text-area" id="homework_description"></textarea>
+                                        <label class="input-label input-label-move-to-top">
                                           <span class="input-label-text">Homework description</span><span class="input-label-bg-mask"></span>
                                         </label>
                                       </div>
@@ -211,43 +218,10 @@
 
                                       </div>
                                     </div>
-
-                                    <%if (role === 'Teacher') { %>
-                                    <div class="col-md-12 file-add-btn-container" >
-                                      <input type="file" name="upload_file" id="upload_file" style="display: none;" multiple="">
-                                      <label for="upload_file" style="cursor: pointer; display: block; height: 100%;width: 100%;">
-                                        <div class="file-container file-add-btn" >
-                                            <div class="file-icon-label">
-                                             <img  class="file-icon" src="assets/icons/attach.svg" alt="attach"/>
-                                              <span class="file-label">add attachement
-                                              </label>
-                                              </span>
-                                            </div>
-                                        </div>
-                                      </div>
-                                      <% } %>
                                   </div>
 
 
                                   <!-- sub-container-form-footer-container -->
-                                  <div class="sub-container-form-footer-container">
-                                        <!--  sub-container-form-footer -->
-                                        <%if (role === 'Teacher') { %>
-                                        <div class="sub-container-form-footer hide-footer">
-
-                                            <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate rounded-button-primary-green-color save-changes" onclick="saveChange()">
-                                                  <span class="button-text" id="Editdetails">Save changes</span>
-                                                  <img class="icon button-icon" src="assets/icons/check_small.svg">
-                                            </div>
-
-                                            <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary secondary-pink-button save-changes" onclick="discardChange()">
-                                                  <span class="button-text discard-changes" >Discard</span>
-                                            </div>
-
-                                        </div>
-                                        <% } %>
-                                        <!--  End sub-container-form-footer -->
-                                  </div>
                                   <!-- End sub-container-form-footer-container -->
 
                               </div>
