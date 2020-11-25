@@ -1438,6 +1438,9 @@ input:focus ~ label,input:valid ~ label{
     display: inline-block;
 }
 
+.select2-container--default.select2-container--disabled .select2-selection--multiple {
+	background-color: inherit !important;
+}
 .select2-container--default .select2-selection--multiple .select2-selection__choice__display {
     cursor: default !important;
     padding-left: 4px !important;

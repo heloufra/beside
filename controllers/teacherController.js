@@ -112,7 +112,7 @@ var teacherController = {
   },
   getAllteachers: function(req, res, next) {
     var teachersArray = [];
-      connection.query("SELECT users.* FROM `institutionsusers` INNER JOIN users ON users.User_ID = institutionsusers.User_ID WHERE institutionsusers.`Institution_ID` = ? AND institutionsusers.User_Role = 'Teacher' AND institutionsusers.IU_Status<>0", [req.Institution_ID],async (err, teachers, fields) => {
+      connection.query("SELECT users.User_ID,users.User_Name,users.User_Image,users.User_Email,users.User_Phone,users.User_Gender,users.User_Birthdate,users.User_Address FROM `institutionsusers` INNER JOIN users ON users.User_ID = institutionsusers.User_ID WHERE institutionsusers.`Institution_ID` = ? AND institutionsusers.User_Role = 'Teacher' AND institutionsusers.IU_Status<>0", [req.Institution_ID],async (err, teachers, fields) => {
         for (var i = teachers.length - 1; i >= 0; i--) {  
           var classes = await teacherModel.findClasses(teachers[i].User_ID);
           var subjects = await teacherModel.findSubjects(teachers[i].User_ID);

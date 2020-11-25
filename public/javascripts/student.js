@@ -35,6 +35,7 @@ function getAllStudents(id) {
 	  		console.log(res.errors)
 	  	} else {
 	  		students = res.students;
+	  		console.log('Students!!',students);
 	  		filtredClass = res.students;
 	  		subclasses = res.subscription;
 	  		if (id)
@@ -132,7 +133,7 @@ function readFileDetail() {
     var FR= new FileReader();
     
     FR.addEventListener("load", function(e) {
-      $(".profile-img").attr("src",e.target.result);
+      $("#EditStudentModal .profile-img").attr("src",e.target.result);
     }); 
     
     FR.readAsDataURL( this.files[0] );
@@ -240,6 +241,8 @@ $(document).on("click",".students_list",function(event){
 	  	$('#Grades').removeClass('hidden');
 		$('#Details').find('.input-parent').remove();
 		$('#Details').removeClass("dom-change-watcher");
+		$('#EditStudentModal').find('.input-parent').remove();
+		$('#EditStudentModal').removeClass("dom-change-watcher");
 		$('#Absence').find('.row-absence').remove();
 		$('#Details').find('.expense_col').remove();
 		$('#Attitude').find('.row-note').remove();
@@ -248,6 +251,8 @@ $(document).on("click",".students_list",function(event){
 		$('#Grades').find('.row-score').remove();
   		$('#Details').find('.expense_col').remove();
   		$('#Details').find('.row-parent').remove();
+  		$('#EditStudentModal').find('.expense_col').remove();
+  		$('#EditStudentModal').find('.row-parent').remove();
   		$("#Finance").find('.month-row').remove();
   		$("#Finance").find('.row-payment').remove();
   		$('#student_info').removeClass('hidden');
@@ -371,17 +376,15 @@ $(document).on("click",".students_list",function(event){
 		$("#Finance").find('.list-months').append(htmlmonths);
 		var inputFirst,readOnly,inputLabel = '';
 		parents = res.parents;
-		if (res.role === "Teacher")
-		{
-			inputLabel = "input-label-move-to-top"
-			readOnly = 'readonly';
-		}
+		inputLabel = "input-label-move-to-top"
+		readOnly = 'readonly';
 	  	for (var i = res.parents.length - 1; i >= 0; i--) {
 	  		if (res.parents.length === 1 || i === 0)
 	  			inputFirst = 'dynamic-form-input-first';
 	  		else
 	  			inputFirst = '';
 			$('#Details').find('.sections-main-sub-container-right-main-rows-parents').prepend('<div class="row-payment dynamic-form-input-parent '+inputFirst+' row-parent"> <div class="input-parent "><div class="col-md-6"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_name" value="'+res.parents[i].Parent_Name+'"  '+readOnly+'> <label class="input-label '+inputLabel+'"> <span class="input-label-text">Parent full name</span><span class="input-label-bg-mask"></span> </label> </div> </div><div class="col-md-5"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_phone" value="'+res.parents[i].Parent_Phone+'"  '+readOnly+'> <label class="input-label '+inputLabel+'"> <span class="input-label-text">Parent phone number</span><span class="input-label-bg-mask"></span> </label> </div> </div></div><div class="col-md-1"> <div class="square-button"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div>');
+			$('#EditStudentModal').find('.sections-main-sub-container-right-main-rows-parents').prepend('<div class="row-payment dynamic-form-input-parent '+inputFirst+' row-parent"> <div class="input-parent "><div class="col-md-6"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_name" value="'+res.parents[i].Parent_Name+'"> <label class="input-label "> <span class="input-label-text">Parent full name</span><span class="input-label-bg-mask"></span> </label> </div> </div><div class="col-md-5"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_phone" value="'+res.parents[i].Parent_Phone+'"> <label class="input-label"> <span class="input-label-text">Parent phone number</span><span class="input-label-bg-mask"></span> </label> </div> </div></div><div class="col-md-1"> <div class="square-button"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div>');
 		}
 
 		absences = res.absences;
@@ -411,13 +414,15 @@ $(document).on("click",".students_list",function(event){
 						if(subclasses[i].Expense_Label === res.substudent[j].Expense_Label)
 							checked = 'checked';
 					}
-					$('#Details').find('.sub_list').append('<div class="expense_col col-md-6 sections-label-checkbox-main-container "> <div class="sections-label-checkbox-container"> <div class="form-group group "> <span class="expense_label">'+subclasses[i].Expense_Label+'</span> <span class="method_label"> <span class="method_label_price">'+subclasses[i].Expense_Cost+'</span> <span class="method_label_period">'+subclasses[i].Expense_PaymentMethod+'</span> </span> </div> </div> <div class="customCheck"> <input type="checkbox"  value="'+subclasses[i].LE_ID+'" name="checkbox" id="ck" '+checked+'/> <label for="ck"></label> </div> </div> ');
+					$('#Details').find('.sub_list').append('<div class="expense_col col-md-6 sections-label-checkbox-main-container "> <div class="sections-label-checkbox-container"> <div class="form-group group "> <span class="expense_label">'+subclasses[i].Expense_Label+'</span> <span class="method_label"> <span class="method_label_price">'+subclasses[i].Expense_Cost+'</span> <span class="method_label_period">'+subclasses[i].Expense_PaymentMethod+'</span> </span> </div> </div> <div class="customCheck readonly"> <input type="checkbox"  value="'+subclasses[i].LE_ID+'" name="checkbox" id="ck" '+checked+'/> <label for="ck"></label> </div> </div> ');
+					$('#EditStudentModal').find('.sub_list').append('<div class="expense_col col-md-6 sections-label-checkbox-main-container "> <div class="sections-label-checkbox-container"> <div class="form-group group "> <span class="expense_label">'+subclasses[i].Expense_Label+'</span> <span class="method_label"> <span class="method_label_price">'+subclasses[i].Expense_Cost+'</span> <span class="method_label_period">'+subclasses[i].Expense_PaymentMethod+'</span> </span> </div> </div> <div class="customCheck "> <input type="checkbox"  value="'+subclasses[i].LE_ID+'" name="checkbox" id="ck" '+checked+'/> <label for="ck"></label> </div> </div> ');
 				}
 			}
   			$('#AddStudentAbsenceModal').find('input[name="ad_classe"]').val(result[0].Classe_Label);
 			$('#AddStudentAbsenceModal').find('input[name="ad_student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
 			$('#student_info').find('.profile-full-name').text(result[0].Student_FirstName + " " + result[0].Student_LastName);
 			$('#student_info').find('.profile-img').attr('src',result[0].Student_Image);
+			$('#EditStudentModal').find('.profile-img').attr('src',result[0].Student_Image);
 			$('#Details').find('input[name="f_name"]').val(result[0].Student_FirstName);
 			$('#Details').find('input[name="student_address_detail"]').val(result[0].Student_Address);
 			$('#Details').find('input[name="l_name"]').val(result[0].Student_LastName);
@@ -426,6 +431,14 @@ $(document).on("click",".students_list",function(event){
 			$('#Details').find('input[name="student_gender_detail"]').val(result[0].Student_Gender);
 			$('#Details').find('input[name="classe-detail"]').val(result[0].Classe_Label);
 			$('#Details').find('input[name="level-detail"]').val(result[0].Level_Label);
+			$('#EditStudentModal').find('input[name="f_name"]').val(result[0].Student_FirstName);
+			$('#EditStudentModal').find('input[name="student_address_detail"]').val(result[0].Student_Address);
+			$('#EditStudentModal').find('input[name="l_name"]').val(result[0].Student_LastName);
+			$('#EditStudentModal').find('input[name="phone_number_detail"]').val(result[0].Student_Phone);
+			$('#EditStudentModal').find('input[name="birthdate_detail"]').val(result[0].Student_birthdate);
+			$('#EditStudentModal').find('input[name="student_gender_detail"]').val(result[0].Student_Gender);
+			$('#EditStudentModal').find('input[name="classe-detail"]').val(result[0].Classe_Label);
+			$('#EditStudentModal').find('input[name="level-detail"]').val(result[0].Level_Label);
 			$('#AddAttitudeModal').find('input[name="at_classe"]').val(result[0].Classe_Label);
 			$('#AddAttitudeModal').find('input[name="at_student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
 			$('#EditAttitudeModal').find('input[name="edit-classe"]').val(result[0].Classe_Label);
@@ -661,11 +674,11 @@ function displayExam(id) {
   }
 })
 
- $('#Details').find('input[name="level-detail"]').on( "change", function() {
+ $('#EditStudentModal').find('input[name="level-detail"]').on( "change", function() {
   var value = $(this).val();
   if (value.replace(/\s/g, '') !== '')
   {
-  	 $('#Details').find('.row-classe').remove();
+  	 $('#EditStudentModal').find('.row-classe').remove();
 	  $.ajax({
 		    type: 'get',
 		    url: '/Students/subscriptions',
@@ -679,7 +692,7 @@ function displayExam(id) {
 		  	{
 		  		console.log(res.errors)
 		  	} else {
-		  		$('#Details').find('.expense_col').remove();
+		  		$('#EditStudentModal').find('.expense_col').remove();
 		  		//console.log("Level Sub",res.subscriptions);
 		  		//console.log("Student Sub",subStudent);
 		  	for (var i = 0; i < res.subscriptions.length; i++) {
@@ -688,10 +701,10 @@ function displayExam(id) {
 					if(res.subscriptions[i].Expense_Label === subStudent[j].Expense_Label)
 						checked = 'checked';
 				}
-				$('#Details').find('.sub_list').append('<div class="expense_col col-md-6 sections-label-checkbox-main-container "> <div class="sections-label-checkbox-container"> <div class="form-group group "> <span class="expense_label">'+res.subscriptions[i].Expense_Label+'</span> <span class="method_label"> <span class="method_label_price">'+res.subscriptions[i].Expense_Cost+'</span> <span class="method_label_period">'+res.subscriptions[i].Expense_PaymentMethod+'</span> </span> </div> </div> <div class="customCheck"> <input type="checkbox" value="'+res.subscriptions[i].LE_ID+'" name="checkbox" id="ck" '+checked+'/> <label for="ck"></label> </div> </div> ');
+				$('#EditStudentModal').find('.sub_list').append('<div class="expense_col col-md-6 sections-label-checkbox-main-container "> <div class="sections-label-checkbox-container"> <div class="form-group group "> <span class="expense_label">'+res.subscriptions[i].Expense_Label+'</span> <span class="method_label"> <span class="method_label_price">'+res.subscriptions[i].Expense_Cost+'</span> <span class="method_label_period">'+res.subscriptions[i].Expense_PaymentMethod+'</span> </span> </div> </div> <div class="customCheck"> <input type="checkbox" value="'+res.subscriptions[i].LE_ID+'" name="checkbox" id="ck" '+checked+'/> <label for="ck"></label> </div> </div> ');
 			}
 				for (var i = res.classes.length - 1; i >= 0; i--) {
-		  			$('#Details').find('.list-classe').append(' <li class="row-classe" data-id="'+res.classes[i].Classe_ID+'" data-val="'+res.classes[i].Classe_Label+'">'+res.classes[i].Classe_Label+'</li>')
+		  			$('#EditStudentModal').find('.list-classe').append(' <li class="row-classe" data-id="'+res.classes[i].Classe_ID+'" data-val="'+res.classes[i].Classe_Label+'">'+res.classes[i].Classe_Label+'</li>')
 		  		}
 		  	}
 		  });
@@ -820,31 +833,31 @@ function saveStudent() {
 }
 
 function saveChange() {
-	var parent_name = $('#Details').find('input[name=parent_name]').map(function(){return {name:$(this).val(),id:$(this).data('id')};}).get();
+	var parent_name = $('#EditStudentModal').find('input[name=parent_name]').map(function(){return {name:$(this).val(),id:$(this).data('id')};}).get();
 	parent_name = parent_name.filter(function (el) {
         return el.name != "";
       });
-	var parent_phone = $('#Details').find('input[name=parent_phone]').map(function(){return {phone:$(this).val(),id:$(this).data('id')}}).get();
+	var parent_phone = $('#EditStudentModal').find('input[name=parent_phone]').map(function(){return {phone:$(this).val(),id:$(this).data('id')}}).get();
 	parent_phone = parent_phone.filter(function (el) {
         return el.phone != "";
       });
-	var subscriptions = $('#Details').find('input[name=checkbox]:not(:checked)').map(function(){return $(this).val()}).get();
-	var checkedSub = $('#Details').find('input[name=checkbox]:checked').map(function(){return $(this).val()}).get();
+	var subscriptions = $('#EditStudentModal').find('input[name=checkbox]:not(:checked)').map(function(){return $(this).val()}).get();
+	var checkedSub = $('#EditStudentModal').find('input[name=checkbox]:checked').map(function(){return $(this).val()}).get();
 
 	$.ajax({
 	    type: 'post',
 	    url: '/Students/update',
 	    data: {
 	    	id:studentId,
-	    	student_img:$('#student_info').find('.profile-img').attr('src'),
-			student_fname:$('#Details').find('input[name="f_name"]').val(),
-			student_gender:$('#Details').find('input[name="student_gender_detail"]').val(),
-			student_address:$('#Details').find('input[name="student_address_detail"]').val(),
-			student_lname:$('#Details').find('input[name="l_name"]').val(),
-			student_phone:$('#Details').find('input[name="phone_number_detail"]').val(),
-			student_birthdat:$('#Details').find('input[name="birthdate_detail"]').val(),
-			student_classe:$('#Details').find('li[data-val="'+$('#Details').find('input[name="classe-detail"]').val()+'"]').data('id'),
-			student_level:$('#Details').find('input[name="level-detail"]').val(),
+	    	student_img:$('#EditStudentModal').find('.profile-img').attr('src'),
+			student_fname:$('#EditStudentModal').find('input[name="f_name"]').val(),
+			student_gender:$('#EditStudentModal').find('input[name="student_gender_detail"]').val(),
+			student_address:$('#EditStudentModal').find('input[name="student_address_detail"]').val(),
+			student_lname:$('#EditStudentModal').find('input[name="l_name"]').val(),
+			student_phone:$('#EditStudentModal').find('input[name="phone_number_detail"]').val(),
+			student_birthdat:$('#EditStudentModal').find('input[name="birthdate_detail"]').val(),
+			student_classe:$('#EditStudentModal').find('li[data-val="'+$('#EditStudentModal').find('input[name="classe-detail"]').val()+'"]').data('id'),
+			student_level:$('#EditStudentModal').find('input[name="level-detail"]').val(),
 			parent_name:parent_name,
 			parent_phone:parent_phone,
 			parents:parents,
@@ -858,14 +871,14 @@ function saveChange() {
 	  		discardChange();
 	  	if(res.updated)
 	  	{
-	  		$("#ChangesModal").modal('hide');
+	  		$("#EditStudentModal").modal('hide');
 	  		getAllStudents(studentId);
 	  	} else {
 	  		discardChange();
 	  	}
 	  });
- 	$('#Details .sub-container-form-footer').addClass('hide-footer');
- 	$('#Details .sub-container-form-footer').removeClass('show-footer');
+ 	$('#EditStudentModal .sub-container-form-footer').addClass('hide-footer');
+ 	$('#EditStudentModal .sub-container-form-footer').removeClass('show-footer');
 }
 
 
@@ -940,9 +953,9 @@ function updateAttitude() {
 }
 
 function discardChange() {
- 	$('#Details .sub-container-form-footer').addClass('hide-footer');
- 	$('#Details .sub-container-form-footer').removeClass('show-footer');
- 	$("#ChangesModal").modal('hide');
+ 	$('#EditStudentModal .sub-container-form-footer').addClass('hide-footer');
+ 	$('#EditStudentModal .sub-container-form-footer').removeClass('show-footer');
+ 	$("#EditStudentModal").modal('hide');
  	displayStudent(studentId);
  }
 
@@ -1126,3 +1139,11 @@ function saveAttitude() {
 		  });
 	}
 }
+
+/*.sections-main-sub-container-right-main-header-option-list-span-edit __________________________*/
+
+	$(document).on("click",".sections-main-sub-container-right-main-header-option-list-li-edit",function(){
+		$('#EditStudentModal').modal('show');
+	});
+
+	/*.sections-main-sub-container-right-main-header-option-list-span-edit __________________________*/

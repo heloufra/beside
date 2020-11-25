@@ -1391,6 +1391,10 @@ $(document).ready(function(){
 		
 	});
 
+	$(document).on("click",".dom-change-watcher .cancel-change",function(){
+	  		$domChange=false;
+	});
+
 	$(document).on("click",".dom-change-watcher .file-loaded .file-close",function(){
 
 		if(!$(this).parents(".modal").length == 1){
@@ -2776,7 +2780,122 @@ $(document).ready(function(){
 
 	/* End .finance-page-extra-style .col-text-align img _______________________*/
 
+/* #EditStudentModal #Parents_New_Dynamic_Form_Input _______________________*/
 
+	$(document).on("click","#EditStudentModal #Modal_Parents_New_Dynamic_Form_Input",function(){
+		
+			$("#EditStudentModal .dynamic-form-input-parent").removeClass("dynamic-form-input-first");
+			$dynamic_form_input = $("#EditStudentModal .dynamic-form-input-parent").first().clone();
+			$dynamic_form_input.find("input").val("");
+			$(this).parent().before($dynamic_form_input);
+
+			setTimeout(function(){
+	  			$(".modal-dom-change-watcher.in .modal-content").css("cssText","height:calc(100% - 72px) !important");
+	  			$(".modal-dom-change-watcher.in .modal-content").css("cssText","height:calc(100% - 72px) !important");
+	  		},25);
+
+	  		setTimeout(function(){
+	  			$(".modal.in .sub-container-form-footer").removeClass("hide-footer");
+				$(".modal.in .sub-container-form-footer").addClass("show-footer");
+	  		},50);
+
+	});
+
+	$(document).on("click","#EditStudentModal .square-button",function(){
+
+			$(this).parents(".dynamic-form-input-parent").remove();
+
+			if($("#EditStudentModal .dynamic-form-input-parent").length == 1 ){
+				$("#EditStudentModal .dynamic-form-input-parent").addClass("dynamic-form-input-first");
+			}
+
+			setTimeout(function(){
+	  			$(".modal-dom-change-watcher.in .modal-content").css("cssText","height:calc(100% - 72px) !important");
+	  			$(".modal-dom-change-watcher.in .modal-content").css("cssText","height:calc(100% - 72px) !important");
+	  		},25);
+
+	  		setTimeout(function(){
+	  			$(".modal.in .sub-container-form-footer").removeClass("hide-footer");
+				$(".modal.in .sub-container-form-footer").addClass("show-footer");
+	  		},50);
+		
+	});
+
+
+	/* End #EditStudentModal #Parents_New_Dynamic_Form_Input _______________________*/
+
+	/* #EditTeacherModal #Subject_Class_New_Dynamic_Form_Input _______________________*/
+
+	$(document).on("click","#EditTeacherModal #Subject_Class_New_Dynamic_Form_Input",function(){
+
+			$("#EditTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .dynamic-form-input-dropdown").removeClass("dynamic-form-input-first");
+
+			$dynamic_form_input = $("#EditTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .dynamic-form-input-dropdown-container").first().clone();
+
+			$dynamic_form_input.find(".input-text-subject-classes-select2").select2("destroy");
+
+			$dynamic_form_input.find(".select2").remove();
+
+			$dynamic_form_input.find(".input-label").removeClass("input-label-move-to-top");
+
+			$(this).parent().find(".sections-main-sub-container-right-main-rows-dropdown-tags-container").last().after($dynamic_form_input);
+
+			$(this).parents(".sections-main-sub-container-right-main-rows-dropdown-tags").find(".input-text-subject-classes-select2").select2({
+			  tags: true,
+			  dropdownPosition: 'below',
+	  		  placeholder: "Classes",
+	  		  minimumResultsForSearch: -1,
+	  		  templateResult: hideSelected
+			});
+
+
+			$(this).parents(".sections-main-sub-container-right-main-rows-dropdown-tags").find(".input-text-subject-classes-select2").on('select2:selecting', function (e) {
+
+				$(this).parents(".form-group-right").find(".input-label").addClass("input-label-move-to-top");
+
+			});
+
+			$(this).parents(".sections-main-sub-container-right-main-rows-dropdown-tags").find(".input-text-subject-classes-select2").on('select2:unselecting', function (e) {
+
+				if($(this).select2('data').length <= 1 ){
+					$(this).parents(".form-group-right").find(".input-label").removeClass("input-label-move-to-top");
+				}
+
+			});
+
+	  		setTimeout(function(){
+	  			$(".modal-dom-change-watcher.in .modal-content").css("cssText","height:calc(100% - 72px) !important");
+	  			$(".modal-dom-change-watcher.in .modal-content").css("cssText","height:calc(100% - 72px) !important");
+	  		},25);
+
+	  		setTimeout(function(){
+	  			$(".modal.in .sub-container-form-footer").removeClass("hide-footer");
+				$(".modal.in .sub-container-form-footer").addClass("show-footer");
+	  		},50);
+
+	});
+
+	$(document).on("click","#EditTeacherModal .square-button",function(){
+
+			$(this).parents(".dynamic-form-input-dropdown-container").remove();
+
+			if($("#EditTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .sections-main-sub-container-right-main-rows-dropdown-tags-container").length == 1 ){
+				$("#EditTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .sections-main-sub-container-right-main-rows-dropdown-tags-container .dynamic-form-input-dropdown").addClass("dynamic-form-input-first");
+			}  		
+
+			setTimeout(function(){
+	  			$(".modal-dom-change-watcher.in .modal-content").css("cssText","height:calc(100% - 72px) !important");
+	  			$(".modal-dom-change-watcher.in .modal-content").css("cssText","height:calc(100% - 72px) !important");
+	  		},25);
+
+	  		setTimeout(function(){
+	  			$(".modal.in .sub-container-form-footer").removeClass("hide-footer");
+				$(".modal.in .sub-container-form-footer").addClass("show-footer");
+	  		},50);
+		
+	});
+
+	/* End #Details #Parents_New_Dynamic_Form_Input _______________________*/
 
 	/* modal-card-container _________________*/
 
@@ -3273,8 +3392,8 @@ $(document).on("click",".save-changes",function(){
 			}
 			
 		}else{
-			$profile_img =  $(".modal .input-img");
-			
+			$profile_img =  $(this).parents(".modal").find(".input-img");
+			console.log('profile_img',$profile_img.attr("src"));
 			if($profile_img.attr("src") == "" 
 				|| String($profile_img.attr("src")).includes("avatar") 
 				|| String($profile_img.attr("src")).includes("Logo_placeholder") )

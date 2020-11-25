@@ -29,6 +29,7 @@ function getAllteachers(id) {
 	  		console.log(res.errors)
 	  	} else {
 	  		teachers = res.teachers;
+	  		console.log('Teachers!!',teachers);
 	  		filtredClass = res.teachers;
 	  		if (id)
 	  			displayteacher(id);
@@ -113,7 +114,7 @@ function readFileDetail() {
     var FR= new FileReader();
     
     FR.addEventListener("load", function(e) {
-      $(".profile-img").attr("src",e.target.result);
+      $("#EditTeacherModal .profile-img").attr("src",e.target.result);
     }); 
     
     FR.readAsDataURL( this.files[0] );
@@ -248,6 +249,7 @@ function hideSelected(value) {
 				  return el.teacher.User_ID === parseInt(index);
 				});
 		$('#teacher_info').find('#Details').removeClass("dom-change-watcher");
+		$('#EditTeacherModal').removeClass("dom-change-watcher");
 		$('.subject-klon').remove();
 		$('.class-subject').remove();
 		olddata = [];
@@ -262,12 +264,23 @@ function hideSelected(value) {
 	  		var classes = res.classes.filter(function (el) {
 				  return el.Subject_Label === res.subjects[i].Subject_Label;
 				});
-	  		$('.subjects-list').prepend('<div class="dynamic-form-input-dropdown-container sections-main-sub-container-right-main-rows-dropdown-tags-container subjects-container" > <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="dynamic-form-input-float-adjust"> <div class="form-group group form-group-left"> <input type="text" class="input-text input-dropdown" onchange="subjectsChange(this)" value="'+res.subjects[i].Subject_Label+'" name="subjects" required> <label class="input-label"><span class="input-label-text">Subjects</span> <span class="input-label-bg-mask"></span></label> <img class="icon button-icon" src="assets/icons/caret.svg"> <ul class="dynamic-form-input-dropdown-options">'+allSubjects+'</ul> </div> <div class="form-group group form-group-right"> <select data-select='+i+' class="input-text-subject-classes-select2 list-classes" multiple > </select> <img class="icon button-icon" src="assets/icons/caret.svg"> <label class="input-label"> <span class="input-label-text">Classes</span><span class="input-label-bg-mask"></span> </label> </div> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div>')
-	  		if($('[data-select='+i+']').length > 0)
-				$('[data-select='+i+']').select2({
+	  		$('#teacher_info .subjects-list').prepend('<div class="dynamic-form-input-dropdown-container sections-main-sub-container-right-main-rows-dropdown-tags-container subjects-container" > <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="dynamic-form-input-float-adjust"> <div class="form-group group form-group-left"> <input readonly type="text" class="input-text" value="'+res.subjects[i].Subject_Label+'" name="subjects" required> <label class="input-label input-label-move-to-top"><span class="input-label-text">Subjects</span> <span class="input-label-bg-mask"></span></label> </div> <div class="form-group group form-group-right"> <select data-select='+i+' class="input-text-subject-classes-select2 list-classes" multiple readonly> </select> <label class="input-label input-label-move-to-top"> <span class="input-label-text">Classes</span><span class="input-label-bg-mask"></span> </label> </div> </div> </div> </div> </div>')
+	  		$('#EditTeacherModal .subjects-list').prepend('<div class="dynamic-form-input-dropdown-container sections-main-sub-container-right-main-rows-dropdown-tags-container subjects-container" > <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="dynamic-form-input-float-adjust"> <div class="form-group group form-group-left"> <input type="text" class="input-text input-dropdown" onchange="subjectsChange(this)" value="'+res.subjects[i].Subject_Label+'" name="subjects" required> <label class="input-label"><span class="input-label-text">Subjects</span> <span class="input-label-bg-mask"></span></label> <img class="icon button-icon" src="assets/icons/caret.svg"> <ul class="dynamic-form-input-dropdown-options">'+allSubjects+'</ul> </div> <div class="form-group group form-group-right"> <select data-select='+i+' class="input-text-subject-classes-select2 list-classes" multiple > </select> <img class="icon button-icon" src="assets/icons/caret.svg"> <label class="input-label"> <span class="input-label-text">Classes</span><span class="input-label-bg-mask"></span> </label> </div> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div>')
+	  		if($('#EditTeacherModal [data-select='+i+']').length > 0)
+				$('#EditTeacherModal [data-select='+i+']').select2({
 				  tags: true,
 				  dropdownPosition: 'below',
 		  		  placeholder: "Classes",
+		  		  minimumResultsForSearch: -1,
+		  		  templateResult: hideSelected
+				});
+
+			if($('#teacher_info [data-select='+i+']').length > 0)
+				$('#teacher_info [data-select='+i+']').select2({
+				  tags: true,
+				  dropdownPosition: 'below',
+		  		  placeholder: "Classes",
+		  		  disabled: true,
 		  		  minimumResultsForSearch: -1,
 		  		  templateResult: hideSelected
 				});
@@ -320,7 +333,9 @@ function hideSelected(value) {
 			classeHTML += result[0].classes[i].Classe_Label + " ";
 		}
 		$('#teacher_info').find('.label-full-name').text(name.first_name + " " + name.last_name);
+		$('#EditTeacherModal').find('.label-full-name').text(name.first_name + " " + name.last_name);
 		$('#teacher_info').find('.input-img').attr('src',result[0].teacher.User_Image);
+		$('#EditTeacherModal').find('.input-img').attr('src',result[0].teacher.User_Image);
 		$('#teacher_info').find('#Details').find('input[name="f_name"]').val(name.first_name);
 		$('#teacher_info').find('#Details').find('input[name="teacher_address_detail"]').val(result[0].teacher.User_Address);
 		$('#teacher_info').find('#Details').find('input[name="teacher_gender_detail"]').val(result[0].teacher.User_Gender);
@@ -328,11 +343,19 @@ function hideSelected(value) {
 		$('#teacher_info').find('#Details').find('input[name="phone_number_detail"]').val(result[0].teacher.User_Phone);
 		$('#teacher_info').find('#Details').find('input[name="birthdate_detail"]').val(result[0].teacher.User_Birthdate)
 		$('#teacher_info').find('#Details').find('input[name="email"]').val(result[0].teacher.User_Email);
+		$('#EditTeacherModal').find('input[name="f_name"]').val(name.first_name);
+		$('#EditTeacherModal').find('input[name="teacher_address_detail"]').val(result[0].teacher.User_Address);
+		$('#EditTeacherModal').find('input[name="teacher_gender_detail"]').val(result[0].teacher.User_Gender);
+		$('#EditTeacherModal').find('input[name="l_name"]').val(name.last_name);
+		$('#EditTeacherModal').find('input[name="phone_number_detail"]').val(result[0].teacher.User_Phone);
+		$('#EditTeacherModal').find('input[name="birthdate_detail"]').val(result[0].teacher.User_Birthdate)
+		$('#EditTeacherModal').find('input[name="email"]').val(result[0].teacher.User_Email);
 		$('#AddTeacherAbsenceModal').find('input[name="ad_teacher"]').val(name.first_name + " " + name.last_name);
 		$('#EditAbsenceModal').find('input[name="ad_teacher"]').val(name.first_name + " " + name.last_name);
 		$('#EditAbsenceModal').find('input[name="ad_classe"]').val(classeHTML);
 		$('#AddTeacherAbsenceModal').find('input[name="ad_classe"]').val(classeHTML);
 		$('#teacher_info').find('#Details').addClass("dom-change-watcher");
+		$('#EditTeacherModal').addClass("dom-change-watcher");
   	}
   });
 	//$('#EditAbsenceModal').find('input[name="edit-classe"]').val(result[0].Classe_Label);
@@ -591,23 +614,22 @@ function saveteacher() {
 }
 
 function saveChange() {
-	var subjects =  $('.subjects-container').find('input[name^=subjects]').map(function(idx, elem) {
-	    return {subject: $('.subjects-container').find('[data-val='+$(elem).val()+']').data('subjectid'),classes:$(this).closest('.dynamic-form-input-float-adjust').find('select').val()};
+	var subjects =  $('#EditTeacherModal').find('.subjects-container').find('input[name^=subjects]').map(function(idx, elem) {
+	    return {subject: $('#EditTeacherModal').find('.subjects-container').find('[data-val='+$(elem).val()+']').data('subjectid'),classes:$(this).closest('.dynamic-form-input-float-adjust').find('select').val()};
 	  }).get();
-	console.log("Subjects",subjects);
 	$.ajax({
 	    type: 'post',
 	    url: '/Teachers/update',
 	    data: {
 	    	id:teacherId,
-	    	profile_image:$('#teacher_info').find('.profile-img').attr('src'),
-			first_name:$('#Details').find('input[name="f_name"]').val(),
-			teacher_address:$('#Details').find('input[name="teacher_address_detail"]').val(),
-			teacher_gender:$('#Details').find('input[name="teacher_gender_detail"]').val(),
-			last_name:$('#Details').find('input[name="l_name"]').val(),
-			email:$('#Details').find('input[name="email"]').val(),
-			phone_number:$('#Details').find('input[name="phone_number_detail"]').val(),
-			birthdate:$('#Details').find('input[name="birthdate_detail"]').val(),
+	    	profile_image:$('#EditTeacherModal').find('.profile-img').attr('src'),
+			first_name:$('#EditTeacherModal').find('input[name="f_name"]').val(),
+			teacher_address:$('#EditTeacherModal').find('input[name="teacher_address_detail"]').val(),
+			teacher_gender:$('#EditTeacherModal').find('input[name="teacher_gender_detail"]').val(),
+			last_name:$('#EditTeacherModal').find('input[name="l_name"]').val(),
+			email:$('#EditTeacherModal').find('input[name="email"]').val(),
+			phone_number:$('#EditTeacherModal').find('input[name="phone_number_detail"]').val(),
+			birthdate:$('#EditTeacherModal').find('input[name="birthdate_detail"]').val(),
 			subjects:subjects,
 			olddata:olddata,
 	    },
@@ -616,20 +638,20 @@ function saveChange() {
 	  .done(function(res){
 	  	if(res.updated)
 	  	{
-	  		$("#ChangesModal").modal('hide');
+	  		$("#EditTeacherModal").modal('hide');
 	  		getAllteachers(teacherId);
 	  	} else {
 	  		console.log(res);
 	  	}
 	  });
- 	$('#Details .sub-container-form-footer').addClass('hide-footer');
- 	$('#Details .sub-container-form-footer').removeClass('show-footer');
+ 	$('#EditTeacherModal .sub-container-form-footer').addClass('hide-footer');
+ 	$('#EditTeacherModal .sub-container-form-footer').removeClass('show-footer');
 }
 
 function discardChange() {
- 	$('#Details .sub-container-form-footer').addClass('hide-footer');
- 	$('#Details .sub-container-form-footer').removeClass('show-footer');
- 	$("#ChangesModal").modal('hide');
+ 	$('#EditTeacherModal .sub-container-form-footer').addClass('hide-footer');
+ 	$('#EditTeacherModal .sub-container-form-footer').removeClass('show-footer');
+ 	$("#EditTeacherModal").modal('hide');
  	displayteacher(teacherId);
  }
 
@@ -748,3 +770,11 @@ if ($('#AddTeacherAbsenceModal').find('input[data-val="Absence"]:checked').val()
 		  });
 	}
 }
+
+/*.sections-main-sub-container-right-main-header-option-list-span-edit __________________________*/
+
+$(document).on("click",".sections-main-sub-container-right-main-header-option-list-li-teacher-edit",function(){
+	$('#EditTeacherModal').modal('show');
+});	
+
+/*.sections-main-sub-container-right-main-header-option-list-span-edit __________________________*/
