@@ -486,9 +486,10 @@ var studentController = {
       res.json({updated : false});
   },
   importFile: function(req, res, next) {
-
+     console.log('Pathname',root +'/../uploads/' + req.file.filename)
     readXlsxFile(root +'/../uploads/' + req.file.filename).then((rows) => {
     rows.splice(0, 2);
+    console.log('Rows',rows);
     connection.query("SELECT * FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID],async (err, academic, fields) => {
     for (var i = rows.length - 1; i >= 0 ; i--) {
       var student = await studentModel.saveStudent(rows[i][0],  rows[i][1],  rows[i][3],  rows[i][5],  rows[i][4],rows[i][2],req.Institution_ID);
