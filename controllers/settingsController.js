@@ -161,6 +161,28 @@ var settingsController = {
       })
     })
   },
+  updateExpenses:function(req, res, next) {
+    connection.query("SELECT * FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
+      connection.query("SELECT * FROM `expenses` WHERE AY_ID = ? AND Expense_Status=1", [academic[0].AY_ID], (err, expenses, fields) => {
+         if (err)
+        {
+          console.log('Erros',err);
+        } else 
+        {
+          for (var i = req.body.expenses.length - 1; i >= 0; i--) {
+            if(!expenses.some(expense => expense.Expense_ID === parseInt(req.body.expenses[i].id)))
+            {
+              connection.query('INSERT INTO `expenses`(`Expense_Label`,Expense_PaymentMethod, `AY_ID`) VALUES (?,?)',[req.body.expenses[i].label,req.body.expenses[i].method,academic[0].AY_ID]);
+            } else 
+              connection.query('UPDATE `expenses` SET `Expense_Label`=?,Expense_PaymentMethod=? WHERE Expense_ID=? AND AY_ID=?',[req.body.expenses[i].label,req.body.expenses[i].method,req.body.expenses[i].id,academic[0].AY_ID]);
+          }
+          res.json({
+            updated:true
+          });
+        }
+      })
+    })
+  },
   updateClasses:function(req, res, next) {
     connection.query("SELECT * FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
       connection.query("SELECT * FROM `classes` WHERE AY_ID = ? AND Classe_Status=1", [academic[0].AY_ID], (err, classes, fields) => {
@@ -175,6 +197,28 @@ var settingsController = {
               connection.query('INSERT INTO `classes`(Classe_Label,`Level_ID`, `AY_ID`) VALUES (?,?,?)',[req.body.classes[i].label,req.body.classes[i].level,academic[0].AY_ID]);
             } else 
               connection.query('UPDATE `classes` SET `Classe_Label`=? WHERE Classe_ID=? AND Level_ID=? AND AY_ID=?',[req.body.classes[i].label,req.body.classes[i].id,req.body.classes[i].level,academic[0].AY_ID]);
+          }
+          res.json({
+            updated:true
+          });
+        }
+      })
+    })
+  },
+  updateCosts:function(req, res, next) {
+    connection.query("SELECT * FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
+      connection.query("SELECT ls.*,e.Expense_Label,e.Expense_PaymentMethod FROM levelexpenses ls INNER JOIN expenses e ON e.Expense_ID = ls.Expense_ID WHERE ls.AY_ID= ? AND ls.LE_Status=1", [academic[0].AY_ID], (err, costs, fields) => {
+         if (err)
+        {
+          console.log('Erros',err);
+        } else 
+        {
+          for (var i = req.body.costs.length - 1; i >= 0; i--) {
+            if(!costs.some(cost => cost.Level_ID === parseInt(req.body.costs[i].level) && cost.Expense_ID === parseInt(req.body.costs[i].id)))
+            {
+              connection.query('INSERT INTO `levelexpenses`(Expense_ID,`Level_ID`, `AY_ID`) VALUES (?,?,?)',[req.body.costs[i].label,req.body.costs[i].level,academic[0].AY_ID]);
+            } else 
+              connection.query('UPDATE `levelexpenses` SET `Expense_Cost`=? WHERE Expense_ID=? AND Level_ID=? AND AY_ID=?',[req.body.costs[i].price,req.body.costs[i].id,req.body.costs[i].level,academic[0].AY_ID]);
           }
           res.json({
             updated:true

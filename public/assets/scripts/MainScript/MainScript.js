@@ -942,6 +942,7 @@ $(document).ready(function(){
 		$dynamic_form_input = $(this).parent().children(".dynamic-form-input").first().removeClass("dynamic-form-input-first").clone();
 		$dynamic_form_input.find("input").val("");
 		$dynamic_form_input.find(".square-button-minus").removeClass('hidden');
+		$dynamic_form_input.find("input").attr('data-classe',0);
 		$(this).before($dynamic_form_input);
 
 	});

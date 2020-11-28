@@ -7313,6 +7313,9 @@ table td img {
 
 /*************** End data-loading ***********************************/
 
+.locked-tag .select2-selection__choice__remove{
+  display: none!important;
+}
 
   @media print {
 

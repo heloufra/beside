@@ -74,7 +74,7 @@ function getClasses() {
                   </div>
                 </div>`
               }
-              $('#Classe_Section').find('#classes-container').prepend(`<div class="dynamic-form-input-container row-levels">
+              $('#Classe_Section').find('#classes-container').prepend(`<div class="dynamic-form-input-container row-levels" data-level="${res.levels[i].Level_ID}">
                                   <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">${res.levels[i].Level_Label}</span> <span class="input-label-bg-mask"></span></label>
                                  ${htmlClasses}
                                   <div class="square-button square-button-extra-style square-button-plus" id="Classe_New_Dynamic_Form_Input">
@@ -98,9 +98,9 @@ function getSubjects() {
           var filtredSubject = res.subjects.filter(subject => subject.Level_ID === res.levels[i].Level_ID);
           var htmlSubjects = ``;
           for(var j = 0;j < filtredSubject.length ; j++) {
-            htmlSubjects += `<option selected value="${filtredSubject[j].Subject_Label}">${filtredSubject[j].Subject_Label}</option>`;
+            htmlSubjects += `<option selected locked="locked" value="${filtredSubject[j].Subject_Label}">${filtredSubject[j].Subject_Label}</option>`;
           }
-          $('#Subject_Section').find('#subjects-container').prepend(`<div class="dynamic-form-input-container dynamic-form-input-container-extra-style row-levels" >
+          $('#Subject_Section').find('#subjects-container').prepend(`<div class="dynamic-form-input-container dynamic-form-input-container-extra-style row-levels" data-level="${res.levels[i].Level_ID}">
 
                                   <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">${res.levels[i].Level_Label}</span> <span class="input-label-bg-mask"></span></label>
 
@@ -140,14 +140,14 @@ function getExpenses() {
 		for(var i = res.expenses.length - 1;i >= 0 ; i--) {
             $('#Expense_Section').find('#expense-container').prepend(`<div class="dynamic-form-input-dropdown-container row-expenses">
                                     <div class="dynamic-form-input-dropdown">
-                                      <div class="dynamic-form-input dynamic-form-input-first">
+                                      <div class="dynamic-form-input">
                                         <div class="dynamic-form-input-float-adjust">
                                         <div class="form-group group form-group-left">
-                                          <input type="text" class="input-text" required value="${res.expenses[i].Expense_Label}" name="expense-name">
+                                          <input type="text" class="input-text" required value="${res.expenses[i].Expense_Label}" name="expense-name" data-expense="${res.expenses[i].Expense_ID}">
                                           <label class="input-label"><span class="input-label-text">Expense name</span> <span class="input-label-bg-mask"></span></label>
                                         </div>
                                         <div class="form-group group form-group-right">
-                                          <input type="text" value="${res.expenses[i].Expense_PaymentMethod}" class="input-dropdown" required>
+                                          <input type="text" name="payment_method" value="${res.expenses[i].Expense_PaymentMethod}" class="input-dropdown" required>
                                           <img class="icon button-icon" src="assets/icons/caret.svg">
                                           <ul class="dynamic-form-input-dropdown-options">
                                               <li data-val="Monthly">Monthly</li>
@@ -155,7 +155,7 @@ function getExpenses() {
                                           </ul>
                                         </div>
                                         </div>
-                                        <div class="square-button square-button-minus">
+                                        <div class="square-button square-button-minus hidden">
                                           <img class="icon" src="assets/icons/minus.svg">
                                         </div>
                                       </div>
@@ -180,9 +180,9 @@ function getCosts() {
           for(var j = 0;j < filtredCosts.length ; j++) {
               htmlCosts+= `<div class="dynamic-form-input-dropdown-container">
                 <div class="dynamic-form-input-dropdown">
-                  <div class="dynamic-form-input dynamic-form-input-first">
+                  <div class="dynamic-form-input">
                     <div class="form-group group form-group-left">
-                      <input type="text" class="input-dropdown" name="cost-name" required value="${filtredCosts[j].Expense_Label}" data-level="${res.levels[i].Level_ID}">
+                      <input type="text" class="input-dropdown" name="cost-name" required value="${filtredCosts[j].Expense_Label}" data-cost="${filtredCosts[j].Expense_ID}" data-level="${res.levels[i].Level_ID}">
                       <label class="input-label"><span class="input-label-text">Expense Name</span> <span class="input-label-bg-mask"></span></label>
                       <img class="icon button-icon" src="assets/icons/caret.svg">
                       <ul class="dynamic-form-input-dropdown-options">
@@ -192,14 +192,14 @@ function getCosts() {
                        <input type="text" class="input-text" name="cost-price" required value="${filtredCosts[j].Expense_Cost}">
                         <label class="input-label"><span class="input-label-text">Price</span> <span class="input-label-bg-mask"></span></label>
                     </div>
-                    <div class="square-button square-button-minus">
+                    <div class="square-button square-button-minus hidden">
                       <img class="icon" src="assets/icons/minus.svg">
                     </div>
                   </div>
                 </div>
               </div>`
          }
-         $('#Costs_Section').find('#costs-container').prepend(`<div class="dynamic-form-input-container dynamic-form-input-container-extra-style dynamic-form-input-container-extra-style-composed row-levels">
+         $('#Costs_Section').find('#costs-container').prepend(`<div class="dynamic-form-input-container dynamic-form-input-container-extra-style dynamic-form-input-container-extra-style-composed row-levels" data-level="${res.levels[i].Level_ID}">
                                   <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">${res.levels[i].Level_Label}</span> <span class="input-label-bg-mask"></span></label>
                                   ${htmlCosts}
                                   <div class="square-button square-button-extra-style square-button-plus" >
@@ -277,9 +277,33 @@ function updateLevels() {
 	});
 }
 
+function updateExpenses() {
+	var expenses = $('#Expense_Section').find('input[name="expense-name"]').map(function(idx, elem) {
+    return {label:$(elem).val(),id:$(elem).attr('data-expense'),method:$(elem).parents('.row-expenses').find('input[name="payment_method"]').val()};
+  }).get();
+	console.log('Expenses',expenses)
+	$.ajax({
+		type: 'post',
+		url: '/Settings/update/expenses',
+		data: {
+			expenses
+		},
+		dataType: 'json'
+	})
+	.done(function(res){
+	 	if (res.updated)
+	 	{
+	 		getExpenses();
+	 		getCosts();
+			$('.sub-container-form-footer').addClass('hide-footer');
+ 			$('.sub-container-form-footer').removeClass('show-footer');
+	 	}
+	});
+}
+
 function updateClasses() {
 	var classes = $('#Classe_Section').find('input[name="classe-name"]').map(function(idx, elem) {
-    return {label:$(elem).val(),id:$(elem).attr('data-classe'),level:$(elem).attr('data-level')};
+    return {label:$(elem).val(),id:$(elem).attr('data-classe'),level:$(elem).parents('.row-levels').attr('data-level')};
   }).get();
 	console.log('Classes!!',classes);
 	$.ajax({
@@ -287,6 +311,31 @@ function updateClasses() {
 		url: '/Settings/update/classes',
 		data: {
 			classes
+		},
+		dataType: 'json'
+	})
+	.done(function(res){
+	 	if (res.updated)
+	 	{
+	 		getClasses();
+			$('.sub-container-form-footer').addClass('hide-footer');
+ 			$('.sub-container-form-footer').removeClass('show-footer');
+	 	}
+	});
+}
+
+function updateCosts() {
+	//dynamic-form-input-dropdown
+	var costs = $('#Costs_Section').find('input[name="cost-name"]').map(function(idx, elem) {
+    return {label:$(elem).val(),id:$(elem).attr('data-cost'),level:$(elem).parents('.row-levels').attr('data-level'),
+    price:$(elem).parents('.dynamic-form-input-dropdown').find('input[name="cost-price"]').val()};
+  }).get();
+	console.log('Costs!!',costs);
+	$.ajax({
+		type: 'post',
+		url: '/Settings/update/costs',
+		data: {
+			costs
 		},
 		dataType: 'json'
 	})
@@ -378,7 +427,6 @@ function select2Call() {
 	$tag_data = "";
 
 	if($(".input-text-subject-select2").length > 0){
-
 		$(".input-text-subject-select2").select2({
 		  tags: true,
 		  dropdownPosition: 'below',
@@ -387,6 +435,15 @@ function select2Call() {
   		  templateResult: hideSelected,
   		  placeholder: "Select items",
   		  templateSelection: function (data, container){
+  		  		
+
+			  var $option = $('.input-text-subject-select2 option[value="'+data.id+'"]');
+
+			  if ($option.attr('locked')){
+			  $(container).addClass('locked-tag');
+				  data.locked = true; 
+				console.log('$option',$(container).attr('class'));
+			  }
 		      $(container).attr("style","background-color:#"+Math.random().toString(16).substr(2,6)+"!important;");
 		      data.selected=true;
 			  $tag_data = data;
@@ -407,6 +464,8 @@ function select2Call() {
 		});
 
 	}
+
+	$(".input-text-subject-select2").trigger("change");
 
 	/****** trigger changes on select **************/
 
@@ -492,7 +551,7 @@ function select2Call() {
 	});
 
 	/****** End prepend new options to all dropdown *********/
-callSubjects();
+//callSubjects();
 $tag_data = "";
 function callSubjects() {
   $.ajax({
