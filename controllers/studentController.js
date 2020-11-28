@@ -491,6 +491,7 @@ var studentController = {
     rows.splice(0, 2);
     console.log('Rows',rows);
     connection.query("SELECT * FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID],async (err, academic, fields) => {
+    res.json({saved:true});
     for (var i = rows.length - 1; i >= 0 ; i--) {
       var student = await studentModel.saveStudent(rows[i][0],  rows[i][1],  rows[i][3],  rows[i][5],  rows[i][4],rows[i][2],req.Institution_ID);
               if (rows[i][8])
@@ -530,7 +531,6 @@ var studentController = {
                   if(classe[0])
                     var scresult = await studentModel.saveStudentClasse(student.insertId,classe[0].Classe_ID,academic[0].AY_ID);
     }
-    res.json({saved:true});
     })
   })
   },
