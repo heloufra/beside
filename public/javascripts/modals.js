@@ -1217,5 +1217,28 @@ function saveImportFile() {
 		  		console.log("not saved");
 		  	}
 		  });
+	} else
+	{
+		var formData = new FormData();
+	   	formData.append('file', $('#ImportUsersModal').find('input[name="Import_File"]').prop('files')[0]);
+		$.ajax({
+		    type: 'post',
+		    url: '/Teachers/upload/file',
+		    data: formData,
+		    processData: false,
+	    	contentType: false
+		  })
+		  .done(function(res){
+		  	if(res.saved)
+		  	{
+				$('#ImportUsersModal').modal('hide');
+				$('#ImportUsersModal').find('input[name="Import_File"]').val('');
+				if (pathname === 'Teachers')
+					window.location.reload();
+				console.log('Saved');
+		  	} else {
+		  		console.log("not saved");
+		  	}
+		  });
 	}
 }
