@@ -172,7 +172,7 @@ var settingsController = {
           for (var i = req.body.expenses.length - 1; i >= 0; i--) {
             if(!expenses.some(expense => expense.Expense_ID === parseInt(req.body.expenses[i].id)))
             {
-              connection.query('INSERT INTO `expenses`(`Expense_Label`,Expense_PaymentMethod, `AY_ID`) VALUES (?,?)',[req.body.expenses[i].label,req.body.expenses[i].method,academic[0].AY_ID]);
+              connection.query('INSERT INTO `expenses`(`Expense_Label`,Expense_PaymentMethod, `AY_ID`) VALUES (?,?,?)',[req.body.expenses[i].label,req.body.expenses[i].method,academic[0].AY_ID]);
             } else 
               connection.query('UPDATE `expenses` SET `Expense_Label`=?,Expense_PaymentMethod=? WHERE Expense_ID=? AND AY_ID=?',[req.body.expenses[i].label,req.body.expenses[i].method,req.body.expenses[i].id,academic[0].AY_ID]);
           }

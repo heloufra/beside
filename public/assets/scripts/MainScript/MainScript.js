@@ -1136,6 +1136,7 @@ $(document).ready(function(){
 		$("#Expense_Section .dynamic-form-input-dropdown").removeClass("dynamic-form-input-first");
 		$dynamic_form_input = $("#Expense_Section .dynamic-form-input-dropdown-container").first().clone();
 		$dynamic_form_input.find(".input-text").val("");
+		$dynamic_form_input.find("input").attr('data-expense',0);
 		$dynamic_form_input.find(".square-button-minus").removeClass('hidden');
 		$dynamic_form_input.find(".input-dropdown").val("");
 		$(this).before($dynamic_form_input);
