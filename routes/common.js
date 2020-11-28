@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var commonController  = require('../controllers/commonController');
-const auth = require("../middleware/auth");
+
 
 router.get('/subjects', commonController.getSubjects);
 router.post('/switch', commonController.switchAccount);

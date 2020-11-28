@@ -920,6 +920,7 @@ $(document).ready(function(){
 		$("#Level_Section .dynamic-form-input").removeClass("dynamic-form-input-first");
 		$dynamic_form_input = $("#Level_Section .dynamic-form-input").first().clone();
 		$dynamic_form_input.find("input").val("");
+		$dynamic_form_input.find(".square-button-minus").removeClass('hidden');
 		$(this).before($dynamic_form_input);
 
 	});
@@ -940,7 +941,28 @@ $(document).ready(function(){
 
 		$dynamic_form_input = $(this).parent().children(".dynamic-form-input").first().removeClass("dynamic-form-input-first").clone();
 		$dynamic_form_input.find("input").val("");
+		$dynamic_form_input.find(".square-button-minus").removeClass('hidden');
 		$(this).before($dynamic_form_input);
+
+	});
+
+	$(document).on("click","#Classe_Section .square-button-minus",function(){
+
+		if($(this).parent(".dynamic-form-input").parent(".dynamic-form-input-container").children(".dynamic-form-input").length <= 2 ){
+			$(this).parent(".dynamic-form-input").parent(".dynamic-form-input-container").children(".dynamic-form-input").addClass("dynamic-form-input-first");
+		}
+		
+		$(this).parent(".dynamic-form-input").remove();
+
+	});
+
+	$(document).on("click","#Classe_Section .square-button-minus",function(){
+
+		if($(this).parent(".dynamic-form-input").parent(".dynamic-form-input-container").children(".dynamic-form-input").length <= 2 ){
+			$(this).parent(".dynamic-form-input").parent(".dynamic-form-input-container").children(".dynamic-form-input").addClass("dynamic-form-input-first");
+		}
+		
+		$(this).parent(".dynamic-form-input").remove();
 
 	});
 
@@ -1059,7 +1081,7 @@ $(document).ready(function(){
 
 		$this = $(this);
 
-		$this.val("");
+		//$this.val("");
 
 		$this.parent().find(".date-form-input-picker-container").css({"display":"inline-block"});
 
@@ -1113,6 +1135,7 @@ $(document).ready(function(){
 		$("#Expense_Section .dynamic-form-input-dropdown").removeClass("dynamic-form-input-first");
 		$dynamic_form_input = $("#Expense_Section .dynamic-form-input-dropdown-container").first().clone();
 		$dynamic_form_input.find(".input-text").val("");
+		$dynamic_form_input.find(".square-button-minus").removeClass('hidden');
 		$dynamic_form_input.find(".input-dropdown").val("");
 		$(this).before($dynamic_form_input);
 
@@ -1132,11 +1155,12 @@ $(document).ready(function(){
 
 	/* Costs Section _______________________*/
 
-	/*$(document).on("click","#Costs_Section .square-button-plus",function(){
+	$(document).on("click","#Costs_Section .square-button-plus",function(){
 
 		$(this).parents(".dynamic-form-input-container-extra-style-composed").find(".dynamic-form-input-dropdown").removeClass("dynamic-form-input-first");
 		$dynamic_form_input = $(this).parent().children(".dynamic-form-input-dropdown-container").first().clone();
 		$dynamic_form_input.find(".input-text").val("");
+		$dynamic_form_input.find(".square-button-minus").removeClass('hidden');
 		$dynamic_form_input.find(".input-dropdown").val("");
 		$(this).before($dynamic_form_input);
 
@@ -1144,14 +1168,13 @@ $(document).ready(function(){
 
 	$(document).on("click","#Costs_Section .square-button-minus",function(){
 
-
 		if($(this).parents(".dynamic-form-input-container-extra-style").children(".dynamic-form-input-dropdown-container").length <= 2 ){
 			$(this).parents(".dynamic-form-input-container-extra-style").children(".dynamic-form-input-dropdown-container").children(".dynamic-form-input-dropdown").addClass("dynamic-form-input-first");
 		}
-		$(this).parents(".dynamic-form-input-dropdown-container").parent('.dynamic-form-input-container-extra-style-composed').find('.square-button-plus').css('display','block');
+
 		$(this).parents(".dynamic-form-input-dropdown-container").remove();
 
-	});*/
+	});
 
 	/* Subject Section _______________________*/
 
@@ -2154,7 +2177,7 @@ $(document).ready(function(){
 		$(".tab-pane .sub-container-form-footer").removeClass("show-footer");
 		$(".tab-pane .sub-container-form-footer").addClass("hide-footer");
 		$(".tab-pane .sub-container-form-footer").css("cssText","width:"+$(".sections-main-sub-container-right").css("width"));
-		$(".tab-pane .sub-main-container").css("cssText","height:calc(94vh)");
+		$(".tab-pane .sub-main-container").css("cssText","height: calc(100% - 48px);");
 		e.stopPropagation();
 		e.preventDefault();
 		return false
@@ -2931,13 +2954,7 @@ $(document).ready(function(){
 		
 	});
 
-	/* #ImportUsersModal .modal-btn _________________*/
-
-	$(document).on("click","#ImportUsersModal .modal-btn",function(){	
-		$("#ImportUsersModal .import-users-Modal-label").text("File name.xsls");
-		$(this).text("Replace file");
-		$('#ImportUsersModal .progress-bar').css('width', '100%').attr('aria-valuenow', 100); 
-	});
+	
 
 
 	/* ImportUsersModal  ________________*/

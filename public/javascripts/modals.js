@@ -49,6 +49,7 @@ if (pathname !== 'Students')
 
 if (document.getElementById("profile"))
 document.getElementById("profile").addEventListener("change", readFile);
+
 	function saveStudent() {
 		var first_name = $('#student_form').find('input[name="first_name"]').val();
 		var student_address = $('#student_form').find('input[name="student_address"]').val();
@@ -1179,4 +1180,40 @@ function executePaymentModal() {
 		});
 	}
 
+}
+
+/* #ImportUsersModal .modal-btn _________________*/
+
+$(document).on("change","#Import_File",function(){
+	if ($(this).prop('files')[0])
+	{
+		$("#ImportUsersModal .import-users-Modal-label").text($(this).prop('files')[0].name);
+	$(this).parent().find('label').text("Replace file");
+	$('#ImportUsersModal .progress-bar').css('width', '100%').attr('aria-valuenow', 100); 
+	}
+});
+
+function saveImportFile() {
+	if ($('#ImportUsersModal').find('input[data-val=Student]').is(':checked'))
+	{
+		var formData = new FormData();
+	   	formData.append('file', $('#ImportUsersModal').find('input[name="Import_File"]').prop('files')[0]);
+		$.ajax({
+		    type: 'post',
+		    url: '/Students/upload/file',
+		    data: formData,
+		    processData: false,
+	    	contentType: false
+		  })
+		  .done(function(res){
+		  	if(res.saved)
+		  	{
+				$('#ImportUsersModal').modal('hide');
+				$('#ImportUsersModal').find('input[name="Import_File"]').val('');
+				console.log('Saved');
+		  	} else {
+		  		console.log("not saved");
+		  	}
+		  });
+	}
 }

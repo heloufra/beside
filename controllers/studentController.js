@@ -2,6 +2,7 @@ var connection  = require('../lib/db');
 var setupModel  = require('../models/setupModel');
 var studentModel  = require('../models/studentModel');
 var teacherModel  = require('../models/teacherModel');
+var root = require('../middleware/root');
 var queryStudents = "SELECT students.*,levels.Level_Label,classes.Classe_Label FROM students INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID INNER JOIN classes ON studentsclasses.Classe_ID = classes.Classe_ID INNER JOIN levels ON levels.Level_ID = classes.Level_ID WHERE studentsclasses.Classe_ID = ? AND studentsclasses.AY_ID = ? AND students.Student_Status <>'0';"
 var queryAllStudents = "SELECT students.*,levels.Level_Label,classes.Classe_Label,classes.Classe_ID FROM students INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID INNER JOIN classes ON studentsclasses.Classe_ID = classes.Classe_ID INNER JOIN levels ON levels.Level_ID = classes.Level_ID WHERE studentsclasses.AY_ID = ?  AND students.Student_Status <>'0';"
 var queryAllStudentsTeacher = "SELECT DISTINCT students.*,levels.Level_Label,classes.Classe_Label,classes.Classe_ID FROM students INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID INNER JOIN classes ON studentsclasses.Classe_ID = classes.Classe_ID INNER JOIN levels ON levels.Level_ID = classes.Level_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = studentsclasses.Classe_ID WHERE studentsclasses.AY_ID = ?  AND students.Student_Status <>'0' AND teachersubjectsclasses.Teacher_ID = ? AND teachersubjectsclasses.TSC_Status <>0;"
@@ -27,6 +28,7 @@ var studentPayment = "SELECT studentsubscribtion.SS_ID,expenses.Expense_PaymentM
 var adddate = 1;
 var classeID;
 var startDate = new Date();
+const readXlsxFile = require('read-excel-file/node');
 var months =  ["January", "February", "March", "April", "May", "June", "July", "August", "September", "Octobre", "November", "December"];
 //SELECT students.*,levels.Level_Label FROM students INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID INNER JOIN studentsubscribtion ON studentsubscribtion.Student_ID = studentsclasses.Student_ID INNER JOIN levelexpenses ON levelexpenses.LE_ID = studentsubscribtion.LE_ID INNER JOIN levels ON levels.Level_ID = levelexpenses.Level_ID WHERE studentsclasses.Classe_ID = ? AND studentsclasses.AY_ID = ?;
 const addMonths = (date, months) => {
@@ -36,6 +38,28 @@ const addMonths = (date, months) => {
       date.setDate(0);
     }
     return date;
+}
+
+// -> Import Excel Data to MySQL database
+const importExcelData2MySQL = (filePath,req,res) => {
+  /* 0 => First_Name ,
+   1 => Last_Name , 
+  2=> Gender , 
+  3=>Birthdate,
+  4=>Phone number,
+  5=>Address,
+  6=>Level,
+  7=>Class,
+  8=>Parent1_Name,
+  9=>PArent1_Phone
+  10=>Parent2_Name,
+  11=>PArent2_Phone,
+  12=>Expenses_1,
+  13=>Expenses_2,
+  14=>Expenses_3,
+  15=>Expenses_4,
+  */
+
 }
 
 var studentController = {
@@ -460,6 +484,54 @@ var studentController = {
        })
     else
       res.json({updated : false});
+  },
+  importFile: function(req, res, next) {
+
+    readXlsxFile(root +'/../uploads/' + req.file.filename).then((rows) => {
+    rows.splice(0, 2);
+    connection.query("SELECT * FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID],async (err, academic, fields) => {
+    for (var i = rows.length - 1; i >= 0 ; i--) {
+      var student = await studentModel.saveStudent(rows[i][0],  rows[i][1],  rows[i][3],  rows[i][5],  rows[i][4],rows[i][2],req.Institution_ID);
+              if (rows[i][8])
+              {
+                var parent = await studentModel.saveParent(rows[i][8],rows[i][9],req.Institution_ID);
+                var spresult = await studentModel.saveStudentParent(student.insertId,parent.insertId);
+              }
+              if (rows[i][10])
+              {
+                var parent = await studentModel.saveParent(rows[i][10],rows[i][11],req.Institution_ID);
+                var spresult = await studentModel.saveStudentParent(student.insertId,parent.insertId);
+              }
+                
+                console.log('expenses',rows[i][12]);
+                startDate = new Date();
+                if(rows[i][12])
+                {
+                  var le_id = await studentModel.findLeByLevel(rows[i][12],academic[0].AY_ID,rows[i][6]);
+                  var ssresult = await studentModel.saveStudentSub(student.insertId,le_id[0].LE_ID,months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID);
+                }
+                if(rows[i][13])
+                {
+                 var le_id = await studentModel.findLeByLevel(rows[i][13],academic[0].AY_ID,rows[i][6]);
+                  var ssresult = await studentModel.saveStudentSub(student.insertId,le_id[0].LE_ID,months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID);
+                }
+                if(rows[i][14])
+                {
+                 var le_id = await studentModel.findLeByLevel(rows[i][14],academic[0].AY_ID,rows[i][6]);
+                  var ssresult = await studentModel.saveStudentSub(student.insertId,le_id[0].LE_ID,months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID);
+                }
+                if(rows[i][15])
+                {
+                  var le_id = await studentModel.findLeByLevel(rows[i][15],academic[0].AY_ID,rows[i][6]);
+                  var ssresult = await studentModel.saveStudentSub(student.insertId,le_id[0].LE_ID,months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID);
+                }
+                var classe = await studentModel.findClasse(rows[i][7],academic[0].AY_ID);
+                  if(classe[0])
+                    var scresult = await studentModel.saveStudentClasse(student.insertId,classe[0].Classe_ID,academic[0].AY_ID);
+    }
+    res.json({saved:true});
+    })
+  })
   },
 };
 

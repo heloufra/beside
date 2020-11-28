@@ -1,5 +1,6 @@
 var connection  = require('../lib/db');
 var teacherModel  = require('../models/teacherModel');
+var root = require('../middleware/root');
 var queryteachers = "SELECT teachers.*,levels.Level_Label,classes.Classe_Label FROM teachers INNER JOIN teachersclasses ON teachersclasses.teacher_ID = teachers.teacher_ID INNER JOIN classes ON teachersclasses.Classe_ID = classes.Classe_ID INNER JOIN levels ON levels.Level_ID = classes.Level_ID WHERE teachersclasses.Classe_ID = ? AND teachersclasses.AY_ID = ? AND teachers.teacher_Status <>'0';"
 var queryAllteachers = "SELECT teachers.*,levels.Level_Label,classes.Classe_Label FROM teachers INNER JOIN teachersclasses ON teachersclasses.teacher_ID = teachers.teacher_ID INNER JOIN classes ON teachersclasses.Classe_ID = classes.Classe_ID INNER JOIN levels ON levels.Level_ID = classes.Level_ID WHERE teachersclasses.AY_ID = ?  AND teachers.teacher_Status <>'0';"
 var querySearch = "SELECT teachers.*,levels.Level_Label,classes.Classe_Label FROM teachers INNER JOIN teachersclasses ON teachersclasses.teacher_ID = teachers.teacher_ID INNER JOIN classes ON teachersclasses.Classe_ID = classes.Classe_ID INNER JOIN levels ON levels.Level_ID = classes.Level_ID WHERE (teachersclasses.Classe_ID = ? OR teachers.teacher_FirstName LIKE ?) AND teachersclasses.AY_ID = ?;"
@@ -16,6 +17,7 @@ var homeworkQuery = 'SELECT homeworks.*,subjects.Subject_Label,subjects.Subject_
 var examsQuery = 'SELECT exams.*,subjects.Subject_Label,subjects.Subject_Color,classes.Classe_Label,grads.Exam_Score FROM `teachers` INNER JOIN teachersclasses On teachersclasses.teacher_ID = teachers.teacher_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = teachersclasses.Classe_ID INNER JOIN exams ON exams.TSC_ID = teachersubjectsclasses.TSC_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = teachersclasses.Classe_ID LEFT JOIN grads ON grads.teacher_ID = teachers.teacher_ID WHERE teachers.teacher_ID = ? AND exams.Exam_Status <> 0 AND teachersubjectsclasses.TSC_Status <>0';
 var adddate = 1;
 var classeID;
+const readXlsxFile = require('read-excel-file/node');
 var handlebars = require('handlebars');
 var fs = require('fs');
 var readHTMLFile = function(path, callback) {
@@ -287,6 +289,12 @@ var teacherController = {
             res.json({updated : true});
           }
      })
+  },
+  importFile: function(req, res, next) {
+    readXlsxFile(root +'/../uploads/' + req.file.filename).then((rows) => {
+      rows.shift();
+      console.log('Rows',rows);
+    })
   },
 };
 

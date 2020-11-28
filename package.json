@@ -28,6 +28,8 @@
     "nodemailer": "^6.4.11",
     "nodemailer-smtp-transport": "^2.7.4",
     "nodemon": "^2.0.4",
+    "path": "^0.12.7",
+    "read-excel-file": "^4.1.0",
     "url": "^0.11.0"
   }
 }

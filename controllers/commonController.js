@@ -84,7 +84,7 @@ var commonController = {
             }
        })
     })
-  },
+  }
 };
 
 module.exports = commonController;

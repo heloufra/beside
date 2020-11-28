@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var studentController  = require('../controllers/studentController');
 const authAdmin = require("../middleware/adminAuth");
+var upload  = require('../middleware/uploadFile');
 
 router.get('/', studentController.studentView);
 router.get('/all', studentController.getAllStudents);
@@ -18,5 +19,6 @@ router.post('/attitude', studentController.saveAttitude);
 router.post('/attitude/remove', studentController.deleteAttitude);
 router.post('/attitude/update', studentController.updateAttitude);
 router.post('/one/remove',authAdmin, studentController.deleteStudent);
+router.post('/upload/file',[authAdmin,upload.single('file')], studentController.importFile);
 
 module.exports = router;

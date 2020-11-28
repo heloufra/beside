@@ -1727,9 +1727,10 @@
                       <p  class="import-users-Modal-label">Drag and drop your file here or click the button bellow:</p>
 
                       <div class="modal-btn-container">
-                          <div class="modal-btn">
-                            <span class="modal-btn-text">Import file</span>
-                          </div>
+                          <input type="file"  accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" name="Import_File" id="Import_File" style="display: none;">
+                          <label for="Import_File" class="modal-btn">
+                          Import file
+                          </label>
                       </div>
                       
                     </div>
@@ -1741,7 +1742,7 @@
 
                   <!--  sub-container-form-footer -->
                   <div class="sub-container-form-footer">
-                      <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button ">
+                      <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button " onclick="saveImportFile()">
                             <span class="button-text" >Save</span>
                             <img class="icon button-icon" src="assets/icons/check_small.svg">
                       </div>
