@@ -136,12 +136,13 @@
 
                </div>
                <!-- End main-modal-card-container -->
-
+               <% if (role === 'Admin') { %>
                 <div class="modal-btn-container" data-toggle="modal" data-target="#ImportUsersModal">
                   <div class="modal-btn">
                     <span class="modal-btn-text">Import from file</span>
                   </div>
                </div>
+               <% } %>
             </div>
 
         </div>

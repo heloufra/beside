@@ -1210,6 +1210,8 @@ function saveImportFile() {
 		  	{
 				$('#ImportUsersModal').modal('hide');
 				$('#ImportUsersModal').find('input[name="Import_File"]').val('');
+				if (pathname === 'Students')
+					location.reload();
 				console.log('Saved');
 		  	} else {
 		  		console.log("not saved");
