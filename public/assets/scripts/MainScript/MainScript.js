@@ -1666,7 +1666,7 @@ $(document).ready(function(){
 
 	/* input-date-limited __________________________*/
 
-	$(document).on("click",".input-date-limited",function(){
+	/*$(document).on("click",".input-date-limited",function(){
 
 		$this_ = $(this);
 
@@ -1681,12 +1681,38 @@ $(document).ready(function(){
 			      months: 'yyyy',
 			      years: 'yyyy1 - yyyy2'
 				},
-			language:'en'
-		});		
+			view: 'years',
+			language:'en',
+			showEvent: 'focus',
+			onShow: function(){
+				
+			}
+		});	
 
 		$this_.focus();
+
 		console.log(".input-date-limited");
 
+	});*/
+
+	$input_date_limited = $(".input-date-limited").datepicker({
+		dateFormat: "dd/mm/yyyy",
+		showOtherMonths: true,
+		firstDay: 1,
+		autoClose: true,
+		maxDate:new Date(),
+		minView:'days',
+		navTitles: {
+		      days: 'M - yyyy',
+		      months: 'yyyy',
+		      years: 'yyyy1 - yyyy2'
+			},
+		view: 'years',
+		language:'en',
+		showEvent: 'focus',
+		onSelect: function($input,$elem){
+			$(".input-date-limited").datepicker("destroy");
+		}
 	});
 
 	/* End input-date-limited __________________________*/

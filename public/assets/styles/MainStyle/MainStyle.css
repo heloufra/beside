@@ -1489,6 +1489,7 @@ input:focus ~ label,input:valid ~ label{
 .select2-container--default.select2-container--focus .select2-selection--multiple,
 .select2-container--default .select2-selection--multiple {
 	border:0px !important;
+	background: var(--white-color) !important;
 }
 
 
