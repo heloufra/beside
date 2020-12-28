@@ -2413,10 +2413,10 @@ $(document).ready(function(){
 	/* #AddStudentModal #Parents_New_Dynamic_Form_Input _______________________*/
 
 
-	$(document).on("click","#Modal_Parents_New_Dynamic_Form_Input",function(){
+	$(document).on("click","#AddStudentModal #Modal_Parents_New_Dynamic_Form_Input",function(){
 		
-			$(".modal .dynamic-form-input-parent").removeClass("dynamic-form-input-first");
-			$dynamic_form_input = $(".modal .dynamic-form-input-parent").first().clone();
+			$("#AddStudentModal .dynamic-form-input-parent").removeClass("dynamic-form-input-first");
+			$dynamic_form_input = $("#AddStudentModal .dynamic-form-input-parent").first().clone();
 			$dynamic_form_input.find("input").val("");
 			$(this).parent().before($dynamic_form_input);
 
