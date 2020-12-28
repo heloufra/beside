@@ -675,16 +675,24 @@ $(document).ready(function(){
 
 	$(document).on("click",function(event){
 
-		$(".dynamic-form-input-dropdown-container").find(".button-icon").removeClass("caret-rotate");
-		$(".dynamic-form-input-dropdown-container").find(".button-icon").addClass("caret-rotate-reset");
-
+		$(".button-icon").each(function(){
+			if($(this).hasClass("caret-rotate")){
+			  $(this).removeClass("caret-rotate");
+			  $(this).addClass("caret-rotate-reset");
+			}
+		});
 
 		/****************** side bar animation  **************************/
 
 			$(".slide-down").addClass('slide-up').removeClass('slide-down');
 
-		    $(".main-selected-school").find(".button-icon").removeClass("caret-rotate");
-			$(".main-selected-school").find(".button-icon").addClass("caret-rotate-reset");
+			$(".main-selected-school .button-icon").each(function(){
+				if($(this).hasClass("caret-rotate")){
+				  $(this).removeClass("caret-rotate");
+				  $(this).addClass("caret-rotate-reset");
+				}
+			});
+		   
 
 		/********************************************/
 
@@ -714,6 +722,7 @@ $(document).ready(function(){
 			}
 
 		}
+
 	});
 
 	$(document).on("keyPress",".input-dropdown",function(){
@@ -1988,8 +1997,10 @@ $(document).ready(function(){
 
 	/* tab-pane  ____________________________*/
 
-	$(".sections-main-sub-container-right-main").css("cssText","height:94vh");
-	$(".sub-main-container").css("cssText","height:94vh");
+	$(".sections-main-sub-container-right-main").css("cssText","height: calc(100% - 48px);");
+	$(".sub-main-container").css("cssText","height: calc(100% - 48px);");
+
+	$(".setup-main-container .sub-main-container").css("cssText","height: calc(100% - 72px) !important;");
 
 	setTimeout(function(){
 		if($(".tab-pane:visible").find(".sub-container-form-footer-container").length == 1){
@@ -2000,7 +2011,7 @@ $(document).ready(function(){
 				&& $(".tab-pane:visible").attr("id") == "Details" 
 				|| $(".tab-pane:visible").attr("id") == "ExamsDetails" 
 				|| $(".tab-pane:visible").attr("id") == "HomeworkDetails" ) {
-				$(".sections-main-sub-container-right-main").css("cssText","height:94vh");
+				$(".sections-main-sub-container-right-main").css("cssText","height: calc(100% - 48px);");
 		}
 
 	},500);
@@ -2019,7 +2030,7 @@ $(document).ready(function(){
 			$(".sections-main-sub-container-right-main .input-img-container .rounded-button").removeClass("show-icon");
 		}
 
-		$(".sections-main-sub-container-right-main").css("cssText","height:94vh");
+		$(".sections-main-sub-container-right-main").css("cssText","height: calc(100% - 48px);");
 
 		setTimeout(function(){
 
@@ -2028,7 +2039,7 @@ $(document).ready(function(){
 				$(".sections-main-sub-container-right-main").css("cssText","height:calc(100vh - 120px)");
 				
 				if($(".tab-pane:visible").find(".sub-container-form-footer-container").children(".hide-footer").length > 0 ){
-					$(".sections-main-sub-container-right-main").css("cssText","height:94vh");
+					$(".sections-main-sub-container-right-main").css("cssText","height: calc(100% - 48px);");
 				}
 			}
 
@@ -2290,8 +2301,8 @@ $(document).ready(function(){
   		// ===> Enable to fire change  Confirm modal  : $domChange=true;
 
   		setTimeout(function(){
-  			$(".modal-dom-change-watcher.in .modal-content").css({"max-height":"calc(100vh - 29.5vh) !important"});
-  			$(".modal-dom-change-watcher.in .modal-body").css("cssText","max-height:calc(100vh - 29.5vh) !important");
+  			$(".modal-dom-change-watcher.in .modal-content").css("cssText","height:calc(100% - 72px) !important");
+  			$(".modal-dom-change-watcher.in .modal-content").css("cssText","height:calc(100% - 72px) !important");
   		},25);
 
   		setTimeout(function(){
@@ -2310,8 +2321,8 @@ $(document).ready(function(){
   		// ===> Enable to fire change  Confirm modal  : $domChange=true;
 
   		setTimeout(function(){
-  			$(".modal-dom-change-watcher.in .modal-content").css({"max-height":"calc(100vh - 29.5vh)"});
-  			$(".modal-dom-change-watcher.in .modal-body").css("max-height","calc(100vh - 29.5vh)");
+  			$(".modal-dom-change-watcher.in .modal-content").css("cssText","height:calc(100% - 72px) !important");
+  			$(".modal-dom-change-watcher.in .modal-content").css("cssText","height:calc(100% - 72px) !important");
   			$(".modal-dom-change-watcher .hide-footer").css("display","block");
   		},25);
 
@@ -2331,8 +2342,8 @@ $(document).ready(function(){
   		// ===> Enable to fire change  Confirm modal  : $domChange=true;
 
   		setTimeout(function(){
-  			$(".modal-dom-change-watcher.in .modal-content").css({"max-height":"calc(100vh - 29.5vh)"});
-  			$(".modal-dom-change-watcher.in .modal-body").css("cssText","max-height:calc(100vh - 29.5vh)");
+  			$(".modal-dom-change-watcher.in .modal-content").css("cssText","height:calc(100% - 72px) !important");
+  			$(".modal-dom-change-watcher.in .modal-content").css("cssText","height:calc(100% - 72px) !important");
   		},25);
 
   		setTimeout(function(){
@@ -2347,19 +2358,19 @@ $(document).ready(function(){
 	$(document).on('click','.modal-dom-change-watcher.in .sections-label-checkbox-container ', function() {
 
   		// ===> Enable to fire change  Confirm modal  : $domChange=true;
-  		if (!$('input').hasClass('readonly'))
-  		{
-	  		setTimeout(function(){
-	  			$(".modal-dom-change-watcher.in .modal-content").css({"max-height":"calc(100vh - 29.5vh)"});
-	  			$(".modal-dom-change-watcher.in .modal-body").css("cssText","max-height:calc(100vh - 29.5vh)");
-	  		},25);
 
-	  		setTimeout(function(){
-	  			$(".modal.in .sub-container-form-footer").removeClass("hide-footer");
-				$(".modal.in .sub-container-form-footer").addClass("show-footer");
-	  		},50);
-  		}
+  		setTimeout(function(){
+  			$(".modal-dom-change-watcher.in .modal-content").css("cssText","height:calc(100% - 72px) !important");
+  			$(".modal-dom-change-watcher.in .modal-content").css("cssText","height:calc(100% - 72px) !important");
+  		},25);
+
+  		setTimeout(function(){
+  			$(".modal.in .sub-container-form-footer").removeClass("hide-footer");
+			$(".modal.in .sub-container-form-footer").addClass("show-footer");
+  		},50);
+  		
 	});
+
 	/* End dynamic-form-input-container-type ________________________*/
 
 	/* End modal dom-change-watcher ____________________________________________________________________________________*/
@@ -2373,8 +2384,8 @@ $(document).ready(function(){
 			$("#Details .sections-main-sub-container-right-main-rows-parents-details .dynamic-form-input-parent").removeClass("dynamic-form-input-first");
 			$dynamic_form_input = $("#Details .sections-main-sub-container-right-main-rows-parents-details .dynamic-form-input-parent").first().clone();
 			$dynamic_form_input.find("input").val("");
-			$dynamic_form_input.find("input").data('id','null');
 			$(this).parent().before($dynamic_form_input);
+
 			$(".sub-container-form-footer").addClass("show-footer");
 	  		$(".sections-main-sub-container-right-main").css("cssText","height:calc(100vh - 120px)");
 	  		$domChange=true;
@@ -2412,7 +2423,6 @@ $(document).ready(function(){
 
 	/* #AddStudentModal #Parents_New_Dynamic_Form_Input _______________________*/
 
-
 	$(document).on("click","#AddStudentModal #Modal_Parents_New_Dynamic_Form_Input",function(){
 		
 			$("#AddStudentModal .dynamic-form-input-parent").removeClass("dynamic-form-input-first");
@@ -2433,7 +2443,49 @@ $(document).ready(function(){
 		
 	});
 
-	/* End #AddStudentModal #Parents_New_Dynamic_Form_Input _______________________*/
+	/* #EditStudentModal #Parents_New_Dynamic_Form_Input _______________________*/
+
+	$(document).on("click","#EditStudentModal #Modal_Parents_New_Dynamic_Form_Input",function(){
+		
+			$("#EditStudentModal .dynamic-form-input-parent").removeClass("dynamic-form-input-first");
+			$dynamic_form_input = $("#EditStudentModal .dynamic-form-input-parent").first().clone();
+			$dynamic_form_input.find("input").val("");
+			$(this).parent().before($dynamic_form_input);
+
+			setTimeout(function(){
+	  			$(".modal-dom-change-watcher.in .modal-content").css("cssText","height:calc(100% - 72px) !important");
+	  			$(".modal-dom-change-watcher.in .modal-content").css("cssText","height:calc(100% - 72px) !important");
+	  		},25);
+
+	  		setTimeout(function(){
+	  			$(".modal.in .sub-container-form-footer").removeClass("hide-footer");
+				$(".modal.in .sub-container-form-footer").addClass("show-footer");
+	  		},50);
+
+	});
+
+	$(document).on("click","#EditStudentModal .square-button",function(){
+
+			$(this).parents(".dynamic-form-input-parent").remove();
+
+			if($("#EditStudentModal .dynamic-form-input-parent").length == 1 ){
+				$("#EditStudentModal .dynamic-form-input-parent").addClass("dynamic-form-input-first");
+			}
+
+			setTimeout(function(){
+	  			$(".modal-dom-change-watcher.in .modal-content").css("cssText","height:calc(100% - 72px) !important");
+	  			$(".modal-dom-change-watcher.in .modal-content").css("cssText","height:calc(100% - 72px) !important");
+	  		},25);
+
+	  		setTimeout(function(){
+	  			$(".modal.in .sub-container-form-footer").removeClass("hide-footer");
+				$(".modal.in .sub-container-form-footer").addClass("show-footer");
+	  		},50);
+		
+	});
+
+
+	/* End #EditStudentModal #Parents_New_Dynamic_Form_Input _______________________*/
 
 
 	/* .sub-container-nav-bar-img _______________________*/
@@ -3379,6 +3431,20 @@ $(document).ready(function(){
 	  });
 	
 	/* nav-tabs a ______________________________________________________________*/
+
+	/* shown.bs.modal__________________________________________________________________*/
+
+	$('.modal').on('shown.bs.modal', function(){
+
+    	if(($(this).find(".sub-container-form-footer.hide-footer").length) == 0  ){
+    		$(this).find(".modal-content").css("cssText","height:calc(100% - 72px) !important");
+    	}else{
+    		$(this).find(".modal-content").css("cssText","height:calc(100%) !important");
+    	}
+
+	});
+
+	/* End shown.bs.modal ______________________________________________________________*/
 
 });
 
