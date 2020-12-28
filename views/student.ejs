@@ -60,9 +60,17 @@
                                   <% } %>
                               </ul>
                             </div>
-                            <div class="form-group group form-group-right">
-                               <input type="text" class="input-text" required="" name="search" id="search-input" placeholder="Search students">
+
+                            <div class="form-group group form-group-right form-group-search-filter">
+
+                               <input type="text" class="input-text input-text-dropdown-search" required="" name="search" id="search-input" placeholder="Search students">
                                <img class="icon button-icon caret-disable-rotate" src="assets/icons/sidebar_icons/search.svg">
+
+                               <ul class="dynamic-form-input-dropdown-options dynamic-form-input-dropdown-options-search">
+                                  <li data-val="Absence">Absence</li>
+                                  <li data-val="Retard">Retard</li>
+                               </ul>
+
                             </div>
 
                             <%if (role === 'Admin') { %>

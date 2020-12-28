@@ -41,7 +41,7 @@
                   <!--  sections-main-sub-container-left-search-bar  -->
 
                   <!-- .disable-action to disable user actions based on view role -->
-                  <div id='teacher-leftSide' class="sections-main-sub-container-left-search-bar sections-main-sub-container-left-search-bar">
+                  <div id='teacher-leftSide' class="sections-main-sub-container-left-search-bar">
 
 
                     <div class="dynamic-form-input-dropdown-container">
@@ -73,10 +73,15 @@
                               <img class="icon" src="assets/icons/sidebar_icons/search.svg">
                             </div>
 
-                            <div class="form-group group form-group-right form-group-search">
-                               <input type="text" class="input-text" id="search-teacher" required="" placeholder="Search teacher">
+                            <div class="form-group group form-group-right form-group-search form-group-search-filter">
+                               <input type="text" class="input-text input-text-dropdown-search" id="search-teacher" required="" placeholder="Search teacher">
                                <img class="icon button-icon caret-disable-rotate" src="assets/icons/sidebar_icons/search.svg">
                             </div>
+
+                            <ul class="dynamic-form-input-dropdown-options dynamic-form-input-dropdown-options-search">
+                                  <li data-val="Absence">Absence</li>
+                                  <li data-val="Retard">Retard</li>
+                            </ul>
 
                             <div class="square-button square-button-minus" data-toggle="modal" data-target="#AddTeacherModal">
                               <img class="icon" src="assets/icons/plus.svg">
