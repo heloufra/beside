@@ -138,3 +138,25 @@ if (params.redir)
   });
 
   /* End Code_Section_Btn ________________*/
+
+
+    /*  input-user-code _________________*/
+
+  $(document).on("keyup",function (e) {
+    if($('.input-user-code').length > 0  &&  String($('.input-user-code').val()).length >= 6 ) {
+      if (e.keyCode == 13) {
+        $("#Code_Section_Btn").trigger("click");
+      }
+    }
+  });
+
+  /*  input-user-login _________________*/
+
+  $(document).on("keyup",function (e) {
+    if( $('.input-user-login').val() != ""  &&  emailValidator($('.input-user-login').val()) ) {
+      if (e.keyCode == 13) {
+        //$("#Login_Section_Btn").trigger("click");
+      }
+    }
+  });
+

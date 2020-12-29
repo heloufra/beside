@@ -856,7 +856,7 @@ input:focus ~ label,input:valid ~ label{
 }
 
 .setup-main-container .rounded-button-primary .button-icon{
-	padding-top: 8px;
+	padding-top: 0px;
     line-height: 24px;
 }
 

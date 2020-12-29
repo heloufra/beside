@@ -2773,9 +2773,12 @@ $(document).ready(function(){
 
 	/* End input-user-code _________________*/
 
-	$(document).on('keydown','.input-user-code', function() { 
+	$(document).on('keyup','.input-user-code', function() { 
 
 		$('.input-user-code').removeClass("input-validation-error");
+
+		$('.input-user-code').attr("maxlength","6");
+
 
 		if( $(this).val() !== "" ){
 
@@ -3621,3 +3624,25 @@ $("input").each(function(){
 
 	});
 });
+
+
+
+/* blur input-user-code _________________*/
+
+$(document).on('blur','.input-user-code', function() { 
+	$(this).attr("maxlength","6");
+});
+
+$(document).on('focus','.input-user-code', function() { 
+	$(this).attr("maxlength","6");
+});
+
+$(document).on('paste','.input-user-code', function() { 
+	$(this).attr("maxlength","8");
+});
+
+/* End blur input-user-code _________________*/
+
+
+
+

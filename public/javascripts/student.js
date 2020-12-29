@@ -452,7 +452,6 @@ $(document).on("click",".students_list",function(event){
 			$('#EditAbsenceModal').find('input[name="edit-classe"]').val(result[0].Classe_Label);
 			$('#EditAbsenceModal').find('input[name="edit-student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
   		}
-		$('#Details').addClass("dom-change-watcher");
   	}
   });
 }
