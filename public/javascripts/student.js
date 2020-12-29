@@ -380,10 +380,12 @@ $(document).on("click",".students_list",function(event){
 		inputLabel = "input-label-move-to-top"
 		readOnly = 'readonly';
 	  	for (var i = res.parents.length - 1; i >= 0; i--) {
-	  		if (res.parents.length === 1 || i === 0)
-	  			inputFirst = 'dynamic-form-input-first';
-	  		else
+
+	  		if (res.parents.length > 1 )
 	  			inputFirst = '';
+	  		else
+	  			inputFirst = 'dynamic-form-input-first';
+
 			$('#Details').find('.sections-main-sub-container-right-main-rows-parents').prepend('<div class="row-payment dynamic-form-input-parent '+inputFirst+' row-parent"> <div class="input-parent "><div class="col-md-4"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_name" value="'+res.parents[i].Parent_Name+'"  '+readOnly+'> <label class="input-label '+inputLabel+'"> <span class="input-label-text">Full name</span><span class="input-label-bg-mask"></span> </label> </div> </div><div class="col-md-4"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_phone" value="'+res.parents[i].Parent_Phone+'"  '+readOnly+'> <label class="input-label '+inputLabel+'"> <span class="input-label-text">Phone number</span><span class="input-label-bg-mask"></span> </label> </div> </div> <div class="col-md-4"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_email" value="'+res.parents[i].Parent_Email+'"  '+readOnly+'> <label class="input-label '+inputLabel+'"> <span class="input-label-text">Email</span><span class="input-label-bg-mask"></span> </label> </div> </div> </div>');
 
 			$('#EditStudentModal').find('.sections-main-sub-container-right-main-rows-parents').prepend('<div class="row-payment dynamic-form-input-parent '+inputFirst+' row-parent"> <div class="input-parent "><div class="col-md-12"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_name" value="'+res.parents[i].Parent_Name+'"> <label class="input-label "> <span class="input-label-text">Full name</span><span class="input-label-bg-mask"></span> </label> </div> </div> <div class="col-md-6"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_phone" value="'+res.parents[i].Parent_Phone+'"> <label class="input-label"> <span class="input-label-text">Phone number</span><span class="input-label-bg-mask"></span> </label> </div> </div> <div class="col-md-5"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_email" value="'+res.parents[i].Parent_Email+'"> <label class="input-label"> <span class="input-label-text">Email</span><span class="input-label-bg-mask"></span> </label> </div> </div> <div class="col-md-1"> <div class="square-button"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div>');

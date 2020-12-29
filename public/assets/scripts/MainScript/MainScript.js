@@ -2967,49 +2967,6 @@ $(document).ready(function(){
 
 	/* End .finance-page-extra-style .col-text-align img _______________________*/
 
-/* #EditStudentModal #Parents_New_Dynamic_Form_Input _______________________*/
-
-	$(document).on("click","#EditStudentModal #Modal_Parents_New_Dynamic_Form_Input",function(){
-		
-			$("#EditStudentModal .dynamic-form-input-parent").removeClass("dynamic-form-input-first");
-			$dynamic_form_input = $("#EditStudentModal .dynamic-form-input-parent").first().clone();
-			$dynamic_form_input.find("input").val("");
-			$(this).parent().before($dynamic_form_input);
-
-			setTimeout(function(){
-	  			$(".modal-dom-change-watcher.in .modal-content").css("cssText","height:calc(100% - 72px) !important");
-	  			$(".modal-dom-change-watcher.in .modal-content").css("cssText","height:calc(100% - 72px) !important");
-	  		},25);
-
-	  		setTimeout(function(){
-	  			$(".modal.in .sub-container-form-footer").removeClass("hide-footer");
-				$(".modal.in .sub-container-form-footer").addClass("show-footer");
-	  		},50);
-
-	});
-
-	$(document).on("click","#EditStudentModal .square-button",function(){
-
-			$(this).parents(".dynamic-form-input-parent").remove();
-
-			if($("#EditStudentModal .dynamic-form-input-parent").length == 1 ){
-				$("#EditStudentModal .dynamic-form-input-parent").addClass("dynamic-form-input-first");
-			}
-
-			setTimeout(function(){
-	  			$(".modal-dom-change-watcher.in .modal-content").css("cssText","height:calc(100% - 72px) !important");
-	  			$(".modal-dom-change-watcher.in .modal-content").css("cssText","height:calc(100% - 72px) !important");
-	  		},25);
-
-	  		setTimeout(function(){
-	  			$(".modal.in .sub-container-form-footer").removeClass("hide-footer");
-				$(".modal.in .sub-container-form-footer").addClass("show-footer");
-	  		},50);
-		
-	});
-
-
-	/* End #EditStudentModal #Parents_New_Dynamic_Form_Input _______________________*/
 
 	/* #EditTeacherModal #Subject_Class_New_Dynamic_Form_Input _______________________*/
 
