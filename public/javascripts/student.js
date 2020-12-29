@@ -22,6 +22,7 @@ var alreadyPay = [];
 
 
 getAllStudents();
+
 function getAllStudents(id) {
  	$('.students_list').remove();
 	$.ajax({
@@ -428,6 +429,7 @@ $(document).on("click",".students_list",function(event){
 			$('#Details').find('input[name="student_address_detail"]').val(result[0].Student_Address);
 			$('#Details').find('input[name="l_name"]').val(result[0].Student_LastName);
 			$('#Details').find('input[name="phone_number_detail"]').val(result[0].Student_Phone);
+			$('#Details').find('input[name="student_email_detail"]').val(result[0].Student_Email);
 			$('#Details').find('input[name="birthdate_detail"]').val(result[0].Student_birthdate);
 			$('#Details').find('input[name="student_gender_detail"]').val(result[0].Student_Gender);
 			$('#Details').find('input[name="classe-detail"]').val(result[0].Classe_Label);
@@ -436,6 +438,7 @@ $(document).on("click",".students_list",function(event){
 			$('#EditStudentModal').find('input[name="student_address_detail"]').val(result[0].Student_Address);
 			$('#EditStudentModal').find('input[name="l_name"]').val(result[0].Student_LastName);
 			$('#EditStudentModal').find('input[name="phone_number_detail"]').val(result[0].Student_Phone);
+			$('#EditStudentModal').find('input[name="student_email_detail"]').val(result[0].Student_Email);
 			$('#EditStudentModal').find('input[name="birthdate_detail"]').val(result[0].Student_birthdate);
 			$('#EditStudentModal').find('input[name="student_gender_detail"]').val(result[0].Student_Gender);
 			$('#EditStudentModal').find('input[name="classe-detail"]').val(result[0].Classe_Label);
@@ -720,16 +723,21 @@ function saveStudent() {
 	var last_name = $('#student_form').find('input[name="last_name"]').val();
 	var level = $('#student_form').find('input[name="level"]').val();
 	var phone_number = $('#student_form').find('input[name="phone_number"]').val();
+	var student_email = $('#student_form').find('input[name="student_email"]').val();
 	var birthdate = $('#student_form').find('input[name="birthdate"]').val();
 	var classe = $('#student_form').find('input[name="classe"]').val();
 	var parent_name = $('#student_form').find('input[name=parent_name]').map(function(){return $(this).val();}).get();
-	parent_name = parent_name.filter(function (el) {
+		parent_name = parent_name.filter(function (el) {
         return el != "";
-      });
+    });
 	var parent_phone = $('#student_form').find('input[name=parent_phone]').map(function(){return $(this).val();}).get();
-	parent_phone = parent_phone.filter(function (el) {
+		parent_phone = parent_phone.filter(function (el) {
         return el != "";
-      });
+    });
+    var parent_email = $('#student_form').find('input[name=parent_email]').map(function(){return $(this).val();}).get();
+		parent_email = parent_email.filter(function (el) {
+        return el != "";
+    });
 	var checkbox_sub = [];
 	for (var i = subArray.length - 1; i >= 0; i--) {
 		if ($('input[name=checkbox_sub_'+i+']:checked').length > 0)
@@ -750,7 +758,11 @@ function saveStudent() {
 	if (parent_phone.length <= 0)
 		$('#student_form').find('input[name="parent_phone"]').css("border-color", "#f6b8c1");
 	else
-		$('#student_form').find('input[name="parent_name"]').css("border-color", "#EFEFEF");
+		$('#student_form').find('input[name="parent_phone"]').css("border-color", "#EFEFEF");
+	if (parent_email.length <= 0)
+		$('#student_form').find('input[name="parent_email"]').css("border-color", "#f6b8c1");
+	else
+		$('#student_form').find('input[name="parent_email"]').css("border-color", "#EFEFEF");
 	if (!last_name)
 		$('#student_form').find('input[name="last_name"]').css("border-color", "#f6b8c1");
 	else
@@ -759,6 +771,10 @@ function saveStudent() {
 		$('#student_form').find('input[name="phone_number"]').css("border-color", "#f6b8c1");
 	else
 		$('#student_form').find('input[name="phone_number"]').css("border-color", "#EFEFEF");
+	if (!student_email)
+		$('#student_form').find('input[name="student_email"]').css("border-color", "#f6b8c1");
+	else
+		$('#student_form').find('input[name="student_email"]').css("border-color", "#EFEFEF");
 	if (!birthdate)
 		$('#student_form').find('input[name="birthdate"]').css("border-color", "#f6b8c1");
 	else
@@ -767,10 +783,10 @@ function saveStudent() {
 		$('.input_level').css("border-color", "#f6b8c1");
 	else
 		$('.input_level').css("border-color", "#EFEFEF");
-	/*if (!student_gender)
+	if (!student_gender)
 		$('.input_gender').css("border-color", "#f6b8c1");
 	else
-		$('.input_gender').css("border-color", "#EFEFEF");*/
+		$('.input_gender').css("border-color", "#EFEFEF");
 	if (!classe)
 		$('.input_classe').css("border-color", "#f6b8c1");
 	else
@@ -782,7 +798,8 @@ function saveStudent() {
 	}
 	else
 		$('#student_form').find('.subscription-divider').css("background", "#f0f0f6");
-	if (first_name && level && classe && parent_phone.length > 0  && parent_name.length > 0 && student_address && phone_number && birthdate && checkbox_sub.length > 0)
+
+	if (first_name && level && classe && parent_phone.length > 0 && parent_email.length > 0  && parent_name.length > 0 && student_address && phone_number && student_email && student_gender && birthdate && checkbox_sub.length > 0)
 	{
 		var data = {
 			first_name,
@@ -793,11 +810,16 @@ function saveStudent() {
 			profile_image:$('#output-img').attr("src"),
 			parent_phone:parent_phone,
 			parent_name:parent_name,
+			parent_email:parent_email,
 			phone_number,
+			student_email,
 			birthdate,
 			student_address,
 			checkbox_sub:checkbox_sub,
 		}
+
+		console.log(data);
+
 		$.ajax({
 		    type: 'post',
 		    url: '/Students/save',
@@ -814,8 +836,10 @@ function saveStudent() {
 				$('#student_form').find('input[name="last_name"]').val("");
 				$('#student_form').find('input[name="level"]').val("");
 				$('#student_form').find('input[name="phone_number"]').val("");
+				$('#student_form').find('input[name="email"]').val("");
 				$('#student_form').find('input[name="parent_name"]').val("");
 				$('#student_form').find('input[name="parent_phone"]').val("");
+				$('#student_form').find('input[name="parent_email"]').val("");
 				$('#student_form').find('input[name="birthdate"]').val("");
 				$('#output-img').attr("src",'assets/icons/Logo_placeholder.svg')
 				$('#student_form').find('input[name="classe"]').val("");
@@ -834,14 +858,22 @@ function saveStudent() {
 }
 
 function saveChange() {
+
 	var parent_name = $('#EditStudentModal').find('input[name=parent_name]').map(function(){return {name:$(this).val(),id:$(this).data('id')};}).get();
 	parent_name = parent_name.filter(function (el) {
         return el.name != "";
-      });
+    });
+	
 	var parent_phone = $('#EditStudentModal').find('input[name=parent_phone]').map(function(){return {phone:$(this).val(),id:$(this).data('id')}}).get();
 	parent_phone = parent_phone.filter(function (el) {
         return el.phone != "";
-      });
+    });	
+
+	var parent_email = $('#EditStudentModal').find('input[name=parent_email]').map(function(){return {email:$(this).val(),id:$(this).data('id')}}).get();
+	parent_email = parent_email.filter(function (el) {
+        return el.email != "";
+    });
+
 	var subscriptions = $('#EditStudentModal').find('input[name=checkbox]:not(:checked)').map(function(){return $(this).val()}).get();
 	var checkedSub = $('#EditStudentModal').find('input[name=checkbox]:checked').map(function(){return $(this).val()}).get();
 
@@ -856,11 +888,13 @@ function saveChange() {
 			student_address:$('#EditStudentModal').find('input[name="student_address_detail"]').val(),
 			student_lname:$('#EditStudentModal').find('input[name="l_name"]').val(),
 			student_phone:$('#EditStudentModal').find('input[name="phone_number_detail"]').val(),
+			student_email:$('#EditStudentModal').find('input[name="student_email_detail"]').val(),
 			student_birthdat:$('#EditStudentModal').find('input[name="birthdate_detail"]').val(),
 			student_classe:$('#EditStudentModal').find('li[data-val="'+$('#EditStudentModal').find('input[name="classe-detail"]').val()+'"]').data('id'),
 			student_level:$('#EditStudentModal').find('input[name="level-detail"]').val(),
 			parent_name:parent_name,
 			parent_phone:parent_phone,
+			parent_email:parent_email,
 			parents:parents,
 			checked:checkedSub,
 			unchecked:subscriptions
