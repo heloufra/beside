@@ -713,6 +713,10 @@ $(document).ready(function(){
 
 	$(document).on("click",".dynamic-form-input-dropdown-options li",function(){
 
+		if($(this).parents("#EditStudentModal").length === 1){
+			$('#EditStudentModal').find('input[name="classe-detail"]').val("");
+		}
+
 		$this = $(this);
 
 		$text = $(this).attr("data-val");
@@ -2182,6 +2186,7 @@ $(document).ready(function(){
 		$(document).on("click",".input-text-empty",function(event){
 				$(this).attr("src","assets/icons/sidebar_icons/search.svg");
 				$(this).siblings(".input-text").val("");
+				$(this).siblings(".input-text").removeAttr("readonly");
 				$(this).removeClass("input-text-empty");
 		});
 

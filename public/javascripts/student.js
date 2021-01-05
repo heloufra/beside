@@ -18,6 +18,7 @@ var months =  ["January", "February", "March", "April", "May", "June", "July", "
 $domChange = false;
 var start,end;
 var alreadyPay = [];
+var studentlevelchanged = 0 ;
 
 
 
@@ -679,7 +680,7 @@ function displayExam(id) {
   }
 })
 
- $('#EditStudentModal').find('input[name="level-detail"]').on( "change", function() {
+ $('#EditStudentModal input[name="level-detail"]').on( "change", function() {
   var value = $(this).val();
   if (value.replace(/\s/g, '') !== '')
   {
@@ -689,6 +690,7 @@ function displayExam(id) {
 		    url: '/Students/subscriptions',
 		    data: {
 		    	level_label:value,
+		    	student_id:studentId,
 		    },
 		    dataType: 'json'
 		  })
@@ -697,20 +699,31 @@ function displayExam(id) {
 		  	{
 		  		console.log(res.errors)
 		  	} else {
+
 		  		$('#EditStudentModal').find('.expense_col').remove();
-		  		//console.log("Level Sub",res.subscriptions);
-		  		//console.log("Student Sub",subStudent);
-		  	for (var i = 0; i < res.subscriptions.length; i++) {
-				var checked = ''
-				for (var j = subStudent.length - 1; j >= 0; j--) {
-					if(res.subscriptions[i].Expense_Label === subStudent[j].Expense_Label)
-						checked = 'checked';
+		  		console.log("Level Sub",res.subscriptions);
+		  		console.log("Student Sub",subStudent);
+		  		console.log("Student res ",res.studentLevel);
+
+		  		// Level Expenses  
+			  	for (var i = 0; i < res.subscriptions.length; i++) {
+					var checked = '';
+					studentlevelchanged = (value == res.studentLevel[0].Level_Label) ? 0 : 1 ;
+					if(value == res.studentLevel[0].Level_Label){ 
+						for (var j = subStudent.length - 1; j >= 0; j--) {
+							if(res.subscriptions[i].Expense_Label === subStudent[j].Expense_Label ){
+								checked = 'checked';
+							}
+						}
+					}
+					$('#EditStudentModal').find('.sub_list').append('<div class="expense_col col-md-6 sections-label-checkbox-main-container "> <div class="sections-label-checkbox-container"> <div class="form-group group "> <span class="expense_label">'+res.subscriptions[i].Expense_Label+'</span> <span class="method_label"> <span class="method_label_price">'+res.subscriptions[i].Expense_Cost+'</span> <span class="method_label_period">'+res.subscriptions[i].Expense_PaymentMethod+'</span> </span> </div> </div> <div class="customCheck"> <input type="checkbox" value="'+res.subscriptions[i].LE_ID+'" name="checkbox" id="ck" '+checked+'/> <label for="ck"></label> </div> </div> ');
 				}
-				$('#EditStudentModal').find('.sub_list').append('<div class="expense_col col-md-6 sections-label-checkbox-main-container "> <div class="sections-label-checkbox-container"> <div class="form-group group "> <span class="expense_label">'+res.subscriptions[i].Expense_Label+'</span> <span class="method_label"> <span class="method_label_price">'+res.subscriptions[i].Expense_Cost+'</span> <span class="method_label_period">'+res.subscriptions[i].Expense_PaymentMethod+'</span> </span> </div> </div> <div class="customCheck"> <input type="checkbox" value="'+res.subscriptions[i].LE_ID+'" name="checkbox" id="ck" '+checked+'/> <label for="ck"></label> </div> </div> ');
-			}
+			
+				// Level Classes 
 				for (var i = res.classes.length - 1; i >= 0; i--) {
 		  			$('#EditStudentModal').find('.list-classe').append(' <li class="row-classe" data-id="'+res.classes[i].Classe_ID+'" data-val="'+res.classes[i].Classe_Label+'">'+res.classes[i].Classe_Label+'</li>')
 		  		}
+
 		  	}
 		  });
   }
@@ -893,6 +906,7 @@ function saveChange() {
 			student_birthdat:$('#EditStudentModal').find('input[name="birthdate_detail"]').val(),
 			student_classe:$('#EditStudentModal').find('li[data-val="'+$('#EditStudentModal').find('input[name="classe-detail"]').val()+'"]').data('id'),
 			student_level:$('#EditStudentModal').find('input[name="level-detail"]').val(),
+			student_level_changed : studentlevelchanged,
 			parent_name:parent_name,
 			parent_phone:parent_phone,
 			parent_email:parent_email,

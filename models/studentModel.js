@@ -6,9 +6,9 @@ var ssQuery = `INSERT INTO studentsubscribtion(Student_ID, LE_ID, Subscription_S
 var scQuery = `INSERT INTO studentsclasses(Student_ID, Classe_ID, AY_ID) VALUES(?,?,?)`;
 
 var studentModel = {
-   findLe: function(Id,studentID) {
+   findLe: function(Id,studentID, AY_ID ) {
      return new Promise((resolve, reject) => {
-      connection.query("SELECT * FROM `studentsubscribtion` WHERE `LE_ID` = ? AND Student_ID = ?", [Id,studentID], (err, le_id, fields) => {
+      connection.query("SELECT * FROM `studentsubscribtion` WHERE `LE_ID` = ? AND Student_ID = ? AND  AY_ID = ? AND  ( SS_Status = 1 OR SS_Status = 0 ) ", [Id,studentID,AY_ID], (err, le_id, fields) => {
        if (err) reject(err);
         else resolve(le_id);
       });
@@ -32,7 +32,7 @@ var studentModel = {
   },
   findHomeworkFiles: function(Id) {
      return new Promise((resolve, reject) => {
-      connection.query("SELECT * FROM homeworks_attachement WHERE HA_Status <> '0' AND  Homework_ID = ?", [Id], (err, files, fields) => {
+      connection.query("SELECT * FROM homeworks_attachement WHERE HA_Status = '1' AND  Homework_ID = ?", [Id], (err, files, fields) => {
        if (err) reject(err);
         else resolve(files);
       });

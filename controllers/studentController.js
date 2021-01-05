@@ -3,13 +3,13 @@ var setupModel  = require('../models/setupModel');
 var studentModel  = require('../models/studentModel');
 var teacherModel  = require('../models/teacherModel');
 var root = require('../middleware/root');
-var queryStudents = "SELECT students.*,levels.Level_Label,classes.Classe_Label FROM students INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID INNER JOIN classes ON studentsclasses.Classe_ID = classes.Classe_ID INNER JOIN levels ON levels.Level_ID = classes.Level_ID WHERE studentsclasses.Classe_ID = ? AND studentsclasses.AY_ID = ? AND students.Student_Status <>'0';"
-var queryAllStudents = "SELECT students.*,levels.Level_Label,classes.Classe_Label,classes.Classe_ID FROM students INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID INNER JOIN classes ON studentsclasses.Classe_ID = classes.Classe_ID INNER JOIN levels ON levels.Level_ID = classes.Level_ID WHERE studentsclasses.AY_ID = ?  AND students.Student_Status <>'0';"
-var queryAllStudentsTeacher = "SELECT DISTINCT students.*,levels.Level_Label,classes.Classe_Label,classes.Classe_ID FROM students INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID INNER JOIN classes ON studentsclasses.Classe_ID = classes.Classe_ID INNER JOIN levels ON levels.Level_ID = classes.Level_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = studentsclasses.Classe_ID WHERE studentsclasses.AY_ID = ?  AND students.Student_Status <>'0' AND teachersubjectsclasses.Teacher_ID = ? AND teachersubjectsclasses.TSC_Status <>0;"
+var queryStudents = "SELECT students.*,levels.Level_Label,classes.Classe_Label FROM students INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID INNER JOIN classes ON studentsclasses.Classe_ID = classes.Classe_ID INNER JOIN levels ON levels.Level_ID = classes.Level_ID WHERE studentsclasses.Classe_ID = ? AND studentsclasses.AY_ID = ? AND students.Student_Status =  1 ;"
+var queryAllStudents = "SELECT students.*,levels.Level_Label,classes.Classe_Label,classes.Classe_ID FROM students INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID INNER JOIN classes ON studentsclasses.Classe_ID = classes.Classe_ID INNER JOIN levels ON levels.Level_ID = classes.Level_ID WHERE studentsclasses.AY_ID = ?  AND students.Student_Status =  1 ;"
+var queryAllStudentsTeacher = "SELECT DISTINCT students.*,levels.Level_Label,classes.Classe_Label,classes.Classe_ID FROM students INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID INNER JOIN classes ON studentsclasses.Classe_ID = classes.Classe_ID INNER JOIN levels ON levels.Level_ID = classes.Level_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = studentsclasses.Classe_ID WHERE studentsclasses.AY_ID = ?  AND students.Student_Status =  1  AND teachersubjectsclasses.Teacher_ID = ? AND teachersubjectsclasses.TSC_Status = 1 ;"
 var querySearch = "SELECT students.*,levels.Level_Label,classes.Classe_Label FROM students INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID INNER JOIN classes ON studentsclasses.Classe_ID = classes.Classe_ID INNER JOIN levels ON levels.Level_ID = classes.Level_ID WHERE (studentsclasses.Classe_ID = ? OR students.Student_FirstName LIKE ?) AND studentsclasses.AY_ID = ?;"
 var queryParents = "SELECT parents.* FROM parents INNER JOIN studentsparents ON studentsparents.Parent_ID = parents.Parent_ID INNER JOIN students ON studentsparents.Student_ID = students.Student_ID WHERE students.Student_ID = ?;"
-var querySubstudent = "SELECT levelexpenses.Expense_Cost,expenses.Expense_Label,expenses.Expense_PaymentMethod,studentsubscribtion.SS_ID,studentsubscribtion.Subscription_StartDate FROM students INNER JOIN studentsubscribtion ON students.Student_ID = studentsubscribtion.Student_ID INNER JOIN levelexpenses ON levelexpenses.LE_ID = studentsubscribtion.LE_ID INNER JOIN expenses ON expenses.Expense_ID = levelexpenses.Expense_ID INNER JOIN academicyear ON academicyear.Institution_ID = students.Institution_ID WHERE students.Student_ID = ? AND students.Institution_ID = ? AND studentsubscribtion.SS_Status<>0 AND studentsubscribtion.Subscription_EndDate = academicyear.AY_EndDate"
-var querySubstudentPay = "SELECT levelexpenses.Expense_Cost,expenses.Expense_Label,expenses.Expense_PaymentMethod,studentsubscribtion.* FROM students INNER JOIN studentsubscribtion ON students.Student_ID = studentsubscribtion.Student_ID INNER JOIN levelexpenses ON levelexpenses.LE_ID = studentsubscribtion.LE_ID INNER JOIN expenses ON expenses.Expense_ID = levelexpenses.Expense_ID INNER JOIN academicyear ON academicyear.Institution_ID = students.Institution_ID WHERE students.Student_ID = ? AND students.Institution_ID = ? AND studentsubscribtion.SS_Status<>0;"
+var querySubstudent = "SELECT levelexpenses.Level_ID,levelexpenses.Expense_Cost,expenses.Expense_Label,expenses.Expense_PaymentMethod,studentsubscribtion.SS_ID,studentsubscribtion.Subscription_StartDate FROM students INNER JOIN studentsubscribtion ON students.Student_ID = studentsubscribtion.Student_ID INNER JOIN levelexpenses ON levelexpenses.LE_ID = studentsubscribtion.LE_ID INNER JOIN expenses ON expenses.Expense_ID = levelexpenses.Expense_ID INNER JOIN academicyear ON academicyear.Institution_ID = students.Institution_ID WHERE students.Student_ID = ? AND students.Institution_ID = ? AND studentsubscribtion.SS_Status = 1 AND studentsubscribtion.Subscription_EndDate = academicyear.AY_EndDate"
+var querySubstudentPay = "SELECT levelexpenses.Expense_Cost,expenses.Expense_Label,expenses.Expense_PaymentMethod,studentsubscribtion.* FROM students INNER JOIN studentsubscribtion ON students.Student_ID = studentsubscribtion.Student_ID INNER JOIN levelexpenses ON levelexpenses.LE_ID = studentsubscribtion.LE_ID INNER JOIN expenses ON expenses.Expense_ID = levelexpenses.Expense_ID INNER JOIN academicyear ON academicyear.Institution_ID = students.Institution_ID WHERE students.Student_ID = ? AND students.Institution_ID = ? AND studentsubscribtion.SS_Status = 1 ;"
 var queryAllSub = "SELECT expenses.*,levelexpenses.Expense_Cost,levelexpenses.LE_ID,classes.Classe_Label FROM expenses INNER JOIN levelexpenses ON levelexpenses.Expense_ID = expenses.Expense_ID INNER JOIN classes ON classes.Level_ID = levelexpenses.Level_ID WHERE levelexpenses.AY_ID = ?"
 var querySubclasse = "SELECT levelexpenses.Expense_Cost,expenses.Expense_Label,expenses.Expense_PaymentMethod FROM classes INNER JOIN levels ON levels.Level_ID = classes.Level_ID INNER JOIN levelexpenses ON levelexpenses.Level_ID = levels.Level_ID INNER JOIN expenses ON expenses.Expense_ID = levelexpenses.Expense_ID WHERE classes.Classe_ID = ? AND classes.AY_ID = ?"
 var querySubscriptions = "SELECT expenses.*,levelexpenses.Expense_Cost,levelexpenses.LE_ID FROM expenses INNER JOIN levelexpenses ON levelexpenses.Expense_ID = expenses.Expense_ID WHERE levelexpenses.Level_ID = ? AND levelexpenses.AY_ID = ?;"
@@ -21,10 +21,10 @@ var parentQuery = `INSERT INTO parents(Parent_Name,  Parent_Phone , Parent_Email
 var spQuery = `INSERT INTO studentsparents(Student_ID, Parent_ID) VALUES(?,?)`; 
 var ssQuery = `INSERT INTO studentsubscribtion(Student_ID, LE_ID, Subscription_StartDate, Subscription_EndDate, AY_ID) VALUES(?,?,?,?,?)`;
 var scQuery = `INSERT INTO studentsclasses(Student_ID, Classe_ID, AY_ID) VALUES(?,?,?)`;
-var queryAttitude = 'SELECT * FROM `attitude` WHERE `Student_ID` = ? AND Attitude_Status <> 0';
-var homeworkQuery = 'SELECT homeworks.*,subjects.Subject_Label,subjects.Subject_Color,classes.Classe_Label FROM `students` INNER JOIN studentsclasses On studentsclasses.Student_ID = students.Student_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = studentsclasses.Classe_ID INNER JOIN homeworks ON homeworks.TSC_ID = teachersubjectsclasses.TSC_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = studentsclasses.Classe_ID WHERE students.Student_ID = ? AND homeworks.Homework_Status <>0';
-var examsQuery = 'SELECT exams.*,subjects.Subject_Label,subjects.Subject_Color,classes.Classe_Label,grads.Exam_Score FROM `students` INNER JOIN studentsclasses On studentsclasses.Student_ID = students.Student_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = studentsclasses.Classe_ID INNER JOIN exams ON exams.TSC_ID = teachersubjectsclasses.TSC_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = studentsclasses.Classe_ID LEFT JOIN grads ON grads.Student_ID = students.Student_ID AND  grads.Exam_ID = exams.Exam_ID WHERE students.Student_ID = ? AND exams.Exam_Status <> 0';
-var studentPayment = "SELECT studentsubscribtion.SS_ID,expenses.Expense_PaymentMethod,expenses.Expense_Label,studentspayments.*,levelexpenses.Expense_Cost FROM `studentsubscribtion` INNER JOIN studentspayments ON studentspayments.SS_ID = studentsubscribtion.SS_ID INNER JOIN levelexpenses ON levelexpenses.LE_ID = studentsubscribtion.LE_ID INNER JOIN expenses ON expenses.Expense_ID = levelexpenses.Expense_ID WHERE studentsubscribtion.Student_ID = ?  AND studentsubscribtion.SS_Status<>0;";
+var queryAttitude = 'SELECT * FROM `attitude` WHERE `Student_ID` = ? AND Attitude_Status = 1 ';
+var homeworkQuery = 'SELECT homeworks.*,subjects.Subject_Label,subjects.Subject_Color,classes.Classe_Label FROM `students` INNER JOIN studentsclasses On studentsclasses.Student_ID = students.Student_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = studentsclasses.Classe_ID INNER JOIN homeworks ON homeworks.TSC_ID = teachersubjectsclasses.TSC_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = studentsclasses.Classe_ID WHERE students.Student_ID = ? AND homeworks.Homework_Status = 1';
+var examsQuery = 'SELECT exams.*,subjects.Subject_Label,subjects.Subject_Color,classes.Classe_Label,grads.Exam_Score FROM `students` INNER JOIN studentsclasses On studentsclasses.Student_ID = students.Student_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = studentsclasses.Classe_ID INNER JOIN exams ON exams.TSC_ID = teachersubjectsclasses.TSC_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = studentsclasses.Classe_ID LEFT JOIN grads ON grads.Student_ID = students.Student_ID AND  grads.Exam_ID = exams.Exam_ID WHERE students.Student_ID = ? AND exams.Exam_Status = 1';
+var studentPayment = "SELECT studentsubscribtion.SS_ID,expenses.Expense_PaymentMethod,expenses.Expense_Label,studentspayments.*,levelexpenses.Expense_Cost FROM `studentsubscribtion` INNER JOIN studentspayments ON studentspayments.SS_ID = studentsubscribtion.SS_ID INNER JOIN levelexpenses ON levelexpenses.LE_ID = studentsubscribtion.LE_ID INNER JOIN expenses ON expenses.Expense_ID = levelexpenses.Expense_ID WHERE studentsubscribtion.Student_ID = ?  AND studentsubscribtion.SS_Status = 1 ;";
 var adddate = 1;
 var classeID;
 var startDate = new Date();
@@ -66,7 +66,7 @@ var studentController = {
   studentView:  function(req, res, next) {
     connection.query("SELECT * FROM `users` WHERE `User_ID` = ? LIMIT 1", [req.userId], (err, user, fields) => {
       connection.query("SELECT institutions.* FROM users INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN institutions ON institutionsusers.Institution_ID = institutions.Institution_ID WHERE users.User_ID = ? AND institutionsusers.User_Role='Admin'", [req.userId], (err, accounts, fields) => {
-        connection.query("SELECT users.*,institutionsusers.User_Role as role FROM users INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN institutions ON institutionsusers.Institution_ID = institutions.Institution_ID WHERE institutions.Institution_ID = ? AND users.User_ID = ? AND institutionsusers.IU_Status <> 0", [req.Institution_ID,req.userId], (err, users, fields) => {                
+        connection.query("SELECT users.*,institutionsusers.User_Role as role FROM users INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN institutions ON institutionsusers.Institution_ID = institutions.Institution_ID WHERE institutions.Institution_ID = ? AND users.User_ID = ? AND institutionsusers.IU_Status = 1 ", [req.Institution_ID,req.userId], (err, users, fields) => {                
           connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, institutions, fields) => {
             connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
               connection.query("SELECT * FROM `classes` WHERE AY_ID = ?", [academic[0].AY_ID], (err, classes, fields) => {
@@ -85,14 +85,14 @@ var studentController = {
   getStudent: function(req, res, next) {
     connection.query("SELECT * FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
       connection.query(queryParents, [req.query.user_id], (err, parents, fields) => {
-        connection.query("SELECT * FROM `absencesanddelays` WHERE User_ID = ? AND AD_Status <> 0 AND User_Type='Student'", [req.query.user_id], (err, absences, fields) => {
+        connection.query("SELECT * FROM `absencesanddelays` WHERE User_ID = ? AND AD_Status = 1 AND User_Type='Student'", [req.query.user_id], (err, absences, fields) => {
             connection.query(queryAttitude, [req.query.user_id], (err, attitudes, fields) => {
               connection.query(querySubstudent, [req.query.user_id,req.Institution_ID], (err, substudent, fields) => {
                 connection.query(querySubstudentPay, [req.query.user_id,req.Institution_ID], (err, substudentpay, fields) => {
                   connection.query(homeworkQuery, [req.query.user_id], (err, homeworks, fields) => {
                     connection.query(examsQuery, [req.query.user_id], (err, exams, fields) => {
                       connection.query(studentPayment, [req.query.user_id], (err, payStudent, fields) => {
-                        connection.query("SELECT AVG(grads.Exam_Score) as average FROM `students` INNER JOIN studentsclasses On studentsclasses.Student_ID = students.Student_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = studentsclasses.Classe_ID INNER JOIN exams ON exams.TSC_ID = teachersubjectsclasses.TSC_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = studentsclasses.Classe_ID LEFT JOIN grads ON grads.Student_ID = students.Student_ID AND  grads.Exam_ID = exams.Exam_ID WHERE students.Student_ID = ? AND exams.Exam_Status <> 0", [req.query.user_id],async (err, grade, fields) => {
+                        connection.query("SELECT AVG(grads.Exam_Score) as average FROM `students` INNER JOIN studentsclasses On studentsclasses.Student_ID = students.Student_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = studentsclasses.Classe_ID INNER JOIN exams ON exams.TSC_ID = teachersubjectsclasses.TSC_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = studentsclasses.Classe_ID LEFT JOIN grads ON grads.Student_ID = students.Student_ID AND  grads.Exam_ID = exams.Exam_ID WHERE students.Student_ID = ? AND exams.Exam_Status = 1 ", [req.query.user_id],async (err, grade, fields) => {
                          if (err) {
                               console.log(err);
                                 res.json({
@@ -156,7 +156,7 @@ var studentController = {
     })
   },
   getStudentsByClasse: function(req, res, next) {
-      connection.query("SELECT students.* FROM `studentsclasses` INNER JOIN classes ON classes.Classe_ID = studentsclasses.Classe_ID INNER JOIN students ON students.Student_ID = studentsclasses.Student_ID WHERE classes.Classe_Label = ? AND students.Institution_ID = ? AND students.Student_Status<>0", [req.query.class_label,req.Institution_ID],async (err, names, fields) => {
+      connection.query("SELECT students.* FROM `studentsclasses` INNER JOIN classes ON classes.Classe_ID = studentsclasses.Classe_ID INNER JOIN students ON students.Student_ID = studentsclasses.Student_ID WHERE classes.Classe_Label = ? AND students.Institution_ID = ? AND students.Student_Status = 1 ", [req.query.class_label,req.Institution_ID],async (err, names, fields) => {
          res.json({
                 names
               });
@@ -164,32 +164,35 @@ var studentController = {
   },
   getSubscriptions: function(req, res, next) {
     connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
-      connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
-          connection.query("SELECT Level_ID FROM `levels` WHERE `Level_Label` = ? AND AY_ID = ? LIMIT 1", [req.query.level_label,academic[0].AY_ID], (err, level, fields) => {
-            connection.query("SELECT * FROM `classes` WHERE `Level_ID` = ?", [level[0].Level_ID], (err, classes, fields) => {
-              connection.query(querySubscriptions, [level[0].Level_ID,academic[0].AY_ID], (err, subscriptions, fields) => {
-                 if (err) {
-                      console.log(err);
-                        res.json({
-                          errors: [{
-                          field: "Access denied",
-                          errorDesc: "List Students Error"
-                        }]});
-                    } else 
-                    {
-                       res.json({
-                          subscriptions:subscriptions,
-                          classes:classes
-                        });
-                    }
-               })
+        connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
+          connection.query("SELECT Max(c.Level_ID) as 'MaxLevel' , l.Level_Label FROM classes c inner join studentsclasses sc on(c.Classe_ID = sc.Classe_ID ) inner join levels l on (l.Level_ID = c.Level_ID ) WHERE sc.Student_ID = ? and sc.AY_ID = ? and sc.SC_Status = 1 and c.Classe_Status = 1 and l.Level_Status = 1 ", [req.query.student_id,academic[0].AY_ID], (err, Student_Level , fields) => {
+            connection.query("SELECT Level_ID FROM `levels` WHERE `Level_Label` = ? AND AY_ID = ? LIMIT 1", [req.query.level_label,academic[0].AY_ID], (err, level, fields) => {
+              connection.query("SELECT * FROM `classes` WHERE `Level_ID` = ?", [level[0].Level_ID], (err, classes, fields) => {
+                connection.query(querySubscriptions, [level[0].Level_ID,academic[0].AY_ID], (err, subscriptions, fields) => {
+                   if (err) {
+                        console.log(err);
+                          res.json({
+                            errors: [{
+                            field: "Access denied",
+                            errorDesc: "List Students Error"
+                          }]});
+                      } else 
+                      {
+                         res.json({
+                            subscriptions:subscriptions,
+                            classes:classes,
+                            studentLevel:Student_Level,
+                          });
+                      }
+                 })
+              })
             })
-          })
-      })
+        })
+    })
     })
   },
   saveStudent: function(req, res, next) {
-     connection.query("SELECT * FROM `students` WHERE `Student_FirstName` = ? AND `Student_LastName` = ? AND Student_Status <> 0", [req.body.first_name,  req.body.last_name], (err, user, fields) => {
+     connection.query("SELECT * FROM `students` WHERE `Student_FirstName` = ? AND `Student_LastName` = ? AND Student_Status = 1 ", [req.body.first_name,  req.body.last_name], (err, user, fields) => {
         if(user.length === 0)
         {
            connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
@@ -218,7 +221,7 @@ var studentController = {
                                     }]});
                                 } else 
                                 {
-                                   console.log("PArent",parent.insertId)
+                                   console.log("Parent",parent.insertId);
 
                                    connection.query(spQuery, [student.insertId,parent.insertId], (err, spresult, fields) => {
                                      if (err) {
@@ -427,24 +430,51 @@ var studentController = {
                 else
                   connection.query("UPDATE `parents` SET  Parent_Name = ?,Parent_Phone= ? , Parent_Email= ? WHERE `Parent_ID` = ?", [req.body.parent_name[i].name,req.body.parent_phone[i].phone,req.body.parent_email[i].email,req.body.parent_name[i].id])
               }
-              if (req.body.unchecked)
-                for (var i = req.body.unchecked.length - 1; i >= 0; i--) {
-                  connection.query("UPDATE `studentsubscribtion` SET `Subscription_EndDate`=?, `SS_Status`=0 WHERE `LE_ID` = ?", [new Date(),req.body.unchecked[i]])
-                }
-              if (req.body.checked)
-                for (var i = req.body.checked.length - 1; i >= 0; i--) {
-                    var le_id = await studentModel.findLe(req.body.checked[i],req.body.id);
 
-                    startDate = new Date();
-                    if (le_id.length === 0)
-                    {
-                      connection.query("INSERT INTO studentsubscribtion(Student_ID, LE_ID, Subscription_StartDate, Subscription_EndDate, AY_ID) VALUES(?,?,?,?,?)", [req.body.id,req.body.checked[i],months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID])
-                    } else 
-                    {
-                      connection.query("UPDATE `studentsubscribtion` SET Subscription_StartDate=? , `Subscription_EndDate`=?,`SS_Status`=1 WHERE `LE_ID` = ?", [months[startDate.getMonth()],academic[0].AY_EndDate,req.body.checked[i]])
+              var new_ = false;
+              
+              if((req.body.student_level_changed * 1 ) == 0){ // test still in the same level
+                  // Cancel Subscriptions
+                  if (req.body.unchecked){
+                    for (var i = req.body.unchecked.length - 1; i >= 0; i--) {
+                      connection.query("UPDATE `studentsubscribtion` SET `Subscription_EndDate`=?, `SS_Status`= 0 WHERE `LE_ID` = ?", [new Date(),req.body.unchecked[i]])
                     }
-                }
-              res.json({updated : true});
+                  }
+                  // New Subscriptions
+                  if (req.body.checked){
+                    for (var i = req.body.checked.length - 1; i >= 0; i--) {
+                        var le_id = await studentModel.findLe(req.body.checked[i],req.body.id,academic[0].AY_ID);
+
+                        startDate = new Date();
+                        if (le_id.length === 0) // New Subscriptions
+                        {
+                          connection.query("INSERT INTO studentsubscribtion(Student_ID, LE_ID, Subscription_StartDate, Subscription_EndDate, AY_ID) VALUES(?,?,?,?,?)", [req.body.id,req.body.checked[i],months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID])
+                        } else // Reactive Old Subscriptions
+                        {
+                          connection.query("UPDATE `studentsubscribtion` SET Subscription_StartDate=? , `Subscription_EndDate`=?,`SS_Status`=1 WHERE `LE_ID` = ? AND `Student_ID` = ? AND `SS_Status` = 0 ", [months[startDate.getMonth()],academic[0].AY_EndDate,req.body.checked[i],req.body.id])
+                        }
+                    }
+                  }
+              }else{ // else  remove old ones and add new
+
+                  // Remove Subscriptions
+
+                  connection.query("UPDATE `studentsubscribtion` SET `SS_Status`= '-1' WHERE `Student_ID` = ? and AY_ID = ? ", [req.body.id,academic[0].AY_ID] );
+
+                  // New Subscriptions
+                  if (req.body.checked){
+                    for (var i = req.body.checked.length - 1; i >= 0; i--) {
+                        // New Subscriptions
+                        startDate = new Date();
+                          connection.query("INSERT INTO studentsubscribtion(Student_ID, LE_ID, Subscription_StartDate, Subscription_EndDate, AY_ID) VALUES(?,?,?,?,?)", [req.body.id,req.body.checked[i],months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID]);
+                    }
+                  }
+
+                  new_ = true;
+
+              }
+
+              res.json({updated : true , checked : req.body.checked , new_ : new_ , student_level_changed : req.body.student_level_changed });
             }
        })
     })
