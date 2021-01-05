@@ -9,7 +9,14 @@ var date = new Date();
 var filtredClass = [];
 var academicyear = "2020-2021";
 var StudentId = 0;
-function getAllFinances(id) {
+
+function hideSelected(value) {
+  if (value && !value.selected) {
+    return $('<span>' + value.text + '</span>');
+  }
+}
+
+function getAllFinances(id) { 
 	$.ajax({
 	    type: 'get',
 	    url: '/Finances/all',
@@ -21,6 +28,7 @@ function getAllFinances(id) {
 	  		console.log(res.errors);
 
 	  	} else {
+	  		console.log("res ",res);
 	  		$("#Finance").find('.month-row').remove();
 	  		$("#Finance").find('.students_list').remove();
 	  		$('#Finance').find('.row-finance').remove();
@@ -77,8 +85,9 @@ function getAllFinances(id) {
 					var obj = '{Expence:subscriptionStudent[k].Expense_Label,Amount:subscriptionStudent[k].Expense_Cost,Status:"Unpaid",BoolStatus:"1"}'
 					studentPayment += '<img src="assets/icons/check_red.svg" alt="states" data-payment="unpaid" data-exist="true"  data-type="monthly" data-expense="'+subscriptionStudent[k].Expense_ID+'" data-pay="'+subscriptionStudent[k].SS_ID+'-'+months[i]+'" data-obj={"Expence":"'+subscriptionStudent[k].Expense_Label+'","Amount":'+subscriptionStudent[k].Expense_Cost+',"Status":"Unpaid","BoolStatus":"1"}/>'
 				}
-				else
+				else{
 					studentPayment += '<img class="disabled" data-pay="'+subscriptionStudent[k].SS_ID+'-'+months[i]+'" src="assets/icons/check_gray.svg" alt="states"/>';
+				}
 			}
 			if (subscriptionStudent[k].Expense_PaymentMethod === "Annual" && i === months.indexOf(subscriptionStudent[k].Subscription_StartDate))
 			{
@@ -86,10 +95,12 @@ function getAllFinances(id) {
 				studentPayment += '<img src="assets/icons/check_red.svg" alt="states" data-payment="unpaid" data-exist="true"   data-type="yearly" data-expense="'+subscriptionStudent[k].Expense_ID+'" data-pay="'+subscriptionStudent[k].SS_ID+'-'+months[i]+'" data-obj={"Expence":"'+subscriptionStudent[k].Expense_Label+'","Amount":'+subscriptionStudent[k].Expense_Cost+',"Status":"Unpaid","BoolStatus":"1"}/>'
 			}
 		}
-		if (date.getMonth() === i)
+		if (date.getMonth() === i){
 			style = 'style="background: #f9f9f9"';
-		else
+		}
+		else{
 			style = "";
+		}
 		$("#Finance").find('[data-studentid="'+id+'"]').append(' <td scope="col" class="row-finance col-text-align col-text-align-extra-style col-text-align-extra-style-center" '+style+'>'+studentPayment+'</td>');
 		for (var j = paymentFiltred.length - 1; j >= 0; j--) {
 			if (paymentFiltred[j].Expense_PaymentMethod === "Monthly")
@@ -135,13 +146,17 @@ var start,end;
  	var total = 0;
  	$("#FinanceBillModal").find('.months-bill').append('<tr class="row-subtotal row-expense"><td data-label="School fees" class="td-label">Subtotal</td>'+Subtotal+'</tr>')
  	for (var i = indStart; i < months.length; i++) {
- 		if (date.getMonth() === i)
+ 		if (date.getMonth() === i){
 			style = 'style="background: #f9f9f9"';
-		else
+ 		}
+		else{
 			style = "";
+		}
+
  		var paymentFiltred = payments.filter(function (el) {
 						        return el.Student_ID === id;
-						      });
+		});
+
  		var studentPayment = '';
 		var htmltPayed = '';
 		for (var k = subscriptionStudent.length - 1; k >= 0; k--) {
@@ -163,8 +178,9 @@ var start,end;
 	 				$("#FinanceBillModal").find('[data-sub="'+subscriptionStudent[k].Expense_Label+'"]').html(parseInt(subscriptionStudent[k].Expense_Cost)+parseInt($("#FinanceBillModal").find('[data-sub="'+subscriptionStudent[k].Expense_Label+'"]').html()))
 	 				htmltPayed += '<td scope="col"> <div class="expense_td_container"> <div class="expense_label_container"> <span class="expense_label">Unpaid </span> <span class="expense_label_method">'+subscriptionStudent[k].Expense_Cost+'</span> </div> <img src="assets/icons/check_red.svg" alt="states"/> </div> </td>';
 	 			}
-	 			else
+	 			else{
 	 				htmltPayed += '<td scope="col"> <div class="expense_td_container"> <div class="expense_label_container"> <span class="expense_label"> </span> <span class="expense_label_method"></span> </div> <img class="disabled" src="assets/icons/check_gray.svg" alt="states"/> </div> </td>';
+	 			}
 					
 	 		} else if (subscriptionStudent[k].Expense_PaymentMethod === "Annual" && i === months.indexOf(subscriptionStudent[k].Subscription_StartDate))
 			{
@@ -223,16 +239,21 @@ function savePayment() {
 	$('#FinanceModal').find('.yearly').addClass('hidden');
 	$('#FinanceModal').find('.monthly').addClass('hidden');
 	var MonthsFiltred = [];
+
 	var subStudent = subscription.filter(function (el) {
-						        return el.Student_ID === id;
-						      });
+	    return el.Student_ID === id;
+	});
+
 	var payStudent = payments.filter(function (el) {
-						        return el.Student_ID === id;
-						      });
+	    return el.Student_ID === id;
+	});
+
 	for (var i = subStudent.length - 1; i >= 0; i--) {
+
 		if (subStudent[i].Expense_PaymentMethod === "Monthly")
 		{
 			MonthsFiltred = [];
+
 			for (var j = months.indexOf(subStudent[i].Subscription_StartDate); j < months.length; j++) {
 				MonthsFiltred.push(months[j]);
 				if (j === indEnd)
@@ -240,54 +261,63 @@ function savePayment() {
 				if (j === months.length - 1)
 					j = -1;
 			}
+
 			var payFilter = payStudent.filter(function (el) {
 		        	return el.SS_ID === subStudent[i].SS_ID;
-		      	});
+		    });
+
 			alreadyPay = payFilter;
+
 			var htmlmonths = '';
+
 			for (var j = payFilter.length - 1; j >= 0; j--) {
 				MonthsFiltred = MonthsFiltred.filter(function (el) {
 		        	return el != payFilter[j].SP_PaidPeriod;
 		      	});
 			}
+
 			for (var k = 0; k < MonthsFiltred.length; k++) {
-				htmlmonths += "<option value="+MonthsFiltred[k]+">"+MonthsFiltred[k]+" </option> ";
+				htmlmonths += "<option selected value="+MonthsFiltred[k]+">"+MonthsFiltred[k]+" </option> ";
 			}
+
 			$('#FinanceModal').find('.monthly').removeClass('hidden');
 			$('#FinanceModal').find('.monthly').after('<div class="monthly-rows dynamic-form-input-container dynamic-form-input-container-extra-style"> <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+subStudent[i].Expense_Label+'</span> <span class="input-label-bg-mask"></span></label> <div class="dynamic-form-input-dropdown-container"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="form-group group"> <select class="input-text-month-select2 payment-select" data-val="Monthly" data-ssid="'+subStudent[i].SS_ID+'" multiple name="language"> '+htmlmonths+'</select> <img class="icon button-icon" src="assets/icons/caret.svg"> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div> </div>');
-			for (var j = payFilter.length - 1; j >= 0; j--) {
+			
+			/*for (var j = payFilter.length - 1; j >= 0; j--) {
 		      	var option = new Option(payFilter[j].SP_PaidPeriod,payFilter[j].SP_PaidPeriod, true, true);
     			$('#FinanceModal').find('[data-ssid="'+subStudent[i].SS_ID+'"]').append(option).trigger('change');
-			}
+			}*/
 		}
 		if (subStudent[i].Expense_PaymentMethod === "Annual")
 		{
 			payFilter = payStudent.filter(function (el) {
 		        	return el.SS_ID === subStudent[i].SS_ID;
-		      	});
+		    });
+
 			var htmlYearly = '';
-				if (payFilter.length === 0)
-					htmlYearly = '<option value="'+academicyear+'">'+academicyear+'</option> ';
+
+			if (payFilter.length === 0){
+				htmlYearly = '<option selected value="'+academicyear+'">'+academicyear+'</option> ';
 				$('#FinanceModal').find('.yearly').removeClass('hidden');
 				$('#FinanceModal').find('.yearly').after('<div class="yearly-rows dynamic-form-input-container dynamic-form-input-container-extra-style input-text-subject-select2-one-option"> <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+subStudent[i].Expense_Label+'</span> <span class="input-label-bg-mask"></span></label> <div class="dynamic-form-input-dropdown-container"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="form-group group"> <select class="input-text-year-select2 payment-select" data-val="Annual" data-ssid="'+subStudent[i].SS_ID+'" multiple name="language"> '+htmlYearly+'</select> <img class="icon button-icon" src="assets/icons/caret.svg"> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div> </div>');
-		      	if (payFilter.length > 0)
-		      	{
-		      		var option = new Option(payFilter[0].SP_PaidPeriod,payFilter[0].SP_PaidPeriod, true, true);
-	    			$('#FinanceModal').find('[data-ssid="'+subStudent[i].SS_ID+'"]').append(option).trigger('change');
-		      	}
+			}
 		}
 	}
 	if($(".input-text-month-select2").length > 0){
 		$(".input-text-month-select2").select2({
 		  tags: true,
-		  dropdownPosition: 'below'
+		  dropdownPosition: 'below',
+		  minimumResultsForSearch: -1,
+  		  templateResult: hideSelected
 		});
 	}
 
 	if($(".input-text-year-select2").length > 0){
 		$(".input-text-year-select2").select2({
 		  tags: true,
-		  dropdownPosition: 'below'
+		  dropdownPosition: 'below',
+		  minimumResultsForSearch: -1,
+  		  templateResult: hideSelected
 		});
 	}
 }

@@ -20,7 +20,11 @@ var start,end;
 var alreadyPay = [];
 var studentlevelchanged = 0 ;
 
-
+function hideSelected(value) {
+  if (value && !value.selected) {
+    return $('<span>' + value.text + '</span>');
+  }
+}
 
 getAllStudents();
 
@@ -327,26 +331,31 @@ $(document).on("click",".students_list",function(event){
 		}
 		var style = "";
 		for (var i = indStart; i < months.length; i++) {
-			if (date.getMonth() === i)
+
+			if (date.getMonth() === i){
 				style = 'style="background: #f9f9f9"';
-			else
+			}
+			else{
 				style = "";
+			}
+
 			htmlmonths += '<th scope="col" class="col-text-align month-row" '+style+'>'+months[i].slice(0,3)+'</th>';
 			for (var k = res.substudentpay.length - 1; k >= 0; k--) {
-				if (res.substudentpay[k].Expense_PaymentMethod === "Monthly")
-				{
+				if (res.substudentpay[k].Expense_PaymentMethod === "Monthly"){
 					var endDate = new Date(res.substudentpay[k].Subscription_EndDate);
-					if (isNaN(endDate.getMonth()))
+					if (isNaN(endDate.getMonth())){
 						endDate = i;
-					else
+					}
+					else{
 						endDate = endDate.getMonth();
-					if (date.getMonth() >= i && i >=  months.indexOf(res.substudentpay[k].Subscription_StartDate) && endDate >= i)
-					{
+					}
+					if (date.getMonth() >= i && i >=  months.indexOf(res.substudentpay[k].Subscription_StartDate) && endDate >= i){
 						unpaid += parseInt(res.substudentpay[k].Expense_Cost);
 						$("#Finance").find('[data-val="'+res.substudentpay[k].Expense_Label+'"]').append('<td data-id="'+res.substudentpay[k].SS_ID +"-"+months[i]+'" '+style+' scope="col" class="row-payment col-text-align "><img  src="assets/icons/check_red.svg" alt="states"/></td>');
 					}
-					else
+					else{
 						$("#Finance").find('[data-val="'+res.substudentpay[k].Expense_Label+'"]').append('<td data-id="'+res.substudentpay[k].SS_ID +"-"+months[i]+'" scope="col" class="row-payment col-text-align"></td>');
+					}
 				}
 			}
 			for (var j = res.payStudent.length - 1; j >= 0; j--) {
@@ -372,9 +381,15 @@ $(document).on("click",".students_list",function(event){
 			unpaid -= yearlyExpense[i].Expense_Cost;
 			$("#Finance").find('[data-val="'+yearlyExpense[i].Expense_Label+'"]').find('.img-yearly').html('<img src="assets/icons/green_check.svg" alt="states" />');
 		}
+
+		if(unpaid < 0){
+			$("#Finance").find(".sub-container-form-footer").addClass("hide-footer");
+		}
+
 		if (unpaid < 0)
-			unpaid = "0.00";
+		unpaid = "0.00 Dh";
 		$('#Finance').find('.unpaid-expense').html(unpaid);
+		
 		$("#Finance").find('.list-months').append(htmlmonths);
 		var inputFirst,readOnly,inputLabel = '';
 		parents = res.parents;
@@ -471,6 +486,7 @@ function executePayment() {
 		if (subStudent[i].Expense_PaymentMethod === "Monthly")
 		{
 			MonthsFiltred = [];
+
 			for (var j = months.indexOf(subStudent[i].Subscription_StartDate); j < months.length; j++) {
 				MonthsFiltred.push(months[j]);
 				if (j === indEnd)
@@ -478,54 +494,62 @@ function executePayment() {
 				if (j === months.length - 1)
 					j = -1;
 			}
+
 			var payFilter = payStudent.filter(function (el) {
 		        	return el.SS_ID === subStudent[i].SS_ID;
 		      	});
+
 			alreadyPay = payFilter;
 			var htmlmonths = '';
+
 			for (var j = payFilter.length - 1; j >= 0; j--) {
 				MonthsFiltred = MonthsFiltred.filter(function (el) {
 		        	return el != payFilter[j].SP_PaidPeriod;
 		      	});
 			}
+
 			for (var k = 0; k < MonthsFiltred.length; k++) {
-				htmlmonths += "<option value="+MonthsFiltred[k]+">"+MonthsFiltred[k]+" </option> ";
+				htmlmonths += "<option selected value="+MonthsFiltred[k]+">"+MonthsFiltred[k]+"</option> ";				
 			}
-			$('#FinanceModal').find('.monthly').removeClass('hidden');
-			$('#FinanceModal').find('.monthly').after('<div class="monthly-rows dynamic-form-input-container dynamic-form-input-container-extra-style"> <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+subStudent[i].Expense_Label+'</span> <span class="input-label-bg-mask"></span></label> <div class="dynamic-form-input-dropdown-container"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="form-group group"> <select class="input-text-month-select2 payment-select" data-val="Monthly" data-ssid="'+subStudent[i].SS_ID+'" multiple name="language"> '+htmlmonths+'</select> <img class="icon button-icon" src="assets/icons/caret.svg"> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div> </div>');
-			for (var j = payFilter.length - 1; j >= 0; j--) {
-		      	var option = new Option(payFilter[j].SP_PaidPeriod,payFilter[j].SP_PaidPeriod, true, true);
-    			$('#FinanceModal').find('[data-ssid="'+subStudent[i].SS_ID+'"]').append(option).trigger('change');
+
+			if(htmlmonths != ""){
+				$('#FinanceModal').find('.monthly').removeClass('hidden');
+				$('#FinanceModal').find('.monthly').after('<div class="monthly-rows dynamic-form-input-container dynamic-form-input-container-extra-style"> <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+subStudent[i].Expense_Label+'</span> <span class="input-label-bg-mask"></span></label> <div class="dynamic-form-input-dropdown-container"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="form-group group"> <select class="input-text-month-select2 payment-select" data-val="Monthly" data-ssid="'+subStudent[i].SS_ID+'" multiple name="language"> '+htmlmonths+'</select> <img class="icon button-icon" src="assets/icons/caret.svg"> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div> </div>');
 			}
+
 		}
 		if (subStudent[i].Expense_PaymentMethod === "Annual")
 		{
 			payFilter = payStudent.filter(function (el) {
 		        	return el.SS_ID === subStudent[i].SS_ID;
-		      	});
+		    });
+
 			var htmlYearly = '';
-				if (payFilter.length === 0)
-					htmlYearly = '<option value="'+academicyear+'">'+academicyear+'</option> ';
+
+			if (payFilter.length === 0){
+				htmlYearly = '<option selected value="'+academicyear+'">'+academicyear+'</option> ';
 				$('#FinanceModal').find('.yearly').removeClass('hidden');
 				$('#FinanceModal').find('.yearly').after('<div class="yearly-rows dynamic-form-input-container dynamic-form-input-container-extra-style input-text-subject-select2-one-option"> <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+subStudent[i].Expense_Label+'</span> <span class="input-label-bg-mask"></span></label> <div class="dynamic-form-input-dropdown-container"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="form-group group"> <select class="input-text-year-select2 payment-select" data-val="Annual" data-ssid="'+subStudent[i].SS_ID+'" multiple name="language"> '+htmlYearly+'</select> <img class="icon button-icon" src="assets/icons/caret.svg"> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div> </div>');
-		      	if (payFilter.length > 0)
-		      	{
-		      		var option = new Option(payFilter[0].SP_PaidPeriod,payFilter[0].SP_PaidPeriod, true, true);
-	    			$('#FinanceModal').find('[data-ssid="'+subStudent[i].SS_ID+'"]').append(option).trigger('change');
-		      	}
+			}
 		}
 	}
 	if($(".input-text-month-select2").length > 0){
 		$(".input-text-month-select2").select2({
 		  tags: true,
-		  dropdownPosition: 'below'
+		  dropdownPosition: 'below',
+		  minimumResultsForSearch: -1,
+  		  templateResult: hideSelected
+
 		});
 	}
 
 	if($(".input-text-year-select2").length > 0){
 		$(".input-text-year-select2").select2({
 		  tags: true,
-		  dropdownPosition: 'below'
+		  dropdownPosition: 'below',
+		  minimumResultsForSearch: -1,
+  		  templateResult: hideSelected
+
 		});
 	}
 
