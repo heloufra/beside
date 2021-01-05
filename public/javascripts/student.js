@@ -326,7 +326,7 @@ $(document).on("click",".students_list",function(event){
 			{
 				$("#Finance").find('.yearly-expense').removeClass('hidden');
 				unpaid += parseInt(res.substudentpay[i].Expense_Cost);
-				$("#Finance").find('.yearly-expense').after(' <div data-val="'+res.substudentpay[i].Expense_Label+'" class="month-row sections-main-sub-container-right-main-result sections-main-sub-container-right-main-result-extra-style"><span class="sections-main-sub-container-right-main-result-label sections-main-sub-container-right-main-result-label-extra-info"> <span class="expense_label">'+res.substudentpay[i].Expense_Label+'</span> <span class="expense_label_method">'+res.substudentpay[i].Expense_Cost+'</span> </span> <span class="sections-main-sub-container-right-main-result-value img-yearly"><img src="assets/icons/check_red.svg" alt="states" /></span></div>');
+				$("#Finance").find('.yearly-expense').after(' <div data-val="'+res.substudentpay[i].Expense_Label+'" class="month-row sections-main-sub-container-right-main-result sections-main-sub-container-right-main-result-extra-style"><span class="sections-main-sub-container-right-main-result-label sections-main-sub-container-right-main-result-label-extra-info"> <span class="expense_label">'+res.substudentpay[i].Expense_Label+'</span> <span class="expense_label_method">'+res.substudentpay[i].Expense_Cost+'</span> </span> <span class="sections-main-sub-container-right-main-result-value img-yearly"><img src="assets/icons/red_check.svg" alt="states" /></span></div>');
 			}
 		}
 		var style = "";
@@ -375,8 +375,9 @@ $(document).on("click",".students_list",function(event){
 		}
 
 		var yearlyExpense = res.payStudent.filter(function (el) {
-						        return el.Expense_PaymentMethod === "Annual";
-						      });
+	        return el.Expense_PaymentMethod === "Annual";
+	    });
+
 		for (var i = yearlyExpense.length - 1; i >= 0; i--) {
 			unpaid -= yearlyExpense[i].Expense_Cost;
 			$("#Finance").find('[data-val="'+yearlyExpense[i].Expense_Label+'"]').find('.img-yearly').html('<img src="assets/icons/green_check.svg" alt="states" />');
@@ -387,7 +388,7 @@ $(document).on("click",".students_list",function(event){
 		}
 
 		if (unpaid < 0)
-		unpaid = "0.00 Dh";
+		unpaid = "0.00";
 		$('#Finance').find('.unpaid-expense').html(unpaid);
 		
 		$("#Finance").find('.list-months').append(htmlmonths);
