@@ -1583,6 +1583,16 @@ $(document).ready(function(){
 
 			$(this).parents(".dynamic-form-input-dropdown-container").remove();
 
+			var value = $(this).parents(".dynamic-form-input-dropdown").find(".input-dropdown").val();
+
+			console.log("value ",value);
+
+			$("#AddTeacherModal .dynamic-form-input-dropdown-options li").each(function(){
+		  		if(value == $(this).text()){
+		  			$(this).removeClass("visibility");
+		  		}
+		  	});
+
 			if($("#AddTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .sections-main-sub-container-right-main-rows-dropdown-tags-container").length == 1 ){
 				$("#AddTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .sections-main-sub-container-right-main-rows-dropdown-tags-container .dynamic-form-input-dropdown").addClass("dynamic-form-input-first");
 			}
@@ -3038,7 +3048,17 @@ $(document).ready(function(){
 
 			if($("#EditTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .sections-main-sub-container-right-main-rows-dropdown-tags-container").length == 1 ){
 				$("#EditTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .sections-main-sub-container-right-main-rows-dropdown-tags-container .dynamic-form-input-dropdown").addClass("dynamic-form-input-first");
-			}  		
+			}  	
+
+			var value = $(this).parents(".dynamic-form-input-dropdown").find(".input-dropdown").val();
+
+			console.log("value ",value);
+
+			$("#EditTeacherModal .dynamic-form-input-dropdown-options li").each(function(){
+		  		if(value == $(this).text()){
+		  			$(this).removeClass("visibility");
+		  		}
+		  	});	
 
 			setTimeout(function(){
 	  			$(".modal-dom-change-watcher.in .modal-content").css("cssText","height:calc(100% - 72px) !important");

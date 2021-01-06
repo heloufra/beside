@@ -572,8 +572,6 @@ function subjectsChange(subject) {
 
   if($(subject).parents("#EditTeacherModal").length){
 
-  	console.log("EditTeacherModal");
-
   	$("#EditTeacherModal .dynamic-form-input-dropdown-options li").each(function(){
   		if(value == $(this).text()){
   			$(this).addClass("visibility");
