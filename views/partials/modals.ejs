@@ -2848,17 +2848,15 @@
                               <div class="dynamic-form-input-float-adjust">
 
                                   <div class="form-group group form-group-left">
-                                    <input type="text" class="input-text input-dropdown" name="subject" required>
+                                    <input type="text" class="input-text input-dropdown" name="subject" required onchange="subjectsChange(this)" >
                                     <label class="input-label"><span class="input-label-text">Subjects</span> <span class="input-label-bg-mask"></span></label>
 
                                     <img class="icon button-icon" src="assets/icons/caret.svg">
-                                    <ul class="dynamic-form-input-dropdown-options">
-                                    <%if (locals.subjects) { %>
-                                       <% for(var i=0; i<subjects.length; i++) {%>
-                                         <li data-subjectid="<%= subjects[i].Subject_ID %>" data-levelid="<%= subjects[i].Level_ID %>" data-val="<%= subjects[i].Subject_Label %>"><%= subjects[i].Subject_Label %></li>
-                                      <% } %>
-                                    <% } %>
+
+                                    <ul class="dynamic-form-input-dropdown-options" id="AddTeacherModalSubjects">
+                                   
                                     </ul>
+
                                   </div>
 
                                   <div class="form-group group form-group-right">

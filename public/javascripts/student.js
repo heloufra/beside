@@ -670,7 +670,8 @@ function displayExam(id) {
 	$('#ExamDetailModal').find('input').val(exams[id].Exam_Date);
 	$('#ExamDetailModal').find('textarea').val(exams[id].Exam_Deatils);
 }
- $('#student_form').find('input[name="level"]').on( "change", function() {
+
+$('#student_form').find('input[name="level"]').on( "change", function() {
   var value = $(this).val();
   if (value.replace(/\s/g, '') !== '')
   {
@@ -705,7 +706,7 @@ function displayExam(id) {
   }
 })
 
- $('#EditStudentModal input[name="level-detail"]').on( "change", function() {
+$('#EditStudentModal input[name="level-detail"]').on( "change", function() {
   var value = $(this).val();
   if (value.replace(/\s/g, '') !== '')
   {

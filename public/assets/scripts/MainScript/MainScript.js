@@ -1542,6 +1542,10 @@ $(document).ready(function(){
 
 			$dynamic_form_input = $("#AddTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .dynamic-form-input-dropdown-container").first().clone();
 
+			$dynamic_form_input.find("input").val("");
+
+			$dynamic_form_input.find(".input-text-subject-classes-select2 option").remove();
+
 			$dynamic_form_input.find(".input-text-subject-classes-select2").select2("destroy");
 
 			$dynamic_form_input.find(".select2").remove();
@@ -2980,6 +2984,10 @@ $(document).ready(function(){
 			$("#EditTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .dynamic-form-input-dropdown").removeClass("dynamic-form-input-first");
 
 			$dynamic_form_input = $("#EditTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .dynamic-form-input-dropdown-container").first().clone();
+
+			$dynamic_form_input.find("input").val("");
+
+			$dynamic_form_input.find(".input-text-subject-classes-select2 option").remove();
 
 			$dynamic_form_input.find(".input-text-subject-classes-select2").select2("destroy");
 
