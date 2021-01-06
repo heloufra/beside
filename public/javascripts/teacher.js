@@ -14,6 +14,7 @@ var exams = [];
 var filtredClass = [];
 $domChange = false;
 var olddata = [];
+var teacherSelectedSub = [];
 
 getAllteachers();
 
@@ -72,6 +73,7 @@ function getAllteachers(id) {
 
 function displayteacher(index) 
 {
+  teacherSelectedSub = [];
   $.ajax({
     type: 'get',
     url: '/Teachers/one',
@@ -115,13 +117,29 @@ function displayteacher(index)
 
   		for (var i = res.subjects.length - 1; i >= 0; i--) {
 
-  			var selected = "";
-  			var exist = "";
+
+	  		teacherSelectedSub.push(res.subjects[i].Subject_Label);
+
+			teacherSelectedSub = teacherSelectedSub.filter(function(item, pos) {
+				return teacherSelectedSub.indexOf(item) == pos;
+			});
+
+  			var selected    = "";
+  			var visibility  = "visibility";
+  			var exist 		= "";
   			
   			var allSubjects = "";
   			console.log("sub ",res.allsubjects);
+
   			for (var n = res.allsubjects.length - 1; n >= 0; n--) {
-  				allSubjects += '<li data-subjectid="'+res.allsubjects[n].Subject_ID+'" data-levelid="'+res.allsubjects[n].Level_ID+'" data-val="'+res.allsubjects[n].Subject_Label+'">'+res.allsubjects[n].Subject_Label+'</li>';
+
+  				if(teacherSelectedSub.includes(res.allsubjects[n].Subject_Label)){
+  					visibility  = "visibility";
+  				}else{
+  					visibility  = "";
+  				}
+
+  				allSubjects += '<li  class="'+visibility+'"  data-subjectid="'+res.allsubjects[n].Subject_ID+'" data-levelid="'+res.allsubjects[n].Level_ID+'" data-val="'+res.allsubjects[n].Subject_Label+'">'+res.allsubjects[n].Subject_Label+'</li>';
   			}
 
 	  		var classes = res.classes.filter(function (el) {
@@ -183,8 +201,8 @@ function displayteacher(index)
 	  		}
 	  		$('[data-select='+i+']').parents(".form-group-right").find(".input-label").addClass("input-label-move-to-top");
   		}
-  		
 
+  		/*********_______ filter unique subjects ________***********/
 		
   		absences = res.absences;
 		for (var i = res.absences.length - 1; i >= 0; i--) {
@@ -537,7 +555,35 @@ function updateAbsence() {
 })
 
 function subjectsChange(subject) {
-  var value = subject.value
+
+  var value = subject.value;
+
+  if($(subject).parents("#AddTeacherModal").length){
+
+  	$("#AddTeacherModal .dynamic-form-input-dropdown-options li").each(function(){
+  		if(value == $(this).text()){
+  			$(this).addClass("visibility");
+  		}else{
+  			$(this).removeClass("visibility");
+  		}
+  	});
+  	
+  }
+
+  if($(subject).parents("#EditTeacherModal").length){
+
+  	console.log("EditTeacherModal");
+
+  	$("#EditTeacherModal .dynamic-form-input-dropdown-options li").each(function(){
+  		if(value == $(this).text()){
+  			$(this).addClass("visibility");
+  		}else{
+  			$(this).removeClass("visibility");
+  		}
+  	});
+  	
+  }
+
   if (value.replace(/\s/g, '') !== '')
   {
   	$(subject).parents('.dynamic-form-input-dropdown').find('.list-classes').find('option').remove();
@@ -551,10 +597,8 @@ function subjectsChange(subject) {
 		    dataType: 'json'
 		  })
 		  .done(function(res){
-		  	if(res.errors)
-		  	{
-
-		  		console.log(res.errors)
+		  	if(res.errors){
+		  		console.log(res.errors);
 		  	} else {
 		  		var first_label = '';
 		  		for (var i = res.classes.length - 1; i >= 0; i--) {
@@ -569,6 +613,34 @@ function subjectsChange(subject) {
 		  });
   }
 }
+
+$(document).on("click","#AddTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags-container .input-dropdown",function(){
+
+	$("#AddTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags-container .input-dropdown").each(function(ind,elm){
+
+  		$("#AddTeacherModal .dynamic-form-input-dropdown-options li").each(function(){
+	  		if($(elm).val() == $(this).text()){
+	  			$(this).addClass("visibility");
+	  		}
+  		});
+
+  	});
+
+});
+
+$(document).on("click","#EditTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags-container .input-dropdown",function(){
+
+	$("#EditTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags-container .input-dropdown").each(function(ind,elm){
+
+  		$("#EditTeacherModal .dynamic-form-input-dropdown-options li").each(function(){
+	  		if($(elm).val() == $(this).text()){
+	  			$(this).addClass("visibility");
+	  		}
+  		});
+
+  	});
+
+});
 
 function saveteacher() {
 	console.log('Modal Origin');
@@ -646,7 +718,7 @@ function saveteacher() {
 				$('#output-img-teacher').attr("src",'assets/icons/Logo_placeholder.svg');
 
 				if (res.exist){
-					
+
 					location.reload();
 			  		/****************______getAllteachers()_____________**************/
 
