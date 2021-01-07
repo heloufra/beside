@@ -2840,7 +2840,7 @@ $(document).ready(function(){
 				display:"inline-block"
 			});
 
-			$(".custmized-tooltip-label-value").text($obj.Expence);
+			$(".custmized-tooltip-label-value").text(String($obj.Expence).replace("."," "));
 			$(".custmized-tooltip-amount-value").text($obj.Amount);
 			$(".custmized-tooltip-status-value").text($obj.Status);
 

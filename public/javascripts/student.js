@@ -340,6 +340,7 @@ $(document).on("click",".students_list",function(event){
 			}
 
 			htmlmonths += '<th scope="col" class="col-text-align month-row" '+style+'>'+months[i].slice(0,3)+'</th>';
+
 			for (var k = res.substudentpay.length - 1; k >= 0; k--) {
 				if (res.substudentpay[k].Expense_PaymentMethod === "Monthly"){
 					var endDate = new Date(res.substudentpay[k].Subscription_EndDate);
@@ -354,24 +355,28 @@ $(document).on("click",".students_list",function(event){
 						$("#Finance").find('[data-val="'+res.substudentpay[k].Expense_Label+'"]').append('<td data-id="'+res.substudentpay[k].SS_ID +"-"+months[i]+'" '+style+' scope="col" class="row-payment col-text-align "><img  src="assets/icons/check_red.svg" alt="states"/></td>');
 					}
 					else{
-						$("#Finance").find('[data-val="'+res.substudentpay[k].Expense_Label+'"]').append('<td data-id="'+res.substudentpay[k].SS_ID +"-"+months[i]+'" scope="col" class="row-payment col-text-align"></td>');
+						$("#Finance").find('[data-val="'+res.substudentpay[k].Expense_Label+'"]').append('<td data-id="'+res.substudentpay[k].SS_ID +"-"+months[i]+'" scope="col" class="row-payment col-text-align"><img  src="assets/icons/check_gray.svg" alt="states"/></td>');
 					}
 				}
 			}
+
 			for (var j = res.payStudent.length - 1; j >= 0; j--) {
-				if(res.payStudent[j].Expense_PaymentMethod === "Monthly")
-				{
-					if (res.payStudent[j].SP_PaidPeriod === months[i])
-					{
+
+				if(res.payStudent[j].Expense_PaymentMethod === "Monthly"){
+
+					if (res.payStudent[j].SP_PaidPeriod === months[i]){
 						unpaid -= parseInt(res.payStudent[j].Expense_Cost);
 						$("#Finance").find('[data-val="'+res.payStudent[j].Expense_Label+'"]').find('[data-id="'+res.payStudent[j].SS_ID+"-"+months[i]+'"]').html('<img src="assets/icons/check_green.svg" alt="states"/>');
 					}
 				}
 			}
-			if (i === indEnd)
+
+			if (i === indEnd){
 				break;
-			if (i === months.length - 1)
+			}
+			if (i === months.length - 1){
 				i = -1;
+			}
 		}
 
 		var yearlyExpense = res.payStudent.filter(function (el) {
