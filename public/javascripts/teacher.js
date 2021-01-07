@@ -7,7 +7,6 @@ var teacherId = 0;
 var absenceArray = ["Retard","Absence"];
 var noteTypes = ["Positive","Negative"];
 var subclasses = [];
-var subteacher = [];
 var homeworks = [];
 var attitudes = [];
 var exams = [];
@@ -15,6 +14,8 @@ var filtredClass = [];
 $domChange = false;
 var olddata = [];
 var teacherSelectedSub = [];
+
+var subject_list = [];
 
 getAllteachers();
 
@@ -107,6 +108,7 @@ function displayteacher(index)
 
 		var addTeacherModalSubjects = "";
   		console.log("sub ",res.allsubjects);
+  		subject_list = res.allsubjects;
 
   		for (var n = res.allsubjects.length - 1; n >= 0; n--) {
   			addTeacherModalSubjects += '<li data-subjectid="'+res.allsubjects[n].Subject_ID+'" data-levelid="'+res.allsubjects[n].Level_ID+'" data-val="'+res.allsubjects[n].Subject_Label+'">'+res.allsubjects[n].Subject_Label+'</li>';
@@ -130,6 +132,7 @@ function displayteacher(index)
   			
   			var allSubjects = "";
   			console.log("sub ",res.allsubjects);
+  			subject_list = res.allsubjects;
 
   			for (var n = res.allsubjects.length - 1; n >= 0; n--) {
 
@@ -251,6 +254,20 @@ function displayteacher(index)
 		$('#AddTeacherAbsenceModal').find('input[name="ad_classe"]').val(classeHTML);
 		$('#teacher_info').find('#Details').addClass("dom-change-watcher");
 		$('#EditTeacherModal').addClass("dom-change-watcher");
+
+		// Plus btn Toggle vivibility
+		subject_list_len = res.allsubjects.length;
+		dropdown = $("#EditTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags-container ").length;
+
+		console.log("dropdown ",dropdown);
+		console.log("subject_list_len ",subject_list_len);
+
+		if( dropdown == subject_list_len ){
+			$("#EditTeacherModal #Subject_Class_New_Dynamic_Form_Input").addClass("visibility");
+		}else{
+			$("#EditTeacherModal #Subject_Class_New_Dynamic_Form_Input").removeClass("visibility");
+		}
+		// End Plus btn Toggle vivibility
   	}
   });
 	//$('#EditAbsenceModal').find('input[name="edit-classe"]').val(result[0].Classe_Label);
@@ -581,6 +598,8 @@ function subjectsChange(subject) {
   	});
   	
   }
+
+
 
   if (value.replace(/\s/g, '') !== '')
   {
@@ -1011,3 +1030,201 @@ $(document).on("click",".sections-main-sub-container-right-main-header-option-li
 });	
 
 /*.sections-main-sub-container-right-main-header-option-list-span-edit __________________________*/
+
+/* #AddTeacherModal #Subject_Class_New_Dynamic_Form_Input _______________________*/
+
+	$(document).on("click","#AddTeacherModal #Subject_Class_New_Dynamic_Form_Input",function(){
+
+			console.log("subject_list ",subject_list);
+
+			$("#AddTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .dynamic-form-input-dropdown").removeClass("dynamic-form-input-first");
+
+			$dynamic_form_input = $("#AddTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .dynamic-form-input-dropdown-container").first().clone();
+
+			$dynamic_form_input.find("input").val("");
+
+			$dynamic_form_input.find(".input-text-subject-classes-select2 option").remove();
+
+			$dynamic_form_input.find(".input-text-subject-classes-select2").select2("destroy");
+
+			$dynamic_form_input.find(".select2").remove();
+
+			$dynamic_form_input.find(".input-label").removeClass("input-label-move-to-top");
+
+			$(this).parent().find(".sections-main-sub-container-right-main-rows-dropdown-tags-container").last().after($dynamic_form_input);
+
+			$(this).parents(".sections-main-sub-container-right-main-rows-dropdown-tags").find(".input-text-subject-classes-select2").select2({
+			  tags: true,
+			  dropdownPosition: 'below',
+	  		  placeholder: "Classes",
+	  		  minimumResultsForSearch: -1,
+	  		  templateResult: hideSelected
+			});
+
+
+			$(this).parents(".sections-main-sub-container-right-main-rows-dropdown-tags").find(".input-text-subject-classes-select2").on('select2:selecting', function (e) {
+
+				$(this).parents(".form-group-right").find(".input-label").addClass("input-label-move-to-top");
+
+			});
+
+			$(this).parents(".sections-main-sub-container-right-main-rows-dropdown-tags").find(".input-text-subject-classes-select2").on('select2:unselecting', function (e) {
+
+				if($(this).select2('data').length <= 1 ){
+					$(this).parents(".form-group-right").find(".input-label").removeClass("input-label-move-to-top");
+				}
+
+			});
+
+			subject_list_len = subject_list.length;
+			dropdown = $("#AddTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags-container ").length;
+
+			if( dropdown == subject_list_len ){
+				$("#AddTeacherModal #Subject_Class_New_Dynamic_Form_Input").addClass("visibility");
+			}else{
+				$("#AddTeacherModal #Subject_Class_New_Dynamic_Form_Input").removeClass("visibility");
+			}
+
+	});
+
+	$(document).on("click","#AddTeacherModal .square-button",function(){
+
+			$(this).parents(".dynamic-form-input-dropdown-container").remove();
+
+			// Subject toggle visibility
+			var value = $(this).parents(".dynamic-form-input-dropdown").find(".input-dropdown").val();
+			$("#AddTeacherModal .dynamic-form-input-dropdown-options li").each(function(){
+		  		if(value == $(this).text()){
+		  			$(this).removeClass("visibility");
+		  		}
+		  	});
+
+			// Plus btn Toggle vivibility
+		  	subject_list_len = subject_list.length;
+			dropdown = $("#AddTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags-container ").length;
+
+			if( dropdown == subject_list_len ){
+				$("#AddTeacherModal #Subject_Class_New_Dynamic_Form_Input").addClass("visibility");
+			}else{
+				$("#AddTeacherModal #Subject_Class_New_Dynamic_Form_Input").removeClass("visibility");
+			}
+
+			// Minus btn Toggle vivibility
+			if($("#AddTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .sections-main-sub-container-right-main-rows-dropdown-tags-container").length == 1 ){
+				$("#AddTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .sections-main-sub-container-right-main-rows-dropdown-tags-container .dynamic-form-input-dropdown").addClass("dynamic-form-input-first");
+			}
+		
+	});
+
+/* End #AddTeacherModal #Subject_Class_New_Dynamic_Form_Input _______________________*/
+
+/* #EditTeacherModal #Subject_Class_New_Dynamic_Form_Input _______________________*/
+
+	$(document).on("click","#EditTeacherModal #Subject_Class_New_Dynamic_Form_Input",function(){
+
+			$("#EditTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .dynamic-form-input-dropdown").removeClass("dynamic-form-input-first");
+
+			$dynamic_form_input = $("#EditTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .dynamic-form-input-dropdown-container").first().clone();
+
+			$dynamic_form_input.find("input").val("");
+
+			$dynamic_form_input.find(".input-text-subject-classes-select2 option").remove();
+
+			$dynamic_form_input.find(".input-text-subject-classes-select2").select2("destroy");
+
+			$dynamic_form_input.find(".select2").remove();
+
+			$dynamic_form_input.find(".input-label").removeClass("input-label-move-to-top");
+
+			$(this).parent().find(".sections-main-sub-container-right-main-rows-dropdown-tags-container").last().after($dynamic_form_input);
+
+			$(this).parents(".sections-main-sub-container-right-main-rows-dropdown-tags").find(".input-text-subject-classes-select2").select2({
+			  tags: true,
+			  dropdownPosition: 'below',
+	  		  placeholder: "Classes",
+	  		  minimumResultsForSearch: -1,
+	  		  templateResult: hideSelected
+			});
+
+
+			$(this).parents(".sections-main-sub-container-right-main-rows-dropdown-tags").find(".input-text-subject-classes-select2").on('select2:selecting', function (e) {
+
+				$(this).parents(".form-group-right").find(".input-label").addClass("input-label-move-to-top");
+
+			});
+
+			$(this).parents(".sections-main-sub-container-right-main-rows-dropdown-tags").find(".input-text-subject-classes-select2").on('select2:unselecting', function (e) {
+
+				if($(this).select2('data').length <= 1 ){
+					$(this).parents(".form-group-right").find(".input-label").removeClass("input-label-move-to-top");
+				}
+
+			});
+
+			// Plus btn Toggle vivibility
+		  	subject_list_len = subject_list.length;
+			dropdown = $("#EditTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags-container ").length;
+
+			if( dropdown == subject_list_len ){
+				$("#EditTeacherModal #Subject_Class_New_Dynamic_Form_Input").addClass("visibility");
+			}else{
+				$("#EditTeacherModal #Subject_Class_New_Dynamic_Form_Input").removeClass("visibility");
+			}
+			// End Plus btn Toggle vivibility
+
+	  		setTimeout(function(){
+	  			$(".modal-dom-change-watcher.in .modal-content").css("cssText","height:calc(100% - 72px) !important");
+	  			$(".modal-dom-change-watcher.in .modal-content").css("cssText","height:calc(100% - 72px) !important");
+	  		},25);
+
+	  		setTimeout(function(){
+	  			$(".modal.in .sub-container-form-footer").removeClass("hide-footer");
+				$(".modal.in .sub-container-form-footer").addClass("show-footer");
+	  		},50);
+
+	});
+
+	$(document).on("click","#EditTeacherModal .square-button",function(){
+
+
+
+			$(this).parents(".dynamic-form-input-dropdown-container").remove();
+
+			// Minus btn Toggle vivibility
+			if($("#EditTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .sections-main-sub-container-right-main-rows-dropdown-tags-container").length == 1 ){
+				$("#EditTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .sections-main-sub-container-right-main-rows-dropdown-tags-container .dynamic-form-input-dropdown").addClass("dynamic-form-input-first");
+			}  	
+
+			// Subject toggle visibility
+			var value = $(this).parents(".dynamic-form-input-dropdown").find(".input-dropdown").val();
+			$("#EditTeacherModal .dynamic-form-input-dropdown-options li").each(function(){
+		  		if(value == $(this).text()){
+		  			$(this).removeClass("visibility");
+		  		}
+		  	});	
+
+		  	// Plus btn Toggle vivibility
+		  	subject_list_len = subject_list.length;
+			dropdown = $("#EditTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags-container ").length;
+
+			if( dropdown == subject_list_len ){
+				$("#EditTeacherModal #Subject_Class_New_Dynamic_Form_Input").addClass("visibility");
+			}else{
+				$("#EditTeacherModal #Subject_Class_New_Dynamic_Form_Input").removeClass("visibility");
+			}
+			// End Plus btn Toggle vivibility
+
+			setTimeout(function(){
+	  			$(".modal-dom-change-watcher.in .modal-content").css("cssText","height:calc(100% - 72px) !important");
+	  			$(".modal-dom-change-watcher.in .modal-content").css("cssText","height:calc(100% - 72px) !important");
+	  		},25);
+
+	  		setTimeout(function(){
+	  			$(".modal.in .sub-container-form-footer").removeClass("hide-footer");
+				$(".modal.in .sub-container-form-footer").addClass("show-footer");
+	  		},50);
+		
+	});
+
+/* End #Details #Parents_New_Dynamic_Form_Input _______________________*/
+
