@@ -196,13 +196,18 @@ function displayteacher(index)
 			    	uniqueClasses.push(res.allClasses[j]);
 	  			}
 	  		}
+
 	  		for (var k = uniqueClasses.length - 1; k >= 0; k--) {
 	  			if (uniqueClasses[k].Subject_ID === res.subjects[i].Subject_ID){
 	  				var option = new Option(uniqueClasses[k].Classe_Label,uniqueClasses[k].Classe_ID, false, false);
     				$('.subjects-list').find('[data-select='+i+']').append(option).trigger('change');
     			}
 	  		}
+
+	  		console.log("res",res);
+
 	  		$('[data-select='+i+']').parents(".form-group-right").find(".input-label").addClass("input-label-move-to-top");
+	  		
   		}
 
   		/*********_______ filter unique subjects ________***********/

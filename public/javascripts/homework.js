@@ -2,6 +2,13 @@ getAllHomeworks();
 var homeworks = [];
 var homeworkId = 0;
 var ClasseFilter = [];
+var removedFiles = [];
+
+let inputFile = $('#EditHomeworkModal').find('input[name="upload_file"]');
+let button = $('#EditHomeworkModal .file-add-btn');
+let buttonSubmit = $('#mySubmitButton');
+let filesContainer = $('#EditHomeworkModal').find('.list-files');
+let files = [];
 
 function getAllHomeworks(id) {
  	$('.homework-row').remove();
@@ -41,9 +48,6 @@ function getAllHomeworks(id) {
 
 var fileData = null;
 
-
-
-
 $('#AddHomeworkModal').find('input[name="upload_file_modal"]').on( "change", function() {
 	if ($(this).val().replace(/\s/g, '') !== '')
 	{
@@ -54,18 +58,50 @@ $('#AddHomeworkModal').find('input[name="upload_file_modal"]').on( "change", fun
 				$('#AddHomeworkModal').find('.file-container .progress-bar').css('width', '100%').attr('aria-valuenow', 100); 
 			},500);
 	}
-})
+});
 
 $('#EditHomeworkModal').find('input[name="upload_file"]').on( "change", function() {
+
 	if ($(this).val().replace(/\s/g, '') !== '')
 	{
-		console.log('File Val',$(this).val());
-		$('#EditHomeworkModal').find('.file-upload').addClass('file-container-visibility');
-	 	$('#EditHomeworkModal').find('.list-files').append('<div class="file-container file-upload"> <div class="file-icon-label"> <img class="file-icon" src="assets/icons/file.svg" alt="file"/> <span class="file-label">'+$(this).val().split("\\")[2]+'</span> </div> <img class="file-close" onclick="discardFile()" src="assets/icons/close-gray.svg" alt="close"/> <div class="progress"> <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"> </div> </div> </div>');
-	 	setTimeout(function(){
+		/**************************************/
+
+			let newFiles = []; 
+		    for(let index = 0; index < inputFile[0].files.length; index++) {
+		      let file = inputFile[0].files[index];
+		      newFiles.push(file);
+		      files.push(file);
+		    }
+		    
+		    newFiles.forEach(file => {
+
+		      let fileElement = $(`<div class="file-container file-upload"> <div class="file-icon-label"> <img class="file-icon" src="assets/icons/file.svg" alt="file"/> <span class="file-label">`+$(this).val().split("\\")[2]+`</span> </div> <img class="file-close" onclick="discardFile(this)" src="assets/icons/close-gray.svg" alt="close"/> <div class="progress"> <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"> </div> </div> </div>`);
+
+		      fileElement.data('fileData', file);
+		      filesContainer.append(fileElement);
+
+		      setTimeout(function(){
 				$('#EditHomeworkModal').find('.file-container .progress-bar').css('width', '100%').attr('aria-valuenow', 100); 
-			},500);
+			  },500);
+		      
+		      // Remove Uploaded file By Click
+		      console.log("fileElement",$(fileElement).find(".file-close"));
+		      $(fileElement).find(".file-close").bind("click",function(event) {
+		        let fileElement = $(event.target).parent("file-upload");
+		        let indexToRemove = files.indexOf(fileElement.data('fileData'));
+		        files.splice(indexToRemove, 1);
+		        alert(indexToRemove);
+		        event.preventDefault();
+		        event.stopPropagation();
+		        return false;
+		      });
+
+		    });
+
+		/**************************************/
+
 	}
+
 })
 
 function discardFileModal() {
@@ -73,9 +109,8 @@ function discardFileModal() {
 	$('#AddHomeworkModal').find('#upload_file_modal').val(null);
 }
 
-function discardFile() {
-	$('#EditHomeworkModal').find('.file-upload').addClass('file-container-visibility');
-	$('#EditHomeworkModal').find('input[name="upload_file"]').val(null); 
+function discardFile(this_elm) {
+	$(this_elm).parents('.file-upload').remove();
 }
 
 function saveHomework() {
@@ -175,12 +210,23 @@ function saveHomework() {
     formData.append('homework_name', $('#EditHomeworkModal').find('input[name="homework_name"]').val());
     formData.append('homework_date', $('#EditHomeworkModal').find('input[name="homework_date"]').val());
     formData.append('homework_description', $('#EditHomeworkModal').find('#homework_description').val());
-    formData.append('file', $('#EditHomeworkModal').find('input[name="upload_file"]').prop('files')[0]);
+
+    if(removedFiles.length != 0){
+    	formData.append('removedFiles', removedFiles );
+    }
+
+    //formData.append('file', $('#EditHomeworkModal').find('input[name="upload_file"]').prop('files')[0]);
+
+ 	files.forEach((fl) => {
+      formData.append("file",fl);
+    });
+
 	$.ajax({
 	    type: 'post',
 	    url: '/Homeworks/update',
 	    data: formData,
 	    processData: false,
+	    cache: false,
         contentType: false
 
 	  })
@@ -189,6 +235,9 @@ function saveHomework() {
 	  	{
 	  			getAllHomeworks(homeworkId);
 	  			$('#EditHomeworkModal').modal('hide');
+	  			removedFiles = [];
+	  			files = [];
+	  			console.log(res);
 	  	} else {
 	  		console.log(res);
 	  	}
@@ -247,31 +296,34 @@ function displayHomework(index)
 	  		$('#EditHomeworkModal').find('.file-upload').addClass('file-container-visibility');
 	  		for (var i = res.homeworkFiles.length - 1; i >= 0; i--) {
 	  			$('#homework_info').find('.list-files').prepend('<a style="text-decoration: none; color: inherit;" download href="'+res.homeworkFiles[i].Homework_Link+'"><div class="file-container file-loaded file-forms"> <div class="file-icon-label"> <img class="file-icon" src="assets/icons/file.svg" alt="file"/> <span class="file-label">'+res.homeworkFiles[i].Homework_Title+'</span> </div></div></a>');
-	  			$('#EditHomeworkModal').find('.list-files').prepend('<a style="text-decoration: none; color: inherit;" download href="'+res.homeworkFiles[i].Homework_Link+'"><div class="file-container file-loaded file-forms"> <div class="file-icon-label"> <img class="file-icon" src="assets/icons/file.svg" alt="file"/> <span class="file-label">'+res.homeworkFiles[i].Homework_Title+'</span> </div><img class="file-close" onclick="removeFile('+res.homeworkFiles[i].HA_ID+')" src="assets/icons/close-gray.svg" alt="close"/> </div></a>');
+	  			$('#EditHomeworkModal').find('.list-files').prepend('<a style="text-decoration: none; color: inherit;" download href="'+res.homeworkFiles[i].Homework_Link+'"><div class="file-container file-loaded file-forms"> <div class="file-icon-label"> <img class="file-icon" src="assets/icons/file.svg" alt="file"/> <span class="file-label">'+res.homeworkFiles[i].Homework_Title+'</span> </div><img class="file-close" onclick="removeFile('+res.homeworkFiles[i].HA_ID+',this);return false" src="assets/icons/close-gray.svg" alt="close"/> </div></a>');
 	  		}
-	  		$('#EditHomeworkModal').addClass("dom-change-watcher");
+	  		$('#EditHomeworkModal').addClass("dom-change-watcher"); 
   		}
   	}
   });
 }
 
-function removeFile(id) {
-	$.ajax({
-		    type: 'post',
-		    url: '/Homeworks/file/remove',
-		    data: {
-		    	id:id
-		    },
-		    dataType: 'json'
-		  })
-		  .done(function(res){
-		  	if(res.removed)
-		  	{
-		  		displayHomework(homeworkId);
-		  	} else {
-		  		console.log(res);
-		  	}
-		  });
+function removeFile(id,this_elm) {
+
+	console.log("id",id);
+	console.log("this_elm ",this_elm);
+
+	$(this_elm).parents(".file-loaded").find('input').val(null);
+	$(this_elm).parents(".file-loaded").remove();
+
+	$(".sub-container-form-footer").addClass("show-footer");
+	$(".modal-dom-change-watcher.in .modal-content").css("cssText","height:calc(100% - 72px) !important");
+
+	$domChange=true;
+	setTimeout(function(){
+		$(".sub-container-form-footer").removeClass("hide-footer");
+	});
+
+	removedFiles.push(id);
+
+	return false;
+
 }
 
 $('input[name="filter-classe"]').on( "change", function() {

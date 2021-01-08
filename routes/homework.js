@@ -11,6 +11,6 @@ router.get('/all', homeworkController.getHomeworks);
 router.get('/one', homeworkController.getHomework);
 router.post('/remove',authTeacher, homeworkController.deleteHomework);
 router.post('/file/remove',authTeacher, homeworkController.deleteFileHomework);
-router.post('/update',[authTeacher,upload.single('file')], homeworkController.updateHomework);
+router.post('/update',[authTeacher,upload.array('file')], homeworkController.updateHomework);
 
 module.exports = router;

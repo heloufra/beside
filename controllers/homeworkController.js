@@ -134,34 +134,81 @@ var homeworkController = {
      })
   },
   updateHomework: function(req, res, next) {
-    connection.query("UPDATE `homeworks` SET `Homework_Title` = ?,`Homework_Deatils` = ?, `Homework_DeliveryDate` = ? WHERE Homework_ID = ?", [req.body.homework_name,req.body.homework_description,req.body.homework_date,req.body.id], (err, student, fields) => {
-      if (req.file)
-        connection.query(homeworkFileQuery, [req.body.id,req.file.path.replace(/\\/g, "/").replace('public',''),req.body.homework_name + '-' + req.file.originalname], (err, homeworkfile, fields) => {
-         if (err) {
-              console.log(err);
-                res.json({
-                  errors: [{
-                  field: "Access denied",
-                  errorDesc: "List homeworks Error"
-                }]});
-            } else 
-            {
-              res.json({updated : true});
-            }
-       })
-      else
-        if (err) {
-              console.log(err);
-                res.json({
-                  errors: [{
-                  field: "Access denied",
-                  errorDesc: "List homeworks Error"
-                }]});
-            } else 
-            {
-              res.json({updated : true});
-            }
-    })
+
+    removedFilesErrorHandler = [] ;
+    uploadFilesErrorHandler = [] ;
+
+    // Remove Seleted Files
+
+    if(req.body.removedFiles){
+
+      let removedFiles = String(req.body.removedFiles).split(",");
+
+      for(var f = 0 ; f < removedFiles.length ; f++ ){
+          connection.query("UPDATE `homeworks_attachement` SET `HA_Status` = 0 WHERE `HA_ID` = ?", [removedFiles[f]], (err, files, fields) => {
+                if (err) {
+                  console.log(err);
+                    removedFilesErrorHandler.push({
+                      errors: [{
+                      field: "Access denied",
+                      errorDesc: "Cannot Remove it"
+                    }]
+                  });
+                } else {
+                  //res.json({removed : true , });
+                }
+         })
+      }
+
+    }
+
+    if(removedFilesErrorHandler.length == 0){
+
+        connection.query("UPDATE `homeworks` SET `Homework_Title` = ?,`Homework_Deatils` = ?, `Homework_DeliveryDate` = ? WHERE Homework_ID = ?", [req.body.homework_name,req.body.homework_description,req.body.homework_date,req.body.id], (err, student, fields) => {
+
+          if (req.files){
+
+            for(var f = 0 ; f < req.files.length ; f++){
+
+                    connection.query(homeworkFileQuery, [req.body.id,String(req.files[f].path).replace(/\\/g, "/").replace('public',''),req.body.homework_name + '-' + req.files[f].originalname], (err, homeworkfile, fields) => {
+                    if (err) {
+                        uploadFilesErrorHandler.push({
+                            errors: [{
+                            field: "Access denied",
+                            errorDesc: "Cannot Remove it"
+                          }]
+                        });
+                    } else {
+                      
+                    }
+               })
+
+           }
+
+           res.json({updated : true , removedFilesErrorHandler , uploadFilesErrorHandler , removedFiles : typeof(removedFiles) , files:req.files , if:"if" });
+
+          } else {
+            if (err) {
+                  console.log(err);
+                    res.json({
+                      errors: [{
+                      field: "Access denied",
+                      errorDesc: "List homeworks Error"
+                    }]});
+                } else 
+                {
+                  res.json({updated : true , removedFilesErrorHandler , uploadFilesErrorHandler , else:"else"});
+                }
+          }
+        })
+    }else{
+        res.json({
+          errors: [{
+          field: "Access denied",
+          errorDesc: "Cannot Remove it"
+        }]});
+    }
+
   },
 };
 

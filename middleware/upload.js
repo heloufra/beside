@@ -4,6 +4,7 @@ var storage = multer.diskStorage({
         cb(null, './public/assets/files/homework_attachement');
      },
     filename: function (req, file, cb) {
+    	console.log("file multer ",file);
         cb(null ,Date.now() + '-'+ file.originalname);
     }
 });
