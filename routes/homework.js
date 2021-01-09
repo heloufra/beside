@@ -6,7 +6,7 @@ var multer  = require('multer')
 var upload  = require('../middleware/upload');
 
 router.get('/', homeworkController.homeworkView);
-router.post('/save',[authTeacher,upload.single('file')], homeworkController.saveHomework);
+router.post('/save',[authTeacher,upload.array('file')], homeworkController.saveHomework);
 router.get('/all', homeworkController.getHomeworks);
 router.get('/one', homeworkController.getHomework);
 router.post('/remove',authTeacher, homeworkController.deleteHomework);

@@ -2,7 +2,7 @@ var connection  = require('../lib/db');
 var homeworkQuery = `INSERT INTO homeworks(TSC_ID,  Homework_Title, Homework_Deatils, Homework_DeliveryDate,Homework_Status) VALUES(?,?,?,?,1)`;
 var homeworkFileQuery = `INSERT INTO homeworks_attachement(Homework_ID, Homework_Link, Homework_Title, HA_Status) VALUES(?,?,?,1)`;
 var selectHomeworks = 'SELECT DISTINCT homeworks.*,classes.Classe_Label,subjects.Subject_Label,subjects.Subject_Color,users.User_Name FROM `institutionsusers` INNER JOIN users ON institutionsusers.User_ID = users.User_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Teacher_ID = users.User_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN homeworks ON homeworks.TSC_ID = teachersubjectsclasses.TSC_ID WHERE homeworks.Homework_Status <> "0" AND teachersubjectsclasses.AY_ID = ?';
-var selectHomeworksTeacher = 'SELECT DISTINCT homeworks.*,classes.Classe_Label,subjects.Subject_Label,subjects.Subject_Color,users.User_Name FROM `institutionsusers` INNER JOIN users ON institutionsusers.User_ID = users.User_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Teacher_ID = users.User_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN homeworks ON homeworks.TSC_ID = teachersubjectsclasses.TSC_ID WHERE homeworks.Homework_Status <> "0" AND teachersubjectsclasses.AY_ID = ? AND teachersubjectsclasses.Teacher_ID = ?';
+var selectHomeworksTeacher = 'SELECT DISTINCT homeworks.*,classes.Classe_Label,subjects.Subject_Label,subjects.Subject_Color,users.User_Name FROM `institutionsusers` INNER JOIN users ON institutionsusers.User_ID = users.User_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Teacher_ID = users.User_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN homeworks ON homeworks.TSC_ID = teachersubjectsclasses.TSC_ID WHERE homeworks.Homework_Status <> "0" AND teachersubjectsclasses.AY_ID = ? AND teachersubjectsclasses.Teacher_ID = ? order by homeworks.Homework_ID desc ';
 var selectHomework = 'SELECT homeworks.*,classes.Classe_Label,subjects.Subject_Label,subjects.Subject_Color,users.User_Name FROM `institutionsusers` INNER JOIN users ON institutionsusers.User_ID = users.User_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Teacher_ID = users.User_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN homeworks ON homeworks.TSC_ID = teachersubjectsclasses.TSC_ID WHERE homeworks.Homework_Status <> "0" AND institutionsusers.Institution_ID = ? AND homeworks.Homework_ID = ?';
 var selectHomeworkFiles = 'SELECT * FROM homeworks_attachement WHERE HA_Status <> "0" AND  Homework_ID = ?';
 var teacherModel  = require('../models/teacherModel');
@@ -42,21 +42,28 @@ var homeworkController = {
         {
 
           connection.query(homeworkQuery, [tsc[0].TSC_ID,  req.body.homework_name,  req.body.homework_description, req.body.homework_deliverydate], (err, homework, fields) => {
-            if (req.file)
-              connection.query(homeworkFileQuery, [homework.insertId,req.file.path.replace(/\\/g, "/").replace('public',''),req.body.homework_name + '-' + req.file.originalname], (err, homeworkfile, fields) => {
-               if (err) {
-                    console.log(err);
-                      res.json({
-                        errors: [{
-                        field: "Access denied",
-                        errorDesc: "List homeworks Error"
-                      }]});
-                  } else 
-                  {
-                    res.json({saved : true});
-                  }
-              })
-            else
+
+            if (req.files){
+
+              for(var f = 0 ; f < req.files.length ; f++){
+                connection.query(homeworkFileQuery, [homework.insertId,req.files[f].path.replace(/\\/g, "/").replace('public',''),req.body.homework_name + '-' + req.files[f].originalname], (err, homeworkfile, fields) => {
+                 if (err) {
+                      console.log(err);
+                        res.json({
+                          errors: [{
+                          field: "Access denied",
+                          errorDesc: "List homeworks Error"
+                        }]});
+                    } else 
+                    {
+                      //res.json({saved : true});
+                    }
+                })
+              }
+
+              res.json({saved : true});
+
+            }else{
               if (err) {
                     console.log(err);
                       res.json({
@@ -68,6 +75,7 @@ var homeworkController = {
                   {
                     res.json({saved : true});
                   }
+            }
           })
         }
       })
