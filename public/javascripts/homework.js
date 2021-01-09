@@ -67,6 +67,7 @@ $('#EditHomeworkModal').find('input[name="upload_file"]').on( "change", function
 		/**************************************/
 
 			let newFiles = []; 
+
 		    for(let index = 0; index < inputFile[0].files.length; index++) {
 		      let file = inputFile[0].files[index];
 		      newFiles.push(file);
@@ -77,25 +78,14 @@ $('#EditHomeworkModal').find('input[name="upload_file"]').on( "change", function
 
 		      let fileElement = $(`<div class="file-container file-upload"> <div class="file-icon-label"> <img class="file-icon" src="assets/icons/file.svg" alt="file"/> <span class="file-label">`+$(this).val().split("\\")[2]+`</span> </div> <img class="file-close" onclick="discardFile(this)" src="assets/icons/close-gray.svg" alt="close"/> <div class="progress"> <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"> </div> </div> </div>`);
 
-		      fileElement.data('fileData', file);
+		      fileElement.attr('data-fileData', file);
+
 		      filesContainer.append(fileElement);
 
 		      setTimeout(function(){
 				$('#EditHomeworkModal').find('.file-container .progress-bar').css('width', '100%').attr('aria-valuenow', 100); 
 			  },500);
 		      
-		      // Remove Uploaded file By Click
-		      console.log("fileElement",$(fileElement).find(".file-close"));
-		      $(fileElement).find(".file-close").bind("click",function(event) {
-		        let fileElement = $(event.target).parent("file-upload");
-		        let indexToRemove = files.indexOf(fileElement.data('fileData'));
-		        files.splice(indexToRemove, 1);
-		        alert(indexToRemove);
-		        event.preventDefault();
-		        event.stopPropagation();
-		        return false;
-		      });
-
 		    });
 
 		/**************************************/
@@ -110,6 +100,10 @@ function discardFileModal() {
 }
 
 function discardFile(this_elm) {
+
+	file_to_remove = $(this_elm).parents('.file-upload').attr("data-filedata");
+	let indexToRemove = files.indexOf(file_to_remove);
+	files.splice(indexToRemove, 1);
 	$(this_elm).parents('.file-upload').remove();
 }
 
