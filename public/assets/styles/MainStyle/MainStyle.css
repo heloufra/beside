@@ -2753,6 +2753,20 @@ form{
     background-repeat: no-repeat;
 }
 
+.dom-change-watcher-disabled * , 
+.dom-change-watcher-disabled .select2-selection.select2-selection--multiple ,
+ .dom-change-watcher-disabled .select2 {
+	cursor: default !important;
+}
+
+.dom-change-watcher-disabled .file-loaded , 
+.dom-change-watcher-disabled .file-icon ,
+.dom-change-watcher-disabled .file-label{
+	cursor: pointer !important;
+}
+
+
+
 .dom-change-watcher-disabled .customCheck label:before , .dom-change-watcher-disabled .customCheck label:after{
 	top: 0px !important;
 	z-index: 2;
@@ -3982,6 +3996,10 @@ table td img {
 .sections-main-sub-container-right-main-rows-dropdown-tags .select2-container--default.select2-container--focus .select2-selection--multiple{
 	padding-bottom: 0px !important;
 	cursor: pointer !important;
+}
+
+.dom-change-watcher-disabled .sections-main-sub-container-right-main-rows-dropdown-tags .select2-container--default.select2-container--focus .select2-selection--multiple{
+	cursor: default !important;
 }
 
 .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable,
