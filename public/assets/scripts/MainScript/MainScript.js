@@ -14,8 +14,10 @@ $upActiveTab  = "";
 $dataLoadingTimingDetails = 800 ;
 $dataLoadingTimingSide    = 500 ;
 
-$headerInfo = ".sections-main-sub-container-right-main-header-info" ;
-$sideSelector = ".sections-main-sub-container-left-card-container";
+$mainContainer = ".sections-main-sub-container-right-main";
+$headerInfo    = ".sections-main-sub-container-right-main-header" ;
+$sideSelector  = ".sections-main-sub-container-left-card-container";
+
 
 /* input change watcher Component ______________________*/
 (function($){
@@ -63,7 +65,7 @@ function FormatAMPM(date) {
 
 $html_old = ``;
 
-function no_Result_FeedBack($Header,$SubHeader,$Icon){
+function no_Result_FeedBack($HeaderFeedBack,$SubHeaderFeedBack,$IconFeedBack){
 
   	$html = ``;
 
@@ -71,15 +73,17 @@ function no_Result_FeedBack($Header,$SubHeader,$Icon){
 			      <div class="main-no-result-container">
 			          <div class="sub-no-result-container">
 			            <div class="sub-no-result-header-container">
-			              <h4 class="sub-no-result-header">`+$Header+`</h4>
-			              <p class="sub-no-result-sub-header">`+$SubHeader+`</p>
+			              <h4 class="sub-no-result-header">`+$HeaderFeedBack+`</h4>
+			              <p class="sub-no-result-sub-header visibility">`+$SubHeaderFeedBack+`</p>
 			            </div>
-			            <img class="sub-no-result-img" src="assets/icons/states_icons/`+$Icon+`" alt="404"/>
+			            <img class="sub-no-result-img" src="assets/icons/states_icons/`+$IconFeedBack+`" alt="404"/>
 			          </div>
 			      </div>
 			  <!-- End main-container -->`;
 
    	$(".sections-main-sub-container-left-card-container").html($html);
+
+   	$($mainContainer).addClass("visibility");
 
 }
 
@@ -87,6 +91,7 @@ function no_Result_FeedBack($Header,$SubHeader,$Icon){
 
 
 function remove_No_Result_FeedBack(){
+	$($mainContainer).removeClass("visibility");
 	$(".sections-main-sub-container-left-card-container").find(".main-no-result-container").remove();
 }
 
@@ -809,6 +814,9 @@ $(document).ready(function(){
 		}
 
 		$this.closest(".form-group").find(".input-dropdown").val(" ");
+		$this.closest(".form-group").find(".input-dropdown").attr("data-val","");
+
+		$this.closest(".form-group").find(".input-dropdown").attr("data-val",$text);
 
 		$this.parent().find(".dynamic-form-input-dropdown-options").css({"opacity":"0"});
 
@@ -821,7 +829,6 @@ $(document).ready(function(){
 
 				setTimeout(function(){
 					$this.closest(".form-group").find(".input-dropdown").val($text);
-					$this.closest(".form-group").find(".input-dropdown").attr("data-val",$text);
 				},180);
 
 			},5);
@@ -829,7 +836,6 @@ $(document).ready(function(){
 			
 		}else{
 			$this.closest(".form-group").find(".input-dropdown").val($text);
-			$this.closest(".form-group").find(".input-dropdown").attr("data-val",$text);
 		}
 
 		$(this).parents(".dynamic-form-input-dropdown-container").find(".button-icon").removeClass("caret-rotate");

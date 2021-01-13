@@ -450,17 +450,17 @@ $('input[name="filter-classe"]').on( "change", function() {
 
 })
 
-$('.homework-filters').on( "change", function() {
+$('.homework-filters').on("change", function() {
 
-		var subjectVal = $('input[name="filter-subject"]').attr("data-val");
-	  	var classeVal  = $('input[name="filter-classe"]').attr("data-val");
-	  	
+		var subjectVal = $('.sections-main-sub-container-left-search-bar  input[name="filter-subject"]').attr("data-val");
+	  	var classeVal  = $('.sections-main-sub-container-left-search-bar  input[name="filter-classe"]').attr("data-val");
+	  	var dynamicListRows = '' ;
+
 	  	var value = $(this).attr("data-val");
-		
-		console.log("homeworks",homeworks);
 
 		if (value.replace(/\s/g, '') !== ''){
 
+			remove_No_Result_FeedBack();
 		  	addSideBarLoadingAnimation($sideSelector);
 
 		  	$('#list_homeworks').find('.homework-row').remove();
@@ -470,20 +470,15 @@ $('.homework-filters').on( "change", function() {
 		  	if( classeVal == "All" && subjectVal == "All") {
 
 		  		homeworksPrev = homeworks;
-		  		console.log("All All");
 
-		  	} else {
+		  	}else{
 
 		  		if( classeVal != "All" && subjectVal != "All"){
 		  			homeworksPrev = homeworks.filter(h => h.Classe_Label == classeVal && h.Subject_Label == subjectVal );
-		  			console.log("Classed Subject");
-
 		  		}else if(classeVal !== "All" ){
 		  			homeworksPrev = homeworks.filter(h => h.Classe_Label == classeVal );
-		  			console.log("Classes");
 		  		}else if(subjectVal !== "All" ){
 		  			homeworksPrev = homeworks.filter(h => h.Subject_Label == subjectVal );
-		  			console.log("Subject");
 		  		}
 
 		  	}
@@ -503,11 +498,23 @@ $('.homework-filters').on( "change", function() {
 				}
 
 
-				$('#list_homeworks').append('<div data-id="'+homeworksPrev[i].Homework_ID+'" class="sections-main-sub-container-left-card homework-row '+active+'"><input name="homeworkId" type="hidden" value="'+homeworksPrev[i].Homework_ID+'"> <div class="sections-main-sub-container-left-card-main-img-text" data-style="background: '+homeworksPrev[i].Subject_Color+';" >'+homeworksPrev[i].Subject_Label.slice(0,2)+'</div> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+homeworksPrev[i].Homework_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+homeworksPrev[i].Subject_Label+' - '+homeworksPrev[i].Classe_Label+' - '+name.first_name + ' ' + name.last_name+' </span> </div> </div>');
+				dynamicListRows += '<div data-id="'+homeworksPrev[i].Homework_ID+'" class="sections-main-sub-container-left-card homework-row '+active+'"><input name="homeworkId" type="hidden" value="'+homeworksPrev[i].Homework_ID+'"> <div class="sections-main-sub-container-left-card-main-img-text" data-style="background: '+homeworksPrev[i].Subject_Color+';" >'+homeworksPrev[i].Subject_Label.slice(0,2)+'</div> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+homeworksPrev[i].Homework_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+homeworksPrev[i].Subject_Label+' - '+homeworksPrev[i].Classe_Label+' - '+name.first_name + ' ' + name.last_name+' </span> </div> </div>';
 
 				removeSideBarLoadingAnimation($sideSelector);
 			}
 		}
+
+		if(homeworksPrev.length > 0 ){
+			$($sideSelector).append(dynamicListRows);
+		}else{
+			$HeaderFeedBack = "No result found!";
+			$SubHeaderFeedBack = "";
+			$IconFeedBack = "404_students.png";
+			no_Result_FeedBack($HeaderFeedBack,$SubHeaderFeedBack,$IconFeedBack);
+		}
+
+		removeSideBarLoadingAnimation($sideSelector);
+
 });
 
 

@@ -5388,6 +5388,9 @@ table td img {
 
 .file-container .file-label{
 	font-size: 13px;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .file-container .file-icon-label{
@@ -5395,6 +5398,7 @@ table td img {
     align-items: center;
     position: relative;
     z-index: 2;
+    width: 100%;
 }
 
 .file-container .file-icon-close{
@@ -7291,6 +7295,10 @@ table td img {
 	background-size: 400%;
 	-webkit-animation: loading_animation ease-out 2s infinite;
 	animation: loading_animation ease-out 2s infinite;
+}
+
+.data-loading .sections-main-sub-container-right-main-header-option-icon{
+	opacity: 0 !important;
 }
 
 .data-loading .sections-main-sub-container-left-card .sections-main-sub-container-left-card-sub-info{
