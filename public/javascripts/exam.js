@@ -2,7 +2,13 @@ getAllExams();
 var exams = [];
 var examId = 0;
 var ClasseFilter = [];
+
+let $detailsSelector = "#ExamsDetails";
+
 function getAllExams(id) {
+
+	dynamicListRows = '';
+
  	$('.exam-row').remove();
 	$.ajax({
 	    type: 'get',
@@ -26,14 +32,36 @@ function getAllExams(id) {
 	  		}
 	  		var active = '';
 	  		var name = '';
+
+	  		remove_No_Result_FeedBack();
+	  		addSideBarLoadingAnimation($sideSelector);
+
 	  		for (var i = 0; i <= res.exams.length - 1; i++) {
-	  			if (i === 0)
+
+	  			if (i === 0){
 	  				active = 'active';
-	  			else
+	  			}
+	  			else{
 	  				active = '';
-	  			name = JSON.parse(res.exams[i].User_Name)
-	  			$('#list_exams').append('<div class="sections-main-sub-container-left-card exam-row '+active+'"><input name="examId" type="hidden" value="'+res.exams[i].Exam_ID+'"> <div class="sections-main-sub-container-left-card-main-img-text" style="background: '+res.exams[i].Subject_Color+';" >'+res.exams[i].Subject_Label.slice(0,2)+'</div> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+res.exams[i].Exam_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+res.exams[i].Subject_Label+' - '+res.exams[i].Classe_Label+' - '+name.first_name + ' ' + name.last_name+' </span> </div> </div>')
+	  			}
+
+	  			name = JSON.parse(res.exams[i].User_Name);
+
+	  			dynamicListRows += '<div class="sections-main-sub-container-left-card exam-row '+active+'"><input name="examId" type="hidden" value="'+res.exams[i].Exam_ID+'"> <div class="sections-main-sub-container-left-card-main-img-text" data-style="background: '+res.exams[i].Subject_Color+';" >'+res.exams[i].Subject_Label.slice(0,2)+'</div> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+res.exams[i].Exam_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+res.exams[i].Subject_Label+' - '+res.exams[i].Classe_Label+' - '+name.first_name + ' ' + name.last_name+' </span> </div> </div>';
 	  		}
+
+
+		  	if(res.exams.length > 0 ){
+				$('#list_exams').append(dynamicListRows);
+			}else{
+				$HeaderFeedBack = "No result found !";
+				$SubHeaderFeedBack = "";
+				$IconFeedBack = "404_students.png";
+				no_Result_FeedBack($HeaderFeedBack,$SubHeaderFeedBack,$IconFeedBack);
+			}
+
+			removeSideBarLoadingAnimation($sideSelector);
+
 	  	}
 	  });
  }
@@ -127,6 +155,8 @@ function saveExam() {
 
 function displayExam(index) 
 {
+
+	addLoadingAnimation($detailsSelector,$headerInfo);
 	$('#ExamsDetails').removeClass("dom-change-watcher");
 	$('#EditExamModal').removeClass("dom-change-watcher");
 	$('.row-score').remove();
@@ -141,8 +171,11 @@ function displayExam(index)
   .done(function(res){
   	if(res.errors)
   	{
-  		console.log(res.errors)
+  		console.log(res.errors);
+  		removeLoadingAnimation($detailsSelector,$headerInfo);
   	} else {
+
+  		removeLoadingAnimation($detailsSelector,$headerInfo);
   		if (res.exam[0])
   		{
   			var readonly = "";
@@ -265,42 +298,70 @@ function isJson(str) {
     return true;
 }
 
-$('.exam-filters').on( "change", function() {
-	var subjectVal = $('input[name="filter-subject"]').val();
-  	var classeVal = $('input[name="filter-classe"]').val();
-	var filtred,filtredClass = [];
-  var value = $(this).val();
-  if (value.replace(/\s/g, '') !== '')
-  {
-  	$('#list_exams').find('.exam-row').remove();
-	filtredClass = exams.filter(function (el) {
-			  return el.Classe_Label === classeVal ;
-			});
-	if (classeVal === "All" || classeVal.replace(/\s/g, '') === 'Classes' )
-		filtredClass = exams;
-	filtred = filtredClass.filter(function (el) {
-			  return el.Subject_Label === subjectVal ;
-			});
-	if (subjectVal === "All" || subjectVal.replace(/\s/g, '') === 'Subject')
-		filtred = filtredClass;
+$('.exam-filters').on("change", function() {
 
-	var active,name = '';
-	for (var i = filtred.length - 1; i >= 0; i--) {
-		if (isJson(filtred[i].User_Name))
-			name = JSON.parse(filtred[i].User_Name);
-		else
-			name = filtred[i].User_Name;
-		if (i === filtred.length - 1)
-		{
-			displayExam(filtred[i].Exam_ID);
-			active = 'active';
+		var subjectVal = $('.sections-main-sub-container-left-search-bar  input[name="filter-subject"]').attr("data-val");
+	  	var classeVal  = $('.sections-main-sub-container-left-search-bar  input[name="filter-classe"]').attr("data-val");
+
+	  	var dynamicListRows = '' ;
+
+	  	var value = $(this).attr("data-val");
+
+		if (value.replace(/\s/g, '') !== ''){
+
+			remove_No_Result_FeedBack();
+		  	addSideBarLoadingAnimation($sideSelector);
+
+		  	if( classeVal == "All" && subjectVal == "All") {
+
+		  		examsPrev = exams;
+
+		  	}else{
+
+		  		if( classeVal != "All" && subjectVal != "All"){
+		  			examsPrev = exams.filter(ex => ex.Classe_Label == classeVal && ex.Subject_Label == subjectVal );
+		  		}else if(classeVal !== "All" ){
+		  			examsPrev = exams.filter(ex => ex.Classe_Label == classeVal );
+		  		}else if(subjectVal !== "All" ){
+		  			examsPrev = exams.filter(ex => ex.Subject_Label == subjectVal );
+		  		}
+
+		  	}
+		  	
+			var active,name = '';
+
+			for (var i = examsPrev.length - 1; i >= 0; i--) {
+
+				name = JSON.parse(examsPrev[i].User_Name);
+
+				if (i === examsPrev.length - 1)
+				{
+					displayExam(examsPrev[i].Exam_ID);
+					active = 'active';
+				}
+				else{
+					active = '';
+				}
+
+
+				dynamicListRows += '<div data-id="'+examsPrev[i].Exam_ID+'" class="sections-main-sub-container-left-card homework-row '+active+'"><input name="homeworkId" type="hidden" value="'+examsPrev[i].Exam_ID+'"> <div class="sections-main-sub-container-left-card-main-img-text" data-style="background: '+examsPrev[i].Subject_Color+';" >'+examsPrev[i].Subject_Label.slice(0,2)+'</div> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+examsPrev[i].Exam_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+examsPrev[i].Subject_Label+' - '+examsPrev[i].Classe_Label+' - '+name.first_name + ' ' + name.last_name+' </span> </div> </div>';
+
+				removeSideBarLoadingAnimation($sideSelector);
+			}
 		}
-		else
-			active = '';
-		$('#list_exams').append('<div class="sections-main-sub-container-left-card exam-row '+active+'"><input name="examId" type="hidden" value="'+filtred[i].Exam_ID+'"> <div class="sections-main-sub-container-left-card-main-img-text" style="background: '+filtred[i].Subject_Color+';" >'+filtred[i].Subject_Label.slice(0,2)+'</div> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+filtred[i].Exam_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+filtred[i].Subject_Label+' - '+filtred[i].Classe_Label+' - '+name.first_name + ' ' + name.last_name+' </span> </div> </div>')
-	}
-  }
-})
+
+		if(examsPrev.length > 0 ){
+			$($sideSelector).append(dynamicListRows);
+		}else{
+			$HeaderFeedBack = "No result found !";
+			$SubHeaderFeedBack = "";
+			$IconFeedBack = "404_students.png";
+			no_Result_FeedBack($HeaderFeedBack,$SubHeaderFeedBack,$IconFeedBack);
+		}
+
+		removeSideBarLoadingAnimation($sideSelector);
+
+});
 
 $('.select-classe').on( "change", function() {
   var value = $(this).val();
@@ -330,29 +391,63 @@ $('.select-classe').on( "change", function() {
   }
 })
 
- function saveChange() {
-	$.ajax({
-	    type: 'post',
-	    url: '/Exams/update',
-	    data: {
-	    	id:examId,
-	    	exam_name:$('#EditExamModal').find('input[name="exam_name"]').val(),
-  			exam_date:$('#EditExamModal').find('input[name="exam_date"]').val(),
-  			exam_description:$('#EditExamModal').find('#exam_description').val(),
-	    },
-	    dataType: 'json'
-	  })
-	  .done(function(res){
-	  	if(res.updated)
-	  	{
+ function saveChange($this_elm) {
+
+ 	var exam_name = $('#EditExamModal').find('input[name="exam_name"]').val();
+ 	var exam_date = $('#EditExamModal').find('input[name="exam_date"]').val();
+ 	var exam_description =  $('#EditExamModal').find('#exam_description').val();
+
+	if (!exam_name){
+		$('#EditExamModal').find('.exam_name').css("border-color", "#f6b8c1");
+	}
+	else{
+		$('#EditExamModal').find('.exam_name').css("border-color", "#EFEFEF");
+	}
+
+	if (!exam_date){
+		$('#EditExamModal').find('.exam_date').css("border-color", "#f6b8c1");
+	}
+	else{
+		$('#EditExamModal').find('.exam_date').css("border-color", "#EFEFEF");
+	}
+
+	if (!exam_description){
+		$('#EditExamModal').find('#exam_description').css("border-color", "#f6b8c1");
+	}
+	else{
+		$('#EditExamModal').find('#exam_description').css("border-color", "#EFEFEF");
+	}
+
+	if (exam_name && exam_description && exam_date ){
+
+		action_Btn_loading($this_elm);
+
+		$.ajax({
+		    type: 'post',
+		    url: '/Exams/update',
+		    data: {
+		    	id:examId,
+		    	exam_name:$('#EditExamModal').find('input[name="exam_name"]').val(),
+	  			exam_date:$('#EditExamModal').find('input[name="exam_date"]').val(),
+	  			exam_description:$('#EditExamModal').find('#exam_description').val(),
+		    },
+		    dataType: 'json'
+		  })
+		  .done(function(res){
+		  	if(res.updated)
+		  	{
 	  			getAllExams(examId);
+	  			remove_action_Btn_loading($this_elm);
 	  			$('#EditExamModal').modal('hide');
-	  	} else {
-	  		console.log(res);
-	  	}
-	  });
- 	$('#EditExamModal .sub-container-form-footer').addClass('hide-footer');
- 	$('#EditExamModal .sub-container-form-footer').removeClass('show-footer');
+	  			$('#EditExamModal .sub-container-form-footer').addClass('hide-footer');
+	 			$('#EditExamModal .sub-container-form-footer').removeClass('show-footer');
+		  	} else {
+		  		console.log(res);
+		  	}
+		  });
+	 	
+	}
+
  }
 
  function discardChange() {

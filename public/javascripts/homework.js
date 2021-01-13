@@ -19,6 +19,7 @@ let filesAdd = [];
 let $detailsSelector = "#HomeworkDetails";
 
 function getAllHomeworks(id) {
+	dynamicListRows = '';
  	$('.homework-row').remove();
 	$.ajax({
 	    type: 'get',
@@ -48,7 +49,8 @@ function getAllHomeworks(id) {
 	  		var active = '';
 	  		var name = '';
 
-	  		addSideBarLoadingAnimation($sideSelector)
+	  		remove_No_Result_FeedBack();
+	  		addSideBarLoadingAnimation($sideSelector);
 
 	  		for (var i = 0; i <= res.homeworks.length - 1; i++) {
 
@@ -62,10 +64,19 @@ function getAllHomeworks(id) {
 	  			name = JSON.parse(res.homeworks[i].User_Name);
 	  			console.log("color "+res.homeworks[i].Subject_Label.slice(0,2)+"-"+res.homeworks[i].Subject_Color);
 
-	  			$('#list_homeworks').append('<div data-id="'+res.homeworks[i].Homework_ID+'" class="sections-main-sub-container-left-card homework-row '+active+'"><input name="homeworkId" type="hidden" value="'+res.homeworks[i].Homework_ID+'"> <div class="sections-main-sub-container-left-card-main-img-text" data-style="background: '+res.homeworks[i].Subject_Color+';" >'+res.homeworks[i].Subject_Label.slice(0,2)+'</div> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+res.homeworks[i].Homework_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+res.homeworks[i].Subject_Label+' - '+res.homeworks[i].Classe_Label+' - '+name.first_name+' '+ name.last_name+' </span> </div> </div>');
+	  			dynamicListRows+='<div data-id="'+res.homeworks[i].Homework_ID+'" class="sections-main-sub-container-left-card homework-row '+active+'"><input name="homeworkId" type="hidden" value="'+res.homeworks[i].Homework_ID+'"> <div class="sections-main-sub-container-left-card-main-img-text" data-style="background: '+res.homeworks[i].Subject_Color+';" >'+res.homeworks[i].Subject_Label.slice(0,2)+'</div> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+res.homeworks[i].Homework_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+res.homeworks[i].Subject_Label+' - '+res.homeworks[i].Classe_Label+' - '+name.first_name+' '+ name.last_name+' </span> </div> </div>';
 	  		}
 
-	  		removeSideBarLoadingAnimation($sideSelector);
+	  		if(res.homeworks.length > 0 ){
+				$('#list_homeworks').append(dynamicListRows);
+			}else{
+				$HeaderFeedBack = "No result found !";
+				$SubHeaderFeedBack = "";
+				$IconFeedBack = "404_students.png";
+				no_Result_FeedBack($HeaderFeedBack,$SubHeaderFeedBack,$IconFeedBack);
+			}
+
+			removeSideBarLoadingAnimation($sideSelector);
 	  	}
 	  });
  }
@@ -364,7 +375,7 @@ function displayHomework(index)
   	} else {
 
 		removeLoadingAnimation($detailsSelector,$headerInfo);
-  		console.log(res.homeworkFiles)
+
   		if (res.homework[0])
   		{
   			var name = JSON.parse(res.homework[0].User_Name);
@@ -462,10 +473,6 @@ $('.homework-filters').on("change", function() {
 
 			remove_No_Result_FeedBack();
 		  	addSideBarLoadingAnimation($sideSelector);
-
-		  	$('#list_homeworks').find('.homework-row').remove();
-
-		  	console.log("data-val" , subjectVal +" _ "+ classeVal);
 
 		  	if( classeVal == "All" && subjectVal == "All") {
 
