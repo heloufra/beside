@@ -514,7 +514,7 @@ $('.homework-filters').on("change", function() {
 		if(homeworksPrev.length > 0 ){
 			$($sideSelector).append(dynamicListRows);
 		}else{
-			$HeaderFeedBack = "No result found!";
+			$HeaderFeedBack = "No result found !";
 			$SubHeaderFeedBack = "";
 			$IconFeedBack = "404_students.png";
 			no_Result_FeedBack($HeaderFeedBack,$SubHeaderFeedBack,$IconFeedBack);

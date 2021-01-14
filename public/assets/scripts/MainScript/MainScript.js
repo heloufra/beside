@@ -159,22 +159,36 @@ function removeLoadingAnimation($detailsSelector,$headerInfo){
 /* addSideBarLoadingAnimation _________________________________*/
 
 function addSideBarLoadingAnimation($sideSelector){
+
 	$($sideSelector).addClass("data-loading");
+
 	$($headerInfo).find(".sections-main-sub-container-left-card-main-img-text").attr("style","");
 }
 
 /* removeSideBarLoadingAnimation _________________________________*/
 
 function removeSideBarLoadingAnimation($sideSelector){
+
 	setTimeout(function(){
 
 	  	$($sideSelector).removeClass("data-loading");
 
 	  	$(".sections-main-sub-container-left-card-main-img-text").each(function($ind,$elm){
+
 	  		$($elm).attr("style",$($elm).attr("data-style"));
+
+	  		if($($elm).siblings("img.sections-main-sub-container-left-card-main-img").length > 0 ){
+	  			$($elm).addClass("hide-loading-helper");
+	  		}
+	  		
 	  	});
 
+	  	$($sideSelector).find(".sections-main-sub-container-left-card-main-img").each(function(ind,elem){
+			$(elem).removeClass("visibility");
+		});
+
 	},$dataLoadingTimingSide);
+
 }
 
 
@@ -229,6 +243,15 @@ function Convert_Fr_En($date_){
 
 		return phoneReg.test(phone);
 
+	}
+
+	function internationalPhoneValidator(phone) {
+
+	    //var regex = /([0-9\s\-]{7,})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$/;
+
+	    //return regex.test(phone);
+
+	    return true ;
 	}
 
 	function priceValidator(price) {
@@ -2240,6 +2263,7 @@ $(document).ready(function(){
 			}else{
 				$(this).siblings(".icon").attr("src","assets/icons/sidebar_icons/close.svg");
 				$(this).siblings(".icon").addClass("input-text-empty");
+				$(".dynamic-form-input-dropdown-options-search").css("display","none");
 			}
 		});
 
@@ -2252,6 +2276,10 @@ $(document).ready(function(){
 				$(this).siblings(".input-text").val("");
 				$(this).siblings(".input-text").removeAttr("readonly");
 				$(this).removeClass("input-text-empty");
+				$(".dynamic-form-input-dropdown-options-search").css("display","none");
+				event.preventDefault();
+				event.stopPropagation();
+				return false;
 		});
 
 	/* End input-text-empty ________________________*/
@@ -3318,6 +3346,8 @@ $(document).ready(function(){
 		$(".form-group-search .button-icon").attr("src","assets/icons/sidebar_icons/close.svg");
 
 		$(".form-group-search .button-icon").addClass("input-text-empty");
+
+		$(".dynamic-form-input-dropdown-options-search").css("display","none");
 
 		event.preventDefault();
 		event.stopPropagation();

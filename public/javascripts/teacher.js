@@ -17,9 +17,13 @@ var teacherSelectedSub = [];
 
 var subject_list = [];
 
+let $detailsSelector = "#Details";
+
 getAllteachers();
 
 function getAllteachers(id) {
+
+	dynamicListRows = [];
 
  	$('.row-teacher').remove();
 
@@ -42,6 +46,10 @@ function getAllteachers(id) {
 	  			displayteacher(res.teachers[res.teachers.length - 1].teacher.User_ID);
 	  		}
 	  		var active = '';
+
+	  		remove_No_Result_FeedBack();
+	  		addSideBarLoadingAnimation($sideSelector);
+
 	  		for (var i = res.teachers.length - 1; i >= 0; i--) {
 	  			if (id){
 	  				if(res.teachers[i].teacher.User_ID === id){
@@ -63,17 +71,32 @@ function getAllteachers(id) {
 	  			var html = '';
 
   				for (var j = res.teachers[i].classes.length - 1; j >= 0; j--) {
-  					html += res.teachers[i].classes[j].Classe_Label + " ";
+  					html += res.teachers[i].classes[j].Classe_Label + " , ";
   				}
 
-	  			$('#list_teachers').append('<div class="'+active+' sections-main-sub-container-left-card row-teacher"><img class="sections-main-sub-container-left-card-main-img" src="'+res.teachers[i].teacher.User_Image+'" alt="card-img"><input name="teacherId" type="hidden" value="'+res.teachers[i].teacher.User_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+name.first_name+' '+name.last_name+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+html+'</span></div></div>')
+	  			dynamicListRows += '<div class="'+active+' sections-main-sub-container-left-card row-teacher"><img class="sections-main-sub-container-left-card-main-img" src="'+res.teachers[i].teacher.User_Image+'" alt="card-img"><span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper"></span><input name="teacherId" type="hidden" value="'+res.teachers[i].teacher.User_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+name.first_name+' '+name.last_name+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+html+'</span></div></div>' ;
 	  		}
+
+
+	  		if(res.teachers.length > 0 ){
+				$('#list_teachers').append(dynamicListRows);
+			}else{
+				$HeaderFeedBack = "No result found !";
+				$SubHeaderFeedBack = "";
+				$IconFeedBack = "404_students.png";
+				no_Result_FeedBack($HeaderFeedBack,$SubHeaderFeedBack,$IconFeedBack);
+			}
+
+	  		removeSideBarLoadingAnimation($sideSelector);
+
 	  	}
 	  });
 }
 
 function displayteacher(index) 
 {
+
+  addLoadingAnimation($detailsSelector,$headerInfo);
   teacherSelectedSub = [];
   $.ajax({
     type: 'get',
@@ -86,8 +109,11 @@ function displayteacher(index)
   .done(function(res){
   	if(res.errors)
   	{
-  		console.log(res.errors)
+  		console.log(res.errors);
+  		removeLoadingAnimation($detailsSelector,$headerInfo);
   	} else {
+
+  		removeLoadingAnimation($detailsSelector,$headerInfo);
   		$('#Absence').find('.row-absence').remove();
 		$("#reported_table").addClass('hidden');
 	  	$("#reported_title").addClass('hidden');
@@ -204,8 +230,6 @@ function displayteacher(index)
     			}
 	  		}
 
-	  		console.log("res",res);
-
 	  		$('[data-select='+i+']').parents(".form-group-right").find(".input-label").addClass("input-label-move-to-top");
 	  		
   		}
@@ -213,21 +237,27 @@ function displayteacher(index)
   		/*********_______ filter unique subjects ________***********/
 		
   		absences = res.absences;
-		for (var i = res.absences.length - 1; i >= 0; i--) {
-			var fromto = JSON.parse(res.absences[i].AD_FromTo)
-			if (res.absences[i].AD_Type === 2)
-			{
-				$("#reported_table").removeClass('hidden');
-  				$("#reported_title").removeClass('hidden');
-				$('#Absence').find('.table_reported').append('<tr class="row-absence" id="absence-'+res.absences[i].AD_ID+'"> <td data-label="Subject name" class="td-label">Absence</td> <td class="readonly" data-label="From"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.from+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="To"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.to+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> <!-- table-option-list --> <img class="table-option-icon" src="assets/icons/options.svg"> <div class="table-option-list"> <div class="table-option-list-li table-option-list-li-edit " onClick="displayAbsence('+i+')" data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/edit.svg" alt="edit"/> <span class="table-option-list-span">Edit</span> </div> <div class="table-option-list-li table-option-list-li-delete " data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/delete.svg" alt="delete"/> <span class="table-option-list-span">Delete</span> </div> <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg"> </div> <!-- End table-option-list --> </td> </tr>');
+  		if(res.absences.length > 0 ){
+			for (var i = res.absences.length - 1; i >= 0; i--) {
+				var fromto = JSON.parse(res.absences[i].AD_FromTo)
+				if (res.absences[i].AD_Type === 2)
+				{
+					$("#reported_table").removeClass('hidden');
+	  				$("#reported_title").removeClass('hidden');
+					$('#Absence').find('.table_reported').append('<tr class="row-absence" id="absence-'+res.absences[i].AD_ID+'"> <td data-label="Subject name" class="td-label">Absence</td> <td class="readonly" data-label="From"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.from+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="To"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.to+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> <!-- table-option-list --> <img class="table-option-icon" src="assets/icons/options.svg"> <div class="table-option-list"> <div class="table-option-list-li table-option-list-li-edit " onClick="displayAbsence('+i+')" data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/edit.svg" alt="edit"/> <span class="table-option-list-span">Edit</span> </div> <div class="table-option-list-li table-option-list-li-delete " data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/delete.svg" alt="delete"/> <span class="table-option-list-span">Delete</span> </div> <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg"> </div> <!-- End table-option-list --> </td> </tr>');
+				}
+				else
+				{
+					$("#absence_table").removeClass('hidden');
+	  				$("#absence_title").removeClass('hidden');
+					$('#Absence').find('.table_delay').append('<tr class="row-absence" id="absence-'+res.absences[i].AD_ID+'"> <td data-label="Subject name" class="td-label">'+absenceArray[res.absences[i].AD_Type]+'</td> <td class="readonly" data-label="From"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.from+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg"> </div> </td> <td class="readonly" data-label="To"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.to+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg"> </div> </td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+res.absences[i].AD_Date+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> <!-- table-option-list --> <img class="table-option-icon" src="assets/icons/options.svg"> <div class="table-option-list"> <div class="table-option-list-li table-option-list-li-edit " onClick="displayAbsence('+i+')" data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/edit.svg" alt="edit"/> <span class="table-option-list-span">Edit</span> </div> <div class="table-option-list-li table-option-list-li-delete " data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/delete.svg" alt="delete"/> <span class="table-option-list-span">Delete</span> </div> <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg"> </div> <!-- End table-option-list --> </td> </tr>');
+				}
 			}
-			else
-			{
-				$("#absence_table").removeClass('hidden');
-  				$("#absence_title").removeClass('hidden');
-				$('#Absence').find('.table_delay').append('<tr class="row-absence" id="absence-'+res.absences[i].AD_ID+'"> <td data-label="Subject name" class="td-label">'+absenceArray[res.absences[i].AD_Type]+'</td> <td class="readonly" data-label="From"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.from+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg"> </div> </td> <td class="readonly" data-label="To"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.to+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg"> </div> </td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+res.absences[i].AD_Date+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> <!-- table-option-list --> <img class="table-option-icon" src="assets/icons/options.svg"> <div class="table-option-list"> <div class="table-option-list-li table-option-list-li-edit " onClick="displayAbsence('+i+')" data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/edit.svg" alt="edit"/> <span class="table-option-list-span">Edit</span> </div> <div class="table-option-list-li table-option-list-li-delete " data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/delete.svg" alt="delete"/> <span class="table-option-list-span">Delete</span> </div> <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg"> </div> <!-- End table-option-list --> </td> </tr>');
-			}
+		}else{
+			$("#reported_table").removeClass('hidden');
+	  		$("#reported_title").removeClass('hidden');
 		}
+
 		$('#teacher_info').removeClass('hidden');
 		var name = JSON.parse(result[0].teacher.User_Name);
 		
@@ -263,9 +293,6 @@ function displayteacher(index)
 		// Plus btn Toggle vivibility
 		subject_list_len = res.allsubjects.length;
 		dropdown = $("#EditTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags-container ").length;
-
-		console.log("dropdown ",dropdown);
-		console.log("subject_list_len ",subject_list_len);
 
 		if( dropdown == subject_list_len ){
 			$("#EditTeacherModal #Subject_Class_New_Dynamic_Form_Input").addClass("visibility");
@@ -343,60 +370,110 @@ function readFileDetail() {
   
 }
 
-document.getElementById("img-profile").addEventListener("change", readFileDetail);
+$('.teacher-filters').on("change", function() {
 
-$('#teacher-leftSide').find('.teacher-filters').on( "change", function() {
-	var subjectVal = $('#teacher-leftSide').find('input[name="filter-subject"]').val();
-  	var classeVal = $('#teacher-leftSide').find('input[name=classe]').val();
-	var filtred,filtredClass = [];
-  var value = $(this).val();
-  if (value.replace(/\s/g, '') !== '')
-  {
-  	$('.row-teacher').remove();
-  	console.log("Teachers",teachers);
-	filtredClass = teachers.filter(function (el) {
-			  return el.classes.some(classe => classe.Classe_Label === classeVal);
-			});
-	if (classeVal === "All" || classeVal.replace(/\s/g, '') === 'Classes' )
-		filtredClass = teachers;
-	filtred = filtredClass.filter(function (el) {
-			  return el.subjects.some(subject => subject.Subject_Label === subjectVal);
-			});
-	if (subjectVal === "All" || subjectVal.replace(/\s/g, '') === 'Subjects')
-		filtred = filtredClass;
+		var subjectVal = $('#teacher-leftSide').find('input[name="filter-subject"]').attr("data-val");
+	  	var classeVal  = $('#teacher-leftSide').find('input[name=classe]').attr("data-val");
 
-	var active = '';
-	for (var i = filtred.length - 1; i >= 0; i--) {
-		if (i === filtred.length - 1)
-		{
-			displayteacher(filtred[i].teacher.User_ID);
-			active = 'active';
-		} else
-			active = '';
-		var name = JSON.parse(filtred[i].teacher.User_Name);
-		var html = '';
-		for (var j = filtred[i].classes.length - 1; j >= 0; j--) {
-			html += filtred[i].classes[j].Classe_Label + " ";
+	  	var dynamicListRows = '' ;
+
+	  	var value = $(this).attr("data-val");
+
+		if (value.replace(/\s/g, '') !== ''){
+
+			remove_No_Result_FeedBack();
+		  	addSideBarLoadingAnimation($sideSelector);
+
+		  	console.log(teachers);
+
+		  	if( classeVal == "All" && subjectVal == "All") {
+
+		  		teacherPrev = teachers;
+
+		  	}else{
+
+		  		if( classeVal != "All" && subjectVal != "All"){
+
+		  			teacherPrev = teachers.filter((t) => {
+		  			  	return t.classes.some(c => c.Classe_Label == classeVal )
+		  			});
+
+		  			teacherPrev = teachers.filter((t) => {
+		  			  	return t.subjects.some(s => s.Subject_Label == subjectVal ) 
+		  			});
+	
+		  		}else if(classeVal != "All" ){
+		  			teacherPrev = teachers.filter((t) => {
+		  			  	return t.classes.some(c => c.Classe_Label == classeVal )
+		  			});
+		  		}else if(subjectVal != "All" ){
+		  			teacherPrev = teachers.filter((t) => {
+		  			  	return t.subjects.some(s => s.Subject_Label == subjectVal ) 
+		  			});
+		  		}
+
+		  	}
+		  	
+			var active,name = '';
+
+			for (var i = teacherPrev.length - 1; i >= 0; i--) {
+
+				name = JSON.parse(teacherPrev[i].teacher.User_Name);
+
+				if (i === teacherPrev.length - 1)
+				{
+					displayteacher(teacherPrev[i].teacher.User_ID);
+					active = 'active';
+				}
+				else{
+					active = '';
+				}
+
+				var html = '';
+				for (var j = teacherPrev[i].classes.length - 1; j >= 0; j--) {
+					html += teacherPrev[i].classes[j].Classe_Label + " , ";
+				}
+
+				html.trim(",");
+
+				dynamicListRows += '<div class="'+active+' sections-main-sub-container-left-card row-teacher"><img class="sections-main-sub-container-left-card-main-img" src="'+teacherPrev[i].teacher.User_Image+'" alt="card-img"><span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper"></span><input name="teacherId" type="hidden" value="'+teacherPrev[i].teacher.User_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+name.first_name+' '+name.last_name+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+html+'</span></div></div>';
+
+				removeSideBarLoadingAnimation($sideSelector);
+			}
 		}
-	  	$('#list_teachers').append('<div class="'+active+' sections-main-sub-container-left-card row-teacher"><img class="sections-main-sub-container-left-card-main-img" src="'+filtred[i].teacher.User_Image+'" alt="card-img"><input name="teacherId" type="hidden" value="'+filtred[i].teacher.User_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+name.first_name+' '+name.last_name+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+html+'</span></div></div>')
-	}
-  }
-})
 
+		if(teacherPrev.length > 0 ){
+			$($sideSelector).append(dynamicListRows);
+		}else{
+			$HeaderFeedBack = "No result found !";
+			$SubHeaderFeedBack = "";
+			$IconFeedBack = "404_students.png";
+			no_Result_FeedBack($HeaderFeedBack,$SubHeaderFeedBack,$IconFeedBack);
+		}
+
+		removeSideBarLoadingAnimation($sideSelector);
+
+});
 
 document.getElementById("search-teacher").addEventListener('input', function (evt) {
+
+  dynamicListRows = '';
+  remove_No_Result_FeedBack();
+  addSideBarLoadingAnimation($sideSelector);
     
-    $('.row-teacher').remove();
-    var active = '';
-  if (this.value.replace(/\s/g, '') !== '')
-  {
+  $('.row-teacher').remove();
+  var active = '';
+
+  if (this.value.replace(/\s/g, '') !== ''){
+
   	var value = new RegExp(this.value.toLowerCase().replace(/\s/g, ''));
 	var filtred = teachers.filter(function (el) {
 				var name = JSON.parse(el.teacher.User_Name)
 				var forname = name.first_name.toLowerCase()+name.last_name.toLowerCase();
 				var backname = name.last_name.toLowerCase()+name.first_name.toLowerCase();
 			  return forname.match(value) || backname.match(value);
-			});
+	});
+
 	for (var i = filtred.length - 1; i >= 0; i--) {
 		if (i === filtred.length - 1)
 		{
@@ -409,25 +486,107 @@ document.getElementById("search-teacher").addEventListener('input', function (ev
 		for (var j = filtred[i].classes.length - 1; j >= 0; j--) {
 			html += filtred[i].classes[j].Classe_Label + " ";
 		}
-	  	$('#list_teachers').append('<div class="'+active+' sections-main-sub-container-left-card row-teacher"><img class="sections-main-sub-container-left-card-main-img" src="'+filtred[i].teacher.User_Image+'" alt="card-img"><input name="teacherId" type="hidden" value="'+filtred[i].teacher.User_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+name.first_name+' '+name.last_name+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+html+'</span></div></div>')
+	  	
+	  	dynamicListRows +='<div class="'+active+' sections-main-sub-container-left-card row-teacher"><img class="sections-main-sub-container-left-card-main-img" src="'+filtred[i].teacher.User_Image+'" alt="card-img"><span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper"></span><input name="teacherId" type="hidden" value="'+filtred[i].teacher.User_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+name.first_name+' '+name.last_name+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+html+'</span></div></div>';
 	}
+
   } else {
-  	for (var i = filtredClass.length - 1; i >= 0; i--) {
-		if (i === filtredClass.length - 1)
+
+
+  	var filtred = teachers;
+
+	for (var i = filtred.length - 1; i >= 0; i--) {
+		if (i === filtred.length - 1)
 		{
-			displayteacher(filtredClass[i].teacher.User_ID);
+			displayteacher(filtred[i].teacher.User_ID);
 			active = 'active';
 		} else
 			active = '';
-		var name = JSON.parse(filtredClass[i].teacher.User_Name);
+		var name = JSON.parse(filtred[i].teacher.User_Name);
 		var html = '';
-		for (var j = filtredClass[i].classes.length - 1; j >= 0; j--) {
-			html += filtredClass[i].classes[j].Classe_Label + " ";
+		for (var j = filtred[i].classes.length - 1; j >= 0; j--) {
+			html += filtred[i].classes[j].Classe_Label + " ";
 		}
-	  	$('#list_teachers').append('<div class="'+active+' sections-main-sub-container-left-card row-teacher"><img class="sections-main-sub-container-left-card-main-img" src="'+filtredClass[i].teacher.User_Image+'" alt="card-img"><input name="teacherId" type="hidden" value="'+filtredClass[i].teacher.User_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+name.first_name+' '+name.last_name+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+html+'</span></div></div>')
+	  	
+	  	dynamicListRows +='<div class="'+active+' sections-main-sub-container-left-card row-teacher"><img class="sections-main-sub-container-left-card-main-img" src="'+filtred[i].teacher.User_Image+'" alt="card-img"><span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper"></span><input name="teacherId" type="hidden" value="'+filtred[i].teacher.User_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+name.first_name+' '+name.last_name+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+html+'</span></div></div>';
 	}
+
   }
+
+
+	if(filtred.length > 0 ){
+		$('#list_teachers').append(dynamicListRows);
+	}else{
+		$HeaderFeedBack = "No result found !";
+		$SubHeaderFeedBack = "";
+		$IconFeedBack = "404_students.png";
+		no_Result_FeedBack($HeaderFeedBack,$SubHeaderFeedBack,$IconFeedBack);
+	}
+
+	removeSideBarLoadingAnimation($sideSelector);
+
 });
+
+/* input-text-empty ________________________*/
+
+	$(document).on("click",".form-group-search-filter .caret-rotate-reset",function(event){
+
+			$(this).attr("src","assets/icons/sidebar_icons/search.svg");
+
+			$(this).siblings(".input-text").removeAttr("readonly");
+			$(this).removeClass("input-text-empty");
+			$(".dynamic-form-input-dropdown-options-search").css("display","none");
+			$(this).siblings(".input-text").val("");
+
+			$(document).trigger("click");
+
+			/*************************************************************************/
+
+
+					dynamicListRows = '';
+					remove_No_Result_FeedBack();
+					addSideBarLoadingAnimation($sideSelector);
+
+			  		var filtred = teachers;
+
+					for (var i = filtred.length - 1; i >= 0; i--) {
+						if (i === filtred.length - 1)
+						{
+							displayteacher(filtred[i].teacher.User_ID);
+							active = 'active';
+						} else
+							active = '';
+						var name = JSON.parse(filtred[i].teacher.User_Name);
+						var html = '';
+						for (var j = filtred[i].classes.length - 1; j >= 0; j--) {
+							html += filtred[i].classes[j].Classe_Label + " ";
+						}
+					  	
+					  	dynamicListRows +='<div class="'+active+' sections-main-sub-container-left-card row-teacher"><img class="sections-main-sub-container-left-card-main-img" src="'+filtred[i].teacher.User_Image+'" alt="card-img"><span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper"></span><input name="teacherId" type="hidden" value="'+filtred[i].teacher.User_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+name.first_name+' '+name.last_name+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+html+'</span></div></div>';
+					}
+
+
+					if(filtred.length > 0 ){
+						$('#list_teachers').append(dynamicListRows);
+					}else{
+						$HeaderFeedBack = "No result found !";
+						$SubHeaderFeedBack = "";
+						$IconFeedBack = "404_students.png";
+						no_Result_FeedBack($HeaderFeedBack,$SubHeaderFeedBack,$IconFeedBack);
+					}
+
+					removeSideBarLoadingAnimation($sideSelector);
+
+			/*************************************************************************/
+
+
+			event.preventDefault();
+			event.stopPropagation();
+
+			return false;
+	});
+
+/* End input-text-empty ________________________*/
 
 $(document).on("click",".row-teacher",function(event){
 	if (!$("#ChangesModal").hasClass('in'))
@@ -665,50 +824,110 @@ $(document).on("click","#EditTeacherModal .sections-main-sub-container-right-mai
 });
 
 function saveteacher() {
-	console.log('Modal Origin');
-	var first_name = $('#teacher_form').find('input[name="first_name"]').val();
-	var email = $('#teacher_form').find('input[name="email"]').val();
-	var teacher_address = $('#teacher_form').find('input[name="teacher_address"]').val();
-	var teacher_gender = $('#teacher_form').find('input[name="teacher_gender"]').val();
-	var profile_image = $('#teacher_form').find('input[name="profile_image"]').val();
-	var last_name = $('#teacher_form').find('input[name="last_name"]').val();
-	var phone_number = $('#teacher_form').find('input[name="phone_number"]').val();
-	var birthdate = $('#teacher_form').find('input[name="birthdate"]').val();
-	var subjects =  $('#teacher_form').find('input[name^=subject]').map(function(idx, elem) {
-		if ($(elem).val())
-	    	return {subject: $('#teacher_form').find('[data-val='+$(elem).val()+']').data('subjectid'),classes:$(this).closest('.dynamic-form-input-float-adjust').find('select').val()};
-	  }).get();
+
+	var first_name = $('#AddTeacherModal').find('input[name="first_name"]').val();
+	var email = $('#AddTeacherModal').find('input[name="email"]').val();
+	var teacher_address = $('#AddTeacherModal').find('input[name="teacher_address"]').val();
+	var teacher_gender = $('#AddTeacherModal').find('input[name="teacher_gender"]').val();
+	var profile_image = $('#AddTeacherModal').find('input[name="profile_image"]').val();
+	var last_name = $('#AddTeacherModal').find('input[name="last_name"]').val();
+	var phone_number = $('#AddTeacherModal').find('input[name="phone_number"]').val();
+	var birthdate = $('#AddTeacherModal').find('input[name="birthdate"]').val();
+
+	var subjects =  $('#AddTeacherModal').find('input[name^=subject]').map(function(idx, elem) {
+
+		if ($(elem).val()){
+
+			subject_list_Prev = subject_list;
+
+			subject = subject_list_Prev.filter(item=>{ return item.Subject_Label == $(elem).val()});
+
+			subjectid = subject[0].Subject_ID ;
+
+	    	return {subject: subjectid , classes:$(this).closest('.dynamic-form-input-float-adjust').find('select').val()};
+	    }
+
+	}).get();
+	
+	if (!first_name){
+		$('#AddTeacherModal').find('input[name="first_name"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#AddTeacherModal').find('input[name="first_name"]').parent(".form-group").removeClass("form-input-error");
+	}
+	if (!email){
+		$('#AddTeacherModal').find('input[name="email"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+
+		if (!emailValidator(email)){
+			$('#AddTeacherModal').find('input[name="email"]').parent(".form-group").addClass("form-input-error");
+		}
+		else{
+			$('#AddTeacherModal').find('input[name="email"]').parent(".form-group").removeClass("form-input-error");
+		}
+	}
+
+	
+	if (!teacher_address){
+		$('#AddTeacherModal').find('input[name="teacher_address"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#AddTeacherModal').find('input[name="teacher_address"]').parent(".form-group").removeClass("form-input-error");
+	}
+	if (!last_name){
+		$('#AddTeacherModal').find('input[name="last_name"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#AddTeacherModal').find('input[name="last_name"]').parent(".form-group").removeClass("form-input-error");
+	}
+	
+	if (!phone_number){
+		$('#AddTeacherModal').find('input[name="phone_number"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		if (!internationalPhoneValidator(phone_number)){
+			$('#AddTeacherModal').find('input[name="phone_number"]').parent(".form-group").addClass("form-input-error");
+		}
+		else{
+			$('#AddTeacherModal').find('input[name="phone_number"]').parent(".form-group").removeClass("form-input-error");
+		}
+	}
+	if (!birthdate){
+		$('#AddTeacherModal').find('input[name="birthdate"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#AddTeacherModal').find('input[name="birthdate"]').parent(".form-group").removeClass("form-input-error");
+	}
+
+	if (!teacher_gender){
+		$('#AddTeacherModal').find('input[name="teacher_gender"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#AddTeacherModal').find('input[name="teacher_gender"]').parent(".form-group").removeClass("form-input-error");
+	}
+
+	$("#AddTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .dynamic-form-input-dropdown").each(function(ind,elm){
+
+		$subj = $(elm).find(".input-dropdown");
+		$cls  = $(elm).find(".input-text-subject-classes-select2");
+
+		if($subj.val() == "" ){
+			$subj.parent(".form-group").addClass("form-input-error");
+		}else{
+			$subj.parent(".form-group").removeClass("form-input-error");
+		}
+
+		if($cls.val().length == 0 ){
+			$cls.parent(".form-group").addClass("form-input-error");
+		}else{
+			$cls.parent(".form-group").removeClass("form-input-error");
+		}
+
+	});
 
 
-	if (!first_name)
-		$('#teacher_form').find('input[name="first_name"]').css("border-color", "#f6b8c1");
-	else
-		$('#teacher_form').find('input[name="first_name"]').css("border-color", "#EFEFEF");
-	if (!email)
-		$('#teacher_form').find('input[name="email"]').css("border-color", "#f6b8c1");
-	else
-		$('#teacher_form').find('input[name="email"]').css("border-color", "#EFEFEF");
-	if (!teacher_address)
-		$('#teacher_form').find('input[name="teacher_address"]').css("border-color", "#f6b8c1");
-	else
-		$('#teacher_form').find('input[name="teacher_address"]').css("border-color", "#EFEFEF");
-	if (!last_name)
-		$('#teacher_form').find('input[name="last_name"]').css("border-color", "#f6b8c1");
-	else
-		$('#teacher_form').find('input[name="last_name"]').css("border-color", "#EFEFEF");
-	if (!phone_number)
-		$('#teacher_form').find('input[name="phone_number"]').css("border-color", "#f6b8c1");
-	else
-		$('#teacher_form').find('input[name="phone_number"]').css("border-color", "#EFEFEF");
-	if (!birthdate)
-		$('#teacher_form').find('input[name="birthdate"]').css("border-color", "#f6b8c1");
-	else
-		$('#teacher_form').find('input[name="birthdate"]').css("border-color", "#EFEFEF");
-
-	if (first_name && last_name && teacher_address && phone_number && birthdate && email && (subjects.length > 0))
-	{
-		$('#AddTeacherModal').modal('hide');
-		var data = {
+	var data = {
 			first_name,
 			last_name,
 			profile_image:$('#output-img-teacher').attr("src"),
@@ -718,7 +937,11 @@ function saveteacher() {
 			teacher_address,
 			teacher_gender,
 			subjects:subjects
-		}
+	}
+
+	if (first_name && last_name && teacher_address && phone_number && internationalPhoneValidator(phone_number) && birthdate && email && emailValidator(email) && (subjects.length > 0))
+	{
+		$('#AddTeacherModal').modal('hide');
 		$.ajax({
 		    type: 'post',
 		    url: '/Teachers/save',
@@ -728,18 +951,18 @@ function saveteacher() {
 		  .done(function(res){
 		  	if(res.saved)
 		  	{
-		  		$('#teacher_form').find('input[name="first_name"]').val("");
-				$('#teacher_form').find('input[name="teacher_address"]').val("");
-				$('#teacher_form').find('input[name="profile_image"]').val("");
-				$('#teacher_form').find('input[name="last_name"]').val("");
-				$('#teacher_form').find('input[name="level"]').val("");
-				$('#teacher_form').find('input[name="phone_number"]').val("");
-				$('#teacher_form').find('input[name="email"]').val("");
-				$('#teacher_form').find('input[name="birthdate"]').val("");
-				$('#teacher_form').find('input[name^=subject]').val("");
+		  		$('#AddTeacherModalAddTeacherModal').find('input[name="first_name"]').val("");
+				$('#AddTeacherModalAddTeacherModal').find('input[name="teacher_address"]').val("");
+				$('#AddTeacherModalAddTeacherModal').find('input[name="profile_image"]').val("");
+				$('#AddTeacherModalAddTeacherModal').find('input[name="last_name"]').val("");
+				$('#AddTeacherModalAddTeacherModal').find('input[name="level"]').val("");
+				$('#AddTeacherModalAddTeacherModal').find('input[name="phone_number"]').val("");
+				$('#AddTeacherModalAddTeacherModal').find('input[name="email"]').val("");
+				$('#AddTeacherModalAddTeacherModal').find('input[name="birthdate"]').val("");
+				$('#AddTeacherModalAddTeacherModal').find('input[name^=subject]').val("");
 				$('#output-img-teacher').attr("src",'assets/icons/Logo_placeholder.svg');
 
-				if (res.exist){
+				//if (res.exist){
 
 					location.reload();
 			  		/****************______getAllteachers()_____________**************/
@@ -796,12 +1019,13 @@ function saveteacher() {
 						  });
 
 					/****************______getAllteachers()_____________**************/
-				}
+				//}
 				
 
 		  	} else {
-		  		$('#teacher_form').find('input[name="email"]').css("border-color", "#f6b8c1");
+		  		$('#AddTeacherModal').find('input[name="email"]').parent(".form-group").addClass("form-input-error");
 		  	}
+
 		  });
 	}
 
@@ -809,9 +1033,108 @@ function saveteacher() {
 
 function saveChange() {
 
-	var subjects =  $('#EditTeacherModal').find('.subjects-container').find('input[name^=subjects]').map(function(idx, elem) {
-	    return {subject: $('#EditTeacherModal').find('.subjects-container').find('[data-val='+$(elem).val()+']').data('subjectid'),classes:$(this).closest('.dynamic-form-input-float-adjust').find('select').val()};
+	var first_name = $('#EditTeacherModal').find('input[name="f_name"]').val();
+	var email = $('#EditTeacherModal').find('input[name="email"]').val();
+	var teacher_address = $('#EditTeacherModal').find('input[name="teacher_address_detail"]').val();
+	var teacher_gender = $('#EditTeacherModal').find('input[name="teacher_gender_detail"]').val();
+	var profile_image = $('#EditTeacherModal').find('.profile-img').attr('src');
+	var last_name = $('#EditTeacherModal').find('input[name="l_name"]').val();
+	var phone_number = $('#EditTeacherModal').find('input[name="phone_number_detail"]').val();
+	var birthdate = $('#EditTeacherModal').find('input[name="birthdate_detail"]').val();
+
+	var subjects =  $('#EditTeacherModal').find('input[name^=subject]').map(function(idx, elem) {
+
+		if ($(elem).val()){
+
+			subject_list_Prev = subject_list;
+
+			subject = subject_list_Prev.filter(item=>{ return item.Subject_Label == $(elem).val()});
+
+			subjectid = subject[0].Subject_ID ;
+
+	    	return {subject: subjectid , classes:$(this).closest('.dynamic-form-input-float-adjust').find('select').val()};
+	    }
+
 	}).get();
+	
+	if (!first_name){
+		$('#EditTeacherModal').find('input[name="f_name"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#EditTeacherModal').find('input[name="f_name"]').parent(".form-group").removeClass("form-input-error");
+	}
+
+	if (!email){
+		$('#EditTeacherModal').find('input[name="email"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+
+		if (!emailValidator(email)){
+			$('#EditTeacherModal').find('input[name="email"]').parent(".form-group").addClass("form-input-error");
+		}
+		else{
+			$('#EditTeacherModal').find('input[name="email"]').parent(".form-group").removeClass("form-input-error");
+		}
+	}
+	
+	if (!teacher_address){
+		$('#EditTeacherModal').find('input[name="teacher_address_detail"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#EditTeacherModal').find('input[name="teacher_address_detail"]').parent(".form-group").removeClass("form-input-error");
+	}
+
+	if (!last_name){
+		$('#EditTeacherModal').find('input[name="l_name"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#EditTeacherModal').find('input[name="l_name"]').parent(".form-group").removeClass("form-input-error");
+	}
+	
+	if (!phone_number){
+		$('#EditTeacherModal').find('input[name="phone_number_detail"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		if (!internationalPhoneValidator(phone_number)){
+			$('#EditTeacherModal').find('input[name="phone_number_detail"]').parent(".form-group").addClass("form-input-error");
+		}
+		else{
+			$('#EditTeacherModal').find('input[name="phone_number_detail"]').parent(".form-group").removeClass("form-input-error");
+		}
+	}
+
+	if (!birthdate){
+		$('#EditTeacherModal').find('input[name="birthdate_detail"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#EditTeacherModal').find('input[name="birthdate_detail"]').parent(".form-group").removeClass("form-input-error");
+	}
+
+	if (!teacher_gender){
+		$('#EditTeacherModal').find('input[name="teacher_gender_detail"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#EditTeacherModal').find('input[name="teacher_gender_detail"]').parent(".form-group").removeClass("form-input-error");
+	}
+
+	$("#EditTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .dynamic-form-input-dropdown").each(function(ind,elm){
+
+		$subj = $(elm).find(".input-dropdown");
+		$cls  = $(elm).find(".input-text-subject-classes-select2");
+
+		if($subj.val() == "" ){
+			$subj.parent(".form-group").addClass("form-input-error");
+		}else{
+			$subj.parent(".form-group").removeClass("form-input-error");
+		}
+
+		if($cls.val().length == 0 ){
+			$cls.parent(".form-group").addClass("form-input-error");
+		}else{
+			$cls.parent(".form-group").removeClass("form-input-error");
+		}
+
+	});
 
 	var data =  {
     	id:teacherId,
@@ -826,6 +1149,16 @@ function saveChange() {
 		subjects:subjects,
 		olddata:olddata
     };
+
+	if (first_name && last_name && teacher_address && phone_number && internationalPhoneValidator(phone_number) && birthdate && email && emailValidator(email) && (subjects.length > 0)) {
+
+	console.log("processing ...");
+
+	var subjects =  $('#EditTeacherModal').find('.subjects-container').find('input[name^=subjects]').map(function(idx, elem) {
+	    return {subject: $('#EditTeacherModal').find('.subjects-container').find('[data-val='+$(elem).val()+']').data('subjectid'),classes:$(this).closest('.dynamic-form-input-float-adjust').find('select').val()};
+	}).get();
+
+
 
     console.log(data);
 
@@ -903,6 +1236,7 @@ function saveChange() {
 
 			 	$('#EditTeacherModal .sub-container-form-footer').addClass('hide-footer');
 			 	$('#EditTeacherModal .sub-container-form-footer').removeClass('show-footer');
+	}
 }
 
 function discardChange() {
@@ -1046,6 +1380,8 @@ $(document).on("click",".sections-main-sub-container-right-main-header-option-li
 
 			$dynamic_form_input = $("#AddTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .dynamic-form-input-dropdown-container").first().clone();
 
+			$dynamic_form_input.find(".form-group").removeClass("form-input-error");
+
 			$dynamic_form_input.find("input").val("");
 
 			$dynamic_form_input.find(".input-text-subject-classes-select2 option").remove();
@@ -1130,6 +1466,8 @@ $(document).on("click",".sections-main-sub-container-right-main-header-option-li
 			$("#EditTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .dynamic-form-input-dropdown").removeClass("dynamic-form-input-first");
 
 			$dynamic_form_input = $("#EditTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .dynamic-form-input-dropdown-container").first().clone();
+
+			$dynamic_form_input.find(".form-group").removeClass("form-input-error");
 
 			$dynamic_form_input.find("input").val("");
 
