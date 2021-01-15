@@ -855,6 +855,7 @@ function saveteacher() {
 	else{
 		$('#AddTeacherModal').find('input[name="first_name"]').parent(".form-group").removeClass("form-input-error");
 	}
+
 	if (!email){
 		$('#AddTeacherModal').find('input[name="email"]').parent(".form-group").addClass("form-input-error");
 	}
@@ -867,7 +868,6 @@ function saveteacher() {
 			$('#AddTeacherModal').find('input[name="email"]').parent(".form-group").removeClass("form-input-error");
 		}
 	}
-
 	
 	if (!teacher_address){
 		$('#AddTeacherModal').find('input[name="teacher_address"]').parent(".form-group").addClass("form-input-error");
