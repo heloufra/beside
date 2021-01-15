@@ -1117,13 +1117,13 @@ function saveStudent() {
 
 	/***___ Parent Details ___***/
 
-	$parent_errors = [];
+	parent_errors = [];
 
 	$("#student_form .dynamic-form-input-parent input").each(function(ind,elem){
 
 		if ($(elem).val() == ""){
 			$(elem).parent(".form-group").addClass("form-input-error");
-			$parent_errors.push(ind);
+			parent_errors.push(ind);
 		}
 		else{
 
@@ -1133,7 +1133,7 @@ function saveStudent() {
 
 					if (!emailValidator($(elem).val())){
 						$(elem).parent(".form-group").addClass("form-input-error");
-						$parent_errors.push(ind);
+						parent_errors.push(ind);
 						console.log("parent_email");
 					}
 					else{
@@ -1145,7 +1145,7 @@ function saveStudent() {
 
 					if (!internationalPhoneValidator($(elem).val())){
 						$(elem).parent(".form-group").addClass("form-input-error");
-						$parent_errors.push(ind);
+						parent_errors.push(ind);
 						console.log("parent_phone");
 					}
 					else{
@@ -1160,12 +1160,10 @@ function saveStudent() {
 		}
 
 	});
-
-	console.log("parent_errors",$parent_errors);
 	
 	/***___ End Parent Details ___***/
 
-	if (first_name && level && classe && parent_phone.length > 0 && parent_email.length > 0  && parent_name.length > 0 && parent_errors.length == 0 && student_address && phone_number && internationalPhoneValidator(phone_number) && student_email && emailValidator(email) && student_gender && birthdate && checkbox_sub.length > 0)
+	if (first_name && level && classe && parent_phone.length > 0 && parent_email.length > 0  && parent_name.length > 0 && parent_errors.length == 0 && student_address && phone_number && internationalPhoneValidator(phone_number) && student_email && emailValidator(student_email) && student_gender && birthdate && checkbox_sub.length > 0)
 	{
 		var data = {
 			first_name,
@@ -1256,21 +1254,6 @@ function saveChange() {
 	var student_email = $('#EditStudentModal').find('input[name="student_email_detail"]').val();
 	var birthdate = $('#EditStudentModal').find('input[name="birthdate_detail"]').val();
 	var classe = $('#EditStudentModal').find('input[name="classe-detail"]').val();
-
-	var parent_name = $('#EditStudentModal').find('input[name=parent_name]').map(function(){return $(this).val();}).get();
-		parent_name = parent_name.filter(function (el) {
-        return el != "";
-    });
-
-	var parent_phone = $('#EditStudentModal').find('input[name=parent_phone]').map(function(){return $(this).val();}).get();
-		parent_phone = parent_phone.filter(function (el) {
-        return el != "";
-    });
-
-    var parent_email = $('#EditStudentModal').find('input[name=parent_email]').map(function(){return $(this).val();}).get();
-		parent_email = parent_email.filter(function (el) {
-        return el != "";
-    });
 
 	var checkbox_sub = [];
 
@@ -1365,13 +1348,13 @@ function saveChange() {
 
 	/***___ Parent Details ___***/
 
-	$parent_errors = [];
+	parent_errors = [];
 
 	$("#EditStudentModal .dynamic-form-input-parent input").each(function(ind,elem){
 
 		if ($(elem).val() == ""){
 			$(elem).parent(".form-group").addClass("form-input-error");
-			$parent_errors.push(ind);
+			parent_errors.push(ind);
 		}
 		else{
 
@@ -1381,7 +1364,7 @@ function saveChange() {
 
 					if (!emailValidator($(elem).val())){
 						$(elem).parent(".form-group").addClass("form-input-error");
-						$parent_errors.push(ind);
+						parent_errors.push(ind);
 						console.log("parent_email");
 					}
 					else{
@@ -1393,7 +1376,7 @@ function saveChange() {
 
 					if (!internationalPhoneValidator($(elem).val())){
 						$(elem).parent(".form-group").addClass("form-input-error");
-						$parent_errors.push(ind);
+						parent_errors.push(ind);
 						console.log("parent_phone");
 					}
 					else{
@@ -1408,8 +1391,6 @@ function saveChange() {
 		}
 
 	});
-
-	console.log("parent_errors",$parent_errors);
 	
 	/***___ End Parent Details ___***/
 
@@ -1423,7 +1404,8 @@ function saveChange() {
 		$('#EditStudentModal').find('.subscription-divider').css("background", "#f0f0f6");
 	}
 
-	return false;
+	if (first_name && level && classe && parent_phone.length > 0 && parent_email.length > 0  && parent_name.length > 0 && parent_errors.length == 0 && student_address && phone_number && internationalPhoneValidator(phone_number) && student_email && emailValidator(student_email) && student_gender && birthdate && checkbox_sub.length > 0)
+	{
 
 	$.ajax({
 	    type: 'post',
@@ -1461,8 +1443,9 @@ function saveChange() {
 	  		discardChange();
 	  	}
 	  });
- 	$('#EditStudentModal .sub-container-form-footer').addClass('hide-footer');
- 	$('#EditStudentModal .sub-container-form-footer').removeClass('show-footer');
+ 		$('#EditStudentModal .sub-container-form-footer').addClass('hide-footer');
+ 		$('#EditStudentModal .sub-container-form-footer').removeClass('show-footer');
+ 	}
 }
 
 
