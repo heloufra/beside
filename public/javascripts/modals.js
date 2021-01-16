@@ -1,12 +1,218 @@
 var pathname = window.location.pathname.replace('/','');
 var payStudent = [];
 var subStudent =  [];
+var subArray =[];
 var start = "";
 var end = "";
 var academicyear = "";
 var months =  ["January", "February", "March", "April", "May", "June", "July", "August", "September", "Octobre", "November", "December"];
 
+var subject_list = [];
 
+function getAllSubjects(){
+
+	console.log("getAllSubjects");
+
+	addTeacherModalSubjects = '';
+
+	$.ajax({
+	    type: 'post',
+	    url: '/Select/subjects',
+	    data: {},
+	    dataType: 'json'
+	  })
+	  .done(function(res){
+	  	if(res.subjects)
+	  	{
+	  		subject_list = res.subjects ;
+	  		for (var n = res.subjects.length - 1; n >= 0; n--) {
+				addTeacherModalSubjects += '<li data-subjectid="'+res.subjects[n].Subject_ID+'" data-levelid="'+res.subjects[n].Level_ID+'" data-val="'+res.subjects[n].Subject_Label+'">'+res.subjects[n].Subject_Label+'</li>';
+			}
+
+			$("#AddTeacherModalSubjects").html("");
+			$("#AddTeacherModalSubjects").html(addTeacherModalSubjects);
+
+	  	} else {
+	  		console.log(res);
+	  	}
+	  });
+
+}
+
+getAllSubjects();
+
+function subjectsChange(subject) {
+
+  var value = subject.value;
+
+  if($(subject).parents("#AddTeacherModal").length){
+
+  	$("#AddTeacherModal .dynamic-form-input-dropdown-options li").each(function(){
+  		if(value == $(this).text()){
+  			$(this).addClass("visibility");
+  		}else{
+  			$(this).removeClass("visibility");
+  		}
+  	});
+  	
+  }
+
+  if(value != ""){
+
+		  subject_list_Prev = subject_list;
+
+		  unique_subject = subject_list_Prev.filter(item=>{ return item.Subject_Label == value });
+
+		  subjectid = -1 ; 
+
+		  if(unique_subject.length > 0 ){
+		  	 subjectid = unique_subject[0].Subject_ID ;
+		  }
+
+		  if (value.replace(/\s/g, '') !== '')
+		  {
+		  	$(subject).parents('.dynamic-form-input-dropdown').find('.list-classes').find('option').remove();
+
+			  $.ajax({
+				    type: 'get',
+				    url: '/Teachers/classes',
+				    data: {
+				    	subject_id : subjectid ,
+				    },
+				    dataType: 'json'
+				  })
+				  .done(function(res){
+				  	if(res.errors){
+				  		console.log(res.errors);
+				  	} else {
+				  		var first_label = '';
+				  		for (var i = res.classes.length - 1; i >= 0; i--) {
+				  			if (first_label !== res.classes[i].Level_Label)
+				  			{
+				  				first_label = res.classes[i].Level_Label;
+				  				$(subject).parents('.dynamic-form-input-dropdown').find('.list-classes').append('<option class="option-level-label row-classe" disabled="disabled">'+res.classes[i].Level_Label+'</option>')
+				  			}
+				  			$(subject).parents('.dynamic-form-input-dropdown').find('.list-classes').append('<option class="row-classe" value="'+res.classes[i].Classe_ID+'">'+res.classes[i].Classe_Label+'</option>')
+				  		}
+				  	}
+				  });
+		  }
+  }
+}
+
+
+
+/* .AddTeacherModal #Subject_Class_New_Dynamic_Form_Input _______________________*/
+
+	$(document).on("click",".AddTeacherModal #Subject_Class_New_Dynamic_Form_Input",function(){
+
+			console.log("subject_list ",subject_list);
+
+			$(".AddTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .dynamic-form-input-dropdown").removeClass("dynamic-form-input-first");
+
+			$dynamic_form_input = $(".AddTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .dynamic-form-input-dropdown-container").first().clone();
+
+			$dynamic_form_input.find(".form-group").removeClass("form-input-error");
+
+			$dynamic_form_input.find("input").val("");
+
+			$dynamic_form_input.find(".input-text-subject-classes-select2 option").remove();
+
+			$dynamic_form_input.find(".input-text-subject-classes-select2").select2("destroy");
+
+			$dynamic_form_input.find(".select2").remove();
+
+			$dynamic_form_input.find(".input-label").removeClass("input-label-move-to-top");
+
+			$(this).parent().find(".sections-main-sub-container-right-main-rows-dropdown-tags-container").last().after($dynamic_form_input);
+
+			$(this).parents(".sections-main-sub-container-right-main-rows-dropdown-tags").find(".input-text-subject-classes-select2").select2({
+			  tags: true,
+			  dropdownPosition: 'below',
+	  		  placeholder: "Classes",
+	  		  minimumResultsForSearch: -1,
+	  		  templateResult: hideSelected
+			});
+
+
+			$(this).parents(".sections-main-sub-container-right-main-rows-dropdown-tags").find(".input-text-subject-classes-select2").on('select2:selecting', function (e) {
+
+				$(this).parents(".form-group-right").find(".input-label").addClass("input-label-move-to-top");
+
+			});
+
+			$(this).parents(".sections-main-sub-container-right-main-rows-dropdown-tags").find(".input-text-subject-classes-select2").on('select2:unselecting', function (e) {
+
+				if($(this).select2('data').length <= 1 ){
+					$(this).parents(".form-group-right").find(".input-label").removeClass("input-label-move-to-top");
+				}
+
+			});
+
+			subject_list_len = subject_list.length;
+			dropdown = $(".AddTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags-container ").length;
+
+			if( dropdown == subject_list_len ){
+				$(".AddTeacherModal #Subject_Class_New_Dynamic_Form_Input").addClass("visibility");
+			}else{
+				$(".AddTeacherModal #Subject_Class_New_Dynamic_Form_Input").removeClass("visibility");
+			}
+
+	});
+
+	$(document).on("click",".AddTeacherModal .square-button",function(){
+
+			$(this).parents(".dynamic-form-input-dropdown-container").remove();
+
+			// Subject toggle visibility
+			var value = $(this).parents(".dynamic-form-input-dropdown").find(".input-dropdown").val();
+			$(".AddTeacherModal .dynamic-form-input-dropdown-options li").each(function(){
+		  		if(value == $(this).text()){
+		  			$(this).removeClass("visibility");
+		  		}
+		  	});
+
+			// Plus btn Toggle vivibility
+		  	subject_list_len = subject_list.length;
+			dropdown = $(".AddTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags-container ").length;
+
+			if( dropdown == subject_list_len ){
+				$(".AddTeacherModal #Subject_Class_New_Dynamic_Form_Input").addClass("visibility");
+			}else{
+				$(".AddTeacherModal #Subject_Class_New_Dynamic_Form_Input").removeClass("visibility");
+			}
+
+			// Minus btn Toggle vivibility
+			if($(".AddTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .sections-main-sub-container-right-main-rows-dropdown-tags-container").length == 1 ){
+				$(".AddTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .sections-main-sub-container-right-main-rows-dropdown-tags-container .dynamic-form-input-dropdown").addClass("dynamic-form-input-first");
+			}
+		
+	});
+
+	$(document).on("click",".AddTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags-container .input-dropdown",function(){
+
+		$(".AddTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags-container .input-dropdown").each(function(ind,elm){
+
+	  		$(".AddTeacherModal .dynamic-form-input-dropdown-options li").each(function(){
+		  		if($(elm).val() == $(this).text()){
+		  			$(this).addClass("visibility");
+		  		}
+	  		});
+
+	  	});
+
+	});
+
+/* End .AddTeacherModal #Subject_Class_New_Dynamic_Form_Input _______________________*/
+
+
+function hideSelected(value) {
+	  if (value && !value.selected) {
+	    return $('<span>' + value.text + '</span>');
+	  }
+}
+
+/* Teacher _________________________________________________________________________*/
 
 function savePaymentModal() {
 	var payments = $('#FinanceNewModal').find('.payment-select').map(function(){return {period:$(this).val(),ssid:$(this).data('ssid')};}).get();
@@ -32,7 +238,7 @@ function savePaymentModal() {
 if (pathname !== 'Students')
 {
 
-	function readFile() {
+function readFile() {
   
   if (this.files && this.files[0]) {
     
@@ -48,117 +254,228 @@ if (pathname !== 'Students')
 }
 
 if (document.getElementById("profile"))
+
 document.getElementById("profile").addEventListener("change", readFile);
 
-	function saveStudent() {
-		var first_name = $('#student_form').find('input[name="first_name"]').val();
-		var student_address = $('#student_form').find('input[name="student_address"]').val();
-		var profile_image = $('#student_form').find('input[name="profile_image"]').val();
-		var last_name = $('#student_form').find('input[name="last_name"]').val();
-		var level = $('#student_form').find('input[name="level"]').val();
-		var phone_number = $('#student_form').find('input[name="phone_number"]').val();
-		var birthdate = $('#student_form').find('input[name="birthdate"]').val();
-		var classe = $('#student_form').find('input[name="classe"]').val();
-		var parent_name = $('#student_form').find('input[name=parent_name]').map(function(){return $(this).val();}).get();
+function saveStudent() {
+
+	var first_name = $('#student_form').find('input[name="first_name"]').val();
+	var student_address = $('#student_form').find('input[name="student_address"]').val();
+	var student_gender = $('#student_form').find('input[name="student_gender"]').val();
+	var profile_image = $('#student_form').find('input[name="profile_image"]').val();
+	var last_name = $('#student_form').find('input[name="last_name"]').val();
+	var level = $('#student_form').find('input[name="level"]').val();
+	var phone_number = $('#student_form').find('input[name="phone_number"]').val();
+	var student_email = $('#student_form').find('input[name="student_email"]').val();
+	var birthdate = $('#student_form').find('input[name="birthdate"]').val();
+	var classe = $('#student_form').find('input[name="classe"]').val();
+
+	var parent_name = $('#student_form').find('input[name=parent_name]').map(function(){return $(this).val();}).get();
 		parent_name = parent_name.filter(function (el) {
-	        return el != "";
-	      });
-		var parent_phone = $('#student_form').find('input[name=parent_phone]').map(function(){return $(this).val();}).get();
+        return el != "";
+    });
+
+	var parent_phone = $('#student_form').find('input[name=parent_phone]').map(function(){return $(this).val();}).get();
 		parent_phone = parent_phone.filter(function (el) {
-	        return el != "";
-	      });
-		var checkbox_sub = [];
-		for (var i = subArray.length - 1; i >= 0; i--) {
-			if ($('input[name=checkbox_sub_'+i+']:checked').length > 0)
-				checkbox_sub.push(subArray[i]);
+        return el != "";
+    });
+
+    var parent_email = $('#student_form').find('input[name=parent_email]').map(function(){return $(this).val();}).get();
+		parent_email = parent_email.filter(function (el) {
+        return el != "";
+    });
+
+	var checkbox_sub = [];
+	for (var i = subArray.length - 1; i >= 0; i--) {
+		if ($('input[name=checkbox_sub_'+i+']:checked').length > 0)
+			checkbox_sub.push(subArray[i]);
+	}
+
+	if (!first_name){
+		$('#student_form').find('input[name="first_name"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#student_form').find('input[name="first_name"]').parent(".form-group").removeClass("form-input-error");
+	}
+	if (!student_address){
+		$('#student_form').find('input[name="student_address"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#student_form').find('input[name="student_address"]').parent(".form-group").removeClass("form-input-error");
+	}
+	if (!last_name){
+		$('#student_form').find('input[name="last_name"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#student_form').find('input[name="last_name"]').parent(".form-group").removeClass("form-input-error");
+	}
+
+	if (!phone_number){
+		$('#student_form').find('input[name="phone_number"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		if (!internationalPhoneValidator(phone_number)){
+			$('#student_form').find('input[name="phone_number"]').parent(".form-group").addClass("form-input-error");
 		}
-		if (!first_name)
-			$('#student_form').find('input[name="first_name"]').css("border-color", "#f6b8c1");
-		else
-			$('#student_form').find('input[name="first_name"]').css("border-color", "#EFEFEF");
-		if (!student_address)
-			$('#student_form').find('input[name="student_address"]').css("border-color", "#f6b8c1");
-		else
-			$('#student_form').find('input[name="student_address"]').css("border-color", "#EFEFEF");
-		if (parent_name.length <= 0)
-			$('#student_form').find('input[name="parent_name"]').css("border-color", "#f6b8c1");
-		else
-			$('#student_form').find('input[name="parent_name"]').css("border-color", "#EFEFEF");
-		if (parent_phone.length <= 0)
-			$('#student_form').find('input[name="parent_phone"]').css("border-color", "#f6b8c1");
-		else
-			$('#student_form').find('input[name="parent_name"]').css("border-color", "#EFEFEF");
-		if (!last_name)
-			$('#student_form').find('input[name="last_name"]').css("border-color", "#f6b8c1");
-		else
-			$('#student_form').find('input[name="last_name"]').css("border-color", "#EFEFEF");
-		if (!phone_number)
-			$('#student_form').find('input[name="phone_number"]').css("border-color", "#f6b8c1");
-		else
-			$('#student_form').find('input[name="phone_number"]').css("border-color", "#EFEFEF");
-		if (!birthdate)
-			$('#student_form').find('input[name="birthdate"]').css("border-color", "#f6b8c1");
-		else
-			$('#student_form').find('input[name="birthdate"]').css("border-color", "#EFEFEF");
-		if (!level)
-			$('.input_level').css("border-color", "#f6b8c1");
-		else
-			$('.input_level').css("border-color", "#EFEFEF");
-		if (!classe)
-			$('.input_classe').css("border-color", "#f6b8c1");
-		else
-			$('.input_classe').css("border-color", "#EFEFEF");
-		if ( checkbox_sub.length === 0)
-			$('#student_form').find('.subscription-divider').css("background", "#f6b8c1");
-		else
-			$('#student_form').find('.subscription-divider').css("background", "#f0f0f6");
-		if (first_name && level && classe && parent_phone.length > 0 && parent_name.length > 0 && student_address && phone_number && birthdate && checkbox_sub.length > 0)
-		{
-			var data = {
-				first_name,
-				last_name,
-				level,
-				classe,
-				profile_image:$('#output-img').attr("src"),
-				parent_phone:parent_phone,
-				parent_name:parent_name,
-				phone_number,
-				birthdate,
-				student_address,
-				checkbox_sub:checkbox_sub,
-			}
-			$.ajax({
-			    type: 'post',
-			    url: '/Students/save',
-			    data: data,
-			    dataType: 'json'
-			  })
-			  .done(function(res){
-			  	if(res.saved)
-			  	{
-			  		$('#AddStudentModal').modal('hide');
-			  		$('#student_form').find('input[name="first_name"]').val("");
-					$('#student_form').find('input[name="student_address"]').val("");
-					$('#student_form').find('input[name="profile_image"]').val("");
-					$('#student_form').find('input[name="last_name"]').val("");
-					$('#student_form').find('input[name="level"]').val("");
-					$('#student_form').find('input[name="phone_number"]').val("");
-					$('#student_form').find('input[name="parent_name"]').val("");
-					$('#student_form').find('input[name="parent_phone"]').val("");
-					$('#student_form').find('input[name="birthdate"]').val("");
-					$('#output-img').attr("src",'assets/icons/Logo_placeholder.svg')
-					$('#student_form').find('input[name="classe"]').val("");
-					for (var i = subArray.length - 1; i >= 0; i--) {
-						$('input[name=checkbox_sub_'+i+']:checked').prop("checked", false);
-					}
-					window.location.href = '/Students'
-			  	} else {
-			  		$('#student_form').find('input[name="first_name"]').css("border-color", "#f6b8c1");
-			  		$('#student_form').find('input[name="last_name"]').css("border-color", "#f6b8c1");
-			  	}
-			  });
+		else{
+			$('#student_form').find('input[name="phone_number"]').parent(".form-group").removeClass("form-input-error");
 		}
 	}
+
+	if (!student_email){
+		$('#student_form').find('input[name="student_email"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+
+		if (!emailValidator(student_email)){
+			$('#student_form').find('input[name="student_email"]').parent(".form-group").addClass("form-input-error");
+		}
+		else{
+			$('#student_form').find('input[name="student_email"]').parent(".form-group").removeClass("form-input-error");
+		}
+	}
+
+	if (!birthdate){
+		$('#student_form').find('input[name="birthdate"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#student_form').find('input[name="birthdate"]').parent(".form-group").removeClass("form-input-error");
+	}
+
+	if (!level){
+		$('.input_level').addClass("form-input-error");
+	}
+	else{
+		$('.input_level').removeClass("form-input-error");
+	}
+
+	if (!student_gender){
+		$('.input_gender').addClass("form-input-error");
+	}
+	else{
+		$('.input_gender').removeClass("form-input-error");
+	}
+
+	if (!classe){
+		$('.input_classe').addClass("form-input-error");
+	}
+	else{
+		$('.input_classe').removeClass("form-input-error");
+	}
+
+	if ( checkbox_sub.length <= 0){
+		$('#student_form').find('.subscription-divider').css("background", "#f6b8c1");
+		 $("#student_form").animate({ scrollTop: $('#student_form').find('.subscription-divider').prop("scrollHeight")}, 1000);
+	}
+	else{
+		$('#student_form').find('.subscription-divider').css("background", "#f0f0f6");
+	}
+
+	/***___ Parent Details ___***/
+
+	parent_errors = [];
+
+	$("#student_form .dynamic-form-input-parent input").each(function(ind,elem){
+
+		if ($(elem).val() == ""){
+			$(elem).parent(".form-group").addClass("form-input-error");
+			parent_errors.push(ind);
+		}
+		else{
+
+			if($(elem).attr("name") == "parent_email" || $(elem).attr("name") == "parent_phone"){
+
+				if($(elem).attr("name") == "parent_email"){
+
+					if (!emailValidator($(elem).val())){
+						$(elem).parent(".form-group").addClass("form-input-error");
+						parent_errors.push(ind);
+						console.log("parent_email");
+					}
+					else{
+						$(elem).parent(".form-group").removeClass("form-input-error");
+					}
+				}
+
+			 	if($(elem).attr("name") == "parent_phone"){
+
+					if (!internationalPhoneValidator($(elem).val())){
+						$(elem).parent(".form-group").addClass("form-input-error");
+						parent_errors.push(ind);
+						console.log("parent_phone");
+					}
+					else{
+						$(elem).parent(".form-group").removeClass("form-input-error");
+					}
+				}
+
+			}else{
+				$(elem).parent(".form-group").removeClass("form-input-error");
+			}
+			
+		}
+
+	});
+	
+	/***___ End Parent Details ___***/
+
+	if (first_name && level && classe && parent_phone.length > 0 && parent_email.length > 0  && parent_name.length > 0 && parent_errors.length == 0 && student_address && phone_number && internationalPhoneValidator(phone_number) && student_email && emailValidator(student_email) && student_gender && birthdate && checkbox_sub.length > 0)
+	{
+		var data = {
+			first_name,
+			last_name,
+			level,
+			classe,
+			student_gender,
+			profile_image:$('#output-img').attr("src"),
+			parent_phone:parent_phone,
+			parent_name:parent_name,
+			parent_email:parent_email,
+			phone_number,
+			student_email,
+			birthdate,
+			student_address,
+			checkbox_sub:checkbox_sub,
+		}
+
+		console.log(data);
+
+		$.ajax({
+		    type: 'post',
+		    url: '/Students/save',
+		    data: data,
+		    dataType: 'json'
+		  })
+		  .done(function(res){
+		  	if(res.saved)
+		  	{
+		  		$('#AddStudentModal').modal('hide');
+		  		$('#student_form').find('input[name="first_name"]').val("");
+				$('#student_form').find('input[name="student_address"]').val("");
+				$('#student_form').find('input[name="profile_image"]').val("");
+				$('#student_form').find('input[name="last_name"]').val("");
+				$('#student_form').find('input[name="level"]').val("");
+				$('#student_form').find('input[name="phone_number"]').val("");
+				$('#student_form').find('input[name="email"]').val("");
+				$('#student_form').find('input[name="parent_name"]').val("");
+				$('#student_form').find('input[name="parent_phone"]').val("");
+				$('#student_form').find('input[name="parent_email"]').val("");
+				$('#student_form').find('input[name="birthdate"]').val("");
+				$('#output-img').attr("src",'assets/icons/Logo_placeholder.svg')
+				$('#student_form').find('input[name="classe"]').val("");
+				for (var i = subArray.length - 1; i >= 0; i--) {
+					$('input[name=checkbox_sub_'+i+']:checked').prop("checked", false);
+				}
+		  		getAllStudents();
+
+		  	} else {
+		  		$('#student_form').find('input[name="first_name"]').css("border-color", "#f6b8c1");
+		  		$('#student_form').find('input[name="last_name"]').css("border-color", "#f6b8c1");
+		  	}
+		  });
+	}
+
+}
 }
 
 var students,teachers = [];
@@ -752,126 +1069,220 @@ if (pathname !== 'Teachers')
   }
   
 }
+
 if (document.getElementById("profile-teacher"))
 document.getElementById("profile-teacher").addEventListener("change", readFile);
- function saveteacher() {
- 	
- 		console.log('Modal Teacher');
- 		var first_name = $('#teacher_form').find('input[name="first_name"]').val();
-		var email = $('#teacher_form').find('input[name="email"]').val();
-		var teacher_address = $('#teacher_form').find('input[name="teacher_address"]').val();
-		var profile_image = $('#teacher_form').find('input[name="profile_image"]').val();
-		var teacher_gender = $('#teacher_form').find('input[name="teacher_gender"]').val();
-		var last_name = $('#teacher_form').find('input[name="last_name"]').val();
-		var phone_number = $('#teacher_form').find('input[name="phone_number"]').val();
-		var birthdate = $('#teacher_form').find('input[name="birthdate"]').val();
-		var subjects =  $('#teacher_form').find('input[name^=subject]').map(function(idx, elem) {
-			if ($(elem).val())
-		    	return {subject: $('#teacher_form').find('[data-val='+$(elem).val()+']').data('subjectid'),classes:$(this).closest('.dynamic-form-input-float-adjust').find('select').val()};
-		  }).get();
 
+function saveteacher() {
 
-		if (!first_name)
-			$('#teacher_form').find('input[name="first_name"]').css("border-color", "#f6b8c1");
-		else
-			$('#teacher_form').find('input[name="first_name"]').css("border-color", "#EFEFEF");
-		if (!email)
-			$('#teacher_form').find('input[name="email"]').css("border-color", "#f6b8c1");
-		else
-			$('#teacher_form').find('input[name="email"]').css("border-color", "#EFEFEF");
-		if (!teacher_address)
-			$('#teacher_form').find('input[name="teacher_address"]').css("border-color", "#f6b8c1");
-		else
-			$('#teacher_form').find('input[name="teacher_address"]').css("border-color", "#EFEFEF");
-		if (!last_name)
-			$('#teacher_form').find('input[name="last_name"]').css("border-color", "#f6b8c1");
-		else
-			$('#teacher_form').find('input[name="last_name"]').css("border-color", "#EFEFEF");
-		if (!phone_number)
-			$('#teacher_form').find('input[name="phone_number"]').css("border-color", "#f6b8c1");
-		else
-			$('#teacher_form').find('input[name="phone_number"]').css("border-color", "#EFEFEF");
-		if (!birthdate)
-			$('#teacher_form').find('input[name="birthdate"]').css("border-color", "#f6b8c1");
-		else
-			$('#teacher_form').find('input[name="birthdate"]').css("border-color", "#EFEFEF");
+	var first_name = $('#AddTeacherModal').find('input[name="first_name"]').val();
+	var email = $('#AddTeacherModal').find('input[name="email"]').val();
+	var teacher_address = $('#AddTeacherModal').find('input[name="teacher_address"]').val();
+	var teacher_gender = $('#AddTeacherModal').find('input[name="teacher_gender"]').val();
+	var profile_image = $('#AddTeacherModal').find('input[name="profile_image"]').val();
+	var last_name = $('#AddTeacherModal').find('input[name="last_name"]').val();
+	var phone_number = $('#AddTeacherModal').find('input[name="phone_number"]').val();
+	var birthdate = $('#AddTeacherModal').find('input[name="birthdate"]').val();
 
-		if (first_name && last_name && teacher_address && phone_number && birthdate && email && (subjects.length > 0))
-		{
-			var data = {
-				first_name,
-				last_name,
-				profile_image:$('#output-img-teacher').attr("src"),
-				phone_number,
-				birthdate,
-				email,
-				teacher_address,
-				teacher_gender,
-				subjects:subjects
-			}
-			$.ajax({
-			    type: 'post',
-			    url: '/Teachers/save',
-			    data: data,
-			    dataType: 'json'
-			  })
-			  .done(function(res){
-			  	if(res.saved)
-			  	{
-			  		$('#AddTeacherModal').modal('hide');
-			  		$('#teacher_form').find('input[name="first_name"]').val("");
-					$('#teacher_form').find('input[name="teacher_address"]').val("");
-					$('#teacher_form').find('input[name="profile_image"]').val("");
-					$('#teacher_form').find('input[name="last_name"]').val("");
-					$('#teacher_form').find('input[name="level"]').val("");
-					$('#teacher_form').find('input[name="phone_number"]').val("");
-					$('#teacher_form').find('input[name="email"]').val("");
-					$('#teacher_form').find('input[name="birthdate"]').val("");
-					$('#teacher_form').find('input[name^=subject]').val("");
-					$('#output-img-teacher').attr("src",'assets/icons/Logo_placeholder.svg');
-					if (res.exist)
-						location.reload();
-					window.location.href = '/Teachers';
-			  	} else {
-			  		$('#teacher_form').find('input[name="email"]').css("border-color", "#f6b8c1");
-			  	}
-			  });
+	var subjects =  $('#AddTeacherModal').find('input[name^=subject]').map(function(idx, elem) {
+
+		if ($(elem).val()){
+
+			subject_list_Prev = subject_list;
+
+			subject = subject_list_Prev.filter(item=>{ return item.Subject_Label == $(elem).val()});
+
+			subjectid = subject[0].Subject_ID ;
+
+	    	return {subject: subjectid , classes:$(this).closest('.dynamic-form-input-float-adjust').find('select').val()};
+	    }
+
+	}).get();
+	
+	if (!first_name){
+		$('#AddTeacherModal').find('input[name="first_name"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#AddTeacherModal').find('input[name="first_name"]').parent(".form-group").removeClass("form-input-error");
+	}
+
+	if (!email){
+		$('#AddTeacherModal').find('input[name="email"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+
+		if (!emailValidator(email)){
+			$('#AddTeacherModal').find('input[name="email"]').parent(".form-group").addClass("form-input-error");
 		}
- 	}
-}
+		else{
+			$('#AddTeacherModal').find('input[name="email"]').parent(".form-group").removeClass("form-input-error");
+		}
+	}
+	
+	if (!teacher_address){
+		$('#AddTeacherModal').find('input[name="teacher_address"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#AddTeacherModal').find('input[name="teacher_address"]').parent(".form-group").removeClass("form-input-error");
+	}
+	if (!last_name){
+		$('#AddTeacherModal').find('input[name="last_name"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#AddTeacherModal').find('input[name="last_name"]').parent(".form-group").removeClass("form-input-error");
+	}
+	
+	if (!phone_number){
+		$('#AddTeacherModal').find('input[name="phone_number"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		if (!internationalPhoneValidator(phone_number)){
+			$('#AddTeacherModal').find('input[name="phone_number"]').parent(".form-group").addClass("form-input-error");
+		}
+		else{
+			$('#AddTeacherModal').find('input[name="phone_number"]').parent(".form-group").removeClass("form-input-error");
+		}
+	}
+	if (!birthdate){
+		$('#AddTeacherModal').find('input[name="birthdate"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#AddTeacherModal').find('input[name="birthdate"]').parent(".form-group").removeClass("form-input-error");
+	}
 
-$('#subjects-container').find('input[name="subjects"]').on( "change", function() {
-  var value = $(this).val();
-  if (value.replace(/\s/g, '') !== '' && pathname !== 'Teachers')
-  {
-  	$('#subjects-container').find('.row-classe').remove();
-	  $.ajax({
-		    type: 'get',
-		    url: '/Teachers/classes',
-		    data: {
-		    	subject_id:$('#subjects-container').find('[data-val='+value+']').data('subjectid'),
-		    },
+	if (!teacher_gender){
+		$('#AddTeacherModal').find('input[name="teacher_gender"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#AddTeacherModal').find('input[name="teacher_gender"]').parent(".form-group").removeClass("form-input-error");
+	}
+
+	$("#AddTeacherModal .sections-main-sub-container-right-main-rows-dropdown-tags .dynamic-form-input-dropdown").each(function(ind,elm){
+
+		$subj = $(elm).find(".input-dropdown");
+		$cls  = $(elm).find(".input-text-subject-classes-select2");
+
+		if($subj.val() == "" ){
+			$subj.parent(".form-group").addClass("form-input-error");
+		}else{
+			$subj.parent(".form-group").removeClass("form-input-error");
+		}
+
+		if($cls.val().length == 0 ){
+			$cls.parent(".form-group").addClass("form-input-error");
+		}else{
+			$cls.parent(".form-group").removeClass("form-input-error");
+		}
+
+	});
+
+
+	var data = {
+			first_name,
+			last_name,
+			profile_image:$('#output-img-teacher').attr("src"),
+			phone_number,
+			birthdate,
+			email,
+			teacher_address,
+			teacher_gender,
+			subjects:subjects
+	}
+
+	if (first_name && last_name && teacher_address && phone_number && internationalPhoneValidator(phone_number) && birthdate && email && emailValidator(email) && (subjects.length > 0))
+	{
+		$('#AddTeacherModal').modal('hide');
+		$.ajax({
+		    type: 'post',
+		    url: '/Teachers/save',
+		    data: data,
 		    dataType: 'json'
 		  })
 		  .done(function(res){
-		  	if(res.errors)
+		  	if(res.saved)
 		  	{
+		  		$('#AddTeacherModalAddTeacherModal').find('input[name="first_name"]').val("");
+				$('#AddTeacherModalAddTeacherModal').find('input[name="teacher_address"]').val("");
+				$('#AddTeacherModalAddTeacherModal').find('input[name="profile_image"]').val("");
+				$('#AddTeacherModalAddTeacherModal').find('input[name="last_name"]').val("");
+				$('#AddTeacherModalAddTeacherModal').find('input[name="level"]').val("");
+				$('#AddTeacherModalAddTeacherModal').find('input[name="phone_number"]').val("");
+				$('#AddTeacherModalAddTeacherModal').find('input[name="email"]').val("");
+				$('#AddTeacherModalAddTeacherModal').find('input[name="birthdate"]').val("");
+				$('#AddTeacherModalAddTeacherModal').find('input[name^=subject]').val("");
+				$('#output-img-teacher').attr("src",'assets/icons/Logo_placeholder.svg');
 
-		  		console.log(res.errors)
+				//if (res.exist){
+
+					location.reload();
+			  		/****************______getAllteachers()_____________**************/
+
+				  	 	$('.row-teacher').remove();
+
+						$.ajax({
+						    type: 'get',
+						    url: '/Teachers/all',
+						    dataType: 'json'
+						  })
+						  .done(function(res){
+						  	if(res.errors){
+						  	  console.log(res.errors)
+						  	} else {
+						  		teachers = res.teachers;
+						  		console.log('Teachers!!',teachers);
+						  		filtredClass = res.teachers;
+						  		teacherId = teachers[teachers.length];
+						  		if (teacherId){
+						  			displayteacher(teacherId);
+						  		}
+						  		else if (res.teachers.length > 0){
+						  			displayteacher(res.teachers[res.teachers.length - 1].teacher.User_ID);
+						  		}
+						  		var active = '';
+						  		for (var i = res.teachers.length - 1; i >= 0; i--) {
+						  			if (teacherId){
+						  				if(res.teachers[i].teacher.User_ID === teacherId){
+						  					active = 'active';
+						  				}
+						  				else{
+						  					active = ''
+						  				}
+						  			}else{
+							  			if (i === res.teachers.length - 1){
+							  				active = 'active';
+							  			}
+							  			else{
+							  				active = '';
+							  			}
+							  		}
+
+						  			var name = JSON.parse(res.teachers[i].teacher.User_Name);
+						  			var html = '';
+
+					  				for (var j = res.teachers[i].classes.length - 1; j >= 0; j--) {
+					  					html += res.teachers[i].classes[j].Classe_Label + " ";
+					  				}
+
+						  			$('#list_teachers').append('<div class="'+active+' sections-main-sub-container-left-card row-teacher"><img class="sections-main-sub-container-left-card-main-img" src="'+res.teachers[i].teacher.User_Image+'" alt="card-img"><input name="teacherId" type="hidden" value="'+res.teachers[i].teacher.User_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+name.first_name+' '+name.last_name+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+html+'</span></div></div>')
+						  		}
+						  	}
+						  });
+
+					/****************______getAllteachers()_____________**************/
+				//}
+				
+
 		  	} else {
-		  		var first_label = '';
-		  		for (var i = res.classes.length - 1; i >= 0; i--) {
-		  			if (first_label !== res.classes[i].Level_Label)
-		  			{
-		  				first_label = res.classes[i].Level_Label;
-		  				$('#subjects-container').find('.list-classes').append('<option class="option-level-label row-classe" disabled="disabled">'+res.classes[i].Level_Label+'</option>')
-		  			}
-		  			$('#subjects-container').find('.list-classes').append('<option class="row-classe" value="'+res.classes[i].Classe_ID+'">'+res.classes[i].Classe_Label+'</option>')
-		  		}
+		  		$('#AddTeacherModal').find('input[name="email"]').parent(".form-group").addClass("form-input-error");
 		  	}
+
 		  });
-  }
-})
+	}
+
+}
+
+}
+
 
 if (pathname !== 'Exams')
 	function saveExam() {

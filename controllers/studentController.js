@@ -193,19 +193,16 @@ var studentController = {
   },
   saveStudent: function(req, res, next) {
      connection.query("SELECT * FROM `students` WHERE `Student_FirstName` = ? AND `Student_LastName` = ? AND Student_Status = 1 ", [req.body.first_name,  req.body.last_name], (err, user, fields) => {
-        if(user.length === 0)
+        if(1==1) // user.length === 0
         {
            connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
             connection.query("SELECT * FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
                   connection.query(studentQuery, [req.body.first_name,req.body.last_name, req.body.profile_image,req.body.birthdate,req.body.student_address,req.body.phone_number,req.body.student_gender,req.body.student_email,req.Institution_ID], (err, student, fields) => {
                      if (err) {
                           console.log(err);
-                            res.json({
-                              errors: [{
-                              field: "Access denied",
-                              errorDesc: "List Students Error"
-                            }]});
-                        } else 
+                          res.json({saved : false,error:err});
+                        } 
+                        else 
                         {
                           res.json({saved : true,user_id:student.insertId});
                            console.log("Student",student.insertId);
@@ -280,8 +277,9 @@ var studentController = {
                    })
             })
           })
-        } else
+        } else{
           res.json({saved : false});
+        }
         });
   },
   saveAbsence: function(req, res, next) {

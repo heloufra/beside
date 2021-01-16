@@ -597,12 +597,12 @@ $(document).on("click",".row-teacher",function(event){
 		displayteacher(teacherId);
 	}
 });
+
 function hideSelected(value) {
 	  if (value && !value.selected) {
 	    return $('<span>' + value.text + '</span>');
 	  }
-	}
-
+}
 
 function displayAbsence(id) {
 	var fromto = JSON.parse(absences[id].AD_FromTo);
@@ -762,8 +762,6 @@ function subjectsChange(subject) {
   	});
   	
   }
-
-
 
   if (value.replace(/\s/g, '') !== '')
   {

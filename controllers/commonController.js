@@ -34,6 +34,13 @@ var commonController = {
                   });
         })
   },
+  postSubjects: function(req, res, next) {
+        connection.query("SELECT * FROM subjects",[null], (err, subjects, fields) => {
+          res.json({
+                    subjects:subjects,
+                  });
+        })
+  },
   switchAccount: function(req, res, next) {
     var token = jwt.sign({
           userId:req.userId,

@@ -861,7 +861,12 @@ $(document).ready(function(){
 	$(document).on("click",".dynamic-form-input-dropdown-options li",function(){
 
 		if($(this).parents("#EditStudentModal").length === 1){
-			$('#EditStudentModal').find('input[name="classe-detail"]').val("");
+
+			if($(this).hasClass("level-li")){
+				$('#EditStudentModal').find('input[name="classe-detail"]').val("");
+			}
+			
+
 		}
 
 		$this = $(this);
@@ -3079,6 +3084,10 @@ $(document).ready(function(){
 
 		if($(this).attr("data-val") == "Payment" ){
 			$(".sections-main-container").addClass("modal-open-finance");
+		}
+
+		if($(this).attr("data-val") == "Teacher" ){
+			$("#AddTeacherModal").addClass("AddTeacherModal");
 		}
 
 		setTimeout(function(){

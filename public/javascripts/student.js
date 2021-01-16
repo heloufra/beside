@@ -358,7 +358,6 @@ if (document.getElementById("search-input")){
 			$(this).siblings(".input-text").val("");
 
 			$(document).trigger("click");
-
 			
 
 			/*************************************************************************/
@@ -1030,6 +1029,7 @@ function saveStudent() {
     });
 
 	var checkbox_sub = [];
+
 	for (var i = subArray.length - 1; i >= 0; i--) {
 		if ($('input[name=checkbox_sub_'+i+']:checked').length > 0)
 			checkbox_sub.push(subArray[i]);
