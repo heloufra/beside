@@ -757,7 +757,7 @@ function checkChange() {
 		  				id = res.names[i].Student_ID;
 		  				fname = res.names[i].Student_FirstName + ' ' + res.names[i].Student_LastName;
 		  			}
-		  			$('#AddAbsenceModal').find('.modal-name').append('<li class="row-name" data-id="'+id+'" data-val="'+fname.replace(/\s/g, '')+'">'+fname+'</li>')
+		  			$('#AddAbsenceModal').find('.modal-name').append('<li class="row-name" data-id="'+id+'" data-val="'+fname+'">'+fname+'</li>')
 		  		}
 		  	}
 		  });
@@ -789,7 +789,7 @@ function checkChange() {
 		  		for (var i = res.names.length - 1; i >= 0; i--) {
 	  				id = res.names[i].Student_ID;
 	  				fname = res.names[i].Student_FirstName + ' ' + res.names[i].Student_LastName;
-		  			$('#AddNewAttitudeModal').find('.modal-name').append('<li class="row-name" data-id="'+id+'" data-val="'+fname.replace(/\s/g, '')+'">'+fname+'</li>')
+		  			$('#AddNewAttitudeModal').find('.modal-name').append('<li class="row-name" data-id="'+id+'" data-val="'+fname+'">'+fname+'</li>')
 		  		}
 		  	}
 		  });
@@ -821,7 +821,7 @@ function checkChange() {
 		  		for (var i = res.names.length - 1; i >= 0; i--) {
 	  				id = res.names[i].Student_ID;
 	  				fname = res.names[i].Student_FirstName + ' ' + res.names[i].Student_LastName;
-		  			$('#FinanceNewModal').find('.modal-name').append('<li class="row-name" data-id="'+id+'" data-val="'+fname.replace(/\s/g, '')+'">'+fname+'</li>')
+		  			$('#FinanceNewModal').find('.modal-name').append('<li class="row-name" data-id="'+id+'" data-val="'+fname+'">'+fname+'</li>')
 		  		}
 		  	}
 		  });
@@ -837,73 +837,93 @@ $('input[name="modal-student"]').on( "change", function() {
  })
 
 $('#FinanceNewModal').find('input[name="modal-student"]').on( "change", function() {
- 	 var value = $(this).val();
- 	 var id;
-	if (value.replace(/\s/g, '') !== '')
-	{
-		if ($('#FinanceNewModal').find('li[data-val='+value.replace(/\s/g, '')+']').data('id'))
-	 		id = $('#FinanceNewModal').find('li[data-val='+value.replace(/\s/g, '')+']').data('id');
-	 	else
-	 		id = $(this).attr('data-id');
-	 	displayStudentModal(id)
-	}
- })
+
+ 	var value = $(this).val();
+
+ 	var id;
+
+ 	id = $(this).attr('data-id');
+
+ 	displayStudentModal(id);
+
+});
 
 function saveAbsenceModal() {
-var ad_classe = $('#AddAbsenceModal').find('input[name="modal-classe"]').val();
-var ad_fromto = {};
-var ad_date = "";
 
-var ad_student = $('#AddAbsenceModal').find('input[name="modal-student"]').val();
+	var ad_classe = $('#AddAbsenceModal').find('input[name="modal-classe"]').val();
+	var ad_fromto = {};
+	var ad_date = "";
 
-var ad_absence,name;
+	var ad_student = $('#AddAbsenceModal').find('input[name="modal-student"]').val();
 
-if($('input[data-val=Teacher]').is(':checked'))
-	name = "Teachers";
-else
-	name = "Students";
-if ($('#AddAbsenceModal').find('input[data-val="Absence"]:checked').val())
-{
-	if($('#AddAbsenceModal').find('input[data-val="Session"]:checked').val())
-	{
-		ad_absence = $('#AddAbsenceModal').find('input[data-val="Session"]:checked').val();
-		ad_fromto = {
-			from: $('#AddAbsenceModal').find('input[name="time_start"]').val(),
-			to: $('#AddAbsenceModal').find('input[name="time_end"]').val(),
-		};
-		ad_date = $('#AddAbsenceModal').find('input[name="ad_date"]').val();
-	} else 
-	{
-		ad_absence = $('#AddAbsenceModal').find('input[data-val="Period"]:checked').val();
-		ad_fromto = {
-			from: $('#AddAbsenceModal').find('input[name="period_start"]').val(),
-			to: $('#AddAbsenceModal').find('input[name="period_end"]').val(),
-		}
-		ad_date = "null";
+	var ad_absence,name;
+
+	if($('input[data-val=Teacher]').is(':checked')){
+		name = "Teachers";
 	}
-} else 
-{
-	ad_absence = $('#AddAbsenceModal').find('input[data-val="Retard"]:checked').val();
-	ad_fromto = {
-			from: $('#AddAbsenceModal').find('input[name="time_start"]').val(),
-			to: $('#AddAbsenceModal').find('input[name="time_end"]').val(),
-		};
-	ad_date = $('#AddAbsenceModal').find('input[name="ad_date"]').val();
-}
+	else{
+		name = "Students";
+	}
 
-	if (!ad_date && ad_absence !== "2")
+	if (!ad_classe){
+		$('#AddAbsenceModal').find('.ad_classe').addClass("form-input-error");
+	}
+	else{
+		$('#AddAbsenceModal').find('.ad_classe').removeClass("form-input-error");
+	}
+
+	if (!ad_student){
+		$('#AddAbsenceModal').find('.ad_student').addClass("form-input-error");
+	}
+	else{
+		$('#AddAbsenceModal').find('.ad_student').removeClass("form-input-error");
+	}
+
+	if ($('#AddAbsenceModal').find('input[data-val="Absence"]:checked').val())
+	{
+		if($('#AddAbsenceModal').find('input[data-val="Session"]:checked').val())
+		{
+			ad_absence = $('#AddAbsenceModal').find('input[data-val="Session"]:checked').val();
+			ad_fromto = {
+				from: $('#AddAbsenceModal').find('input[name="time_start"]').val(),
+				to: $('#AddAbsenceModal').find('input[name="time_end"]').val(),
+			};
+			ad_date = $('#AddAbsenceModal').find('input[name="ad_date"]').val();
+		} else 
+		{
+			ad_absence = $('#AddAbsenceModal').find('input[data-val="Period"]:checked').val();
+			ad_fromto = {
+				from: $('#AddAbsenceModal').find('input[name="period_start"]').val(),
+				to: $('#AddAbsenceModal').find('input[name="period_end"]').val(),
+			}
+			ad_date = "null";
+		}
+	} else {
+		ad_absence = $('#AddAbsenceModal').find('input[data-val="Retard"]:checked').val();
+		ad_fromto = {
+				from: $('#AddAbsenceModal').find('input[name="time_start"]').val(),
+				to: $('#AddAbsenceModal').find('input[name="time_end"]').val(),
+			};
+		ad_date = $('#AddAbsenceModal').find('input[name="ad_date"]').val();
+	}
+
+	if (!ad_date && ad_absence !== "2"){
 		$('#AddAbsenceModal').find('.dynamic-form-input-container-one-date').css("border-color", "#f6b8c1");
-	else
+	}else{
 		$('#AddAbsenceModal').find('.dynamic-form-input-container-one-date').css("border-color", "#EFEFEF");
-	if (!ad_classe)
-		$('#AddAbsenceModal').find('.ad_classe').css("border-color", "#f6b8c1");
-	else
-		$('#AddAbsenceModal').find('.ad_classe').css("border-color", "#EFEFEF");
+	}
 
-	if (!ad_student)
+	if (!ad_classe){
+		$('#AddAbsenceModal').find('.ad_classe').css("border-color", "#f6b8c1");
+	}else{
+		$('#AddAbsenceModal').find('.ad_classe').css("border-color", "#EFEFEF");
+	}
+
+	if (!ad_student){
 		$('#AddAbsenceModal').find('.ad_student').css("border-color", "#f6b8c1");
-	else
+	}else{
 		$('#AddAbsenceModal').find('.ad_student').css("border-color", "#EFEFEF");
+	}
 
 	if (!ad_fromto.from && ad_absence !== "2")
 	{
@@ -923,6 +943,17 @@ if ($('#AddAbsenceModal').find('input[data-val="Absence"]:checked').val())
 	else
 	{
 		$('#AddAbsenceModal').find('input[name="time_end"]').css("border-color", "#EFEFEF");
+	}
+
+
+	if($('#AddAbsenceModal').find('input[data-val="Period"]').is(":checked")){
+		$("#AddAbsenceModal .dynamic-form-input-container-multi-date input").each(function(ind,elem){
+			if($(elem).val()==""){
+				$(elem).addClass("form-input-error");
+			}else{
+				$(elem).removeClass("form-input-error");
+			}
+		});
 	}
 
 	if (ad_absence && ad_date && ad_fromto.to && ad_fromto.from && ad_student && ad_classe)
@@ -969,6 +1000,7 @@ if ($('#AddAbsenceModal').find('input[data-val="Absence"]:checked').val())
 }
 
 function saveAttitudeModal() {
+
 	var at_classe = $('#AddNewAttitudeModal').find('input[name="modal-classe"]').val();
 	var at_date = $('#AddNewAttitudeModal').find('input[name="at_date"]').val();
 
@@ -976,29 +1008,54 @@ function saveAttitudeModal() {
 	var at_note = $('#AddNewAttitudeModal').find('#at_note').val();
 	var at_type = "";
 
-	if ($('#AddNewAttitudeModal').find('input[data-val="Positive"]:checked').val())
+
+	if ($('#AddNewAttitudeModal').find('input[data-val="Positive"]:checked').val()){
 		at_type = $('#AddNewAttitudeModal').find('input[data-val="Positive"]:checked').val();
-	else
+	}
+	else{
 		at_type = $('#AddNewAttitudeModal').find('input[data-val="Negative"]:checked').val();
+	}
 
+	if (!at_classe){
+		$('#AddNewAttitudeModal').find('input[name="modal-classe"]').addClass("form-input-error");
+	}
+	else{
+		$('#AddNewAttitudeModal').find('input[name="modal-classe"]').removeClass("form-input-error");
+	}
 
-	if (!at_date)
-		$('#AddNewAttitudeModal').find('.at_date').css("border-color", "#f6b8c1");
-	else
-		$('#AddNewAttitudeModal').find('.at_date').css("border-color", "#EFEFEF");
-	if (!at_classe)
-		$('#AddNewAttitudeModal').find('.at_classe').css("border-color", "#f6b8c1");
-	else
-		$('#AddNewAttitudeModal').find('.at_classe').css("border-color", "#EFEFEF");
+	if (!at_student){
+		$('#AddNewAttitudeModal').find('input[name="modal-student"]').addClass("form-input-error");
+	}
+	else{
+		$('#AddNewAttitudeModal').find('input[name="modal-student"]').removeClass("form-input-error");
+	}
 
-	if (!at_student)
-		$('#AddNewAttitudeModal').find('.at_student').css("border-color", "#f6b8c1");
-	else
-		$('#AddNewAttitudeModal').find('.at_student').css("border-color", "#EFEFEF");
-	if (!at_note)
-		$('#AddNewAttitudeModal').find('#at_note').css("border-color", "#f6b8c1");
-	else
-		$('#AddNewAttitudeModal').find('#at_note').css("border-color", "#EFEFEF");
+	if (!at_date){
+		$('#AddNewAttitudeModal').find('.at_date').addClass("form-input-error");
+	}
+	else{
+		$('#AddNewAttitudeModal').find('.at_date').removeClass("form-input-error");
+	}
+
+	if (!at_classe){
+		$('#AddNewAttitudeModal').find('.at_classe').addClass("form-input-error");
+	}
+	else{
+		$('#AddNewAttitudeModal').find('.at_classe').removeClass("form-input-error");
+	}
+
+	if (!at_student){
+		$('#AddNewAttitudeModal').find('.at_student').addClass("form-input-error");
+	}
+	else{
+		$('#AddNewAttitudeModal').find('.at_student').removeClass("form-input-error");
+	}
+	if (!at_note){
+		$('#AddNewAttitudeModal').find('#at_note').addClass("form-input-error");
+	}
+	else{
+		$('#AddNewAttitudeModal').find('#at_note').removeClass("form-input-error");
+	}
 
 	if (at_type && at_note && at_date && at_student && at_classe)
 	{
@@ -1461,43 +1518,67 @@ function saveHomework() {
 }
 
 function savePaymentModal() {
-var payments = $('#FinanceNewModal').find('.payment-select').map(function(){return {period:$(this).val(),ssid:$(this).data('ssid')};}).get();
+
+	var ad_classe = $('#FinanceNewModal').find('input[name="modal-classe"]').val();
+	var ad_student = $('#FinanceNewModal').find('input[name="modal-student"]').val();
+
+	var payments = $('#FinanceNewModal').find('.payment-select').map(function(){return {period:$(this).val(),ssid:$(this).data('ssid')};}).get();
 	var filtred;
+
 	for (var i = payments.length - 1; i >= 0; i--) {
 		filtred = payStudent.filter(paystu => paystu.SS_ID === payments[i].ssid)
 		for (var j = filtred.length - 1; j >= 0; j--) {
 			payments[i].period = payments[i].period.filter(pay => pay !== filtred[j].SP_PaidPeriod)
 		}
 	}
-	$.ajax({
-	    type: 'post',
-	    url: '/Students/payment',
-	    data: {
-	    	payments:payments
-	    },
-	    dataType: 'json'
-	  })
-	  .done(function(res){
-	  	if(res.saved)
-	  	{
-	  		$("#FinanceNewModal").modal('hide');
-	  		$('.input-dropdown-search').val("");
-	  		$('input[name="modal-student"]').val("");
-	  		$('input[name="modal-classe"]').val("");
-	  		$('#FinanceNewModal').find('.payment-select').val("");
-	  		$('#FinanceNewModal').find('.yearly').addClass('hidden');
-			$('#FinanceNewModal').find('.monthly').addClass('hidden');
-			$('#FinanceNewModal').find('.monthly-rows').remove();
-			$('#FinanceNewModal').find('.yearly-rows').remove();
-	  		displayStudent(studentId);
-	  	} else {
-	  		console.log(res);
-	  	}
-	  });
+
+	if (!ad_classe){
+		$('#FinanceNewModal').find('input[name="modal-classe"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#FinanceNewModal').find('input[name="modal-classe"]').parent(".form-group").removeClass("form-input-error");
+	}
+
+	if (!ad_student){
+		$('#FinanceNewModal').find('input[name="modal-student"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#FinanceNewModal').find('input[name="modal-student"]').parent(".form-group").removeClass("form-input-error");
+	}
+
+	if(ad_classe && ad_student && payments.length > 0 ){
+		$.ajax({
+		    type: 'post',
+		    url: '/Students/payment',
+		    data: {
+		    	payments:payments
+		    },
+		    dataType: 'json'
+		})
+		.done(function(res){
+		  	if(res.saved)
+		  	{
+		  		$("#FinanceNewModal").modal('hide');
+		  		$('.input-dropdown-search').val("");
+		  		$('input[name="modal-student"]').val("");
+		  		$('input[name="modal-classe"]').val("");
+		  		$('#FinanceNewModal').find('.payment-select').val("");
+		  		$('#FinanceNewModal').find('.yearly').addClass('hidden');
+				$('#FinanceNewModal').find('.monthly').addClass('hidden');
+				$('#FinanceNewModal').find('.monthly-rows').remove();
+				$('#FinanceNewModal').find('.yearly-rows').remove();
+		  		displayStudent(studentId);
+		  	} else {
+		  		console.log(res);
+		  	}
+		});
+	}
+
 }
 
 function displayStudentModal(index) 
 {
+
 	$.ajax({
     type: 'get',
     url: '/Students/one',
@@ -1533,6 +1614,7 @@ function executePaymentModal() {
 		if (subStudent[i].Expense_PaymentMethod === "Monthly")
 		{
 			MonthsFiltred = [];
+
 			for (var j = months.indexOf(subStudent[i].Subscription_StartDate); j < months.length; j++) {
 				MonthsFiltred.push(months[j]);
 				if (j === indEnd)
@@ -1551,14 +1633,10 @@ function executePaymentModal() {
 		      	});
 			}
 			for (var k = 0; k < MonthsFiltred.length; k++) {
-				htmlmonths += "<option value="+MonthsFiltred[k]+">"+MonthsFiltred[k]+" </option> ";
+				htmlmonths += "<option selected value="+MonthsFiltred[k]+">"+MonthsFiltred[k]+" </option> ";
 			}
 			$('#FinanceNewModal').find('.monthly').removeClass('hidden');
 			$('#FinanceNewModal').find('.monthly').after('<div class="monthly-rows dynamic-form-input-container dynamic-form-input-container-extra-style"> <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+subStudent[i].Expense_Label+'</span> <span class="input-label-bg-mask"></span></label> <div class="dynamic-form-input-dropdown-container"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="form-group group"> <select class="input-text-month-select2 payment-select" data-val="Monthly" data-ssid="'+subStudent[i].SS_ID+'" multiple name="language"> '+htmlmonths+'</select> <img class="icon button-icon" src="assets/icons/caret.svg"> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div> </div>');
-			for (var j = payFilter.length - 1; j >= 0; j--) {
-		      	var option = new Option(payFilter[j].SP_PaidPeriod,payFilter[j].SP_PaidPeriod, true, true);
-    			$('#FinanceNewModal').find('[data-ssid="'+subStudent[i].SS_ID+'"]').append(option).trigger('change');
-			}
 		}
 		if (subStudent[i].Expense_PaymentMethod === "Annual")
 		{
@@ -1567,27 +1645,26 @@ function executePaymentModal() {
 		      	});
 			var htmlYearly = '';
 				if (payFilter.length === 0)
-					htmlYearly = '<option value="'+academicyear+'">'+academicyear+'</option> ';
+					htmlYearly = '<option selected value="'+academicyear+'">'+academicyear+'</option> ';
 				$('#FinanceNewModal').find('.yearly').removeClass('hidden');
 				$('#FinanceNewModal').find('.yearly').after('<div class="yearly-rows dynamic-form-input-container dynamic-form-input-container-extra-style input-text-subject-select2-one-option"> <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">'+subStudent[i].Expense_Label+'</span> <span class="input-label-bg-mask"></span></label> <div class="dynamic-form-input-dropdown-container"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="form-group group"> <select class="input-text-year-select2 payment-select" data-val="Annual" data-ssid="'+subStudent[i].SS_ID+'" multiple name="language"> '+htmlYearly+'</select> <img class="icon button-icon" src="assets/icons/caret.svg"> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div> </div>');
-		      	if (payFilter.length > 0)
-		      	{
-		      		var option = new Option(payFilter[0].SP_PaidPeriod,payFilter[0].SP_PaidPeriod, true, true);
-	    			$('#FinanceNewModal').find('[data-ssid="'+subStudent[i].SS_ID+'"]').append(option).trigger('change');
-		      	}
 		}
 	}
 	if($(".input-text-month-select2").length > 0){
 		$(".input-text-month-select2").select2({
 		  tags: true,
-		  dropdownPosition: 'below'
+		  dropdownPosition: 'below',
+		  minimumResultsForSearch: -1,
+  		  templateResult: hideSelected
 		});
 	}
 
 	if($(".input-text-year-select2").length > 0){
 		$(".input-text-year-select2").select2({
 		  tags: true,
-		  dropdownPosition: 'below'
+		  dropdownPosition: 'below',
+		  minimumResultsForSearch: -1,
+  		  templateResult: hideSelected
 		});
 	}
 

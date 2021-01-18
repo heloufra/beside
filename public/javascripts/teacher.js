@@ -680,6 +680,17 @@ function updateAbsence() {
 		from.to = $('#EditAbsenceModal').find('input[name=endTime]').val();
 		date = $('#EditAbsenceModal').find('input[name=editDate]').val();
 	}
+
+	if($('#EditAbsenceModal').find('input[data-val="Period"]').is(":checked")){
+		$("#EditAbsenceModal .dynamic-form-input-container-multi-date input").each(function(ind,elem){
+			if($(elem).val()==""){
+				$(elem).addClass("form-input-error");
+			}else{
+				$(elem).removeClass("form-input-error");
+			}
+		});
+	}
+
 	$.ajax({
 	    type: 'post',
 	    url: '/Teachers/absence/update',
@@ -1314,6 +1325,16 @@ if ($('#AddTeacherAbsenceModal').find('input[data-val="Absence"]:checked').val()
 	else
 	{
 		$('#AddTeacherAbsenceModal').find('input[name="time_end"]').css("border-color", "#EFEFEF");
+	}
+
+	if($('#AddTeacherAbsenceModal').find('input[data-val="Period"]').is(":checked")){
+		$("#AddTeacherAbsenceModal .dynamic-form-input-container-multi-date input").each(function(ind,elem){
+			if($(elem).val()==""){
+				$(elem).addClass("form-input-error");
+			}else{
+				$(elem).removeClass("form-input-error");
+			}
+		});
 	}
 
 	if (ad_absence && ad_date && ad_fromto.to && ad_fromto.from && ad_teacher && ad_classe)

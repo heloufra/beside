@@ -872,6 +872,7 @@ $(document).ready(function(){
 		$this = $(this);
 
 		$text = $(this).attr("data-val");
+		$id = $(this).attr("data-id");
 
 		if($(this).attr("data-id") == "0"){
 			$(this).parents(".dynamic-form-input-float-adjust").find(".interaction_icon_main").attr("src","assets/icons/emoji_good.svg");
@@ -883,6 +884,8 @@ $(document).ready(function(){
 		$this.closest(".form-group").find(".input-dropdown").attr("data-val","");
 
 		$this.closest(".form-group").find(".input-dropdown").attr("data-val",$text);
+		
+		$this.closest(".form-group").find(".input-dropdown").attr("data-id",$id);
 
 		$this.parent().find(".dynamic-form-input-dropdown-options").css({"opacity":"0"});
 
@@ -1815,7 +1818,7 @@ $(document).ready(function(){
 
 	/* input-date-limited __________________________*/
 
-	$(document).on("click",".input-date-illimited",function(){
+	/*$(document).on("click",".input-date-illimited",function(){
 
 		$this_ = $(this);
 
@@ -1835,6 +1838,26 @@ $(document).ready(function(){
 		$this_.focus();
 		console.log(".input-date-illimited");
 
+	});*/
+
+	$input_date_illimited = $(".input-date-illimited").datepicker({
+		dateFormat: "dd/mm/yyyy",
+		showOtherMonths: true,
+		firstDay: 1,
+		autoClose: true,
+		maxDate:new Date(),
+		minView:'days',
+		navTitles: {
+		      days: 'M - yyyy',
+		      months: 'yyyy',
+		      years: 'yyyy1 - yyyy2'
+			},
+		view: 'years',
+		language:'en',
+		showEvent: 'focus',
+		onSelect: function($input,$elem){
+			$(this).datepicker("destroy");
+		}
 	});
 
 	/* End input-date-limited __________________________*/
@@ -3423,6 +3446,9 @@ $(document).ready(function(){
 
 	  }
 	}
+
+
+	$(".dynamic-form-input-container-multi-date").fadeOut().slideUp();
 
 	function Absense_Retard_Checker($type){
 

@@ -1495,28 +1495,53 @@ function updateAbsence() {
 }
 
 function updateAttitude() {
+
+	var at_date = $('#EditAttitudeModal').find('input[name=date]').val();
+	var at_note = $('#EditAttitudeModal').find('textarea').val();
+
+	if (!at_date){
+		$('#EditAttitudeModal').find('input[name=date]').addClass("form-input-error");
+	}
+	else{
+		$('#EditAttitudeModal').find('input[name=date]').removeClass("form-input-error");
+	}
+
+	if (!at_note){
+		$('#EditAttitudeModal').find('textarea').addClass("form-input-error");
+	}
+	else{
+		$('#EditAttitudeModal').find('textarea').removeClass("form-input-error");
+	}
+
 	var id = $('#EditAttitudeModal').find('input[name="edit-student"]').data('id');
-	$.ajax({
-	    type: 'post',
-	    url: '/Students/attitude/update',
-	    data: {
-	    	id:attitudes[id].Attitude_ID,
-	    	declaredBy:attitudes[id].Declaredby_ID,
-	    	Attitude_Note:$('#EditAttitudeModal').find('textarea').val(),
-			Attitude_Addeddate:$('#EditAttitudeModal').find('input[name=date]').val(),
-	    },
-	    dataType: 'json'
-	  })
-	  .done(function(res){
-	  	if(res.updated)
-	  	{
-	  		$('#EditAttitudeModal').modal('hide');
-	  		displayStudent(studentId);
-	  	} else {
-	  		console.log(res);
-	  		$('#EditAttitudeModal').modal('hide');
-	  	}
-	  });
+
+	if(at_note && at_date){
+
+		$.ajax({
+	    	type: 'post',
+		    url: '/Students/attitude/update',
+		    data: {
+		    	id:attitudes[id].Attitude_ID,
+		    	declaredBy:attitudes[id].Declaredby_ID,
+		    	Attitude_Note:$('#EditAttitudeModal').find('textarea').val(),
+				Attitude_Addeddate:$('#EditAttitudeModal').find('input[name=date]').val(),
+		    },
+		    dataType: 'json'
+		  })
+		  .done(function(res){
+		  	if(res.updated)
+		  	{
+		  		$('#EditAttitudeModal').modal('hide');
+		  		displayStudent(studentId);
+		  	} else {
+		  		console.log(res);
+		  		$('#EditAttitudeModal').modal('hide');
+		  	}
+		  });
+
+	}
+
+
 }
 
 function discardChange() {
@@ -1527,76 +1552,96 @@ function discardChange() {
  }
 
 function saveAbsence() {
-var ad_classe = $('#AddStudentAbsenceModal').find('input[name="ad_classe"]').val();
-var ad_fromto = {};
-var ad_date = "";
 
-var ad_student = $('#AddStudentAbsenceModal').find('input[name="ad_student"]').val();
+	var ad_classe = $('#AddStudentAbsenceModal').find('input[name="ad_classe"]').val();
+	var ad_fromto = {};
+	var ad_date = "";
 
-var ad_absence;
+	var ad_student = $('#AddStudentAbsenceModal').find('input[name="ad_student"]').val();
 
-if ($('#AddStudentAbsenceModal').find('input[data-val="Absence"]:checked').val())
-{
-	if($('#AddStudentAbsenceModal').find('input[data-val="Session"]:checked').val())
+	var ad_absence;
+
+	if ($('#AddStudentAbsenceModal').find('input[data-val="Absence"]:checked').val())
 	{
-		ad_absence = $('#AddStudentAbsenceModal').find('input[data-val="Session"]:checked').val();
-		ad_fromto = {
-			from: $('#AddStudentAbsenceModal').find('input[name="time_start"]').val(),
-			to: $('#AddStudentAbsenceModal').find('input[name="time_end"]').val(),
-		};
-		ad_date = $('#AddStudentAbsenceModal').find('input[name="ad_date"]').val();
-	} else 
-	{
-		ad_absence = $('#AddStudentAbsenceModal').find('input[data-val="Period"]:checked').val();
-		ad_fromto = {
-			from: $('#AddStudentAbsenceModal').find('input[name="period_start"]').val(),
-			to: $('#AddStudentAbsenceModal').find('input[name="period_end"]').val(),
+		if($('#AddStudentAbsenceModal').find('input[data-val="Session"]:checked').val())
+		{
+			ad_absence = $('#AddStudentAbsenceModal').find('input[data-val="Session"]:checked').val();
+			ad_fromto = {
+				from: $('#AddStudentAbsenceModal').find('input[name="time_start"]').val(),
+				to: $('#AddStudentAbsenceModal').find('input[name="time_end"]').val(),
+			};
+			ad_date = $('#AddStudentAbsenceModal').find('input[name="ad_date"]').val();
+		} 
+		else 
+		{
+			ad_absence = $('#AddStudentAbsenceModal').find('input[data-val="Period"]:checked').val();
+			ad_fromto = {
+				from: $('#AddStudentAbsenceModal').find('input[name="period_start"]').val(),
+				to: $('#AddStudentAbsenceModal').find('input[name="period_end"]').val(),
+			}
+			ad_date = "null";
 		}
-		ad_date = "null";
+	} 
+	else 
+	{
+		ad_absence = $('#AddStudentAbsenceModal').find('input[data-val="Retard"]:checked').val();
+		ad_fromto = {
+				from: $('#AddStudentAbsenceModal').find('input[name="time_start"]').val(),
+				to: $('#AddStudentAbsenceModal').find('input[name="time_end"]').val(),
+			};
+		ad_date = $('#AddStudentAbsenceModal').find('input[name="ad_date"]').val();
 	}
-} else 
-{
-	ad_absence = $('#AddStudentAbsenceModal').find('input[data-val="Retard"]:checked').val();
-	ad_fromto = {
-			from: $('#AddStudentAbsenceModal').find('input[name="time_start"]').val(),
-			to: $('#AddStudentAbsenceModal').find('input[name="time_end"]').val(),
-		};
-	ad_date = $('#AddStudentAbsenceModal').find('input[name="ad_date"]').val();
-}
 
 
-	if (!ad_date && ad_absence !== "2")
-		$('#AddStudentAbsenceModal').find('.dynamic-form-input-container-one-date').css("border-color", "#f6b8c1");
-	else
-		$('#AddStudentAbsenceModal').find('.dynamic-form-input-container-one-date').css("border-color", "#EFEFEF");
-	if (!ad_classe)
-		$('#AddStudentAbsenceModal').find('.ad_classe').css("border-color", "#f6b8c1");
-	else
-		$('#AddStudentAbsenceModal').find('.ad_classe').css("border-color", "#EFEFEF");
+	if (!ad_date && ad_absence !== "2"){
+		$('#AddStudentAbsenceModal').find('.dynamic-form-input-container-one-date').addClass("form-input-error");
+	}
+	else{
+		$('#AddStudentAbsenceModal').find('.dynamic-form-input-container-one-date').removeClass("form-input-error");
+	}
 
-	if (!ad_student)
-		$('#AddStudentAbsenceModal').find('.ad_student').css("border-color", "#f6b8c1");
-	else
-		$('#AddStudentAbsenceModal').find('.ad_student').css("border-color", "#EFEFEF");
+	if (!ad_classe){
+		$('#AddStudentAbsenceModal').find('.ad_classe').addClass("form-input-error");
+	}
+	else{
+		$('#AddStudentAbsenceModal').find('.ad_classe').removeClass("form-input-error");
+	}
+
+	if (!ad_student){
+		$('#AddStudentAbsenceModal').find('.ad_student').addClass("form-input-error");
+	}
+	else{
+		$('#AddStudentAbsenceModal').find('.ad_student').removeClass("form-input-error");
+	}
 
 	if (!ad_fromto.from && ad_absence !== "2")
 	{
-		$('#AddStudentAbsenceModal').find('input[name="time_start"]').css("border-color", "#f6b8c1");
-		$('#AddStudentAbsenceModal').find('input[name="time_end"]').css("border-color", "#f6b8c1");
+		$('#AddStudentAbsenceModal').find('input[name="time_start"]').addClass("form-input-error");
+		$('#AddStudentAbsenceModal').find('input[name="time_end"]').addClass("form-input-error");
 	}
 	else
 	{
-		$('#AddStudentAbsenceModal').find('input[name="time_start"]').css("border-color", "#EFEFEF");
-		$('#AddStudentAbsenceModal').find('input[name="time_end"]').css("border-color", "#EFEFEF");
+		$('#AddStudentAbsenceModal').find('input[name="time_start"]').removeClass("form-input-error");
+		$('#AddStudentAbsenceModal').find('input[name="time_end"]').removeClass("form-input-error");
 	}
 
 	if (!ad_fromto.to && ad_absence !== "2")
 	{
-		$('#AddStudentAbsenceModal').find('input[name="time_end"]').css("border-color", "#f6b8c1");
+		$('#AddStudentAbsenceModal').find('input[name="time_end"]').addClass("form-input-error");
 	}
 	else
 	{
-		$('#AddStudentAbsenceModal').find('input[name="time_end"]').css("border-color", "#EFEFEF");
+		$('#AddStudentAbsenceModal').find('input[name="time_end"]').removeClass("form-input-error");
+	}
+
+	if($('#AddStudentAbsenceModal').find('input[data-val="Period"]').is(":checked")){
+		$("#AddStudentAbsenceModal .dynamic-form-input-container-multi-date input").each(function(ind,elem){
+			if($(elem).val()==""){
+				$(elem).addClass("form-input-error");
+			}else{
+				$(elem).removeClass("form-input-error");
+			}
+		});
 	}
 
 	if (ad_absence && ad_date && ad_fromto.to && ad_fromto.from && ad_student && ad_classe)
@@ -1643,6 +1688,7 @@ if ($('#AddStudentAbsenceModal').find('input[data-val="Absence"]:checked').val()
 }
 
 function saveAttitude() {
+
 	var at_classe = $('#AddAttitudeModal').find('input[name="at_classe"]').val();
 	var at_date = $('#AddAttitudeModal').find('input[name="at_date"]').val();
 
@@ -1656,23 +1702,31 @@ function saveAttitude() {
 		at_type = $('#AddAttitudeModal').find('input[data-val="Negative"]:checked').val();
 
 
-	if (!at_date)
-		$('#AddAttitudeModal').find('.at_date').css("border-color", "#f6b8c1");
-	else
-		$('#AddAttitudeModal').find('.at_date').css("border-color", "#EFEFEF");
-	if (!at_classe)
-		$('#AddAttitudeModal').find('.at_classe').css("border-color", "#f6b8c1");
-	else
-		$('#AddAttitudeModal').find('.at_classe').css("border-color", "#EFEFEF");
+	if (!at_date){
+		$('#AddAttitudeModal').find('.at_date').addClass("form-input-error");
+	}
+	else{
+		$('#AddAttitudeModal').find('.at_date').removeClass("form-input-error");
+	}
+	if (!at_classe){
+		$('#AddAttitudeModal').find('.at_classe').addClass("form-input-error");
+	}
+	else{
+		$('#AddAttitudeModal').find('.at_classe').removeClass("form-input-error");
+	}
 
-	if (!at_student)
-		$('#AddAttitudeModal').find('.at_student').css("border-color", "#f6b8c1");
-	else
-		$('#AddAttitudeModal').find('.at_student').css("border-color", "#EFEFEF");
-	if (!at_note)
-		$('#AddAttitudeModal').find('#at_note').css("border-color", "#f6b8c1");
-	else
-		$('#AddAttitudeModal').find('#at_note').css("border-color", "#EFEFEF");
+	if (!at_student){
+		$('#AddAttitudeModal').find('.at_student').addClass("form-input-error");
+	}
+	else{
+		$('#AddAttitudeModal').find('.at_student').removeClass("form-input-error");
+	}
+	if (!at_note){
+		$('#AddAttitudeModal').find('#at_note').addClass("form-input-error");
+	}
+	else{
+		$('#AddAttitudeModal').find('#at_note').removeClass("form-input-error");
+	}
 
 	if (at_type && at_note && at_date && at_student && at_classe)
 	{

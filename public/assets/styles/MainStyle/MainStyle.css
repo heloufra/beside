@@ -3493,6 +3493,7 @@ form{
 
 #FinanceModal .modal-dialog , 
 #AddNewAttitudeModal .modal-dialog , 
+#EditAttitudeModal .modal-dialog , 
 #FinanceNewModal .modal-dialog , 
 #FinanceBillModal .modal-dialog , 
 #AddAbsenceModal .modal-dialog ,
@@ -7673,6 +7674,11 @@ table td img {
     .dynamic-form-input-float-adjust .form-group-right.form-input-error{
     	border : 1px solid #f6b8c1 !important;
     }
+ 
+	.select2-results__option.select2-results__option--selectable.select2-results__option--selected.select2-results__option--highlighted ,
+	.select2-results__option.select2-results__option--selectable.select2-results__option--selected{
+		display: none !important;
+	}
 
 
 
