@@ -192,35 +192,109 @@ var studentController = {
     })
   },
   saveStudent: function(req, res, next) {
-     connection.query("SELECT * FROM `students` WHERE `Student_FirstName` = ? AND `Student_LastName` = ? AND Student_Status = 1 ", [req.body.first_name,  req.body.last_name], (err, user, fields) => {
-        if(1==1) // user.length === 0
-        {
-           connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
-            connection.query("SELECT * FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
-                  connection.query(studentQuery, [req.body.first_name,req.body.last_name, req.body.profile_image,req.body.birthdate,req.body.student_address,req.body.phone_number,req.body.student_gender,req.body.student_email,req.Institution_ID], (err, student, fields) => {
-                     if (err) {
-                          console.log(err);
-                          res.json({saved : false,error:err});
-                        } 
-                        else 
-                        {
-                          res.json({saved : true,user_id:student.insertId});
-                           console.log("Student",student.insertId);
-                           for (var i = req.body.parent_name.length - 1; i >= 0; i--) {
-                             
-                            connection.query(parentQuery, [req.body.parent_name[i],req.body.parent_phone[i],req.body.parent_email[i],req.Institution_ID], (err, parent, fields) => {
-                             if (err) {
-                                  console.log(err);
-                                    res.json({
-                                      errors: [{
-                                      field: "Access denied",
-                                      errorDesc: "List Students Error"
-                                    }]});
-                                } else 
-                                {
-                                   console.log("Parent",parent.insertId);
 
-                                   connection.query(spQuery, [student.insertId,parent.insertId], (err, spresult, fields) => {
+
+     form_errors = {} ;
+     student_error = {};
+     parents_error = {};
+     parent_emails_error = [];
+     parent_phones_error = [];
+
+
+      // Parents unique email , phone 
+      for (var p = 0 ; p < req.body.parent_email.length ; p++ ) {
+         // Parent unique email  
+          connection.query("SELECT Count(*) as 'Email_Count' , Parent_Email  FROM `parents` WHERE `Parent_Email` = ? AND Parent_Status = 1 ", [req.body.parent_email[p]], (err, parentEmail, fields) => {
+                // unique email
+                if(parentEmail[0].Email_Count > 0 ){
+                   parent_emails_error.push(parentEmail[0].Parent_Email);
+                }
+          });
+      }
+
+      for (var p = 0 ; p < req.body.parent_phone.length ; p++ ) {
+          // Parent unique phone  
+          connection.query("SELECT Count(*) as 'Tel_Count' , Parent_Phone FROM `parents` WHERE `Parent_Phone` = ? AND Parent_Status = 1 ", [req.body.parent_phone[p]], (err, parentTel, fields) => {
+                // unique phone
+                if(parentTel[0].Tel_Count > 0 ){
+                   parent_phones_error.push(parentTel[0].Parent_Phone);
+                }
+          });
+      }
+
+      // Parent unique email , phone 
+      parents_error["Email"]=parent_emails_error;
+      parents_error["Tel"]=parent_phones_error;
+      form_errors["Parents"]=parents_error;
+
+     // student unique email , phone 
+     connection.query("SELECT Count(*) as 'Email_Count' FROM `students` WHERE `Student_Email` = ? AND Student_Status = 1 limit 1 ", [req.body.student_email], (err, studentEmail, fields) => {
+
+          // unique email
+          if(studentEmail[0].Email_Count > 0 ){ 
+             student_error["Email"]=req.body.student_email;
+          }
+
+          connection.query("SELECT Count(*) as 'Tel_Count' FROM `students` WHERE `Student_Phone` = ? AND Student_Status = 1 limit 1", [req.body.phone_number], (err, studentTel, fields) => {
+
+          // unique phone
+          if(studentTel[0].Tel_Count > 0 ){
+             student_error["Tel"]=req.body.phone_number;
+          }
+
+          // test if there is student uniqueness error
+          form_errors["Student"]= student_error ;
+
+          if(form_errors.length == 0 ) // user.length === 0
+          {
+             connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
+              connection.query("SELECT * FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
+                    connection.query(studentQuery, [req.body.first_name,req.body.last_name, req.body.profile_image,req.body.birthdate,req.body.student_address,req.body.phone_number,req.body.student_gender,req.body.student_email,req.Institution_ID], (err, student, fields) => {
+                       if (err) {
+                            console.log(err);
+                            res.json({saved : false,error:err});
+                          } 
+                          else 
+                          {
+                            res.json({saved : true,user_id:student.insertId});
+                             console.log("Student",student.insertId);
+                             for (var i = req.body.parent_name.length - 1; i >= 0; i--) {
+                               
+                              connection.query(parentQuery, [req.body.parent_name[i],req.body.parent_phone[i],req.body.parent_email[i],req.Institution_ID], (err, parent, fields) => {
+                               if (err) {
+                                    console.log(err);
+                                      res.json({
+                                        errors: [{
+                                        field: "Access denied",
+                                        errorDesc: "List Students Error"
+                                      }]});
+                                  } else 
+                                  {
+                                     console.log("Parent",parent.insertId);
+
+                                     connection.query(spQuery, [student.insertId,parent.insertId], (err, spresult, fields) => {
+                                       if (err) {
+                                            console.log(err);
+                                              res.json({
+                                                errors: [{
+                                                field: "Access denied",
+                                                errorDesc: "List Students Error"
+                                              }]});
+                                          } else 
+                                          {
+                                             console.log("SP",spresult.insertId)
+                                             
+                                          }
+                                      })
+                                     
+                                  }
+                              })
+                             }
+
+                             if (req.body.checkbox_sub)
+                               for (var i = req.body.checkbox_sub.length - 1; i >= 0; i--) {
+                                  startDate = new Date();
+                                  connection.query(ssQuery, [student.insertId,req.body.checkbox_sub[i].LE_ID,months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID], (err, ssresult, fields) => {
                                      if (err) {
                                           console.log(err);
                                             res.json({
@@ -230,19 +304,13 @@ var studentController = {
                                             }]});
                                         } else 
                                         {
-                                           console.log("SP",spresult.insertId)
+                                           console.log("SS",ssresult.insertId)
                                            
                                         }
                                     })
-                                   
-                                }
-                            })
-                           }
-
-                           if (req.body.checkbox_sub)
-                             for (var i = req.body.checkbox_sub.length - 1; i >= 0; i--) {
-                                startDate = new Date();
-                                connection.query(ssQuery, [student.insertId,req.body.checkbox_sub[i].LE_ID,months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID], (err, ssresult, fields) => {
+                               }
+                              connection.query("SELECT Classe_ID FROM `classes` WHERE `Classe_Label` = ? AND AY_ID = ? LIMIT 1", [req.body.classe,academic[0].AY_ID], (err, classe, fields) => {
+                                connection.query(scQuery, [student.insertId,classe[0].Classe_ID,academic[0].AY_ID], (err, scresult, fields) => {
                                    if (err) {
                                         console.log(err);
                                           res.json({
@@ -252,35 +320,23 @@ var studentController = {
                                           }]});
                                       } else 
                                       {
-                                         console.log("SS",ssresult.insertId)
+                                         console.log("Sc Result",scresult.insertId)
                                          
                                       }
                                   })
-                             }
-                            connection.query("SELECT Classe_ID FROM `classes` WHERE `Classe_Label` = ? AND AY_ID = ? LIMIT 1", [req.body.classe,academic[0].AY_ID], (err, classe, fields) => {
-                              connection.query(scQuery, [student.insertId,classe[0].Classe_ID,academic[0].AY_ID], (err, scresult, fields) => {
-                                 if (err) {
-                                      console.log(err);
-                                        res.json({
-                                          errors: [{
-                                          field: "Access denied",
-                                          errorDesc: "List Students Error"
-                                        }]});
-                                    } else 
-                                    {
-                                       console.log("Sc Result",scresult.insertId)
-                                       
-                                    }
-                                })
-                            })
-                        }
-                   })
+                              })
+                          }
+                     })
+              })
             })
-          })
-        } else{
-          res.json({saved : false});
-        }
+          } else{
+            res.json({saved : false , form_errors });
+          }
+
         });
+
+    });
+
   },
   saveAbsence: function(req, res, next) {
            connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
@@ -382,100 +438,162 @@ var studentController = {
           }
      })
   },
-  updateStudent: function(req, res, next) {
-    connection.query("SELECT * FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
-      connection.query("UPDATE `students` SET `Student_FirstName`=?,`Student_LastName`=?,`Student_Image`=?,`Student_birthdate`=?,`Student_Address`=?,`Student_Phone`=?,Student_Gender=?,Student_Email=? WHERE Student_ID = ?", [req.body.student_fname,req.body.student_lname,req.body.student_img,req.body.student_birthdat,req.body.student_address,req.body.student_phone,req.body.student_gender,req.body.student_email,req.body.id],async (err, student, fields) => {
-         if (err) {
-              console.log(err);
-                res.json({
-                  errors: [{
-                  field: "Access denied",
-                  errorDesc: "Cannot Remove it"
-                }]});
-            } else 
-            {
-              connection.query("UPDATE `studentsclasses` SET `Classe_ID`=? WHERE `Student_ID` = ?", [req.body.student_classe,req.body.id]);
-              for (var i = req.body.parent_name.length - 1; i >= 0; i--) {
-                if (req.body.parent_name[i].id === 'null')
-                {
-                  connection.query(parentQuery, [req.body.parent_name[i].name,req.body.parent_phone[i].phone,req.body.parent_email[i].email,req.Institution_ID], (err, parent, fields) => {
-                     if (err) {
-                          console.log(err);
-                            res.json({
-                              errors: [{
-                              field: "Access denied",
-                              errorDesc: "List Students Error"
-                            }]});
-                        } else 
-                          {
-                           connection.query(spQuery, [req.body.id,parent.insertId], (err, spresult, fields) => {
-                             if (err) {
-                                  console.log(err);
-                                    res.json({
-                                      errors: [{
-                                      field: "Access denied",
-                                      errorDesc: "List Students Error"
-                                    }]});
-                                } else 
-                                {
+  updateStudent: async function(req, res, next) {
 
-                                }
-                            })
-                           
-                        }
-                      })
+    /**____ form_errors ______________________**/
+
+      form_errors = {} ;
+      student_error = {};
+      parents_error = {};
+      parent_emails_error = [];
+      parent_phones_error = [];
+
+      // Parents unique email , phone 
+      for (var p = 0 ; p < req.body.parent_email.length ; p++ ) {
+
+         var em = await studentModel.studentParentUniqueEmail( req.body.parent_email[p].email , req.body.parent_email[p].id );
+
+         if(em[0].Email_Count > 0 ){
+            parent_emails_error.push(em[0].Parent_Email);
+         }
+
+      }
+
+      for (var p = 0 ; p < req.body.parent_phone.length ; p++ ) {
+          // Parent unique phone  
+         var tel = await studentModel.studentParentUniqueTel( req.body.parent_phone[p].phone , req.body.parent_phone[p].id );
+         
+         if(tel[0].Tel_Count > 0 ){
+            parent_phones_error.push(tel[0].Parent_Phone);
+         }
+      }
+
+      // Parent unique email , phone 
+      parents_error["Email"] = parent_emails_error;
+      parents_error["Tel"]   = parent_phones_error;
+      form_errors["Parents"] = parents_error;
+
+      // student unique email , phone 
+      var tel = await studentModel.studentUniqueTel( req.body.student_phone , req.body.id );
+      // unique phone
+      if(tel[0].Tel_Count > 0 ){
+        student_error["Tel"]=req.body.student_phone;
+      }
+
+      // unique email 
+      var eml = await studentModel.studentUniqueEmail( req.body.student_email , req.body.id );
+      // unique phone
+      if(eml[0].Email_Count > 0 ){
+        student_error["Email"]= eml[0].Student_Email ;
+      }
+
+      form_errors["Student"] = student_error ;
+
+      res.json({updated : false , form_errors });
+
+      return false;
+
+    /**____ End form_errors ______________________**/
+
+    if(form_errors.length == 0 ){
+      connection.query("SELECT * FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
+        connection.query("UPDATE `students` SET `Student_FirstName`=?,`Student_LastName`=?,`Student_Image`=?,`Student_birthdate`=?,`Student_Address`=?,`Student_Phone`=?,Student_Gender=?,Student_Email=? WHERE Student_ID = ?", [req.body.student_fname,req.body.student_lname,req.body.student_img,req.body.student_birthdat,req.body.student_address,req.body.student_phone,req.body.student_gender,req.body.student_email,req.body.id],async (err, student, fields) => {
+           if (err) {
+                console.log(err);
+                  res.json({
+                    errors: [{
+                    field: "Access denied",
+                    errorDesc: "Cannot Remove it"
+                  }]});
+              } else 
+              {
+                connection.query("UPDATE `studentsclasses` SET `Classe_ID`=? WHERE `Student_ID` = ?", [req.body.student_classe,req.body.id]);
+                for (var i = req.body.parent_name.length - 1; i >= 0; i--) {
+                  if (req.body.parent_name[i].id === 'null')
+                  {
+                    connection.query(parentQuery, [req.body.parent_name[i].name,req.body.parent_phone[i].phone,req.body.parent_email[i].email,req.Institution_ID], (err, parent, fields) => {
+                       if (err) {
+                            console.log(err);
+                              res.json({
+                                errors: [{
+                                field: "Access denied",
+                                errorDesc: "List Students Error"
+                              }]});
+                          } else 
+                            {
+                             connection.query(spQuery, [req.body.id,parent.insertId], (err, spresult, fields) => {
+                               if (err) {
+                                    console.log(err);
+                                      res.json({
+                                        errors: [{
+                                        field: "Access denied",
+                                        errorDesc: "List Students Error"
+                                      }]});
+                                  } else 
+                                  {
+
+                                  }
+                              })
+                             
+                          }
+                        })
+                  }
+                  else
+                    connection.query("UPDATE `parents` SET  Parent_Name = ?,Parent_Phone= ? , Parent_Email= ? WHERE `Parent_ID` = ?", [req.body.parent_name[i].name,req.body.parent_phone[i].phone,req.body.parent_email[i].email,req.body.parent_name[i].id])
                 }
-                else
-                  connection.query("UPDATE `parents` SET  Parent_Name = ?,Parent_Phone= ? , Parent_Email= ? WHERE `Parent_ID` = ?", [req.body.parent_name[i].name,req.body.parent_phone[i].phone,req.body.parent_email[i].email,req.body.parent_name[i].id])
+
+                var new_ = false;
+                
+                if((req.body.student_level_changed * 1 ) == 0){ // test still in the same level
+                    // Cancel Subscriptions
+                    if (req.body.unchecked){
+                      for (var i = req.body.unchecked.length - 1; i >= 0; i--) {
+                        connection.query("UPDATE `studentsubscribtion` SET `Subscription_EndDate`=?, `SS_Status`= 0 WHERE `LE_ID` = ?", [new Date(),req.body.unchecked[i]])
+                      }
+                    }
+                    // New Subscriptions
+                    if (req.body.checked){
+                      for (var i = req.body.checked.length - 1; i >= 0; i--) {
+                          var le_id = await studentModel.findLe(req.body.checked[i],req.body.id,academic[0].AY_ID);
+
+                          startDate = new Date();
+                          if (le_id.length === 0) // New Subscriptions
+                          {
+                            connection.query("INSERT INTO studentsubscribtion(Student_ID, LE_ID, Subscription_StartDate, Subscription_EndDate, AY_ID) VALUES(?,?,?,?,?)", [req.body.id,req.body.checked[i],months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID])
+                          } else // Reactive Old Subscriptions
+                          {
+                            connection.query("UPDATE `studentsubscribtion` SET Subscription_StartDate=? , `Subscription_EndDate`=?,`SS_Status`=1 WHERE `LE_ID` = ? AND `Student_ID` = ? AND `SS_Status` = 0 ", [months[startDate.getMonth()],academic[0].AY_EndDate,req.body.checked[i],req.body.id])
+                          }
+                      }
+                    }
+                }else{ // else  remove old ones and add new
+
+                    // Remove Subscriptions
+
+                    connection.query("UPDATE `studentsubscribtion` SET `SS_Status`= '-1' WHERE `Student_ID` = ? and AY_ID = ? ", [req.body.id,academic[0].AY_ID] );
+
+                    // New Subscriptions
+                    if (req.body.checked){
+                      for (var i = req.body.checked.length - 1; i >= 0; i--) {
+                          // New Subscriptions
+                          startDate = new Date();
+                            connection.query("INSERT INTO studentsubscribtion(Student_ID, LE_ID, Subscription_StartDate, Subscription_EndDate, AY_ID) VALUES(?,?,?,?,?)", [req.body.id,req.body.checked[i],months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID]);
+                      }
+                    }
+
+                    new_ = true;
+
+                }
+
+                res.json({updated : true , checked : req.body.checked , new_ : new_ , student_level_changed : req.body.student_level_changed });
               }
+         })
+      });
+    }else{
+      res.json({updated : false , form_errors });
+    }
 
-              var new_ = false;
-              
-              if((req.body.student_level_changed * 1 ) == 0){ // test still in the same level
-                  // Cancel Subscriptions
-                  if (req.body.unchecked){
-                    for (var i = req.body.unchecked.length - 1; i >= 0; i--) {
-                      connection.query("UPDATE `studentsubscribtion` SET `Subscription_EndDate`=?, `SS_Status`= 0 WHERE `LE_ID` = ?", [new Date(),req.body.unchecked[i]])
-                    }
-                  }
-                  // New Subscriptions
-                  if (req.body.checked){
-                    for (var i = req.body.checked.length - 1; i >= 0; i--) {
-                        var le_id = await studentModel.findLe(req.body.checked[i],req.body.id,academic[0].AY_ID);
 
-                        startDate = new Date();
-                        if (le_id.length === 0) // New Subscriptions
-                        {
-                          connection.query("INSERT INTO studentsubscribtion(Student_ID, LE_ID, Subscription_StartDate, Subscription_EndDate, AY_ID) VALUES(?,?,?,?,?)", [req.body.id,req.body.checked[i],months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID])
-                        } else // Reactive Old Subscriptions
-                        {
-                          connection.query("UPDATE `studentsubscribtion` SET Subscription_StartDate=? , `Subscription_EndDate`=?,`SS_Status`=1 WHERE `LE_ID` = ? AND `Student_ID` = ? AND `SS_Status` = 0 ", [months[startDate.getMonth()],academic[0].AY_EndDate,req.body.checked[i],req.body.id])
-                        }
-                    }
-                  }
-              }else{ // else  remove old ones and add new
-
-                  // Remove Subscriptions
-
-                  connection.query("UPDATE `studentsubscribtion` SET `SS_Status`= '-1' WHERE `Student_ID` = ? and AY_ID = ? ", [req.body.id,academic[0].AY_ID] );
-
-                  // New Subscriptions
-                  if (req.body.checked){
-                    for (var i = req.body.checked.length - 1; i >= 0; i--) {
-                        // New Subscriptions
-                        startDate = new Date();
-                          connection.query("INSERT INTO studentsubscribtion(Student_ID, LE_ID, Subscription_StartDate, Subscription_EndDate, AY_ID) VALUES(?,?,?,?,?)", [req.body.id,req.body.checked[i],months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID]);
-                    }
-                  }
-
-                  new_ = true;
-
-              }
-
-              res.json({updated : true , checked : req.body.checked , new_ : new_ , student_level_changed : req.body.student_level_changed });
-            }
-       })
-    })
   },
   updateAttitude: function(req, res, next) {
     if (parseInt(req.body.declaredBy) === req.userId)

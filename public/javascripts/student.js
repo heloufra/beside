@@ -1213,9 +1213,63 @@ function saveStudent() {
 		  		getAllStudents();
 
 		  	} else {
-		  		$('#student_form').find('input[name="first_name"]').css("border-color", "#f6b8c1");
-		  		$('#student_form').find('input[name="last_name"]').css("border-color", "#f6b8c1");
+
+		  		
+		  			// Parent Email , Phone Exist 
+
+					$("#student_form .dynamic-form-input-parent input").each(function(ind,elem){
+
+						if($(elem).attr("name") == "parent_email" || $(elem).attr("name") == "parent_phone"){
+
+							if($(elem).attr("name") == "parent_email") {
+
+									for(var em = 0 ; em < res.form_errors.Parents.Email.length ; em++) {
+
+										if ($(elem).val() == res.form_errors.Parents.Email[em]){
+											$(elem).parent(".form-group").addClass("form-input-error");
+										}
+										else{
+											$(elem).parent(".form-group").removeClass("form-input-error");
+										}
+									}
+
+							}
+
+							if($(elem).attr("name") == "parent_phone") {
+
+									for(var t = 0 ; t < res.form_errors.Parents.Tel.length ; t++) {
+
+										if ($(elem).val() == res.form_errors.Parents.Tel[t]){
+											$(elem).parent(".form-group").addClass("form-input-error");
+										}
+										else{
+											$(elem).parent(".form-group").removeClass("form-input-error");
+										}
+									}
+
+							}
+						}	
+
+					});
+
+					
+					if (phone_number == res.form_errors.Student.Tel ){
+						$('#student_form').find('input[name="phone_number"]').parent(".form-group").addClass("form-input-error");
+					}
+					else{
+						$('#student_form').find('input[name="phone_number"]').parent(".form-group").removeClass("form-input-error");
+					}
+
+					if (student_email == res.form_errors.Student.Email ){
+						$('#student_form').find('input[name="student_email"]').parent(".form-group").addClass("form-input-error");
+					}
+					else{
+						$('#student_form').find('input[name="student_email"]').parent(".form-group").removeClass("form-input-error");
+					}
+					
+
 		  	}
+
 		  });
 	}
 
@@ -1435,16 +1489,72 @@ function saveChange() {
 	  .done(function(res){
 	  	if(res.errors)
 	  		discardChange();
-	  	if(res.updated)
-	  	{
+	  	if(res.updated) {
+
 	  		$("#EditStudentModal").modal('hide');
 	  		getAllStudents(studentId);
+	  		
+	  		$('#EditStudentModal .sub-container-form-footer').addClass('hide-footer');
+ 			$('#EditStudentModal .sub-container-form-footer').removeClass('show-footer');
+
 	  	} else {
-	  		discardChange();
+
+	  		//discardChange();
+
+			// Parent Email , Phone Exist 
+
+			$("#EditStudentModal .dynamic-form-input-parent input").each(function(ind,elem){
+
+				if($(elem).attr("name") == "parent_email" || $(elem).attr("name") == "parent_phone"){
+
+					if($(elem).attr("name") == "parent_email") {
+
+							for(var em = 0 ; em < res.form_errors.Parents.Email.length ; em++) {
+
+								if ($(elem).val() == res.form_errors.Parents.Email[em]){
+									$(elem).parent(".form-group").addClass("form-input-error");
+								}
+								else{
+									$(elem).parent(".form-group").removeClass("form-input-error");
+								}
+							}
+
+					}
+
+					if($(elem).attr("name") == "parent_phone") {
+
+							for(var t = 0 ; t < res.form_errors.Parents.Tel.length ; t++) {
+
+								if ($(elem).val() == res.form_errors.Parents.Tel[t]){
+									$(elem).parent(".form-group").addClass("form-input-error");
+								}
+								else{
+									$(elem).parent(".form-group").removeClass("form-input-error");
+								}
+							}
+
+					}
+				}	
+
+			});
+			
+			if (phone_number == res.form_errors.Student.Tel ){
+				$('#EditStudentModal').find('input[name="phone_number_detail"]').parent(".form-group").addClass("form-input-error");
+			}
+			else{
+				$('#EditStudentModal').find('input[name="phone_number_detail"]').parent(".form-group").removeClass("form-input-error");
+			}
+
+			if (student_email == res.form_errors.Student.Email ){
+				$('#EditStudentModal').find('input[name="student_email_detail"]').parent(".form-group").addClass("form-input-error");
+			}
+			else{
+				$('#EditStudentModal').find('input[name="student_email_detail"]').parent(".form-group").removeClass("form-input-error");
+			}
 	  	}
+
 	  });
- 		$('#EditStudentModal .sub-container-form-footer').addClass('hide-footer');
- 		$('#EditStudentModal .sub-container-form-footer').removeClass('show-footer');
+ 		
  	}
 }
 

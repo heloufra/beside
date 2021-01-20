@@ -884,7 +884,7 @@ $(document).ready(function(){
 		$this.closest(".form-group").find(".input-dropdown").attr("data-val","");
 
 		$this.closest(".form-group").find(".input-dropdown").attr("data-val",$text);
-		
+
 		$this.closest(".form-group").find(".input-dropdown").attr("data-id",$id);
 
 		$this.parent().find(".dynamic-form-input-dropdown-options").css({"opacity":"0"});
@@ -2660,6 +2660,7 @@ $(document).ready(function(){
 			$("#AddStudentModal .dynamic-form-input-parent").removeClass("dynamic-form-input-first");
 			$dynamic_form_input = $("#AddStudentModal .dynamic-form-input-parent").first().clone();
 			$dynamic_form_input.find("input").val("");
+			$dynamic_form_input.find("input").parents(".form-group").removeClass("form-input-error");
 			$(this).parent().before($dynamic_form_input);
 
 	});
@@ -2682,6 +2683,7 @@ $(document).ready(function(){
 			$("#EditStudentModal .dynamic-form-input-parent").removeClass("dynamic-form-input-first");
 			$dynamic_form_input = $("#EditStudentModal .dynamic-form-input-parent").first().clone();
 			$dynamic_form_input.find("input").val("");
+			$dynamic_form_input.find("input").parents(".form-group").removeClass("form-input-error");
 			$(this).parent().before($dynamic_form_input);
 
 			setTimeout(function(){
