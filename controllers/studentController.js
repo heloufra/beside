@@ -489,10 +489,6 @@ var studentController = {
 
       form_errors["Student"] = student_error ;
 
-      res.json({updated : false , form_errors });
-
-      return false;
-
     /**____ End form_errors ______________________**/
 
     if(form_errors.length == 0 ){
