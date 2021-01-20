@@ -200,6 +200,8 @@ var studentController = {
      parent_emails_error = [];
      parent_phones_error = [];
 
+     user_id = -1;
+
 
       // Parents unique email , phone 
       for (var p = 0 ; p < req.body.parent_email.length ; p++ ) {
@@ -245,7 +247,8 @@ var studentController = {
           // test if there is student uniqueness error
           form_errors["Student"]= student_error ;
 
-          if(form_errors.length == 0 ) // user.length === 0
+          if(parent_emails_error.length == 0 && parent_phones_error.length == 0 && 
+             (Object.keys(student_error).length === 0 && student_error.constructor === Object) ) // user.length === 0
           {
              connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
               connection.query("SELECT * FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
@@ -256,7 +259,8 @@ var studentController = {
                           } 
                           else 
                           {
-                            res.json({saved : true,user_id:student.insertId});
+                           
+                             user_id = student.insertId
                              console.log("Student",student.insertId);
                              for (var i = req.body.parent_name.length - 1; i >= 0; i--) {
                                
@@ -328,8 +332,11 @@ var studentController = {
                           }
                      })
               })
-            })
-          } else{
+            });
+
+            res.json({saved : true,user_id});
+
+          } else {
             res.json({saved : false , form_errors });
           }
 
@@ -491,7 +498,9 @@ var studentController = {
 
     /**____ End form_errors ______________________**/
 
-    if(form_errors.length == 0 ){
+    if(parent_emails_error.length == 0 && parent_phones_error.length == 0 && 
+             (Object.keys(student_error).length === 0 && student_error.constructor === Object) ) // user.length === 0
+    {
       connection.query("SELECT * FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
         connection.query("UPDATE `students` SET `Student_FirstName`=?,`Student_LastName`=?,`Student_Image`=?,`Student_birthdate`=?,`Student_Address`=?,`Student_Phone`=?,Student_Gender=?,Student_Email=? WHERE Student_ID = ?", [req.body.student_fname,req.body.student_lname,req.body.student_img,req.body.student_birthdat,req.body.student_address,req.body.student_phone,req.body.student_gender,req.body.student_email,req.body.id],async (err, student, fields) => {
            if (err) {
