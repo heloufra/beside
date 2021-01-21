@@ -950,7 +950,7 @@ function saveteacher() {
 
 	if (first_name && last_name && teacher_address && phone_number && internationalPhoneValidator(phone_number) && birthdate && email && emailValidator(email) && (subjects.length > 0))
 	{
-		$('#AddTeacherModal').modal('hide');
+		
 		$.ajax({
 		    type: 'post',
 		    url: '/Teachers/save',
@@ -960,15 +960,16 @@ function saveteacher() {
 		  .done(function(res){
 		  	if(res.saved)
 		  	{
-		  		$('#AddTeacherModalAddTeacherModal').find('input[name="first_name"]').val("");
-				$('#AddTeacherModalAddTeacherModal').find('input[name="teacher_address"]').val("");
-				$('#AddTeacherModalAddTeacherModal').find('input[name="profile_image"]').val("");
-				$('#AddTeacherModalAddTeacherModal').find('input[name="last_name"]').val("");
-				$('#AddTeacherModalAddTeacherModal').find('input[name="level"]').val("");
-				$('#AddTeacherModalAddTeacherModal').find('input[name="phone_number"]').val("");
-				$('#AddTeacherModalAddTeacherModal').find('input[name="email"]').val("");
-				$('#AddTeacherModalAddTeacherModal').find('input[name="birthdate"]').val("");
-				$('#AddTeacherModalAddTeacherModal').find('input[name^=subject]').val("");
+		  		$('#AddTeacherModal').modal('hide');
+		  		$('#AddTeacherModal').find('input[name="first_name"]').val("");
+				$('#AddTeacherModal').find('input[name="teacher_address"]').val("");
+				$('#AddTeacherModal').find('input[name="profile_image"]').val("");
+				$('#AddTeacherModal').find('input[name="last_name"]').val("");
+				$('#AddTeacherModal').find('input[name="level"]').val("");
+				$('#AddTeacherModal').find('input[name="phone_number"]').val("");
+				$('#AddTeacherModal').find('input[name="email"]').val("");
+				$('#AddTeacherModal').find('input[name="birthdate"]').val("");
+				$('#AddTeacherModal').find('input[name^=subject]').val("");
 				$('#output-img-teacher').attr("src",'assets/icons/Logo_placeholder.svg');
 
 				//if (res.exist){
@@ -1032,7 +1033,20 @@ function saveteacher() {
 				
 
 		  	} else {
-		  		$('#AddTeacherModal').find('input[name="email"]').parent(".form-group").addClass("form-input-error");
+
+				if (phone_number == res.form_errors.User.Tel ){
+					$('#AddTeacherModal').find('input[name="phone_number"]').parent(".form-group").addClass("form-input-error");
+				}
+				else{
+					$('#AddTeacherModal').find('input[name="phone_number"]').parent(".form-group").removeClass("form-input-error");
+				}
+
+				if (email == res.form_errors.User.Email ){
+					$('#AddTeacherModal').find('input[name="email"]').parent(".form-group").addClass("form-input-error");
+				}
+				else{
+					$('#AddTeacherModal').find('input[name="email"]').parent(".form-group").removeClass("form-input-error");
+				}
 		  	}
 
 		  });

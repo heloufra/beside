@@ -141,59 +141,88 @@ var teacherController = {
     })
   },
  saveTeacher: async function(req, res, next) {
-      var user = await teacherModel.findUser(req.body.email,req.Institution_ID);
-      var userId;
-      var exist = false;
-      if (user.length > 0)
-      {
-        if (!user.some(user => user.role === 'Teacher'))
-        {
-          userId = user[0].User_ID;
-          exist = true;
-          connection.query("UPDATE `users` SET User_Name=?,User_Image=?,User_Birthdate = ?, User_Address = ?, User_Gender=? WHERE User_ID = ?", [JSON.stringify({first_name:req.body.first_name, last_name:req.body.last_name}),req.body.profile_image, req.body.birthdate, req.body.teacher_address,req.body.teacher_gender,userId]);
-        } else {
-          res.json({saved:false})
-        }
-      }
-      else
-       {
-          var password = makeid(6);
-          user = await teacherModel.saveUser(req);
-          userId = user.insertId;
-           readHTMLFile(__dirname + '/templates/email_invitation_template.html', function(err, html) {
-                  var template = handlebars.compile(html);
-                  var replacements = {
-                       name:req.body.first_name
-                  };
-                  var htmlToSend = template(replacements);
-                  transporter.sendMail({
-                    from: 'besideyou@contact.com',
-                    to: req.body.email,
-                    subject: 'Invitation',
-                    html: htmlToSend
-                  }, function(error, info) {
-                    if (error) {
-                      console.log(error);
-                    } else {
-                      console.log('Email sent: ' + info.response);
-                    }
-                  });
 
-            })
-           exist = false;
-       }
-       if (userId)
-       {
-          connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
-            connection.query("INSERT INTO `institutionsusers`(`Institution_ID`, `User_ID`, `User_Role`) VALUES (?,?,?)",[req.Institution_ID,userId,"Teacher"])
-            for (var i = req.body.subjects.length - 1; i >= 0; i--) {
-              for (var j =  req.body.subjects[i].classes.length - 1; j >= 0; j--) {
-                 connection.query("INSERT INTO `teachersubjectsclasses`( `Teacher_ID`, `Subject_ID`, `Classe_ID`, `AY_ID`) VALUES (?,?,?,?)",[userId,req.body.subjects[i].subject,req.body.subjects[i].classes[j],academic[0].AY_ID]);
+      user_error = {};
+      form_errors = {};
+
+      // student unique email , phone 
+
+      // unique phone
+      var tel = await commonModel.userUniqueTel( req.body.phone_number , -1 , req.Institution_ID );
+      if(tel[0].Tel_Count > 0 ){
+        user_error["Tel"]=tel[0].User_Phone;
+      }
+
+      // unique email 
+      var eml = await commonModel.userUniqueEmail( req.body.email , -1 , req.Institution_ID );
+
+      if(eml[0].Email_Count > 0 ){
+        user_error["Email"]= eml[0].User_Email ;
+      }
+
+      form_errors["User"] = user_error ;
+
+      if(Object.keys(user_error).length === 0 && user_error.constructor === Object) {
+
+              var user = await teacherModel.findUser(req.body.email,req.Institution_ID);
+              var userId;
+              var exist = false;
+
+              if (user.length > 0)
+              {
+                if (!user.some(user => user.role === 'Teacher'))
+                {
+                  userId = user[0].User_ID;
+                  exist = true;
+                  connection.query("UPDATE `users` SET User_Name=?,User_Image=?,User_Birthdate = ?, User_Address = ?, User_Gender=? WHERE User_ID = ?", [JSON.stringify({first_name:req.body.first_name, last_name:req.body.last_name}),req.body.profile_image, req.body.birthdate, req.body.teacher_address,req.body.teacher_gender,userId]);
+                } else {
+                  res.json({saved:false})
+                }
               }
-            }
-          })
-          res.json({saved:true,exist});
-       }                   
+              else
+              {
+                  var password = makeid(6);
+                  user = await teacherModel.saveUser(req);
+                  userId = user.insertId;
+                   readHTMLFile(__dirname + '/templates/email_invitation_template.html', function(err, html) {
+                          var template = handlebars.compile(html);
+                          var replacements = {
+                               name:req.body.first_name
+                          };
+                          var htmlToSend = template(replacements);
+                          transporter.sendMail({
+                            from: 'besideyou@contact.com',
+                            to: req.body.email,
+                            subject: 'Invitation',
+                            html: htmlToSend
+                          }, function(error, info) {
+                            if (error) {
+                              console.log(error);
+                            } else {
+                              console.log('Email sent: ' + info.response);
+                            }
+                          });
+
+                    })
+                   exist = false;
+               }
+
+               if (userId)
+               {
+                  connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
+                    connection.query("INSERT INTO `institutionsusers`(`Institution_ID`, `User_ID`, `User_Role`) VALUES (?,?,?)",[req.Institution_ID,userId,"Teacher"])
+                    for (var i = req.body.subjects.length - 1; i >= 0; i--) {
+                      for (var j =  req.body.subjects[i].classes.length - 1; j >= 0; j--) {
+                         connection.query("INSERT INTO `teachersubjectsclasses`( `Teacher_ID`, `Subject_ID`, `Classe_ID`, `AY_ID`) VALUES (?,?,?,?)",[userId,req.body.subjects[i].subject,req.body.subjects[i].classes[j],academic[0].AY_ID]);
+                      }
+                    }
+                  })
+                  res.json({saved:true,exist});
+               } 
+      } else{
+        res.json({saved:false,form_errors});
+      }
+
   },
   saveAbsence: function(req, res, next) {
     connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
