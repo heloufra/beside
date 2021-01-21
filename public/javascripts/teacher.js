@@ -1237,14 +1237,28 @@ function saveChange() {
 
 					  	/****************______getAllteachers()_____________**************/
 
+					  	$('#EditTeacherModal .sub-container-form-footer').addClass('hide-footer');
+			 			$('#EditTeacherModal .sub-container-form-footer').removeClass('show-footer');
+
 				  	}else {
-				  		console.log(res);
+
+				  		    if (phone_number == res.form_errors.User.Tel ){
+								$('#EditTeacherModal').find('input[name="phone_number_detail"]').parent(".form-group").addClass("form-input-error");
+							}
+							else{
+								$('#EditTeacherModal').find('input[name="phone_number_detail"]').parent(".form-group").removeClass("form-input-error");
+							}
+
+							if (email == res.form_errors.User.Email ){
+								$('#EditTeacherModal').find('input[name="email"]').parent(".form-group").addClass("form-input-error");
+							}
+							else{
+								$('#EditTeacherModal').find('input[name="email"]').parent(".form-group").removeClass("form-input-error");
+							}
 				  	}
 
 				  });
-
-			 	$('#EditTeacherModal .sub-container-form-footer').addClass('hide-footer');
-			 	$('#EditTeacherModal .sub-container-form-footer').removeClass('show-footer');
+			 	
 	}
 }
 

@@ -1,5 +1,7 @@
 var connection  = require('../lib/db');
 var teacherModel  = require('../models/teacherModel');
+var commonModel  = require('../models/commonModel');
+
 var root = require('../middleware/root');
 var queryteachers = "SELECT teachers.*,levels.Level_Label,classes.Classe_Label FROM teachers INNER JOIN teachersclasses ON teachersclasses.teacher_ID = teachers.teacher_ID INNER JOIN classes ON teachersclasses.Classe_ID = classes.Classe_ID INNER JOIN levels ON levels.Level_ID = classes.Level_ID WHERE teachersclasses.Classe_ID = ? AND teachersclasses.AY_ID = ? AND teachers.teacher_Status = '1';"
 var queryAllteachers = "SELECT teachers.*,levels.Level_Label,classes.Classe_Label FROM teachers INNER JOIN teachersclasses ON teachersclasses.teacher_ID = teachers.teacher_ID INNER JOIN classes ON teachersclasses.Classe_ID = classes.Classe_ID INNER JOIN levels ON levels.Level_ID = classes.Level_ID WHERE teachersclasses.AY_ID = ?  AND teachers.teacher_Status = 1 ;"
@@ -246,57 +248,84 @@ var teacherController = {
         })
      })
   },
-  updateTeacher: function(req, res, next) {
-    connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
-      connection.query("UPDATE `users` SET User_Name=?, User_Image=?, User_Email=?,User_Birthdate=?, User_Phone=?,User_Address=?,User_Gender=? WHERE User_ID = ?", [JSON.stringify({first_name:req.body.first_name, last_name:req.body.last_name}), req.body.profile_image,req.body.email,  req.body.birthdate,  req.body.phone_number,req.body.teacher_address,req.body.teacher_gender,req.body.id],async (err, teacher, fields) => {
-         if (err) {
-              console.log(err);
-                res.json({
-                  errors: [{
-                  field: "Access denied",
-                  errorDesc: "Save teacher Error"
-                }]});
-          } else 
-          {
-            removed = [];
-            if (req.body.subjects)
-            {
-              // remove old subject 
-              for (var n = req.body.olddata.length - 1; n >= 0; n--) {
-                if(!req.body.subjects.some( value => { 
-                             return req.body.olddata[n].subject === value.subject 
-                             && value.classes.some( value => {
-                                  return req.body.olddata[n].classe === value
-                                })
-                           })
-                  )
+  updateTeacher: async function(req, res, next) {
+
+      user_error = {};
+      form_errors = {};
+
+      // student unique email , phone 
+
+      // unique phone
+      var tel = await commonModel.userUniqueTel( req.body.phone_number , req.body.id , req.Institution_ID );
+      if(tel[0].Tel_Count > 0 ){
+        user_error["Tel"]=tel[0].User_Phone;
+      }
+
+      // unique email 
+      var eml = await commonModel.userUniqueEmail( req.body.email , req.body.id , req.Institution_ID );
+
+      if(eml[0].Email_Count > 0 ){
+        user_error["Email"]= eml[0].User_Email ;
+      }
+
+      form_errors["User"] = user_error ;
+
+      if( Object.keys(user_error).length === 0 && user_error.constructor === Object) {
+
+        connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
+          connection.query("UPDATE `users` SET User_Name=?, User_Image=?, User_Email=?,User_Birthdate=?, User_Phone=?,User_Address=?,User_Gender=? WHERE User_ID = ?", [JSON.stringify({first_name:req.body.first_name, last_name:req.body.last_name}), req.body.profile_image,req.body.email,  req.body.birthdate,  req.body.phone_number,req.body.teacher_address,req.body.teacher_gender,req.body.id],async (err, teacher, fields) => {
+             if (err) {
+                  console.log(err);
+                    res.json({
+                      errors: [{
+                      field: "Access denied",
+                      errorDesc: "Save teacher Error"
+                    }]});
+              } else 
+              {
+                removed = [];
+                if (req.body.subjects)
                 {
-                  removed.push(req.body.id+"_"+req.body.olddata[n].subject+"_"+req.body.olddata[n].classe);
-                  connection.query("UPDATE `teachersubjectsclasses` SET  TSC_Status = 0 WHERE `Teacher_ID`=? AND `Subject_ID`=? AND `Classe_ID`=?", [req.body.id,req.body.olddata[n].subject,req.body.olddata[n].classe])
-                }
-              }
-
-              // add new subject
-              len = "if" ;
-              for (var i = req.body.subjects.length - 1; i >= 0; i--) {
-                for (var j =  req.body.subjects[i].classes.length - 1; j >= 0; j--) {
-                  var teacher = await teacherModel.findSubTeacher(req.body.id,req.body.subjects[i].subject,req.body.subjects[i].classes[j])
-                  if (teacher.length === 0)
-                  {
-                    connection.query("INSERT INTO `teachersubjectsclasses`( `Teacher_ID`, `Subject_ID`, `Classe_ID`, `AY_ID`) VALUES (?,?,?,?)",[req.body.id,req.body.subjects[i].subject,req.body.subjects[i].classes[j],academic[0].AY_ID]);
-                     len = "0" ;
-                  }else{
-                    connection.query("UPDATE `teachersubjectsclasses` SET  TSC_Status = 1 WHERE `Teacher_ID`=? AND `Subject_ID`=? AND `Classe_ID`=?",[req.body.id,req.body.subjects[i].subject,req.body.subjects[i].classes[j]]);
-                     len = "1" ;
+                  // remove old subject 
+                  for (var n = req.body.olddata.length - 1; n >= 0; n--) {
+                    if(!req.body.subjects.some( value => { 
+                                 return req.body.olddata[n].subject === value.subject 
+                                 && value.classes.some( value => {
+                                      return req.body.olddata[n].classe === value
+                                    })
+                               })
+                      )
+                    {
+                      removed.push(req.body.id+"_"+req.body.olddata[n].subject+"_"+req.body.olddata[n].classe);
+                      connection.query("UPDATE `teachersubjectsclasses` SET  TSC_Status = 0 WHERE `Teacher_ID`=? AND `Subject_ID`=? AND `Classe_ID`=?", [req.body.id,req.body.olddata[n].subject,req.body.olddata[n].classe])
+                    }
                   }
-                }
-              }
 
-            }
-            res.json({updated:true,removed,len});
-          }
-      })
-    })
+                  // add new subject
+                  len = "if" ;
+                  for (var i = req.body.subjects.length - 1; i >= 0; i--) {
+                    for (var j =  req.body.subjects[i].classes.length - 1; j >= 0; j--) {
+                      var teacher = await teacherModel.findSubTeacher(req.body.id,req.body.subjects[i].subject,req.body.subjects[i].classes[j])
+                      if (teacher.length === 0)
+                      {
+                        connection.query("INSERT INTO `teachersubjectsclasses`( `Teacher_ID`, `Subject_ID`, `Classe_ID`, `AY_ID`) VALUES (?,?,?,?)",[req.body.id,req.body.subjects[i].subject,req.body.subjects[i].classes[j],academic[0].AY_ID]);
+                         len = "0" ;
+                      }else{
+                        connection.query("UPDATE `teachersubjectsclasses` SET  TSC_Status = 1 WHERE `Teacher_ID`=? AND `Subject_ID`=? AND `Classe_ID`=?",[req.body.id,req.body.subjects[i].subject,req.body.subjects[i].classes[j]]);
+                         len = "1" ;
+                      }
+                    }
+                  }
+
+                }
+                res.json({updated:true,removed,len});
+              }
+          })
+        })
+      }else{
+        res.json({updated : false , form_errors });
+      }
+
   },
   updateAbsence: function(req, res, next) {
     connection.query("UPDATE `absencesanddelays` SET  AD_FromTo = ?, AD_Date = ? WHERE `AD_ID` = ?", [req.body.AD_FromTo,req.body.AD_Date,req.body.id], (err, absence, fields) => {

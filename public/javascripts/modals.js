@@ -1730,3 +1730,129 @@ function saveImportFile() {
 		  });
 	}
 }
+
+/**_____ updateProfile __________**/
+
+function updateProfile() 
+{
+
+	var user_image = $('#ProfileSettings').find('#output-settings').attr('src');
+	var user_fname = $('#ProfileSettings').find('input[name=fname-settings]').val();
+	var user_lname = $('#ProfileSettings').find('input[name=lname-settings]').val();
+	var user_date = $('#ProfileSettings').find('input[name=date-settings]').val();
+	var user_address = $('#ProfileSettings').find('input[name=address-settings]').val();
+	var user_phone = $('#ProfileSettings').find('input[name=phone-settings]').val();
+	var user_email = $('#ProfileSettings').find('input[name=email-settings]').val();
+	var user_gender = $('#ProfileSettings').find('input[name=gender-settings]').val();
+
+	if (!user_fname){
+		$('#ProfileSettings').find('input[name="fname-settings"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#ProfileSettings').find('input[name="fname-settings"]').parent(".form-group").removeClass("form-input-error");
+	}
+
+	if (!user_lname){
+		$('#ProfileSettings').find('input[name="lname-settings"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#ProfileSettings').find('input[name="lname-settings"]').parent(".form-group").removeClass("form-input-error");
+	}
+
+	if (!user_address){
+		$('#ProfileSettings').find('input[name="address-settings"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#ProfileSettings').find('input[name="address-settings"]').parent(".form-group").removeClass("form-input-error");
+	}
+
+	if (!user_date){
+		$('#ProfileSettings').find('input[name="date-settings"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#ProfileSettings').find('input[name="date-settings"]').parent(".form-group").removeClass("form-input-error");
+	}
+
+	if (!user_gender){
+		$('#ProfileSettings').find('input[name="gender-settings"]').parent(".dynamic-form-input-dropdown").addClass("form-input-error");
+	}
+	else{
+		$('#ProfileSettings').find('input[name="gender-settings"]').parent(".dynamic-form-input-dropdown").removeClass("form-input-error");
+	}
+
+	if (!user_phone){
+		$('#ProfileSettings').find('input[name="phone-settings"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		if (!internationalPhoneValidator(user_phone)){
+			$('#ProfileSettings').find('input[name="phone-settings"]').parent(".form-group").addClass("form-input-error");
+		}
+		else{
+			$('#ProfileSettings').find('input[name="phone-settings"]').parent(".form-group").removeClass("form-input-error");
+		}
+	}
+
+	if (!user_email){
+		$('#ProfileSettings').find('input[name="email-settings"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+
+		if (!emailValidator(user_email)){
+			$('#ProfileSettings').find('input[name="email-settings"]').parent(".form-group").addClass("form-input-error");
+		}
+		else{
+			$('#ProfileSettings').find('input[name="email-settings"]').parent(".form-group").removeClass("form-input-error");
+		}
+	}
+
+	if(user_fname && user_lname && user_date && user_address && user_phone && user_email && user_gender ){
+
+	   	$.ajax({
+	      type: 'post',
+	      url: '/Select/me/update',
+	      data:{
+	        user_image:$('#ProfileSettings').find('#output-settings').attr('src'),
+	        user_fname:$('#ProfileSettings').find('input[name=fname-settings]').val(),
+	        user_lname:$('#ProfileSettings').find('input[name=lname-settings]').val(),
+	        user_date:$('#ProfileSettings').find('input[name=date-settings]').val(),
+	        user_address:$('#ProfileSettings').find('input[name=address-settings]').val(),
+	        user_phone:$('#ProfileSettings').find('input[name=phone-settings]').val(),
+	        user_email:$('#ProfileSettings').find('input[name=email-settings]').val(),
+	        user_gender:$('#ProfileSettings').find('input[name=gender-settings]').val()
+	      },
+	      dataType: 'json'
+	    })
+	    .done(function(res){
+	      if(res.update){
+
+	        if (pathname === 'Teachers'){
+	          getAllteachers();
+	        }
+	        $('.user_name').html($('#ProfileSettings').find('input[name=fname-settings]').val() + " " + $('#ProfileSettings').find('input[name=lname-settings]').val());
+	      	$('.user_image').attr('src',$('#ProfileSettings').find('#output-settings').attr('src'));
+	        $('#ProfileSettings').modal('hide');
+
+	      } else {
+	       
+       			if (user_phone == res.form_errors.User.Tel ){
+					$('#ProfileSettings').find('input[name="phone-settings"]').parent(".form-group").addClass("form-input-error");
+				}
+				else{
+					$('#ProfileSettings').find('input[name="phone-settings"]').parent(".form-group").removeClass("form-input-error");
+				}
+
+				if (user_email == res.form_errors.User.Email ){
+					$('#ProfileSettings').find('input[name="email-settings"]').parent(".form-group").addClass("form-input-error");
+				}
+				else{
+					$('#ProfileSettings').find('input[name="email-settings"]').parent(".form-group").removeClass("form-input-error");
+				}
+
+	      }
+	      
+	    });
+	}
+}
+
+
+

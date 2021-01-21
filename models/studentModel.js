@@ -78,10 +78,10 @@ var studentModel = {
       });
     })
   },
-  studentParentUniqueEmail: function(Email,Id) {
+  studentParentUniqueEmail: function(Email,Id,Institution_Id) {
      return new Promise((resolve, reject) => {
          // Parent unique email  
-          connection.query("SELECT Count(*) as 'Email_Count' , Parent_Email  FROM `parents` WHERE `Parent_Email` = ? AND Parent_Status = 1 AND Parent_ID <> ? ", [ Email , Id ] , (err, parentEmail, fields) => {
+          connection.query("SELECT Count(*) as 'Email_Count' , Parent_Email  FROM `parents` WHERE `Parent_Email` = ? AND Parent_Status = 1 AND Parent_ID <> ? AND Institution_ID = ?  ", [ Email , Id , Institution_Id ] , (err, parentEmail, fields) => {
                 if (err){
                  reject(err);
                } else { 
@@ -92,10 +92,10 @@ var studentModel = {
           });
     })
   },
-  studentParentUniqueTel: function(Phone,Id) {
+  studentParentUniqueTel: function(Phone,Id,Institution_Id) {
      return new Promise((resolve, reject) => {
          // Parent unique email  
-          connection.query("SELECT Count(*) as 'Tel_Count' , Parent_Phone FROM `parents` WHERE `Parent_Phone` = ? AND Parent_Status = 1 AND Parent_ID <> ? ", [ Phone , Id ], (err, parentTel, fields) => {
+          connection.query("SELECT Count(*) as 'Tel_Count' , Parent_Phone FROM `parents` WHERE `Parent_Phone` = ? AND Parent_Status = 1 AND Parent_ID <> ? AND Institution_ID = ?  ", [ Phone , Id , Institution_Id ], (err, parentTel, fields) => {
                 if (err){
                  reject(err);
                } else { 
@@ -106,10 +106,10 @@ var studentModel = {
           });
     })
   },
-  studentUniqueTel: function(Phone,Id) {
+  studentUniqueTel: function(Phone,Id,Institution_Id) {
      return new Promise((resolve, reject) => {
          // Parent unique email  
-          connection.query("SELECT Count(*) as 'Tel_Count' , Student_Phone FROM `students` WHERE `Student_Phone` = ? AND Student_Status = 1 AND Student_ID <> ? ", [ Phone , Id ], (err, studentTel, fields) => {
+          connection.query("SELECT Count(*) as 'Tel_Count' , Student_Phone FROM `students` WHERE `Student_Phone` = ? AND Student_Status = 1 AND Student_ID <> ? AND Institution_ID = ?  ", [ Phone , Id , Institution_Id ], (err, studentTel, fields) => {
                 if (err){
                  reject(err);
                } else { 
@@ -120,10 +120,10 @@ var studentModel = {
           });
     })
   },
-  studentUniqueEmail: function(Email,Id) {
+  studentUniqueEmail: function(Email,Id,Institution_Id) {
      return new Promise((resolve, reject) => {
          // Parent unique email  
-          connection.query("SELECT Count(*) as 'Email_Count' , Student_Email FROM `students` WHERE `Student_Email` = ? AND Student_Status = 1 AND Student_ID <> ? ", [ Email , Id ], (err, studentEmail, fields) => {
+          connection.query("SELECT Count(*) as 'Email_Count' , Student_Email FROM `students` WHERE `Student_Email` = ? AND Student_Status = 1 AND Student_ID <> ? AND Institution_ID = ?  ", [ Email , Id , Institution_Id ], (err, studentEmail, fields) => {
                 if (err){
                  reject(err);
                } else { 

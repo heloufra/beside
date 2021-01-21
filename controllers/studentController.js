@@ -206,7 +206,7 @@ var studentController = {
       // Parents unique email , phone 
       for (var p = 0 ; p < req.body.parent_email.length ; p++ ) {
          // Parent unique email  
-          connection.query("SELECT Count(*) as 'Email_Count' , Parent_Email  FROM `parents` WHERE `Parent_Email` = ? AND Parent_Status = 1 ", [req.body.parent_email[p]], (err, parentEmail, fields) => {
+          connection.query("SELECT Count(*) as 'Email_Count' , Parent_Email  FROM `parents` WHERE `Parent_Email` = ? AND Parent_Status = 1   AND Institution_ID = ? ", [req.body.parent_email[p] , req.Institution_ID ], (err, parentEmail, fields) => {
                 // unique email
                 if(parentEmail[0].Email_Count > 0 ){
                    parent_emails_error.push(parentEmail[0].Parent_Email);
@@ -216,7 +216,7 @@ var studentController = {
 
       for (var p = 0 ; p < req.body.parent_phone.length ; p++ ) {
           // Parent unique phone  
-          connection.query("SELECT Count(*) as 'Tel_Count' , Parent_Phone FROM `parents` WHERE `Parent_Phone` = ? AND Parent_Status = 1 ", [req.body.parent_phone[p]], (err, parentTel, fields) => {
+          connection.query("SELECT Count(*) as 'Tel_Count' , Parent_Phone FROM `parents` WHERE `Parent_Phone` = ? AND Parent_Status = 1   AND Institution_ID = ? ", [req.body.parent_phone[p] , req.Institution_ID ], (err, parentTel, fields) => {
                 // unique phone
                 if(parentTel[0].Tel_Count > 0 ){
                    parent_phones_error.push(parentTel[0].Parent_Phone);
@@ -230,14 +230,14 @@ var studentController = {
       form_errors["Parents"]=parents_error;
 
      // student unique email , phone 
-     connection.query("SELECT Count(*) as 'Email_Count' FROM `students` WHERE `Student_Email` = ? AND Student_Status = 1 limit 1 ", [req.body.student_email], (err, studentEmail, fields) => {
+     connection.query("SELECT Count(*) as 'Email_Count' FROM `students` WHERE `Student_Email` = ? AND Student_Status = 1 AND Institution_ID = ? limit 1  ", [req.body.student_email , req.Institution_ID ], (err, studentEmail, fields) => {
 
           // unique email
           if(studentEmail[0].Email_Count > 0 ){ 
              student_error["Email"]=req.body.student_email;
           }
 
-          connection.query("SELECT Count(*) as 'Tel_Count' FROM `students` WHERE `Student_Phone` = ? AND Student_Status = 1 limit 1", [req.body.phone_number], (err, studentTel, fields) => {
+          connection.query("SELECT Count(*) as 'Tel_Count' FROM `students` WHERE `Student_Phone` = ? AND Student_Status = 1  AND Institution_ID = ? limit 1 ", [req.body.phone_number , req.Institution_ID ], (err, studentTel, fields) => {
 
           // unique phone
           if(studentTel[0].Tel_Count > 0 ){
@@ -458,7 +458,7 @@ var studentController = {
       // Parents unique email , phone 
       for (var p = 0 ; p < req.body.parent_email.length ; p++ ) {
 
-         var em = await studentModel.studentParentUniqueEmail( req.body.parent_email[p].email , req.body.parent_email[p].id );
+         var em = await studentModel.studentParentUniqueEmail( req.body.parent_email[p].email , req.body.parent_email[p].id , req.Institution_ID );
 
          if(em[0].Email_Count > 0 ){
             parent_emails_error.push(em[0].Parent_Email);
@@ -468,7 +468,7 @@ var studentController = {
 
       for (var p = 0 ; p < req.body.parent_phone.length ; p++ ) {
           // Parent unique phone  
-         var tel = await studentModel.studentParentUniqueTel( req.body.parent_phone[p].phone , req.body.parent_phone[p].id );
+         var tel = await studentModel.studentParentUniqueTel( req.body.parent_phone[p].phone , req.body.parent_phone[p].id , req.Institution_ID );
          
          if(tel[0].Tel_Count > 0 ){
             parent_phones_error.push(tel[0].Parent_Phone);
@@ -481,14 +481,14 @@ var studentController = {
       form_errors["Parents"] = parents_error;
 
       // student unique email , phone 
-      var tel = await studentModel.studentUniqueTel( req.body.student_phone , req.body.id );
+      var tel = await studentModel.studentUniqueTel( req.body.student_phone , req.body.id , req.Institution_ID );
       // unique phone
       if(tel[0].Tel_Count > 0 ){
         student_error["Tel"]=req.body.student_phone;
       }
 
       // unique email 
-      var eml = await studentModel.studentUniqueEmail( req.body.student_email , req.body.id );
+      var eml = await studentModel.studentUniqueEmail( req.body.student_email , req.body.id , req.Institution_ID );
       // unique phone
       if(eml[0].Email_Count > 0 ){
         student_error["Email"]= eml[0].Student_Email ;

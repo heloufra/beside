@@ -121,36 +121,7 @@ $(document).on("click","#settings_btn",function(event){
 
 });
 
-function updateProfile() 
-{
-   $.ajax({
-      type: 'post',
-      url: '/Select/me/update',
-      data:{
-        user_image:$('#ProfileSettings').find('#output-settings').attr('src'),
-        user_fname:$('#ProfileSettings').find('input[name=fname-settings]').val(),
-        user_lname:$('#ProfileSettings').find('input[name=lname-settings]').val(),
-        user_date:$('#ProfileSettings').find('input[name=date-settings]').val(),
-        user_address:$('#ProfileSettings').find('input[name=address-settings]').val(),
-        user_phone:$('#ProfileSettings').find('input[name=phone-settings]').val(),
-        user_email:$('#ProfileSettings').find('input[name=email-settings]').val(),
-        user_gender:$('#ProfileSettings').find('input[name=gender-settings]').val()
-      },
-      dataType: 'json'
-    })
-    .done(function(res){
-      if(res.update)
-      {
-        if (pathname === 'Teachers')
-          getAllteachers();
-        $('.user_name').html($('#ProfileSettings').find('input[name=fname-settings]').val() + " " + $('#ProfileSettings').find('input[name=lname-settings]').val());
-      $('.user_image').attr('src',$('#ProfileSettings').find('#output-settings').attr('src'));
-        $('#ProfileSettings').modal('hide');
-      } else {
-       console.log(res.errors)
-      }
-    });
-}
+
 
 $(document).on("click",".role",function(event){
      $.ajax({
