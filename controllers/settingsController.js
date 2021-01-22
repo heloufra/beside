@@ -64,8 +64,10 @@ var settingsController = {
      connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, institutions, fields) => {
         connection.query("SELECT * FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
             connection.query("SELECT * FROM `levels` WHERE AY_ID = ? AND Level_Status=1", [academic[0].AY_ID], (err, levels, fields) => {
+            connection.query("SELECT * FROM `subjects` WHERE Subject_Status=1", [null], (err, allSubjects, fields) => {
                 connection.query("SELECT ls.*,s.Subject_Label FROM levelsubjects ls INNER JOIN subjects s ON s.Subject_ID = ls.Subject_ID WHERE ls.AY_ID = ? AND ls.LS_Status=1", [academic[0].AY_ID], (err, subjects, fields) => {
-                    res.json({levels:levels,subjects});
+                    res.json({levels:levels,subjects,allSubjects});
+            })
           })
         })
       })
@@ -142,13 +144,12 @@ var settingsController = {
   updateLevels:function(req, res, next) {
     connection.query("SELECT * FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
       connection.query("SELECT * FROM `levels` WHERE AY_ID = ?", [academic[0].AY_ID], (err, levels, fields) => {
-         if (err)
-        {
+         if (err) {
           console.log('Erros',err);
-        } else 
-        {
+        } else {
           for (var i = req.body.levels.length - 1; i >= 0; i--) {
-            if(!levels.some(level => level.Level_ID === parseInt(req.body.levels[i].id)))
+            //if(!levels.some(level => level.Level_ID === parseInt(req.body.levels[i].id)))
+            if(req.body.levels[i].id == -1)
             {
               connection.query('INSERT INTO `levels`(`Level_Label`, `AY_ID`) VALUES (?,?)',[req.body.levels[i].label,academic[0].AY_ID]);
             } else 
@@ -189,16 +190,18 @@ var settingsController = {
          if (err)
         {
           console.log('Erros',err);
-        } else 
+        }
+         else 
         {
           for (var i = req.body.classes.length - 1; i >= 0; i--) {
-            if(!classes.some(classe => classe.Level_ID === parseInt(req.body.classes[i].level) && classe.Classe_ID === parseInt(req.body.classes[i].id)))
-            {
-              connection.query('INSERT INTO `classes`(Classe_Label,`Level_ID`, `AY_ID`) VALUES (?,?,?)',[req.body.classes[i].label,req.body.classes[i].level,academic[0].AY_ID]);
-            } else 
-              connection.query('UPDATE `classes` SET `Classe_Label`=? WHERE Classe_ID=? AND Level_ID=? AND AY_ID=?',[req.body.classes[i].label,req.body.classes[i].id,req.body.classes[i].level,academic[0].AY_ID]);
-          }
-          res.json({
+              if(!classes.some(classe => classe.Level_ID === parseInt(req.body.classes[i].level) && classe.Classe_ID === parseInt(req.body.classes[i].id)))
+              {
+                connection.query('INSERT INTO `classes`(Classe_Label,`Level_ID`, `AY_ID`) VALUES (?,?,?)',[req.body.classes[i].label,req.body.classes[i].level,academic[0].AY_ID]);
+              } else {
+                connection.query('UPDATE `classes` SET `Classe_Label`=? WHERE Classe_ID=? AND Level_ID=? AND AY_ID=?',[req.body.classes[i].label,req.body.classes[i].id,req.body.classes[i].level,academic[0].AY_ID]);
+              }
+            }
+            res.json({
             updated:true
           });
         }

@@ -1169,7 +1169,8 @@ $(document).ready(function(){
 		$("#Level_Section .dynamic-form-input").removeClass("dynamic-form-input-first");
 		$dynamic_form_input = $("#Level_Section .dynamic-form-input").first().clone();
 		$dynamic_form_input.find("input").val("");
-		$dynamic_form_input.find(".square-button-minus").removeClass('hidden');
+		$dynamic_form_input.find("input").attr("data-level","-1");
+		$dynamic_form_input.find(".square-button").removeClass('hidden');
 		$(this).before($dynamic_form_input);
 
 	});
@@ -1188,31 +1189,24 @@ $(document).ready(function(){
 
 	$(document).on("click","#Classe_Section .square-button-plus",function(){
 
-		$dynamic_form_input = $(this).parent().children(".dynamic-form-input").first().removeClass("dynamic-form-input-first").clone();
-		$dynamic_form_input.find("input").val("");
-		$dynamic_form_input.find(".square-button-minus").removeClass('hidden');
-		$dynamic_form_input.find("input").attr('data-classe',0);
-		$(this).before($dynamic_form_input);
-
-	});
-
-	$(document).on("click","#Classe_Section .square-button-minus",function(){
-
-		if($(this).parent(".dynamic-form-input").parent(".dynamic-form-input-container").children(".dynamic-form-input").length <= 2 ){
-			$(this).parent(".dynamic-form-input").parent(".dynamic-form-input-container").children(".dynamic-form-input").addClass("dynamic-form-input-first");
+		if($(this).parents(".setup-update-main-container").length == 1){
+			//console.log("settings");
+			$dynamic_form_input = $(this).parent().children(".dynamic-form-input").first().removeClass("dynamic-form-input-first").clone();
+			$(this).parent().children(".dynamic-form-input").first().addClass("dynamic-form-input-first")
+			$dynamic_form_input.parents(".dynamic-form-input").removeClass("dynamic-form-input-first");
+			$dynamic_form_input.find("input").val("");
+			$dynamic_form_input.find(".square-button-minus").removeClass('hidden');
+			$dynamic_form_input.find("input").attr('data-classe',0);
+			$(this).before($dynamic_form_input);
+		}else{
+			//console.log("setup");
+			$dynamic_form_input = $(this).parent().children(".dynamic-form-input").first().removeClass("dynamic-form-input-first").clone();
+			$dynamic_form_input.find("input").val("");
+			$dynamic_form_input.find(".square-button-minus").removeClass('hidden');
+			$dynamic_form_input.find("input").attr('data-classe',0);
+			$(this).before($dynamic_form_input);
 		}
-		
-		$(this).parent(".dynamic-form-input").remove();
 
-	});
-
-	$(document).on("click","#Classe_Section .square-button-minus",function(){
-
-		if($(this).parent(".dynamic-form-input").parent(".dynamic-form-input-container").children(".dynamic-form-input").length <= 2 ){
-			$(this).parent(".dynamic-form-input").parent(".dynamic-form-input-container").children(".dynamic-form-input").addClass("dynamic-form-input-first");
-		}
-		
-		$(this).parent(".dynamic-form-input").remove();
 
 	});
 
@@ -1382,13 +1376,33 @@ $(document).ready(function(){
 
 	$(document).on("click","#Expense_Section #Expense_New_Dynamic_Form_Input",function(){
 
-		$("#Expense_Section .dynamic-form-input-dropdown").removeClass("dynamic-form-input-first");
-		$dynamic_form_input = $("#Expense_Section .dynamic-form-input-dropdown-container").first().clone();
-		$dynamic_form_input.find(".input-text").val("");
-		$dynamic_form_input.find("input").attr('data-expense',0);
-		$dynamic_form_input.find(".square-button-minus").removeClass('hidden');
-		$dynamic_form_input.find(".input-dropdown").val("");
-		$(this).before($dynamic_form_input);
+		if($(this).parents(".setup-update-main-container").length == 1)
+		{
+			console.log("settings");
+			$("#Expense_Section .dynamic-form-input-dropdown").removeClass("dynamic-form-input-first");
+			$dynamic_form_input = $("#Expense_Section .dynamic-form-input-dropdown-container").first().clone();
+			$dynamic_form_input.find(".input-text").val("");
+			$dynamic_form_input.find("input").attr('data-expense',0);
+			$dynamic_form_input.find(".square-button-minus").removeClass('hidden');
+			$dynamic_form_input.find(".input-dropdown").val("");
+			$dynamic_form_input.find(".input-dropdown").parents(".form-group").removeClass("form-input-error");
+			$dynamic_form_input.find(".input-text").parents(".form-group").removeClass("form-input-error");
+			$(this).before($dynamic_form_input);
+		}else{
+			console.log("setups");
+			$("#Expense_Section .dynamic-form-input-dropdown").removeClass("dynamic-form-input-first");
+			$dynamic_form_input = $("#Expense_Section .dynamic-form-input-dropdown-container").first().clone();
+			$dynamic_form_input.find(".input-text").val("");
+			$dynamic_form_input.find("input").attr('data-expense',0);
+			$dynamic_form_input.find(".square-button-minus").removeClass('hidden');
+			$dynamic_form_input.find(".input-dropdown").val("");
+			$dynamic_form_input.find("input").removeClass('form-input-error');
+			$dynamic_form_input.find(".input-dropdown").parents(".form-group").removeClass("form-input-error");
+			$dynamic_form_input.find(".input-text").parents(".form-group").removeClass("form-input-error");
+			$(this).before($dynamic_form_input);
+		}
+
+
 
 	});
 

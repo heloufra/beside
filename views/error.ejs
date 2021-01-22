@@ -1,2 +1,36 @@
-<h1><%= message %></h1>
-<h2><%= error.status %></h2>
+<!DOCTYPE html>
+<html>
+<head>
+
+	<title><%= title %></title>
+    <meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<%- include('./partials/main'); %>
+
+</head>
+
+<!-- sections-main-container -->
+<body class="sections-main-container">
+  
+    <!-- main-container -->
+    <div class="main-container">
+
+      <div class="main-404-container">
+          <div class="sub-404-container">
+            <div class="sub-404-header-container">
+              <h4 class="sub-404-header">Error <span class="sub-404-header-span">404</span> not found</h4>
+              <p class="sub-404-sub-header">We can’t seem find the page you’re looking for. </p>
+            </div>
+            <img class="sub-404-img" src="assets/icons/states_icons/404.png" alt="404"/>
+          </div>
+      </div>
+
+    </div>
+    <!-- End main-container -->
+
+</body>
+<!-- end sections-main-container -->
+
+</html>

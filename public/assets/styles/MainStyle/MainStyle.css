@@ -1575,6 +1575,15 @@ input:focus ~ label,input:valid ~ label{
 	width: 14%;
 	padding: 24px;
 	padding-bottom: 0px;
+	background-image: url(../../../assets/brand/side_bar_bg.png) !important;
+    background-size: contain !important; /* cover */
+    background-position: 100% 100% !important;
+}
+
+.side-bar , .sections-main-container .side-bar{
+	background-image: url(../../../assets/brand/side_bar_bg.png) !important;
+    background-size: contain !important; /* cover */
+    background-position: 100% 100% !important;
 }
 
 .sections-main-container .sub-container{

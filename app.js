@@ -60,10 +60,11 @@ app.use('/Dashboard',auth, dashboardRouter);
 app.use('/Settings',auth, settingsRouter);
 app.use('/Select',auth, selectRouter);
 
-// catch 404 and forward to error handler
+//catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+  res.status(404).render('error', {title: '404'});
 });
+
 
 // error handler
 app.use(function(err, req, res, next) {
