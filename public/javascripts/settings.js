@@ -617,12 +617,13 @@ function select2Call() {
 
 				var $option = $('.input-text-subject-select2 option[value="'+data.id+'"]');
 
-
+				// testing locked to lock delete tags
 				if ($option.attr('locked')){
 					$(container).addClass('locked-tag');
 					data.locked = true; 
 					console.log('$option',$(container).attr('class'));
 				}
+
 
 				$(container).attr("style","background-color:#"+Math.random().toString(16).substr(2,6)+"!important;");
 				data.selected=true;
