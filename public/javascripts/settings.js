@@ -128,10 +128,9 @@ function getSubjects() {
 
           if(filtredSubject.length > 0 ){
 
-          	  console.log("if : ", res.levels[i].Level_Label);
 
 	          for(var j = 0;j < filtredSubject.length ; j++) {
-	            htmlSubjects += `<option selected locked="locked" value="${filtredSubject[j].Subject_Label}">${filtredSubject[j].Subject_Label}</option>`;
+	            htmlSubjects += `<option selected locked="locked" data-bg="${filtredSubject[j].Subject_Color}" value="${filtredSubject[j].Subject_Label}">${filtredSubject[j].Subject_Label}</option>`;
 	          }
 
 	          $('#Subject_Section').find('#subjects-container').prepend(`<div class="dynamic-form-input-container dynamic-form-input-container-extra-style row-levels" data-level="${res.levels[i].Level_ID}">
@@ -165,7 +164,7 @@ function getSubjects() {
           	  console.log("else : ", res.levels[i].Level_Label);
 
           	  for(var j = 0;j < res.allSubjects.length ; j++) {
-	            htmlSubjects += `<option value="${res.allSubjects[j].Subject_Label}">${res.allSubjects[j].Subject_Label}</option>`;
+	            htmlSubjects += `<option data-bg="${res.allSubjects[j].Subject_Color}" value="${res.allSubjects[j].Subject_Label}">${res.allSubjects[j].Subject_Label}</option>`;
 	          }
 
 	          $('#Subject_Section').find('#subjects-container').prepend(`<div class="dynamic-form-input-container dynamic-form-input-container-extra-style row-levels" data-level="${res.levels[i].Level_ID}">
@@ -598,142 +597,143 @@ function hideSelected(value) {
 
 function select2Call() {
 
-	/****** prepend new options to all dropdown *********/
-
 	$tag_data = "";
 
-	if($(".input-text-subject-select2").length > 0){
+	$(".input-text-subject-select2").each(function(ind,elem){
 
-		$(".input-text-subject-select2").select2({
-		  tags: true,
-		  dropdownPosition: 'below',
-		  tokenSeparators: [',', ' '],
-  		  minimumResultsForSearch: -1,
-  		  templateResult: hideSelected,
-  		  placeholder: "Select items",
-  		  templateSelection: function (data, container){
+			$this = $(this) ;
 
-				console.log("container",container);
+			/****** prepend new options to all dropdown *********/
 
-				var $option = $('.input-text-subject-select2 option[value="'+data.id+'"]');
+				$this.select2({
+				  tags: true,
+				  dropdownPosition: 'below',
+				  tokenSeparators: [',', ' '],
+		  		  minimumResultsForSearch: -1,
+		  		  templateResult: hideSelected,
+		  		  placeholder: "Select items",
+		  		  templateSelection: function (data, container){
 
-				// testing locked to lock delete tags
-				if ($option.attr('locked')){
-					$(container).addClass('locked-tag');
-					data.locked = true; 
-					console.log('$option',$(container).attr('class'));
-				}
+					  var $option = $this.find('option[value="'+data.id+'"]');
 
+					  if ($option.attr('locked')){
+					  	$(container).addClass('locked-tag');
+						data.locked = true; 
+					  }
 
-				$(container).attr("style","background-color:#"+Math.random().toString(16).substr(2,6)+"!important;");
-				data.selected=true;
-				$tag_data = data;
-				return data.text;
-		  },
-	      processResults: function(data, params) {
-	          var data = $.map(data, function(item) {
-	            if (item.text.match(params.term) || params.term === "") return item;
-	          });
-	          return { results: data }
-	      }
+				      $(container).attr("style","background-color:"+$option.attr("data-bg")+"!important;");
+				      data.selected=true;
+					  $tag_data = data;
+				      return data.text;
 
-		}).on("select2:unselecting", function(e) {
-			    var self = $(this);
-			    setTimeout(function() {
-			        self.select2('close');
-			    }, 0);
-		});
+				  },
+			      processResults: function(data, params) {
+			          var data = $.map(data, function(item) {
+			            if (item.text.match(params.term) || params.term === "") return item;
+			          });
+			          return { results: data }
+			      }
 
-	}
+				}).on("select2:unselecting", function(e) {
+					    var self = $(this);
+					    setTimeout(function() {
+					        self.select2('close');
+					    }, 0);
+				});
 
-	$(".input-text-subject-select2").trigger("change");
+				$this.trigger("change");
 
-	/****** trigger changes on select **************/
+			/****** trigger changes on select **************/
 
-	$('.input-text-subject-select2').on('select2:select', function (e) {
+			$(".input-text-subject-select2").on('select2:select', function (e) {
 
-		$that = $(this); 
+				console.log("length : ",$(".input-text-subject-select2").length);
 
-		$dataSelect2Id = $(this).attr("data-select2-id");
+				$that = $(this); 
 
-		$('.input-text-subject-select2').each(function(){
+				$dataSelect2Id = $(this).attr("data-select2-id");
 
-			$this  = $(this);
-			$exist = false;
+				$dataSelect2Data = $that.select2('data') ;
 
-			console.log($this.select2('data'));
+				console.log("selected data : ",$dataSelect2Data[$dataSelect2Data.length - 1 ].text);
 
-			$dataSelect2IdCurrent = $(this).attr("data-select2-id");
+				$dataSelect2DataText = $dataSelect2Data[$dataSelect2Data.length - 1 ].text;
 
-			if($dataSelect2Id != $dataSelect2IdCurrent){
+				$('.input-text-subject-select2').each(function(){
 
-				$select2Data = $(this).select2('data');
+					$thisEach  = $(this);
 
-				for($i = 0 ; $i < $select2Data.length; $i++){
+					$exist = false;
 
-				    if (String($select2Data[$i].text).toLowerCase() == String($tag_data.text).toLowerCase()) {
-				       	$exist = true;
-				       	break;
-				    }
+					$dataSelect2IdCurrent = $thisEach.attr("data-select2-id");
 
-				}
+					if($dataSelect2Id != $dataSelect2IdCurrent ){
 
-				if(!$exist){
+							$select2Data = $thisEach.select2('data');
 
-					var newOption = new Option($tag_data.text, $tag_data.id, false, false);
+							for($i = 0 ; $i < $select2Data.length; $i++) {
+							    if (String($select2Data[$i].text).toLowerCase() == String($dataSelect2DataText).toLowerCase()) {
+							       	$exist = true;
+							       	break;
+							    }
+							}
+
+							if(!$exist ){
+								var newOption = new Option($dataSelect2DataText, $dataSelect2DataText , false, false);
+								$thisEach.prepend(newOption).trigger('change');
+							}
+					}
+					
+				});
+
+			});
+
+			$tag_data_unselect ="";
+
+			$(".input-text-subject-select2").on("select2:unselect", (e) => {
+
+				$tag_data_unselect = e.params.data;
+
+			});
+
+			$(".input-text-subject-select2").on('select2:open', function (e) {
+
+				var a = new Array();
+
+			    $(this).children("option").each(function(x){
+
+			        test = false;
+			        b = a[x] = $(this).val();
+
+			        for(i=0;i<a.length-1;i++){
+			            if(b ==a[i]){
+			            	test =true;
+			            }
+			        }
+
+			        if(test){
+			        	$(this).remove();
+			        }
+
+			    })
+
+				if( $tag_data_unselect != "" ) {
+					var newOption = new Option($tag_data_unselect.text, $tag_data_unselect.id, false, false);
 					$(this).prepend(newOption).trigger('change');
-
 				}
 
-			}
-			
-		});
+				$tag_data_unselect = "" ;
 
-		$tag_data ="";
+			});
 
-	});
+			/****** End prepend new options to all dropdown *********/
 
-	$tag_data_unselect ="";
-
-	$(".input-text-subject-select2").on("select2:unselect", (e) => {
-
-		$tag_data_unselect = e.params.data;
+			callSubjects();
+			$tag_data = "";
 
 	});
+}
 
-	$('.input-text-subject-select2').on('select2:open', function (e) {
-
-		var a = new Array();
-
-	    $(this).children("option").each(function(x){
-
-	        test = false;
-	        b = a[x] = $(this).val();
-
-	        for(i=0;i<a.length-1;i++){
-	            if(b ==a[i]){
-	            	test =true;
-	            }
-	        }
-
-	        if(test){
-	        	$(this).remove();
-	        }
-
-	    })
-
-		if( $tag_data_unselect != "" ) {
-			var newOption = new Option($tag_data_unselect.text, $tag_data_unselect.id, false, false);
-			$(this).prepend(newOption).trigger('change');
-		}
-
-		$tag_data_unselect = "" ;
-
-	});
-
-	/****** End prepend new options to all dropdown *********/
-//callSubjects();
-$tag_data = "";
 function callSubjects() {
   $.ajax({
           type: 'get',
@@ -759,5 +759,4 @@ function callSubjects() {
             })
         });
  
-}
 }

@@ -65,7 +65,7 @@ var settingsController = {
         connection.query("SELECT * FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
             connection.query("SELECT * FROM `levels` WHERE AY_ID = ? AND Level_Status=1", [academic[0].AY_ID], (err, levels, fields) => {
             connection.query("SELECT * FROM `subjects` WHERE Subject_Status=1", [null], (err, allSubjects, fields) => {
-                connection.query("SELECT ls.*,s.Subject_Label FROM levelsubjects ls INNER JOIN subjects s ON s.Subject_ID = ls.Subject_ID WHERE ls.AY_ID = ? AND ls.LS_Status=1", [academic[0].AY_ID], (err, subjects, fields) => {
+                connection.query("SELECT ls.*,s.Subject_Label,s.Subject_Color FROM levelsubjects ls INNER JOIN subjects s ON s.Subject_ID = ls.Subject_ID WHERE ls.AY_ID = ? AND ls.LS_Status=1", [academic[0].AY_ID], (err, subjects, fields) => {
                     res.json({levels:levels,subjects,allSubjects});
             })
           })
