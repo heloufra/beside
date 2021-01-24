@@ -1,3 +1,6 @@
+var oldSubjects = [];
+var $alreadySelected = [];
+
 function getDetails() {
 	$.ajax({
 		type: 'get',
@@ -122,16 +125,25 @@ function getSubjects() {
 
 		$('#Subject_Section').find('.row-levels').remove();
 		$('#Subject_Section').removeClass('dom-change-watcher');
+		$level_id = -1;
 		for (var i = res.levels.length - 1; i >= 0; i--) {
-          var filtredSubject = res.subjects.filter(subject => subject.Level_ID === res.levels[i].Level_ID);
+          var filtredSubject = res.subjects.filter((subject) => { $level_id = res.levels[i].Level_ID ; return  subject.Level_ID === res.levels[i].Level_ID});
           var htmlSubjects = ``;
 
           if(filtredSubject.length > 0 ){
 
 
+          	  $subject_ =  [];
+
 	          for(var j = 0;j < filtredSubject.length ; j++) {
-	            htmlSubjects += `<option selected locked="locked" data-bg="${filtredSubject[j].Subject_Color}" value="${filtredSubject[j].Subject_Label}">${filtredSubject[j].Subject_Label}</option>`;
+
+	            htmlSubjects += `<option selected locked="locked" data-ls-id="${filtredSubject[j].LS_ID}" data-bg="${filtredSubject[j].Subject_Color}" value="${filtredSubject[j].Subject_Label}">${filtredSubject[j].Subject_Label}</option>`;
+
+	            $subject_.push(filtredSubject[j]);
+
 	          }
+
+	          oldSubjects.push({"level-id":$level_id,'subject':$subject_});
 
 	          $('#Subject_Section').find('#subjects-container').prepend(`<div class="dynamic-form-input-container dynamic-form-input-container-extra-style row-levels" data-level="${res.levels[i].Level_ID}">
 
@@ -164,7 +176,7 @@ function getSubjects() {
           	  console.log("else : ", res.levels[i].Level_Label);
 
           	  for(var j = 0;j < res.allSubjects.length ; j++) {
-	            htmlSubjects += `<option data-bg="${res.allSubjects[j].Subject_Color}" value="${res.allSubjects[j].Subject_Label}">${res.allSubjects[j].Subject_Label}</option>`;
+	            htmlSubjects += `<option data-ls-id="-1" data-bg="${res.allSubjects[j].Subject_Color}" value="${res.allSubjects[j].Subject_Label}">${res.allSubjects[j].Subject_Label}</option>`;
 	          }
 
 	          $('#Subject_Section').find('#subjects-container').prepend(`<div class="dynamic-form-input-container dynamic-form-input-container-extra-style row-levels" data-level="${res.levels[i].Level_ID}">
@@ -480,6 +492,38 @@ function updateExpenses() {
 
 }
 
+function updateSubjects() {
+
+	var $subjects = [];
+	var $subject = [];
+
+	console.log("oldSubjects",oldSubjects);
+
+	$('#Subject_Section .row-levels').each(function(ind,elem){
+
+		var $subject = [];
+		var $sub     = [];
+
+		$subject["level-id"] = $(elem).attr("data-level");
+
+		$data = $(elem).find('.input-text-subject-select2').select2('data');
+
+		$data.map(function(el,d){
+			$sub.push(el);
+		});	
+
+		$subject["subject"] = $sub;
+
+		if($sub.length > 0 ){
+			$subjects.push($subject);
+		}
+
+	});
+
+	console.log("subjects",$subjects);
+
+}
+
 function updateClasses() {
 
 	var classes = $('#Classe_Section').find('input[name="classe-name"]').map(function(idx, elem) {
@@ -599,6 +643,8 @@ function select2Call() {
 
 	$tag_data = "";
 
+	$alreadySelected = [];
+
 	$(".input-text-subject-select2").each(function(ind,elem){
 
 			$this = $(this) ;
@@ -606,33 +652,36 @@ function select2Call() {
 			/****** prepend new options to all dropdown *********/
 
 				$this.select2({
-				  tags: true,
-				  dropdownPosition: 'below',
-				  tokenSeparators: [',', ' '],
-		  		  minimumResultsForSearch: -1,
-		  		  templateResult: hideSelected,
-		  		  placeholder: "Select items",
-		  		  templateSelection: function (data, container){
 
-					  var $option = $this.find('option[value="'+data.id+'"]');
+					  tags: true,
+					  dropdownPosition: 'below',
+					  tokenSeparators: [',', ' '],
+			  		  minimumResultsForSearch: -1,
+			  		  templateResult: hideSelected,
+			  		  placeholder: "Select items",
+			  		  templateSelection: function (data, container){
 
-					  if ($option.attr('locked')){
-					  	$(container).addClass('locked-tag');
-						data.locked = true; 
-					  }
+						  var $option = $this.find('option[value="'+data.id+'"]');
 
-				      $(container).attr("style","background-color:"+$option.attr("data-bg")+"!important;");
-				      data.selected=true;
-					  $tag_data = data;
-				      return data.text;
+						  if ($option.attr('locked')){
+						  	$(container).addClass('locked-tag');
+							data.locked = true; 
+							$alreadySelected.push(data.id+"_"+$this.attr("data-level"));
+						  }
 
-				  },
-			      processResults: function(data, params) {
-			          var data = $.map(data, function(item) {
-			            if (item.text.match(params.term) || params.term === "") return item;
-			          });
-			          return { results: data }
-			      }
+					      $(container).attr("style","background-color:"+$option.attr("data-bg")+"!important;");
+					      data.selected=true;
+					      data.ls_id = $option.attr("data-ls-id");
+						  $tag_data = data;
+					      return data.text;
+
+					  },
+				      processResults: function(data, params) {
+				          var data = $.map(data, function(item) {
+				            if (item.text.match(params.term) || params.term === "") return item;
+				          });
+				          return { results: data }
+				      }
 
 				}).on("select2:unselecting", function(e) {
 					    var self = $(this);
@@ -647,15 +696,13 @@ function select2Call() {
 
 			$(".input-text-subject-select2").on('select2:select', function (e) {
 
-				console.log("length : ",$(".input-text-subject-select2").length);
+				callSubjects();
 
 				$that = $(this); 
 
 				$dataSelect2Id = $(this).attr("data-select2-id");
 
 				$dataSelect2Data = $that.select2('data') ;
-
-				console.log("selected data : ",$dataSelect2Data[$dataSelect2Data.length - 1 ].text);
 
 				$dataSelect2DataText = $dataSelect2Data[$dataSelect2Data.length - 1 ].text;
 
@@ -691,6 +738,8 @@ function select2Call() {
 			$tag_data_unselect ="";
 
 			$(".input-text-subject-select2").on("select2:unselect", (e) => {
+
+				callSubjects();
 
 				$tag_data_unselect = e.params.data;
 
@@ -728,35 +777,73 @@ function select2Call() {
 
 			/****** End prepend new options to all dropdown *********/
 
-			callSubjects();
 			$tag_data = "";
 
 	});
+
+	callSubjects();
+
+	console.log("Array : ",$alreadySelected);
+
+	
 }
 
 function callSubjects() {
+
+  console.log("$alreadySelected",$alreadySelected);
+
   $.ajax({
           type: 'get',
           url: '/setup/subjects',
         })
         .done(function(res){
           console.log("Subjects::",res.subjects);
-          if (res.subjects.length > 0)
-            $(".input-text-subject-select2").select2({
-              data: res.subjects,
-              tags: true,
-              dropdownPosition: 'below',
-              tokenSeparators: [',', ' '],
-              minimumResultsForSearch: -1,
-              templateResult: hideSelected,
-              placeholder: "Select items",
-              templateSelection: function (data, container) {
-                console.log("Selection>>",data);
-                $tag_data = data;
-                  $(container).attr("style","background-color:"+data.color+"!important;");
-                  return data.text;
-              },
-            })
+          if (res.subjects.length > 0){
+
+          		 $(".input-text-subject-select2").each(function(){
+
+          		 	$this = $(this);
+
+		            $this.select2({
+		              data: res.subjects,
+		              tags: true,
+		              dropdownPosition: 'below',
+		              tokenSeparators: [',', ' '],
+		              minimumResultsForSearch: -1,
+		              templateResult: hideSelected,
+		              placeholder: "Select items",
+		              templateSelection: function (data, container) {
+
+		                  $(container).attr("style","background-color:"+data.color+"!important;");
+
+		                  var $option = $this.find('option[value="'+data.id+'"]');
+
+		                  $option.attr("data-bg",data.color);
+
+						  if ($alreadySelected.includes(data.id+"_"+$this.attr("data-level"))){
+						  	$(container).addClass('locked-tag');
+						  	$option.attr("locked",true);
+							data.locked = true; 
+						  }
+
+					      data.selected=true;
+					      data.ls_id = $option.attr("data-ls-id");
+						  $tag_data = data;
+					      return data.text;
+
+		              }
+
+		            });
+
+		            $this.trigger("change");
+
+	        	});
+
+        	}
         });
  
 }
+
+$(".input-text-subject-select2").on("change",function(e){
+	console.log("typing...");
+});
