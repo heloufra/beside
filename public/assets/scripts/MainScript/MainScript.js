@@ -1422,12 +1422,16 @@ $(document).ready(function(){
 
 	$(document).on("click","#Costs_Section .square-button-plus",function(){
 
-		$(this).parents(".dynamic-form-input-container-extra-style-composed").find(".dynamic-form-input-dropdown").removeClass("dynamic-form-input-first");
-		$dynamic_form_input = $(this).parent().children(".dynamic-form-input-dropdown-container").first().clone();
-		$dynamic_form_input.find(".input-text").val("");
-		$dynamic_form_input.find(".square-button-minus").removeClass('hidden');
-		$dynamic_form_input.find(".input-dropdown").val("");
-		$(this).before($dynamic_form_input);
+			console.log("settings");
+			//$("#Costs_Section .dynamic-form-input-dropdown").removeClass("dynamic-form-input-first");
+			$dynamic_form_input = $("#Expense_Section .dynamic-form-input-dropdown-container").first().clone();
+			$dynamic_form_input.find(".input-text").val("");
+			$dynamic_form_input.find("input").attr('data-expense',0);
+			$dynamic_form_input.find(".square-button-minus").removeClass('hidden');
+			$dynamic_form_input.find(".input-dropdown").val("");
+			$dynamic_form_input.find(".input-dropdown").parents(".form-group").removeClass("form-input-error");
+			$dynamic_form_input.find(".input-text").parents(".form-group").removeClass("form-input-error");
+			$(this).before($dynamic_form_input);
 
 	});
 

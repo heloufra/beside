@@ -265,40 +265,87 @@ function getCosts() {
 		$('#Costs_Section').removeClass('dom-change-watcher');
 		for (var i = res.levels.length - 1; i >= 0; i--) {
         	var filtredCosts = res.costs.filter(cost => cost.Level_ID === res.levels[i].Level_ID);
-        	var htmlCosts = ``;
-          	for(var j = 0;j < filtredCosts.length ; j++) {
-              htmlCosts+= `<div class="dynamic-form-input-dropdown-container">
-                <div class="dynamic-form-input-dropdown">
-                  <div class="dynamic-form-input">
-                    <div class="form-group group form-group-left">
-                      <input type="text" class="input-dropdown" name="cost-name" required value="${filtredCosts[j].Expense_Label}" data-cost="${filtredCosts[j].Expense_ID}" data-level="${res.levels[i].Level_ID}">
-                      <label class="input-label"><span class="input-label-text">Expense Name</span> <span class="input-label-bg-mask"></span></label>
-                      <img class="icon button-icon" src="assets/icons/caret.svg">
-                      <ul class="dynamic-form-input-dropdown-options">
-                      </ul>
-                    </div>
-                    <div class="form-group group form-group-right">
-                       <input type="text" class="input-text" name="cost-price" required value="${filtredCosts[j].Expense_Cost}">
-                        <label class="input-label"><span class="input-label-text">Price</span> <span class="input-label-bg-mask"></span></label>
-                    </div>
-                    <div class="square-button square-button-minus hidden">
-                      <img class="icon" src="assets/icons/minus.svg">
-                    </div>
-                  </div>
-                </div>
-              </div>`
-         	}
-	         $('#Costs_Section').find('#costs-container').prepend(`<div class="dynamic-form-input-container dynamic-form-input-container-extra-style dynamic-form-input-container-extra-style-composed row-levels" data-level="${res.levels[i].Level_ID}">
-	                                  <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">${res.levels[i].Level_Label}</span> <span class="input-label-bg-mask"></span></label>
-	                                  ${htmlCosts}
-	                                  <div class="square-button square-button-extra-style square-button-plus" >
-	                                    <img class="icon" src="assets/icons/plus.svg">
-	                                  </div>
-	                                </div>`)
+        	
+
+        	 if(filtredCosts.length > 0 ){
+
+        	 		var htmlCosts = ``;
+
+		          	for(var j = 0;j < filtredCosts.length ; j++) {
+		              htmlCosts+= `<div class="dynamic-form-input-dropdown-container">
+		                <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+		                  <div class="dynamic-form-input">
+		                    <div class="form-group group form-group-left">
+		                      <input type="text" class="input-dropdown" name="cost-name" required value="${filtredCosts[j].Expense_Label}" data-cost="${filtredCosts[j].Expense_ID}" data-level="${res.levels[i].Level_ID}">
+		                      <label class="input-label"><span class="input-label-text">Expense Name</span> <span class="input-label-bg-mask"></span></label>
+		                      <img class="icon button-icon" src="assets/icons/caret.svg">
+		                      <ul class="dynamic-form-input-dropdown-options">
+		                      </ul>
+		                    </div>
+		                    <div class="form-group group form-group-right">
+		                       <input type="text" class="input-text" name="cost-price" required value="${filtredCosts[j].Expense_Cost}">
+		                        <label class="input-label"><span class="input-label-text">Price</span> <span class="input-label-bg-mask"></span></label>
+		                    </div>
+		                    <div class="square-button square-button-minus hidden">
+		                      <img class="icon" src="assets/icons/minus.svg">
+		                    </div>
+		                  </div>
+		                </div>
+		              </div>`;
+		         	}
+			        
+			        $('#Costs_Section').find('#costs-container').prepend(`<div class="dynamic-form-input-container dynamic-form-input-container-extra-style dynamic-form-input-container-extra-style-composed row-levels" data-level="${res.levels[i].Level_ID}">
+                      <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">${res.levels[i].Level_Label}</span> <span class="input-label-bg-mask"></span></label>
+                      ${htmlCosts}
+                      <div class="square-button square-button-extra-style square-button-plus" >
+                        <img class="icon" src="assets/icons/plus.svg">
+                      </div>
+                    </div>`);
+			}else{
+
+					var htmlCosts = ``;
+
+					for(var j = 0;j < res.expenses.length ; j++) {
+
+		              htmlCosts+= `<div class="dynamic-form-input-dropdown-container">
+		                <div class="dynamic-form-input-dropdown">
+		                  <div class="dynamic-form-input">
+		                    <div class="form-group group form-group-left">
+		                      <input type="text" class="input-dropdown" name="cost-name" required value="${res.expenses[j].Expense_Label}" data-cost="${res.expenses[j].Expense_ID}" data-level="${res.levels[i].Level_ID}">
+		                      <label class="input-label"><span class="input-label-text">Expense Name</span> 
+		                      <span class="input-label-bg-mask"></span></label>
+		                      <img class="icon button-icon" src="assets/icons/caret.svg">
+		                      <ul class="dynamic-form-input-dropdown-options">
+		                      </ul>
+		                    </div>
+		                    <div class="form-group group form-group-right">
+		                       <input type="text" class="input-text" name="cost-price" required >
+		                        <label class="input-label"><span class="input-label-text">Price</span> <span class="input-label-bg-mask"></span></label>
+		                    </div>
+		                    <div class="square-button square-button-minus">
+		                      <img class="icon" src="assets/icons/minus.svg">
+		                    </div>
+		                  </div>
+		                </div>
+		              </div>`
+		         	}
+			        
+			        $('#Costs_Section').find('#costs-container').prepend(`<div class="dynamic-form-input-container dynamic-form-input-container-extra-style dynamic-form-input-container-extra-style-composed row-levels" data-level="${res.levels[i].Level_ID}">
+	                      <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">${res.levels[i].Level_Label}</span> <span class="input-label-bg-mask"></span></label>
+	                      ${htmlCosts}
+	                      <div class="square-button square-button-extra-style square-button-plus" >
+	                        <img class="icon" src="assets/icons/plus.svg">
+	                      </div>
+	                    </div>`);
+					}
+
 			}
-		$('#Costs_Section').addClass('dom-change-watcher');
+
+			$('#Costs_Section').addClass('dom-change-watcher');
 	});
 }
+
+getCosts();
 
 function updateDetails() {
 
@@ -577,12 +624,19 @@ function updateClasses() {
 }
 
 function updateCosts() {
+	
 	//dynamic-form-input-dropdown
-	var costs = $('#Costs_Section').find('input[name="cost-name"]').map(function(idx, elem) {
-    return {label:$(elem).val(),id:$(elem).attr('data-cost'),level:$(elem).parents('.row-levels').attr('data-level'),
-    price:$(elem).parents('.dynamic-form-input-dropdown').find('input[name="cost-price"]').val()};
-  }).get();
-	console.log('Costs!!',costs);
+		var costs = $('#Costs_Section').find('input[name="cost-name"]').map(function(idx, elem) {
+	    return {
+	    	label:$(elem).val(),
+	    	id:$(elem).attr('data-cost'),
+	    	level:$(elem).parents('.row-levels').attr('data-level'),
+	    	price:$(elem).parents('.dynamic-form-input-dropdown').find('input[name="cost-price"]').val()
+	    };
+	}).get();
+
+	console.log("costs",costs);
+
 	$.ajax({
 		type: 'post',
 		url: '/Settings/update/costs',
@@ -594,7 +648,7 @@ function updateCosts() {
 	.done(function(res){
 	 	if (res.updated)
 	 	{
-	 		getClasses();
+	 		getCosts();
 			$('.sub-container-form-footer').addClass('hide-footer');
  			$('.sub-container-form-footer').removeClass('show-footer');
 	 	}
