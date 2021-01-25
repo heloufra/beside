@@ -197,6 +197,7 @@ function saveData(value,data,next){
               {
                 window.location = '/?redir='+res.token;
               } else {
+                console.log(res);
                 $(".sub-container").prepend("<div style='position: absolute;width: 100%;' class='alert alert-danger' role='alert'>Email Already Exist</div>");
               }
           });

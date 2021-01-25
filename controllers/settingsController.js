@@ -1,4 +1,6 @@
 var connection  = require('../lib/db');
+var settingModel  = require('../models/settingModel');
+
 var date = new Date();
 var PaymentsQuery = 'SELECT students.*,levelexpenses.Expense_Cost , studentspayments.SP_Addeddate,studentspayments.SP_PaidPeriod,classes.Classe_Label FROM `students` LEFT JOIN studentsubscribtion ON studentsubscribtion.Student_ID = students.Student_ID LEFT JOIN levelexpenses ON levelexpenses.LE_ID = studentsubscribtion.LE_ID LEFT JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID LEFT JOIN classes ON studentsclasses.Classe_ID = classes.Classe_ID INNER JOIN studentspayments ON studentspayments.SS_ID = studentsubscribtion.SS_ID  WHERE `Institution_ID`= ?'
 var AdTeacher = "SELECT DISTINCT users.*, absencesanddelays.* FROM `absencesanddelays` LEFT JOIN users ON users.User_ID = absencesanddelays.User_ID LEFT JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID LEFT JOIN teachersubjectsclasses ON teachersubjectsclasses.Teacher_ID = users.User_ID WHERE institutionsusers.Institution_ID = ? AND absencesanddelays.User_Type ='teacher'";
@@ -140,6 +142,45 @@ var settingsController = {
         }
       })
     })
+  },  
+  updateSubjects: async function(req, res, next) {
+
+       connection.query("SELECT * FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], async (err, academic, fields) => {
+
+                  for (var j =  0; j < req.body.subjects.length; j++) {
+                      // Disable all affeted subjects LS_Status = 0
+                      connection.query("update levelsubjects set LS_Status = 0 WHERE  Level_ID = ? and AY_ID = ? ", [req.body.subjects[j].level_id,academic[0].AY_ID], async (err, academic, fields) => {});
+
+                      for(var s = 0 ; s < req.body.subjects[j].subject.length ; s++){
+
+                           // add new subject 
+                          if(req.body.subjects[j].subject[s].id == -1 ){
+
+                            var subjectID = await settingModel.saveSubjects(req.body.subjects[j].subject[s].text);
+                            var levelsubjectResult = await settingModel.saveLevelsSubjects(req.body.subjects[j].level_id,subjectID,academic[0].AY_ID);
+
+                          }else{
+
+                            var findLevelsSubjects = await settingModel.findLevelsSubjects(req.body.subjects[j].level_id,req.body.subjects[j].subject[s].id,academic[0].AY_ID);
+
+                            if(findLevelsSubjects[0].LS_Count == 0 ){
+                              var saveLevelsSubjectsCounter = await settingModel.saveLevelsSubjects(req.body.subjects[j].level_id,req.body.subjects[j].subject[s].id,academic[0].AY_ID);
+                            }else{
+                              // Enable  new one subjects LS_Status = 1 base on level_id and subject_id and ay_ID 
+                              connection.query("update levelsubjects set LS_Status = 1 WHERE  Level_ID = ? and Subject_ID = ? and AY_ID = ? ", [req.body.subjects[j].level_id,req.body.subjects[j].subject[s].id,academic[0].AY_ID], async (err, academic, fields) => {}); 
+                            }
+   
+
+                          }
+                      }
+                  }
+
+                  res.json({
+                    updated : true
+                  });
+
+       });
+
   },
   updateLevels:function(req, res, next) {
     connection.query("SELECT * FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {

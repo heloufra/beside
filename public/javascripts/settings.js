@@ -494,33 +494,55 @@ function updateExpenses() {
 
 function updateSubjects() {
 
-	var $subjects = [];
-	var $subject = [];
-
-	console.log("oldSubjects",oldSubjects);
+	var $subjects = {} ;
 
 	$('#Subject_Section .row-levels').each(function(ind,elem){
 
-		var $subject = [];
+		var $subject = {};
 		var $sub     = [];
 
-		$subject["level-id"] = $(elem).attr("data-level");
+		$subject["level_id"] = $(elem).attr("data-level");
 
 		$data = $(elem).find('.input-text-subject-select2').select2('data');
 
 		$data.map(function(el,d){
-			$sub.push(el);
+
+			$text = el.text;
+			$id = el.subject_id;
+
+			if (typeof $id === 'undefined') {
+				$id = -1 ;
+			}
+
+			$sub.push({'text':$text,'id':$id});
+
 		});	
 
 		$subject["subject"] = $sub;
 
 		if($sub.length > 0 ){
-			$subjects.push($subject);
+			$subjects[ind] = $subject ;
 		}
 
 	});
-
-	console.log("subjects",$subjects);
+	
+	$.ajax({
+		type: 'post',
+		url: '/Settings/update/subjects',
+		data: {
+			'subjects' : $subjects
+		},
+		dataType: 'json'
+	})
+	.done(function(res){
+	 	if (res.updated)
+	 	{
+	 		console.log("res.subjects",res);
+	 		getSubjects();
+			$('.sub-container-form-footer').addClass('hide-footer');
+ 			$('.sub-container-form-footer').removeClass('show-footer');
+	 	}
+	});
 
 }
 
@@ -819,6 +841,7 @@ function callSubjects() {
 		                  var $option = $this.find('option[value="'+data.id+'"]');
 
 		                  $option.attr("data-bg",data.color);
+		                  $option.attr("data-subject-id",data.Subject_ID);
 
 						  if ($alreadySelected.includes(data.id+"_"+$this.attr("data-level"))){
 						  	$(container).addClass('locked-tag');
@@ -827,6 +850,7 @@ function callSubjects() {
 						  }
 
 					      data.selected=true;
+					      data.subject_id = data.Subject_ID;
 					      data.ls_id = $option.attr("data-ls-id");
 						  $tag_data = data;
 					      return data.text;
@@ -843,7 +867,3 @@ function callSubjects() {
         });
  
 }
-
-$(".input-text-subject-select2").on("change",function(e){
-	console.log("typing...");
-});

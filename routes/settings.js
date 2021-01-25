@@ -11,6 +11,7 @@ router.post('/update/levels',authAdmin,settingsController.updateLevels);
 router.post('/update/expenses',authAdmin,settingsController.updateExpenses);
 router.post('/update/classes',authAdmin,settingsController.updateClasses);
 router.post('/update/costs',authAdmin,settingsController.updateCosts);
+router.post('/update/subjects',authAdmin,settingsController.updateSubjects);
 router.get('/get/details',authAdmin,settingsController.getDetails);
 router.get('/get/academic',authAdmin,settingsController.getAcademic);
 router.get('/get/levels',authAdmin,settingsController.getLevels);
