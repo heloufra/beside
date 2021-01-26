@@ -835,6 +835,30 @@ $(document).ready(function(){
 
 	$(document).on("click",".input-dropdown",function(event){
 
+		if($(this).parents(".setup-update-main-container").length === 1){
+
+			console.log("settings");
+
+			$alreadySelectedCost = [];
+
+			$(this).parents(".row-levels").find(".input-dropdown").each(function(ind,elem){
+				if( $(elem).val() != "" ){
+					$alreadySelectedCost.push($(elem).val());
+				}
+			});
+
+			$(this).parents(".dynamic-form-input-dropdown").find(".dynamic-form-input-dropdown-options li").removeClass("visibility");
+
+			$(this).parents(".dynamic-form-input-dropdown").find(".dynamic-form-input-dropdown-options li").each(function(ind_,elem_){
+				if($alreadySelectedCost.includes($(elem_).text()) ){
+					$(elem_).addClass("visibility");
+				}
+			});
+
+			console.log("$alreadySelectedCost",$alreadySelectedCost);
+
+		}
+
 		$(".dynamic-form-input-dropdown-options").css({"opacity":"0"});
 		$(".dynamic-form-input-dropdown-options").css({"display":"none"});
 
@@ -873,6 +897,7 @@ $(document).ready(function(){
 
 		$text = $(this).attr("data-val");
 		$id = $(this).attr("data-id");
+		$cost = $(this).attr("data-cost");
 
 		if($(this).attr("data-id") == "0"){
 			$(this).parents(".dynamic-form-input-float-adjust").find(".interaction_icon_main").attr("src","assets/icons/emoji_good.svg");
@@ -886,6 +911,7 @@ $(document).ready(function(){
 		$this.closest(".form-group").find(".input-dropdown").attr("data-val",$text);
 
 		$this.closest(".form-group").find(".input-dropdown").attr("data-id",$id);
+		$this.closest(".form-group").find(".input-dropdown").attr("data-cost",$cost);
 
 		$this.parent().find(".dynamic-form-input-dropdown-options").css({"opacity":"0"});
 
@@ -1422,23 +1448,77 @@ $(document).ready(function(){
 
 	$(document).on("click","#Costs_Section .square-button-plus",function(){
 
+		if($(this).parents(".setup-update-main-container").length == 1){
+
 			console.log("settings");
-			//$("#Costs_Section .dynamic-form-input-dropdown").removeClass("dynamic-form-input-first");
-			$dynamic_form_input = $("#Expense_Section .dynamic-form-input-dropdown-container").first().clone();
+			$(this).parent(".row-levels").find(".dynamic-form-input-dropdown").removeClass("dynamic-form-input-first");
+			$dynamic_form_input = $(this).parent(".row-levels").find(".dynamic-form-input-dropdown-container").first().clone();
 			$dynamic_form_input.find(".input-text").val("");
 			$dynamic_form_input.find("input").attr('data-expense',0);
 			$dynamic_form_input.find(".square-button-minus").removeClass('hidden');
 			$dynamic_form_input.find(".input-dropdown").val("");
 			$dynamic_form_input.find(".input-dropdown").parents(".form-group").removeClass("form-input-error");
 			$dynamic_form_input.find(".input-text").parents(".form-group").removeClass("form-input-error");
+			$dynamic_form_input.find(".form-group-left").removeClass("form-input-disabled");
 			$(this).before($dynamic_form_input);
+
+			$count = $(this).attr("data-count");
+
+			$rows = $(this).parents(".row-levels").find(".dynamic-form-input-dropdown-container").length ;
+
+			if($rows >= $count ){
+				$(this).addClass("hidden");
+			}else{
+				$(this).removeClass("hidden");
+			}
+
+		}else{
+			console.log("setups");
+			$("#Costs_Section .dynamic-form-input-dropdown").removeClass("dynamic-form-input-first");
+			$dynamic_form_input = $("#Costs_Section .dynamic-form-input-dropdown-container").first().clone();
+			$dynamic_form_input.find(".input-text").val("");
+			$dynamic_form_input.find("input").attr('data-expense',0);
+			$dynamic_form_input.find(".square-button-minus").removeClass('hidden');
+			$dynamic_form_input.find(".input-dropdown").val("");
+			$dynamic_form_input.find("input").removeClass('form-input-error');
+			$dynamic_form_input.find(".input-dropdown").parents(".form-group").removeClass("form-input-error");
+			$dynamic_form_input.find(".input-text").parents(".form-group").removeClass("form-input-error");
+			$(this).before($dynamic_form_input);
+		}
 
 	});
 
 	$(document).on("click","#Costs_Section .square-button-minus",function(){
 
+
+		$this_Parent = $(this).parents(".row-levels");
+
+		$rows = $(this).parents(".row-levels").find(".dynamic-form-input-dropdown-container").length - 1 ;
+
 		if($(this).parents(".dynamic-form-input-container-extra-style").children(".dynamic-form-input-dropdown-container").length <= 2 ){
 			$(this).parents(".dynamic-form-input-container-extra-style").children(".dynamic-form-input-dropdown-container").children(".dynamic-form-input-dropdown").addClass("dynamic-form-input-first");
+		}
+
+		if($this.parents(".setup-update-main-container").length == 1){
+
+			console.log("settings");
+
+			$count = $(this).attr("data-count") ;
+
+			if($rows >= $count ){
+			   $this_Parent.find(".square-button-plus").addClass("hidden");
+			}else{
+			   $this_Parent.find(".square-button-plus").removeClass("hidden");
+			}
+
+			$this_value = $(this).parents(".dynamic-form-input-dropdown-container").find(".input-dropdown").val();
+
+			$(this).parents(".dynamic-form-input-dropdown").find(".dynamic-form-input-dropdown-options li").each(function(ind_,elem_){
+				if($(elem_).text() == $this_value ) {
+					$(elem_).removeClass("visibility");
+				}
+			});
+
 		}
 
 		$(this).parents(".dynamic-form-input-dropdown-container").remove();
@@ -1584,9 +1664,11 @@ $(document).ready(function(){
 			})
 
 			$dynamic_form_input.find('.dynamic-form-input-dropdown-options li').each(function() {
-				if(subjects.includes($(this).attr('data-val')))
+				if(subjects.includes($(this).attr('data-val'))){
 					$(this).addClass('hidden');
+				}
 			})
+
 			$(this).parent().find(".sections-main-sub-container-right-main-rows-dropdown-tags-container").last().after($dynamic_form_input);
 			$(this).parents(".sections-main-sub-container-right-main-rows-dropdown-tags").find(".input-text-subject-classes-select2").select2({
 			  tags: true,
@@ -3680,7 +3762,4 @@ $(document).on('paste','.input-user-code', function() {
 });
 
 /* End blur input-user-code _________________*/
-
-
-
 

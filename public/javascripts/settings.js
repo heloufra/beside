@@ -275,29 +275,45 @@ function getCosts() {
 		              htmlCosts+= `<div class="dynamic-form-input-dropdown-container">
 		                <div class="dynamic-form-input-dropdown dynamic-form-input-first">
 		                  <div class="dynamic-form-input">
-		                    <div class="form-group group form-group-left">
-		                      <input type="text" class="input-dropdown" name="cost-name" required value="${filtredCosts[j].Expense_Label}" data-cost="${filtredCosts[j].Expense_ID}" data-level="${res.levels[i].Level_ID}">
-		                      <label class="input-label"><span class="input-label-text">Expense Name</span> <span class="input-label-bg-mask"></span></label>
-		                      <img class="icon button-icon" src="assets/icons/caret.svg">
-		                      <ul class="dynamic-form-input-dropdown-options">
-		                      </ul>
+		                    <div class="form-group group form-group-left form-input-disabled">
+		                      <input type="text" readonly class="input-dropdown" name="cost-name" required value="${filtredCosts[j].Expense_Label}" data-cost="${filtredCosts[j].Expense_ID}" data-level="${res.levels[i].Level_ID}">
+		                      <label class="input-label input-label-move-to-top"><span class="input-label-text">Expense Name</span> <span class="input-label-bg-mask"></span></label>
+		                      <img class="icon button-icon" src="assets/icons/caret.svg">`;
+
+				              htmlCosts+= `<ul class="dynamic-form-input-dropdown-options" style="display: none; opacity: 0;">`;
+
+				              for(var ex = 0 ; ex < res.expenses.length ; ex++){
+
+				              	 htmlCosts+= `<li data-val="${res.expenses[ex].Expense_Label}" data-cost="${res.expenses[ex].Expense_ID}">${res.expenses[ex].Expense_Label}</li>`;
+
+				              }
+
+
+				              htmlCosts+= `</ul>
+
 		                    </div>
 		                    <div class="form-group group form-group-right">
 		                       <input type="text" class="input-text" name="cost-price" required value="${filtredCosts[j].Expense_Cost}">
 		                        <label class="input-label"><span class="input-label-text">Price</span> <span class="input-label-bg-mask"></span></label>
 		                    </div>
-		                    <div class="square-button square-button-minus hidden">
+		                    <div class="square-button square-button-minus hidden" data-count="${res.expenses.length}">
 		                      <img class="icon" src="assets/icons/minus.svg">
 		                    </div>
 		                  </div>
 		                </div>
 		              </div>`;
 		         	}
+
+		         	$hidden = ''; 
+
+		         	if(filtredCosts.length == res.expenses.length ){
+		         		$hidden = 'hidden';
+		         	}
 			        
 			        $('#Costs_Section').find('#costs-container').prepend(`<div class="dynamic-form-input-container dynamic-form-input-container-extra-style dynamic-form-input-container-extra-style-composed row-levels" data-level="${res.levels[i].Level_ID}">
                       <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">${res.levels[i].Level_Label}</span> <span class="input-label-bg-mask"></span></label>
                       ${htmlCosts}
-                      <div class="square-button square-button-extra-style square-button-plus" >
+                      <div class="square-button square-button-extra-style square-button-plus ${$hidden} " data-count="${res.expenses.length}" >
                         <img class="icon" src="assets/icons/plus.svg">
                       </div>
                     </div>`);
@@ -311,18 +327,27 @@ function getCosts() {
 		                <div class="dynamic-form-input-dropdown">
 		                  <div class="dynamic-form-input">
 		                    <div class="form-group group form-group-left">
-		                      <input type="text" class="input-dropdown" name="cost-name" required value="${res.expenses[j].Expense_Label}" data-cost="${res.expenses[j].Expense_ID}" data-level="${res.levels[i].Level_ID}">
-		                      <label class="input-label"><span class="input-label-text">Expense Name</span> 
+		                      <input type="text" readonly class="input-dropdown" name="cost-name" required value="${res.expenses[j].Expense_Label}" data-cost="${res.expenses[j].Expense_ID}" data-level="${res.levels[i].Level_ID}">
+		                      <label class="input-label input-label-move-to-top"><span class="input-label-text">Expense Name</span> 
 		                      <span class="input-label-bg-mask"></span></label>
 		                      <img class="icon button-icon" src="assets/icons/caret.svg">
-		                      <ul class="dynamic-form-input-dropdown-options">
-		                      </ul>
+		                      <img class="icon button-icon" src="assets/icons/caret.svg">`;
+
+				              htmlCosts+= `<ul class="dynamic-form-input-dropdown-options" style="display: none; opacity: 0;">`;
+
+				              for(var ex = 0 ; ex < res.expenses.length ; ex++){
+
+				              	 htmlCosts+= `<li data-val="${res.expenses[ex].Expense_Label}" data-cost="${res.expenses[ex].Expense_ID}">${res.expenses[ex].Expense_Label}</li>`;
+
+				              }
+
+				              htmlCosts+= `</ul>
 		                    </div>
 		                    <div class="form-group group form-group-right">
 		                       <input type="text" class="input-text" name="cost-price" required >
 		                        <label class="input-label"><span class="input-label-text">Price</span> <span class="input-label-bg-mask"></span></label>
 		                    </div>
-		                    <div class="square-button square-button-minus">
+		                    <div class="square-button square-button-minus" data-count="${res.expenses.length}">
 		                      <img class="icon" src="assets/icons/minus.svg">
 		                    </div>
 		                  </div>
@@ -333,7 +358,7 @@ function getCosts() {
 			        $('#Costs_Section').find('#costs-container').prepend(`<div class="dynamic-form-input-container dynamic-form-input-container-extra-style dynamic-form-input-container-extra-style-composed row-levels" data-level="${res.levels[i].Level_ID}">
 	                      <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">${res.levels[i].Level_Label}</span> <span class="input-label-bg-mask"></span></label>
 	                      ${htmlCosts}
-	                      <div class="square-button square-button-extra-style square-button-plus" >
+	                      <div class="square-button square-button-extra-style square-button-plus hidden" data-count="${res.expenses.length}">
 	                        <img class="icon" src="assets/icons/plus.svg">
 	                      </div>
 	                    </div>`);
@@ -624,35 +649,58 @@ function updateClasses() {
 }
 
 function updateCosts() {
+
+	$CostLabelsErrors = [];
+	$CostPriceErrors  = [];
 	
 	//dynamic-form-input-dropdown
-		var costs = $('#Costs_Section').find('input[name="cost-name"]').map(function(idx, elem) {
-	    return {
-	    	label:$(elem).val(),
-	    	id:$(elem).attr('data-cost'),
-	    	level:$(elem).parents('.row-levels').attr('data-level'),
-	    	price:$(elem).parents('.dynamic-form-input-dropdown').find('input[name="cost-price"]').val()
-	    };
+	var costs = $('#Costs_Section').find('input[name="cost-name"]').map(function(idx, elem) {
+
+		if($(elem).val() != ""){
+		    return {
+		    	label:$(elem).val(),
+		    	id:$(elem).attr('data-cost'),
+		    	level:$(elem).parents('.row-levels').attr('data-level'),
+		    	price:$(elem).parents('.dynamic-form-input-dropdown').find('input[name="cost-price"]').val()
+		    };
+		}else{
+		 	$CostLabelsErrors.push(idx);
+		 	$(elem).parents(".form-group").addClass("form-input-error");
+	    }
+
 	}).get();
 
-	console.log("costs",costs);
+  	$('#Costs_Section').find('input[name="cost-price"]').map(function(idx, elem) {
 
-	$.ajax({
-		type: 'post',
-		url: '/Settings/update/costs',
-		data: {
-			costs
-		},
-		dataType: 'json'
-	})
-	.done(function(res){
-	 	if (res.updated)
-	 	{
-	 		getCosts();
-			$('.sub-container-form-footer').addClass('hide-footer');
- 			$('.sub-container-form-footer').removeClass('show-footer');
-	 	}
-	});
+	     if($(elem).val() != "" ){
+		 	$(elem).parents(".form-group").removeClass("form-input-error");
+		 }else{
+		 	$CostPriceErrors.push(idx);
+		 	$(elem).parents(".form-group").addClass("form-input-error");
+		 }
+
+  	});
+
+  	return false;
+
+	if($CostLabelsErrors.length == 0 &&  $CostPriceErrors.length == 0 ){
+		$.ajax({
+			type: 'post',
+			url: '/Settings/update/costs',
+			data: {
+				costs
+			},
+			dataType: 'json'
+		})
+		.done(function(res){
+		 	if (res.updated)
+		 	{
+		 		getCosts();
+				$('.sub-container-form-footer').addClass('hide-footer');
+	 			$('.sub-container-form-footer').removeClass('show-footer');
+		 	}
+		});
+	}
 }
 
 function readFile() {
