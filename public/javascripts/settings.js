@@ -121,7 +121,7 @@ function getSubjects() {
 	})
 	.done(function(res){
 
-		console.log("getSubjects : ",res);
+		
 
 		$('#Subject_Section').find('.row-levels').remove();
 		$('#Subject_Section').removeClass('dom-change-watcher');
@@ -173,7 +173,7 @@ function getSubjects() {
 
           	  var htmlSubjects = ``;
 
-          	  console.log("else : ", res.levels[i].Level_Label);
+          	  
 
           	  for(var j = 0;j < res.allSubjects.length ; j++) {
 	            htmlSubjects += `<option data-ls-id="-1" data-bg="${res.allSubjects[j].Subject_Color}" value="${res.allSubjects[j].Subject_Label}">${res.allSubjects[j].Subject_Label}</option>`;
@@ -216,6 +216,7 @@ function getSubjects() {
 getSubjects();
 
 function getExpenses() {
+	
 	$.ajax({
 		type: 'get',
 		url: '/Settings/get/expenses',
@@ -225,7 +226,7 @@ function getExpenses() {
 		$('#Expense_Section').removeClass('dom-change-watcher'); 
 		for(var i = res.expenses.length - 1;i >= 0 ; i--) {
             $('#Expense_Section').find('#expense-container').prepend(`<div class="dynamic-form-input-dropdown-container row-expenses">
-                                    <div class="dynamic-form-input-dropdown">
+                                    <div class="dynamic-form-input-dropdown dynamic-form-input-first">
                                       <div class="dynamic-form-input">
                                         <div class="dynamic-form-input-float-adjust">
                                         <div class="form-group group form-group-left">
@@ -248,9 +249,11 @@ function getExpenses() {
                                     </div>
                                   </div>`)
         }
-        $('#Expense_Section').addClass('dom-change-watcher'); 
+        $('#Expense_Section').addClass('dom-change-watcher');
 	});
 }
+
+getExpenses();
 
 function getCosts() {
 	$.ajax({
@@ -258,8 +261,6 @@ function getCosts() {
 		url: '/Settings/get/costs',
 	})
 	.done(function(res){
-
-		console.log("getCosts ", res);
 
 		$('#Costs_Section').find('.row-levels').remove();
 		$('#Costs_Section').removeClass('dom-change-watcher');
@@ -484,8 +485,6 @@ function updateLevels() {
 
   	}).get();
 
-	console.log('levels : ',levels);
-
 	if($levelsErrors.length == 0 ){
 
 		$.ajax({
@@ -539,8 +538,6 @@ function updateExpenses() {
 		 }
 
   	})
-
-	console.log('Expenses',expenses);
 
 	if($ExpensesLabelsErrors.length == 0 &&  $ExpensesCostsErrors.length == 0 ){
 		$.ajax({
@@ -609,7 +606,7 @@ function updateSubjects() {
 	.done(function(res){
 	 	if (res.updated)
 	 	{
-	 		console.log("res.subjects",res);
+	 		
 	 		getSubjects();
 			$('.sub-container-form-footer').addClass('hide-footer');
  			$('.sub-container-form-footer').removeClass('show-footer');
@@ -627,8 +624,6 @@ function updateClasses() {
 		}
     	
   	}).get();
-
-	console.log('Classes!!',classes);
 
 	$.ajax({
 		type: 'post',
@@ -680,8 +675,6 @@ function updateCosts() {
 		 }
 
   	});
-
-  	return false;
 
 	if($CostLabelsErrors.length == 0 &&  $CostPriceErrors.length == 0 ){
 		$.ajax({
@@ -906,22 +899,17 @@ function select2Call() {
 	});
 
 	callSubjects();
-
-	console.log("Array : ",$alreadySelected);
-
 	
 }
 
 function callSubjects() {
-
-  console.log("$alreadySelected",$alreadySelected);
 
   $.ajax({
           type: 'get',
           url: '/setup/subjects',
         })
         .done(function(res){
-          console.log("Subjects::",res.subjects);
+
           if (res.subjects.length > 0){
 
           		 $(".input-text-subject-select2").each(function(){

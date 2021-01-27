@@ -998,6 +998,8 @@ input:focus ~ label,input:valid ~ label{
 	border-bottom: 0.5px solid var(--input-border--color);
 	border-left: 0.5px solid var(--input-border--color);
 	letter-spacing: 0.2px;
+	text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .date-form-input-picker-label:hover{

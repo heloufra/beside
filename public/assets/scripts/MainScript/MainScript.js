@@ -1414,6 +1414,16 @@ $(document).ready(function(){
 			$dynamic_form_input.find(".input-dropdown").parents(".form-group").removeClass("form-input-error");
 			$dynamic_form_input.find(".input-text").parents(".form-group").removeClass("form-input-error");
 			$(this).before($dynamic_form_input);
+
+			$("#Expense_Section .dynamic-form-input-dropdown").each(function(ind,elem){
+				if($(elem).find(".input-text").attr("data-expense") == 0 ){
+					$(this).removeClass("dynamic-form-input-first");
+				}else{
+					$(this).addClass("dynamic-form-input-first");
+				}
+			});
+			
+
 		}else{
 			console.log("setups");
 			$("#Expense_Section .dynamic-form-input-dropdown").removeClass("dynamic-form-input-first");
@@ -1455,6 +1465,7 @@ $(document).ready(function(){
 			$dynamic_form_input = $(this).parent(".row-levels").find(".dynamic-form-input-dropdown-container").first().clone();
 			$dynamic_form_input.find(".input-text").val("");
 			$dynamic_form_input.find("input").attr('data-expense',0);
+			$dynamic_form_input.find("input").attr('data-cost',0);
 			$dynamic_form_input.find(".square-button-minus").removeClass('hidden');
 			$dynamic_form_input.find(".input-dropdown").val("");
 			$dynamic_form_input.find(".input-dropdown").parents(".form-group").removeClass("form-input-error");
@@ -1472,12 +1483,21 @@ $(document).ready(function(){
 				$(this).removeClass("hidden");
 			}
 
+			$("#Costs_Section .dynamic-form-input-dropdown").each(function(ind,elem){
+				if($(elem).find(".input-text").attr("data-cost") == 0 ){
+					$(this).removeClass("dynamic-form-input-first");
+				}else{
+					$(this).addClass("dynamic-form-input-first");
+				}
+			});
+
 		}else{
 			console.log("setups");
 			$("#Costs_Section .dynamic-form-input-dropdown").removeClass("dynamic-form-input-first");
 			$dynamic_form_input = $("#Costs_Section .dynamic-form-input-dropdown-container").first().clone();
 			$dynamic_form_input.find(".input-text").val("");
 			$dynamic_form_input.find("input").attr('data-expense',0);
+			$dynamic_form_input.find("input").attr('data-cost',0);
 			$dynamic_form_input.find(".square-button-minus").removeClass('hidden');
 			$dynamic_form_input.find(".input-dropdown").val("");
 			$dynamic_form_input.find("input").removeClass('form-input-error');
