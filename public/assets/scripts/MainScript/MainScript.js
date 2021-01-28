@@ -19,6 +19,10 @@ $headerInfo    = ".sections-main-sub-container-right-main-header" ;
 $sideSelector  = ".sections-main-sub-container-left-card-container";
 
 
+$subjectColors = ["#d8e9ff","#d2ebdc","#e7d9ff","#f5caca","#f1e1c2","#d1f6fc","#f6f1bd",
+				  "#e4e0e0","#d4e8b2","#f6d6ad","#d3e2e9","#d5d0e5","#f8d3ec","#ebd2d2"];
+
+
 /* input change watcher Component ______________________*/
 (function($){
     var originalVal = $.fn.val;
@@ -1192,12 +1196,36 @@ $(document).ready(function(){
 
 	$(document).on("click","#Level_Section #Level_New_Dynamic_Form_Input",function(){
 
-		$("#Level_Section .dynamic-form-input").removeClass("dynamic-form-input-first");
-		$dynamic_form_input = $("#Level_Section .dynamic-form-input").first().clone();
-		$dynamic_form_input.find("input").val("");
-		$dynamic_form_input.find("input").attr("data-level","-1");
-		$dynamic_form_input.find(".square-button").removeClass('hidden');
-		$(this).before($dynamic_form_input);
+
+		if($(this).parents(".setup-update-main-container").length == 1){
+					
+			$("#Level_Section .dynamic-form-input").removeClass("dynamic-form-input-first");
+			$dynamic_form_input = $("#Level_Section .dynamic-form-input").first().clone();
+			$dynamic_form_input.find("input").val("");
+			$dynamic_form_input.find("input").attr("data-level","-1");
+			$dynamic_form_input.find(".square-button").removeClass('hidden');
+			$(this).before($dynamic_form_input);
+
+
+			$("#Level_Section .dynamic-form-input").each(function(ind,elem){
+				if($(elem).find("input[name='level-name']").attr("data-level") == -1 ){
+					$(this).removeClass("dynamic-form-input-first");
+				}else{
+					$(this).addClass("dynamic-form-input-first");
+				}
+			});
+
+
+		}else{
+
+			$("#Level_Section .dynamic-form-input").removeClass("dynamic-form-input-first");
+			$dynamic_form_input = $("#Level_Section .dynamic-form-input").first().clone();
+			$dynamic_form_input.find("input").val("");
+			$dynamic_form_input.find("input").attr("data-level","-1");
+			$dynamic_form_input.find(".square-button").removeClass('hidden');
+			$(this).before($dynamic_form_input);
+
+		}
 
 	});
 
@@ -1224,6 +1252,17 @@ $(document).ready(function(){
 			$dynamic_form_input.find(".square-button-minus").removeClass('hidden');
 			$dynamic_form_input.find("input").attr('data-classe',0);
 			$(this).before($dynamic_form_input);
+
+
+			$("#Classe_Section .row-levels").each(function(ind,elem){
+				if($(elem).find("input[name='classe-name']").attr("data-classe") == 0 ){
+					console.log($(elem).find("input[name='classe-name']").attr("data-classe"));
+					$(elem).parents(".dynamic-form-input").removeClass("dynamic-form-input-first");
+				}else{
+					$(elem).parents(".dynamic-form-input").addClass("dynamic-form-input-first");
+				}
+			});
+
 		}else{
 			//console.log("setup");
 			$dynamic_form_input = $(this).parent().children(".dynamic-form-input").first().removeClass("dynamic-form-input-first").clone();
@@ -3782,4 +3821,3 @@ $(document).on('paste','.input-user-code', function() {
 });
 
 /* End blur input-user-code _________________*/
-

@@ -40,7 +40,7 @@ function getLevels() {
 		$('#Level_Section').find('.row-levels').remove();
 		$('#Level_Section').removeClass('dom-change-watcher');
 		for (var i = res.levels.length - 1; i >= 0; i--) {
-			$('#Level_Section').find('#levels-container').prepend(`<div class="dynamic-form-input row-levels">
+			$('#Level_Section').find('#levels-container').prepend(`<div class="dynamic-form-input dynamic-form-input-first row-levels">
                                       <div class="form-group group">
                                         <input type="text" required value="${res.levels[i].Level_Label}" name="level-name">
                                         <label class="input-label"><span class="input-label-text">Level name</span> <span class="input-label-bg-mask"></span></label>
@@ -54,6 +54,7 @@ function getLevels() {
 	});
 }
 
+getLevels();
 
 function getClasses() {
 	$.ajax({
@@ -216,7 +217,7 @@ function getSubjects() {
 getSubjects();
 
 function getExpenses() {
-	
+
 	$.ajax({
 		type: 'get',
 		url: '/Settings/get/expenses',

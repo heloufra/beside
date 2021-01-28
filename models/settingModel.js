@@ -1,12 +1,12 @@
 var connection  = require('../lib/db');
 
 var getRandomColor =() => {
-  var letters = '0123456789ABCDEF';
-  var color = '#';
-  for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
+
+  $subjectColors = ["#d8e9ff","#d2ebdc","#e7d9ff","#f5caca","#f1e1c2","#d1f6fc","#f6f1bd",
+          "#e4e0e0","#d4e8b2","#f6d6ad","#d3e2e9","#d5d0e5","#f8d3ec","#ebd2d2"];
+
+  return $subjectColors[Math.floor(Math.random() * $subjectColors.length)];
+  
 }
 
 var settingModel = {

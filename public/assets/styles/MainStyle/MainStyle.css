@@ -876,7 +876,7 @@ input:focus ~ label,input:valid ~ label{
 }
 
 .dynamic-form-input-container .dynamic-form-input .form-group{
-	width: 85%;
+	width: calc(100% - 60px); /* 85% */
 }
 
 .dynamic-form-input-container .dynamic-form-input-first .form-group{
@@ -911,7 +911,7 @@ input:focus ~ label,input:valid ~ label{
 }
 
 .dynamic-form-input .form-group{
-	width: 86%;
+	width: calc(100% - 60px); /* 86% */
 	display: inline-block;
 	vertical-align: top;
 }
@@ -1086,7 +1086,8 @@ input:focus ~ label,input:valid ~ label{
 }
 
 .dynamic-form-input-dropdown .form-group-left{
-	width: 49%;
+	/*width: 49%;*/
+	width: calc(100% - 48%);
 	border-left:1px solid var(--input-border--color);
 	border-top:1px solid var(--input-border--color);
 	border-bottom:1px solid var(--input-border--color);
@@ -1172,7 +1173,8 @@ input:focus ~ label,input:valid ~ label{
 }
 
 .dynamic-form-input-container-extra-style-composed  .form-group-left{
-	width: 65% !important;
+	/*width: 65% !important;*/
+	width: calc(100% - 32%) !important;
 }
 
 .dynamic-form-input-container-extra-style-composed .form-group-right{
@@ -7690,6 +7692,15 @@ table td img {
 
     }
 
+
+    /************ containers backgrounds *******************/
+
+    .login-main-container ,
+    .setup-main-container {
+		background-image: url(../../../assets/brand/main_bg.png) !important;
+	    background-size: cover !important; /* cover */
+	    background-repeat: repeat;
+	}
 
     /************ Form validation *******************/
 
