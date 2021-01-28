@@ -356,8 +356,8 @@ function addLevels(data) {
         placeholder: "Select items",
         templateSelection: function (data, container){
           console.log(">>Selection",data);
-          $(container).attr("style","background-color:#"+Math.random().toString(16).substr(2,6)+"!important;");
-        $tag_data = data;
+          //$(container).attr("style","background-color:#"+Math.random().toString(16).substr(2,6)+"!important;");
+          $tag_data = data;
           return data.text;
       }
 
