@@ -2582,6 +2582,7 @@ $(document).ready(function(){
 		$(".tab-pane .sub-container-form-footer").addClass("hide-footer");
 		$(".tab-pane .sub-container-form-footer").css("cssText","width:"+$(".sections-main-sub-container-right").css("width"));
 		$(".tab-pane .sub-main-container").css("cssText","height: calc(100% - 48px);");
+		$(this).parent("a").trigger("click");
 		e.stopPropagation();
 		e.preventDefault();
 		return false
