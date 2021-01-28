@@ -42,7 +42,7 @@ function getLevels() {
 		for (var i = res.levels.length - 1; i >= 0; i--) {
 			$('#Level_Section').find('#levels-container').prepend(`<div class="dynamic-form-input dynamic-form-input-first row-levels">
                                       <div class="form-group group">
-                                        <input type="text" required value="${res.levels[i].Level_Label}" name="level-name">
+                                        <input type="text" required value="${res.levels[i].Level_Label}" data-level="${res.levels[i].Level_ID}" name="level-name">
                                         <label class="input-label"><span class="input-label-text">Level name</span> <span class="input-label-bg-mask"></span></label>
                                       </div>
                                       <div class="square-button hidden">
