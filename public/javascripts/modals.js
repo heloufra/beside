@@ -1104,8 +1104,9 @@ function readFileSettings() {
   
 }
 
-if (document.getElementById("profile_settings"))
-document.getElementById("profile_settings").addEventListener("change", readFileSettings);
+if (document.getElementById("profile_settings")){
+	document.getElementById("profile_settings").addEventListener("change", readFileSettings);
+}
 
 
 

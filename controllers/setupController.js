@@ -35,7 +35,7 @@ var setupController = {
     res.render('setup', { title: 'Setup'});
   },
   getSubjects: function(req, res, next) {
-    connection.query("SELECT Subject_ID , Subject_Label as id , Subject_Label as text, Subject_Color , Subject_Color as color FROM subjects", (err, subjects, fields) => {
+    connection.query("SELECT Subject_ID , Subject_Label as id , Subject_Label as text, Subject_Color , Subject_Color as color FROM subjects ", (err, subjects, fields) => {
         res.json({
           subjects:subjects
         })
@@ -50,13 +50,13 @@ var setupController = {
     var expensesData = JSON.parse(req.body.expenses);
     var costsData = JSON.parse(req.body.costs);
     var password = makeid(6);
-    var institutionsQuery = `INSERT INTO institutions(Institution_Name,  Institution_Logo, Institution_Link,  Institution_Email,  Institution_Phone,  Institution_wtsp) VALUES(?,?,?,?,?,?)`;
+    var institutionsQuery = `INSERT INTO institutions(Institution_Name,  Institution_Logo, Institution_Link,  Institution_Email,  Institution_Phone,  Institution_Adress) VALUES(?,?,?,?,?,?)`;
     var usersQuery = `INSERT INTO users(User_Name, User_Image, User_Email, User_Phone,User_Role) VALUES(?,?,?,?,?)`;
     var academicQuery = `INSERT INTO academicyear(AY_Label, AY_Satrtdate, AY_EndDate, Institution_ID) VALUES(?,?,?,?)`;
     var levelsQuery = `INSERT INTO levels(Level_Label, AY_ID) VALUES(?,?)`;
     var classesQuery = `INSERT INTO classes(Level_ID, Classe_Label, AY_ID) VALUES(?,?,?)`;
     // execute the insert statment
-        connection.query(institutionsQuery, [institutionsData.school, institutionsData.logo,institutionsData.school + ".besideyou.ma",institutionsData.email,institutionsData.phone,institutionsData.whatsapp],async (err, institutionResult, fields) => {
+        connection.query(institutionsQuery, [institutionsData.school, institutionsData.logo,institutionsData.school + ".besideyou.ma",institutionsData.email,institutionsData.phone,institutionsData.address],async (err, institutionResult, fields) => {
           if (err) {
             console.log(err);
               res.json({
@@ -149,7 +149,7 @@ var setupController = {
                             if (!Array.isArray(subjectName))
                               subjectName = [subjectName];
                             for (var j =  0; j < subjectName.length; j++) {
-                              var subjectID = await setupModel.saveSubjects(subjectName[j]);
+                              var subjectID = await setupModel.saveSubjects(subjectName[j],institutionResult.insertId);
                               var levelsubjectResult = await setupModel.saveLevelsSubjects(levelResult.insertId,subjectID,academicResult.insertId);
                             }
                             

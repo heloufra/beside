@@ -315,6 +315,10 @@ function addLevels(data) {
         }
   } else
   {
+      var classeId = '#classes';
+      var costId = '#costsForm';
+      var SubjectID = '#subjectsForm';
+      
       for (var i = 0; i < levelsData.length; i++) {
         if (!data.levelName.includes(levelsData[i]))
         {

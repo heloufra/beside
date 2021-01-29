@@ -16,7 +16,7 @@ var settingsController = {
               connection.query("SELECT * FROM `classes` WHERE AY_ID = ? AND Classe_Status=1", [academic[0].AY_ID], (err, classes, fields) => {
                 connection.query("SELECT * FROM `levels` WHERE AY_ID = ? AND Level_Status=1", [academic[0].AY_ID], (err, levels, fields) => {
                   connection.query("SELECT * FROM `expenses` WHERE AY_ID = ? AND Expense_Status=1", [academic[0].AY_ID], (err, expenses, fields) => {
-                    connection.query("SELECT ls.*,s.Subject_Label FROM levelsubjects ls INNER JOIN subjects s ON s.Subject_ID = ls.Subject_ID WHERE ls.AY_ID = ? AND ls.LS_Status=1", [academic[0].AY_ID], (err, subjects, fields) => {
+                    connection.query("SELECT ls.*,s.Subject_Label FROM levelsubjects ls INNER JOIN subjects s ON s.Subject_ID = ls.Subject_ID WHERE ls.AY_ID = ? AND ls.LS_Status=1 AND Institution_ID = ? ", [academic[0].AY_ID,req.Institution_ID], (err, subjects, fields) => {
                       connection.query("SELECT ls.*,e.Expense_Label,e.Expense_PaymentMethod FROM levelexpenses ls INNER JOIN expenses e ON e.Expense_ID = ls.Expense_ID WHERE ls.AY_ID= ? AND ls.LE_Status=1", [academic[0].AY_ID], (err, costs, fields) => {
                         res.render('settings', { title: 'Settings' , user: user[0], institution:institutions[0], classes:classes,levels:levels,accounts,users,expenses,academic:academic[0],subjects,costs,role:req.role});
                       })
@@ -66,14 +66,21 @@ var settingsController = {
      connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, institutions, fields) => {
         connection.query("SELECT * FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
             connection.query("SELECT * FROM `levels` WHERE AY_ID = ? AND Level_Status=1", [academic[0].AY_ID], (err, levels, fields) => {
-            connection.query("SELECT * FROM `subjects` WHERE Subject_Status=1", [null], (err, allSubjects, fields) => {
-                connection.query("SELECT ls.*,s.Subject_Label,s.Subject_Color FROM levelsubjects ls INNER JOIN subjects s ON s.Subject_ID = ls.Subject_ID WHERE ls.AY_ID = ? AND ls.LS_Status=1", [academic[0].AY_ID], (err, subjects, fields) => {
+            connection.query("SELECT * FROM `subjects` WHERE Institution_ID = ? AND Subject_Status = 1 ", [req.Institution_ID], (err, allSubjects, fields) => {
+                connection.query("SELECT ls.*,s.Subject_Label,s.Subject_Color FROM levelsubjects ls INNER JOIN subjects s ON s.Subject_ID = ls.Subject_ID WHERE ls.AY_ID = ? AND ls.LS_Status=1 ", [academic[0].AY_ID], (err, subjects, fields) => {
                     res.json({levels:levels,subjects,allSubjects});
             })
           })
         })
       })
     })
+  },
+  getAllSubjects: function(req, res, next) {
+    connection.query("SELECT Subject_ID , Subject_Label as id , Subject_Label as text, Subject_Color , Subject_Color as color FROM subjects where Institution_ID = ? AND Subject_Status = 1 ",[req.Institution_ID] , (err, subjects, fields) => {
+        res.json({
+          subjects:subjects
+        })
+      })
   },
   getExpenses:function(req,res, next) {
    connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, institutions, fields) => {
@@ -98,7 +105,7 @@ var settingsController = {
     })
   },
   updateDetails:function(req, res, next) {
-   connection.query('UPDATE `institutions` SET `Institution_Name`=?,`Institution_Logo`=?,`Institution_Email`=?,`Institution_Phone`=?,`Institution_wtsp`=? WHERE Institution_ID=?', [req.body.Institution_Name,req.body.Institution_Logo,req.body.Institution_Email,req.body.Institution_Phone,req.body.Institution_wtsp,req.Institution_ID], (err, subjects, fields) => {
+   connection.query('UPDATE `institutions` SET `Institution_Name`=?,`Institution_Logo`=?,`Institution_Email`=?,`Institution_Phone`=?,`Institution_Adress`=? WHERE Institution_ID=?', [req.body.Institution_Name,req.body.Institution_Logo,req.body.Institution_Email,req.body.Institution_Phone,req.body.Institution_Adress,req.Institution_ID], (err, subjects, fields) => {
       if (err)
       {
         console.log('Erros',err);
@@ -158,7 +165,7 @@ var settingsController = {
                            // add new subject 
                           if(req.body.subjects[j].subject[s].id == -1 ){
 
-                            var subjectID = await settingModel.saveSubjects(req.body.subjects[j].subject[s].text);
+                            var subjectID = await settingModel.saveSubjects(req.body.subjects[j].subject[s].text,req.Institution_ID);
                             var levelsubjectResult = await settingModel.saveLevelsSubjects(req.body.subjects[j].level_id,subjectID,academic[0].AY_ID);
 
                           }else{

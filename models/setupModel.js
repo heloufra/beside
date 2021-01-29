@@ -20,9 +20,9 @@ var setupModel = {
       });
     })
   },
-  saveSubjects: function(Subject_Label) {
+  saveSubjects: function(Subject_Label,Institution_ID) {
      return new Promise((resolve, reject) => {
-      connection.query("INSERT INTO subjects(Subject_Label,Subject_Color) VALUES (?,?) ON DUPLICATE KEY UPDATE `Subject_Label` = `Subject_Label`; SELECT Subject_ID FROM subjects WHERE `Subject_Label` = ?", [Subject_Label,getRandomColor(),Subject_Label], (err, subjectResult, fields) => {
+      connection.query("INSERT INTO subjects(Subject_Label,Subject_Color,Institution_ID) VALUES (?,?,?) ON DUPLICATE KEY UPDATE `Subject_Label` = `Subject_Label`; SELECT Subject_ID FROM subjects WHERE `Subject_Label` = ?", [Subject_Label,getRandomColor(),Institution_ID,Subject_Label], (err, subjectResult, fields) => {
        if (err) reject(err);
         else resolve(subjectResult[0].insertId === 0 ? subjectResult[1][0].Subject_ID : subjectResult[0].insertId);
       });

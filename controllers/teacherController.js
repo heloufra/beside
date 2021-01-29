@@ -70,7 +70,7 @@ var teacherController = {
             connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
               connection.query("SELECT * FROM `classes` WHERE AY_ID = ?", [academic[0].AY_ID], (err, classes, fields) => {
                 connection.query("SELECT * FROM `levels` WHERE AY_ID = ?", [academic[0].AY_ID], (err, levels, fields) => {
-                  connection.query("SELECT subjects.*,levelsubjects.Level_ID FROM subjects INNER JOIN levelsubjects ON levelsubjects.Subject_ID = subjects.Subject_ID WHERE levelsubjects.AY_ID = ?", [academic[0].AY_ID], (err, subjects, fields) => {
+                  connection.query("SELECT subjects.*,levelsubjects.Level_ID FROM subjects INNER JOIN levelsubjects ON levelsubjects.Subject_ID = subjects.Subject_ID WHERE levelsubjects.AY_ID = ? GROUP by subjects.Subject_Label", [academic[0].AY_ID], (err, subjects, fields) => {
                     res.render('teacher', { title: 'Teachers' , user: user[0], institution:institutions[0], classes:classes,levels:levels,subjects,accounts,users,role:req.role});
                   })
                 })

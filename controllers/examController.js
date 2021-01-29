@@ -15,7 +15,7 @@ var examController = {
               connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
                 connection.query("SELECT * FROM `classes` WHERE AY_ID = ?", [academic[0].AY_ID], (err, classes, fields) => {
                   connection.query("SELECT * FROM `levels` WHERE AY_ID = ?", [academic[0].AY_ID], (err, levels, fields) => {
-                    connection.query("SELECT * FROM `subjects`",async (err, subjects, fields) => {
+                    connection.query("SELECT * FROM `subjects` where Institution_ID = ? AND Subject_Status = 1 ",[req.Institution_ID],async (err, subjects, fields) => {
                       if (req.role === 'Teacher')
                       {
                         classes = await teacherModel.findClasses(req.userId);

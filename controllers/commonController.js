@@ -2,9 +2,12 @@ var connection  = require('../lib/db');
 
 var commonModel  = require('../models/commonModel');
 
-var selectSubject = "SELECT DISTINCT subjects.* FROM `classes` INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = classes.Classe_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID WHERE classes.Classe_Label = ? AND teachersubjectsclasses.TSC_Status<>0";
-var selectSubjectTeacher = "SELECT DISTINCT subjects.* FROM `classes` INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = classes.Classe_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID WHERE classes.Classe_Label = ? AND teachersubjectsclasses.Teacher_ID = ? AND teachersubjectsclasses.TSC_Status<>0";
-var selectSubjectTeacherAll = "SELECT DISTINCT subjects.* FROM `classes` INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = classes.Classe_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID WHERE teachersubjectsclasses.Teacher_ID = ? AND teachersubjectsclasses.TSC_Status<>0";
+var selectSubject = "SELECT DISTINCT subjects.* FROM `classes` INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = classes.Classe_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID WHERE classes.Classe_Label = ? AND teachersubjectsclasses.TSC_Status<>0 and Institution_ID = ? ";
+
+var selectSubjectTeacher = "SELECT DISTINCT subjects.* FROM `classes` INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = classes.Classe_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID WHERE classes.Classe_Label = ? AND teachersubjectsclasses.Teacher_ID = ? AND teachersubjectsclasses.TSC_Status<>0 and Institution_ID = ? ";
+
+var selectSubjectTeacherAll = "SELECT DISTINCT subjects.* FROM `classes` INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = classes.Classe_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID WHERE teachersubjectsclasses.Teacher_ID = ? AND teachersubjectsclasses.TSC_Status<>0 and Institution_ID = ? ";
+
 const jwt = require('jsonwebtoken');
 const config = require('../config');
 
@@ -12,33 +15,33 @@ var commonController = {
   getSubjects: function(req, res, next) {
   	if (req.query.classe === 'All')
       if (req.role === 'Admin')
-  	  	connection.query("SELECT * FROM subjects",[req.query.classe], (err, subjects, fields) => {
+  	  	connection.query("SELECT * FROM subjects where Institution_ID = ? and Subject_Status = 1 ",[req.query.classe,req.Institution_ID], (err, subjects, fields) => {
   	      res.json({
   	                subjects:subjects,
   	              });
   	    })
       else
-        connection.query(selectSubjectTeacherAll,[req.userId], (err, subjects, fields) => {
+        connection.query(selectSubjectTeacherAll,[req.userId,req.Institution_ID], (err, subjects, fields) => {
           res.json({
                     subjects:subjects,
                   });
         })
     else
       if(req.role === 'Admin')
-  	    connection.query(selectSubject,[req.query.classe], (err, subjects, fields) => {
+  	    connection.query(selectSubject,[req.query.classe,req.Institution_ID], (err, subjects, fields) => {
   	      res.json({
   	                subjects:subjects,
   	              });
   	    })
       else
-        connection.query(selectSubjectTeacher,[req.query.classe,req.userId], (err, subjects, fields) => {
+        connection.query(selectSubjectTeacher,[req.query.classe,req.userId,req.Institution_ID], (err, subjects, fields) => {
           res.json({
                     subjects:subjects,
                   });
         })
   },
   postSubjects: function(req, res, next) {
-        connection.query("SELECT * FROM subjects",[null], (err, subjects, fields) => {
+        connection.query("SELECT * FROM subjects where Institution_ID = ? ",[req.Institution_ID], (err, subjects, fields) => {
           res.json({
                     subjects:subjects,
                   });

@@ -20,4 +20,7 @@ router.get('/get/subjects',authAdmin,settingsController.getSubjects);
 router.get('/get/expenses',authAdmin,settingsController.getExpenses);
 router.get('/get/costs',authAdmin,settingsController.getCosts);
 
+
+router.post('/subjects',authAdmin,settingsController.getAllSubjects);
+
 module.exports = router;

@@ -1618,3 +1618,24 @@ $(document).on("click",".sections-main-sub-container-right-main-header-option-li
 
 /* End #Details #Parents_New_Dynamic_Form_Input _______________________*/
 
+
+function readFileTeacher() {
+  
+  if (this.files && this.files[0]) {
+    
+    var FR= new FileReader();
+    
+    FR.addEventListener("load", function(e) {
+      document.getElementById("output-teacher-pic").src = e.target.result;
+    }); 
+    
+    FR.readAsDataURL( this.files[0] );
+    
+  }
+  
+}
+
+if (document.getElementById("img-profile-teacher")){
+	document.getElementById("img-profile-teacher").addEventListener("change", readFileTeacher);
+}
+

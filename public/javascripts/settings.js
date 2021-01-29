@@ -380,7 +380,7 @@ function updateDetails() {
 	var Institution_Logo  = $('#Details_Section').find('#Institution_Logo').attr('src');
 	var Institution_Email = $('#Details_Section').find('input[name="Institution_Email"]').val();
 	var Institution_Phone = $('#Details_Section').find('input[name="Institution_Phone"]').val();
-	var Institution_wtsp  = $('#Details_Section').find('input[name="Institution_wtsp"]').val();
+	var Institution_Adress  = $('#Details_Section').find('input[name="Institution_Adress"]').val();
 
 	if (!Institution_Name){
 		$('#Details_Section').find('input[name="Institution_Name"]').parent(".form-group").addClass("form-input-error");
@@ -401,16 +401,11 @@ function updateDetails() {
 		}
 	}
 
-	if (!Institution_wtsp){
-		$('#Details_Section').find('input[name="Institution_wtsp"]').parent(".form-group").addClass("form-input-error");
+	if (!Institution_Adress){
+		$('#Details_Section').find('input[name="Institution_Adress"]').parent(".form-group").addClass("form-input-error");
 	}
 	else{
-		if (!internationalPhoneValidator(Institution_wtsp)){
-			$('#Details_Section').find('input[name="Institution_wtsp"]').parent(".form-group").addClass("form-input-error");
-		}
-		else{
-			$('#Details_Section').find('input[name="Institution_wtsp"]').parent(".form-group").removeClass("form-input-error");
-		}
+		$('#Details_Section').find('input[name="Institution_Adress"]').parent(".form-group").removeClass("form-input-error");
 	}
 
 	if (!Institution_Email){
@@ -426,7 +421,7 @@ function updateDetails() {
 		}
 	}
 
-	if(Institution_Phone &&  Institution_wtsp && Institution_Name && Institution_Email  ){
+	if(Institution_Phone &&  Institution_Adress && Institution_Name && Institution_Email  ){
 
 		$.ajax({
 			type: 'post',
@@ -436,7 +431,7 @@ function updateDetails() {
 				Institution_Logo:$('#Details_Section').find('#Institution_Logo').attr('src'),
 				Institution_Email:$('#Details_Section').find('input[name="Institution_Email"]').val(),
 				Institution_Phone:$('#Details_Section').find('input[name="Institution_Phone"]').val(),
-				Institution_wtsp:$('#Details_Section').find('input[name="Institution_wtsp"]').val()
+				Institution_Adress:$('#Details_Section').find('input[name="Institution_Adress"]').val()
 			},
 			dataType: 'json'
 		})
@@ -906,8 +901,8 @@ function select2Call() {
 function callSubjects() {
 
   $.ajax({
-          type: 'get',
-          url: '/setup/subjects',
+          type: 'post',
+          url: '/Settings/subjects',
         })
         .done(function(res){
 

@@ -2157,6 +2157,7 @@ input:focus ~ label,input:valid ~ label{
     display: inline-block;
     margin-right: 8px;
     align-self: flex-start;
+    object-fit: cover;
 }
 
 .sections-main-sub-container-left-card-main-img-text{
