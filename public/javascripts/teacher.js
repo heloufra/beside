@@ -122,9 +122,11 @@ function displayteacher(index)
 	  	$('.subjects-container').remove();
   		teacherId = parseInt(index);
 		$domChange = false;
+
 		var result = teachers.filter(function (el) {
 				  return el.teacher.User_ID === parseInt(index);
-				});
+		});
+
 		$('#teacher_info').find('#Details').removeClass("dom-change-watcher");
 		$('#EditTeacherModal').removeClass("dom-change-watcher");
 		$('.subject-klon').remove();
@@ -259,7 +261,7 @@ function displayteacher(index)
 		}
 
 		$('#teacher_info').removeClass('hidden');
-		var name = JSON.parse(result[0].teacher.User_Name);
+		var name = JSON.parse(res.teacher[0].User_Name);
 		
 		var classeHTML = '';
 		for (var i = result[0].classes.length - 1; i >= 0; i--) {
@@ -267,22 +269,22 @@ function displayteacher(index)
 		}
 		$('#teacher_info').find('.label-full-name').text(name.first_name + " " + name.last_name);
 		$('#EditTeacherModal').find('.label-full-name').text(name.first_name + " " + name.last_name);
-		$('#teacher_info').find('.input-img').attr('src',result[0].teacher.User_Image);
-		$('#EditTeacherModal').find('.input-img').attr('src',result[0].teacher.User_Image);
+		$('#teacher_info').find('.input-img').attr('src',res.teacher[0].User_Image);
+		$('#EditTeacherModal').find('.input-img').attr('src',res.teacher[0].User_Image);
 		$('#teacher_info').find('#Details').find('input[name="f_name"]').val(name.first_name);
-		$('#teacher_info').find('#Details').find('input[name="teacher_address_detail"]').val(result[0].teacher.User_Address);
-		$('#teacher_info').find('#Details').find('input[name="teacher_gender_detail"]').val(result[0].teacher.User_Gender);
+		$('#teacher_info').find('#Details').find('input[name="teacher_address_detail"]').val(res.teacher[0].User_Address);
+		$('#teacher_info').find('#Details').find('input[name="teacher_gender_detail"]').val(res.teacher[0].User_Gender);
 		$('#teacher_info').find('#Details').find('input[name="l_name"]').val(name.last_name);
-		$('#teacher_info').find('#Details').find('input[name="phone_number_detail"]').val(result[0].teacher.User_Phone);
-		$('#teacher_info').find('#Details').find('input[name="birthdate_detail"]').val(result[0].teacher.User_Birthdate)
-		$('#teacher_info').find('#Details').find('input[name="email"]').val(result[0].teacher.User_Email);
+		$('#teacher_info').find('#Details').find('input[name="phone_number_detail"]').val(res.teacher[0].User_Phone);
+		$('#teacher_info').find('#Details').find('input[name="birthdate_detail"]').val(res.teacher[0].User_Birthdate)
+		$('#teacher_info').find('#Details').find('input[name="email"]').val(res.teacher[0].User_Email);
 		$('#EditTeacherModal').find('input[name="f_name"]').val(name.first_name);
-		$('#EditTeacherModal').find('input[name="teacher_address_detail"]').val(result[0].teacher.User_Address);
-		$('#EditTeacherModal').find('input[name="teacher_gender_detail"]').val(result[0].teacher.User_Gender);
+		$('#EditTeacherModal').find('input[name="teacher_address_detail"]').val(res.teacher[0].User_Address);
+		$('#EditTeacherModal').find('input[name="teacher_gender_detail"]').val(res.teacher[0].User_Gender);
 		$('#EditTeacherModal').find('input[name="l_name"]').val(name.last_name);
-		$('#EditTeacherModal').find('input[name="phone_number_detail"]').val(result[0].teacher.User_Phone);
-		$('#EditTeacherModal').find('input[name="birthdate_detail"]').val(result[0].teacher.User_Birthdate)
-		$('#EditTeacherModal').find('input[name="email"]').val(result[0].teacher.User_Email);
+		$('#EditTeacherModal').find('input[name="phone_number_detail"]').val(res.teacher[0].User_Phone);
+		$('#EditTeacherModal').find('input[name="birthdate_detail"]').val(res.teacher[0].User_Birthdate)
+		$('#EditTeacherModal').find('input[name="email"]').val(res.teacher[0].User_Email);
 		$('#AddTeacherAbsenceModal').find('input[name="ad_teacher"]').val(name.first_name + " " + name.last_name);
 		$('#EditAbsenceModal').find('input[name="ad_teacher"]').val(name.first_name + " " + name.last_name);
 		$('#EditAbsenceModal').find('input[name="ad_classe"]').val(classeHTML);

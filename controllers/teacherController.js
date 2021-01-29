@@ -91,18 +91,21 @@ var teacherController = {
         connection.query("SELECT DISTINCT subjects.Subject_Label,subjects.Subject_ID FROM `users` INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Teacher_ID = users.User_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID WHERE users.User_ID = ? AND institutionsusers.Institution_ID = ? AND institutionsusers.User_Role = 'Teacher' AND teachersubjectsclasses.TSC_Status = 1 ", [req.query.id,req.Institution_ID],async (err, subjects, fields) => {
           connection.query("SELECT DISTINCT subjects.Subject_Label, subjects.Subject_ID,classes.Classe_Label,classes.Classe_ID FROM `users` INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Teacher_ID = users.User_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID WHERE users.User_ID = ? AND institutionsusers.Institution_ID = ? AND institutionsusers.User_Role = 'Teacher' AND teachersubjectsclasses.TSC_Status = 1 ", [req.query.id,req.Institution_ID],async (err, classes, fields) => {
             connection.query("SELECT * FROM subjects WHERE Subject_Status = 1 ", null ,async (err, allsubjects, fields) => {
-                for (var i = classes.length - 1; i >= 0; i--) {
-                  temp = await teacherModel.getAllClasses(classes[i].Subject_ID,academic[0].AY_ID);
-                  if (temp)
-                    allClasses.push(temp);
-                }
-                res.json({
-                        subjects:subjects,
-                        absences:absences,
-                        classes:classes,
-                        allsubjects,
-                        allClasses
-                      });
+              connection.query("SELECT User_Name , User_Email , User_Phone , User_Image , User_Gender , User_Address , User_Birthdate from users where  User_ID = ? ", [req.query.id] ,async (err, teacher, fields) => {
+                  for (var i = classes.length - 1; i >= 0; i--) {
+                    temp = await teacherModel.getAllClasses(classes[i].Subject_ID,academic[0].AY_ID);
+                    if (temp)
+                      allClasses.push(temp);
+                  }
+                  res.json({
+                          subjects:subjects,
+                          absences:absences,
+                          classes:classes,
+                          allsubjects,
+                          allClasses,
+                          teacher
+                        });
+                })
               })
            })
         })
