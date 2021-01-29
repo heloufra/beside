@@ -1633,6 +1633,9 @@ input:focus ~ label,input:valid ~ label{
     display: flex;
 }
 
+.sections-main-container .side-bar .rounded-button-primary .button-text{
+	text-align: left !important; 
+}
 
 .sections-main-container .side-bar  .rounded-button-primary:hover .button-icon {
 	 padding-right: 12px;
@@ -7367,6 +7370,27 @@ table td img {
 }
 
 /*************** data-loading ***********************************/
+
+.sections-main-sub-container-right.data-loading .rounded-button , 
+.sections-main-sub-container-right.data-loading .square-button,
+.sections-main-sub-container-right.data-loading .input-img{
+	display: none !important;
+}
+
+.sections-main-sub-container-right.data-loading .date-form-input-container,
+.sections-main-sub-container-right.data-loading .dynamic-form-input-container{
+	border : 0px !important;
+}
+
+.sections-main-sub-container-right.data-loading .input-square-img-container {
+	font-size: 0;
+	background: linear-gradient(-45deg, #edeef3, #f9f9fb , #edeef3);
+	background-size: 400%;
+	-webkit-animation: loading_animation ease-out 2s infinite;
+	animation: loading_animation ease-out 2s infinite;
+	border : 0px !important;
+}
+
 
 .data-loading .sections-main-sub-container-left-card .sections-main-sub-container-left-card-main-info ,
 .data-loading .sections-main-sub-container-left-card .sections-main-sub-container-left-card-main-img-text ,

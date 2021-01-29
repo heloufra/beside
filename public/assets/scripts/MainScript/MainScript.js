@@ -2578,19 +2578,23 @@ $(document).ready(function(){
 	/* Tabs setup dom-change-watcher ___________________________________________________________________________________*/
 
 	$(document).on("click",".setup-update-main-container .sections-main-sub-container-left .side-bar-li-span",function(e){
+
+		addLoadingAnimation(".sections-main-sub-container-right");
+
 		$(".tab-pane .sub-container-form-footer").removeClass("show-footer");
 		$(".tab-pane .sub-container-form-footer").addClass("hide-footer");
 		$(".tab-pane .sub-container-form-footer").css("cssText","width:"+$(".sections-main-sub-container-right").css("width"));
 		$(".tab-pane .sub-main-container").css("cssText","height: calc(100% - 48px);");
 		$(this).parent("a").trigger("click");
+		removeLoadingAnimation(".sections-main-sub-container-right",null);
 		e.stopPropagation();
 		e.preventDefault();
-		return false
+		return false;
 	});
 
-
-
 	$(document).on("click",".setup-update-main-container .sections-main-sub-container-left .side-bar-li a",function(e){
+		addLoadingAnimation(".sections-main-sub-container-right");
+		removeLoadingAnimation(".sections-main-sub-container-right",null);
 		e.stopPropagation();
 		e.preventDefault();
 		return false

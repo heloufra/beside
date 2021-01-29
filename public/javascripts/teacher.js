@@ -267,6 +267,7 @@ function displayteacher(index)
 		for (var i = res.classes.length - 1; i >= 0; i--) {
 			classeHTML += res.classes[i].Classe_Label + " ";
 		}
+		
 		$('#teacher_info').find('.label-full-name').text(name.first_name + " " + name.last_name);
 		$('#EditTeacherModal').find('.label-full-name').text(name.first_name + " " + name.last_name);
 		$('#teacher_info').find('.input-img').attr('src',res.teacher[0].User_Image);

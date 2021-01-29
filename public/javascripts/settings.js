@@ -1,6 +1,9 @@
 var oldSubjects = [];
 var $alreadySelected = [];
 
+addLoadingAnimation(".sections-main-sub-container-right");
+removeLoadingAnimation(".sections-main-sub-container-right",null);
+
 function getDetails() {
 	$.ajax({
 		type: 'get',
@@ -18,11 +21,13 @@ function getDetails() {
 }
 
 function getAcademic() {
+	addLoadingAnimation(".sections-main-sub-container-right");
 	$.ajax({
 		type: 'get',
 		url: '/Settings/get/academic',
 	})
 	.done(function(res){
+		removeLoadingAnimation(".sections-main-sub-container-right",null);
 		$('#Academic_Year_Section').removeClass('dom-change-watcher');
 		$('#Academic_Year_Section').find('input[name="AY_Label"]').val(res.academic.AY_Label);
 		$('#Academic_Year_Section').find('input[name="AY_Satrtdate"]').val(res.academic.AY_Satrtdate);
@@ -32,11 +37,15 @@ function getAcademic() {
 }
 
 function getLevels() {
+
+	addLoadingAnimation(".sections-main-sub-container-right");
+	
 	$.ajax({
 		type: 'get',
 		url: '/Settings/get/levels',
 	})
 	.done(function(res){
+		removeLoadingAnimation(".sections-main-sub-container-right",null);
 		$('#Level_Section').find('.row-levels').remove();
 		$('#Level_Section').removeClass('dom-change-watcher');
 		for (var i = res.levels.length - 1; i >= 0; i--) {
@@ -57,12 +66,13 @@ function getLevels() {
 getLevels();
 
 function getClasses() {
+	addLoadingAnimation(".sections-main-sub-container-right");	
 	$.ajax({
 		type: 'get',
 		url: '/Settings/get/classes',
 	})
 	.done(function(res){
-
+		removeLoadingAnimation(".sections-main-sub-container-right",null);
 		$('#Classe_Section').find('.row-levels').remove();
 		$('#Classe_Section').removeClass('dom-change-watcher');
 
@@ -116,14 +126,15 @@ function getClasses() {
 getClasses();
 
 function getSubjects() {
+
+	addLoadingAnimation(".sections-main-sub-container-right");
+
 	$.ajax({
 		type: 'get',
 		url: '/Settings/get/subjects',
 	})
 	.done(function(res){
-
-		
-
+		removeLoadingAnimation(".sections-main-sub-container-right",null);
 		$('#Subject_Section').find('.row-levels').remove();
 		$('#Subject_Section').removeClass('dom-change-watcher');
 		$level_id = -1;
@@ -218,11 +229,14 @@ getSubjects();
 
 function getExpenses() {
 
+	addLoadingAnimation(".sections-main-sub-container-right");
+
 	$.ajax({
 		type: 'get',
 		url: '/Settings/get/expenses',
 	})
 	.done(function(res){
+		removeLoadingAnimation(".sections-main-sub-container-right",null);
 		$('#Expense_Section').find('.row-expenses').remove();
 		$('#Expense_Section').removeClass('dom-change-watcher'); 
 		for(var i = res.expenses.length - 1;i >= 0 ; i--) {
@@ -257,12 +271,15 @@ function getExpenses() {
 getExpenses();
 
 function getCosts() {
+
+	addLoadingAnimation(".sections-main-sub-container-right");
+
 	$.ajax({
 		type: 'get',
 		url: '/Settings/get/costs',
 	})
 	.done(function(res){
-
+		removeLoadingAnimation(".sections-main-sub-container-right",null);
 		$('#Costs_Section').find('.row-levels').remove();
 		$('#Costs_Section').removeClass('dom-change-watcher');
 		for (var i = res.levels.length - 1; i >= 0; i--) {
@@ -423,6 +440,9 @@ function updateDetails() {
 
 	if(Institution_Phone &&  Institution_Adress && Institution_Name && Institution_Email  ){
 
+		addLoadingAnimation(".sections-main-sub-container-right");
+		
+
 		$.ajax({
 			type: 'post',
 			url: '/Settings/update/details',
@@ -437,9 +457,12 @@ function updateDetails() {
 		})
 		.done(function(res){
 		 	if (res.updated)
-		 	{
+		 	{	
+		 		removeLoadingAnimation(".sections-main-sub-container-right",null);
 				$('.sub-container-form-footer').addClass('hide-footer');
 	 			$('.sub-container-form-footer').removeClass('show-footer');
+		 	}else{
+		 		removeLoadingAnimation(".sections-main-sub-container-right",null);
 		 	}
 		});
 
@@ -447,6 +470,8 @@ function updateDetails() {
 }
 
 function updateAY() {
+	addLoadingAnimation(".sections-main-sub-container-right");
+	
 	$.ajax({
 		type: 'post',
 		url: '/Settings/update/academic',
@@ -459,13 +484,18 @@ function updateAY() {
 	.done(function(res){
 	 	if (res.updated)
 	 	{
+	 		removeLoadingAnimation(".sections-main-sub-container-right",null);
 			$('.sub-container-form-footer').addClass('hide-footer');
  			$('.sub-container-form-footer').removeClass('show-footer');
+	 	}else{
+	 		removeLoadingAnimation(".sections-main-sub-container-right",null);
 	 	}
 	});
 }
 
 function updateLevels() {
+
+	addLoadingAnimation(".sections-main-sub-container-right");
 
 	$levelsErrors = [];
 
@@ -498,8 +528,11 @@ function updateLevels() {
 		 		getSubjects();
 		 		getCosts();
 		 		getLevels();
+		 		removeLoadingAnimation(".sections-main-sub-container-right",null);
 				$('.sub-container-form-footer').addClass('hide-footer');
 	 			$('.sub-container-form-footer').removeClass('show-footer');
+		 	}else{
+		 		removeLoadingAnimation(".sections-main-sub-container-right",null);
 		 	}
 		});
 	}
@@ -536,6 +569,7 @@ function updateExpenses() {
   	})
 
 	if($ExpensesLabelsErrors.length == 0 &&  $ExpensesCostsErrors.length == 0 ){
+		addLoadingAnimation(".sections-main-sub-container-right");
 		$.ajax({
 			type: 'post',
 			url: '/Settings/update/expenses',
@@ -551,6 +585,9 @@ function updateExpenses() {
 		 		getCosts();
 				$('.sub-container-form-footer').addClass('hide-footer');
 	 			$('.sub-container-form-footer').removeClass('show-footer');
+	 			removeLoadingAnimation(".sections-main-sub-container-right",null);
+		 	}else{
+		 		removeLoadingAnimation(".sections-main-sub-container-right",null);
 		 	}
 		});
 	}
@@ -558,6 +595,8 @@ function updateExpenses() {
 }
 
 function updateSubjects() {
+
+	addLoadingAnimation(".sections-main-sub-container-right");
 
 	var $subjects = {} ;
 
@@ -606,6 +645,9 @@ function updateSubjects() {
 	 		getSubjects();
 			$('.sub-container-form-footer').addClass('hide-footer');
  			$('.sub-container-form-footer').removeClass('show-footer');
+			removeLoadingAnimation(".sections-main-sub-container-right",null);
+	 	}else{
+			removeLoadingAnimation(".sections-main-sub-container-right",null);
 	 	}
 	});
 
@@ -673,6 +715,9 @@ function updateCosts() {
   	});
 
 	if($CostLabelsErrors.length == 0 &&  $CostPriceErrors.length == 0 ){
+
+		addLoadingAnimation(".sections-main-sub-container-right");
+		
 		$.ajax({
 			type: 'post',
 			url: '/Settings/update/costs',
@@ -687,6 +732,9 @@ function updateCosts() {
 		 		getCosts();
 				$('.sub-container-form-footer').addClass('hide-footer');
 	 			$('.sub-container-form-footer').removeClass('show-footer');
+	 			removeLoadingAnimation(".sections-main-sub-container-right",null);
+		 	}else{
+		 		removeLoadingAnimation(".sections-main-sub-container-right",null);
 		 	}
 		});
 	}
