@@ -264,8 +264,8 @@ function displayteacher(index)
 		var name = JSON.parse(res.teacher[0].User_Name);
 		
 		var classeHTML = '';
-		for (var i = result[0].classes.length - 1; i >= 0; i--) {
-			classeHTML += result[0].classes[i].Classe_Label + " ";
+		for (var i = res.classes.length - 1; i >= 0; i--) {
+			classeHTML += res.classes[i].Classe_Label + " ";
 		}
 		$('#teacher_info').find('.label-full-name').text(name.first_name + " " + name.last_name);
 		$('#EditTeacherModal').find('.label-full-name').text(name.first_name + " " + name.last_name);
