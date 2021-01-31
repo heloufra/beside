@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title><%= title %></title>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+ <%- include('./partials/main'); %>
+
+</head>
+
+<!-- sections-main-container -->
+<body class="sections-main-container">
+  
+    <!-- main-container -->
+    <div class="main-container">
+
+      <!-- setup-main-container -->
+      <%- include('./partials/side_bar',{institution: institution,accounts:accounts}); %>
+      <!-- end setup-main-container -->
+
+      <!-- sub-container -->
+      <div class="sub-container">
+
+        <div class="sub-container-nav-bar">
+            <span class="sub-container-nav-bar-title">Dashboard</span>
+            <img  class="sub-container-nav-bar-img" src="<%= user.User_Image %>" alt="profile">
+        </div>
+
+        <!-- nav -->
+          <%- include('./partials/nav_bar', {user: user,users:users,role:role}); %>
+        <!-- End nav -->
+
+        <!--  sections-main-sub-container 100%  -->
+        <div class="sections-main-sub-container dashboard-main-sub-container">
+
+                <!--  sections-main-sub-container-left 70%  -->
+                <div class="dashboard-main-sub-left-container">
+
+                    <!-- dashboard-card-info-container -->
+                    <div class="dashboard-card-info-container">
+
+                      <!-- dashboard-card-info -->
+                      <div class="dashboard-card-info">
+                          <span class="dashboard-card-info-label">Students</span>
+                          <span class="dashboard-card-info-sub-label">Number of absent students</span>
+                          <span class="dashboard-card-info-counter"><%= studentAD %></span>
+                          <div class="progress dashboard-card-info-progress">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="<%= percentageS %>" 
+                                 aria-valuemin="0" aria-valuemax="100" style="<%= 'width:'+ percentageS + '%' %>"></div>
+                          </div>
+                      </div>
+                      <!-- End dashboard-card-info -->
+
+                      <!-- dashboard-card-info -->
+                      <div class="dashboard-card-info">
+                          <span class="dashboard-card-info-label">Teachers</span>
+                          <span class="dashboard-card-info-sub-label">Number of absent teachers</span>
+                          <span class="dashboard-card-info-counter"><%= teacherAD %></span>
+                          <div class="progress dashboard-card-info-progress">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="<%= percentageT %>" 
+                                 aria-valuemin="0" aria-valuemax="100" style="<%= 'width:'+ percentageT + '%' %>"></div>
+                          </div>
+                      </div>
+                      <!-- End dashboard-card-info -->   
+
+                      <!-- dashboard-card-info -->
+                      <div class="dashboard-card-info">
+                          <span class="dashboard-card-info-label">Finances</span>
+                          <span class="dashboard-card-info-sub-label">Revune for this month</span>
+                          <span class="dashboard-card-info-counter"><%= totalPay ? totalPay : 0 %><span class="dashboard-card-info-counter-currency"> MAD</span> </span>
+                          <div class="progress dashboard-card-info-progress">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="<%= percentagePay %>" 
+                                 aria-valuemin="0" aria-valuemax="100" style="<%= 'width:'+ percentagePay + '%' %>"></div>
+                          </div>
+                      </div>
+                      <!-- End dashboard-card-info -->
+
+                    </div>
+                    <!-- End dashboard-card-info-container -->
+
+                    <!-- dashboard-card-table-info-container  Absence & Retard -->
+                    <div class="dashboard-card-table-info-container">
+
+                      <!-- dashboard-card-table-info -->
+                      <div class="dashboard-card-table-info">
+
+                           <!-- dashboard-card-table-info-header -->
+                          <div class="dashboard-card-table-info-header">
+
+                            <span class="dashboard-card-table-info-header-label">Absence & Retard</span>
+
+                            <!-- sections-main-sub-container-right-main-header -->
+                            <div class="sections-main-sub-container-right-main-tabs sections-main-sub-container-right-main-tabs-filter dashboard-card-table-info-header-filter-container">
+
+                                <div class="dashboard-card-table-info-header-filter">
+
+                                      <div class="filter-sections-checkboxes-container">
+                                        
+                                          <div class="sections-label-checkbox-main-container">
+                                            <div class="sections-label-checkbox-container">
+                                              <div class="form-group group ">
+                                                <span class="expense_label">Student</span>
+                                              </div>
+                                            </div>
+                                            <div class="customCheck">
+                                              <input type="checkbox" class="filter-absence" value="" data-name="Student" name="checkbox" checked id="ck" />
+                                              <label for="ck"></label>
+                                            </div>
+                                          </div>
+
+                                          
+                                          <div class="sections-label-checkbox-main-container">
+                                            <div class="sections-label-checkbox-container">
+                                              <div class="form-group group ">
+                                                <span class="expense_label">Teacher</span>
+                                              </div>
+                                            </div>
+                                            <div class="customCheck">
+                                              <input type="checkbox" class="filter-absence" value="" data-name="Teacher" name="checkbox" checked id="ck" />
+                                              <label for="ck"></label>
+                                            </div>
+                                          </div>
+
+                                      </div>
+
+                                      <div class="filter-sections-dropdowns-container">
+
+                                        <div class="dynamic-form-input-dropdown-container">
+                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                                            <div class="dynamic-form-input">
+                                              <div class="dynamic-form-input-float-adjust">
+                                              <div class="form-group group form-group-right ">
+                                                <input type="text" value="Today" name="filter-absence" class="input-dropdown filter-absence" placeholder="Period"  required>
+                                                <img class="icon button-icon" src="assets/icons/date_icon.svg">
+                                                <ul class="dynamic-form-input-dropdown-options">
+                                                    <li data-val="This year">This year </li>
+                                                    <li data-val="This Month">This Month </li>
+                                                    <li data-val="Today">Today </li>
+                                                </ul>
+                                              </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                      </div>
+
+                                </div>
+
+                            </div>
+                            <!-- sections-main-sub-container-right-main-header -->
+
+                          </div>
+                          <!-- End dashboard-card-table-info-header -->
+
+                          <!-- dashboard-card-table-info-body -->
+
+                          <div class="dashboard-card-table-info-body sections-main-sub-container-right-main-body">
+
+                                  <!-- sections-main-sub-container-right-main-body : Absence -->
+
+                                  <div class="sections-main-sub-container-right-main-rows">
+
+                                      <table>
+                                        <thead>
+                                          <tr>
+                                            <th scope="col">Persons</th>
+                                            <th scope="col">Type</th>
+                                            <th scope="col">From</th>
+                                            <th scope="col">To</th>
+                                            <th scope="col">Reported by</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody id="absence-list">
+
+                                        </tbody>
+
+                                      </table>
+
+                                  </div>
+                              <!-- End sections-main-sub-container-right-main-body : Exams -->
+
+                          </div>
+                          <!-- End dashboard-card-table-info-body -->
+
+                      </div>
+                      <!-- End dashboard-card-table-info -->
+                      
+                    </div>
+                    <!-- End dashboard-card-table-info-container -->
+
+
+                    <!-- dashboard-card-table-info-container Finance -->
+                    <div class="dashboard-card-table-info-container">
+
+                      <!-- dashboard-card-table-info -->
+                      <div class="dashboard-card-table-info">
+
+                           <!-- dashboard-card-table-info-header -->
+                          <div class="dashboard-card-table-info-header">
+
+                            <span class="dashboard-card-table-info-header-label">Finance</span>
+
+                            <!-- sections-main-sub-container-right-main-header -->
+                            <div class="sections-main-sub-container-right-main-tabs sections-main-sub-container-right-main-tabs-filter dashboard-card-table-info-header-filter-container">
+
+                                <div class="dashboard-card-table-info-header-filter">
+
+                                      <div class="filter-sections-dropdowns-container">
+
+                                        <div class="dynamic-form-input-dropdown-container">
+                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                                            <div class="dynamic-form-input">
+                                              <div class="dynamic-form-input-float-adjust">
+                                              <div class="form-group group form-group-right ">
+                                                <input type="text" value="This Month" class="input-dropdown" placeholder="Period"  required>
+                                                <img class="icon button-icon" src="assets/icons/date_icon.svg">
+                                                <ul class="dynamic-form-input-dropdown-options">
+                                                    <li data-val="This year">This year </li>
+                                                    <li data-val="This Month">This Month </li>
+                                                    <li data-val="Today">Today </li>
+                                                </ul>
+                                              </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                      </div>
+
+                                </div>
+
+                            </div>
+                            <!-- sections-main-sub-container-right-main-header -->
+
+                          </div>
+                          <!-- End dashboard-card-table-info-header -->
+
+                          <!-- dashboard-card-table-info-body -->
+
+                          <div class="dashboard-card-table-info-body sections-main-sub-container-right-main-body">
+
+                              <!-- sections-main-sub-container-right-main-rows -->
+                                  <div class="sections-main-sub-container-right-main-rows sections-main-sub-container-right-main-rows-finance">
+
+                                    <div style="width:100%;">
+                                      <canvas id="canvas" style="display: block; width: 100%; height: 235px;" width="100%" height="235px" class="chartjs-render-monitor"></canvas>
+                                    </div>
+
+                                  </div>
+                              <!-- End sections-main-sub-container-right-main-rows -->
+
+                          </div>
+                          <!-- End dashboard-card-table-info-body -->
+
+                      </div>
+                      <!-- End dashboard-card-table-info -->
+                      
+                    </div>
+                    <!-- End dashboard-card-table-info-container -->
+
+                    <!-- dashboard-card-table-info-container Payement-->
+                    <div class="dashboard-card-table-info-container">
+
+                      <!-- dashboard-card-table-info -->
+                      <div class="dashboard-card-table-info">
+
+                           <!-- dashboard-card-table-info-header -->
+                          <div class="dashboard-card-table-info-header">
+
+                            <span class="dashboard-card-table-info-header-label">Payements</span>
+
+                            <!-- sections-main-sub-container-right-main-header -->
+                            <div class="sections-main-sub-container-right-main-tabs sections-main-sub-container-right-main-tabs-filter dashboard-card-table-info-header-filter-container">
+
+                                <div class="dashboard-card-table-info-header-filter">
+
+                                      <div class="filter-sections-dropdowns-container">
+
+                                        <div class="dynamic-form-input-dropdown-container">
+                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                                            <div class="dynamic-form-input">
+                                              <div class="dynamic-form-input-float-adjust">
+                                              <div class="form-group group form-group-right ">
+                                                <input type="text" value="Today" name="filter-payments" class="input-dropdown" placeholder="Period"  required>
+                                                <img class="icon button-icon" src="assets/icons/date_icon.svg">
+                                                <ul class="dynamic-form-input-dropdown-options">
+                                                    <li data-val="This year">This year </li>
+                                                    <li data-val="This Month">This Month </li>
+                                                    <li data-val="Today">Today </li>
+                                                </ul>
+                                              </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                      </div>
+
+                                </div>
+
+                            </div>
+                            <!-- sections-main-sub-container-right-main-header -->
+
+                          </div>
+                          <!-- End dashboard-card-table-info-header -->
+
+                          <!-- dashboard-card-table-info-body -->
+
+                          <div class="dashboard-card-table-info-body sections-main-sub-container-right-main-body">
+
+                                  <!-- sections-main-sub-container-right-main-body : Absence -->
+
+                                  <div class="sections-main-sub-container-right-main-rows">
+
+                                      <table>
+                                        <thead>
+                                          <tr>
+                                            <th scope="col">Student</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Paid amount</th>
+                                            <th scope="col">Outstanding</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody id="list-payments">
+                                        </tbody>
+
+                                      </table>
+
+                                  </div>
+                              <!-- End sections-main-sub-container-right-main-body : Exams -->
+
+                          </div>
+                          <!-- End dashboard-card-table-info-body -->
+
+                      </div>
+                      <!-- End dashboard-card-table-info -->
+                      
+                    </div>
+                    <!-- End dashboard-card-table-info-container -->
+
+                </div>
+
+                <!--  dashboard-main-sub-right-container  -->
+                <div class="dashboard-main-sub-right-container">
+
+                      <!--  dashboard-chat-side-bar-container -->
+                      <div class="dashboard-chat-side-bar-container">
+
+                        <!--  dashboard-chat-side-bar-header  -->
+                        <div class="dashboard-chat-side-bar-header-container">
+                            <span class="dashboard-chat-side-bar-header-label">Messages</span>
+                            <img  class="dashboard-chat-side-bar-header-filter-icon dashboard-chat-side-bar-header-filter-open-icon" src="assets/icons/params.svg" alt="filter" />
+                            <span class="dashboard-chat-side-bar-header-notification">2</span>
+                        </div>
+                        <!--  End dashboard-chat-side-bar-header  -->
+
+                        <!--  dashboard-chat-side-bar-body  -->
+                        <div class="dashboard-chat-side-bar-body">
+
+                            <?php for($i = 0 ; $i < 10 ; $i++) { ?>
+                              <!--  sections-main-sub-container-left-cards  -->
+                              <div class="sections-main-sub-container-left-card dashboard-chat-side-bar-body-extra-style card-single-receiver-extra-style">
+                                    <img class="sections-main-sub-container-left-card-main-img" src="assets/images/profiles/Profile1.jpg" alt="card-img">
+                                    <span class="dashboard-chat-side-bar-body-notification">3</span>
+                                    <div class="sections-main-sub-container-left-card-info">
+                                        <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
+                                        <span  class="sections-main-sub-container-left-card-sub-info">
+                                            There are many variations of and  passages available...
+                                        </span>
+                                    </div>
+                              </div>
+                              <!--  End sections-main-sub-container-left-cards  -->
+
+                              <!--  sections-main-sub-container-left-cards  -->
+                              <div class="sections-main-sub-container-left-card dashboard-chat-side-bar-body-extra-style read-card-extra-style card-multi-receivers-extra-style">
+                                    <div class="sections-main-sub-container-left-card-main-img-text">Cp</div>
+                                    <div class="sections-main-sub-container-left-card-info">
+                                        <p class="sections-main-sub-container-left-card-main-info">Cp</p>
+                                    </div>
+                                    <img  class="" src="assets/icons/right_dropdown_arrow.svg" alt="right_dropdown_arrow" />
+                              </div>
+                              <!--  End sections-main-sub-container-left-cards  -->
+
+                              <!--  sections-main-sub-container-left-cards  -->
+                              <div class="sections-main-sub-container-left-card dashboard-chat-side-bar-body-extra-style read-card-extra-style card-single-receiver-extra-style">
+                                    <img class="sections-main-sub-container-left-card-main-img" src="assets/images/profiles/Profile1.jpg" alt="card-img">
+                                    <div class="sections-main-sub-container-left-card-info">
+                                        <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
+                                        <span  class="sections-main-sub-container-left-card-sub-info">
+                                            There are many variations of and  passages available...
+                                        </span>
+                                    </div>
+                              </div>
+                              <!--  End sections-main-sub-container-left-cards  -->
+
+                              <!--  sections-main-sub-container-left-cards  -->
+                              <div class="sections-main-sub-container-left-card dashboard-chat-side-bar-body-extra-style card-multi-receivers-extra-style">
+                                    <div class="sections-main-sub-container-left-card-main-img-text">Cp1</div>
+                                    <div class="sections-main-sub-container-left-card-info">
+                                        <p class="sections-main-sub-container-left-card-main-info">Cp1 - Cp2 - Ce3 - Ce4 </p>
+                                    </div>
+                                    <img  class="" src="assets/icons/right_dropdown_arrow.svg" alt="right_dropdown_arrow" />
+                              </div>
+                              <!--  End sections-main-sub-container-left-cards  -->
+
+                            <?php } ?>
+                        </div>
+                        <!--  End dashboard-chat-side-bar-body  -->
+                      
+                      </div>
+                      <!--  End dashboard-chat-side-bar-container -->
+
+                      <!--  End dashboard-chat-side-bar-container -->
+
+                      <!--  rounded-button : New Message -->
+                      <div class="rounded-button" id="Add_New_Message" >
+                          <img class="icon button-icon" src="assets/icons/plus.svg">
+                      </div>
+                      <!--  End rounded-button : New Message -->
+
+                      <!--  dashboard-new-message-side-bar-container -->
+                      <div class="dashboard-new-message-side-bar-container">
+
+                        <!--  dashboard-chat-side-bar-header  -->
+                        <div class="dashboard-chat-side-bar-header-container">
+                            <div class="dashboard-chat-side-bar-header-label-container">
+                              <span class="dashboard-chat-side-bar-header-label">Multiple people</span>
+                              <span class="dashboard-chat-side-bar-header-sub-label">
+                                 <span class="dashboard-chat-side-bar-header-sub-label-to">Students-Parent</span>
+                                 <img class="dashboard-chat-side-bar-header-sub-label-icon caret-rotate" src="assets/icons/chevron.svg" alt="close" />
+                              </span>
+                            </div>
+                            <img  class="dashboard-chat-side-bar-header-add-new-close-icon" src="assets/icons/close-big.svg" alt="close" />
+                        </div>
+                        <!--  End dashboard-chat-side-bar-header  -->
+
+                        <!--  dashboard-chat-side-bar-to-container  -->
+                        <div class="dashboard-chat-side-bar-to-container">
+
+                          <div class="sections-main-sub-container-right-main-label-divider">
+                              <p>Students</p>
+                          </div>
+
+                          <div class="dashboard-chat-side-bar-to-list">
+                            <p class="dashboard-chat-side-bar-to-name">Rey Mibourne</p>
+                            <p class="dashboard-chat-side-bar-to-name">Sampson Totton</p>
+                            <p class="dashboard-chat-side-bar-to-name">Sergio Pliego</p>
+                            <p class="dashboard-chat-side-bar-to-name">Siri Jakobsson</p>
+                          </div>
+
+                          <div class="sections-main-sub-container-right-main-label-divider">
+                              <p>Parents</p>
+                          </div>
+
+                          <div class="dashboard-chat-side-bar-to-list">
+                            <p class="dashboard-chat-side-bar-to-name">Rey Mibourne</p>
+                            <p class="dashboard-chat-side-bar-to-name">Sampson Totton</p>
+                            <p class="dashboard-chat-side-bar-to-name">Sergio Pliego</p>
+                            <p class="dashboard-chat-side-bar-to-name">Siri Jakobsson</p>
+                          </div>
+                          
+                        </div>
+                        <!--  End dashboard-chat-side-bar-to-container  -->
+
+                        <!--  dashboard-new-message-side-bar-body  -->
+                        <div class="dashboard-new-message-side-bar-body">
+
+                            <h6 class="bubble-date-header">Octobre , 23 - 2020 </h6>
+
+                            <div class="dashboard-new-message-side-bar-body-bubble left-bubble">
+                              <p class="bubble-content">
+                                  Lorem Ipsum is simply dummy text of the printing and typesetting industry 
+                                  Lorem Ipsum has been the industry's standard dummy text ever since
+                              </p>
+                              <span class="bubble-timing">08:00 AM</span>
+                            </div>
+
+                            <div class="dashboard-new-message-side-bar-body-bubble right-bubble">
+                              <p class="">
+                                 Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                              </p>
+                              <span class="bubble-timing">08:30 PM</span>
+                            </div>
+
+                        </div>
+                        <!--  End dashboard-new-message-side-bar-body  -->
+
+                        <!--  dashboard-new-message-side-bar-body  -->
+                        <div class="dashboard-new-message-side-bar-input-container">
+
+                            <div class="rounded-button default-button btn-secondary" id="">
+                                 <img class="icon" src="assets/icons/attach.svg">
+                            </div>
+
+                            <div class="dashboard-new-message-side-bar-input">
+                               <textarea oninput="Auto_grow(this)" onfocus="Auto_grow(this)" type="text" class="message-input" placeholder="Add text" required=""></textarea>
+                            </div>
+
+                            <div class="rounded-button" id="Send_Btn">
+                                <img class="icon" src="assets/icons/right_arrow.svg">
+                            </div>
+
+                        </div>
+                        <!--  End dashboard-new-message-side-bar-body  -->
+
+                      </div>
+                      <!--  End dashboard-new-message-side-bar-container -->
+
+                      <!--  dashboard-add-new-message-side-bar-container -->
+                      <div class="dashboard-add-new-message-side-bar-container">
+
+                        <!--  dashboard-chat-side-bar-header  -->
+                        <div class="dashboard-chat-side-bar-header-container">
+                            <div class="dashboard-chat-side-bar-header-label-container">
+                              <span class="dashboard-chat-side-bar-header-label">New message</span>
+                            </div>
+                            <img  class="dashboard-chat-side-bar-header-new-message-close-icon" src="assets/icons/close-big.svg" alt="close" />
+                        </div>
+                        <!--  End dashboard-chat-side-bar-header  -->
+
+                        <!--  dashboard-add-new-message-side-bar-body  -->
+                        <div class="dashboard-new-message-side-bar-body">         
+
+                          <div class="sections-main-sub-container-right-main-rows sections-main-sub-container-right-main-rows-dropdown-tags">
+
+                              <!-- Search ------------------------------------->
+
+                              <div class="dynamic-form-input-dropdown-container sections-main-sub-container-right-main-rows-dropdown-tags-container
+                                   sections-main-sub-container-right-main-rows-dropdown-tags-container-extra-style ">
+
+                                <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+
+                                  <div class="dynamic-form-input">
+
+                                    <div class="dynamic-form-input-float-adjust">
+
+                                        <div class="form-group group form-group-right">
+
+                                          <select class="input-text-subject-classes-select2-2" multiple >
+
+                                              <option class="option-level-label" disabled="disabled">Students</option>
+                                              <option value="Student name 1">Student name 1</option>
+                                              <option value="Student name 2">Student name 2</option>
+                                              <option value="Student name 3">Student name 3</option>
+                                              <option value="Student name 4">Student name 4</option>
+                                              <option value="Student name 5">Student name 5</option>
+
+                                              <option class="option-level-label" disabled="disabled">Parents</option>
+                                              <option value="Parent name 1">Parent name 1</option>
+                                              <option value="Parent name 2">Parent name 2</option>
+                                              <option value="Parent name 3">Parent name 3</option>
+                                              <option value="Parent name 4">Parent name 4</option>
+                                              <option value="Parent name 5">Parent name 5</option>
+
+                                              <option class="option-level-label" disabled="disabled">Teachers</option>
+                                              <option value="Teacher name 1">Teacher name 1</option>
+                                              <option value="Teacher name 2">Teacher name 2</option>
+                                              <option value="Teacher name 3">Teacher name 3</option>
+                                              <option value="Teacher name 4">Teacher name 4</option>
+                                              <option value="Teacher name 5">Teacher name 5</option>
+
+                                          </select>
+
+                                          <img class="icon button-icon" src="assets/icons/sidebar_icons/search.svg">
+
+                                           <label class="input-label">
+                                            <span class="input-label-text">Search</span><span class="input-label-bg-mask"></span>
+                                          </label>
+
+                                        </div>
+
+                                    </div>
+                                    
+                                  </div>
+
+                                </div>
+
+                              </div>
+
+                              <!-- End Search --------------------------------->
+
+                              <!-- Classes ------------------------------------->
+
+                              <div class="dynamic-form-input-dropdown-container sections-main-sub-container-right-main-rows-dropdown-tags-container">
+
+                                <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+
+                                  <div class="dynamic-form-input">
+
+                                    <div class="dynamic-form-input-float-adjust">
+
+                                        <div class="form-group group form-group-right">
+
+                                          <select class="input-text-subject-classes-select2" multiple >
+
+                                              <option value="All">All classes</option>
+
+                                              <option class="option-level-label" disabled="disabled">CP</option>
+                                              <option value="Cp1">Cp1</option>
+                                              <option value="Cp2">Cp2</option>
+                                              <option value="Cp3">Cp3</option>
+                                              <option value="Cp4">Cp4</option>
+                                              <option value="Cp5">Cp5</option>
+
+                                              <option class="option-level-label" disabled="disabled">CE</option>
+                                              <option value="Ce1">Ce1</option>
+                                              <option value="Ce2">Ce2</option>
+                                              <option value="Ce3">Ce3</option>
+                                              <option value="Ce4">Ce4</option>
+                                              <option value="Ce5">Ce5</option>
+
+                                          </select>
+
+                                          <img class="icon button-icon" src="assets/icons/caret.svg">
+
+                                          <label class="input-label">
+                                            <span class="input-label-text">Classes</span><span class="input-label-bg-mask"></span>
+                                          </label>
+
+                                        </div>
+
+                                    </div>
+                                    
+                                  </div>
+
+                                </div>
+
+                              </div>
+
+                              <!-- End Classes ------------------------------------->
+
+                              <!-- Students ----------------------------------------->
+
+                              <div class="dynamic-form-input-dropdown-container sections-main-sub-container-right-main-rows-dropdown-tags-container">
+
+                                <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+
+                                  <div class="dynamic-form-input">
+
+                                    <div class="dynamic-form-input-float-adjust">
+
+                                        <div class="form-group group form-group-right">
+
+                                          <select class="input-text-subject-classes-select2" multiple >
+
+                                              <option value="All">All students</option>
+
+                                              <option class="option-level-label" disabled="disabled">Class 1</option>
+                                              <option value="Student name 1">Student name 1</option>
+                                              <option value="Student name 2">Student name 2</option>
+                                              <option value="Student name 3">Student name 3</option>
+                                              <option value="Student name 4">Student name 4</option>
+                                              <option value="Student name 5">Student name 5</option>
+
+                                              <option class="option-level-label" disabled="disabled">Class 2</option>
+                                              <option value="Student name 1">Student name 1</option>
+                                              <option value="Student name 2">Student name 2</option>
+                                              <option value="Student name 3">Student name 3</option>
+                                              <option value="Student name 4">Student name 4</option>
+                                              <option value="Student name 5">Student name 5</option>
+
+                                          </select>
+
+                                          <img class="icon button-icon" src="assets/icons/caret.svg">
+
+                                          <label class="input-label">
+                                            <span class="input-label-text">Students</span><span class="input-label-bg-mask"></span>
+                                          </label>
+
+                                        </div>
+
+                                    </div>
+                                    
+                                  </div>
+
+                                </div>
+
+                              </div>
+
+                              <!-- End Students --------------------------------------->
+
+                              <!-- Parents ----------------------------------------->
+
+                              <div class="dynamic-form-input-dropdown-container sections-main-sub-container-right-main-rows-dropdown-tags-container">
+
+                                <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+
+                                  <div class="dynamic-form-input">
+
+                                    <div class="dynamic-form-input-float-adjust">
+
+                                        <div class="form-group group form-group-right">
+
+                                          <select class="input-text-subject-classes-select2" multiple >
+
+                                              <option value="All">All parents</option>
+
+                                              <option class="option-level-label" disabled="disabled">Class 1</option>
+                                              <option value="Parent name 1">Parent name 1</option>
+                                              <option value="Parent name 2">Parent name 2</option>
+                                              <option value="Parent name 3">Parent name 3</option>
+                                              <option value="Parent name 4">Parent name 4</option>
+                                              <option value="Parent name 5">Parent name 5</option>
+
+                                              <option class="option-level-label" disabled="disabled">Class 2</option>
+                                              <option value="Parent name 1">Parent name 1</option>
+                                              <option value="Parent name 2">Parent name 2</option>
+                                              <option value="Parent name 3">Parent name 3</option>
+                                              <option value="Parent name 4">Parent name 4</option>
+                                              <option value="Parent name 5">Parent name 5</option>
+
+                                          </select>
+
+                                          <img class="icon button-icon" src="assets/icons/caret.svg">
+
+                                          <label class="input-label">
+                                            <span class="input-label-text">Parents</span><span class="input-label-bg-mask"></span>
+                                          </label>
+
+                                        </div>
+
+                                    </div>
+                                    
+                                  </div>
+
+                                </div>
+
+                              </div>
+
+                              <!-- End Parent --------------------------------------->
+
+                              <!-- Teachers ----------------------------------------->
+
+                              <div class="dynamic-form-input-dropdown-container sections-main-sub-container-right-main-rows-dropdown-tags-container">
+
+                                <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+
+                                  <div class="dynamic-form-input">
+
+                                    <div class="dynamic-form-input-float-adjust">
+
+                                        <div class="form-group group form-group-right">
+
+                                          <select class="input-text-subject-classes-select2" multiple >
+
+                                              <option value="All">All teachers</option>
+
+                                              <option value="Teacher name 1">Teacher name 1</option>
+                                              <option value="Teacher name 2">Teacher name 2</option>
+                                              <option value="Teacher name 3">Teacher name 3</option>
+                                              <option value="Teacher name 4">Teacher name 4</option>
+                                              <option value="Teacher name 5">Teacher name 5</option>
+
+                                          </select>
+
+                                          <img class="icon button-icon" src="assets/icons/caret.svg">
+
+                                          <label class="input-label">
+                                            <span class="input-label-text">Teachers</span><span class="input-label-bg-mask"></span>
+                                          </label>
+
+                                        </div>
+
+                                    </div>
+                                    
+                                  </div>
+
+                                </div>
+
+                              </div>
+
+                              <!-- End Teachers --------------------------------------->
+
+                          </div>
+
+                        </div>
+                        <!--  End dashboard-add-new-message-side-bar-body  -->
+
+                        <div class="dashboard-add-new-message-side-bar-footer">
+                          <div class="rounded-button" id="NewMessageNext">
+                                  <img class="icon" src="assets/icons/right_arrow.svg">
+                          </div>
+                        </div>
+
+                      </div>
+                      <!--  End dashboard-add-new-message-side-bar-container -->
+
+                      <!--  dashboard-filter-message-side-bar-container -->
+                      <div class="dashboard-filter-message-side-bar-container">
+
+                        <!--  dashboard-chat-side-bar-header  -->
+                        <div class="dashboard-chat-side-bar-header-container">
+                            <div class="dashboard-chat-side-bar-header-label-container">
+                              <span class="dashboard-chat-side-bar-header-label">Filters</span>
+                            </div>
+                            <img  class="dashboard-chat-side-bar-header-filter-icon dashboard-chat-side-bar-header-close-icon dashboard-chat-side-bar-header-filter-close-icon" src="assets/icons/close-big.svg" alt="close" />
+                        </div>
+                        <!--  End dashboard-chat-side-bar-header  -->
+
+                        <!--  dashboard-filter-message-side-bar-body  -->
+                        <div class="dashboard-filter-message-side-bar-body">
+
+                            <div class="sections-main-sub-container-right-main-rows">
+
+                                <div class="sections-main-sub-container-right-main-rows sections-main-sub-container-right-main-rows-dropdown-tags">
+
+                                <!-- Search ------------------------------------->
+
+                                <div class="dynamic-form-input-dropdown-container sections-main-sub-container-right-main-rows-dropdown-tags-container
+                                     sections-main-sub-container-right-main-rows-dropdown-tags-container-extra-style ">
+
+                                  <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+
+                                    <div class="dynamic-form-input">
+
+                                      <div class="dynamic-form-input-float-adjust">
+
+                                          <div class="form-group group form-group-right">
+
+                                            <select class="input-text-subject-classes-select2-2" multiple >
+
+                                                <option class="option-level-label" disabled="disabled">Students</option>
+                                                <option value="Student name 1">Student name 1</option>
+                                                <option value="Student name 2">Student name 2</option>
+                                                <option value="Student name 3">Student name 3</option>
+                                                <option value="Student name 4">Student name 4</option>
+                                                <option value="Student name 5">Student name 5</option>
+
+                                                <option class="option-level-label" disabled="disabled">Parents</option>
+                                                <option value="Parent name 1">Parent name 1</option>
+                                                <option value="Parent name 2">Parent name 2</option>
+                                                <option value="Parent name 3">Parent name 3</option>
+                                                <option value="Parent name 4">Parent name 4</option>
+                                                <option value="Parent name 5">Parent name 5</option>
+
+                                                <option class="option-level-label" disabled="disabled">Teachers</option>
+                                                <option value="Teacher name 1">Teacher name 1</option>
+                                                <option value="Teacher name 2">Teacher name 2</option>
+                                                <option value="Teacher name 3">Teacher name 3</option>
+                                                <option value="Teacher name 4">Teacher name 4</option>
+                                                <option value="Teacher name 5">Teacher name 5</option>
+
+                                            </select>
+
+                                            <img class="icon button-icon" src="assets/icons/sidebar_icons/search.svg">
+
+                                             <label class="input-label">
+                                              <span class="input-label-text">Search</span><span class="input-label-bg-mask"></span>
+                                            </label>
+
+                                          </div>
+
+                                      </div>
+                                      
+                                    </div>
+
+                                  </div>
+
+                                </div>
+
+                                <!-- End Search --------------------------------->
+
+                                <!-- Classes ------------------------------------->
+
+                                <div class="dynamic-form-input-dropdown-container sections-main-sub-container-right-main-rows-dropdown-tags-container">
+
+                                  <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+
+                                    <div class="dynamic-form-input">
+
+                                      <div class="dynamic-form-input-float-adjust">
+
+                                          <div class="form-group group form-group-right">
+
+                                            <select class="input-text-subject-classes-select2" multiple >
+
+                                                <option value="All">All classes</option>
+
+                                                <option class="option-level-label" disabled="disabled">CP</option>
+                                                <option value="Cp1">Cp1</option>
+                                                <option value="Cp2">Cp2</option>
+                                                <option value="Cp3">Cp3</option>
+                                                <option value="Cp4">Cp4</option>
+                                                <option value="Cp5">Cp5</option>
+
+                                                <option class="option-level-label" disabled="disabled">CE</option>
+                                                <option value="Ce1">Ce1</option>
+                                                <option value="Ce2">Ce2</option>
+                                                <option value="Ce3">Ce3</option>
+                                                <option value="Ce4">Ce4</option>
+                                                <option value="Ce5">Ce5</option>
+
+                                            </select>
+
+                                            <img class="icon button-icon" src="assets/icons/caret.svg">
+
+                                            <label class="input-label">
+                                              <span class="input-label-text">Classes</span><span class="input-label-bg-mask"></span>
+                                            </label>
+
+                                          </div>
+
+                                      </div>
+                                      
+                                    </div>
+
+                                  </div>
+
+                                </div>
+
+                                <!-- End Classes ------------------------------------->
+
+                              </div>
+
+                            </div>
+
+                            <div class="filter-sections-checkboxes-container">
+                                        
+                                <div class="sections-label-checkbox-main-container">
+                                  <div class="sections-label-checkbox-container">
+                                    <div class="form-group group ">
+                                      <span class="expense_label">Students</span>
+                                    </div>
+                                  </div>
+                                  <div class="customCheck">
+                                    <input type="checkbox" value="" name="checkbox" id="ck" />
+                                    <label for="ck"></label>
+                                  </div>
+                                </div>
+
+                                <div class="sections-label-checkbox-main-container">
+                                  <div class="sections-label-checkbox-container">
+                                    <div class="form-group group ">
+                                      <span class="expense_label">Teachers</span>
+                                    </div>
+                                  </div>
+                                  <div class="customCheck">
+                                    <input type="checkbox" value="" name="checkbox" id="ck" />
+                                    <label for="ck"></label>
+                                  </div>
+                                </div>
+
+                                <div class="sections-label-checkbox-main-container">
+                                  <div class="sections-label-checkbox-container">
+                                    <div class="form-group group ">
+                                      <span class="expense_label">Parents</span>
+                                    </div>
+                                  </div>
+                                  <div class="customCheck">
+                                    <input type="checkbox" value="" name="checkbox" id="ck" />
+                                    <label for="ck"></label>
+                                  </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!--  End dashboard-filter-message-side-bar-body  -->
+
+                        <div class="dashboard-filter-message-side-bar-footer">
+                          <div class="rounded-button-primary rounded-button-float-right default-button btn-secondary">
+                               <span class="button-text" >Reset</span>
+                          </div>
+                          <div class="rounded-button-primary rounded-button-float-right default-button caret-disable-rotate ">
+                                <span class="button-text">Apply Filters</span>
+                                <img class="icon button-icon" src="assets/icons/check_small.svg">
+                          </div>
+                        </div>
+
+                      </div>
+                      <!--  End dashboard-filter-message-side-bar-container  -->
+
+                      <!--  dashboard-filter-message-side-bar-container -->
+                      <div class="dashboard-multi-message-side-bar-container">
+
+                        <!--  dashboard-chat-side-bar-header  -->
+                        <div class="dashboard-chat-side-bar-header-container">
+                            <div class="dashboard-chat-side-bar-header-label-container">
+                              <span class="dashboard-chat-side-bar-header-label">Cp1 - Cp2 - Ce3 - Ce4</span>
+                            </div>
+                            <img  class="dashboard-chat-side-bar-header-filter-icon dashboard-chat-side-bar-header-close-icon dashboard-chat-side-bar-header-multi-close-icon" src="assets/icons/close-big.svg" alt="close" />
+                        </div>
+                        <!--  End dashboard-chat-side-bar-header  -->
+
+                        <!--  dashboard-filter-message-side-bar-body  -->
+                        <div class="dashboard-chat-side-bar-body">
+
+                            <?php for($i = 0 ; $i < 10 ; $i++) { ?>
+                              <!--  sections-main-sub-container-left-cards  -->
+                              <div class="sections-main-sub-container-left-card dashboard-chat-side-bar-body-extra-style card-single-receiver-extra-style">
+                                    <img class="sections-main-sub-container-left-card-main-img" src="assets/images/profiles/Profile1.jpg" alt="card-img">
+                                    <span class="dashboard-chat-side-bar-body-notification">3</span>
+                                    <div class="sections-main-sub-container-left-card-info">
+                                        <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
+                                        <span  class="sections-main-sub-container-left-card-sub-info">
+                                            There are many variations of and  passages available...
+                                        </span>
+                                    </div>
+                              </div>
+                              <!--  End sections-main-sub-container-left-cards  -->
+
+                              <!--  sections-main-sub-container-left-cards  -->
+                              <div class="sections-main-sub-container-left-card dashboard-chat-side-bar-body-extra-style read-card-extra-style card-single-receiver-extra-style">
+                                    <img class="sections-main-sub-container-left-card-main-img" src="assets/images/profiles/Profile.jpg" alt="card-img">
+                                    <span class="dashboard-chat-side-bar-body-notification">2</span>
+                                    <div class="sections-main-sub-container-left-card-info">
+                                        <p class="sections-main-sub-container-left-card-main-info">Diane Lansdowne</p>
+                                        <span  class="sections-main-sub-container-left-card-sub-info">
+                                            There are many variations of and  passages available...
+                                        </span>
+                                    </div>
+                              </div>
+                              <!--  End sections-main-sub-container-left-cards  -->
+
+                              <!--  sections-main-sub-container-left-cards  -->
+                              <div class="sections-main-sub-container-left-card dashboard-chat-side-bar-body-extra-style card-single-receiver-extra-style">
+                                    <img class="sections-main-sub-container-left-card-main-img" src="assets/images/profiles/Profile1.jpg" alt="card-img">
+                                    <div class="sections-main-sub-container-left-card-info">
+                                        <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
+                                        <span  class="sections-main-sub-container-left-card-sub-info">
+                                            There are many variations of and  passages available...
+                                        </span>
+                                    </div>
+                              </div>
+                              <!--  End sections-main-sub-container-left-cards  -->
+
+                              <!--  sections-main-sub-container-left-cards  -->
+                              <div class="sections-main-sub-container-left-card dashboard-chat-side-bar-body-extra-style read-card-extra-style card-single-receiver-extra-style">
+                                    <img class="sections-main-sub-container-left-card-main-img" src="assets/images/profiles/Profile.jpg" alt="card-img">
+                                    <span class="dashboard-chat-side-bar-body-notification">1</span>
+                                    <div class="sections-main-sub-container-left-card-info">
+                                        <p class="sections-main-sub-container-left-card-main-info">Diane Lansdowne</p>
+                                        <span  class="sections-main-sub-container-left-card-sub-info">
+                                            There are many variations of and  passages available...
+                                        </span>
+                                    </div>
+                              </div>
+                              <!--  End sections-main-sub-container-left-cards  -->
+
+                          <?php } ?>
+
+
+                        </div>
+                        <!--  End dashboard-filter-message-side-bar-body  -->
+
+                      </div>
+                      <!--  End dashboard-filter-message-side-bar-container  -->
+
+                </div>
+
+        </div>
+        <!--  End sections-main-sub-container -->
+
+    </div>
+    <!-- sub-container -->
+
+
+    <!--_____________ ChangesModal modal _____________-->
+
+    <!-- Trigger the modal with a button -->
+     
+      <!-- Modal data-toggle="modal" data-target="#ChangesModal" -->
+      <div id="ChangesModal" class="modal" role="dialog" >
+
+        <div class="modal-dialog modal-dialog-centered animate__animated animate__fadeIn ">
+
+          <!-- Modal content-->
+          <div class="modal-content modal-content-finance">
+
+            <div class="modal-body">
+
+                <!-- modal-body-container -->
+
+                <div class="modal-body-container">
+
+                   <h1 class="sub-container-main-header sub-container-main-header-extra-style">Review changes</h1>
+                   <h4 class="sub-container-sub-header  sub-container-sub-header-extra-style">
+                    You have made changes. Are you sure you want to discard them?
+                   </h4>
+
+                    <!--  sub-container-form-footer -->
+                    <div class="sub-container-form-footer">
+
+                       <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button ">
+                                    <span class="button-text" >Save changes</span>
+                                    <img class="icon button-icon" src="assets/icons/check_small.svg">
+                        </div>
+
+                        <div class="rounded-button default-button rounded-button-primary rounded-button-float-right  secondary-pink-button ">
+                              <span class="button-text" >Discard</span>
+                        </div>
+                       
+                    </div>
+                    <!--  End sub-container-form-footer -->
+
+                </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    <!--_____________ End ChangesModal modal _____________-->
+
+    <!-- Modal data-toggle="modal" data-target="#ChangesModal" -->
+      <div id="ConfirmDeleteModal" class="modal" role="dialog" >
+
+        <div class="modal-dialog modal-dialog-centered animate__animated animate__fadeIn ">
+
+          <!-- Modal content-->
+          <div class="modal-content modal-content-finance">
+
+            <div class="modal-body">
+
+                <!-- modal-body-container -->
+
+                <div class="modal-body-container">
+
+                   <h1 class="sub-container-main-header sub-container-main-header-extra-style">Are you sure ?</h1>
+                   <h4 class="sub-container-sub-header  sub-container-sub-header-extra-style">
+                    You have made changes. Are you sure you want to discard them?
+                   </h4>
+
+                    <!--  sub-container-form-footer -->
+                    <div class="sub-container-form-footer">
+
+                        <div class="rounded-button default-button rounded-button-primary rounded-button-float-right  secondary-pink-button ">
+                              <span class="button-text" >Confirm</span>
+                        </div>
+
+                        <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary">
+                                    <span class="button-text" data-dismiss="modal" >Cancel</span>
+                        </div>
+                       
+                    </div>
+                    <!--  End sub-container-form-footer -->
+
+                </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    <!--_____________ End ConfirmDelete modal _____________-->
+
+    <!--________________ Modals _____________-->
+
+           <%- include('./partials/modals',{role:role}); %>
+
+    <!--________________ End Modals _____________-->
+<script src="/javascripts/dashboard.js" type="text/javascript" charset="utf-8" async defer></script>
+</body>
+<!-- end sections-main-container -->
+
+
+</html>

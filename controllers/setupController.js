@@ -149,8 +149,15 @@ var setupController = {
                             if (!Array.isArray(subjectName))
                               subjectName = [subjectName];
                             for (var j =  0; j < subjectName.length; j++) {
-                              var subjectID = await setupModel.saveSubjects(subjectName[j],institutionResult.insertId);
-                              var levelsubjectResult = await setupModel.saveLevelsSubjects(levelResult.insertId,subjectID,academicResult.insertId);
+                              try{
+
+                                var subjectID = await setupModel.saveSubjects(subjectName[j],institutionResult.insertId);
+                                var levelsubjectResult = await setupModel.saveLevelsSubjects(levelResult.insertId,subjectID,academicResult.insertId);
+
+                              }catch(e){
+                                 console.log("catch e ",e);
+                              }
+                              
                             }
                             
                             var costsName = costsData[levelsData.levelName[i]];

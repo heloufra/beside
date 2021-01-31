@@ -5,8 +5,10 @@ var spQuery = `INSERT INTO studentsparents(Student_ID, Parent_ID) VALUES(?,?)`;
 var ssQuery = `INSERT INTO studentsubscribtion(Student_ID, LE_ID, Subscription_StartDate, Subscription_EndDate, AY_ID) VALUES(?,?,?,?,?)`;
 var scQuery = `INSERT INTO studentsclasses(Student_ID, Classe_ID, AY_ID) VALUES(?,?,?)`;
 
+var AdStudent = "SELECT absencesanddelays.*,students.*,classes.Classe_Label FROM `absencesanddelays` INNER JOIN students ON students.Student_ID = absencesanddelays.User_ID INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID INNER JOIN classes ON classes.Classe_ID = studentsclasses.Classe_ID WHERE absencesanddelays.User_Type = 'Student' AND students.Institution_ID = ? AND students.Student_Status<>0 AND absencesanddelays.AD_Status<>0";
+
 var studentModel = {
-   findLe: function(Id,studentID, AY_ID ) {
+  findLe: function(Id,studentID, AY_ID ) {
      return new Promise((resolve, reject) => {
       connection.query("SELECT * FROM `studentsubscribtion` WHERE `LE_ID` = ? AND Student_ID = ? AND  AY_ID = ? AND  ( SS_Status = 1 OR SS_Status = 0 ) ", [Id,studentID,AY_ID], (err, le_id, fields) => {
        if (err) reject(err);
@@ -134,6 +136,36 @@ var studentModel = {
           });
     })
   },
+
+  getStudentsAbsenceDelay:function(Institution_ID) {
+
+    return new Promise((resolve, reject) => {
+
+      var studentArray = [];
+
+      connection.query(AdStudent, [Institution_ID] ,async (err, absencesS, fields) => {
+
+          try{
+
+            for (var i = absencesS.length - 1; i >= 0; i--) {  
+              studentArray.push({student:absencesS[i]});
+            }
+
+            console.log("studentArray ",studentArray);
+
+            resolve(JSON.parse(JSON.stringify(studentArray)));
+
+          }catch(e){
+            console.log(e);
+            reject(err);
+          }
+
+      });
+
+    });
+
+  }
+
 };
 
 module.exports = studentModel;

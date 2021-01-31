@@ -22,11 +22,29 @@ var setupModel = {
   },
   saveSubjects: function(Subject_Label,Institution_ID) {
      return new Promise((resolve, reject) => {
-      connection.query("INSERT INTO subjects(Subject_Label,Subject_Color,Institution_ID) VALUES (?,?,?) ON DUPLICATE KEY UPDATE `Subject_Label` = `Subject_Label`; SELECT Subject_ID FROM subjects WHERE `Subject_Label` = ?", [Subject_Label,getRandomColor(),Institution_ID,Subject_Label], (err, subjectResult, fields) => {
-       if (err) reject(err);
-        else resolve(subjectResult[0].insertId === 0 ? subjectResult[1][0].Subject_ID : subjectResult[0].insertId);
-      });
-    })
+        connection.query("SELECT Count(Subject_ID) as 'Subject_Count' , Subject_ID From subjects where Subject_Label = ? and Institution_ID = ? ", [Subject_Label,Institution_ID], (err, subjectResultCount , fields) => {
+            if (err) {
+              reject(err);
+            } 
+            else 
+            {
+              subjectResultsCount = JSON.parse(JSON.stringify(subjectResultCount));
+              if(subjectResultsCount[0].Subject_Count == 0 ){
+                  connection.query("INSERT INTO subjects(Subject_Label,Subject_Color,Institution_ID) VALUES (?,?,?) ; SELECT Subject_ID FROM subjects WHERE `Subject_Label` = ? ", [Subject_Label,getRandomColor(),Institution_ID,Subject_Label], (err, subjectResult, fields) => {
+                     if (err) {
+                        reject(err);
+                     } else {
+                        resolve(subjectResult[0].insertId === 0 ? subjectResult[1][0].Subject_ID : subjectResult[0].insertId);
+                     }
+                  });
+
+              }else{
+                   console.log("subjectResultCount",subjectResultsCount);
+                   resolve(subjectResultsCount[0].Subject_ID);
+              }
+            }
+        });
+    });
   },
   saveLevelsSubjects: function(Level_ID, Subject_ID, AY_ID) {
      return new Promise((resolve, reject) => {

@@ -461,6 +461,7 @@ function updateDetails() {
 		 		removeLoadingAnimation(".sections-main-sub-container-right",null);
 				$('.sub-container-form-footer').addClass('hide-footer');
 	 			$('.sub-container-form-footer').removeClass('show-footer');
+	 			$(".main-selected-school .side-bar-brand-label").text(Institution_Name);
 		 	}else{
 		 		removeLoadingAnimation(".sections-main-sub-container-right",null);
 		 	}
@@ -717,7 +718,7 @@ function updateCosts() {
 	if($CostLabelsErrors.length == 0 &&  $CostPriceErrors.length == 0 ){
 
 		addLoadingAnimation(".sections-main-sub-container-right");
-		
+
 		$.ajax({
 			type: 'post',
 			url: '/Settings/update/costs',

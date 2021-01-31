@@ -5539,7 +5539,7 @@ table td img {
 }
 
 .dashboard-main-sub-left-container{
-	flex-basis: 74.66%;
+	flex-basis: 100% ; /*74.66%*/
 	background:var(--dashboard-bg-color); 
 	padding: 24px;
 	overflow: hidden;

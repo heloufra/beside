@@ -75,7 +75,9 @@ function getAllStudents(id) {
 		  			}
 		  		}
 
-	  			dynamicListRows +='<div class="'+active+' sections-main-sub-container-left-card students_list"><img class="sections-main-sub-container-left-card-main-img" src="'+res.students[i].Student_Image+'" alt="card-img"><span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper"></span><input name="studentId" type="hidden" value="'+res.students[i].Student_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+res.students[i].Student_FirstName+' '+res.students[i].Student_LastName+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+res.students[i].Classe_Label+'</span></div></div>';
+	  			dynamicListRows +='<div class="'+active+' sections-main-sub-container-left-card students_list"><img class="sections-main-sub-container-left-card-main-img" src="'+res.students[i].Student_Image+'" alt="card-img"><span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper"></span><input name="studentId" type="hidden" value="'+res.students[i].Student_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+res.students[i].Student_FirstName+' '+res.students[i].Student_LastName+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+res.students[i].Classe_Label+'</span></div>';
+	  			dynamicListRows +='<span class="sections-main-sub-container-left-card-satuts red-color">Absence</span>';
+	  			dynamicListRows +='</div>';
 	  		}
 
 	  		if(res.students.length > 0 ){
@@ -1201,6 +1203,8 @@ function saveStudent() {
 				$('#student_form').find('input[name="level"]').val("");
 				$('#student_form').find('input[name="phone_number"]').val("");
 				$('#student_form').find('input[name="email"]').val("");
+				$('#student_form').find('input[name="student_email"]').val("");
+				$('#student_form').find('input[name="student_gender"]').val("");
 				$('#student_form').find('input[name="parent_name"]').val("");
 				$('#student_form').find('input[name="parent_phone"]').val("");
 				$('#student_form').find('input[name="parent_email"]').val("");

@@ -137,20 +137,25 @@ var studentController = {
     connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
       connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
         connection.query(queryAllSub, [academic[0].AY_ID], (err, subscription, fields) => {
-          if (req.role === 'Admin')
-            connection.query(queryAllStudents, [academic[0].AY_ID], (err, students, fields) => {
+          if (req.role === 'Admin'){
+            connection.query(queryAllStudents, [academic[0].AY_ID],  (err, students, fields) => { // async
+
+                    //studentsAbsenceDelay = await studentModel.getStudentsAbsenceDelay(req.Institution_ID);
+
                     res.json({
                           students:students,
-                          subscription:subscription
-                        });
+                          subscription:subscription,
+                          //studentsAbsenceDelay
+                    });
              })
-          else
+          }else{
             connection.query(queryAllStudentsTeacher, [academic[0].AY_ID,req.userId], (err, students, fields) => {
                     res.json({
                           students:students,
                           subscription:subscription
                         });
              })
+          }
         })
       })
     })

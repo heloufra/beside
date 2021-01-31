@@ -267,7 +267,7 @@ function displayteacher(index)
 		for (var i = res.classes.length - 1; i >= 0; i--) {
 			classeHTML += res.classes[i].Classe_Label + " ";
 		}
-		
+
 		$('#teacher_info').find('.label-full-name').text(name.first_name + " " + name.last_name);
 		$('#EditTeacherModal').find('.label-full-name').text(name.first_name + " " + name.last_name);
 		$('#teacher_info').find('.input-img').attr('src',res.teacher[0].User_Image);
@@ -716,6 +716,7 @@ function updateAbsence() {
 }
 
  $('#teacher_form').find('input[name="subject"]').on( "change", function() {
+
   var value = $(this).val();
 
   if (value.replace(/\s/g, '') !== '')
@@ -730,11 +731,12 @@ function updateAbsence() {
 		    dataType: 'json'
 		  })
 		  .done(function(res){
+
 		  	if(res.errors)
 		  	{
-
-		  		console.log(res.errors)
+		  	  console.log(res.errors)
 		  	} else {
+		  		console.log("res subject : ", res );
 		  		var first_label = '';
 		  		for (var i = res.classes.length - 1; i >= 0; i--) {
 		  			if (first_label !== res.classes[i].Level_Label)
@@ -745,6 +747,7 @@ function updateAbsence() {
 		  			$('#teacher_form').find('.list-classes').append('<option class="row-classe" value="'+res.classes[i].Classe_ID+'">'+res.classes[i].Classe_Label+'</option>')
 		  		}
 		  	}
+
 		  });
   }
 })
