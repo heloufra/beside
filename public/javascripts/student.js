@@ -76,7 +76,7 @@ function getAllStudents(id) {
 		  		}
 
 	  			dynamicListRows +='<div class="'+active+' sections-main-sub-container-left-card students_list"><img class="sections-main-sub-container-left-card-main-img" src="'+res.students[i].Student_Image+'" alt="card-img"><span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper"></span><input name="studentId" type="hidden" value="'+res.students[i].Student_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+res.students[i].Student_FirstName+' '+res.students[i].Student_LastName+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+res.students[i].Classe_Label+'</span></div>';
-	  			dynamicListRows +='<span class="sections-main-sub-container-left-card-satuts red-color">Absence</span>';
+	  			dynamicListRows +='<span class="sections-main-sub-container-left-card-satuts red-color"></span>';//Absence
 	  			dynamicListRows +='</div>';
 	  		}
 
