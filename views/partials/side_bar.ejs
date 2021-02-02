@@ -34,15 +34,6 @@
 		      </li>
 		  <%} %>
 
-		  <%if (role === 'Admin') { %>
-		      <li class="side-bar-li" id="url-Inbox" data-asset-active="inbox_active.svg" data-asset-inactive="inbox_inactive.svg">
-		      	<a href="/Inbox">
-			        <img class="side-bar-li-img" src="assets/icons/sidebar_icons/side_bar_menu/inbox_inactive.svg" alt="check"/>
-			        <span class="side-bar-li-span side-bar-li-span-inactive">Inbox</span>
-		    	</a>
-		      </li>
-		  <%} %>
-
 	      <li id="url-Students" class="side-bar-li" data-asset-active="students_active.svg" data-asset-inactive="students_inactive.svg">
 	      	<a href="/Students" >
 	        	<img class="side-bar-li-img" src="assets/icons/sidebar_icons/side_bar_menu/students_inactive.svg" alt="check"/>
@@ -71,6 +62,15 @@
 	        	<span class="side-bar-li-span side-bar-li-span-inactive">Homework</span>
 	    	</a>
 	      </li>
+
+	      <%if (role === 'Admin') { %>
+		      <li class="side-bar-li" id="url-Inbox" data-asset-active="inbox_active.svg" data-asset-inactive="inbox_inactive.svg">
+		      	<a href="/Inbox">
+			        <img class="side-bar-li-img" src="assets/icons/sidebar_icons/side_bar_menu/inbox_inactive.svg" alt="check"/>
+			        <span class="side-bar-li-span side-bar-li-span-inactive">Inbox</span>
+		    	</a>
+		      </li>
+		  <%} %>
 
 	      <%if (role === 'Admin') { %>
         	<li id="url-Finances" class="side-bar-li" data-asset-active="finances_active.svg" data-asset-inactive="finances_inactive.svg">

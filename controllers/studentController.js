@@ -134,27 +134,50 @@ var studentController = {
     })
   },  
   getAllStudents: function(req, res, next) {
+
+    studentsArray = [];
+
     connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.userId], (err, institutions, fields) => {
       connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
         connection.query(queryAllSub, [academic[0].AY_ID], (err, subscription, fields) => {
           if (req.role === 'Admin'){
-            connection.query(queryAllStudents, [academic[0].AY_ID],  (err, students, fields) => { // async
 
-                    //studentsAbsenceDelay = await studentModel.getStudentsAbsenceDelay(req.Institution_ID);
+            connection.query(queryAllStudents, [academic[0].AY_ID],  async (err, students, fields) => { 
+
+                    for(var s=0 ; s < students.length ; s++){
+                        studentsAbsenceDelay = await studentModel.getStudentsAbsenceDelay(students[s].Student_ID,req.Institution_ID);
+                        students[s].studentsAbsenceDelay = studentsAbsenceDelay;
+                        studentsArray.push(students[s]);
+                    }
 
                     res.json({
-                          students:students,
-                          subscription:subscription,
-                          //studentsAbsenceDelay
-                    });
-             })
-          }else{
-            connection.query(queryAllStudentsTeacher, [academic[0].AY_ID,req.userId], (err, students, fields) => {
-                    res.json({
-                          students:students,
+                          students:studentsArray,
                           subscription:subscription
-                        });
-             })
+                    });
+
+            })
+
+            studentsArray = [];
+
+          }else{
+
+            connection.query(queryAllStudentsTeacher, [academic[0].AY_ID,req.userId], async (err, students, fields) => {
+
+                    for(var s=0 ; s < students.length ; s++){
+                        studentsAbsenceDelay = await studentModel.getStudentsAbsenceDelay(students[s].Student_ID,req.Institution_ID);
+                        students[s].studentsAbsenceDelay = studentsAbsenceDelay;
+                        studentsArray.push(students[s]);
+                    }
+
+                    res.json({
+                          students:studentsArray,
+                          subscription:subscription
+                    });
+
+            });
+
+            studentsArray = [];
+
           }
         })
       })

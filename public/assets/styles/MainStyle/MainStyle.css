@@ -7404,6 +7404,11 @@ table td img {
 	animation: loading_animation ease-out 2s infinite;
 }
 
+
+.data-loading .sections-main-sub-container-left-card-satuts{
+	display: none;
+}
+
 .data-loading .sections-main-sub-container-right-main-header-option-icon{
 	opacity: 0 !important;
 }

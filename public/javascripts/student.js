@@ -58,6 +58,8 @@ function getAllStudents(id) {
 	  		remove_No_Result_FeedBack();
 	  		addSideBarLoadingAnimation($sideSelector);
 
+	  		console.log("res std " ,res.students);
+
 	  		for (var i = res.students.length - 1; i >= 0; i--) {
 	  			if (id){
 	  				if(res.students[i].Student_ID === id){
@@ -75,8 +77,22 @@ function getAllStudents(id) {
 		  			}
 		  		}
 
-	  			dynamicListRows +='<div class="'+active+' sections-main-sub-container-left-card students_list"><img class="sections-main-sub-container-left-card-main-img" src="'+res.students[i].Student_Image+'" alt="card-img"><span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper"></span><input name="studentId" type="hidden" value="'+res.students[i].Student_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+res.students[i].Student_FirstName+' '+res.students[i].Student_LastName+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+res.students[i].Classe_Label+'</span></div>';
-	  			dynamicListRows +='<span class="sections-main-sub-container-left-card-satuts red-color"></span>';//Absence
+		  		dynamicListRows +='<div ';
+
+	  			if(!jQuery.isEmptyObject(res.students[i].studentsAbsenceDelay.Absences)) {
+  					dynamicListRows +='data-absence="1" ';
+  				}else if(!jQuery.isEmptyObject(res.students[i].studentsAbsenceDelay.Retards)) {
+  					dynamicListRows +='data-retard="1" ';
+  				}
+
+	  			dynamicListRows +='class="'+active+' sections-main-sub-container-left-card students_list"><img class="sections-main-sub-container-left-card-main-img" src="'+res.students[i].Student_Image+'" alt="card-img"><span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper"></span><input name="studentId" type="hidden" value="'+res.students[i].Student_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+res.students[i].Student_FirstName+' '+res.students[i].Student_LastName+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+res.students[i].Classe_Label+'</span></div>';
+
+	  				if(!jQuery.isEmptyObject(res.students[i].studentsAbsenceDelay.Absences)) {
+	  					dynamicListRows +='<span class="sections-main-sub-container-left-card-satuts red-color">Absence</span>';
+	  				}else if(!jQuery.isEmptyObject(res.students[i].studentsAbsenceDelay.Retards)) {
+	  					dynamicListRows +='<span class="sections-main-sub-container-left-card-satuts blue-color">Retard</span>';
+	  				}
+	  			
 	  			dynamicListRows +='</div>';
 	  		}
 
@@ -225,7 +241,25 @@ $('#classes_list').find('input[name=classe]').on( "change", function() {
 			active = '';
 		}
 
-		dynamicListRows+='<div class="sections-main-sub-container-left-card students_list '+active+'"><img class="sections-main-sub-container-left-card-main-img" src="'+filtred[i].Student_Image+'" alt="card-img"><span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper"></span><input name="studentId" type="hidden" value="'+filtred[i].Student_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+filtred[i].Student_FirstName+' '+filtred[i].Student_LastName+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+filtred[i].Classe_Label+'</span></div></div>';
+
+		dynamicListRows +='<div ';
+
+			if(!jQuery.isEmptyObject(filtred[i].studentsAbsenceDelay.Absences)) {
+				dynamicListRows +='data-absence="1" ';
+			}else if(!jQuery.isEmptyObject(filtred[i].studentsAbsenceDelay.Retards)) {
+				dynamicListRows +='data-retard="1" ';
+			}
+
+			dynamicListRows +='class="'+active+' sections-main-sub-container-left-card students_list"><img class="sections-main-sub-container-left-card-main-img" src="'+filtred[i].Student_Image+'" alt="card-img"><span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper"></span><input name="studentId" type="hidden" value="'+filtred[i].Student_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+filtred[i].Student_FirstName+' '+filtred[i].Student_LastName+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+filtred[i].Classe_Label+'</span></div>';
+
+			if(!jQuery.isEmptyObject(filtred[i].studentsAbsenceDelay.Absences)) {
+				dynamicListRows +='<span class="sections-main-sub-container-left-card-satuts red-color">Absence</span>';
+			}else if(!jQuery.isEmptyObject(filtred[i].studentsAbsenceDelay.Retards)) {
+				dynamicListRows +='<span class="sections-main-sub-container-left-card-satuts blue-color">Retard</span>';
+			}
+
+		dynamicListRows +='</div>';
+
 	}
 
 
@@ -293,7 +327,24 @@ if (document.getElementById("search-input")){
 					active = '';
 				}
 
-				dynamicListRows+='<div class="sections-main-sub-container-left-card students_list '+active+'"><img class="sections-main-sub-container-left-card-main-img" src="'+filtred[i].Student_Image+'" alt="card-img"><input name="studentId" type="hidden" value="'+filtred[i].Student_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+filtred[i].Student_FirstName+' '+filtred[i].Student_LastName+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+filtred[i].Classe_Label+'</span></div></div>';
+				dynamicListRows +='<div ';
+
+					if(!jQuery.isEmptyObject(filtred[i].studentsAbsenceDelay.Absences)) {
+						dynamicListRows +='data-absence="1" ';
+					}else if(!jQuery.isEmptyObject(filtred[i].studentsAbsenceDelay.Retards)) {
+						dynamicListRows +='data-retard="1" ';
+					}
+
+					dynamicListRows +='class="'+active+' sections-main-sub-container-left-card students_list"><img class="sections-main-sub-container-left-card-main-img" src="'+filtred[i].Student_Image+'" alt="card-img"><span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper"></span><input name="studentId" type="hidden" value="'+filtred[i].Student_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+filtred[i].Student_FirstName+' '+filtred[i].Student_LastName+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+filtred[i].Classe_Label+'</span></div>';
+
+					if(!jQuery.isEmptyObject(filtred[i].studentsAbsenceDelay.Absences)) {
+						dynamicListRows +='<span class="sections-main-sub-container-left-card-satuts red-color">Absence</span>';
+					}else if(!jQuery.isEmptyObject(filtred[i].studentsAbsenceDelay.Retards)) {
+						dynamicListRows +='<span class="sections-main-sub-container-left-card-satuts blue-color">Retard</span>';
+					}
+
+				dynamicListRows +='</div>';
+
 			}
 
 	 	} else {
@@ -322,6 +373,7 @@ if (document.getElementById("search-input")){
 			/** class dropdown isset ****/
 
 		  	for (var i = filtred.length - 1; i >= 0; i--) {
+
 				if (i === filtred.length - 1)
 				{
 					displayStudent(filtred[i].Student_ID);
@@ -329,7 +381,25 @@ if (document.getElementById("search-input")){
 				} else{
 					active = '';
 				}
-				$('#list_classes').append('<div class="sections-main-sub-container-left-card students_list '+active+'"><img class="sections-main-sub-container-left-card-main-img" src="'+filtred[i].Student_Image+'" alt="card-img"><input name="studentId" type="hidden" value="'+filtred[i].Student_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+filtred[i].Student_FirstName+' '+filtred[i].Student_LastName+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+filtred[i].Classe_Label+'</span></div></div>')
+
+				dynamicListRows +='<div ';
+
+					if(!jQuery.isEmptyObject(filtred[i].studentsAbsenceDelay.Absences)) {
+						dynamicListRows +='data-absence="1" ';
+					}else if(!jQuery.isEmptyObject(filtred[i].studentsAbsenceDelay.Retards)) {
+						dynamicListRows +='data-retard="1" ';
+					}
+
+					dynamicListRows +='class="'+active+' sections-main-sub-container-left-card students_list"><img class="sections-main-sub-container-left-card-main-img" src="'+filtred[i].Student_Image+'" alt="card-img"><span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper"></span><input name="studentId" type="hidden" value="'+filtred[i].Student_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+filtred[i].Student_FirstName+' '+filtred[i].Student_LastName+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+filtred[i].Classe_Label+'</span></div>';
+
+					if(!jQuery.isEmptyObject(filtred[i].studentsAbsenceDelay.Absences)) {
+						dynamicListRows +='<span class="sections-main-sub-container-left-card-satuts red-color">Absence</span>';
+					}else if(!jQuery.isEmptyObject(filtred[i].studentsAbsenceDelay.Retards)) {
+						dynamicListRows +='<span class="sections-main-sub-container-left-card-satuts blue-color">Retard</span>';
+					}
+
+				dynamicListRows +='</div>';
+
 			}
 	  }
 
@@ -395,7 +465,25 @@ if (document.getElementById("search-input")){
 					} else{
 						active = '';
 					}
-					$('#list_classes').append('<div class="sections-main-sub-container-left-card students_list '+active+'"><img class="sections-main-sub-container-left-card-main-img" src="'+filtred[i].Student_Image+'" alt="card-img"><input name="studentId" type="hidden" value="'+filtred[i].Student_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+filtred[i].Student_FirstName+' '+filtred[i].Student_LastName+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+filtred[i].Classe_Label+'</span></div></div>')
+
+					dynamicListRows +='<div ';
+
+						if(!jQuery.isEmptyObject(filtred[i].studentsAbsenceDelay.Absences)) {
+							dynamicListRows +='data-absence="1" ';
+						}else if(!jQuery.isEmptyObject(filtred[i].studentsAbsenceDelay.Retards)) {
+							dynamicListRows +='data-retard="1" ';
+						}
+
+						dynamicListRows +='class="'+active+' sections-main-sub-container-left-card students_list"><img class="sections-main-sub-container-left-card-main-img" src="'+filtred[i].Student_Image+'" alt="card-img"><span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper"></span><input name="studentId" type="hidden" value="'+filtred[i].Student_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+filtred[i].Student_FirstName+' '+filtred[i].Student_LastName+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+filtred[i].Classe_Label+'</span></div>';
+
+						if(!jQuery.isEmptyObject(filtred[i].studentsAbsenceDelay.Absences)) {
+							dynamicListRows +='<span class="sections-main-sub-container-left-card-satuts red-color">Absence</span>';
+						}else if(!jQuery.isEmptyObject(filtred[i].studentsAbsenceDelay.Retards)) {
+							dynamicListRows +='<span class="sections-main-sub-container-left-card-satuts blue-color">Retard</span>';
+						}
+
+					dynamicListRows +='</div>';
+
 				}
 
 				if(filtred.length > 0 ){
@@ -1881,4 +1969,87 @@ function saveAttitude() {
 		$('#EditStudentModal').modal('show');
 	});
 
-	/*.sections-main-sub-container-right-main-header-option-list-span-edit __________________________*/
+/*.sections-main-sub-container-right-main-header-option-list-span-edit __________________________*/
+
+$(document).on("click",".dynamic-form-input-dropdown-options-search li",function(event){
+
+		$this = $(this);
+
+		$text = $(this).attr("data-val");
+		$ad_val = $(this).attr("data-ad-val");
+
+		console.log("text",$text);
+
+		$this_Parent =$this.parents(".sections-main-sub-container-left-search-bar");
+
+		if($(this).attr("data-id") == "0"){
+			$(this).parents(".dynamic-form-input-float-adjust").find(".interaction_icon_main").attr("src","assets/icons/emoji_good.svg");
+		}else{
+			$(this).parents(".dynamic-form-input-float-adjust").find(".interaction_icon_main").attr("src","assets/icons/emoji_bad.svg");
+		}
+
+		$this_Parent.find(".form-group-search-filter").find(".input-dropdown").val(" ");
+		
+		$this_Parent.find(".form-group-search-filter").find(".input-text-dropdown-search").attr("readonly","readonly");
+
+		$this.parent().find(".dynamic-form-input-dropdown-options").css({"opacity":"0"});
+
+		if($this_Parent.find(".dynamic-form-input-dropdown-container").find(".input-dropdown").val() =="" 
+			|| $this_Parent.find(".dynamic-form-input-dropdown-container").find(".input-dropdown").val()  == null ){
+
+			setTimeout(function(){
+
+				$this_Parent.find(".form-group-search-filter").find(".input-text-dropdown-search").val(" ");
+
+				setTimeout(function(){
+					$this_Parent.find(".form-group-search-filter").find(".input-text-dropdown-search").val($text);
+					$this_Parent.find(".form-group-search-filter").find(".input-text-dropdown-search").attr("data-ad-val",$ad_val);
+					$this_Parent.find(".dynamic-form-input-dropdown-options-search").siblings(".icon").attr("src","assets/icons/sidebar_icons/close.svg");
+					$this_Parent.find(".dynamic-form-input-dropdown-options-search").siblings(".icon").addClass("input-text-empty");
+				},180);
+
+			},5);
+			
+		}else{
+				$this_Parent.find(".form-group-search-filter").find(".input-text-dropdown-search").val($text);
+				$this_Parent.find(".form-group-search-filter").find(".input-text-dropdown-search").attr("data-ad-val",$ad_val);
+				$this_Parent.find(".dynamic-form-input-dropdown-options-search").siblings(".icon").attr("src","assets/icons/sidebar_icons/close.svg");
+				$this_Parent.find(".dynamic-form-input-dropdown-options-search").siblings(".icon").addClass("input-text-empty");
+		}
+		
+		setTimeout(function(){
+			$(".dynamic-form-input-dropdown-options").css("cssText","display:none");
+		},1);
+
+		/****************************************************/
+
+		$(".students_list").addClass("hidden");
+
+		if($(this).attr("data-ad-val") == 0 ){
+
+			$(".students_list").each(function(ind,elem){
+				if($(this).is("[data-retard]")){
+					$(this).removeClass("hidden");
+				}
+			});
+
+		}
+
+		if($(this).attr("data-ad-val") == 1 ){
+
+			$(".students_list").each(function(ind,elem){
+				if($(this).is("[data-absence]")){
+					$(this).removeClass("hidden");
+				}
+			});
+
+		}
+
+		/****************************************************/
+
+		event.preventDefault();
+		event.stopPropagation();
+		return false;
+
+
+});

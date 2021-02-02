@@ -782,58 +782,6 @@ $(document).ready(function(){
 
 	});
 
-	$(document).on("click",".dynamic-form-input-dropdown-options-search li",function(event){
-
-		$this = $(this);
-
-		$text = $(this).attr("data-val");
-
-		$this_Parent =$this.parents(".sections-main-sub-container-left-search-bar");
-
-		if($(this).attr("data-id") == "0"){
-			$(this).parents(".dynamic-form-input-float-adjust").find(".interaction_icon_main").attr("src","assets/icons/emoji_good.svg");
-		}else{
-			$(this).parents(".dynamic-form-input-float-adjust").find(".interaction_icon_main").attr("src","assets/icons/emoji_bad.svg");
-		}
-
-		$this_Parent.find(".form-group-search-filter").find(".input-dropdown").val(" ");
-		$this_Parent.find(".form-group-search-filter").find(".input-text-dropdown-search").attr("readonly","readonly");
-
-		$this.parent().find(".dynamic-form-input-dropdown-options").css({"opacity":"0"});
-
-		if($this_Parent.find(".dynamic-form-input-dropdown-container").find(".input-dropdown").val() =="" 
-			|| $this_Parent.find(".dynamic-form-input-dropdown-container").find(".input-dropdown").val()  == null ){
-
-			setTimeout(function(){
-
-				$this_Parent.find(".form-group-search-filter").find(".input-text-dropdown-search").val(" ");
-
-				setTimeout(function(){
-
-					$this_Parent.find(".form-group-search-filter").find(".input-text-dropdown-search").val($text);
-					$this_Parent.find(".dynamic-form-input-dropdown-options-search").siblings(".icon").attr("src","assets/icons/sidebar_icons/close.svg");
-					$this_Parent.find(".dynamic-form-input-dropdown-options-search").siblings(".icon").addClass("input-text-empty");
-
-				},180);
-
-			},5);
-			
-		}else{
-				$this_Parent.find(".form-group-search-filter").find(".input-text-dropdown-search").val($text);
-				$this_Parent.find(".dynamic-form-input-dropdown-options-search").siblings(".icon").attr("src","assets/icons/sidebar_icons/close.svg");
-				$this_Parent.find(".dynamic-form-input-dropdown-options-search").siblings(".icon").addClass("input-text-empty");
-		}
-		
-		setTimeout(function(){
-			$(".dynamic-form-input-dropdown-options").css("cssText","display:none");
-		},1);
-
-		event.preventDefault();
-		event.stopPropagation();
-		return false;
-
-
-	});
 
 	/*__________Dropdown Menu___________*/
 

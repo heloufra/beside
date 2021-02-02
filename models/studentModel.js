@@ -5,7 +5,7 @@ var spQuery = `INSERT INTO studentsparents(Student_ID, Parent_ID) VALUES(?,?)`;
 var ssQuery = `INSERT INTO studentsubscribtion(Student_ID, LE_ID, Subscription_StartDate, Subscription_EndDate, AY_ID) VALUES(?,?,?,?,?)`;
 var scQuery = `INSERT INTO studentsclasses(Student_ID, Classe_ID, AY_ID) VALUES(?,?,?)`;
 
-var AdStudent = "SELECT absencesanddelays.*,students.*,classes.Classe_Label FROM `absencesanddelays` INNER JOIN students ON students.Student_ID = absencesanddelays.User_ID INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID INNER JOIN classes ON classes.Classe_ID = studentsclasses.Classe_ID WHERE absencesanddelays.User_Type = 'Student' AND students.Institution_ID = ? AND students.Student_Status<>0 AND absencesanddelays.AD_Status<>0";
+var AdStudent = "SELECT absencesanddelays.* FROM `absencesanddelays` INNER JOIN students ON students.Student_ID = absencesanddelays.User_ID INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID WHERE absencesanddelays.User_Type = 'Student' AND students.Student_ID = ?  AND students.Institution_ID = ? AND students.Student_Status<>0 AND absencesanddelays.AD_Status = 1 ";
 
 var studentModel = {
   findLe: function(Id,studentID, AY_ID ) {
@@ -137,21 +137,67 @@ var studentModel = {
     })
   },
 
-  getStudentsAbsenceDelay:function(Institution_ID) {
+  getStudentsAbsenceDelay:function(Student_ID,Institution_ID) {
 
     return new Promise((resolve, reject) => {
 
-      var studentArray = [];
+      var absenceArray = [];
+      var retardArray  = [];
+      var studentArray = {};
 
-      connection.query(AdStudent, [Institution_ID] ,async (err, absencesS, fields) => {
+      var AD_FromTo = 0;
+
+      var Today = new Date();
+      Today = Today.toISOString().slice(0,10);
+
+      connection.query(AdStudent, [Student_ID,Institution_ID] ,async (err, absencesS, fields) => {
 
           try{
 
-            for (var i = absencesS.length - 1; i >= 0; i--) {  
-              studentArray.push({student:absencesS[i]});
-            }
+                for (var i = absencesS.length - 1; i >= 0; i--) {
 
-            console.log("studentArray ",studentArray);
+                  if(absencesS[i].AD_Type == 2){
+
+                      AD_FromTo = JSON.parse(absencesS[i].AD_FromTo);
+                      AD_From   = AD_FromTo.from;
+                      AD_To     = AD_FromTo.to;
+
+                      AD_From =   this.dateConvert(AD_From);
+                      AD_To   =   this.dateConvert(AD_To);
+
+                      if(this.dateBetween(AD_From,AD_To,Today)){
+                        absenceArray.push(absencesS[i]);
+                      }                  
+
+                  }else{
+
+                      AD_FromTo  = absencesS[i].AD_Date;
+                      AD_FromTo =   this.dateConvert(AD_FromTo);
+
+                      if(absencesS[i].AD_Type == 0){
+
+                        AD_FromTo  = absencesS[i].AD_Date;
+                        AD_FromTo =   this.dateConvert(AD_FromTo);
+
+                        if(this.dateBetween(AD_FromTo,AD_FromTo,Today)){
+                          retardArray.push(absencesS[i]);
+                        }
+
+                      }else{
+
+                        if(this.dateBetween(AD_FromTo,AD_FromTo,Today)){
+                          absenceArray.push(absencesS[i]);
+                        }
+
+                      }
+
+
+                }
+
+                studentArray["Retards"]  = retardArray ;
+                studentArray["Absences"] = absenceArray;
+
+            }
 
             resolve(JSON.parse(JSON.stringify(studentArray)));
 
@@ -163,6 +209,23 @@ var studentModel = {
       });
 
     });
+
+  },
+  dateConvert:function(date) {
+      return  date = date.split("/").reverse().join("-");
+  },
+  dateBetween:function(from,to,check) {
+
+    var fDate,lDate,cDate;
+    fDate = Date.parse(from);
+    lDate = Date.parse(to);
+    cDate = Date.parse(check);
+
+    if((cDate <= lDate && cDate >= fDate)) {
+        return true;
+    }
+
+    return false;
 
   }
 
