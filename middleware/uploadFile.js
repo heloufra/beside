@@ -1,9 +1,10 @@
 var multer  = require('multer');
 var storage = multer.diskStorage({
     destination: function(req, file, cb) {
-        cb(null, './uploads');
+        cb(null, './public/assets/files');
      },
     filename: function (req, file, cb) {
+    	console.log("file multer ",file);
         cb(null ,Date.now() + '-'+ file.originalname);
     }
 });

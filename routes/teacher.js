@@ -16,6 +16,6 @@ router.post('/update',authAdmin, teacherController.updateTeacher);
 router.post('/absence/remove',authAdmin, teacherController.deleteAbsence);
 router.post('/absence/update',authAdmin, teacherController.updateAbsence);
 router.post('/one/remove',authAdmin, teacherController.deleteteacher);
-router.post('/upload/file',[authAdmin,upload.single('file')], teacherController.importFile);
+router.post('/upload/file',[authAdmin,upload.single('file')], teacherController.importFile); 
 
 module.exports = router;

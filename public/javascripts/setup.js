@@ -477,22 +477,26 @@ function callSubjects() {
         })
         .done(function(res){
           console.log("Subjects::",res.subjects);
-          if (res.subjects.length > 0)
-            $(".input-text-subject-select2").select2({
-              data: res.subjects,
-              tags: true,
-              dropdownPosition: 'below',
-              tokenSeparators: [',', ' '],
-              minimumResultsForSearch: -1,
-              templateResult: hideSelected,
-              placeholder: "Select items",
-              templateSelection: function (data, container) {
-                console.log("Selection>>",data);
-                $tag_data = data;
-                  $(container).attr("style","background-color:"+data.color+"!important;");
-                  return data.text;
-              },
-            })
+          if (typeof res.subjects.length !== 'undefined' ){
+              if (res.subjects.length > 0){
+                $(".input-text-subject-select2").select2({
+                  data: res.subjects,
+                  tags: true,
+                  dropdownPosition: 'below',
+                  tokenSeparators: [',', ' '],
+                  minimumResultsForSearch: -1,
+                  templateResult: hideSelected,
+                  placeholder: "Select items",
+                  templateSelection: function (data, container) {
+                    console.log("Selection>>",data);
+                    $tag_data = data;
+                      $(container).attr("style","background-color:"+data.color+"!important;");
+                      return data.text;
+                  },
+                })
+              }
+          }
+
         });
  
 }

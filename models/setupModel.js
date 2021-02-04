@@ -24,16 +24,23 @@ var setupModel = {
      return new Promise((resolve, reject) => {
         connection.query("SELECT Count(Subject_ID) as 'Subject_Count' , Subject_ID From subjects where Subject_Label = ? and Institution_ID = ? ", [Subject_Label,Institution_ID], (err, subjectResultCount , fields) => {
             if (err) {
+              console.log("err subjectResultCount ",err);
               reject(err);
             } 
             else 
             {
+
+              console.log("start inserting");
               subjectResultsCount = JSON.parse(JSON.stringify(subjectResultCount));
               if(subjectResultsCount[0].Subject_Count == 0 ){
                   connection.query("INSERT INTO subjects(Subject_Label,Subject_Color,Institution_ID) VALUES (?,?,?) ; SELECT Subject_ID FROM subjects WHERE `Subject_Label` = ? ", [Subject_Label,getRandomColor(),Institution_ID,Subject_Label], (err, subjectResult, fields) => {
                      if (err) {
+                        console.log("err new inserting ",err);
                         reject(err);
                      } else {
+                        console.log("subjectResultCount",subjectResultsCount);
+                        console.log("subjectResultCount[0].subjectResultCount",subjectResultsCount[0].Subject_Count);
+                        console.log("Subject_Label",Subject_Label);
                         resolve(subjectResult[0].insertId === 0 ? subjectResult[1][0].Subject_ID : subjectResult[0].insertId);
                      }
                   });

@@ -63,7 +63,14 @@ var teacherModel = {
   },
   saveTeacher: function(first_name, last_name,email,birthdate,  phone_number,teacher_address,teacher_gender) {
      return new Promise((resolve, reject) => {
-      connection.query("INSERT INTO users(User_Name, User_Image,User_Email,User_Birthdate, User_Phone,User_Address,User_Gender,User_Role) VALUES(?,?,?,?,?,?,?,?)", [JSON.stringify({first_name, last_name}), "assets/icons/Logo_placeholder.svg",email,birthdate,  phone_number,teacher_address,teacher_gender,"Teacher"], (err, teacher, fields) => {
+
+      User_Image="assets/images/profiles/avatar_teacher_female.svg";
+
+      if(teacher_gender == "Male"){
+        User_Image="assets/images/profiles/avatar_teacher_male.svg";
+      }
+
+      connection.query("INSERT INTO users(User_Name, User_Image,User_Email,User_Birthdate, User_Phone,User_Address,User_Gender,User_Role) VALUES(?,?,?,?,?,?,?,?)", [JSON.stringify({first_name, last_name}), User_Image ,email,birthdate,  phone_number,teacher_address,teacher_gender,"Teacher"], (err, teacher, fields) => {
        if (err) reject(err);
         else resolve(teacher);
       });

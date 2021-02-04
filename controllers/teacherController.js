@@ -375,46 +375,63 @@ var teacherController = {
      })
   },
   importFile: function(req, res, next) {
+    
     /*
-    'teacher1',
-    'teacher1',
-    'Male',
-    '25/101994',
-    623232323,
-    'marrakech 212',
-    'mohamed.amine.dichkour@gmail.com'
+    0 'teacher1', 
+    1 'teacher1',
+    2 'Male',
+    3 '25/101994',
+    4 623232323,
+    5'marrakech 212',
+    6 'mohamed.amine.dichkour@gmail.com'
+
+    first_name , last_name , email ,birthdate,  phone_number,teacher_address,teacher_gender
+
+    [[ 'Lili', 'Loubna', 'Femme', 32906, 212699112233, 'casa','email']]
+
     */
+
     connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
-      readXlsxFile(root +'/../uploads/' + req.file.filename).then(async (rows) => {
-        rows.shift();
-        rows.shift();
-        console.log('Rows',rows);
-        for (var i = rows.length - 1; i >= 0; i--) {
-          var user = await teacherModel.findUser(rows[i][6],req.Institution_ID);
-          var userId;
-          if (user.length > 0)
-          {
-            if (!user.some(user => user.role === 'Teacher'))
-            {
-              userId = user[0].User_ID;
-              user = await teacherModel.updateTeacher(rows[i][0], rows[i][1],rows[i][6],rows[i][3],  rows[i][4],rows[i][5],rows[i][2],userId);
-            } else {
-              res.json({saved:false})
+
+      readXlsxFile('./public/assets/files/'+ req.file.filename).then( async (rows) => {
+
+        try {
+            rows.shift();
+            rows.shift();
+            console.log('Rows',rows);
+            for (var i = rows.length - 1; i >= 0; i--) {
+              var user = await teacherModel.findUser(rows[i][6],req.Institution_ID);
+              var userId;
+              if (user.length > 0)
+              {
+                if (!user.some(user => user.role === 'Teacher'))
+                {
+                  userId = user[0].User_ID;
+                  user = await teacherModel.updateTeacher(rows[i][0], rows[i][1],rows[i][6],rows[i][3],  rows[i][4],rows[i][5],rows[i][2],userId);
+                } else {
+                  res.json({saved:false})
+                }
+              }
+              else
+               {
+                  user = await teacherModel.saveTeacher(rows[i][0], rows[i][1],rows[i][6],rows[i][3],  rows[i][4],rows[i][5],rows[i][2]);
+                  await sendMail(rows[i][6],rows[i][0]);
+                  userId = user.insertId;
+               }
+               if (userId)
+               {
+                  var ui = await teacherModel.saveIU(req.Institution_ID,userId);
+               }
             }
-          }
-          else
-           {
-              user = await teacherModel.saveTeacher(rows[i][0], rows[i][1],rows[i][6],rows[i][3],  rows[i][4],rows[i][5],rows[i][2]);
-              await sendMail(rows[i][6],rows[i][0]);
-              userId = user.insertId;
-           }
-           if (userId)
-           {
-              var ui = await teacherModel.saveIU(req.Institution_ID,userId);
-           }
+            res.json({saved:true});
+
+        }catch(e){
+          console.log("file " ,e);
         }
-        res.json({saved:true});
-      })
+
+      });
+
+
     })
   },
 };

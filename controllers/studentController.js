@@ -665,50 +665,70 @@ var studentController = {
       res.json({updated : false});
   },
   importFile: function(req, res, next) {
-     console.log('Pathname',root +'/../uploads/' + req.file.filename)
-    readXlsxFile(root +'/../uploads/' + req.file.filename).then((rows) => {
-    rows.splice(0, 2);
+
+    /*
+
+
+        Student : First name 0    Last name 1 Gender 2  Birthdate 3 Phone number 4  Email 5 Address 6
+        Lvl-cls : Level 7 Class 8
+        Parent 1: First name 9   Last name 10    Phone number 11 Email 12
+        Parent 2: First name 13   Last name 14   Phone number 15 Email 16
+        Subscription: schooling fees 17 = > Expenses 2  Expenses 3  Expenses 4
+
+        saveParent f_name  ,l_name  , birthdate  , address  , phone , gender  , Email  , Institution_ID
+
+        saveParent  first_name , last_name , phone , email , Institution_ID
+
+         findLeByLevel expense,academicId,level
+
+    */
+
+    readXlsxFile('./public/assets/files/'+req.file.filename).then((rows) => {
+    rows.splice(0,2);
     console.log('Rows',rows);
     connection.query("SELECT * FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID],async (err, academic, fields) => {
     res.json({saved:true});
-    for (var i = rows.length - 1; i >= 0 ; i--) {
-      var student = await studentModel.saveStudent(rows[i][0],  rows[i][1],  rows[i][3],  rows[i][5],  rows[i][4],rows[i][2],req.Institution_ID);
-              if (rows[i][8])
-              {
-                var parent = await studentModel.saveParent(rows[i][8],rows[i][9],req.Institution_ID);
-                var spresult = await studentModel.saveStudentParent(student.insertId,parent.insertId);
-              }
-              if (rows[i][10])
-              {
-                var parent = await studentModel.saveParent(rows[i][10],rows[i][11],req.Institution_ID);
-                var spresult = await studentModel.saveStudentParent(student.insertId,parent.insertId);
-              }
-                
-                console.log('expenses',rows[i][12]);
-                startDate = new Date();
-                if(rows[i][12])
-                {
-                  var le_id = await studentModel.findLeByLevel(rows[i][12],academic[0].AY_ID,rows[i][6]);
-                  var ssresult = await studentModel.saveStudentSub(student.insertId,le_id[0].LE_ID,months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID);
-                }
-                if(rows[i][13])
-                {
-                 var le_id = await studentModel.findLeByLevel(rows[i][13],academic[0].AY_ID,rows[i][6]);
-                  var ssresult = await studentModel.saveStudentSub(student.insertId,le_id[0].LE_ID,months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID);
-                }
-                if(rows[i][14])
-                {
-                 var le_id = await studentModel.findLeByLevel(rows[i][14],academic[0].AY_ID,rows[i][6]);
-                  var ssresult = await studentModel.saveStudentSub(student.insertId,le_id[0].LE_ID,months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID);
-                }
-                if(rows[i][15])
-                {
-                  var le_id = await studentModel.findLeByLevel(rows[i][15],academic[0].AY_ID,rows[i][6]);
-                  var ssresult = await studentModel.saveStudentSub(student.insertId,le_id[0].LE_ID,months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID);
-                }
-                var classe = await studentModel.findClasse(rows[i][7],academic[0].AY_ID);
-                  if(classe[0])
-                    var scresult = await studentModel.saveStudentClasse(student.insertId,classe[0].Classe_ID,academic[0].AY_ID);
+    for (var i = rows.length - 1; i >= 0 ; i--) { 
+
+            var student = await studentModel.saveStudent(rows[i][0],rows[i][1],rows[i][3],rows[i][6],rows[i][4],rows[i][2],rows[i][5],req.Institution_ID);
+          
+            if (rows[i][9]){
+              var parent = await studentModel.saveParent(rows[i][9],rows[i][10],rows[i][11],rows[i][12],req.Institution_ID);
+              var spresult = await studentModel.saveStudentParent(student.insertId,parent.insertId);
+            }
+
+            if (rows[i][13]){
+               var parent = await studentModel.saveParent(rows[i][13],rows[i][14],rows[i][15],rows[i][16],req.Institution_ID);
+               var spresult = await studentModel.saveStudentParent(student.insertId,parent.insertId);
+            }
+            
+            console.log('expenses',rows[i][17]);
+            startDate = new Date();
+
+            if(rows[i][17]){
+              var le_id = await studentModel.findLeByLevel(rows[i][17],academic[0].AY_ID,rows[i][7]);
+              var ssresult = await studentModel.saveStudentSub(student.insertId,le_id[0].LE_ID,months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID);
+            }
+
+            if(rows[i][18]){
+              var le_id = await studentModel.findLeByLevel(rows[i][18],academic[0].AY_ID,rows[i][7]);
+              var ssresult = await studentModel.saveStudentSub(student.insertId,le_id[0].LE_ID,months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID);
+            }
+
+            if(rows[i][19]){
+              var le_id = await studentModel.findLeByLevel(rows[i][19],academic[0].AY_ID,rows[i][7]);
+              var ssresult = await studentModel.saveStudentSub(student.insertId,le_id[0].LE_ID,months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID);
+            }
+
+            if(rows[i][20]){
+              var le_id = await studentModel.findLeByLevel(rows[i][20],academic[0].AY_ID,rows[i][7]);
+              var ssresult = await studentModel.saveStudentSub(student.insertId,le_id[0].LE_ID,months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID);
+            }
+
+            var classe = await studentModel.findClasse(rows[i][8],academic[0].AY_ID);
+            if(classe[0]){
+              var scresult = await studentModel.saveStudentClasse(student.insertId,classe[0].Classe_ID,academic[0].AY_ID);
+            }
     }
     })
   })
