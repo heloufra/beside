@@ -707,22 +707,38 @@ var studentController = {
 
             if(rows[i][17]){
               var le_id = await studentModel.findLeByLevel(rows[i][17],academic[0].AY_ID,rows[i][7]);
-              var ssresult = await studentModel.saveStudentSub(student.insertId,le_id[0].LE_ID,months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID);
+              try{
+                  var ssresult = await studentModel.saveStudentSub(student.insertId,le_id[0].LE_ID,months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID);
+              }catch(e){
+                 console.log(e)
+              }
             }
 
             if(rows[i][18]){
               var le_id = await studentModel.findLeByLevel(rows[i][18],academic[0].AY_ID,rows[i][7]);
-              var ssresult = await studentModel.saveStudentSub(student.insertId,le_id[0].LE_ID,months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID);
+              try{
+                  var ssresult = await studentModel.saveStudentSub(student.insertId,le_id[0].LE_ID,months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID);
+              }catch(e){
+                 console.log(e)
+              }
             }
 
             if(rows[i][19]){
               var le_id = await studentModel.findLeByLevel(rows[i][19],academic[0].AY_ID,rows[i][7]);
-              var ssresult = await studentModel.saveStudentSub(student.insertId,le_id[0].LE_ID,months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID);
+              try{
+                  var ssresult = await studentModel.saveStudentSub(student.insertId,le_id[0].LE_ID,months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID);
+              }catch(e){
+                 console.log(e)
+              }
             }
 
             if(rows[i][20]){
               var le_id = await studentModel.findLeByLevel(rows[i][20],academic[0].AY_ID,rows[i][7]);
-              var ssresult = await studentModel.saveStudentSub(student.insertId,le_id[0].LE_ID,months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID);
+              try{
+                  var ssresult = await studentModel.saveStudentSub(student.insertId,le_id[0].LE_ID,months[startDate.getMonth()],academic[0].AY_EndDate,academic[0].AY_ID);
+              }catch(e){
+                 console.log(e)
+              }
             }
 
             var classe = await studentModel.findClasse(rows[i][8],academic[0].AY_ID);

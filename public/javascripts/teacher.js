@@ -145,96 +145,177 @@ function displayteacher(index)
   		$("#AddTeacherModalSubjects").html("");
   		$("#AddTeacherModalSubjects").html(addTeacherModalSubjects);
 
-  		for (var i = res.subjects.length - 1; i >= 0; i--) {
 
+  		if(res.subjects.length > 0 ){
 
-	  		teacherSelectedSub.push(res.subjects[i].Subject_Label);
+	  		for (var i = res.subjects.length - 1; i >= 0; i--) {
 
-			teacherSelectedSub = teacherSelectedSub.filter(function(item, pos) {
-				return teacherSelectedSub.indexOf(item) == pos;
-			});
+		  		teacherSelectedSub.push(res.subjects[i].Subject_Label);
 
-  			var selected    = "";
-  			var visibility  = "visibility";
-  			var exist 		= "";
-  			
-  			var allSubjects = "";
-  			console.log("sub ",res.allsubjects);
-  			subject_list = res.allsubjects;
-
-  			for (var n = res.allsubjects.length - 1; n >= 0; n--) {
-
-  				if(teacherSelectedSub.includes(res.allsubjects[n].Subject_Label)){
-  					visibility  = "visibility";
-  				}else{
-  					visibility  = "";
-  				}
-
-  				allSubjects += '<li  class="'+visibility+'"  data-subjectid="'+res.allsubjects[n].Subject_ID+'" data-levelid="'+res.allsubjects[n].Level_ID+'" data-val="'+res.allsubjects[n].Subject_Label+'">'+res.allsubjects[n].Subject_Label+'</li>';
-  			}
-
-	  		var classes = res.classes.filter(function (el) {
-				  return el.Subject_Label === res.subjects[i].Subject_Label;
-			});
-
-	  		$('#teacher_info .subjects-list').prepend('<div class="dynamic-form-input-dropdown-container sections-main-sub-container-right-main-rows-dropdown-tags-container subjects-container" > <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="dynamic-form-input-float-adjust"> <div class="form-group group form-group-left"> <input readonly type="text" class="input-text" value="'+res.subjects[i].Subject_Label+'" name="subjects" required> <label class="input-label input-label-move-to-top"><span class="input-label-text">Subjects</span> <span class="input-label-bg-mask"></span></label> </div> <div class="form-group group form-group-right"> <select data-select='+i+' class="input-text-subject-classes-select2 list-classes" multiple readonly> </select> <label class="input-label input-label-move-to-top"> <span class="input-label-text">Classes</span><span class="input-label-bg-mask"></span> </label> </div> </div> </div> </div> </div>');
-
-	  		if(res.subjects.length > 1 ){
-	  			$dynamic_form_input_first = " ";
-	  		}else{
-	  			$dynamic_form_input_first = " dynamic-form-input-first ";
-	  		}
-
-	  		$('#EditTeacherModal .subjects-list').prepend('<div class="dynamic-form-input-dropdown-container sections-main-sub-container-right-main-rows-dropdown-tags-container subjects-container" > <div class="dynamic-form-input-dropdown '+$dynamic_form_input_first +'"> <div class="dynamic-form-input"> <div class="dynamic-form-input-float-adjust"> <div class="form-group group form-group-left"> <input type="text" class="input-text input-dropdown" onchange="subjectsChange(this)" value="'+res.subjects[i].Subject_Label+'" name="subjects" required> <label class="input-label"><span class="input-label-text">Subjects</span> <span class="input-label-bg-mask"></span></label> <img class="icon button-icon" src="assets/icons/caret.svg"> <ul class="dynamic-form-input-dropdown-options">'+allSubjects+'</ul> </div> <div class="form-group group form-group-right"> <select data-select='+i+' class="input-text-subject-classes-select2 list-classes" multiple > </select> <img class="icon button-icon" src="assets/icons/caret.svg"> <label class="input-label"> <span class="input-label-text">Classes</span><span class="input-label-bg-mask"></span> </label> </div> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div>');
-
-	  		if($('#EditTeacherModal [data-select='+i+']').length > 0){
-				$('#EditTeacherModal [data-select='+i+']').select2({
-				  tags: true,
-				  dropdownPosition: 'below',
-		  		  placeholder: "Classes",
-		  		  minimumResultsForSearch: -1,
-		  		  templateResult: hideSelected
+				teacherSelectedSub = teacherSelectedSub.filter(function(item, pos) {
+					return teacherSelectedSub.indexOf(item) == pos;
 				});
-			}
 
-			if($('#teacher_info [data-select='+i+']').length > 0){
-				$('#teacher_info [data-select='+i+']').select2({
-				  tags: true,
-				  dropdownPosition: 'below',
-		  		  placeholder: "Classes",
-		  		  disabled: true,
-		  		  minimumResultsForSearch: -1,
-		  		  templateResult: hideSelected
+	  			var selected    = "";
+	  			var visibility  = "visibility";
+	  			var exist 		= "";
+	  			
+	  			var allSubjects = "";
+	  			console.log("sub ",res.allsubjects);
+	  			subject_list = res.allsubjects;
+
+	  			for (var n = res.allsubjects.length - 1; n >= 0; n--) {
+
+	  				if(teacherSelectedSub.includes(res.allsubjects[n].Subject_Label)){
+	  					visibility  = "visibility";
+	  				}else{
+	  					visibility  = "";
+	  				}
+
+	  				allSubjects += '<li  class="'+visibility+'"  data-subjectid="'+res.allsubjects[n].Subject_ID+'" data-levelid="'+res.allsubjects[n].Level_ID+'" data-val="'+res.allsubjects[n].Subject_Label+'">'+res.allsubjects[n].Subject_Label+'</li>';
+	  			}
+
+		  		var classes = res.classes.filter(function (el) {
+					  return el.Subject_Label === res.subjects[i].Subject_Label;
 				});
-			}
 
-	  		for (var k = res.classes.length - 1; k >= 0; k--) {
-	  			if (classes.some( value => { return value.Subject_Label == res.classes[k].Subject_Label } ))
-	  			{
-	  				olddata.push({subject:res.subjects[i].Subject_ID,classe:res.classes[k].Classe_ID});
-	  				var option = new Option(res.classes[k].Classe_Label,res.classes[k].Classe_ID, true, true);
-    				$('.subjects-list').find('[data-select='+i+']').append(option).trigger('change');
+		  		$('#teacher_info .subjects-list').prepend('<div class="dynamic-form-input-dropdown-container sections-main-sub-container-right-main-rows-dropdown-tags-container subjects-container" > <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="dynamic-form-input-float-adjust"> <div class="form-group group form-group-left"> <input readonly type="text" class="input-text" value="'+res.subjects[i].Subject_Label+'" name="subjects" required> <label class="input-label input-label-move-to-top"><span class="input-label-text">Subjects</span> <span class="input-label-bg-mask"></span></label> </div> <div class="form-group group form-group-right"> <select data-select='+i+' class="input-text-subject-classes-select2 list-classes" multiple readonly> </select> <label class="input-label input-label-move-to-top"> <span class="input-label-text">Classes</span><span class="input-label-bg-mask"></span> </label> </div> </div> </div> </div> </div>');
+
+		  		if(res.subjects.length > 1 ){
+		  			$dynamic_form_input_first = " ";
+		  		}else{
+		  			$dynamic_form_input_first = " dynamic-form-input-first ";
+		  		}
+
+		  		$('#EditTeacherModal .subjects-list').prepend('<div class="dynamic-form-input-dropdown-container sections-main-sub-container-right-main-rows-dropdown-tags-container subjects-container" > <div class="dynamic-form-input-dropdown '+$dynamic_form_input_first +'"> <div class="dynamic-form-input"> <div class="dynamic-form-input-float-adjust"> <div class="form-group group form-group-left"> <input type="text" class="input-text input-dropdown" onchange="subjectsChange(this)" value="'+res.subjects[i].Subject_Label+'" name="subjects" required> <label class="input-label"><span class="input-label-text">Subjects</span> <span class="input-label-bg-mask"></span></label> <img class="icon button-icon" src="assets/icons/caret.svg"> <ul class="dynamic-form-input-dropdown-options">'+allSubjects+'</ul> </div> <div class="form-group group form-group-right"> <select data-select='+i+' class="input-text-subject-classes-select2 list-classes" multiple > </select> <img class="icon button-icon" src="assets/icons/caret.svg"> <label class="input-label"> <span class="input-label-text">Classes</span><span class="input-label-bg-mask"></span> </label> </div> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div>');
+
+		  		if($('#EditTeacherModal [data-select='+i+']').length > 0){
+					$('#EditTeacherModal [data-select='+i+']').select2({
+					  tags: true,
+					  dropdownPosition: 'below',
+			  		  placeholder: "Classes",
+			  		  minimumResultsForSearch: -1,
+			  		  templateResult: hideSelected
+					});
+				}
+
+				if($('#teacher_info [data-select='+i+']').length > 0){
+					$('#teacher_info [data-select='+i+']').select2({
+					  tags: true,
+					  dropdownPosition: 'below',
+			  		  placeholder: "Classes",
+			  		  disabled: true,
+			  		  minimumResultsForSearch: -1,
+			  		  templateResult: hideSelected
+					});
+				}
+
+		  		for (var k = res.classes.length - 1; k >= 0; k--) {
+		  			if (classes.some( value => { return value.Subject_Label == res.classes[k].Subject_Label } ))
+		  			{
+		  				olddata.push({subject:res.subjects[i].Subject_ID,classe:res.classes[k].Classe_ID});
+		  				var option = new Option(res.classes[k].Classe_Label,res.classes[k].Classe_ID, true, true);
+	    				$('.subjects-list').find('[data-select='+i+']').append(option).trigger('change');
+		  			}
+		  		}
+
+		  		var uniqueClasses = [];
+
+		  		for (var j = res.allClasses.length - 1; j >= 0; j--) {
+		  			if(!uniqueClasses.some( value => { return value.Subject_ID == res.allClasses[j].Subject_ID } )) {
+				    	uniqueClasses.push(res.allClasses[j]);
+		  			}
+		  		}
+
+		  		for (var k = uniqueClasses.length - 1; k >= 0; k--) {
+		  			if (uniqueClasses[k].Subject_ID === res.subjects[i].Subject_ID){
+		  				var option = new Option(uniqueClasses[k].Classe_Label,uniqueClasses[k].Classe_ID, false, false);
+	    				$('.subjects-list').find('[data-select='+i+']').append(option).trigger('change');
+	    			}
+		  		}
+
+		  		$('[data-select='+i+']').parents(".form-group-right").find(".input-label").addClass("input-label-move-to-top");
+		  		
+	  		}
+
+	  	}else{
+
+	  		res.subjects = res.allsubjects;
+
+	  		for (var i = res.subjects.length - 1; i >= 0; i--) {
+
+		  		teacherSelectedSub.push(res.subjects[i].Subject_Label);
+
+				teacherSelectedSub = teacherSelectedSub.filter(function(item, pos) {
+					return teacherSelectedSub.indexOf(item) == pos;
+				});
+
+	  			var selected    = "";
+	  			var visibility  = "visibility";
+	  			var exist 		= "";
+	  			
+	  			var allSubjects = "";
+	  			console.log("sub ",res.allsubjects);
+	  			subject_list = res.allsubjects;
+
+	  			for (var n = res.allsubjects.length - 1; n >= 0; n--) {
+	  				
+	  				visibility  = "";
+
+	  				allSubjects += '<li  class="'+visibility+'"  data-subjectid="'+res.allsubjects[n].Subject_ID+'" data-levelid="'+res.allsubjects[n].Level_ID+'" data-val="'+res.allsubjects[n].Subject_Label+'">'+res.allsubjects[n].Subject_Label+'</li>';
 	  			}
+
+		  		var classes = res.classes.filter(function (el) {
+					  return el.Subject_Label === res.subjects[i].Subject_Label;
+				});
+
+		  		if(res.subjects.length > 1 ){
+		  			$dynamic_form_input_first = " ";
+		  		}else{
+		  			$dynamic_form_input_first = " dynamic-form-input-first ";
+		  		}
+
+		  		$('#EditTeacherModal .subjects-list').prepend('<div class="dynamic-form-input-dropdown-container sections-main-sub-container-right-main-rows-dropdown-tags-container subjects-container" > <div class="dynamic-form-input-dropdown '+$dynamic_form_input_first +'"> <div class="dynamic-form-input"> <div class="dynamic-form-input-float-adjust"> <div class="form-group group form-group-left"> <input type="text" class="input-text input-dropdown" onchange="subjectsChange(this)" value="" name="subjects" required> <label class="input-label"><span class="input-label-text">Subjects</span> <span class="input-label-bg-mask"></span></label> <img class="icon button-icon" src="assets/icons/caret.svg"> <ul class="dynamic-form-input-dropdown-options">'+allSubjects+'</ul> </div> <div class="form-group group form-group-right"> <select data-select='+i+' class="input-text-subject-classes-select2 list-classes" multiple > </select> <img class="icon button-icon" src="assets/icons/caret.svg"> <label class="input-label"> <span class="input-label-text">Classes</span><span class="input-label-bg-mask"></span> </label> </div> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div>');
+
+		  		if($('#EditTeacherModal [data-select='+i+']').length > 0){
+					$('#EditTeacherModal [data-select='+i+']').select2({
+					  tags: true,
+					  dropdownPosition: 'below',
+			  		  placeholder: "Classes",
+			  		  minimumResultsForSearch: -1,
+			  		  templateResult: hideSelected
+					});
+				}
+
+		  		for (var k = res.classes.length - 1; k >= 0; k--) {
+		  			if (classes.some( value => { return value.Subject_Label == res.classes[k].Subject_Label } ))
+		  			{
+		  				olddata.push({subject:res.subjects[i].Subject_ID,classe:res.classes[k].Classe_ID});
+		  				var option = new Option(res.classes[k].Classe_Label,res.classes[k].Classe_ID, true, true);
+	    				$('.subjects-list').find('[data-select='+i+']').append(option).trigger('change');
+		  			}
+		  		}
+
+		  		var uniqueClasses = [];
+
+		  		for (var j = res.allClasses.length - 1; j >= 0; j--) {
+		  			if(!uniqueClasses.some( value => { return value.Subject_ID == res.allClasses[j].Subject_ID } )) {
+				    	uniqueClasses.push(res.allClasses[j]);
+		  			}
+		  		}
+
+		  		for (var k = uniqueClasses.length - 1; k >= 0; k--) {
+		  			if (uniqueClasses[k].Subject_ID === res.subjects[i].Subject_ID){
+		  				var option = new Option(uniqueClasses[k].Classe_Label,uniqueClasses[k].Classe_ID, false, false);
+	    				$('.subjects-list').find('[data-select='+i+']').append(option).trigger('change');
+	    			}
+		  		}
+
+		  		$('[data-select='+i+']').parents(".form-group-right").find(".input-label").addClass("input-label-move-to-top");
+		  		
 	  		}
 
-	  		var uniqueClasses = [];
-
-	  		for (var j = res.allClasses.length - 1; j >= 0; j--) {
-	  			if(!uniqueClasses.some( value => { return value.Subject_ID == res.allClasses[j].Subject_ID } )) {
-			    	uniqueClasses.push(res.allClasses[j]);
-	  			}
-	  		}
-
-	  		for (var k = uniqueClasses.length - 1; k >= 0; k--) {
-	  			if (uniqueClasses[k].Subject_ID === res.subjects[i].Subject_ID){
-	  				var option = new Option(uniqueClasses[k].Classe_Label,uniqueClasses[k].Classe_ID, false, false);
-    				$('.subjects-list').find('[data-select='+i+']').append(option).trigger('change');
-    			}
-	  		}
-
-	  		$('[data-select='+i+']').parents(".form-group-right").find(".input-label").addClass("input-label-move-to-top");
-	  		
-  		}
+	  	}
 
   		/*********_______ filter unique subjects ________***********/
 		
@@ -734,7 +815,7 @@ function updateAbsence() {
 
 		  	if(res.errors)
 		  	{
-		  	  console.log(res.errors)
+		  	  console.log(res.errors);
 		  	} else {
 		  		console.log("res subject : ", res );
 		  		var first_label = '';
