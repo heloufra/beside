@@ -259,7 +259,7 @@ function displayteacher(index)
 	  			subject_list = res.allsubjects;
 
 	  			for (var n = res.allsubjects.length - 1; n >= 0; n--) {
-	  				
+
 	  				visibility  = "";
 
 	  				allSubjects += '<li  class="'+visibility+'"  data-subjectid="'+res.allsubjects[n].Subject_ID+'" data-levelid="'+res.allsubjects[n].Level_ID+'" data-val="'+res.allsubjects[n].Subject_Label+'">'+res.allsubjects[n].Subject_Label+'</li>';
@@ -312,6 +312,8 @@ function displayteacher(index)
 		  		}
 
 		  		$('[data-select='+i+']').parents(".form-group-right").find(".input-label").addClass("input-label-move-to-top");
+
+		  		break;
 		  		
 	  		}
 
