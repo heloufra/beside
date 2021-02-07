@@ -269,11 +269,7 @@ function displayteacher(index)
 					  return el.Subject_Label === res.subjects[i].Subject_Label;
 				});
 
-		  		if(res.subjects.length > 1 ){
-		  			$dynamic_form_input_first = " ";
-		  		}else{
-		  			$dynamic_form_input_first = " dynamic-form-input-first ";
-		  		}
+				$dynamic_form_input_first = " dynamic-form-input-first ";
 
 		  		$('#EditTeacherModal .subjects-list').prepend('<div class="dynamic-form-input-dropdown-container sections-main-sub-container-right-main-rows-dropdown-tags-container subjects-container" > <div class="dynamic-form-input-dropdown '+$dynamic_form_input_first +'"> <div class="dynamic-form-input"> <div class="dynamic-form-input-float-adjust"> <div class="form-group group form-group-left"> <input type="text" class="input-text input-dropdown" onchange="subjectsChange(this)" value="" name="subjects" required> <label class="input-label"><span class="input-label-text">Subjects</span> <span class="input-label-bg-mask"></span></label> <img class="icon button-icon" src="assets/icons/caret.svg"> <ul class="dynamic-form-input-dropdown-options">'+allSubjects+'</ul> </div> <div class="form-group group form-group-right"> <select data-select='+i+' class="input-text-subject-classes-select2 list-classes" multiple > </select> <img class="icon button-icon" src="assets/icons/caret.svg"> <label class="input-label"> <span class="input-label-text">Classes</span><span class="input-label-bg-mask"></span> </label> </div> </div> <div class="square-button square-button-minus"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div>');
 
@@ -1248,6 +1244,12 @@ function saveChange() {
 
 	});
 
+	if(olddata.length > 0){
+		olddata=olddata
+	}else{
+		olddata.push(-1);
+	}
+
 	var data =  {
     	id:teacherId,
     	profile_image:$('#EditTeacherModal').find('.profile-img').attr('src'),
@@ -1269,8 +1271,6 @@ function saveChange() {
 	var subjects =  $('#EditTeacherModal').find('.subjects-container').find('input[name^=subjects]').map(function(idx, elem) {
 	    return {subject: $('#EditTeacherModal').find('.subjects-container').find('[data-val='+$(elem).val()+']').data('subjectid'),classes:$(this).closest('.dynamic-form-input-float-adjust').find('select').val()};
 	}).get();
-
-
 
     console.log(data);
 
