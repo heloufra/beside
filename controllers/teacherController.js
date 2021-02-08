@@ -396,9 +396,11 @@ var teacherController = {
       readXlsxFile('./public/assets/files/'+ req.file.filename).then( async (rows) => {
 
         try {
+
             rows.shift();
             rows.shift();
             console.log('Rows',rows);
+
             for (var i = rows.length - 1; i >= 0; i--) {
               var user = await teacherModel.findUser(rows[i][6],req.Institution_ID);
               var userId;
@@ -409,7 +411,7 @@ var teacherController = {
                   userId = user[0].User_ID;
                   user = await teacherModel.updateTeacher(rows[i][0], rows[i][1],rows[i][6],rows[i][3],  rows[i][4],rows[i][5],rows[i][2],userId);
                 } else {
-                  res.json({saved:false})
+                  //res.json({saved:false})
                 }
               }
               else
@@ -423,6 +425,7 @@ var teacherController = {
                   var ui = await teacherModel.saveIU(req.Institution_ID,userId);
                }
             }
+
             res.json({saved:true});
 
         }catch(e){
