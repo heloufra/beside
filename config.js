@@ -6,15 +6,15 @@ module.exports = {
   serverPort: 3000,
   privateKey:'***REMOVED***',
   db: {
-    host: '192.168.64.2',
+    host: 'localhost',
     port: 3308,
-    user: 'beside',
-    password: 'beside',
+    user: 'root',
+    password: '',
     database: 'beside_db'
   }
 };
 
-/************************/
+/***********************
 
 /* server */
 

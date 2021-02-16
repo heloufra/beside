@@ -3127,7 +3127,6 @@ $(document).ready(function(){
 			$this = $(this);
 			$obj = JSON.parse($(this).data("obj").replace(/\\|\//g,''));
 
-
 			$(".custmized-tooltip").css({
 				display:"inline-block"
 			});

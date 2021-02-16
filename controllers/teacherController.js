@@ -152,20 +152,24 @@ var teacherController = {
 
       // unique phone
       var tel = await commonModel.userUniqueTel( req.body.phone_number , -1 , req.Institution_ID );
-      if(tel[0].Tel_Count > 0 ){
+
+      if(tel[0].Tel_Count > 0 && tel[0].User_Role != "Admin" ){
         user_error["Tel"]=tel[0].User_Phone;
       }
 
       // unique email 
       var eml = await commonModel.userUniqueEmail( req.body.email , -1 , req.Institution_ID );
 
-      if(eml[0].Email_Count > 0 ){
+      if(eml[0].Email_Count > 0 && eml[0].User_Role != "Admin" ){
         user_error["Email"]= eml[0].User_Email ;
       }
 
       form_errors["User"] = user_error ;
 
       if(Object.keys(user_error).length === 0 && user_error.constructor === Object) {
+
+              console.log("role Email : ",tel[0].User_Role+" "+eml[0].Email_Count);
+              console.log("role tel : ",tel[0].User_Role+" "+tel[0].Tel_Count );
 
               var user = await teacherModel.findUser(req.body.email,req.Institution_ID);
               var userId;
@@ -179,7 +183,21 @@ var teacherController = {
                   exist = true;
                   connection.query("UPDATE `users` SET User_Name=?,User_Image=?,User_Birthdate = ?, User_Address = ?, User_Gender=? WHERE User_ID = ?", [JSON.stringify({first_name:req.body.first_name, last_name:req.body.last_name}),req.body.profile_image, req.body.birthdate, req.body.teacher_address,req.body.teacher_gender,userId]);
                 } else {
-                  res.json({saved:false})
+                    
+                    user_error_ = {};
+                    form_errors_ = {};
+
+                    if(tel[0].Tel_Count > 0 ){
+                      user_error_["Tel"]=tel[0].User_Phone;
+                    }
+
+                    if(eml[0].Email_Count > 0){
+                      user_error_["Email"]= eml[0].User_Email ;
+                    }
+
+                    form_errors_["User"] = user_error_ ;
+
+                    res.json({saved:false,form_errors:form_errors_})
                 }
               }
               else
