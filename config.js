@@ -14,10 +14,9 @@ module.exports = {
   }
 };
 
-/***********************
+/************************
 
 /* server */
-
 module.exports = {
   sessionSecret: '***REMOVED***',
   // ports

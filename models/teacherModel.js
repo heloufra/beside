@@ -27,13 +27,14 @@ var teacherModel = {
   },
   getAllClasses: function(Subject_ID,AY_ID) {
      return new Promise((resolve, reject) => {
-      connection.query(`SELECT DISTINCT * FROM classes c INNER JOIN levelsubjects ls ON (ls.Level_ID = c.Level_ID) 
+      connection.query(`SELECT DISTINCT c.* , l.Level_Label FROM classes c INNER JOIN levelsubjects ls ON (ls.Level_ID = c.Level_ID) INNER JOIN levels l 
+      ON (l.Level_ID = ls.Level_ID)
       WHERE 
-      (c.Classe_ID IN (SELECT tsc.Classe_ID FROM teachersubjectsclasses tsc WHERE tsc.TSC_Status=0) 
+      (c.Classe_ID IN (SELECT tsc.Classe_ID FROM teachersubjectsclasses tsc WHERE tsc.TSC_Status=1) 
        OR c.Classe_ID NOT IN (SELECT tsc2.Classe_ID FROM teachersubjectsclasses tsc2))
        AND c.Classe_Status=1 AND c.AY_ID=? AND ls.Subject_ID=? ORDER by ls.Level_ID , c.Classe_ID `, [AY_ID,Subject_ID], (err, classes, fields) => {
              if (err) reject(err);
-              else resolve(classes[0]);
+              else resolve(classes);
             });
           })
   },
