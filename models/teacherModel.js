@@ -1,5 +1,7 @@
 var connection  = require('../lib/db');
 
+var AdTeacher = "SELECT absencesanddelays.* FROM `absencesanddelays` INNER JOIN users ON users.User_ID = absencesanddelays.User_ID INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID WHERE absencesanddelays.User_Type = 'Teacher' AND users.User_ID = ?  AND institutionsusers.Institution_ID = ? AND users.User_Status = 1 AND institutionsusers.IU_Status = 1 AND absencesanddelays.AD_Status = 1";
+
 var teacherModel = {
   findClasses: function(Teacher_ID) {
      return new Promise((resolve, reject) => {
@@ -93,6 +95,97 @@ var teacherModel = {
       });
     })
   },
+  getTeachersAbsenceDelay:function(Teacher_ID,Institution_ID) {
+
+    return new Promise((resolve, reject) => {
+
+      var absenceArray = [];
+      var retardArray  = [];
+      var studentArray = {};
+
+      var AD_FromTo = 0;
+
+      var Today = new Date();
+      Today = Today.toISOString().slice(0,10);
+
+      connection.query(AdTeacher, [Teacher_ID,Institution_ID] ,async (err, absencesS, fields) => {
+
+          try{
+
+                for (var i = absencesS.length - 1; i >= 0; i--) {
+
+                  if(absencesS[i].AD_Type == 2){
+
+                      AD_FromTo = JSON.parse(absencesS[i].AD_FromTo);
+                      AD_From   = AD_FromTo.from;
+                      AD_To     = AD_FromTo.to;
+
+                      AD_From =   this.dateConvert(AD_From);
+                      AD_To   =   this.dateConvert(AD_To);
+
+                      if(this.dateBetween(AD_From,AD_To,Today)){
+                        absenceArray.push(absencesS[i]);
+                      }                  
+
+                  }else{
+
+                      AD_FromTo  = absencesS[i].AD_Date;
+                      AD_FromTo =   this.dateConvert(AD_FromTo);
+
+                      if(absencesS[i].AD_Type == 0){
+
+                        AD_FromTo  = absencesS[i].AD_Date;
+                        AD_FromTo =   this.dateConvert(AD_FromTo);
+
+                        if(this.dateBetween(AD_FromTo,AD_FromTo,Today)){
+                          retardArray.push(absencesS[i]);
+                        }
+
+                      }else{
+
+                        if(this.dateBetween(AD_FromTo,AD_FromTo,Today)){
+                          absenceArray.push(absencesS[i]);
+                        }
+
+                      }
+
+
+                }
+
+                studentArray["Retards"]  = retardArray ;
+                studentArray["Absences"] = absenceArray;
+
+            }
+
+            resolve(JSON.parse(JSON.stringify(studentArray)));
+
+          }catch(e){
+            console.log(e);
+            reject(err);
+          }
+
+      });
+
+    });
+
+  },
+  dateConvert:function(date) {
+      return  date = date.split("/").reverse().join("-");
+  },
+  dateBetween:function(from,to,check) {
+
+    var fDate,lDate,cDate;
+    fDate = Date.parse(from);
+    lDate = Date.parse(to);
+    cDate = Date.parse(check);
+
+    if((cDate <= lDate && cDate >= fDate)) {
+        return true;
+    }
+
+    return false;
+
+  }
 };
 
 module.exports = teacherModel;

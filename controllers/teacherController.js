@@ -136,11 +136,16 @@ var teacherController = {
   getAllteachers: function(req, res, next) {
     var teachersArray = [];
       connection.query("SELECT users.User_ID,users.User_Name,users.User_Image,users.User_Email,users.User_Phone,users.User_Gender,users.User_Birthdate,users.User_Address FROM `institutionsusers` INNER JOIN users ON users.User_ID = institutionsusers.User_ID WHERE institutionsusers.`Institution_ID` = ? AND institutionsusers.User_Role = 'Teacher' AND institutionsusers.IU_Status = 1 Order By users.User_ID Desc ", [req.Institution_ID],async (err, teachers, fields) => {
-        for (var i = teachers.length - 1; i >= 0; i--) {  
+
+        for (var i = teachers.length - 1; i >= 0; i--) { 
+
           var classes = await teacherModel.findClasses(teachers[i].User_ID);
           var subjects = await teacherModel.findSubjects(teachers[i].User_ID);
+          teachersAbsenceDelay = await teacherModel.getTeachersAbsenceDelay(teachers[i].User_ID,req.Institution_ID);
+          teachers[i].teachersAbsenceDelay = teachersAbsenceDelay;
           teachersArray.push({teacher:teachers[i],classes:classes,subjects:subjects});
         }
+
         res.json({
                 teachers:teachersArray,
               });

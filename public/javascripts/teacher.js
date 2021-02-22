@@ -23,7 +23,7 @@ getAllteachers();
 
 function getAllteachers(id) {
 
-	dynamicListRows = [];
+	dynamicListRows = "" ;
 
  	$('.row-teacher').remove();
 
@@ -74,7 +74,23 @@ function getAllteachers(id) {
   					html += res.teachers[i].classes[j].Classe_Label + " , ";
   				}
 
-	  			dynamicListRows += '<div class="'+active+' sections-main-sub-container-left-card row-teacher"><img class="sections-main-sub-container-left-card-main-img" src="'+res.teachers[i].teacher.User_Image+'" alt="card-img"><span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper"></span><input name="teacherId" type="hidden" value="'+res.teachers[i].teacher.User_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+name.first_name+' '+name.last_name+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+html+'</span></div></div>' ;
+  				dynamicListRows +='<div ';
+
+	  			if(!jQuery.isEmptyObject(res.teachers[i].teacher.teachersAbsenceDelay.Absences)) {
+  					dynamicListRows +='data-absence="1" ';
+  				}else if(!jQuery.isEmptyObject(res.teachers[i].teacher.teachersAbsenceDelay.Retards)) {
+  					dynamicListRows +='data-retard="1" ';
+  				}
+
+	  			dynamicListRows += 'class="'+active+' sections-main-sub-container-left-card row-teacher"><img class="sections-main-sub-container-left-card-main-img" src="'+res.teachers[i].teacher.User_Image+'" alt="card-img"><span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper"></span><input name="teacherId" type="hidden" value="'+res.teachers[i].teacher.User_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+name.first_name+' '+name.last_name+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+html+'</span></div>' ;
+
+	  			if(!jQuery.isEmptyObject(res.teachers[i].teacher.teachersAbsenceDelay.Absences)) {
+  					dynamicListRows +='<span class="sections-main-sub-container-left-card-satuts red-color">Absence</span>';
+  				}else if(!jQuery.isEmptyObject(res.teachers[i].teacher.teachersAbsenceDelay.Retards)) {
+  					dynamicListRows +='<span class="sections-main-sub-container-left-card-satuts blue-color">Retard</span>';
+  				}
+
+  				dynamicListRows +='</div>';
 	  		}
 
 
@@ -547,7 +563,24 @@ $('.teacher-filters').on("change", function() {
 
 				html.trim(",");
 
-				dynamicListRows += '<div class="'+active+' sections-main-sub-container-left-card row-teacher"><img class="sections-main-sub-container-left-card-main-img" src="'+teacherPrev[i].teacher.User_Image+'" alt="card-img"><span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper"></span><input name="teacherId" type="hidden" value="'+teacherPrev[i].teacher.User_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+name.first_name+' '+name.last_name+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+html+'</span></div></div>';
+				dynamicListRows +='<div ';
+
+	  			if(!jQuery.isEmptyObject(teacherPrev[i].teacher.teachersAbsenceDelay.Absences)) {
+  					dynamicListRows +='data-absence="1" ';
+  				}else if(!jQuery.isEmptyObject(teacherPrev[i].teacher.teachersAbsenceDelay.Retards)) {
+  					dynamicListRows +='data-retard="1" ';
+  				}
+
+	  			dynamicListRows += 'class="'+active+' sections-main-sub-container-left-card row-teacher"><img class="sections-main-sub-container-left-card-main-img" src="'+teacherPrev[i].teacher.User_Image+'" alt="card-img"><span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper"></span><input name="teacherId" type="hidden" value="'+teacherPrev[i].teacher.User_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+name.first_name+' '+name.last_name+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+html+'</span></div>' ;
+
+	  			if(!jQuery.isEmptyObject(teacherPrev[i].teacher.teachersAbsenceDelay.Absences)) {
+  					dynamicListRows +='<span class="sections-main-sub-container-left-card-satuts red-color">Absence</span>';
+  				}else if(!jQuery.isEmptyObject(teacherPrev[i].teacher.teachersAbsenceDelay.Retards)) {
+  					dynamicListRows +='<span class="sections-main-sub-container-left-card-satuts blue-color">Retard</span>';
+  				}
+
+  				dynamicListRows +='</div>';
+
 
 				removeSideBarLoadingAnimation($sideSelector);
 			}
@@ -598,7 +631,24 @@ document.getElementById("search-teacher").addEventListener('input', function (ev
 			html += filtred[i].classes[j].Classe_Label + " ";
 		}
 	  	
-	  	dynamicListRows +='<div class="'+active+' sections-main-sub-container-left-card row-teacher"><img class="sections-main-sub-container-left-card-main-img" src="'+filtred[i].teacher.User_Image+'" alt="card-img"><span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper"></span><input name="teacherId" type="hidden" value="'+filtred[i].teacher.User_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+name.first_name+' '+name.last_name+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+html+'</span></div></div>';
+		dynamicListRows +='<div ';
+
+		if(!jQuery.isEmptyObject(filtred[i].teacher.teachersAbsenceDelay.Absences)) {
+			dynamicListRows +='data-absence="1" ';
+		}else if(!jQuery.isEmptyObject(filtred[i].teacher.teachersAbsenceDelay.Retards)) {
+			dynamicListRows +='data-retard="1" ';
+		}
+
+		dynamicListRows += 'class="'+active+' sections-main-sub-container-left-card row-teacher"><img class="sections-main-sub-container-left-card-main-img" src="'+filtred[i].teacher.User_Image+'" alt="card-img"><span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper"></span><input name="teacherId" type="hidden" value="'+filtred[i].teacher.User_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+name.first_name+' '+name.last_name+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+html+'</span></div>' ;
+
+		if(!jQuery.isEmptyObject(filtred[i].teacher.teachersAbsenceDelay.Absences)) {
+			dynamicListRows +='<span class="sections-main-sub-container-left-card-satuts red-color">Absence</span>';
+		}else if(!jQuery.isEmptyObject(filtred[i].teacher.teachersAbsenceDelay.Retards)) {
+			dynamicListRows +='<span class="sections-main-sub-container-left-card-satuts blue-color">Retard</span>';
+		}
+
+		dynamicListRows +='</div>';
+
 	}
 
   } else {
@@ -618,8 +668,26 @@ document.getElementById("search-teacher").addEventListener('input', function (ev
 		for (var j = filtred[i].classes.length - 1; j >= 0; j--) {
 			html += filtred[i].classes[j].Classe_Label + " ";
 		}
-	  	
-	  	dynamicListRows +='<div class="'+active+' sections-main-sub-container-left-card row-teacher"><img class="sections-main-sub-container-left-card-main-img" src="'+filtred[i].teacher.User_Image+'" alt="card-img"><span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper"></span><input name="teacherId" type="hidden" value="'+filtred[i].teacher.User_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+name.first_name+' '+name.last_name+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+html+'</span></div></div>';
+
+
+		dynamicListRows +='<div ';
+
+		if(!jQuery.isEmptyObject(filtred[i].teacher.teachersAbsenceDelay.Absences)) {
+			dynamicListRows +='data-absence="1" ';
+		}else if(!jQuery.isEmptyObject(filtred[i].teacher.teachersAbsenceDelay.Retards)) {
+			dynamicListRows +='data-retard="1" ';
+		}
+
+		dynamicListRows += 'class="'+active+' sections-main-sub-container-left-card row-teacher"><img class="sections-main-sub-container-left-card-main-img" src="'+filtred[i].teacher.User_Image+'" alt="card-img"><span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper"></span><input name="teacherId" type="hidden" value="'+filtred[i].teacher.User_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+name.first_name+' '+name.last_name+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+html+'</span></div>' ;
+
+		if(!jQuery.isEmptyObject(filtred[i].teacher.teachersAbsenceDelay.Absences)) {
+			dynamicListRows +='<span class="sections-main-sub-container-left-card-satuts red-color">Absence</span>';
+		}else if(!jQuery.isEmptyObject(filtred[i].teacher.teachersAbsenceDelay.Retards)) {
+			dynamicListRows +='<span class="sections-main-sub-container-left-card-satuts blue-color">Retard</span>';
+		}
+
+		dynamicListRows +='</div>';
+	  
 	}
 
   }
@@ -673,7 +741,24 @@ document.getElementById("search-teacher").addEventListener('input', function (ev
 							html += filtred[i].classes[j].Classe_Label + " ";
 						}
 					  	
-					  	dynamicListRows +='<div class="'+active+' sections-main-sub-container-left-card row-teacher"><img class="sections-main-sub-container-left-card-main-img" src="'+filtred[i].teacher.User_Image+'" alt="card-img"><span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper"></span><input name="teacherId" type="hidden" value="'+filtred[i].teacher.User_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+name.first_name+' '+name.last_name+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+html+'</span></div></div>';
+						dynamicListRows +='<div ';
+
+						if(!jQuery.isEmptyObject(filtred[i].teacher.teachersAbsenceDelay.Absences)) {
+							dynamicListRows +='data-absence="1" ';
+						}else if(!jQuery.isEmptyObject(filtred[i].teacher.teachersAbsenceDelay.Retards)) {
+							dynamicListRows +='data-retard="1" ';
+						}
+
+						dynamicListRows += 'class="'+active+' sections-main-sub-container-left-card row-teacher"><img class="sections-main-sub-container-left-card-main-img" src="'+filtred[i].teacher.User_Image+'" alt="card-img"><span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper"></span><input name="teacherId" type="hidden" value="'+filtred[i].teacher.User_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+name.first_name+' '+name.last_name+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+html+'</span></div>' ;
+
+						if(!jQuery.isEmptyObject(filtred[i].teacher.teachersAbsenceDelay.Absences)) {
+							dynamicListRows +='<span class="sections-main-sub-container-left-card-satuts red-color">Absence</span>';
+						}else if(!jQuery.isEmptyObject(filtred[i].teacher.teachersAbsenceDelay.Retards)) {
+							dynamicListRows +='<span class="sections-main-sub-container-left-card-satuts blue-color">Retard</span>';
+						}
+
+						dynamicListRows +='</div>';
+
 					}
 
 
@@ -1145,7 +1230,25 @@ function saveteacher() {
 					  					html += res.teachers[i].classes[j].Classe_Label + " ";
 					  				}
 
-						  			$('#list_teachers').append('<div class="'+active+' sections-main-sub-container-left-card row-teacher"><img class="sections-main-sub-container-left-card-main-img" src="'+res.teachers[i].teacher.User_Image+'" alt="card-img"><input name="teacherId" type="hidden" value="'+res.teachers[i].teacher.User_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+name.first_name+' '+name.last_name+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+html+'</span></div></div>')
+					  				dynamicListRows +='<div ';
+
+									if(!jQuery.isEmptyObject(res.teachers[i].teacher.teachersAbsenceDelay.Absences)) {
+										dynamicListRows +='data-absence="1" ';
+									}else if(!jQuery.isEmptyObject(res.teachers[i].teacher.teachersAbsenceDelay.Retards)) {
+										dynamicListRows +='data-retard="1" ';
+									}
+
+									dynamicListRows += 'class="'+active+' sections-main-sub-container-left-card row-teacher"><img class="sections-main-sub-container-left-card-main-img" src="'+res.teachers[i].teacher.User_Image+'" alt="card-img"><span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper"></span><input name="teacherId" type="hidden" value="'+res.teachers[i].teacher.User_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+name.first_name+' '+name.last_name+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+html+'</span></div>' ;
+
+									if(!jQuery.isEmptyObject(res.teachers[i].teacher.teachersAbsenceDelay.Absences)) {
+										dynamicListRows +='<span class="sections-main-sub-container-left-card-satuts red-color">Absence</span>';
+									}else if(!jQuery.isEmptyObject(res.teachers[i].teacher.teachersAbsenceDelay.Retards)) {
+										dynamicListRows +='<span class="sections-main-sub-container-left-card-satuts blue-color">Retard</span>';
+									}
+
+									dynamicListRows +='</div>';
+
+						  			$('#list_teachers').append(dynamicListRows);
 						  		}
 						  	}
 						  });
@@ -1323,6 +1426,8 @@ function saveChange() {
 
 	  		$("#EditTeacherModal").modal('hide');
 
+	  					addAnimation();
+
 		  				/****************______getAllteachers()_____________**************/
 
 					  	 	$('.row-teacher').remove();
@@ -1370,7 +1475,25 @@ function saveChange() {
 						  					html += res.teachers[i].classes[j].Classe_Label + " ";
 						  				}
 
-							  			$('#list_teachers').append('<div class="'+active+' sections-main-sub-container-left-card row-teacher"><img class="sections-main-sub-container-left-card-main-img" src="'+res.teachers[i].teacher.User_Image+'" alt="card-img"><input name="teacherId" type="hidden" value="'+res.teachers[i].teacher.User_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+name.first_name+' '+name.last_name+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+html+'</span></div></div>')
+						  				dynamicListRows ='<div ';
+
+							  			if(!jQuery.isEmptyObject(res.teachers[i].teacher.teachersAbsenceDelay.Absences)) {
+						  					dynamicListRows +='data-absence="1" ';
+						  				}else if(!jQuery.isEmptyObject(res.teachers[i].teacher.teachersAbsenceDelay.Retards)) {
+						  					dynamicListRows +='data-retard="1" ';
+						  				}
+
+							  			dynamicListRows += 'class="'+active+' sections-main-sub-container-left-card row-teacher"><img class="sections-main-sub-container-left-card-main-img" src="'+res.teachers[i].teacher.User_Image+'" alt="card-img"><span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper"></span><input name="teacherId" type="hidden" value="'+res.teachers[i].teacher.User_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+name.first_name+' '+name.last_name+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+html+'</span></div>' ;
+
+							  			if(!jQuery.isEmptyObject(res.teachers[i].teacher.teachersAbsenceDelay.Absences)) {
+						  					dynamicListRows +='<span class="sections-main-sub-container-left-card-satuts red-color">Absence</span>';
+						  				}else if(!jQuery.isEmptyObject(res.teachers[i].teacher.teachersAbsenceDelay.Retards)) {
+						  					dynamicListRows +='<span class="sections-main-sub-container-left-card-satuts blue-color">Retard</span>';
+						  				}
+
+						  				dynamicListRows +='</div>';
+
+							  			$('#list_teachers').append(dynamicListRows);
 							  		}
 							  	}
 							  });
@@ -1396,6 +1519,8 @@ function saveChange() {
 								$('#EditTeacherModal').find('input[name="email"]').parent(".form-group").removeClass("form-input-error");
 							}
 				  	}
+
+				  	removeAnimation();
 
 				  });
 			 	
@@ -1527,7 +1652,83 @@ if ($('#AddTeacherAbsenceModal').find('input[data-val="Absence"]:checked').val()
 				    scrollbar: true
 
 				});
-		  		displayteacher(teacherId);
+		  		
+		  			 addAnimation();
+
+		  				/****************______getAllteachers()_____________**************/
+
+					  	 	$('.row-teacher').remove();
+
+							$.ajax({
+							    type: 'get',
+							    url: '/Teachers/all',
+							    dataType: 'json'
+							  })
+							  .done(function(res){
+							  	if(res.errors){
+							  	  console.log(res.errors)
+							  	} else {
+							  		teachers = res.teachers;
+							  		console.log('Teachers!!',teachers);
+							  		filtredClass = res.teachers;
+							  		if (teacherId){
+							  			displayteacher(teacherId);
+							  		}
+							  		else if (res.teachers.length > 0){
+							  			displayteacher(res.teachers[res.teachers.length - 1].teacher.User_ID);
+							  		}
+							  		var active = '';
+							  		for (var i = res.teachers.length - 1; i >= 0; i--) {
+							  			if (teacherId){
+							  				if(res.teachers[i].teacher.User_ID === teacherId){
+							  					active = 'active';
+							  				}
+							  				else{
+							  					active = ''
+							  				}
+							  			}else{
+								  			if (i === res.teachers.length - 1){
+								  				active = 'active';
+								  			}
+								  			else{
+								  				active = '';
+								  			}
+								  		}
+
+							  			var name = JSON.parse(res.teachers[i].teacher.User_Name);
+							  			var html = '';
+
+						  				for (var j = res.teachers[i].classes.length - 1; j >= 0; j--) {
+						  					html += res.teachers[i].classes[j].Classe_Label + " ";
+						  				}
+
+						  				dynamicListRows ='<div ';
+
+							  			if(!jQuery.isEmptyObject(res.teachers[i].teacher.teachersAbsenceDelay.Absences)) {
+						  					dynamicListRows +='data-absence="1" ';
+						  				}else if(!jQuery.isEmptyObject(res.teachers[i].teacher.teachersAbsenceDelay.Retards)) {
+						  					dynamicListRows +='data-retard="1" ';
+						  				}
+
+							  			dynamicListRows += 'class="'+active+' sections-main-sub-container-left-card row-teacher"><img class="sections-main-sub-container-left-card-main-img" src="'+res.teachers[i].teacher.User_Image+'" alt="card-img"><span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper"></span><input name="teacherId" type="hidden" value="'+res.teachers[i].teacher.User_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+name.first_name+' '+name.last_name+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+html+'</span></div>' ;
+
+							  			if(!jQuery.isEmptyObject(res.teachers[i].teacher.teachersAbsenceDelay.Absences)) {
+						  					dynamicListRows +='<span class="sections-main-sub-container-left-card-satuts red-color">Absence</span>';
+						  				}else if(!jQuery.isEmptyObject(res.teachers[i].teacher.teachersAbsenceDelay.Retards)) {
+						  					dynamicListRows +='<span class="sections-main-sub-container-left-card-satuts blue-color">Retard</span>';
+						  				}
+
+						  				dynamicListRows +='</div>';
+
+							  			$('#list_teachers').append(dynamicListRows);
+							  		}
+
+							  		removeAnimation();
+							  	}
+							  });
+
+					  	/****************______getAllteachers()_____________**************/
+
 		  	} else {
 		  		console.log("not saved");
 		  	}
@@ -1763,5 +1964,139 @@ function readFileTeacher() {
 
 if (document.getElementById("img-profile-teacher")){
 	document.getElementById("img-profile-teacher").addEventListener("change", readFileTeacher);
+}
+
+
+
+/*.sections-main-sub-container-right-main-header-option-list-span-edit __________________________*/
+
+	$(document).on("click",".sections-main-sub-container-right-main-header-option-list-li-edit",function(){
+		$('#EditStudentModal').modal('show');
+	});
+
+/*.sections-main-sub-container-right-main-header-option-list-span-edit __________________________*/
+
+$(document).on("click",".dynamic-form-input-dropdown-options-search li",function(event){
+
+		addAnimation();
+
+		$this = $(this);
+
+		$text = $(this).attr("data-val");
+		$ad_val = $(this).attr("data-ad-val");
+
+		console.log("text",$text);
+
+		$this_Parent =$this.parents(".sections-main-sub-container-left-search-bar");
+
+		if($(this).attr("data-id") == "0"){
+			$(this).parents(".dynamic-form-input-float-adjust").find(".interaction_icon_main").attr("src","assets/icons/emoji_good.svg");
+		}else{
+			$(this).parents(".dynamic-form-input-float-adjust").find(".interaction_icon_main").attr("src","assets/icons/emoji_bad.svg");
+		}
+
+		$this_Parent.find(".form-group-search-filter").find(".input-dropdown").val(" ");
+		
+		$this_Parent.find(".form-group-search-filter").find(".input-text-dropdown-search").attr("readonly","readonly");
+
+		$this.parent().find(".dynamic-form-input-dropdown-options").css({"opacity":"0"});
+
+		if($this_Parent.find(".dynamic-form-input-dropdown-container").find(".input-dropdown").val() =="" 
+			|| $this_Parent.find(".dynamic-form-input-dropdown-container").find(".input-dropdown").val()  == null ){
+
+			setTimeout(function(){
+
+				$this_Parent.find(".form-group-search-filter").find(".input-text-dropdown-search").val(" ");
+
+				setTimeout(function(){
+					$this_Parent.find(".form-group-search-filter").find(".input-text-dropdown-search").val($text);
+					$this_Parent.find(".form-group-search-filter").find(".input-text-dropdown-search").attr("data-ad-val",$ad_val);
+					$this_Parent.find(".dynamic-form-input-dropdown-options-search").siblings(".icon").attr("src","assets/icons/sidebar_icons/close.svg");
+					$this_Parent.find(".dynamic-form-input-dropdown-options-search").siblings(".icon").addClass("input-text-empty");
+				},180);
+
+			},5);
+			
+		}else{
+				$this_Parent.find(".form-group-search-filter").find(".input-text-dropdown-search").val($text);
+				$this_Parent.find(".form-group-search-filter").find(".input-text-dropdown-search").attr("data-ad-val",$ad_val);
+				$this_Parent.find(".dynamic-form-input-dropdown-options-search").siblings(".icon").attr("src","assets/icons/sidebar_icons/close.svg");
+				$this_Parent.find(".dynamic-form-input-dropdown-options-search").siblings(".icon").addClass("input-text-empty");
+		}
+		
+		setTimeout(function(){
+			$(".dynamic-form-input-dropdown-options").css("cssText","display:none");
+		},1);
+
+		/****************************************************/
+
+		$(".row-teacher").addClass("hidden");
+
+		if($(this).attr("data-ad-val") == 0 ){
+
+			$(".row-teacher").each(function(ind,elem){
+				if($(this).is("[data-retard]")){
+					$(this).removeClass("hidden");
+				}
+			});
+
+		}
+
+		if($(this).attr("data-ad-val") == 1 ){
+
+			$(".row-teacher").each(function(ind,elem){
+				if($(this).is("[data-absence]")){
+					$(this).removeClass("hidden");
+				}
+			});
+
+		}
+
+		removeAnimation();
+
+  		if($(".row-teacher").length == $(".row-teacher.hidden").length ){
+			$HeaderFeedBack = "No result found !";
+			$SubHeaderFeedBack = "";
+			$IconFeedBack = "404_students.png";
+			no_Result_FeedBack($HeaderFeedBack,$SubHeaderFeedBack,$IconFeedBack);
+			no_Result_FeedBack($HeaderFeedBack,$SubHeaderFeedBack,$IconFeedBack);
+  		}
+
+		/****************************************************/
+
+		event.preventDefault();
+		event.stopPropagation();
+		return false;
+
+
+});
+
+$(document).on("click",".input-text-dropdown-search",function(event){
+
+	var attr = $(this).attr('data-ad-val');
+
+	if (typeof attr !== typeof undefined && attr !== false) {
+
+		$(this).val("");
+		$(this).removeAttr("readonly");
+		$(this).siblings(".input-text-empty").removeClass("input-text-empty");
+		$(".sections-main-sub-container-left-card").removeClass("hidden");
+
+		event.preventDefault();
+		event.stopPropagation();
+		return false;
+	}
+
+});
+
+function addAnimation(){
+	$(".sections-main-sub-container-left-card-main-img-text").removeClass("hide-loading-helper");
+	addLoadingAnimation($detailsSelector,$headerInfo);
+  	addSideBarLoadingAnimation($sideSelector);
+}
+
+function removeAnimation(){
+	removeSideBarLoadingAnimation($sideSelector);		
+	removeLoadingAnimation($detailsSelector,$headerInfo);
 }
 
