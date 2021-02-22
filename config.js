@@ -1,4 +1,4 @@
-/* local 
+/* local */
 
 module.exports = {
   sessionSecret: '***REMOVED***',
@@ -16,7 +16,7 @@ module.exports = {
 
 /************************
 
-/* server */
+/* server 
 module.exports = {
   sessionSecret: '***REMOVED***',
   // ports

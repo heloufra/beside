@@ -43,6 +43,7 @@ function getAllStudents(id) {
 	  		console.log(res.errors)
 	  	} else {
 	  		students = res.students;
+	  		SortStudentList(students);
 	  		console.log('Students!!',students);
 	  		filtredClass = res.students;
 	  		subclasses = res.subscription;
@@ -210,6 +211,7 @@ $('#classes_list').find('input[name=classe]').on( "change", function() {
 	var filtred = students.filter(function (el) {
 			  return el.Classe_Label === value ;
 			});
+	SortStudentList(filtred);
 	if (value === "All"){
 		filtred = students;
 	}
@@ -228,6 +230,7 @@ $('#classes_list').find('input[name=classe]').on( "change", function() {
 				var backname = el.Student_LastName.toLowerCase()+el.Student_FirstName.toLowerCase();
 			  return forname.match(value) || backname.match(value);
 		});
+		SortStudentList(filtred);
 	}
 
 	/*** end serach input isset  ***/
@@ -297,6 +300,8 @@ if (document.getElementById("search-input")){
 				  return forname.match(value) || backname.match(value);
 			});
 
+			SortStudentList(filtred);
+
 			/** class dropdown isset ****/
 
 			var dropDownvalue = $('#classes_list').find('input[name=classe]').attr("data-val");
@@ -350,6 +355,8 @@ if (document.getElementById("search-input")){
 	 	} else {
 
 	 		var filtred = students ;
+
+	 		SortStudentList(filtred);
 
 			/** class dropdown isset ****/
 
@@ -439,6 +446,7 @@ if (document.getElementById("search-input")){
 				addSideBarLoadingAnimation($sideSelector);
 
 		 		var filtred = students ;
+		 		SortStudentList(filtred);
 
 		 		/** class dropdown isset ****/
 

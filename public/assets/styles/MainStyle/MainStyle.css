@@ -1618,7 +1618,7 @@ input:focus ~ label,input:valid ~ label{
 	margin:0px;
 	font-size: 0px;
 	margin-right: 12px;
-	object-fit: contain;
+	object-fit: cover;
 }
 
 .sections-main-container .side-bar-header-conatiner .side-bar-brand-label{
@@ -1778,6 +1778,7 @@ input:focus ~ label,input:valid ~ label{
     float: right;
     margin: 8px 16px;
     cursor: pointer;
+    object-fit: cover;
 }
 
 .sub-container-nav-bar-img-animation{
@@ -2197,7 +2198,7 @@ input:focus ~ label,input:valid ~ label{
 }
 
 .sections-main-sub-container-left-card-info{
-	width: calc( 100% - 50px ) !important;
+	width: calc( 100% - 115px ) !important;
 	margin-right: 8px;
 }
 

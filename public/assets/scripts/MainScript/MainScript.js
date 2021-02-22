@@ -3784,3 +3784,47 @@ $(document).on('paste','.input-user-code', function() {
 });
 
 /* End blur input-user-code _________________*/
+
+
+/**__ Sort Users____________________________**/
+
+function SortTeacherList(List_){
+
+	List_.sort(function(a, b){
+
+		var nameA = JSON.parse(a.teacher.User_Name);
+		var fullNameA = String(nameA.first_name+""+nameA.last_name).toLowerCase();
+		
+		var nameB = JSON.parse(b.teacher.User_Name);
+		var fullNameB = String(nameB.first_name+""+nameB.last_name).toLowerCase();
+
+	    if(fullNameA < fullNameB) { return 1; }
+	    if(fullNameA > fullNameB) { return -1; }
+	    return 0;
+
+	});
+
+	return List_ ;
+
+}
+
+function SortStudentList(List_){
+
+	List_.sort(function(a, b){
+
+		var fullNameA = String(a.Student_FirstName+""+a.Student_LastName).toLowerCase();
+		
+		var fullNameB = String(b.Student_FirstName+""+b.Student_LastName).toLowerCase();
+
+	    if(fullNameA < fullNameB) { return 1; }
+	    if(fullNameA > fullNameB) { return -1; }
+	    return 0;
+
+	});
+
+	return List_ ;
+	
+}
+
+/**__ Sort Users____________________________**/
+

@@ -36,7 +36,9 @@ function getAllteachers(id) {
 	  	if(res.errors){
 	  	  console.log(res.errors)
 	  	} else {
+
 	  		teachers = res.teachers;
+	  		SortTeacherList(teachers);
 	  		console.log('Teachers!!',teachers);
 	  		filtredClass = res.teachers;
 	  		if (id){
@@ -515,6 +517,9 @@ $('.teacher-filters').on("change", function() {
 
 		  	if( classeVal == "All" && subjectVal == "All") {
 
+
+				SortTeacherList(teachers);
+
 		  		teacherPrev = teachers;
 
 		  	}else{
@@ -618,6 +623,8 @@ document.getElementById("search-teacher").addEventListener('input', function (ev
 			  return forname.match(value) || backname.match(value);
 	});
 
+	SortTeacherList(filtred);
+
 	for (var i = filtred.length - 1; i >= 0; i--) {
 		if (i === filtred.length - 1)
 		{
@@ -655,6 +662,8 @@ document.getElementById("search-teacher").addEventListener('input', function (ev
 
 
   	var filtred = teachers;
+
+  	SortTeacherList(filtred);
 
 	for (var i = filtred.length - 1; i >= 0; i--) {
 		if (i === filtred.length - 1)
@@ -727,6 +736,8 @@ document.getElementById("search-teacher").addEventListener('input', function (ev
 					addSideBarLoadingAnimation($sideSelector);
 
 			  		var filtred = teachers;
+
+			  		SortTeacherList(filtred);
 
 					for (var i = filtred.length - 1; i >= 0; i--) {
 						if (i === filtred.length - 1)
@@ -1196,6 +1207,7 @@ function saveteacher() {
 						  	  console.log(res.errors)
 						  	} else {
 						  		teachers = res.teachers;
+						  		SortTeacherList(teachers);
 						  		console.log('Teachers!!',teachers);
 						  		filtredClass = res.teachers;
 						  		teacherId = teachers[teachers.length];
@@ -1442,6 +1454,7 @@ function saveChange() {
 							  	  console.log(res.errors)
 							  	} else {
 							  		teachers = res.teachers;
+							  		SortTeacherList(teachers);
 							  		console.log('Teachers!!',teachers);
 							  		filtredClass = res.teachers;
 							  		if (teacherId){
@@ -1669,6 +1682,7 @@ if ($('#AddTeacherAbsenceModal').find('input[data-val="Absence"]:checked').val()
 							  	  console.log(res.errors)
 							  	} else {
 							  		teachers = res.teachers;
+							  		SortTeacherList(teachers);
 							  		console.log('Teachers!!',teachers);
 							  		filtredClass = res.teachers;
 							  		if (teacherId){
