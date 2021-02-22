@@ -912,7 +912,7 @@ function savePayment() {
 	  	if(res.saved)
 	  	{
 	  		$("#FinanceModal").modal('hide');
-	  		displayStudent(studentId);
+	  		getAllStudents(studentId);
 	  	} else {
 	  		console.log(res);
 	  	}
@@ -1688,7 +1688,7 @@ function updateAbsence() {
 	  	if(res.updated)
 	  	{
 	  		$('#EditAbsenceModal').modal('hide');
-	  		displayStudent(studentId);
+	  		getAllStudents(studentId);
 	  	} else {
 	  		console.log(res);
 	  		$('#EditAbsenceModal').modal('hide');
@@ -1734,7 +1734,7 @@ function updateAttitude() {
 		  	if(res.updated)
 		  	{
 		  		$('#EditAttitudeModal').modal('hide');
-		  		displayStudent(studentId);
+		  		getAllStudents(studentId);
 		  	} else {
 		  		console.log(res);
 		  		$('#EditAttitudeModal').modal('hide');
@@ -1881,7 +1881,7 @@ function saveAbsence() {
 				    scrollbar: true
 
 				});
-		  		displayStudent(studentId);
+		  		getAllStudents(studentId);
 		  	} else {
 		  		console.log("not saved");
 		  	}
@@ -1955,7 +1955,7 @@ function saveAttitude() {
 		  		$("#attitude_table").removeClass('hidden');
 		  		$("#attitude_title").removeClass('hidden');
 		  		$('#AddAttitudeModal').modal('hide');
-		  		displayStudent(studentId);
+		  		getAllStudents(studentId);
 		  	} else {
 		  		console.log("not saved");
 		  	}
@@ -2051,5 +2051,23 @@ $(document).on("click",".dynamic-form-input-dropdown-options-search li",function
 		event.stopPropagation();
 		return false;
 
+
+});
+
+$(document).on("click",".input-text-dropdown-search",function(event){
+
+	var attr = $(this).attr('data-ad-val');
+
+	if (typeof attr !== typeof undefined && attr !== false) {
+
+		$(this).val("");
+		$(this).removeAttr("readonly");
+		$(this).siblings(".input-text-empty").removeClass("input-text-empty");
+		$(".sections-main-sub-container-left-card").removeClass("hidden");
+
+		event.preventDefault();
+		event.stopPropagation();
+		return false;
+	}
 
 });
