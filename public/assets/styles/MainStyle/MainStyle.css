@@ -2198,6 +2198,11 @@ input:focus ~ label,input:valid ~ label{
 }
 
 .sections-main-sub-container-left-card-info{
+	width: calc( 100% - 50px ) !important;
+	margin-right: 8px;
+}
+
+.sections-main-sub-container-left .sections-main-sub-container-left-card-info{
 	width: calc( 100% - 115px ) !important;
 	margin-right: 8px;
 }
@@ -5628,6 +5633,10 @@ table td img {
 .dashboard-card-info-progress .progress-bar{
 	background:var(--dashboard-progressbar-bg-color);
 	box-shadow: unset;
+}
+
+.counter-span-container{
+	font-size: 14px;
 }
 
 /*************** End dashboard-card-info *************************/

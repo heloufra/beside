@@ -420,13 +420,6 @@ $(document).ready(function(){
 
 	$('head').append(script);
 
-	var script = `<script type="text/javascript" src="https://cdn2.hubspot.net/hubfs/476360/Chart.js"></script>
-				  <script type="text/javascript" src="https://cdn2.hubspot.net/hubfs/476360/utils.js"></script>`;
-
-
-	$('head').append(script);
-
-
 	$(document).on("click",".setup-main-container",function(){
 
 		$(".dynamic-form-input-dropdown-options").css({"opacity":"0"});

@@ -6,8 +6,10 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
  <%- include('./partials/main'); %>
+
+ <script type="text/javascript" src="https://cdn2.hubspot.net/hubfs/476360/Chart.js"></script>
+ <script type="text/javascript" src="https://cdn2.hubspot.net/hubfs/476360/utils.js"></script>
 
 </head>
 
@@ -44,9 +46,9 @@
 
                       <!-- dashboard-card-info -->
                       <div class="dashboard-card-info">
-                          <span class="dashboard-card-info-label">Students</span>
-                          <span class="dashboard-card-info-sub-label">Number of absent students</span>
-                          <span class="dashboard-card-info-counter"><%= studentAD %></span>
+                          <span class="dashboard-card-info-label">Students (2000) </span>
+                          <span class="dashboard-card-info-sub-label">Number of absent students </span>
+                          <span class="dashboard-card-info-counter"> 3 <span class="counter-span-container"> (<span class="red-color">Absence : <%= studentAD %></span> - <span class="blue-color"> Retard : 2 </span> )</span> </span>
                           <div class="progress dashboard-card-info-progress">
                             <div class="progress-bar" role="progressbar" aria-valuenow="<%= percentageS %>" 
                                  aria-valuemin="0" aria-valuemax="100" style="<%= 'width:'+ percentageS + '%' %>"></div>
@@ -56,9 +58,9 @@
 
                       <!-- dashboard-card-info -->
                       <div class="dashboard-card-info">
-                          <span class="dashboard-card-info-label">Teachers</span>
+                          <span class="dashboard-card-info-label">Teachers (100)</span>
                           <span class="dashboard-card-info-sub-label">Number of absent teachers</span>
-                          <span class="dashboard-card-info-counter"><%= teacherAD %></span>
+                          <span class="dashboard-card-info-counter"> 3 <span class="counter-span-container"> (<span class="red-color">Absence : <%= teacherAD %></span> - <span class="blue-color"> Retard : 1 </span> )</span> </span>
                           <div class="progress dashboard-card-info-progress">
                             <div class="progress-bar" role="progressbar" aria-valuenow="<%= percentageT %>" 
                                  aria-valuemin="0" aria-valuemax="100" style="<%= 'width:'+ percentageT + '%' %>"></div>
@@ -69,8 +71,9 @@
                       <!-- dashboard-card-info -->
                       <div class="dashboard-card-info">
                           <span class="dashboard-card-info-label">Finances</span>
-                          <span class="dashboard-card-info-sub-label">Revenue for this month</span>
-                          <span class="dashboard-card-info-counter"><%= totalPay ? totalPay : 0 %><span class="dashboard-card-info-counter-currency"> MAD</span> </span>
+                          <span class="dashboard-card-info-sub-label">Revenue for February </span>
+                          <span class="dashboard-card-info-counter"> 10000 <span class="dashboard-card-info-counter-currency"> MAD (</span>
+                            <span class="counter-span-container"> <span class="blue-color">Current : <%= totalPay ? totalPay : 0 %><span class="dashboard-card-info-counter-currency"> MAD</span> = 25% </span>  </span> ) </span>
                           <div class="progress dashboard-card-info-progress">
                             <div class="progress-bar" role="progressbar" aria-valuenow="<%= percentagePay %>" 
                                  aria-valuemin="0" aria-valuemax="100" style="<%= 'width:'+ percentagePay + '%' %>"></div>
@@ -136,7 +139,7 @@
                                                 <input type="text" value="Today" name="filter-absence" class="input-dropdown filter-absence" placeholder="Period"  required>
                                                 <img class="icon button-icon" src="assets/icons/date_icon.svg">
                                                 <ul class="dynamic-form-input-dropdown-options">
-                                                    <li data-val="This year">This year </li>
+                                                    <li data-val="This year">This Year </li>
                                                     <li data-val="This Month">This Month </li>
                                                     <li data-val="Today">Today </li>
                                                 </ul>
@@ -219,9 +222,8 @@
                                                 <input type="text" value="This Month" class="input-dropdown" placeholder="Period"  required>
                                                 <img class="icon button-icon" src="assets/icons/date_icon.svg">
                                                 <ul class="dynamic-form-input-dropdown-options">
-                                                    <li data-val="This year">This year </li>
+                                                    <li data-val="This year">This Year </li>
                                                     <li data-val="This Month">This Month </li>
-                                                    <li data-val="Today">Today </li>
                                                 </ul>
                                               </div>
                                               </div>

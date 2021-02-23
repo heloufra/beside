@@ -18,32 +18,80 @@ function getAbsences() {
 	  	{
 	  		console.log(res.errors)
 	  	} else {
+
 	  		absencesT= res.absencesT;
             absencesS = res.absencesS;
-            var filtredT = absencesT.filter(absence =>{ 
-	 		var addDate = new Date(absence.teacher.AD_Addeddate);
-		 		if (absence.teacher.AD_Date !== 'null')
-		 			return (absence.teacher.AD_Date === currentDate) || addDate.toDateString() === today.toDateString();
-		 		else
-		 		{
-		 			var fromTo = JSON.parse(absence.teacher.AD_FromTo);
-		 			return ((fromTo.from.split('/')[0] <= currentDate.split('/')[0] && fromTo.from.split('/')[1] <= currentDate.split('/')[1]) && (fromTo.to.split('/')[0] >= currentDate.split('/')[0] && fromTo.to.split('/')[1] >= currentDate.split('/')[1])) || addDate.toDateString() === today.toDateString();
-		 		}
-		 	})
+            var Today = new Date();
+     	 	Today = Today.toISOString().slice(0,10);
+
+            var filtredT = absencesT.filter(absence =>{
+
+			 	if(absence.teacher.AD_Type == 2){
+	                  AD_FromTo = JSON.parse(absence.teacher.AD_FromTo);
+	                  AD_From   = AD_FromTo.from;
+	                  AD_To     = AD_FromTo.to;
+	                  AD_From =  dateConvert(AD_From);
+	                  AD_To   =  dateConvert(AD_To);
+	                  return dateBetween(AD_From,AD_To,Today);
+	            }else{
+		              AD_FromTo  =  absence.teacher.AD_Date;
+		              AD_FromTo  =  dateConvert(AD_FromTo);
+		              if(absence.teacher.AD_Type == 0){
+		                AD_FromTo  =  absence.teacher.AD_Date;
+		                AD_FromTo  =  dateConvert(AD_FromTo);
+		                return dateBetween(AD_FromTo,AD_FromTo,Today);
+		              }else{
+		                return dateBetween(AD_FromTo,AD_FromTo,Today);
+		              }       
+	            }
+
+		 	});
+
 		 	var filtredS = absencesS.filter(absence =>{ 
-		 		var addDate = new Date(absence.student.AD_Addeddate);
-		 		if (absence.student.AD_Date !== 'null')
-		 			return absence.student.AD_Date === currentDate || addDate.toDateString() === today.toDateString();
-		 		else
-		 		{
-		 			var fromTo = JSON.parse(absence.student.AD_FromTo);
-		 			return ((fromTo.from.split('/')[0] <= currentDate.split('/')[0] && fromTo.from.split('/')[1] <= currentDate.split('/')[1]) && (fromTo.to.split('/')[0] >= currentDate.split('/')[0] && fromTo.to.split('/')[1] >= currentDate.split('/')[1])) || addDate.toDateString() === today.toDateString();
-		 		}
+			 	if(absence.student.AD_Type == 2){
+	                  AD_FromTo = JSON.parse(absence.student.AD_FromTo);
+	                  AD_From   = AD_FromTo.from;
+	                  AD_To     = AD_FromTo.to;
+	                  AD_From =  dateConvert(AD_From);
+	                  AD_To   =  dateConvert(AD_To);
+	                  return dateBetween(AD_From,AD_To,Today);
+	            }else{
+		              AD_FromTo  =  absence.student.AD_Date;
+		              AD_FromTo  =  dateConvert(AD_FromTo);
+		              if(absence.student.AD_Type == 0){
+		                AD_FromTo  =  absence.student.AD_Date;
+		                AD_FromTo  =  dateConvert(AD_FromTo);
+		                return dateBetween(AD_FromTo,AD_FromTo,Today);
+		              }else{
+		                return dateBetween(AD_FromTo,AD_FromTo,Today);
+		              }       
+	            }
 		 	})
+
           	displayTAbsences(filtredT);
           	displaySAbsences(filtredS);
 	  	}
 	  });
+}
+
+
+function dateConvert(date) {
+  	return  date = date.split("/").reverse().join("-");
+}
+
+function dateBetween(from,to,check) {
+
+	var fDate,lDate,cDate;
+	fDate = Date.parse(from);
+	lDate = Date.parse(to);
+	cDate = Date.parse(check);
+
+	if((cDate <= lDate && cDate >= fDate)) {
+	    return true;
+	}
+
+	return false;
+
 }
 
 function getPayments()
@@ -229,25 +277,51 @@ $('.filter-absence').change(function () {
 		 	})
 		} else if ($('input[name="filter-absence"]').val() === 'Today')
 		{
-			filtredT = filtredT.filter(absence =>{ 
-	 		var addDate = new Date(absence.teacher.AD_Addeddate);
-		 		if (absence.teacher.AD_Date !== 'null')
-		 			return (absence.teacher.AD_Date === currentDate) || addDate.toDateString() === today.toDateString();
-		 		else
-		 		{
-		 			var fromTo = JSON.parse(absence.teacher.AD_FromTo);
-		 			return ((fromTo.from.split('/')[0] <= currentDate.split('/')[0] && fromTo.from.split('/')[1] <= currentDate.split('/')[1]) && (fromTo.to.split('/')[0] >= currentDate.split('/')[0] && fromTo.to.split('/')[1] >= currentDate.split('/')[1])) || addDate.toDateString() === today.toDateString();
-		 		}
-		 	})
-		 	filtredS = filtredS.filter(absence =>{ 
-		 		var addDate = new Date(absence.student.AD_Addeddate);
-		 		if (absence.student.AD_Date !== 'null')
-		 			return absence.student.AD_Date === currentDate || addDate.toDateString() === today.toDateString();
-		 		else
-		 		{
-		 			var fromTo = JSON.parse(absence.student.AD_FromTo);
-		 			return ((fromTo.from.split('/')[0] <= currentDate.split('/')[0] && fromTo.from.split('/')[1] <= currentDate.split('/')[1]) && (fromTo.to.split('/')[0] >= currentDate.split('/')[0] && fromTo.to.split('/')[1] >= currentDate.split('/')[1])) || addDate.toDateString() === today.toDateString();
-		 		}
+			var Today = new Date();
+	 	 	Today = Today.toISOString().slice(0,10);
+
+	        var filtredT = absencesT.filter(absence =>{
+
+			 	if(absence.teacher.AD_Type == 2){
+	                  AD_FromTo = JSON.parse(absence.teacher.AD_FromTo);
+	                  AD_From   = AD_FromTo.from;
+	                  AD_To     = AD_FromTo.to;
+	                  AD_From =  dateConvert(AD_From);
+	                  AD_To   =  dateConvert(AD_To);
+	                  return dateBetween(AD_From,AD_To,Today);
+	            }else{
+		              AD_FromTo  =  absence.teacher.AD_Date;
+		              AD_FromTo  =  dateConvert(AD_FromTo);
+		              if(absence.teacher.AD_Type == 0){
+		                AD_FromTo  =  absence.teacher.AD_Date;
+		                AD_FromTo  =  dateConvert(AD_FromTo);
+		                return dateBetween(AD_FromTo,AD_FromTo,Today);
+		              }else{
+		                return dateBetween(AD_FromTo,AD_FromTo,Today);
+		              }       
+	            }
+
+		 	});
+
+		 	var filtredS = absencesS.filter(absence =>{ 
+			 	if(absence.student.AD_Type == 2){
+	                  AD_FromTo = JSON.parse(absence.student.AD_FromTo);
+	                  AD_From   = AD_FromTo.from;
+	                  AD_To     = AD_FromTo.to;
+	                  AD_From =  dateConvert(AD_From);
+	                  AD_To   =  dateConvert(AD_To);
+	                  return dateBetween(AD_From,AD_To,Today);
+	            }else{
+		              AD_FromTo  =  absence.student.AD_Date;
+		              AD_FromTo  =  dateConvert(AD_FromTo);
+		              if(absence.student.AD_Type == 0){
+		                AD_FromTo  =  absence.student.AD_Date;
+		                AD_FromTo  =  dateConvert(AD_FromTo);
+		                return dateBetween(AD_FromTo,AD_FromTo,Today);
+		              }else{
+		                return dateBetween(AD_FromTo,AD_FromTo,Today);
+		              }       
+	            }
 		 	})
 		}
 	 }
@@ -292,7 +366,8 @@ $('input[name=filter-payments]').change(function () {
 	/* Chart.js _______________________________________________*/
 
 function ChartJS() {
-		$chartDays = [];
+	
+	$chartDays = [];
 
 	for(d=1;d<32;d++){
 		d = d < 9 ? '0'+d : d; 
@@ -468,7 +543,14 @@ function ChartJS() {
 				}
 			}
 	};
-	if (document.getElementById('canvas'))
-			var ctx = document.getElementById('canvas').getContext('2d');
-			window.myLine = new Chart(ctx, config);
+
+	if (document.getElementById('canvas')){
+		var ctx = document.getElementById('canvas').getContext('2d');
+		window.myLine = new Chart(ctx, config);
+	}
+			
 }
+
+
+
+
