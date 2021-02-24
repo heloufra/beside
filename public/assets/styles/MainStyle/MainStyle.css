@@ -5592,7 +5592,7 @@ table td img {
 
 .dashboard-card-info{
   	background: var(--white-color);
-    padding: 24px;
+    padding: 38px 24px;
     flex-basis: 32%;
     display: flex;
     flex-direction: column;
@@ -5653,7 +5653,7 @@ table td img {
 /*************** dashboard-card-table-info ***********************/
 
 .dashboard-card-table-info-container{
-	height: 351px;
+	height: 451px;
 	background:var(--white-color);
 	margin: 16px auto;
 	padding: 24px;
@@ -5693,7 +5693,7 @@ table td img {
 .dashboard-card-table-info-body .sections-main-sub-container-right-main-rows{
 	overflow: hidden;
 	overflow-y: scroll;
-	height: 235px;
+	height: 335px;
 	border:1px solid var(--input-border--color);
 	margin-top: 24px;
 	margin-bottom: 24px;
