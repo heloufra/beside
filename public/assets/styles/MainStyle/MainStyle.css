@@ -5628,6 +5628,7 @@ table td img {
 	border-radius: 3px;
 	box-shadow: unset;
 	background:var(--dashboard-bg-color);
+	margin-bottom: 8px;
 }
 
 .dashboard-card-info-progress .progress-bar{
@@ -5639,6 +5640,14 @@ table td img {
 	font-size: 14px;
 }
 
+.spacer{
+	display: inline-block;
+	width:4px;
+}
+
+.sections-main-sub-container-left-card-sub-info-date{
+	font-size: 12px !important;
+}
 /*************** End dashboard-card-info *************************/
 
 /*************** dashboard-card-table-info ***********************/
@@ -7160,6 +7169,7 @@ table td img {
 
 }
 
+
 @media screen and (max-width: 991px) {
 
 	/*************** sections-main-sub-container-left-search-bar *************
@@ -7192,8 +7202,17 @@ table td img {
 		width: 61.2%;
 	}
 
-	.sections-main-sub-container-right-main-rows .form-group.dynamic-form-input-text-container-icon{
+	.modal .sections-main-sub-container-right-main-rows .form-group.dynamic-form-input-text-container-icon ,
+	.tab-content .sections-main-sub-container-right-main-rows .form-group.dynamic-form-input-text-container-icon{
 		margin-bottom: 24px !important;
+	}
+
+	table .form-group.dynamic-form-input-text-container-icon input{
+		margin-bottom: 0px !important;
+	}
+
+	.tab-content .sections-main-sub-container-right-main-rows .form-group.dynamic-form-input-text-container-icon input{
+		margin-bottom: -24px !important;
 	}
 
 	.sections-main-sub-container-right-main-rows .col-md-6:first-child{
@@ -7767,6 +7786,4 @@ table td img {
 	.form-input-disabled .icon{
 		display: none;
 	}
-
-
 

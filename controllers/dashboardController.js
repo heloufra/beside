@@ -39,21 +39,25 @@ var dashboardController = {
                                   connection.query(Total_Expense, [academic[0].AY_ID], (err, percentagePay, fields) => {
                                       var  Total_Month_Expenses = ((percentagePay[0].total * 1) -  (totalPay[0].total*1)) ;
                                       res.render('dashboard', { 
-                                              title:'Dashboard', 
-                                              user:user[0], 
-                                              institution:institutions[0], 
-                                              classes:Allclasses,
-                                              levels:levels,
-                                              accounts,
-                                              users,
-                                              expenses,
-                                              role:req.role,
-                                              teacherAD:teacherAD.Total_Absences,
-                                              studentAD:studentAD.Total_Absences,
-                                              totalPay:totalPay[0].total,
-                                              percentageT:(teacherAD.Total_Absences * 100)/percentageT[0].total ,
-                                              percentageS:(studentAD.Total_Absences * 100)/percentageS[0].total ,
-                                              percentagePay: (totalPay[0].total * 100) / Total_Month_Expenses
+                                        title:'Dashboard', 
+                                        user:user[0], 
+                                        institution:institutions[0], 
+                                        classes:Allclasses,
+                                        levels:levels,
+                                        accounts,
+                                        users,
+                                        expenses,
+                                        role:req.role,
+                                        teacherAdAbsences:teacherAD.Total_Absences,
+                                        teacherAdRetards:teacherAD.Total_Retards,
+                                        studentAdAbsences:studentAD.Total_Absences,
+                                        studentAdRetards:studentAD.Total_Retards,
+                                        studentsTotal:percentageS[0].total,
+                                        teachersTotal:percentageT[0].total,
+                                        totalPay:totalPay[0].total,
+                                        percentageT:(100 - ((teacherAD.Total_Absences + teacherAD.Total_Retards) * 100)/percentageT[0].total) ,
+                                        percentageS:(100 - ((studentAD.Total_Absences + studentAD.Total_Retards) * 100)/percentageS[0].total) ,
+                                        percentagePay: (totalPay[0].total * 100) / Total_Month_Expenses
                                       })
                                   })
                                 })

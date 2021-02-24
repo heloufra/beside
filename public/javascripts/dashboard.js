@@ -79,6 +79,13 @@ function dateConvert(date) {
   	return  date = date.split("/").reverse().join("-");
 }
 
+function dateConvertSlashes(date) {
+
+	date = date.split("T");
+	return date[0].split("-").reverse().join("/");
+
+}
+
 function dateBetween(from,to,check) {
 
 	var fDate,lDate,cDate;
@@ -158,13 +165,15 @@ function displayPayments(payments)
 	    subScription[a.Student_ID].Expense_Cost -= parseInt(a.Expense_Cost);
 	}, Object.create(null));
 	for (var i = 0; i <= result.length - 1; i++) {
-		var date = new Date(result[i].SP_Addeddate);
-		$('#list-payments').append('<tr class="row-payments"> <td data-label="Student"> <!-- sections-main-sub-container-left-cards --> <div class="sections-main-sub-container-left-card"> <img class="sections-main-sub-container-left-card-main-img" src="'+result[i].Student_Image+'" alt="card-img"> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+result[i].Student_FirstName + ' ' + result[i].Student_LastName +'</p> <span class="sections-main-sub-container-left-card-sub-info">'+ result[i].Classe_Label +'</span> </div> </div> <!-- End sections-main-sub-container-left-cards --> </td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+ date.toDateString() +'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="Paid amount"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+ result[i].Expense_Cost +'" class="input-text input-text-blue" required="" placeholder="Paid amount"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="Outstanding"> <div class="form-group group dynamic-form-input-text-container-icon"> '+(subScription[result[i].Student_ID].Expense_Cost <= 0 ?('<img src="assets/icons/green_check.svg" alt="green_check">') : ('<input type="text" value="'+subScription[result[i].Student_ID].Expense_Cost+'" class="input-text" required="" placeholder="Outstanding">'))+' </div> </td> </tr> ')
+		var $date = dateConvertSlashes(result[i].SP_Addeddate);
+		$('#list-payments').append('<tr class="row-payments"> <td data-label="Student"> <!-- sections-main-sub-container-left-cards --> <div class="sections-main-sub-container-left-card"> <img class="sections-main-sub-container-left-card-main-img" src="'+result[i].Student_Image+'" alt="card-img"> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+result[i].Student_FirstName + ' ' + result[i].Student_LastName +'</p> <span class="sections-main-sub-container-left-card-sub-info">'+ result[i].Classe_Label +'</span> </div> </div> <!-- End sections-main-sub-container-left-cards --> </td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+ $date +'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="Paid amount"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+ result[i].Expense_Cost +'" class="input-text input-text-blue" required="" placeholder="Paid amount"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="Outstanding"> <div class="form-group group dynamic-form-input-text-container-icon"> '+(subScription[result[i].Student_ID].Expense_Cost <= 0 ?('<img src="assets/icons/green_check.svg" alt="green_check">') : ('<input type="text" value="'+subScription[result[i].Student_ID].Expense_Cost+'" class="input-text" required="" placeholder="Outstanding">'))+' </div> </td> </tr> ')
 	}
 }
 
 function displayTAbsences(Tabsences) 
 {
+	  console.log("Tabsences",Tabsences);
+
 	  var userNAme,reportedBy,htmlClasse;
 	  		for (var i = 0; i <= Tabsences.length - 1; i++) {
 	  			userNAme = Tabsences[i].teacher.User_Name;
@@ -193,11 +202,32 @@ function displayTAbsences(Tabsences)
                 }
                 var fromTo = JSON.parse(Tabsences[i].teacher.AD_FromTo)
 		        var type;
-		        if(Tabsences[i].teacher.AD_Type === 2)
+		        if(Tabsences[i].teacher.AD_Type === 2){
 		          type = 'Absence';
-		        else
+		        }
+		        else{
 		          type = absenceArray[Tabsences[i].teacher.AD_Type];
-	  			$('#absence-list').append(' <tr class="row-teacher"> <td data-label="Persons"> <!-- sections-main-sub-container-left-cards --> <div class="sections-main-sub-container-left-card"> <img class="sections-main-sub-container-left-card-main-img" src="'+Tabsences[i].teacher.User_Image+'" alt="card-img"> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info"> '+userNAme+' </p> <span class="sections-main-sub-container-left-card-sub-info">'+htmlClasse +'</span> </div> </div> <!-- End sections-main-sub-container-left-cards --> </td> <td class="readonly" data-label="Type"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+type+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="From"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromTo.from+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="To"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromTo.to+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="Reported by"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+reportedBy+'" class="input-text" required="" placeholder="Reported by"> </div> </td> </tr>')
+		        }
+
+		        $tr ='<tr class="row-teacher"> <td data-label="Persons"> <!-- sections-main-sub-container-left-cards --> <div class="sections-main-sub-container-left-card"> <img class="sections-main-sub-container-left-card-main-img" src="'+Tabsences[i].teacher.User_Image+'" alt="card-img"> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info"> '+userNAme+' </p> <span class="sections-main-sub-container-left-card-sub-info">'+htmlClasse +'</span> </div> </div> <!-- End sections-main-sub-container-left-cards --> ';
+
+		        if(Tabsences[i].teacher.AD_Type === 0 ){
+
+		        	$date_AD = dateConvertSlashes(Tabsences[i].teacher.AD_Addeddate);
+
+			        $tr+='<td class="readonly" data-label="From"> <div class="sections-main-sub-container-left-card">  <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+fromTo.from+'</p> <span class="sections-main-sub-container-left-card-sub-info sections-main-sub-container-left-card-sub-info-date">'+$date_AD+'</span> </div> </div> </td> ';
+
+			        $tr+='<td class="readonly" data-label="To"> <div class="sections-main-sub-container-left-card">  <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+fromTo.to+'</p> <span class="sections-main-sub-container-left-card-sub-info  sections-main-sub-container-left-card-sub-info-date">'+$date_AD+'</span> </div> </div> </td> ';
+		    	}else{
+
+		    		 $tr+='<td class="readonly" data-label="From"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromTo.from+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> ';
+			        $tr+='<td class="readonly" data-label="To"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromTo.to+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> </td>';
+
+		    	}
+
+		        $tr+='<td class="readonly" data-label="Type"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+type+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="Reported by"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+reportedBy+'" class="input-text" required="" placeholder="Reported by"> </div> </td> </tr>';
+
+	  			$('#absence-list').append($tr);
 	  		}
 }
 
@@ -218,11 +248,33 @@ function displaySAbsences(Sabsences)
     }
     var fromTo = JSON.parse(Sabsences[i].student.AD_FromTo)
     var type;
-    if(Sabsences[i].student.AD_Type === 2)
+    if(Sabsences[i].student.AD_Type === 2){
       type = 'Absence';
-    else
+    }
+    else{
       type = absenceArray[Sabsences[i].student.AD_Type];
-		$('#absence-list').append(' <tr class="row-student"> <td data-label="Persons"> <!-- sections-main-sub-container-left-cards --> <div class="sections-main-sub-container-left-card"> <img class="sections-main-sub-container-left-card-main-img" src="'+Sabsences[i].student.Student_Image+'" alt="card-img"> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info"> '+Sabsences[i].student.Student_FirstName+ ' '+ Sabsences[i].student.Student_LastName+' </p> <span class="sections-main-sub-container-left-card-sub-info">'+Sabsences[i].student.Classe_Label +'</span> </div> </div> <!-- End sections-main-sub-container-left-cards --> </td> <td class="readonly" data-label="Type"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+type+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="From"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromTo.from+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="To"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromTo.to+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="Reported by"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+reportedBy+'" class="input-text" required="" placeholder="Reported by"> </div> </td> </tr>')
+    }
+
+        $tr ='<tr class="row-teacher"> <td data-label="Persons"> <!-- sections-main-sub-container-left-cards --> <div class="sections-main-sub-container-left-card"> <img class="sections-main-sub-container-left-card-main-img" src="'+Sabsences[i].student.Student_Image+'" alt="card-img"> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info"> '+Sabsences[i].student.Student_FirstName+ ' '+ Sabsences[i].student.Student_LastName+' </p> <span class="sections-main-sub-container-left-card-sub-info">'+Sabsences[i].student.Classe_Label +'</span> </div> </div> <!-- End sections-main-sub-container-left-cards --> ';
+
+        if(Sabsences[i].student.AD_Type === 0 ){
+
+        	$date_AD = dateConvertSlashes(Sabsences[i].student.AD_Addeddate);
+
+	        $tr+='<td class="readonly" data-label="From"> <div class="sections-main-sub-container-left-card">  <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+fromTo.from+'</p> <span class="sections-main-sub-container-left-card-sub-info  sections-main-sub-container-left-card-sub-info-date">'+$date_AD+'</span> </div> </div> </td> ';
+
+	        $tr+='<td class="readonly" data-label="To"> <div class="sections-main-sub-container-left-card">  <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+fromTo.to+'</p> <span class="sections-main-sub-container-left-card-sub-info  sections-main-sub-container-left-card-sub-info-date">'+$date_AD+'</span> </div> </div> </td> ';
+    	}else{
+
+    		 $tr+='<td class="readonly" data-label="From"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromTo.from+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> ';
+	        $tr+='<td class="readonly" data-label="To"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromTo.to+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> </td>';
+
+    	}
+
+        $tr+='<td class="readonly" data-label="Type"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+type+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="Reported by"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+reportedBy+'" class="input-text" required="" placeholder="Reported by"> </div> </td> </tr>';
+
+			$('#absence-list').append($tr);
+
 	}
 }
 

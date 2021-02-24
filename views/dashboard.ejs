@@ -46,9 +46,15 @@
 
                       <!-- dashboard-card-info -->
                       <div class="dashboard-card-info">
-                          <span class="dashboard-card-info-label">Students (2000) </span>
+                          <span class="dashboard-card-info-label">Students <%= studentsTotal %></span>
                           <span class="dashboard-card-info-sub-label">Number of absent students </span>
-                          <span class="dashboard-card-info-counter"> 3 <span class="counter-span-container"> (<span class="red-color">Absence : <%= studentAD %></span> - <span class="blue-color"> Retard : 2 </span> )</span> </span>
+                          <span class="dashboard-card-info-counter">
+                            <span class="counter-span-container"> 
+                              <span class="red-color"><%= studentAdAbsences %> Absence </span>
+                              <span class="spacer"></span>
+                              <span class="blue-color"><%= studentAdRetards %> Retard </span> 
+                            </span>
+                          </span>
                           <div class="progress dashboard-card-info-progress">
                             <div class="progress-bar" role="progressbar" aria-valuenow="<%= percentageS %>" 
                                  aria-valuemin="0" aria-valuemax="100" style="<%= 'width:'+ percentageS + '%' %>"></div>
@@ -58,9 +64,15 @@
 
                       <!-- dashboard-card-info -->
                       <div class="dashboard-card-info">
-                          <span class="dashboard-card-info-label">Teachers (100)</span>
+                          <span class="dashboard-card-info-label">Teachers <%= teachersTotal %>  </span>
                           <span class="dashboard-card-info-sub-label">Number of absent teachers</span>
-                          <span class="dashboard-card-info-counter"> 3 <span class="counter-span-container"> (<span class="red-color">Absence : <%= teacherAD %></span> - <span class="blue-color"> Retard : 1 </span> )</span> </span>
+                          <span class="dashboard-card-info-counter">
+                            <span class="counter-span-container"> 
+                              <span class="red-color"><%= teacherAdAbsences %> Absence </span> 
+                              <span class="spacer"></span>
+                              <span class="blue-color"><%= teacherAdRetards %> Retard </span>
+                            </span> 
+                          </span>
                           <div class="progress dashboard-card-info-progress">
                             <div class="progress-bar" role="progressbar" aria-valuenow="<%= percentageT %>" 
                                  aria-valuemin="0" aria-valuemax="100" style="<%= 'width:'+ percentageT + '%' %>"></div>
@@ -71,9 +83,8 @@
                       <!-- dashboard-card-info -->
                       <div class="dashboard-card-info">
                           <span class="dashboard-card-info-label">Finances</span>
-                          <span class="dashboard-card-info-sub-label">Revenue for February </span>
-                          <span class="dashboard-card-info-counter"> 10000 <span class="dashboard-card-info-counter-currency"> MAD (</span>
-                            <span class="counter-span-container"> <span class="blue-color">Current : <%= totalPay ? totalPay : 0 %><span class="dashboard-card-info-counter-currency"> MAD</span> = 25% </span>  </span> ) </span>
+                          <span class="dashboard-card-info-sub-label"> February ( Expected revenu 10000 <span class="dashboard-card-info-counter-currency"> MAD )</span></span>
+                          <span class="dashboard-card-info-counter"> <span class="counter-span-container"> <%= totalPay ? totalPay : 0 %><span class="dashboard-card-info-counter-currency"> MAD <span class="blue-color">25%</span> </span>  </span>  </span>
                           <div class="progress dashboard-card-info-progress">
                             <div class="progress-bar" role="progressbar" aria-valuenow="<%= percentagePay %>" 
                                  aria-valuemin="0" aria-valuemax="100" style="<%= 'width:'+ percentagePay + '%' %>"></div>
@@ -171,9 +182,9 @@
                                         <thead>
                                           <tr>
                                             <th scope="col">Persons</th>
-                                            <th scope="col">Type</th>
                                             <th scope="col">From</th>
                                             <th scope="col">To</th>
+                                            <th scope="col">Type</th>
                                             <th scope="col">Reported by</th>
                                           </tr>
                                         </thead>
