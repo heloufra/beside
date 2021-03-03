@@ -1238,6 +1238,9 @@ $(document).ready(function(){
 
 	$(".academic-year-input-label").val($(".setup-main-container .start-month .date-form-input-header-picker-label").text()+' - '+$(".setup-main-container .end-month  .date-form-input-header-picker-label").text());
 
+	$("#year_start").val($(".setup-main-container .start-month .date-form-input-header-picker-label").text());
+	$("#year_end").val($(".setup-main-container .end-month  .date-form-input-header-picker-label").text());
+
 	/* start-month _______________________*/
 
 
@@ -1317,6 +1320,9 @@ $(document).ready(function(){
 		$end_month   = $(".setup-main-container .end-month   .date-form-input-header-picker-label").text();
 
 		$(".academic-year-input-label").val($start_month+' - '+$end_month);
+
+		$("#year_start").val($start_month);
+		$("#year_end").val($end_month);
 		
 		event.preventDefault();
 		event.stopPropagation();
@@ -1361,7 +1367,7 @@ $(document).ready(function(){
 
 		$this = $(this);
 
-		$this.parent().find("input").focus();
+		$this.parent().find("input[type=text]").focus();
 
 		$this.parent().find(".date-form-input-picker-label").removeClass("active");
 
@@ -1373,7 +1379,7 @@ $(document).ready(function(){
 
 		setTimeout(function(){
 			$this.parent().find(".date-form-input-picker-container").css({"display":"none"});
-			$this.parent().find("input").val($text);
+			$this.parent().find("input[type=text]").val($text);
 		},500);
 
 	});

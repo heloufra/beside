@@ -19,7 +19,7 @@ var dashboardController = {
       connection.query("SELECT institutions.* FROM users INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN institutions ON institutionsusers.Institution_ID = institutions.Institution_ID WHERE users.User_ID = ? AND institutionsusers.User_Role='Admin'", [req.userId], async (err, accounts, fields) => {
         connection.query("SELECT users.*,institutionsusers.User_Role as role FROM users INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN institutions ON institutionsusers.Institution_ID = institutions.Institution_ID WHERE institutions.Institution_ID = ? AND users.User_ID = ? AND institutionsusers.IU_Status <> 0", [req.Institution_ID,req.userId], async (err, users, fields) => {                
           connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], async (err, institutions, fields) => {
-            connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], async (err, academic, fields) => {
+            connection.query("SELECT * FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], async (err, academic, fields) => {
 
                   // Absence & deelay teacher 
                   const teacherAD = await commonModel.getAllTeachersAbsenceDelay(req.Institution_ID,academic[0].AY_ID);
@@ -28,7 +28,12 @@ var dashboardController = {
 
                   // Absence & deelay Students
                   const studentAD = await commonModel.getAllStudentsAbsenceDelay(req.Institution_ID , academic[0].AY_ID);
-                  console.log("studentAD",studentAD);
+                  console.log("studentAD",studentAD);  
+
+                  // monthsExpenses
+                  const monthsExpenses = await commonModel.getMonthsExpenses(academic[0].AY_ID,academic[0].AY_YearStart,academic[0].AY_YearEnd,academic[0].AY_Satrtdate,academic[0].AY_EndDate);
+                  console.log("monthsExpenses",monthsExpenses);
+
 
                   connection.query("SELECT * FROM `classes` WHERE AY_ID = ?", [academic[0].AY_ID], (err, Allclasses, fields) => {
                     connection.query("SELECT * FROM `levels` WHERE AY_ID = ?", [academic[0].AY_ID], (err, levels, fields) => {

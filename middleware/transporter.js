@@ -8,7 +8,7 @@ const oauth2Client = new OAuth2(
 );
 
 oauth2Client.setCredentials({ 
-     refresh_token: "1//04M3wLadpQmUXCgYIARAAGAQSNwF-L9Ir-v4d8k3tGagm9jWfmsZPaVn8UrzE-jWdJqddGDMqHckfOZzxSNpWHqYsrvO0QCJHY5s"
+     refresh_token: "1//04b6WDtrqgxn8CgYIARAAGAQSNwF-L9IrNgKMl1xbgPB6IfuSZOtWrse45r0SQ4Vss6DTF1w0C9i6RiS88o8Eco_MzWaKLQa9_H8"
 
 });
 
@@ -20,7 +20,7 @@ const smtpConfig = {
           user: "teambeside.ma@gmail.com",
           clientId: "284865258866-h725pjpfk4v47u6ititt5hh72d1k4g7s.apps.googleusercontent.com",
           clientSecret: "6PQPSMILn2JJoeoMxNaI5RvH",
-          refreshToken: "1//04M3wLadpQmUXCgYIARAAGAQSNwF-L9Ir-v4d8k3tGagm9jWfmsZPaVn8UrzE-jWdJqddGDMqHckfOZzxSNpWHqYsrvO0QCJHY5s",
+          refreshToken: "1//04b6WDtrqgxn8CgYIARAAGAQSNwF-L9IrNgKMl1xbgPB6IfuSZOtWrse45r0SQ4Vss6DTF1w0C9i6RiS88o8Eco_MzWaKLQa9_H8",
           accessToken: accessToken
      }
 };

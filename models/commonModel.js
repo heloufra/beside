@@ -1,5 +1,7 @@
 var connection  = require('../lib/db');
 
+var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "Octobre", "November", "December"];
+
 var AdStudent = "SELECT absencesanddelays.* FROM `absencesanddelays` INNER JOIN students ON students.Student_ID = absencesanddelays.User_ID INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID WHERE absencesanddelays.User_Type = 'Student' AND students.Institution_ID = ? AND students.Student_Status<>0 AND absencesanddelays.AD_Status = 1 ";
 
 var AdTeacher = "SELECT absencesanddelays.* FROM `absencesanddelays` INNER JOIN users ON users.User_ID = absencesanddelays.User_ID INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID WHERE absencesanddelays.User_Type = 'Teacher' AND institutionsusers.Institution_ID = ? AND users.User_Status = 1 AND institutionsusers.IU_Status = 1 AND absencesanddelays.AD_Status = 1";
@@ -200,6 +202,79 @@ var commonModel = {
     });
 
   },
+  getMonthsExpenses: function(AY_ID,AY_YearStart,AY_YearEnd,AY_SatrtDate,AY_EndDate){
+
+      monthExpenses = [];
+
+      AY_SatrtDate = months.indexOf(AY_SatrtDate)+1;
+      AY_SatrtDate = (AY_SatrtDate <= 9 ) ? "0"+AY_SatrtDate : AY_SatrtDate;
+
+      AY_EndDate_String = AY_EndDate;
+      AY_EndDate = months.indexOf(AY_EndDate)+1;
+      AY_EndDate = (AY_SatrtDate <= 9 ) ? "0"+AY_EndDate : AY_EndDate;
+
+      monthsRange = this.generateMonthsBetween2Days(AY_YearStart+"-"+AY_SatrtDate+"-"+"01",AY_YearEnd+"-"+AY_EndDate+"-"+"31");
+
+      for (let m = 0; m < monthsRange.length; m++) {
+
+            monthExpenses.push(new Promise((resolve, reject) => {
+
+                var d = new Date(monthsRange[m]);
+                var n = d.getMonth();
+
+                connection.query("Select Sum(le.Expense_Cost) as 'Count_Cost' From studentsubscribtion as ss inner join levelexpenses le on(ss.LE_ID = le.LE_ID) where ss.SS_Status = 1 and le.AY_ID = ? and ss.Subscription_EndDate = ? And ss.SS_ID Not In (select sp.SS_ID From studentspayments sp where sp.SP_PaidPeriod = ? )  ",[AY_ID,AY_EndDate_String,months[n]], (err, Expenses , fields) => {
+                    if(err){
+                       reject(err);
+                    }else{ 
+
+
+
+                       /*connection.query("Select Sum(le.Expense_Cost) as 'Count_Cost' From studentsubscribtion as ss inner join levelexpenses le on(ss.LE_ID = le.LE_ID) where ss.SS_Status = 1 and le.AY_ID = ? and ss.Subscription_EndDate = ? And ss.SS_ID Not In (select sp.SS_ID From studentspayments sp where sp.SP_PaidPeriod = ? )  ",[AY_ID,AY_EndDate_String,months[n]], (err, Expenses , fields) => {
+                          if(err){
+                            reject(err);
+                          }else{ 
+                            
+                          }
+                        });*/
+                        
+                        Month_ID = ((n+1) <=9) ? "0"+ (n+1) : (n+1)+"";
+                        resolve({"Month":months[n],Month_ID:(Month_ID*1),"Expense_Cost":Expenses[0].Count_Cost});
+                        
+                    }
+                });
+
+            }));
+
+      }
+
+      return Promise.all(monthExpenses);
+
+  },
+  getMonthsExpenses_: function(AY_ID,AY_YearStart,AY_YearEnd,AY_SatrtDate,AY_EndDate){
+
+    return new Promise((resolve, reject) => {
+          monthExpenses = [];
+          monthExpensesCost = 0;
+          thisMonth = "";
+          connection.query("select le.Expense_Cost , ss.Subscription_EndDate from studentsubscribtion as ss inner join levelexpenses le on (le.LE_ID = ss.LE_ID ) where ss.SS_Status = 1 and le.AY_ID = ? ", [AY_ID], (err, Expenses , fields) => {
+              if(err){
+                 reject(err);
+              }else{ 
+                for(var e = 0  ; e < Expenses.length ; e++  ){
+
+                    if(Expenses[e].Subscription_EndDate == AY_EndDate ) {
+                      monthExpenses.push(Expenses[e]);
+                      monthExpensesCost += Expenses[e].Expense_Cost;
+                      month = Expenses[e].Subscription_EndDate
+                    }  
+
+                }
+                resolve(monthExpenses);
+              }
+          });
+    })
+
+  },
   dateConvert:function(date) {
       return  date = date.split("/").reverse().join("-");
   },
@@ -216,8 +291,39 @@ var commonModel = {
 
     return false;
 
-  }
+  },
+  dateCompare:function(date1,date2) {
 
+    date1 = new Date(date1);
+    date2 = new Date(date2);
+
+    if (date1 > date2) {
+      return 1 ; 
+    }
+    else if(date1<date2){
+      return -1 ;
+    }else {
+      return 0
+    }
+
+  },
+  generateMonthsBetween2Days(startDate, endDate){
+    var dates = [];
+    var d0 = startDate.split('-');
+    var d1 = endDate.split('-');
+
+    for (var y = d0[0] ; y <= d1[0] ; y++){
+      for (var m = d0[1] ; m <= 12 ; m++){
+          m = (m < 9) ? "0"+m : m ;
+          dates.push(y+"-"+m+"-01");
+          if (y >= d1[0] && m >= d1[1]) {
+             break;
+          }
+      };
+      d0[1] = 1;
+    };
+    return dates ;
+  }
 };
 
 module.exports = commonModel;

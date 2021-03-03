@@ -52,7 +52,7 @@ var setupController = {
     var password = makeid(6);
     var institutionsQuery = `INSERT INTO institutions(Institution_Name,  Institution_Logo, Institution_Link,  Institution_Email,  Institution_Phone,  Institution_Adress) VALUES(?,?,?,?,?,?)`;
     var usersQuery = `INSERT INTO users(User_Name, User_Image, User_Email, User_Phone,User_Role) VALUES(?,?,?,?,?)`;
-    var academicQuery = `INSERT INTO academicyear(AY_Label, AY_Satrtdate, AY_EndDate, Institution_ID) VALUES(?,?,?,?)`;
+    var academicQuery = `INSERT INTO academicyear(AY_Label , AY_Satrtdate , AY_EndDate , AY_YearStart, AY_YearEnd , Institution_ID) VALUES(?,?,?,?,?,?)`;
     var levelsQuery = `INSERT INTO levels(Level_Label, AY_ID) VALUES(?,?)`;
     var classesQuery = `INSERT INTO classes(Level_ID, Classe_Label, AY_ID) VALUES(?,?,?)`;
     // execute the insert statment
@@ -102,7 +102,7 @@ var setupController = {
                       email:institutionsData.email,
                     }, config.privateKey);
                   res.json({saved : true,token});
-                   connection.query(academicQuery, [academicData.year,academicData.start,academicData.end,institutionResult.insertId],async (err, academicResult, fields) => {
+                   connection.query(academicQuery, [academicData.year,academicData.start,academicData.end,academicData.year_start,academicData.year_end,institutionResult.insertId],async (err, academicResult, fields) => {
                     if (err) {
                       console.log(err);
                         res.json({
