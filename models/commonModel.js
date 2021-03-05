@@ -222,24 +222,22 @@ var commonModel = {
                 var d = new Date(monthsRange[m]);
                 var n = d.getMonth();
 
-                connection.query("Select Sum(le.Expense_Cost) as 'Count_Cost' From studentsubscribtion as ss inner join levelexpenses le on(ss.LE_ID = le.LE_ID) where ss.SS_Status = 1 and le.AY_ID = ? and ss.Subscription_EndDate = ? And ss.SS_ID Not In (select sp.SS_ID From studentspayments sp where sp.SP_PaidPeriod = ? )  ",[AY_ID,AY_EndDate_String,months[n]], (err, Expenses , fields) => {
+                connection.query("Select Sum(le.Expense_Cost) as 'Count_Cost' From studentsubscribtion as ss inner join levelexpenses le on(ss.LE_ID = le.LE_ID) inner join expenses e on(le.Expense_ID = e.Expense_ID ) where ss.SS_Status = 1 and le.AY_ID = ? and ss.Subscription_EndDate = ? And e. Expense_PaymentMethod = 'Monthly' And ss.SS_ID Not In (select sp.SS_ID From studentspayments sp where sp.SP_PaidPeriod = ? )  ",[AY_ID,AY_EndDate_String,months[n]], (err, Expenses , fields) => {
                     if(err){
                        reject(err);
                     }else{ 
 
-
-
-                       /*connection.query("Select Sum(le.Expense_Cost) as 'Count_Cost' From studentsubscribtion as ss inner join levelexpenses le on(ss.LE_ID = le.LE_ID) where ss.SS_Status = 1 and le.AY_ID = ? and ss.Subscription_EndDate = ? And ss.SS_ID Not In (select sp.SS_ID From studentspayments sp where sp.SP_PaidPeriod = ? )  ",[AY_ID,AY_EndDate_String,months[n]], (err, Expenses , fields) => {
+                        connection.query('select SUM(le.Expense_Cost) as `total` from studentsubscribtion as ss inner join levelexpenses le on (le.LE_ID = ss.LE_ID ) inner join studentspayments sp on (ss.SS_ID = sp.SS_ID) where ss.SS_Status = 1 And MONTH( sp.`SP_Addeddate` ) = ?  And le.AY_ID = ? ', [(n+1),AY_ID], (err, totalPay, fields) => {
                           if(err){
                             reject(err);
                           }else{ 
-                            
+                            Month_ID = ((n+1) <=9) ? "0"+ (n+1) : (n+1)+"";
+                            TotalPay = (totalPay[0].total !== null ) ?  totalPay[0].total : 0 ;
+                            Expense_Cost_Percentage = (TotalPay * 100 ) / Expenses[0].Count_Cost;
+                            resolve({"Month":months[n],Month_ID:(Month_ID*1),"Month_Start_Date":monthsRange[m],"Expense_Cost":Expenses[0].Count_Cost,"Expense_Cost_Percentage":Expense_Cost_Percentage,TotalPay,
+                            });
                           }
-                        });*/
-                        
-                        Month_ID = ((n+1) <=9) ? "0"+ (n+1) : (n+1)+"";
-                        resolve({"Month":months[n],Month_ID:(Month_ID*1),"Expense_Cost":Expenses[0].Count_Cost});
-                        
+                        });
                     }
                 });
 

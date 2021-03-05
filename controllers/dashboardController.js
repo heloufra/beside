@@ -32,17 +32,19 @@ var dashboardController = {
 
                   // monthsExpenses
                   const monthsExpenses = await commonModel.getMonthsExpenses(academic[0].AY_ID,academic[0].AY_YearStart,academic[0].AY_YearEnd,academic[0].AY_Satrtdate,academic[0].AY_EndDate);
+
                   console.log("monthsExpenses",monthsExpenses);
 
+                  /********* This month Expense ***********/
+                  const thisMonthsExpenses = monthsExpenses.filter(month => month.Month_ID == date.getMonth() + 1 );
+                  console.log("this month ",thisMonthsExpenses);
+                  /********* End This month Expense *******/
 
                   connection.query("SELECT * FROM `classes` WHERE AY_ID = ?", [academic[0].AY_ID], (err, Allclasses, fields) => {
                     connection.query("SELECT * FROM `levels` WHERE AY_ID = ?", [academic[0].AY_ID], (err, levels, fields) => {
                       connection.query("SELECT * FROM `expenses` WHERE AY_ID = ?", [academic[0].AY_ID], (err, expenses, fields) => {
                           connection.query("SELECT COUNT(*) as total FROM `institutionsusers` WHERE `Institution_ID`=? AND `User_Role`='Teacher' and `IU_Status` = 1 ", [req.Institution_ID], (err, percentageT, fields) => {
                               connection.query("SELECT COUNT(*) as total FROM `students` WHERE `Institution_ID`=? And `student_Status` = 1 ", [req.Institution_ID], (err, percentageS, fields) => {
-                                connection.query(Total_Month_Paied_Expenses, [date.getMonth() + 1,academic[0].AY_ID], (err, totalPay, fields) => {
-                                  connection.query(Total_Expense, [academic[0].AY_ID], (err, percentagePay, fields) => {
-                                      var  Total_Month_Expenses = ((percentagePay[0].total * 1) -  (totalPay[0].total*1)) ;
                                       res.render('dashboard', { 
                                         title:'Dashboard', 
                                         user:user[0], 
@@ -59,13 +61,17 @@ var dashboardController = {
                                         studentAdRetards:studentAD.Total_Retards,
                                         studentsTotal:percentageS[0].total,
                                         teachersTotal:percentageT[0].total,
-                                        totalPay:totalPay[0].total,
                                         percentageT:(100 - ((teacherAD.Total_Absences + teacherAD.Total_Retards) * 100)/percentageT[0].total) ,
                                         percentageS:(100 - ((studentAD.Total_Absences + studentAD.Total_Retards) * 100)/percentageS[0].total) ,
-                                        percentagePay: (totalPay[0].total * 100) / Total_Month_Expenses
-                                      })
+                                        Expense_Cost_Percentage: thisMonthsExpenses[0].Expense_Cost_Percentage,
+                                        Expense_Cost: thisMonthsExpenses[0].Expense_Cost,
+                                        TotalPay: thisMonthsExpenses[0].TotalPay,
+                                        Month: thisMonthsExpenses[0].Month,
+                                        Month_ID: thisMonthsExpenses[0].Month_ID,
+                                        Month_Start_Date: thisMonthsExpenses[0].Month_Start_Date,
+                                        MonthsExpenses : monthsExpenses
+
                                   })
-                                })
                               })
                           })
                       }) 
