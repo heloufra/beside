@@ -5760,6 +5760,25 @@ table td img {
 	font-size: 13px;
 }
 
+.dashboard-card-table-double-section-info-main-container{
+	background: #FFFFFF;
+	margin: 16px auto;
+    padding: 24px;
+}
+
+.dashboard-card-table-double-section-info-sub-container{
+	display: flex;
+	flex-direction: row-reverse;
+	background: white;
+	justify-content: space-between;
+}
+
+.dashboard-card-table-double-section-info-sub-container .dashboard-card-table-info-container{
+	width: 49%;
+	padding: 0px;
+	margin: 0px;
+	height: 368px;
+}
 
 /*************** End dashboard-card-table-info *******************/
 

@@ -841,6 +841,7 @@ $(document).ready(function(){
 		$this = $(this);
 
 		$text = $(this).attr("data-val");
+		$dataStartDate = $(this).attr("data-start-date");
 		$id = $(this).attr("data-id");
 		$cost = $(this).attr("data-cost");
 
@@ -854,6 +855,8 @@ $(document).ready(function(){
 		$this.closest(".form-group").find(".input-dropdown").attr("data-val","");
 
 		$this.closest(".form-group").find(".input-dropdown").attr("data-val",$text);
+
+		$this.closest(".form-group").find(".input-dropdown").attr("data-start-date",$dataStartDate);
 
 		$this.closest(".form-group").find(".input-dropdown").attr("data-id",$id);
 		$this.closest(".form-group").find(".input-dropdown").attr("data-cost",$cost);

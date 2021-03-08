@@ -7,6 +7,11 @@ var currentDate = today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.g
 var maxChart = 0;
 getAbsences();
 getPayments();
+
+function monthDays(month,year) {
+         return new Date(year, month, 0).getDate();
+};
+
 function getAbsences() {
 	$.ajax({
 	    type: 'get',
@@ -74,7 +79,6 @@ function getAbsences() {
 	  });
 }
 
-
 function dateConvert(date) {
   	return  date = date.split("/").reverse().join("-");
 }
@@ -114,13 +118,15 @@ function getPayments()
 	  		console.log(res.errors)
 	  	} else {
 	  		Payments = res.payments;
+	  		console.log("Payments",Payments)
 	  		StudentSub = res.studentsSub;
 	  		for (var i = StudentSub.length - 1; i >= 0; i--) {
-	  			if (StudentSub[i].Expense_PaymentMethod === 'Monthly')
+	  			//if (StudentSub[i].Expense_PaymentMethod === 'Monthly'){
 	  				maxChart += parseInt(StudentSub[i].Expense_Cost);
+	  			//}
 	  		}
 	  		console.log("Payments",Payments)
-	  		ChartJS();
+	  		ChartJS(today.getMonth(),today.getFullYear());
 	  		var filtred = Payments.filter(payment => {
 				var date = new Date(payment.SP_Addeddate)
 				return date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear();
@@ -138,18 +144,22 @@ function displayPayments(payments)
 
 	console.log('StudentSub',StudentSub);
 	for (var i = StudentSub.length - 1; i >= 0; i--) {
-		if (!subScription[StudentSub[i].Student_ID])
+		if (!subScription[StudentSub[i].Student_ID]){
 			subScription[StudentSub[i].Student_ID] = {Student_ID:StudentSub[i].Student_ID,Expense_Cost:0};
-		if (StudentSub[i].Expense_PaymentMethod === 'Monthly')
+		}
+		if (StudentSub[i].Expense_PaymentMethod === 'Monthly'){
 			for (var j = months.indexOf(StudentSub[i].Subscription_StartDate); j <= months.length - 1; j++) {
 					subScription[StudentSub[i].Student_ID].Expense_Cost += parseInt(StudentSub[i].Expense_Cost);
-				if (j === today.getMonth())
+				if (j === today.getMonth()){
 					break;
-				if (i === months.length - 1)
+				}
+				if (i === months.length - 1){
 					i = -1;
+				}
 			}
-		else
+		}else{
 			subScription[StudentSub[i].Student_ID].Expense_Cost += parseInt(StudentSub[i].Expense_Cost)
+		}
 	}
 	console.log('subScription',subScription);
 	var tempDate;
@@ -387,6 +397,21 @@ $('.filter-absence').change(function () {
     	$('#absence-list').find('.row-student').remove();
  });
 
+$('input[name=filter-finance]').change(function () {
+	var filtred;
+	if (this.value.replace(/\s/g, ''))
+	{
+		filtred = Payments.filter(payment => {
+			var date = new Date(payment.SP_Addeddate);
+			return date.getMonth() === ($(this).attr("data-id")*1 - 1 ) ;
+		});
+
+		$year = String($(this).attr("data-start-date")).split('-');
+		ChartJS(($(this).attr("data-id") * 1 - 1 ) , $year[0]);
+
+	}
+})
+
 $('input[name=filter-payments]').change(function () {
 	var filtred;
 	if (this.value.replace(/\s/g, ''))
@@ -417,39 +442,55 @@ $('input[name=filter-payments]').change(function () {
 
 	/* Chart.js _______________________________________________*/
 
-function ChartJS() {
-	
-	$chartDays = [];
 
-	for(d=1;d<32;d++){
-		d = d < 9 ? '0'+d : d; 
-		$chartDays.push(d);
-	}
-
-	function randomData(){
+function randomData(month_ID,Year){
 
 		$chartData = [];
 		$filtreDate = [];
-		for(d=1;d<32;d++){
+
+		days = monthDays((month_ID*1+1),Year);
+		console.log("days",days);
+
+		for(d=1;d<=days;d++){
 
 			$obj = {};
+
 			$filtreDate = Payments.filter(payment => {
-				
 				var temp = new Date(payment.SP_Addeddate);
 				var mois = months.indexOf(payment.SP_PaidPeriod);
-				return temp.getDate() === d && mois === today.getMonth();
+				console.log("temp.getDate()" , temp.getDate() +" d "+ d +" mois "+mois+" month_ID "+month_ID+" payment.SP_PaidPeriod "+payment.SP_PaidPeriod);
+				return (temp.getDate() === d && mois === month_ID ) || ( temp.getDate() === d  && temp.getMonth() == month_ID && temp.getFullYear() == Year)   ;
 			})
+
 			$obj.paymentCount  = 0;
 			$obj.y = 0;
+
+			console.log("$filtreDate",$filtreDate);
+
 			for (var i = $filtreDate.length - 1; i >= 0; i--) {
 				$obj.paymentCount  += 1;
 				$obj.y 			  += parseInt($filtreDate[i].Expense_Cost);
 			}
+
 			$chartData.push($obj);
 		}
 
+		console.log("$chartData",$chartData);
+
 		return $chartData;
 
+}
+
+function ChartJS(month_ID,Year) {
+	
+	$chartDays = [];
+
+	days = monthDays((month_ID*1+1),Year);
+	console.log("days",days);
+
+	for(d=1;d<=days;d++){
+		d = d < 9 ? '0'+d : d; 
+		$chartDays.push(d);
 	}
 
 	var config = {
@@ -469,7 +510,7 @@ function ChartJS() {
 			        pointBorderColor: "#45bcff", // blue point border
 			        pointBackgroundColor: "#45bcff", // wite point fill
 			        pointBorderWidth: 1, // point border width 
-					data: randomData()
+					data: randomData(month_ID,Year)
 				}]
 			},
 			options: {
@@ -589,7 +630,7 @@ function ChartJS() {
 							min: 0,
 							max: maxChart,
 							// forces step size to be 5 units
-							stepSize: 1000,
+							stepSize: 500,
 						}
 					}]
 				}
@@ -597,6 +638,11 @@ function ChartJS() {
 	};
 
 	if (document.getElementById('canvas')){
+
+		if( window.myLine!==undefined){
+			window.myLine.destroy();
+		}
+		
 		var ctx = document.getElementById('canvas').getContext('2d');
 		window.myLine = new Chart(ctx, config);
 	}

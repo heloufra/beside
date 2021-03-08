@@ -116,7 +116,61 @@ var dashboardController = {
         })
       })
     })
-  }
+  },
+  getMonthsExpenses: async function(req, res, next) {
+    connection.query("SELECT * FROM `users` WHERE `User_ID` = ? LIMIT 1", [req.userId], async (err, user, fields) => {
+      connection.query("SELECT institutions.* FROM users INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN institutions ON institutionsusers.Institution_ID = institutions.Institution_ID WHERE users.User_ID = ? AND institutionsusers.User_Role='Admin'", [req.userId], async (err, accounts, fields) => {
+        connection.query("SELECT users.*,institutionsusers.User_Role as role FROM users INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN institutions ON institutionsusers.Institution_ID = institutions.Institution_ID WHERE institutions.Institution_ID = ? AND users.User_ID = ? AND institutionsusers.IU_Status <> 0", [req.Institution_ID,req.userId], async (err, users, fields) => {                
+          connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], async (err, institutions, fields) => {
+            connection.query("SELECT * FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], async (err, academic, fields) => {
+
+                  // Absence & deelay teacher 
+                  const teacherAD = await commonModel.getAllTeachersAbsenceDelay(req.Institution_ID,academic[0].AY_ID);
+
+                  console.log("teacherAD",teacherAD);
+
+                  // Absence & deelay Students
+                  const studentAD = await commonModel.getAllStudentsAbsenceDelay(req.Institution_ID , academic[0].AY_ID);
+                  console.log("studentAD",studentAD);  
+
+                  // monthsExpenses
+                  const monthsExpenses = await commonModel.getMonthsExpenses(academic[0].AY_ID,academic[0].AY_YearStart,academic[0].AY_YearEnd,academic[0].AY_Satrtdate,academic[0].AY_EndDate);
+
+                  console.log("monthsExpenses",monthsExpenses);
+
+                  /********* This month Expense ***********/
+                  const thisMonthsExpenses = monthsExpenses.filter(month => month.Month_ID == date.getMonth() + 1 );
+                  console.log("this month ",thisMonthsExpenses);
+                  /********* End This month Expense *******/
+
+                  connection.query("SELECT * FROM `classes` WHERE AY_ID = ?", [academic[0].AY_ID], (err, Allclasses, fields) => {
+                    connection.query("SELECT * FROM `levels` WHERE AY_ID = ?", [academic[0].AY_ID], (err, levels, fields) => {
+                      connection.query("SELECT * FROM `expenses` WHERE AY_ID = ?", [academic[0].AY_ID], (err, expenses, fields) => {
+                          connection.query("SELECT COUNT(*) as total FROM `institutionsusers` WHERE `Institution_ID`=? AND `User_Role`='Teacher' and `IU_Status` = 1 ", [req.Institution_ID], (err, percentageT, fields) => {
+                              connection.query("SELECT COUNT(*) as total FROM `students` WHERE `Institution_ID`=? And `student_Status` = 1 ", [req.Institution_ID], (err, percentageS, fields) => {
+                                      res.json({
+                                        percentageT:(100 - ((teacherAD.Total_Absences + teacherAD.Total_Retards) * 100)/percentageT[0].total) ,
+                                        percentageS:(100 - ((studentAD.Total_Absences + studentAD.Total_Retards) * 100)/percentageS[0].total) ,
+                                        Expense_Cost_Percentage: thisMonthsExpenses[0].Expense_Cost_Percentage ,
+                                        Expense_Cost: thisMonthsExpenses[0].Expense_Cost,
+                                        TotalPay: thisMonthsExpenses[0].TotalPay,
+                                        Month: thisMonthsExpenses[0].Month,
+                                        Month_ID: thisMonthsExpenses[0].Month_ID,
+                                        Month_Start_Date: thisMonthsExpenses[0].Month_Start_Date,
+                                        MonthsExpenses : monthsExpenses
+
+                                  })
+                              })
+                          })
+                      }) 
+                    })
+                  })
+            })
+          })
+        })
+      })
+    })
+  },
 };
 
 module.exports = dashboardController;

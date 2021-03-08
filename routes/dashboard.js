@@ -8,4 +8,6 @@ router.get('/',authAdmin, dashboardController.dashboardView);
 router.get('/absences',authAdmin, dashboardController.getAllAbsences);
 router.get('/payments',authAdmin, dashboardController.getAllPayments);
 
+router.get('/monthlyExpenses',authAdmin,dashboardController.getMonthsExpenses);
+
 module.exports = router;

@@ -84,7 +84,7 @@
                       <div class="dashboard-card-info">
                           <span class="dashboard-card-info-label">Finances</span>
                           <span class="dashboard-card-info-sub-label"> <%= Month %> ( Expected revenu <%= Expense_Cost %> <span class="dashboard-card-info-counter-currency"> MAD )</span></span>
-                          <span class="dashboard-card-info-counter"> <span class="counter-span-container"> <%= TotalPay ? TotalPay : 0 %><span class="dashboard-card-info-counter-currency"> MAD <span class="blue-color"><%= Expense_Cost_Percentage %>%</span> </span>  </span>  </span>
+                          <span class="dashboard-card-info-counter"> <span class="counter-span-container"> <%= TotalPay ? TotalPay : 0 %><span class="dashboard-card-info-counter-currency"> MAD <span class="blue-color"><%= parseFloat(Expense_Cost_Percentage).toFixed(2) %>%</span> </span>  </span>  </span>
                           <div class="progress dashboard-card-info-progress">
                             <div class="progress-bar" role="progressbar" aria-valuenow="<%= Expense_Cost_Percentage %>" 
                                  aria-valuemin="0" aria-valuemax="100" style="<%= 'width:'+ Expense_Cost_Percentage + '%' %>"></div>
@@ -230,7 +230,7 @@
                                             <div class="dynamic-form-input">
                                               <div class="dynamic-form-input-float-adjust">
                                               <div class="form-group group form-group-right ">
-                                                <input type="text" value="<%= Month %>" data-id="<%= Month_ID %>" data-start-date="<%= Month_Start_Date %>" class="input-dropdown" placeholder="Period"  required>
+                                                <input type="text" value="<%= Month %>" name="filter-finance" data-id="<%= Month_ID %>" data-start-date="<%= Month_Start_Date %>" class="input-dropdown" placeholder="Period"  required>
                                                 <img class="icon button-icon" src="assets/icons/date_icon.svg">
                                                 <ul class="dynamic-form-input-dropdown-options">
                                                     <!--li data-val="This year">This Year </li>
