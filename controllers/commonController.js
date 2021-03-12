@@ -51,7 +51,8 @@ var commonController = {
     var token = jwt.sign({
           userId:req.userId,
           role: req.role,
-          Institution_ID:req.body.id
+          Institution_ID:req.body.id,
+          currentStudentId: req.currentStudentId,
         }, config.privateKey);
     req.session.token = token;
     res.json({
@@ -62,12 +63,25 @@ var commonController = {
     var token = jwt.sign({
           userId:req.userId,
           role: req.body.role,
-          Institution_ID:req.Institution_ID
+          Institution_ID:req.Institution_ID,
+          currentStudentId: req.currentStudentId,
         }, config.privateKey);
     req.session.token = token;
     res.json({
       switched:true
     })
+  },
+  switchStudent: function(req, res, next) {
+    var token = jwt.sign({
+      userId:req.userId,
+      role: req.role,
+      Institution_ID:req.Institution_ID,
+      currentStudentId: req.body.currentStudentId
+    }, config.privateKey);
+    req.session.token = token;
+    res.json({
+      switched:true
+    }) 
   },
   getUser: function(req, res, next) {
     connection.query("SELECT `User_Name`,`User_Email`,`User_Phone`,`User_Image`,`User_Address`,`User_Birthdate`,User_Gender FROM `users` WHERE User_ID=?", [req.userId], (err, user, fields) => {

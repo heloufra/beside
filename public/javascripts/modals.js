@@ -1079,7 +1079,7 @@ function saveAttitudeModal() {
 				$('#AddNewAttitudeModal').find('input[name="at_date"]').val("");
 				$('#AddNewAttitudeModal').find('input[name="modal-student"]').val("");
 				$('#AddNewAttitudeModal').find('#at_note').val("");
-				window.location.href = '/Students';
+				window.location.href = '/home';
 
 		  	} else {
 		  		console.log("not saved");

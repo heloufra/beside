@@ -73,7 +73,7 @@ var studentController = {
                 connection.query("SELECT * FROM `levels` WHERE AY_ID = ?", [academic[0].AY_ID],async (err, levels, fields) => {
                   if (req.role === 'Teacher')
                       classes = await teacherModel.findClasses(req.userId);
-                  res.render('student', { title: 'Students' , user: user[0], institution:institutions[0], classes:classes,levels:levels,accounts,users,role:req.role});
+                  res.render('students', { title: 'Students' , user: user[0], institution:institutions[0], classes:classes,levels:levels,accounts,users,role:req.role});
                 })
               })
             })
@@ -284,7 +284,7 @@ var studentController = {
                            
                              user_id = student.insertId
                              console.log("Student",student.insertId);
-                             for (var i = req.body.parent_name.length - 1; i >= 0; i--) {
+                             for (let i = req.body.parent_name.length - 1; i >= 0; i--) {
                                
                               connection.query(parentQuery, [req.body.parent_name[i],req.body.parent_phone[i],req.body.parent_email[i],req.Institution_ID], (err, parent, fields) => {
                                if (err) {
@@ -309,7 +309,26 @@ var studentController = {
                                           } else 
                                           {
                                              console.log("SP",spresult.insertId)
-                                             
+                                             const [firstName = "", lastName = ""] = (req.body.parent_name[i] || "").split(" ");
+                                             connection.query(
+                                              "INSERT INTO users(User_Name, User_Email, User_Phone,User_Role) VALUES(?,?,?,?)",
+                                              [
+                                                JSON.stringify({
+                                                  first_name: firstName,
+                                                  last_name: lastName,
+                                                }),
+                                                req.body.parent_email[i],
+                                                req.body.parent_phone[i],
+                                                "Parent"
+                                              ], (err, user) => {
+                                                if (err) {
+                                                  console.log(err);
+                                                } else {
+                                                  connection.query("INSERT INTO `institutionsusers`(`Institution_ID`, `User_ID`, `User_Role`) VALUES (?,?,?)",[req.Institution_ID, user.insertId,"Parent"], (err, institutionuser, fields) => {
+                                                    if (err) console.log(err);
+                                                   });
+                                                }
+                                              }) 
                                           }
                                       })
                                      
@@ -352,6 +371,29 @@ var studentController = {
                                   })
                               })
                           }
+                          connection.query(
+                            "INSERT INTO users(User_Name, User_Image,User_Email,User_Birthdate, User_Phone,User_Address,User_Gender,User_Role) VALUES(?,?,?,?,?,?,?,?)",
+                            [
+                              JSON.stringify({
+                                first_name: req.body.first_name,
+                                last_name: req.body.last_name
+                              }),
+                              req.body.profile_image,
+                              req.body.student_email,
+                              req.body.birthdate,
+                              req.body.phone_number,
+                              req.body.student_address,
+                              req.body.student_gender,
+                              "Student"
+                            ], (err, user) => {
+                            if (err)
+                              console.log(err);
+                            else {
+                              connection.query("INSERT INTO `institutionsusers`(`Institution_ID`, `User_ID`, `User_Role`) VALUES (?,?,?)",[req.Institution_ID, user.insertId,"Student"], (err, institutionuser, fields) => {
+                                if (err) console.log(err);
+                               });
+                            }
+                           })
                      })
               })
             });

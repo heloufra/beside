@@ -1,0 +1,76 @@
+<div
+  id="Finance"
+  class="tab-pane fade sections-main-sub-container-right-main-body"
+>
+  <div class="row sections-main-sub-container-right-main-rows">
+    <div class="col-xs-12">
+      <table>
+        <thead>
+          <tr class="list-months">
+            <th class="col-extra-style" scope="col">Expenses</th>
+          </tr>
+        </thead>
+
+        <tbody class="list-expenses"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div
+    class="sections-main-sub-container-right-main-label-divider yearly-expense"
+  >
+    <p>Yearly expences</p>
+  </div>
+
+  <div class="sections-main-sub-container-right-main-label-divider">
+    <p>Unpaid expences</p>
+  </div>
+
+  <div
+    class="sections-main-sub-container-right-main-result sections-main-sub-container-right-main-result-extra-style"
+  >
+    <span
+      class="sections-main-sub-container-right-main-result-label sections-main-sub-container-right-main-result-label-extra-info"
+      >Total</span
+    >
+    <span class="sections-main-sub-container-right-main-result-value">
+      <span class="red-color unpaid-expense">3200</span>
+      <span class="red-color currency">Dh</span>
+    </span>
+  </div>
+  <% if (role === 'Admin') { %>
+  <!-- sub-container-form-footer-container -->
+  <div class="sub-container-form-footer-container">
+    <!--  sub-container-form-footer -->
+    <div class="sub-container-form-footer">
+      <div
+        class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate"
+        data-toggle="modal"
+        data-target="#FinanceModal"
+        onclick="executePayment()"
+      >
+        <span class="button-text">Execute payment</span>
+        <img class="icon button-icon" src="assets/icons/plus.svg" />
+      </div>
+    </div>
+    <!--  End sub-container-form-footer -->
+
+    <!--  sub-container-form-footer -->
+    <div class="sub-container-form-footer visibility">
+      <div
+        class="rounded-button rounded-button-primary rounded-button-float-right"
+      >
+        <span class="button-text">Save changes</span>
+        <img class="icon button-icon" src="assets/icons/check_small.svg" />
+      </div>
+      <div
+        class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary"
+      >
+        <span class="button-text" id="StudentBtnCancel">Cancel</span>
+      </div>
+    </div>
+    <!--  End sub-container-form-footer -->
+  </div>
+  <%}%>
+  <!-- End sub-container-form-footer-container -->
+</div>

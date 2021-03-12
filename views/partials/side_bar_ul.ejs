@@ -1,0 +1,179 @@
+
+ <div class="side-bar-header-conatiner">
+	 
+	<%if (role === 'Parent') { %>
+	<div class="main-selected-student">
+		<img class="side-bar-brand" src="<%= student.Student_Image %>" alt="brand"/>
+		<span class="side-bar-brand-label"><%= student.Student_FirstName %> <%= student.Student_LastName %></span>
+		<%if (students.length > 1) { %>
+			<img class="icon button-icon" src="assets/icons/caret_brand.svg">
+		<% } %>
+	</div>
+	<%if(students.length && role === 'Parent') {%>
+		<div class="student-dropdown-list slide-up">
+			<% for(var i=0; i <= students.length - 1; i++) {%>
+				<div class="main-selected-student-li" onclick="switchStudent(<%= students[i].Student_ID %>)" data-id="<%=students[i].Student_ID %>">
+				 <img class="side-bar-brand" src="<%=students[i].Student_Image %>" alt="brand"/>
+				 <span class="side-bar-brand-label"><%= students[i].Student_FirstName %> <%= students[i].Student_LastName %></span>
+		 </div>
+				 <% } %>
+		 </div>
+	<%}%>
+	<%} %>
+</div>
+
+<ul class="side-bar-ul">
+	<%if (role === 'Student') { %>
+		<li class="side-bar-li" id="url-my-homework" data-asset-active="homeworks_active.svg" data-asset-inactive="homeworks_inactive.svg">
+			<a href="/my-homework">
+				<img class="side-bar-li-img" src="/assets/icons/sidebar_icons/side_bar_menu/homeworks_inactive.svg" alt="check"/>
+				<span class="side-bar-li-span side-bar-li-span-inactive">Homework</span>
+			</a>
+		</li>
+
+		<li class="side-bar-li" id="url-my-exams" data-asset-active="exams_active.svg" data-asset-inactive="exams_inactive.svg">
+			<a href="/my-exams">
+				<img class="side-bar-li-img" src="/assets/icons/sidebar_icons/side_bar_menu/exams_inactive.svg" alt="check"/>
+				<span class="side-bar-li-span side-bar-li-span-inactive">Exams</span>
+			</a>
+		</li>
+
+		<li class="side-bar-li" id="url-my-grades" data-asset-active="teachers_active.svg" data-asset-inactive="teachers_inactive.svg">
+			<a href="/my-grades">
+				<img class="side-bar-li-img" src="/assets/icons/sidebar_icons/side_bar_menu/teachers_inactive.svg" alt="check"/>
+				<span class="side-bar-li-span side-bar-li-span-inactive">Grades</span>
+			</a>
+		</li>
+
+		<li class="side-bar-li" id="url-my-attitudes" data-asset-active="students_active.svg" data-asset-inactive="students_inactive.svg">
+			<a href="/my-attitudes">
+				<img class="side-bar-li-img" src="/assets/icons/sidebar_icons/side_bar_menu/students_inactive.svg" alt="check"/>
+				<span class="side-bar-li-span side-bar-li-span-inactive">Attitude</span>
+			</a>
+		</li>
+
+		<li class="side-bar-li" id="url-my-finances" data-asset-active="finances_active.svg" data-asset-inactive="finances_inactive.svg">
+			<a href="/my-finances">
+				<img class="side-bar-li-img" src="/assets/icons/sidebar_icons/side_bar_menu/finances_inactive.svg" alt="check"/>
+				<span class="side-bar-li-span side-bar-li-span-inactive">Finance</span>
+			</a>
+		</li>
+
+		<li class="side-bar-li" id="url-my-absences" data-asset-active="dashboard_active.svg" data-asset-inactive="dashboard_inactive.svg">
+			<a href="/my-absences">
+				<img class="side-bar-li-img" src="/assets/icons/sidebar_icons/side_bar_menu/dashboard_inactive.svg" alt="check"/>
+				<span class="side-bar-li-span side-bar-li-span-inactive">Absence</span>
+			</a>
+		</li>
+	<%} %>
+	<%if (role === 'Parent') { %>
+		<li class="side-bar-li" id="url-student-homework" data-asset-active="homeworks_active.svg" data-asset-inactive="homeworks_inactive.svg">
+			<a href="/student-homework">
+				<img class="side-bar-li-img" src="/assets/icons/sidebar_icons/side_bar_menu/homeworks_inactive.svg" alt="check"/>
+				<span class="side-bar-li-span side-bar-li-span-inactive">Homework</span>
+			</a>
+		</li>
+
+		<li class="side-bar-li" id="url-student-exams" data-asset-active="exams_active.svg" data-asset-inactive="exams_inactive.svg">
+			<a href="/student-exams">
+				<img class="side-bar-li-img" src="/assets/icons/sidebar_icons/side_bar_menu/exams_inactive.svg" alt="check"/>
+				<span class="side-bar-li-span side-bar-li-span-inactive">Exams</span>
+			</a>
+		</li>
+
+		<li class="side-bar-li" id="url-student-grades" data-asset-active="teachers_active.svg" data-asset-inactive="teachers_inactive.svg">
+			<a href="/student-grades">
+				<img class="side-bar-li-img" src="/assets/icons/sidebar_icons/side_bar_menu/teachers_inactive.svg" alt="check"/>
+				<span class="side-bar-li-span side-bar-li-span-inactive">Grades</span>
+			</a>
+		</li>
+
+
+		<li class="side-bar-li" id="url-student-attitudes" data-asset-active="students_active.svg" data-asset-inactive="students_inactive.svg">
+			<a href="/student-attitudes">
+				<img class="side-bar-li-img" src="/assets/icons/sidebar_icons/side_bar_menu/students_inactive.svg" alt="check"/>
+				<span class="side-bar-li-span side-bar-li-span-inactive">Attitude</span>
+			</a>
+		</li>
+
+		<li class="side-bar-li" id="url-student-finances" data-asset-active="finances_active.svg" data-asset-inactive="finances_inactive.svg">
+			<a href="/student-finances">
+				<img class="side-bar-li-img" src="/assets/icons/sidebar_icons/side_bar_menu/finances_inactive.svg" alt="check"/>
+				<span class="side-bar-li-span side-bar-li-span-inactive">Finance</span>
+			</a>
+		</li>
+
+		<li class="side-bar-li" id="url-student-absences" data-asset-active="dashboard_active.svg" data-asset-inactive="dashboard_inactive.svg">
+			<a href="/student-absences">
+				<img class="side-bar-li-img" src="/assets/icons/sidebar_icons/side_bar_menu/dashboard_inactive.svg" alt="check"/>
+				<span class="side-bar-li-span side-bar-li-span-inactive">Absence</span>
+			</a>
+		</li>
+<%} %>
+
+	<%if (role !== 'Student' && role !== 'Parent') { %>
+	<%if (role === 'Admin') { %>
+			<li class="side-bar-li" id="url-Dashboard" data-asset-active="dashboard_active.svg" data-asset-inactive="dashboard_inactive.svg">
+				<a href="/Dashboard">
+					<img class="side-bar-li-img" src="/assets/icons/sidebar_icons/side_bar_menu/dashboard_inactive.svg" alt="check"/>
+					<span class="side-bar-li-span side-bar-li-span-inactive">Dashboard</span>
+			</a>
+			</li>
+	<%} %>
+
+		<li id="url-Students" class="side-bar-li" data-asset-active="students_active.svg" data-asset-inactive="students_inactive.svg">
+			<a href="/Students" >
+				<img class="side-bar-li-img" src="/assets/icons/sidebar_icons/side_bar_menu/students_inactive.svg" alt="check"/>
+				<span class="side-bar-li-span side-bar-li-span-inactive">Students</span>
+		</a>
+		</li>
+			<%if (role === 'Admin') { %>
+					<li id="url-Teachers" class="side-bar-li" data-asset-active="teachers_active.svg" data-asset-inactive="teachers_inactive.svg">
+			<a href="/Teachers" >
+				<img class="side-bar-li-img" src="/assets/icons/sidebar_icons/side_bar_menu/teachers_inactive.svg" alt="check"/>
+				<span class="side-bar-li-span side-bar-li-span-inactive">Teachers</span>
+		</a>
+		</li>
+				<% } %>
+
+		<li id="url-Exams" class="side-bar-li" data-asset-active="exams_active.svg" data-asset-inactive="exams_inactive.svg">
+			<a href="/Exams" >
+				<img class="side-bar-li-img" src="/assets/icons/sidebar_icons/side_bar_menu/exams_inactive.svg" alt="check"/>
+				<span class="side-bar-li-span side-bar-li-span-inactive">Exams</span>
+		</a>
+		</li>
+
+		<li id="url-Homeworks" class="side-bar-li" data-asset-active="homeworks_active.svg" data-asset-inactive="homeworks_inactive.svg">
+			<a href="/Homeworks" >
+				<img class="side-bar-li-img" src="/assets/icons/sidebar_icons/side_bar_menu/homeworks_inactive.svg" alt="check"/>
+				<span class="side-bar-li-span side-bar-li-span-inactive">Homework</span>
+		</a>
+		</li>
+
+		<%if (role === 'Admin') { %>
+			<li class="side-bar-li" id="url-Inbox" data-asset-active="inbox_active.svg" data-asset-inactive="inbox_inactive.svg">
+				<a href="/Inbox">
+					<img class="side-bar-li-img" src="/assets/icons/sidebar_icons/side_bar_menu/inbox_inactive.svg" alt="check"/>
+					<span class="side-bar-li-span side-bar-li-span-inactive">Inbox</span>
+			</a>
+			</li>
+	<%} %>
+
+		<%if (role === 'Admin') { %>
+			<li id="url-Finances" class="side-bar-li" data-asset-active="finances_active.svg" data-asset-inactive="finances_inactive.svg">
+			<a href="/Finances">
+				<img class="side-bar-li-img" src="/assets/icons/sidebar_icons/side_bar_menu/finances_inactive.svg" alt="check"/>
+				<span class="side-bar-li-span side-bar-li-span-inactive">Finances</span>
+		</a>
+		</li>
+
+		<li id="url-Settings" class="side-bar-li" data-asset-active="settings_active.svg" data-asset-inactive="settings_inactive.svg">
+			<a href="Settings">
+				<img class="side-bar-li-img" src="/assets/icons/sidebar_icons/side_bar_menu/settings_inactive.svg" alt="check"/>
+				<span class="side-bar-li-span side-bar-li-span-inactive">Settings</span>
+		</a>
+		</li>
+			<% } %>
+	<%} %>
+
+</ul>

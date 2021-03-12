@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <%- include('../partials/main'); %>
+  </head>
+
+  <!-- sections-main-container -->
+  <body class="sections-main-container">
+    <!-- main-container -->
+    <div class="main-container">
+      <!-- setup-main-container -->
+      <%- include('../partials/side_bar', {
+          role: role,
+          institution: institution,
+          user: user,
+          accounts: [],
+          students: students,
+        });
+      %>
+      <!-- end setup-main-container -->
+
+      <!-- sub-container -->
+      <div class="sub-container">
+        <div class="sub-container-nav-bar navbar navbar-default">
+          <button class="navbar-toggle" onclick="openMenu()">
+            <span class="navbar-toggler-icon"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <span class="sub-container-nav-bar-title">Absences</span>
+          <img
+            class="sub-container-nav-bar-img"
+            src="<%= user.User_Image %>"
+            alt="profile"
+          />
+        </div>
+        <%- include('../partials/nav_bar', {user: user,users:users,role:role}); %>
+        <div class="sections-main-sub-container" style="padding: 0 8% 0">
+          <div class="sub-container-form" id="printable-area">
+            <%- include('../partials/student/header'); %>
+            <%- include('../partials/student/absence'); %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%- include('../partials/main-menu'); %>
+    <script
+      src="/javascripts/student.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
+    <script type="text/javascript">
+      displayStudent(<%= student.Student_ID %>).then(() => {
+        $('#Absence').addClass("active in");
+      });
+    </script>
+  </body>
+  <!-- end sections-main-container -->
+</html>

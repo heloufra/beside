@@ -1,0 +1,386 @@
+<div id="Absence" class="tab-pane fade sections-main-sub-container-right-main-body">
+  <div
+    id="reported_title"
+    class="sections-main-sub-container-right-main-label-divider hidden"
+  >
+    <p>Reported absence</p>
+  </div>
+
+  <div class="row sections-main-sub-container-right-main-rows">
+    <div class="col-xs-12">
+      <table id="reported_table" class="hidden">
+        <thead>
+          <tr>
+            <th scope="col">Type</th>
+            <th scope="col">From</th>
+            <th scope="col">To</th>
+          </tr>
+        </thead>
+
+        <tbody class="table_reported"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div
+    id="absence_title"
+    class="sections-main-sub-container-right-main-label-divider hidden"
+  >
+    <p>Absence & Retard</p>
+  </div>
+
+  <div class="row sections-main-sub-container-right-main-rows">
+    <div class="col-xs-12">
+      <table id="absence_table" class="hidden">
+        <thead>
+          <tr>
+            <th scope="col">Type</th>
+            <th scope="col">From</th>
+            <th scope="col">To</th>
+            <th scope="col">Date</th>
+          </tr>
+        </thead>
+
+        <tbody class="table_delay"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <% if (role === 'Admin' || role === 'Teacher') { %>
+  <!-- sub-container-form-footer-container -->
+  <div class="sub-container-form-footer-container">
+    <!--  sub-container-form-footer -->
+    <div class="sub-container-form-footer">
+      <div
+        class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate"
+        data-toggle="modal"
+        data-target="#AddStudentAbsenceModal"
+      >
+        <span class="button-text" id="">Add New</span>
+        <img class="icon button-icon" src="assets/icons/plus.svg" />
+      </div>
+    </div>
+    <!--  End sub-container-form-footer -->
+
+    <!--  sub-container-form-footer -->
+    <div class="sub-container-form-footer visibility">
+      <div
+        class="rounded-button rounded-button-primary rounded-button-float-right"
+      >
+        <span class="button-text">Save changes</span>
+        <img class="icon button-icon" src="assets/icons/check_small.svg" />
+      </div>
+      <div
+        class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary"
+      >
+        <span class="button-text" id="StudentBtnCancel">Cancel</span>
+      </div>
+    </div>
+    <!--  End sub-container-form-footer -->
+  </div>
+  <!-- End sub-container-form-footer-container -->
+
+  <!--_____________ Absence modal _____________-->
+
+  <!-- Trigger the modal with a button -->
+
+  <!-- Modal -->
+  <div
+    id="EditAbsenceModal"
+    class="modal modal-dom-change-watcher"
+    role="dialog"
+  >
+    <div
+      class="modal-dialog modal-dialog-cente animate__animated animate__fadeIn"
+    >
+      <!-- Modal content-->
+      <div class="modal-content modal-content-finance">
+        <div class="modal-body">
+          <!-- modal-body-container -->
+
+          <div class="modal-body-container">
+            <h1 class="sub-container-main-header">Absence & Retard</h1>
+            <h4 class="sub-container-sub-header">
+              There are many variations of passages of Lorem Ipsum available.
+            </h4>
+
+            <div class="row sections-main-sub-container-right-main-rows">
+              <div class="col-md-6">
+                <div class="form-group group readonly">
+                  <input type="text" required="" name="edit-classe" />
+                  <label class="input-label">
+                    <span class="input-label-text">Class</span
+                    ><span class="input-label-bg-mask"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group group readonly">
+                  <input type="text" required="" name="edit-student" />
+                  <label class="input-label">
+                    <span class="input-label-text">Student</span
+                    ><span class="input-label-bg-mask"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="dynamic-form-input-container dynamic-form-input-container-extra-style"
+            >
+              <label class="input-label dynamic-form-input-container-label"
+                ><span class="input-label-text">Absence or Retard </span>
+                <span class="input-label-bg-mask"></span
+              ></label>
+
+              <div class="sections-checkboxes-main-container">
+                <div
+                  class="sections-label-checkbox-main-container sections-label-checkbox-container-left dynamic-form-input-container-type"
+                  data-val="Absence"
+                >
+                  <div class="sections-label-checkbox-container">
+                    <div class="form-group group">
+                      <span class="expense_label">Absence</span>
+                    </div>
+                  </div>
+                  <div class="customCheck customCheckRounded readonly">
+                    <input
+                      type="checkbox"
+                      class="readonly"
+                      checked
+                      value="0"
+                      data-val="Absence"
+                      name="checkbox"
+                      id=""
+                    />
+                    <label for="ck"></label>
+                  </div>
+                </div>
+
+                <div
+                  class="sections-label-checkbox-main-container sections-label-checkbox-container-left container-background-style"
+                  data-val="Retard"
+                >
+                  <div class="sections-label-checkbox-container">
+                    <div class="form-group group">
+                      <span class="expense_label">Retard</span>
+                    </div>
+                  </div>
+                  <div class="customCheck customCheckRounded readonly">
+                    <input
+                      type="checkbox"
+                      class="readonly"
+                      value="1"
+                      data-val="Retard"
+                      name="checkbox"
+                      id=""
+                    />
+                    <label for="ck"></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="dynamic-form-input-container dynamic-form-input-container-extra-style dynamic-form-input-container-session"
+            >
+              <label class="input-label dynamic-form-input-container-label"
+                ><span class="input-label-text"> Period or Session </span>
+                <span class="input-label-bg-mask"></span
+              ></label>
+
+              <div class="sections-checkboxes-main-container">
+                <div
+                  class="sections-label-checkbox-main-container sections-label-checkbox-container-left container-background-style"
+                  data-val="Period"
+                >
+                  <div class="sections-label-checkbox-container">
+                    <div class="form-group group readonly">
+                      <span class="expense_label">Period</span>
+                    </div>
+                  </div>
+                  <div class="customCheck customCheckRounded readonly">
+                    <input
+                      type="checkbox"
+                      value="0"
+                      data-val="Period"
+                      name="checkbox"
+                      id=""
+                      class="readonly"
+                    />
+                    <label for="ck"></label>
+                  </div>
+                </div>
+
+                <div
+                  class="sections-label-checkbox-main-container sections-label-checkbox-container-left"
+                  data-val="Session"
+                >
+                  <div class="sections-label-checkbox-container">
+                    <div class="form-group group readonly">
+                      <span class="expense_label">Session</span>
+                    </div>
+                  </div>
+                  <div class="customCheck customCheckRounded readonly">
+                    <input
+                      type="checkbox"
+                      value="1"
+                      data-val="Session"
+                      checked
+                      class="readonly"
+                      name="checkbox"
+                      id=""
+                    />
+                    <label for="ck"></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--- Show in case of Absense combined with Period -->
+            <div
+              class="dynamic-form-input-container dynamic-form-input-container-extra-style dynamic-form-input-container-multi-date"
+            >
+              <label class="input-label dynamic-form-input-container-label"
+                ><span class="input-label-text">Period</span>
+                <span class="input-label-bg-mask"></span
+              ></label>
+
+              <div class="flex flex-form-group-container">
+                <div
+                  class="form-group group dynamic-form-input-text-container-icon"
+                >
+                  <input
+                    type="text"
+                    name="start-period"
+                    class="input-text input-date input-date-from-today"
+                    required=""
+                    placeholder="Start date"
+                  />
+                  <img
+                    class="icon button-icon caret-disable-rotate"
+                    src="assets/icons/date_icon.svg"
+                  />
+                </div>
+
+                <div
+                  class="form-group group dynamic-form-input-text-container-icon"
+                >
+                  <input
+                    type="text"
+                    name="end-period"
+                    class="input-text input-date input-date-from-today"
+                    required=""
+                    placeholder="End Date"
+                  />
+                  <img
+                    class="icon button-icon caret-disable-rotate"
+                    src="assets/icons/date_icon.svg"
+                  />
+                </div>
+              </div>
+            </div>
+            <!--- End Show in case of Absense combined with Period -->
+
+            <!--- Show in case of Absense combined with Session || Retard -->
+
+            <div
+              class="dynamic-form-input-container dynamic-form-input-container-extra-style dynamic-form-input-container-one-date"
+            >
+              <label class="input-label dynamic-form-input-container-label"
+                ><span class="input-label-text">Date </span>
+                <span class="input-label-bg-mask"></span
+              ></label>
+
+              <div
+                class="form-group group dynamic-form-input-text-container-icon"
+              >
+                <input
+                  type="text"
+                  class="input-text input-extra-border input-date input-date-from-today"
+                  name="editDate"
+                  required=""
+                  placeholder="Select date"
+                />
+                <img
+                  class="icon button-icon caret-disable-rotate"
+                  src="assets/icons/date_icon.svg"
+                />
+              </div>
+            </div>
+
+            <div
+              class="dynamic-form-input-container dynamic-form-input-container-extra-style dynamic-form-input-container-multi-time"
+            >
+              <label class="input-label dynamic-form-input-container-label"
+                ><span class="input-label-text">Select time </span>
+                <span class="input-label-bg-mask"></span
+              ></label>
+
+              <div class="flex flex-form-group-container">
+                <div
+                  class="form-group group dynamic-form-input-text-container-icon"
+                >
+                  <input
+                    type="text"
+                    name="starTime"
+                    value=""
+                    class="input-text input-time"
+                    required=""
+                    placeholder="Time"
+                  />
+                  <img
+                    class="icon button-icon caret-disable-rotate"
+                    src="assets/icons/time_icon.svg"
+                  />
+                </div>
+
+                <div
+                  class="form-group group dynamic-form-input-text-container-icon"
+                >
+                  <input
+                    type="text"
+                    name="endTime"
+                    value=""
+                    class="input-text input-time"
+                    required=""
+                    placeholder="Time"
+                  />
+                  <img
+                    class="icon button-icon caret-disable-rotate"
+                    src="assets/icons/time_icon.svg"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!--- End Show in case of Absense combined with Session || Retard -->
+
+            <!--  sub-container-form-footer -->
+            <div class="sub-container-form-footer hide-footer">
+              <div
+                class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button"
+                onclick="updateAbsence()"
+              >
+                <span class="button-text">Save Changes</span>
+                <img
+                  class="icon button-icon"
+                  src="assets/icons/check_small.svg"
+                />
+              </div>
+              <div
+                class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary secondary-pink-button"
+                data-toggle="modal"
+                data-target="#EditAbsenceModal"
+              >
+                <span class="button-text discard-changes">Discard changes</span>
+              </div>
+            </div>
+            <!--  End sub-container-form-footer -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% } %>
+</div>

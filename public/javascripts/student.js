@@ -528,294 +528,296 @@ $(document).on("click",".students_list",function(event){
 
  function displayStudent(index) 
 {
+	return new Promise((resolve, reject) => {
+		addLoadingAnimation($detailsSelector,$headerInfo);
 
-	addLoadingAnimation($detailsSelector,$headerInfo);
-
-	$.ajax({
-    type: 'get',
-    url: '/Students/one',
-    data: {
-    	user_id:index
-    },
-    dataType: 'json'
-  })
-  .done(function(res){
-  	if(res.errors)
-  	{
-  		console.log(res.errors);
-  		removeLoadingAnimation($detailsSelector,$headerInfo);
-  	} else {
-  		removeLoadingAnimation($detailsSelector,$headerInfo);
-  		var checked = '';
-  		studentId = parseInt(index);
-		$domChange = false;
-		var result = students.filter(function (el) {
-				  return el.Student_ID === parseInt(index);
-				});
-		$("#reported_table").addClass('hidden');
-	  	$("#reported_title").addClass('hidden');
-		$("#absence_table").addClass('hidden');
-	  	$("#absence_title").addClass('hidden');
-	  	$('#Grades').removeClass('hidden');
-		$('#Details').find('.input-parent').remove();
-		$('#Details').removeClass("dom-change-watcher");
-		$('#EditStudentModal').find('.input-parent').remove();
-		$('#EditStudentModal').removeClass("dom-change-watcher");
-		$('#Absence').find('.row-absence').remove();
-		$('#Details').find('.expense_col').remove();
-		$('#Attitude').find('.row-note').remove();
-		$('#Homework').find('.row-homework').remove();
-		$('#Exams').find('.row-exam').remove();
-		$('#Grades').find('.row-score').remove();
-  		$('#Details').find('.expense_col').remove();
-  		$('#Details').find('.row-parent').remove();
-  		$('#EditStudentModal').find('.expense_col').remove();
-  		$('#EditStudentModal').find('.row-parent').remove();
-  		$("#Finance").find('.month-row').remove();
-  		$("#Finance").find('.row-payment').remove();
-  		$('#student_info').removeClass('hidden');
-  		$("#attitude_table").removeClass('hidden');
-  		$("#attitude_title").removeClass('hidden');
-  		if (res.attitudes.length === 0)
-  		{
-  			$("#attitude_table").addClass('hidden');
-  			$("#attitude_title").addClass('hidden');
-  		}
-
-  		
-  		if (res.homeworks.length > 0)
-  			$("#Homework").removeClass('hidden');
-  		else
-  			$("#Homework").addClass('hidden')
-  		if (res.exams.length > 0)
-  			$("#Exams").removeClass('hidden');
-  		else
-  			$("#Exams").addClass('hidden');
-  		attitudes = res.attitudes;
-  		for (var i = res.attitudes.length - 1; i >= 0; i--) {
-  			$('#Attitude').find('.note_container').append(' <tr class="row-note"  id="attitude-'+res.attitudes[i].Attitude_ID+'"> <td class="readonly" data-label="Interaction"> <div class="sections-main-sub-container-right-main-rows"> <div class="dynamic-form-input-dropdown-container dynamic-form-input-dropdown-container-icon"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="dynamic-form-input-float-adjust"> <div class="form-group group form-group-right"><img class="icon button-icon" src="assets/icons/caret.svg"> '+(res.attitudes[i].Attitude_Interaction === 0 ? ('<img class="interaction_icon" src="assets/icons/emoji_good.svg" alt="interaction_icon"> <span>Positive</span>'):('<img class="interaction_icon" src="assets/icons/emoji_bad.svg" alt="interaction_icon"> <span>Negative</span>'))+'</div> </div> </div> </div> </div> </div> </td> <td data-label="Note" class="td-label td-description">'+res.attitudes[i].Attitude_Note+'</td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+res.attitudes[i].Attitude_Addeddate+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> <!-- table-option-list -->' +(parseInt(res.attitudes[i].Declaredby_ID) === res.declaredBy ?('<img class="table-option-icon" src="assets/icons/options.svg"> <div class="table-option-list"><div class="table-option-list-li table-option-list-li-edit" onClick="displayAttitude('+i+')" data-id="'+res.attitudes[i].Attitude_ID+'"> <img src="assets/icons/edit.svg" alt="edit"/> <span class="table-option-list-span" " data-id="'+res.attitudes[i].Attitude_ID+'">Edit</span> </div> <div class="table-option-list-li table-option-list-li-delete" data-id="'+res.attitudes[i].Attitude_ID+'"> <img src="assets/icons/delete.svg" alt="delete"/> <span class="table-option-list-span">Delete</span> </div> <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg"> </div>'): ' ')+' <!-- End table-option-list --> </td> </tr>');
-  		}
-  		payStudent = res.payStudent;
-  		homeworks = res.homeworks;
-  		for (var i = res.homeworks.length - 1; i >= 0; i--) {
-  			$('#Homework').find('.homework-container').append('<tr class="row-homework" onClick="displayHomework('+i+')"> <td data-label="Homework Title"> <!-- sections-main-sub-container-left-cards --> <div class="sections-main-sub-container-left-card"> <span class="sections-main-sub-container-left-card-main-img-text"  style="background: '+res.homeworks[i].Subject_Color+';">'+res.homeworks[i].Subject_Label.slice(0,2)+'</span> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+res.homeworks[i].Homework_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+res.homeworks[i].Classe_Label+'</span> </div> </div> <!-- End sections-main-sub-container-left-cards --> </td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+res.homeworks[i].Homework_DeliveryDate+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> </tr>');
-  		}
-
-  		exams = res.exams;
-  		for (var i = res.exams.length - 1; i >= 0; i--) {
-  			$('#Exams').find('.exams-container').append('<tr class="row-exam" onClick="displayExam('+i+')"> <td data-label="Exam Title"> <!-- sections-main-sub-container-left-cards --> <div class="sections-main-sub-container-left-card"> <span class="sections-main-sub-container-left-card-main-img-text" style="background: '+res.exams[i].Subject_Color+';">'+res.exams[i].Subject_Label.slice(0,2)+'</span> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+res.exams[i].Exam_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+res.exams[i].Classe_Label+'</span> </div> </div> <!-- End sections-main-sub-container-left-cards --> </td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+res.exams[i].Exam_Date+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="Scores"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+(res.exams[i].Exam_Score === null || res.exams[i].Exam_Score === "" ? "0.00" : parseFloat(res.exams[i].Exam_Score).toFixed(2))+'" class="input-text" required="" placeholder="Scores"> </div> </td></tr>');
-  		}
-  		if (res.exams.length === 0)
-  			$('#Grades').addClass('hidden');
-  		else
-  		{
-  			if (res.average)
-  			{
-  				$('#Grades').removeClass('hidden');
-  				$('#Grades').find('.result-score').html(res.average.toFixed(2))
-  			}
-	  		else
-	  			$('#Grades').addClass('hidden');
-	  		for (var i = res.exams.length - 1; i >= 0; i--) {
-	  			if (res.exams[i].Exam_Score !== null && res.exams[i].Exam_Score !== "")
-	  				$('#Grades').find('.scores-container').append('<tr class="row-score"> <td data-label="'+res.exams[i].Subject_Label+'" class="td-label">'+res.exams[i].Subject_Label+'</td> <td class="readonly" data-label="Scores"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+(res.exams[i].Exam_Score === null || res.exams[i].Exam_Score === "" ? "0.00" : parseFloat(res.exams[i].Exam_Score).toFixed(2))+'" class="input-text" required="" placeholder="Scores"> </div> </td> </tr>');
-	  		}
-  		}
-  		subStudent =  res.substudent;
-		start = res.start;
-		end = res.end;
-		academicyear = res.academicyear;
-		var indStart = months.indexOf(start);
-		var indEnd = months.indexOf(end);
-		var htmlmonths = '';
-		var date = new Date();
-		var unpaid = 0;
-		$("#Finance").find('.yearly-expense').addClass('hidden');
-		for (var i = res.substudentpay.length - 1; i >= 0; i--) {
-			if (res.substudentpay[i].Expense_PaymentMethod === "Monthly")
-				$("#Finance").find('.list-expenses').append('<tr class="row-payment" data-val="'+res.substudentpay[i].Expense_Label+'"> <td data-label="'+res.substudentpay[i].Expense_Label+'" class="td-label"> <span class="expense_label">'+res.substudentpay[i].Expense_Label+'<span class="expense_label_method">'+res.substudentpay[i].Expense_Cost+'</span></span> </td> </tr>');
-			else
+		$.ajax({
+			type: 'get',
+			url: '/Students/one',
+			data: {
+				user_id:index
+			},
+			dataType: 'json'
+		})
+		.done(function(res){
+			if(res.errors)
 			{
-				$("#Finance").find('.yearly-expense').removeClass('hidden');
-				unpaid += parseInt(res.substudentpay[i].Expense_Cost);
-				$("#Finance").find('.yearly-expense').after(' <div data-val="'+res.substudentpay[i].Expense_Label+'" class="month-row sections-main-sub-container-right-main-result sections-main-sub-container-right-main-result-extra-style"><span class="sections-main-sub-container-right-main-result-label sections-main-sub-container-right-main-result-label-extra-info"> <span class="expense_label">'+res.substudentpay[i].Expense_Label+'</span> <span class="expense_label_method">'+res.substudentpay[i].Expense_Cost+'</span> </span> <span class="sections-main-sub-container-right-main-result-value img-yearly"><img src="assets/icons/red_check.svg" alt="states" /></span></div>');
-			}
-		}
-		var style = "";
-		for (var i = indStart; i < months.length; i++) {
-
-			if (date.getMonth() === i){
-				style = 'style="background: #f9f9f9"';
-			}
-			else{
-				style = "";
-			}
-
-			htmlmonths += '<th scope="col" class="col-text-align month-row" '+style+'>'+months[i].slice(0,3)+'</th>';
-
-			for (var k = res.substudentpay.length - 1; k >= 0; k--) {
-				if (res.substudentpay[k].Expense_PaymentMethod === "Monthly"){
-					var endDate = new Date(res.substudentpay[k].Subscription_EndDate);
-					if (isNaN(endDate.getMonth())){
-						endDate = i;
-					}
-					else{
-						endDate = endDate.getMonth();
-					}
-					if (date.getMonth() >= i && i >=  months.indexOf(res.substudentpay[k].Subscription_StartDate) && endDate >= i){
-						unpaid += parseInt(res.substudentpay[k].Expense_Cost);
-						$("#Finance").find('[data-val="'+res.substudentpay[k].Expense_Label+'"]').append('<td data-id="'+res.substudentpay[k].SS_ID +"-"+months[i]+'" '+style+' scope="col" class="row-payment col-text-align "><img  src="assets/icons/check_red.svg" alt="states"/></td>');
-					}
-					else{
-						$("#Finance").find('[data-val="'+res.substudentpay[k].Expense_Label+'"]').append('<td data-id="'+res.substudentpay[k].SS_ID +"-"+months[i]+'" scope="col" class="row-payment col-text-align"><img  src="assets/icons/check_gray.svg" alt="states"/></td>');
-					}
-				}
-			}
-
-			for (var j = res.payStudent.length - 1; j >= 0; j--) {
-
-				if(res.payStudent[j].Expense_PaymentMethod === "Monthly"){
-
-					if (res.payStudent[j].SP_PaidPeriod === months[i]){
-						unpaid -= parseInt(res.payStudent[j].Expense_Cost);
-						$("#Finance").find('[data-val="'+res.payStudent[j].Expense_Label+'"]').find('[data-id="'+res.payStudent[j].SS_ID+"-"+months[i]+'"]').html('<img src="assets/icons/check_green.svg" alt="states"/>');
-					}
-				}
-			}
-
-			if (i === indEnd){
-				break;
-			}
-			if (i === months.length - 1){
-				i = -1;
-			}
-		}
-
-		var yearlyExpense = res.payStudent.filter(function (el) {
-	        return el.Expense_PaymentMethod === "Annual";
-	    });
-
-		for (var i = yearlyExpense.length - 1; i >= 0; i--) {
-			unpaid -= yearlyExpense[i].Expense_Cost;
-			$("#Finance").find('[data-val="'+yearlyExpense[i].Expense_Label+'"]').find('.img-yearly').html('<img src="assets/icons/green_check.svg" alt="states" />');
-		}
-
-		if(unpaid < 0){
-			$("#Finance").find(".sub-container-form-footer").addClass("hide-footer");
-		}
-
-		if (unpaid < 0)
-		unpaid = "0.00";
-		$('#Finance').find('.unpaid-expense').html(unpaid);
-		
-		$("#Finance").find('.list-months').append(htmlmonths);
-		var inputFirst,readOnly,inputLabel = '';
-		parents = res.parents;
-		inputLabel = "input-label-move-to-top"
-		readOnly = 'readonly';
-	  	for (var i = res.parents.length - 1; i >= 0; i--) {
-
-	  		if (res.parents.length > 1 )
-	  			inputFirst = '';
-	  		else
-	  			inputFirst = 'dynamic-form-input-first';
-
-			$('#Details').find('.sections-main-sub-container-right-main-rows-parents').prepend('<div class="row-payment dynamic-form-input-parent '+inputFirst+' row-parent"> <div class="input-parent "><div class="col-md-4"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_name" value="'+res.parents[i].Parent_Name+'"  '+readOnly+'> <label class="input-label '+inputLabel+'"> <span class="input-label-text">Full name</span><span class="input-label-bg-mask"></span> </label> </div> </div><div class="col-md-4"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_phone" value="'+res.parents[i].Parent_Phone+'"  '+readOnly+'> <label class="input-label '+inputLabel+'"> <span class="input-label-text">Phone number</span><span class="input-label-bg-mask"></span> </label> </div> </div> <div class="col-md-4"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_email" value="'+res.parents[i].Parent_Email+'"  '+readOnly+'> <label class="input-label '+inputLabel+'"> <span class="input-label-text">Email</span><span class="input-label-bg-mask"></span> </label> </div> </div> </div>');
-
-			$('#EditStudentModal').find('.sections-main-sub-container-right-main-rows-parents').prepend('<div class="row-payment dynamic-form-input-parent '+inputFirst+' row-parent"> <div class="input-parent "><div class="col-md-12"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_name" value="'+res.parents[i].Parent_Name+'"> <label class="input-label "> <span class="input-label-text">Full name</span><span class="input-label-bg-mask"></span> </label> </div> </div> <div class="col-md-6"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_phone" value="'+res.parents[i].Parent_Phone+'"> <label class="input-label"> <span class="input-label-text">Phone number</span><span class="input-label-bg-mask"></span> </label> </div> </div> <div class="col-md-5"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_email" value="'+res.parents[i].Parent_Email+'"> <label class="input-label"> <span class="input-label-text">Email</span><span class="input-label-bg-mask"></span> </label> </div> </div> <div class="col-md-1"> <div class="square-button"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div>');
-		}
-
-		absences = res.absences;
-		for (var i = res.absences.length - 1; i >= 0; i--) {
-			var fromto = JSON.parse(res.absences[i].AD_FromTo)
-			if (res.absences[i].AD_Type === 2)
-			{
-				$("#reported_table").removeClass('hidden');
-  				$("#reported_title").removeClass('hidden');
-				$('#Absence').find('.table_reported').append('<tr class="row-absence" id="absence-'+res.absences[i].AD_ID+'"> <td data-label="Subject name" class="td-label">Absence</td> <td class="readonly" data-label="From"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.from+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="To"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.to+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> <!-- table-option-list --> '+(parseInt(res.absences[i].Declaredby_ID) === res.declaredBy ?(' <img class="table-option-icon" src="assets/icons/options.svg"> <div class="table-option-list"> <div class="table-option-list-li table-option-list-li-edit " onClick="displayAbsence('+i+')" data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/edit.svg" alt="edit"/> <span class="table-option-list-span">Edit</span> </div> <div class="table-option-list-li table-option-list-li-delete " data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/delete.svg" alt="delete"/> <span class="table-option-list-span">Delete</span> </div> <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg"> </div>'): ' ')+' <!-- End table-option-list --> </td> </tr>');
-			}
-			else
-			{
-				$("#absence_table").removeClass('hidden');
-  				$("#absence_title").removeClass('hidden');
-				$('#Absence').find('.table_delay').append('<tr class="row-absence" id="absence-'+res.absences[i].AD_ID+'"> <td data-label="Subject name" class="td-label">'+absenceArray[res.absences[i].AD_Type]+'</td> <td class="readonly" data-label="From"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.from+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg"> </div> </td> <td class="readonly" data-label="To"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.to+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg"> </div> </td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+res.absences[i].AD_Date+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> <!-- table-option-list -->'+(parseInt(res.absences[i].Declaredby_ID) === res.declaredBy ?(' <img class="table-option-icon" src="assets/icons/options.svg"> <div class="table-option-list"> <div class="table-option-list-li table-option-list-li-edit " onClick="displayAbsence('+i+')" data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/edit.svg" alt="edit"/> <span class="table-option-list-span">Edit</span> </div> <div class="table-option-list-li table-option-list-li-delete " data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/delete.svg" alt="delete"/> <span class="table-option-list-span">Delete</span> </div> <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg"> </div>'): ' ')+' <!-- End table-option-list --> </td> </tr>');
-			}
-		}
-
-		if (result[0])
-  		{
-  			for (var i = 0; i < subclasses.length; i++) {
-				if (subclasses[i].Classe_Label === result[0].Classe_Label)
+				console.log(res.errors);
+				removeLoadingAnimation($detailsSelector,$headerInfo);
+				reject(res.errors);
+			} else {
+				removeLoadingAnimation($detailsSelector,$headerInfo);
+				var checked = '';
+				studentId = parseInt(index);
+			$domChange = false;
+			var result = students.filter(function (el) {
+						return el.Student_ID === parseInt(index);
+					});
+			$("#reported_table").addClass('hidden');
+				$("#reported_title").addClass('hidden');
+			$("#absence_table").addClass('hidden');
+				$("#absence_title").addClass('hidden');
+				$('#Grades').removeClass('hidden');
+			$('#Details').find('.input-parent').remove();
+			$('#Details').removeClass("dom-change-watcher");
+			$('#EditStudentModal').find('.input-parent').remove();
+			$('#EditStudentModal').removeClass("dom-change-watcher");
+			$('#Absence').find('.row-absence').remove();
+			$('#Details').find('.expense_col').remove();
+			$('#Attitude').find('.row-note').remove();
+			$('#Homework').find('.row-homework').remove();
+			$('#Exams').find('.row-exam').remove();
+			$('#Grades').find('.row-score').remove();
+				$('#Details').find('.expense_col').remove();
+				$('#Details').find('.row-parent').remove();
+				$('#EditStudentModal').find('.expense_col').remove();
+				$('#EditStudentModal').find('.row-parent').remove();
+				$("#Finance").find('.month-row').remove();
+				$("#Finance").find('.row-payment').remove();
+				$('#student_info').removeClass('hidden');
+				$("#attitude_table").removeClass('hidden');
+				$("#attitude_title").removeClass('hidden');
+				if (res.attitudes.length === 0)
 				{
-					checked = '';
-					for (var j = res.substudent.length - 1; j >= 0; j--) {
-						if(subclasses[i].Expense_Label === res.substudent[j].Expense_Label)
-							checked = 'checked';
+					$("#attitude_table").addClass('hidden');
+					$("#attitude_title").addClass('hidden');
+				}
+
+				
+				if (res.homeworks.length > 0)
+					$("#Homework").removeClass('hidden');
+				else
+					$("#Homework").addClass('hidden')
+				if (res.exams.length > 0)
+					$("#Exams").removeClass('hidden');
+				else
+					$("#Exams").addClass('hidden');
+				attitudes = res.attitudes;
+				for (var i = res.attitudes.length - 1; i >= 0; i--) {
+					$('#Attitude').find('.note_container').append(' <tr class="row-note"  id="attitude-'+res.attitudes[i].Attitude_ID+'"> <td class="readonly" data-label="Interaction"> <div class="sections-main-sub-container-right-main-rows"> <div class="dynamic-form-input-dropdown-container dynamic-form-input-dropdown-container-icon"> <div class="dynamic-form-input-dropdown dynamic-form-input-first"> <div class="dynamic-form-input"> <div class="dynamic-form-input-float-adjust"> <div class="form-group group form-group-right"><img class="icon button-icon" src="assets/icons/caret.svg"> '+(res.attitudes[i].Attitude_Interaction === 0 ? ('<img class="interaction_icon" src="assets/icons/emoji_good.svg" alt="interaction_icon"> <span>Positive</span>'):('<img class="interaction_icon" src="assets/icons/emoji_bad.svg" alt="interaction_icon"> <span>Negative</span>'))+'</div> </div> </div> </div> </div> </div> </td> <td data-label="Note" class="td-label td-description">'+res.attitudes[i].Attitude_Note+'</td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+res.attitudes[i].Attitude_Addeddate+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> <!-- table-option-list -->' +(parseInt(res.attitudes[i].Declaredby_ID) === res.declaredBy ?('<img class="table-option-icon" src="assets/icons/options.svg"> <div class="table-option-list"><div class="table-option-list-li table-option-list-li-edit" onClick="displayAttitude('+i+')" data-id="'+res.attitudes[i].Attitude_ID+'"> <img src="assets/icons/edit.svg" alt="edit"/> <span class="table-option-list-span" " data-id="'+res.attitudes[i].Attitude_ID+'">Edit</span> </div> <div class="table-option-list-li table-option-list-li-delete" data-id="'+res.attitudes[i].Attitude_ID+'"> <img src="assets/icons/delete.svg" alt="delete"/> <span class="table-option-list-span">Delete</span> </div> <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg"> </div>'): ' ')+' <!-- End table-option-list --> </td> </tr>');
+				}
+				payStudent = res.payStudent;
+				homeworks = res.homeworks;
+				for (var i = res.homeworks.length - 1; i >= 0; i--) {
+					$('#Homework').find('.homework-container').append('<tr class="row-homework" onClick="displayHomework('+i+')"> <td data-label="Homework Title"> <!-- sections-main-sub-container-left-cards --> <div class="sections-main-sub-container-left-card"> <span class="sections-main-sub-container-left-card-main-img-text"  style="background: '+res.homeworks[i].Subject_Color+';">'+res.homeworks[i].Subject_Label.slice(0,2)+'</span> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+res.homeworks[i].Homework_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+res.homeworks[i].Classe_Label+'</span> </div> </div> <!-- End sections-main-sub-container-left-cards --> </td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+res.homeworks[i].Homework_DeliveryDate+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> </tr>');
+				}
+
+				exams = res.exams;
+				for (var i = res.exams.length - 1; i >= 0; i--) {
+					$('#Exams').find('.exams-container').append('<tr class="row-exam" onClick="displayExam('+i+')"> <td data-label="Exam Title"> <!-- sections-main-sub-container-left-cards --> <div class="sections-main-sub-container-left-card"> <span class="sections-main-sub-container-left-card-main-img-text" style="background: '+res.exams[i].Subject_Color+';">'+res.exams[i].Subject_Label.slice(0,2)+'</span> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+res.exams[i].Exam_Title+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+res.exams[i].Classe_Label+'</span> </div> </div> <!-- End sections-main-sub-container-left-cards --> </td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+res.exams[i].Exam_Date+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="Scores"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+(res.exams[i].Exam_Score === null || res.exams[i].Exam_Score === "" ? "0.00" : parseFloat(res.exams[i].Exam_Score).toFixed(2))+'" class="input-text" required="" placeholder="Scores"> </div> </td></tr>');
+				}
+				if (res.exams.length === 0)
+					$('#Grades').addClass('hidden');
+				else
+				{
+					if (res.average)
+					{
+						$('#Grades').removeClass('hidden');
+						$('#Grades').find('.result-score').html(res.average.toFixed(2))
 					}
-					$('#Details').find('.sub_list').append('<div class="expense_col col-md-6 sections-label-checkbox-main-container "> <div class="sections-label-checkbox-container"> <div class="form-group group "> <span class="expense_label">'+subclasses[i].Expense_Label+'</span> <span class="method_label"> <span class="method_label_price">'+subclasses[i].Expense_Cost+'</span> <span class="method_label_period">'+subclasses[i].Expense_PaymentMethod+'</span> </span> </div> </div> <div class="customCheck readonly"> <input type="checkbox"  value="'+subclasses[i].LE_ID+'" name="checkbox" id="ck" '+checked+'/> <label for="ck"></label> </div> </div> ');
-					$('#EditStudentModal').find('.sub_list').append('<div class="expense_col col-md-6 sections-label-checkbox-main-container "> <div class="sections-label-checkbox-container"> <div class="form-group group "> <span class="expense_label">'+subclasses[i].Expense_Label+'</span> <span class="method_label"> <span class="method_label_price">'+subclasses[i].Expense_Cost+'</span> <span class="method_label_period">'+subclasses[i].Expense_PaymentMethod+'</span> </span> </div> </div> <div class="customCheck "> <input type="checkbox"  value="'+subclasses[i].LE_ID+'" name="checkbox" id="ck" '+checked+'/> <label for="ck"></label> </div> </div> ');
+					else
+						$('#Grades').addClass('hidden');
+					for (var i = res.exams.length - 1; i >= 0; i--) {
+						if (res.exams[i].Exam_Score !== null && res.exams[i].Exam_Score !== "")
+							$('#Grades').find('.scores-container').append('<tr class="row-score"> <td data-label="'+res.exams[i].Subject_Label+'" class="td-label">'+res.exams[i].Subject_Label+'</td> <td class="readonly" data-label="Scores"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+(res.exams[i].Exam_Score === null || res.exams[i].Exam_Score === "" ? "0.00" : parseFloat(res.exams[i].Exam_Score).toFixed(2))+'" class="input-text" required="" placeholder="Scores"> </div> </td> </tr>');
+					}
+				}
+				subStudent =  res.substudent;
+			start = res.start;
+			end = res.end;
+			academicyear = res.academicyear;
+			var indStart = months.indexOf(start);
+			var indEnd = months.indexOf(end);
+			var htmlmonths = '';
+			var date = new Date();
+			var unpaid = 0;
+			$("#Finance").find('.yearly-expense').addClass('hidden');
+			for (var i = res.substudentpay.length - 1; i >= 0; i--) {
+				if (res.substudentpay[i].Expense_PaymentMethod === "Monthly")
+					$("#Finance").find('.list-expenses').append('<tr class="row-payment" data-val="'+res.substudentpay[i].Expense_Label+'"> <td data-label="'+res.substudentpay[i].Expense_Label+'" class="td-label"> <span class="expense_label">'+res.substudentpay[i].Expense_Label+'<span class="expense_label_method">'+res.substudentpay[i].Expense_Cost+'</span></span> </td> </tr>');
+				else
+				{
+					$("#Finance").find('.yearly-expense').removeClass('hidden');
+					unpaid += parseInt(res.substudentpay[i].Expense_Cost);
+					$("#Finance").find('.yearly-expense').after(' <div data-val="'+res.substudentpay[i].Expense_Label+'" class="month-row sections-main-sub-container-right-main-result sections-main-sub-container-right-main-result-extra-style"><span class="sections-main-sub-container-right-main-result-label sections-main-sub-container-right-main-result-label-extra-info"> <span class="expense_label">'+res.substudentpay[i].Expense_Label+'</span> <span class="expense_label_method">'+res.substudentpay[i].Expense_Cost+'</span> </span> <span class="sections-main-sub-container-right-main-result-value img-yearly"><img src="assets/icons/red_check.svg" alt="states" /></span></div>');
 				}
 			}
-  			$('#AddStudentAbsenceModal').find('input[name="ad_classe"]').val(result[0].Classe_Label);
-			$('#AddStudentAbsenceModal').find('input[name="ad_student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
-			$('#student_info').find('.profile-full-name').text(result[0].Student_FirstName + " " + result[0].Student_LastName);
-			$('#student_info').find('.profile-img').attr('src',result[0].Student_Image);
-			$('#EditStudentModal').find('.profile-img').attr('src',result[0].Student_Image);
-			$('#Details').find('input[name="f_name"]').val(result[0].Student_FirstName);
-			$('#Details').find('input[name="student_address_detail"]').val(result[0].Student_Address);
-			$('#Details').find('input[name="l_name"]').val(result[0].Student_LastName);
-			$('#Details').find('input[name="phone_number_detail"]').val(result[0].Student_Phone);
-			$('#Details').find('input[name="student_email_detail"]').val(result[0].Student_Email);
-			$('#Details').find('input[name="birthdate_detail"]').val(result[0].Student_birthdate);
-			$('#Details').find('input[name="student_gender_detail"]').val(result[0].Student_Gender);
-			$('#Details').find('input[name="classe-detail"]').val(result[0].Classe_Label);
-			$('#Details').find('input[name="level-detail"]').val(result[0].Level_Label);
-			$('#EditStudentModal').find('input[name="f_name"]').val(result[0].Student_FirstName);
-			$('#EditStudentModal').find('input[name="student_address_detail"]').val(result[0].Student_Address);
-			$('#EditStudentModal').find('input[name="l_name"]').val(result[0].Student_LastName);
-			$('#EditStudentModal').find('input[name="phone_number_detail"]').val(result[0].Student_Phone);
-			$('#EditStudentModal').find('input[name="student_email_detail"]').val(result[0].Student_Email);
-			$('#EditStudentModal').find('input[name="birthdate_detail"]').val(result[0].Student_birthdate);
-			$('#EditStudentModal').find('input[name="student_gender_detail"]').val(result[0].Student_Gender);
-			$('#EditStudentModal').find('input[name="classe-detail"]').val(result[0].Classe_Label);
-			$('#EditStudentModal').find('input[name="level-detail"]').val(result[0].Level_Label);
-			$('#AddAttitudeModal').find('input[name="at_classe"]').val(result[0].Classe_Label);
-			$('#AddAttitudeModal').find('input[name="at_student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
-			$('#EditAttitudeModal').find('input[name="edit-classe"]').val(result[0].Classe_Label);
-			$('#EditAttitudeModal').find('input[name="edit-student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
-			$('#FinanceModal').find('input[name="payment-classe"]').val(result[0].Classe_Label);
-			$('#FinanceModal').find('input[name="payment-student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
-			$('#EditAbsenceModal').find('input[name="edit-classe"]').val(result[0].Classe_Label);
-			$('#EditAbsenceModal').find('input[name="edit-student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
+			var style = "";
+			for (var i = indStart; i < months.length; i++) {
 
-			/***___ Student Empty Tables _______*****/
+				if (date.getMonth() === i){
+					style = 'style="background: #f9f9f9"';
+				}
+				else{
+					style = "";
+				}
 
-			if(res.absences.length == 0 ){
-				$("#reported_table").removeClass('hidden');
-	  			$("#reported_title").removeClass('hidden');
-				$("#absence_table").removeClass('hidden');
-	  			$("#absence_title").removeClass('hidden');
+				htmlmonths += '<th scope="col" class="col-text-align month-row" '+style+'>'+months[i].slice(0,3)+'</th>';
+
+				for (var k = res.substudentpay.length - 1; k >= 0; k--) {
+					if (res.substudentpay[k].Expense_PaymentMethod === "Monthly"){
+						var endDate = new Date(res.substudentpay[k].Subscription_EndDate);
+						if (isNaN(endDate.getMonth())){
+							endDate = i;
+						}
+						else{
+							endDate = endDate.getMonth();
+						}
+						if (date.getMonth() >= i && i >=  months.indexOf(res.substudentpay[k].Subscription_StartDate) && endDate >= i){
+							unpaid += parseInt(res.substudentpay[k].Expense_Cost);
+							$("#Finance").find('[data-val="'+res.substudentpay[k].Expense_Label+'"]').append('<td data-id="'+res.substudentpay[k].SS_ID +"-"+months[i]+'" '+style+' scope="col" class="row-payment col-text-align "><img  src="assets/icons/check_red.svg" alt="states"/></td>');
+						}
+						else{
+							$("#Finance").find('[data-val="'+res.substudentpay[k].Expense_Label+'"]').append('<td data-id="'+res.substudentpay[k].SS_ID +"-"+months[i]+'" scope="col" class="row-payment col-text-align"><img  src="assets/icons/check_gray.svg" alt="states"/></td>');
+						}
+					}
+				}
+
+				for (var j = res.payStudent.length - 1; j >= 0; j--) {
+
+					if(res.payStudent[j].Expense_PaymentMethod === "Monthly"){
+
+						if (res.payStudent[j].SP_PaidPeriod === months[i]){
+							unpaid -= parseInt(res.payStudent[j].Expense_Cost);
+							$("#Finance").find('[data-val="'+res.payStudent[j].Expense_Label+'"]').find('[data-id="'+res.payStudent[j].SS_ID+"-"+months[i]+'"]').html('<img src="assets/icons/check_green.svg" alt="states"/>');
+						}
+					}
+				}
+
+				if (i === indEnd){
+					break;
+				}
+				if (i === months.length - 1){
+					i = -1;
+				}
 			}
 
-			if (res.exams.length == 0){
-				$('#Exams').removeClass('hidden');
+			var yearlyExpense = res.payStudent.filter(function (el) {
+						return el.Expense_PaymentMethod === "Annual";
+				});
+
+			for (var i = yearlyExpense.length - 1; i >= 0; i--) {
+				unpaid -= yearlyExpense[i].Expense_Cost;
+				$("#Finance").find('[data-val="'+yearlyExpense[i].Expense_Label+'"]').find('.img-yearly').html('<img src="assets/icons/green_check.svg" alt="states" />');
 			}
 
-  			$('#Grades').removeClass('hidden');
-
-			if (res.homeworks.length == 0){
-				$('#Homework').removeClass('hidden');
+			if(unpaid < 0){
+				$("#Finance").find(".sub-container-form-footer").addClass("hide-footer");
 			}
 
-			if (res.attitudes.length == 0){
-				$('#attitude_title').removeClass('hidden');
-				$('#attitude_table').removeClass('hidden');
+			if (unpaid < 0)
+			unpaid = "0.00";
+			$('#Finance').find('.unpaid-expense').html(unpaid);
+			
+			$("#Finance").find('.list-months').append(htmlmonths);
+			var inputFirst,readOnly,inputLabel = '';
+			parents = res.parents;
+			inputLabel = "input-label-move-to-top"
+			readOnly = 'readonly';
+				for (var i = res.parents.length - 1; i >= 0; i--) {
+
+					if (res.parents.length > 1 )
+						inputFirst = '';
+					else
+						inputFirst = 'dynamic-form-input-first';
+
+				$('#Details').find('.sections-main-sub-container-right-main-rows-parents').prepend('<div class="row-payment dynamic-form-input-parent '+inputFirst+' row-parent"> <div class="input-parent "><div class="col-md-4"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_name" value="'+res.parents[i].Parent_Name+'"  '+readOnly+'> <label class="input-label '+inputLabel+'"> <span class="input-label-text">Full name</span><span class="input-label-bg-mask"></span> </label> </div> </div><div class="col-md-4"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_phone" value="'+res.parents[i].Parent_Phone+'"  '+readOnly+'> <label class="input-label '+inputLabel+'"> <span class="input-label-text">Phone number</span><span class="input-label-bg-mask"></span> </label> </div> </div> <div class="col-md-4"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_email" value="'+res.parents[i].Parent_Email+'"  '+readOnly+'> <label class="input-label '+inputLabel+'"> <span class="input-label-text">Email</span><span class="input-label-bg-mask"></span> </label> </div> </div> </div>');
+
+				$('#EditStudentModal').find('.sections-main-sub-container-right-main-rows-parents').prepend('<div class="row-payment dynamic-form-input-parent '+inputFirst+' row-parent"> <div class="input-parent "><div class="col-md-12"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_name" value="'+res.parents[i].Parent_Name+'"> <label class="input-label "> <span class="input-label-text">Full name</span><span class="input-label-bg-mask"></span> </label> </div> </div> <div class="col-md-6"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_phone" value="'+res.parents[i].Parent_Phone+'"> <label class="input-label"> <span class="input-label-text">Phone number</span><span class="input-label-bg-mask"></span> </label> </div> </div> <div class="col-md-5"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_email" value="'+res.parents[i].Parent_Email+'"> <label class="input-label"> <span class="input-label-text">Email</span><span class="input-label-bg-mask"></span> </label> </div> </div> <div class="col-md-1"> <div class="square-button"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div>');
 			}
 
-			/***___ End Student Empty Tables ___*****/
-  		}
-  	}
-  });
+			absences = res.absences;
+			for (var i = res.absences.length - 1; i >= 0; i--) {
+				var fromto = JSON.parse(res.absences[i].AD_FromTo)
+				if (res.absences[i].AD_Type === 2)
+				{
+					$("#reported_table").removeClass('hidden');
+						$("#reported_title").removeClass('hidden');
+					$('#Absence').find('.table_reported').append('<tr class="row-absence" id="absence-'+res.absences[i].AD_ID+'"> <td data-label="Subject name" class="td-label">Absence</td> <td class="readonly" data-label="From"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.from+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> </td> <td class="readonly" data-label="To"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.to+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> <!-- table-option-list --> '+(parseInt(res.absences[i].Declaredby_ID) === res.declaredBy ?(' <img class="table-option-icon" src="assets/icons/options.svg"> <div class="table-option-list"> <div class="table-option-list-li table-option-list-li-edit " onClick="displayAbsence('+i+')" data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/edit.svg" alt="edit"/> <span class="table-option-list-span">Edit</span> </div> <div class="table-option-list-li table-option-list-li-delete " data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/delete.svg" alt="delete"/> <span class="table-option-list-span">Delete</span> </div> <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg"> </div>'): ' ')+' <!-- End table-option-list --> </td> </tr>');
+				}
+				else
+				{
+					$("#absence_table").removeClass('hidden');
+						$("#absence_title").removeClass('hidden');
+					$('#Absence').find('.table_delay').append('<tr class="row-absence" id="absence-'+res.absences[i].AD_ID+'"> <td data-label="Subject name" class="td-label">'+absenceArray[res.absences[i].AD_Type]+'</td> <td class="readonly" data-label="From"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.from+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg"> </div> </td> <td class="readonly" data-label="To"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+fromto.to+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg"> </div> </td> <td class="readonly" data-label="Date"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+res.absences[i].AD_Date+'" class="input-text" required="" placeholder="Date"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> </div> <!-- table-option-list -->'+(parseInt(res.absences[i].Declaredby_ID) === res.declaredBy ?(' <img class="table-option-icon" src="assets/icons/options.svg"> <div class="table-option-list"> <div class="table-option-list-li table-option-list-li-edit " onClick="displayAbsence('+i+')" data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/edit.svg" alt="edit"/> <span class="table-option-list-span">Edit</span> </div> <div class="table-option-list-li table-option-list-li-delete " data-id="'+res.absences[i].AD_ID+'"> <img src="assets/icons/delete.svg" alt="delete"/> <span class="table-option-list-span">Delete</span> </div> <img class="table-option-icon-close" alt="close" src="assets/icons/close.svg"> </div>'): ' ')+' <!-- End table-option-list --> </td> </tr>');
+				}
+			}
+
+			if (result[0])
+				{
+					for (var i = 0; i < subclasses.length; i++) {
+					if (subclasses[i].Classe_Label === result[0].Classe_Label)
+					{
+						checked = '';
+						for (var j = res.substudent.length - 1; j >= 0; j--) {
+							if(subclasses[i].Expense_Label === res.substudent[j].Expense_Label)
+								checked = 'checked';
+						}
+						$('#Details').find('.sub_list').append('<div class="expense_col col-md-6 sections-label-checkbox-main-container "> <div class="sections-label-checkbox-container"> <div class="form-group group "> <span class="expense_label">'+subclasses[i].Expense_Label+'</span> <span class="method_label"> <span class="method_label_price">'+subclasses[i].Expense_Cost+'</span> <span class="method_label_period">'+subclasses[i].Expense_PaymentMethod+'</span> </span> </div> </div> <div class="customCheck readonly"> <input type="checkbox"  value="'+subclasses[i].LE_ID+'" name="checkbox" id="ck" '+checked+'/> <label for="ck"></label> </div> </div> ');
+						$('#EditStudentModal').find('.sub_list').append('<div class="expense_col col-md-6 sections-label-checkbox-main-container "> <div class="sections-label-checkbox-container"> <div class="form-group group "> <span class="expense_label">'+subclasses[i].Expense_Label+'</span> <span class="method_label"> <span class="method_label_price">'+subclasses[i].Expense_Cost+'</span> <span class="method_label_period">'+subclasses[i].Expense_PaymentMethod+'</span> </span> </div> </div> <div class="customCheck "> <input type="checkbox"  value="'+subclasses[i].LE_ID+'" name="checkbox" id="ck" '+checked+'/> <label for="ck"></label> </div> </div> ');
+					}
+				}
+					$('#AddStudentAbsenceModal').find('input[name="ad_classe"]').val(result[0].Classe_Label);
+				$('#AddStudentAbsenceModal').find('input[name="ad_student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
+				$('#student_info').find('.profile-full-name').text(result[0].Student_FirstName + " " + result[0].Student_LastName);
+				$('#student_info').find('.profile-img').attr('src',result[0].Student_Image);
+				$('#EditStudentModal').find('.profile-img').attr('src',result[0].Student_Image);
+				$('#Details').find('input[name="f_name"]').val(result[0].Student_FirstName);
+				$('#Details').find('input[name="student_address_detail"]').val(result[0].Student_Address);
+				$('#Details').find('input[name="l_name"]').val(result[0].Student_LastName);
+				$('#Details').find('input[name="phone_number_detail"]').val(result[0].Student_Phone);
+				$('#Details').find('input[name="student_email_detail"]').val(result[0].Student_Email);
+				$('#Details').find('input[name="birthdate_detail"]').val(result[0].Student_birthdate);
+				$('#Details').find('input[name="student_gender_detail"]').val(result[0].Student_Gender);
+				$('#Details').find('input[name="classe-detail"]').val(result[0].Classe_Label);
+				$('#Details').find('input[name="level-detail"]').val(result[0].Level_Label);
+				$('#EditStudentModal').find('input[name="f_name"]').val(result[0].Student_FirstName);
+				$('#EditStudentModal').find('input[name="student_address_detail"]').val(result[0].Student_Address);
+				$('#EditStudentModal').find('input[name="l_name"]').val(result[0].Student_LastName);
+				$('#EditStudentModal').find('input[name="phone_number_detail"]').val(result[0].Student_Phone);
+				$('#EditStudentModal').find('input[name="student_email_detail"]').val(result[0].Student_Email);
+				$('#EditStudentModal').find('input[name="birthdate_detail"]').val(result[0].Student_birthdate);
+				$('#EditStudentModal').find('input[name="student_gender_detail"]').val(result[0].Student_Gender);
+				$('#EditStudentModal').find('input[name="classe-detail"]').val(result[0].Classe_Label);
+				$('#EditStudentModal').find('input[name="level-detail"]').val(result[0].Level_Label);
+				$('#AddAttitudeModal').find('input[name="at_classe"]').val(result[0].Classe_Label);
+				$('#AddAttitudeModal').find('input[name="at_student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
+				$('#EditAttitudeModal').find('input[name="edit-classe"]').val(result[0].Classe_Label);
+				$('#EditAttitudeModal').find('input[name="edit-student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
+				$('#FinanceModal').find('input[name="payment-classe"]').val(result[0].Classe_Label);
+				$('#FinanceModal').find('input[name="payment-student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
+				$('#EditAbsenceModal').find('input[name="edit-classe"]').val(result[0].Classe_Label);
+				$('#EditAbsenceModal').find('input[name="edit-student"]').val(result[0].Student_FirstName + " " + result[0].Student_LastName);
+
+				/***___ Student Empty Tables _______*****/
+
+				if(res.absences.length == 0 ){
+					$("#reported_table").removeClass('hidden');
+						$("#reported_title").removeClass('hidden');
+					$("#absence_table").removeClass('hidden');
+						$("#absence_title").removeClass('hidden');
+				}
+
+				if (res.exams.length == 0){
+					$('#Exams').removeClass('hidden');
+				}
+
+					$('#Grades').removeClass('hidden');
+
+				if (res.homeworks.length == 0){
+					$('#Homework').removeClass('hidden');
+				}
+
+				if (res.attitudes.length == 0){
+					$('#attitude_title').removeClass('hidden');
+					$('#attitude_table').removeClass('hidden');
+				}
+				/***___ End Student Empty Tables ___*****/
+				}
+				resolve();
+			}
+		});
+	});
 }
 
 function executePayment() {

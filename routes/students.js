@@ -1,8 +1,8 @@
-var express = require('express');
-var router = express.Router();
-var studentController  = require('../controllers/studentController');
+const express = require('express');
+const router = express.Router();
+const studentController  = require('../controllers/studentController');
 const authAdmin = require("../middleware/adminAuth");
-var upload  = require('../middleware/uploadFile');
+const upload  = require('../middleware/uploadFile');
 
 router.get('/', studentController.studentView);
 router.get('/all', studentController.getAllStudents);

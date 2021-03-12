@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <%- include('../partials/main'); %>
+  </head>
+
+  <!-- sections-main-container -->
+  <body class="sections-main-container">
+    <!-- main-container -->
+    <div class="main-container">
+      <!-- setup-main-container -->
+      <%- include('../partials/side_bar', { role: role, institution:
+      institution, user: user, accounts: [] }); %>
+      <!-- end setup-main-container -->
+
+      <!-- sub-container -->
+      <div class="sub-container">
+        <div class="sub-container-nav-bar navbar navbar-default">
+          <button class="navbar-toggle" onclick="openMenu()">
+            <span class="navbar-toggler-icon"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <span class="sub-container-nav-bar-title">Exams</span>
+          <img
+            class="sub-container-nav-bar-img"
+            src="<%= user.User_Image %>"
+            alt="profile"
+          />
+        </div>
+        <%- include('../partials/nav_bar', {user: user,users:users,role:role}); %>
+        <div class="sections-main-sub-container" style="padding: 0 8% 0">
+          <div class="sub-container-form" id="printable-area">
+              <%- include('../partials/student/header'); %>
+              <%- include('../partials/student/exams'); %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- sub-container -->
+
+    <!--________________ Modals _____________-->
+
+    <!--________________ End Modals _____________-->
+    <%- include('../partials/main-menu'); %>
+    <div id="ExamDetailModal" class="modal" role="dialog">
+
+      <div class="modal-dialog modal-dialog-cente animate__animated animate__fadeIn ">
+
+        <!-- Modal content-->
+        <div class="modal-content modal-content-finance">
+
+          <div class="modal-body">
+
+              <!-- modal-body-container -->
+
+              <div class="modal-body-container">
+
+                 <h1 class="sub-container-main-header">Exam 1</h1>
+                 <h4 class="sub-container-sub-header">
+                  Subject - Class - Teacher Name
+                 </h4>
+
+                  <div class="row sections-main-sub-container-right-main-rows">
+                    <div class="col-xs-12">
+                      <div class="form-group group readonly">
+                        <input type="text" value="09-05-2020" class="input-text"/>
+                        <label class="input-label">
+                          <span class="input-label-text">Date</span><span class="input-label-bg-mask"></span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row sections-main-sub-container-right-main-rows">
+                    <div class="col-xs-12">
+                      <div class="form-group group readonly">
+                        <textarea class="input-text input-text-area">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</textarea>
+                        <label class="input-label">
+                          <span class="input-label-text">Exam description</span><span class="input-label-bg-mask"></span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--  sub-container-form-footer -->
+                  <div class="sub-container-form-footer">
+                      <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary"  data-dismiss="modal" >
+                            <span class="button-text">Close</span>
+                      </div>
+                  </div>
+                  <!--  End sub-container-form-footer -->
+
+              </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+    <script
+      src="/javascripts/student.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
+    <script type="text/javascript">
+      displayStudent(<%= student.Student_ID %>).then(() => {
+        $('#Exams').addClass("active in");
+      });
+    </script>
+  </body>
+  <!-- end sections-main-container -->
+</html>

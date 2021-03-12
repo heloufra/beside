@@ -3,6 +3,12 @@ var queryAllStudents = "SELECT students.*,levels.Level_Label,classes.Classe_Labe
 var queryAllSub = "SELECT expenses.*,levelexpenses.Expense_Cost,studentsubscribtion.Student_ID,studentsubscribtion.* FROM expenses INNER JOIN levelexpenses ON levelexpenses.Expense_ID = expenses.Expense_ID INNER JOIN studentsubscribtion ON studentsubscribtion.LE_ID = levelexpenses.LE_ID WHERE studentsubscribtion.AY_ID = ? AND ( studentsubscribtion.SS_Status = 0 OR studentsubscribtion.SS_Status = 1) ";
 var paymentsQuery = "SELECT studentsubscribtion.SS_ID,studentsubscribtion.Student_ID,studentsubscribtion.Subscription_StartDate,expenses.Expense_PaymentMethod,expenses.Expense_Label,studentspayments.*,levelexpenses.Expense_Cost FROM `studentsubscribtion` INNER JOIN studentspayments ON studentspayments.SS_ID = studentsubscribtion.SS_ID INNER JOIN levelexpenses ON levelexpenses.LE_ID = studentsubscribtion.LE_ID INNER JOIN expenses ON expenses.Expense_ID = levelexpenses.Expense_ID WHERE studentsubscribtion.AY_ID = ?"
 
+const queryStudent = "SELECT students.*,levels.Level_Label,classes.Classe_Label,classes.Classe_ID FROM students INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID INNER JOIN classes ON studentsclasses.Classe_ID = classes.Classe_ID INNER JOIN levels ON levels.Level_ID = classes.Level_ID WHERE studentsclasses.AY_ID = ?  AND students.Student_Status ='1' and students.Student_ID = ? ORDER BY students.Student_FirstName;"
+
+const queryStudentSubs = "SELECT expenses.*,levelexpenses.Expense_Cost,studentsubscribtion.Student_ID,studentsubscribtion.* FROM expenses INNER JOIN levelexpenses ON levelexpenses.Expense_ID = expenses.Expense_ID INNER JOIN studentsubscribtion ON studentsubscribtion.LE_ID = levelexpenses.LE_ID WHERE studentsubscribtion.AY_ID = ? AND ( studentsubscribtion.SS_Status = 0 OR studentsubscribtion.SS_Status = 1) AND studentsubscribtion.Student_ID=?;"
+
+const queryStudentPayments = "SELECT studentsubscribtion.SS_ID,studentsubscribtion.Student_ID,studentsubscribtion.Subscription_StartDate,expenses.Expense_PaymentMethod,expenses.Expense_Label,studentspayments.*,levelexpenses.Expense_Cost FROM `studentsubscribtion` INNER JOIN studentspayments ON studentspayments.SS_ID = studentsubscribtion.SS_ID INNER JOIN levelexpenses ON levelexpenses.LE_ID = studentsubscribtion.LE_ID INNER JOIN expenses ON expenses.Expense_ID = levelexpenses.Expense_ID WHERE studentsubscribtion.AY_ID = ? AND studentsubscribtion.Student_ID = ?"
+
 var financeController = {
    financeView: function(req, res, next) {
     connection.query("SELECT * FROM `users` WHERE `User_ID` = ? LIMIT 1", [req.userId], (err, user, fields) => {
@@ -41,6 +47,25 @@ var financeController = {
        })
     })
   },  
+  getStudentFinances: function (req, res, next) {
+    console.log("student id is", req.query.studentId);
+    connection.query("SELECT * FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
+      connection.query(queryStudent, [academic[0].AY_ID, req.query.studentId], (err, students, fields) => {
+          connection.query(queryStudentSubs, [academic[0].AY_ID, req.query.studentId], (err, subscription, fields) => {
+            connection.query(queryStudentPayments, [academic[0].AY_ID, req.query.studentId], (err, payments, fields) => {
+              res.json({
+                    students:students,
+                    subscription:subscription,
+                    payments:payments,
+                    start:academic[0].AY_Satrtdate,
+                    end:academic[0].AY_EndDate,
+                    academicyear:academic[0].AY_Label
+                  });
+              })
+           })
+       })
+    }) 
+  }
 };
 
 module.exports = financeController;

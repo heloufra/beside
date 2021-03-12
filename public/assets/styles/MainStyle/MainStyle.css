@@ -323,6 +323,34 @@ body {
 	overflow:hidden !important;
 }
 
+.students-selector {
+	margin: 0 -24px 12px;
+	border-top: 1px solid #444862;
+	border-bottom: 1px solid #444862;
+	padding: 12px 24px;
+	color: white;
+}
+
+.students-selector .dropdown-toggle {
+	background: transparent !important;
+	border: none !important;
+	padding: 0;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+}
+
+.students-selector .dropdown-toggle .caret {
+	margin-left: auto;
+	color: white;
+}
+
+.students-selector .student-image {
+	height: 32px;
+	width: 32px;
+	margin: 0 8px 0 0;
+}
 /******** side-bar ********/
 
 .side-bar{
@@ -1641,32 +1669,99 @@ input:focus ~ label,input:valid ~ label{
 	 padding-right: 12px;
 }
 
+.overlay {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #151a3b;
+  overflow-x: hidden;
+  transition: 0.5s;
+}
 
+.overlay-content {
+  position: relative;
+  width: 100%;
+  text-align: center;
+}
+
+.overlay .close {
+  font-size: 36px;
+	line-height: normal;
+	color: white;
+	padding: 0;
+	font-weight: 300;
+	opacity: 1;
+}
+
+.main-menu-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 12px;
+	padding-left: 20px;
+}
+
+.main-menu-header .sub-container-nav-bar-img {
+	margin: 0;
+}
+
+.overlay .students-selector {
+	padding-left: 16px;
+	padding-right: 16px;
+	margin: 0;
+	margin-bottom: 28px;
+}
+
+.overlay .side-bar-li a span {
+	display: inline-block !important;
+}
+
+.overlay .side-bar-li a {
+	display: flex;
+	padding-left: 20px;
+}
+
+.overlay .side-bar-brand-label {
+	display: inline-block !important;
+	text-align: left;
+}
+
+.overlay .main-selected-student {
+	margin: 0;
+	padding-left: 20px;
+}
+
+.overlay .main-selected-student-li {
+	padding-left: 20px;
+}
 /************ .school-dropdown-list *********/
 
-.school-dropdown-list{
+.school-dropdown-list,
+.student-dropdown-list{
 	position: absolute;
     background: var(--side--bar--bg-color);
     width: 100%;
     overflow: hidden;
-    overflow-y: scroll;
     padding-top: 8px;
     visibility: hidden;
 }
 
-.main-selected-school{
+.main-selected-school, .main-selected-student{
 	min-height: 65px;
 	display: flex;
 	align-items: center;
 	border-bottom: 1px solid transparent;
 }
 
-.main-selected-school-border{
+.main-selected-school-border, .main-selected-student-border {
 	border-bottom: 1px solid var(--side--bar--border-color);
 	transition: border-bottom .25s ease-in ;
 }
 
-.main-selected-school-li{
+.main-selected-school-li, .main-selected-student-li{
 	min-height: 50px;
 	display: flex;
 	align-items: center;
@@ -1678,13 +1773,14 @@ input:focus ~ label,input:valid ~ label{
 }
 
 
-.main-selected-school-li .side-bar-brand{
+.main-selected-school-li .side-bar-brand, .main-selected-student-li .side-bar-brand{
 	display:inline-block;
 	max-width: 24px;
-	max-height: 24px;
+	/* max-height: 24px; */
 }
 
-.sections-main-container .main-selected-school-li .side-bar-brand-label{
+.sections-main-container .main-selected-school-li .side-bar-brand-label,
+.sections-main-container .main-selected-student-li .side-bar-brand-label {
 	font-size: 14px !important;
 	color: var(--font--color-inactive);
 }
@@ -1693,12 +1789,13 @@ input:focus ~ label,input:valid ~ label{
 	padding-top: 0px;
 }
 
-.main-selected-school .button-icon{
+.main-selected-school .button-icon,
+.main-selected-student .button-icon {
 	position: absolute;
 	right: 0px;
 }
 
-.main-selected-school{
+.main-selected-school, .main-selected-student{
 	cursor: pointer;
 	transition: background .25s ease-in ;
 	margin: 0px -32px;
@@ -1706,23 +1803,26 @@ input:focus ~ label,input:valid ~ label{
     margin-top: 8px;
 }
 
-.main-selected-school:hover{
+.main-selected-school:hover, .main-selected-student:hover{
 	background: rgba(255,255,255,.06);
 }
 
-.main-selected-school-li{
+.main-selected-school-li,
+.main-selected-student-li {
 	cursor: pointer;
 	transition: padding-left .25s ease-out;
 	font-weight: 300;
 }
 
 
-.main-selected-school-li:hover{
+.main-selected-school-li:hover,
+.main-selected-student-li:hover {
 	padding-left: 8px;
 	background: rgba(255,255,255,.06);
 }
 
-.sections-main-container .main-selected-school-li:hover .side-bar-brand-label{
+.sections-main-container .main-selected-school-li:hover .side-bar-brand-label, 
+.sections-main-container .main-selected-student-li:hover .side-bar-brand-label {
 	color: var(--white-color);
 }
 
@@ -2315,7 +2415,8 @@ input:focus ~ label,input:valid ~ label{
 }
 
 
-.sections-main-sub-container-right-main .input-img-container{
+.sections-main-sub-container-right-main .input-img-container,
+.sections-main-sub-container .input-img-container{
 	margin:0px auto;
 	margin-bottom: 16px;
 	width: 80px;
@@ -2373,21 +2474,29 @@ input:focus ~ label,input:valid ~ label{
 	/*padding-left: 8px;*/
 }
 
-.sections-main-sub-container-right-main  .label-full-name{
+.sections-main-sub-container-right-main  .label-full-name,
+.sections-main-sub-container .label-full-name{
 	font-size: 18px;
 	font-weight: 500px;
 	margin-bottom: 0px;
+	text-align: center;
 	color: var(--black--color);
 }
 
+.sections-main-sub-container-right-main-header.student {
+	margin-bottom: 40px;
+}
 
-.sections-main-sub-container-right-main  .sub-label-full-name{
+
+.sections-main-sub-container-right-main  .sub-label-full-name,
+.sections-main-sub-container .sub-label-full-name{
 	font-size: 14px;
 	margin-top: 8px;
 	color: var(--black--gray--color);
 }
 
-.sections-main-sub-container-right-main .sub-container-form{
+.sections-main-sub-container-right-main .sub-container-form,
+.sections-main-sub-container .sub-label-full-name{
 	padding:60px;
 	padding-bottom: 120px;
 }
@@ -4244,6 +4353,23 @@ table td img {
 
 #printTheBill{
 	display: inline-flex;
+}
+
+.print-button {
+	background-color: transparent;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	border: 1px solid #f0f0f6;
+	position: absolute;
+	right: 16px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.print-button img {
+	margin: 0;
 }
 
 .default-button-simple .button-icon{
@@ -7399,8 +7525,36 @@ table td img {
 
 }
 
-@media screen and (max-width: 881px) {
+@media screen and (max-width: 768px) {
+	.sections-main-container .sub-container {
+		width: 100%;
+	}
 
+	.sections-main-container .side-bar{
+		display: none;
+	}
+
+	.navbar-toggle {
+		float: none;
+		border: none;
+		margin: 0px 0px 0px 8px;
+		padding: 0px;
+		background-color: transparent  !important;
+	}
+
+	.navbar-default .navbar-toggle .icon-bar{
+		background-color: black;
+	}
+
+	.sub-container-nav-bar-title {
+		margin-left: 8px;
+	}
+}
+
+
+.navbar-default {
+	background-color: transparent;
+	border: none;
 }
 
 /*************** End Resposive ***********************************/

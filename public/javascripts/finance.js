@@ -340,6 +340,7 @@ $(document).on("click",".finance-tbody-tr",function(event){
 	event.stopPropagation();
 });
 
+if (document.getElementById("search-input")) {
  document.getElementById("search-input").addEventListener('input', function (evt) {
     $('.students_list').remove();
     
@@ -363,6 +364,7 @@ $(document).on("click",".finance-tbody-tr",function(event){
 			}
   }
 });
+}
 
 
 $('.finance-filter').on( "change", function() {

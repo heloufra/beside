@@ -26,6 +26,7 @@
 
                     <!--  sub-container-nav-bar-profile-dropdown-ul  -->
                     <ul class="sub-container-nav-bar-profile-dropdown-ul">
+                      <% if (role !== 'Student') {%>
                       <li class="sub-container-nav-bar-profile-dropdown-ul-li">
                         <a href="">Switch Accounts</a>
                         <img src="assets/icons/caret.svg" class="caret-img" alt="caret"/>
@@ -45,7 +46,7 @@
                                     }
 
                                   %>
-                                  <a href="#" data-id="<%=users[i].User_ID %>" data-role="<%=users[i].role %>" class="role">
+                                  <a href="#" data-id="<%=users[i].User_ID %>" data-role="<%=users[i].User_Role %>" class="role">
                                         <!--  sections-main-sub-container-left-cards  -->
                                         <div class="sections-main-sub-container-left-card">
                                               <img class="sections-main-sub-container-left-card-main-img user_image" src="<%= users[i].User_Image %>" alt="card-img">
@@ -61,6 +62,7 @@
                           <!--  End sub-container-nav-bar-profile-dropdown-ul -->
                       </li>
                       <li><a href="#" id="settings_btn">Acount Settings</a></li>
+                      <%}%>
                       <li><a href="" id="logout_btn">Logout</a></li>
                     </ul>
                     <!--  End sub-container-nav-bar-profile-dropdown-ul -->
@@ -97,7 +99,6 @@ function readFile() {
   }
   
 }
-
 $(document).on("click","#settings_btn",function(event){
     document.getElementById("profile_settings").addEventListener("change", readFile);
     $('#ProfileSettings').modal('show');
@@ -135,7 +136,7 @@ $(document).on("click",".role",function(event){
     .done(function(res){
       if(res.switched)
       {
-        window.location.href = "/";
+        window.location.href = "/home";
       } else {
        console.log(res.errors)
       }

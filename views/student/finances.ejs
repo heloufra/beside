@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <%- include('../partials/main'); %>
+  </head>
+
+  <!-- sections-main-container -->
+  <body class="sections-main-container">
+    <!-- main-container -->
+    <div class="main-container">
+      <!-- setup-main-container -->
+      <%- include('../partials/side_bar', { role: role, institution:
+      institution, user: user, accounts: [] }); %>
+      <!-- end setup-main-container -->
+
+      <!-- sub-container -->
+      <div class="sub-container">
+        <div class="sub-container-nav-bar navbar navbar-default">
+          <button class="navbar-toggle" onclick="openMenu()">
+            <span class="navbar-toggler-icon"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <span class="sub-container-nav-bar-title">Finance</span>
+          <img
+            class="sub-container-nav-bar-img"
+            src="<%= user.User_Image %>"
+            alt="profile"
+          />
+        </div>
+        <%- include('../partials/nav_bar', {user: user,users:users,role:role}); %>
+        <button class="print-button" id="print-button" data-studentid="<%= student.Student_ID %>"><img src="/assets/icons/print.svg" alt=""></button>
+        <div class="sections-main-sub-container" style="padding: 0 8% 0">
+          <div class="sub-container-form">
+              <%- include('../partials/student/header'); %>
+              <%- include('../partials/student/finance'); %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- sub-container -->
+
+    <!--________________ Modals _____________-->
+
+    <!--________________ End Modals _____________-->
+    <%- include('../partials/main-menu'); %>
+    <%- include('../partials/modals.ejs'); %>
+    <script
+      src="/javascripts/student.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
+    <script
+      src="/javascripts/studentFinances.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
+    <script type="text/javascript">
+      displayStudent(<%= student.Student_ID %>).then(() => {
+        $('#Finance').addClass("active in");
+      });
+      getStudentFinances(<%= student.Student_ID %>)
+    </script>
+  </body>
+  <!-- end sections-main-container -->
+</html>
