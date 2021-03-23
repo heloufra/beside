@@ -30,6 +30,17 @@ function fetchData(req, callback = () => {}) {
 }
 
 const parentController = {
+  getAllParents: (req, res, next) => {
+    connection.query(
+      "SELECT * FROM `parents` WHERE Institution_ID = ?",
+      [req.Institution_ID],
+      (err, parents) => {
+      res.json({
+        parents,
+      });
+      }
+    );
+  },
   absences: (req, res, next) =>
     fetchData(req, (users, user, institution, role, student, students) => {
       res.render("student/absences", {

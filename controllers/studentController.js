@@ -221,26 +221,32 @@ var studentController = {
      parents_error = {};
      parent_emails_error = [];
      parent_phones_error = [];
+     existing_parents = []
 
      user_id = -1;
 
 
       // Parents unique email , phone 
-      for (var p = 0 ; p < req.body.parent_email.length ; p++ ) {
+      for (let p = 0 ; p < req.body.parent_email.length ; p++ ) {
          // Parent unique email  
-          connection.query("SELECT Count(*) as 'Email_Count' , Parent_Email  FROM `parents` WHERE `Parent_Email` = ? AND Parent_Status = 1   AND Institution_ID = ? ", [req.body.parent_email[p] , req.Institution_ID ], (err, parentEmail, fields) => {
+          connection.query("SELECT Count(*) as 'Email_Count' , Parent_Email, Parent_Name, Parent_Phone, Parent_ID  FROM `parents` WHERE `Parent_Email` = ? AND Parent_Status = 1 AND Institution_ID = ? ", [req.body.parent_email[p] , req.Institution_ID ], (err, parentEmail, fields) => {
                 // unique email
-                if(parentEmail[0].Email_Count > 0 ){
-                   parent_emails_error.push(parentEmail[0].Parent_Email);
+                if(parentEmail[0].Email_Count > 0){
+                    if(parentEmail[0].Parent_Name !== req.body.parent_name[p] || parentEmail[0].Parent_Phone !== req.body.parent_phone[p]) {
+                      parent_emails_error.push(parentEmail[0].Parent_Email);
+                    } else {
+                      existing_parents.push(parentEmail[0]);
+                      console.log('existing parents', existing_parents); 
+                    }
                 }
           });
       }
 
-      for (var p = 0 ; p < req.body.parent_phone.length ; p++ ) {
+      for (let p = 0 ; p < req.body.parent_phone.length ; p++ ) {
           // Parent unique phone  
-          connection.query("SELECT Count(*) as 'Tel_Count' , Parent_Phone FROM `parents` WHERE `Parent_Phone` = ? AND Parent_Status = 1   AND Institution_ID = ? ", [req.body.parent_phone[p] , req.Institution_ID ], (err, parentTel, fields) => {
+          connection.query("SELECT Count(*) as 'Tel_Count' , Parent_Email, Parent_Name, Parent_Phone, Parent_ID FROM `parents` WHERE `Parent_Phone` = ? AND Parent_Status = 1   AND Institution_ID = ? ", [req.body.parent_phone[p] , req.Institution_ID ], (err, parentTel, fields) => {
                 // unique phone
-                if(parentTel[0].Tel_Count > 0 ){
+                if(parentTel[0].Tel_Count > 0 && (parentTel[0].Parent_Name !== req.body.parent_name[p] || parentTel[0].Parent_Email !== req.body.parent_email[p])){
                    parent_phones_error.push(parentTel[0].Parent_Phone);
                 }
           });
@@ -285,7 +291,21 @@ var studentController = {
                              user_id = student.insertId
                              console.log("Student",student.insertId);
                              for (let i = req.body.parent_name.length - 1; i >= 0; i--) {
-                               
+                               debugger;
+                               const existingParent = existing_parents.find(p => p.Parent_Email === req.body.parent_email[i])
+                                console.log('existing parent detected', existing_parents, existingParent);
+                               if (existingParent) {
+                                connection.query(spQuery, [student.insertId,existingParent.Parent_ID], (err, spresult, fields) => {
+                                  if (err) {
+                                       console.log(err);
+                                         res.json({
+                                           errors: [{
+                                           field: "Access denied",
+                                           errorDesc: "List Students Error"
+                                         }]});
+                                     }
+                                 })
+                               } else { 
                               connection.query(parentQuery, [req.body.parent_name[i],req.body.parent_phone[i],req.body.parent_email[i],req.Institution_ID], (err, parent, fields) => {
                                if (err) {
                                     console.log(err);
@@ -334,6 +354,7 @@ var studentController = {
                                      
                                   }
                               })
+                              }
                              }
 
                              if (req.body.checkbox_sub)

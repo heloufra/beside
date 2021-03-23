@@ -11,6 +11,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const setupRouter = require('./routes/setup');
 const studentsRouter = require('./routes/students');
+const parentsRouter = require('./routes/parent');
 const financeRouter = require('./routes/finance');
 const dashboardRouter = require('./routes/dashboard');
 const settingsRouter = require('./routes/settings');
@@ -56,6 +57,7 @@ app.use('/Teachers',auth, teacherRouter);
 app.use('/Exams',auth, examRouter);
 app.use('/Homeworks',auth, homeworkRouter);
 app.use('/Students',auth, studentsRouter);
+app.use('/Parents',auth, parentsRouter);
 app.use('/Finances',auth, financeRouter);
 app.use('/Dashboard',auth, dashboardRouter);
 app.use('/Settings',auth, settingsRouter);
@@ -74,6 +76,7 @@ app.use(function(err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
+  console.log(err);
   // render the error page
   res.status(err.status || 500);
   res.render('error');
