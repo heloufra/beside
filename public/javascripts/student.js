@@ -723,7 +723,7 @@ $(document).on("click",".students_list",function(event){
 
 				$('#Details').find('.sections-main-sub-container-right-main-rows-parents').prepend('<div class="row-payment dynamic-form-input-parent '+inputFirst+' row-parent"> <div class="input-parent "><div class="col-md-4"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_name" value="'+res.parents[i].Parent_Name+'"  '+readOnly+'> <label class="input-label '+inputLabel+'"> <span class="input-label-text">Full name</span><span class="input-label-bg-mask"></span> </label> </div> </div><div class="col-md-4"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_phone" value="'+res.parents[i].Parent_Phone+'"  '+readOnly+'> <label class="input-label '+inputLabel+'"> <span class="input-label-text">Phone number</span><span class="input-label-bg-mask"></span> </label> </div> </div> <div class="col-md-4"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_email" value="'+res.parents[i].Parent_Email+'"  '+readOnly+'> <label class="input-label '+inputLabel+'"> <span class="input-label-text">Email</span><span class="input-label-bg-mask"></span> </label> </div> </div> </div>');
 
-				$('#EditStudentModal').find('.sections-main-sub-container-right-main-rows-parents').prepend('<div class="row-payment dynamic-form-input-parent '+inputFirst+' row-parent"> <div class="input-parent "><div class="col-md-12"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_name" value="'+res.parents[i].Parent_Name+'"> <label class="input-label "> <span class="input-label-text">Full name</span><span class="input-label-bg-mask"></span> </label> </div> </div> <div class="col-md-6"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_phone" value="'+res.parents[i].Parent_Phone+'"> <label class="input-label"> <span class="input-label-text">Phone number</span><span class="input-label-bg-mask"></span> </label> </div> </div> <div class="col-md-5"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_email" value="'+res.parents[i].Parent_Email+'"> <label class="input-label"> <span class="input-label-text">Email</span><span class="input-label-bg-mask"></span> </label> </div> </div> <div class="col-md-1"> <div class="square-button"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div>');
+				$('#EditStudentModal').find('.sections-main-sub-container-right-main-rows-parents').prepend('<div class="row-payment dynamic-form-input-parent '+inputFirst+' row-parent"> <div class="input-parent "><div class="col-md-12"><div class="dynamic-form-input-dropdown-container dynamic-form-input-dropdown-search-container"><div class="dynamic-form-input-dropdown dynamic-form-input-first"><div class="dynamic-form-input"><div class="dynamic-form-input-float-adjust"><div class="form-group group form-group-right" style="margin-bottom: 0 !important;"><input type="text" class="input-dropdown-search" placeholder="Search parents" name="parent_name" value="'+res.parents[i].Parent_Name+'" data-id="'+res.parents[i].Parent_ID+'" /><img class="icon button-icon caret-rotate" src="assets/icons/sidebar_icons/search.svg"><ul class="dynamic-form-input-dropdown-options"></ul></div></div></div></div></div></div><div class="col-md-6"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_phone" value="'+res.parents[i].Parent_Phone+'"> <label class="input-label"> <span class="input-label-text">Phone number</span><span class="input-label-bg-mask"></span> </label> </div> </div> <div class="col-md-5"> <div class="form-group group "> <input type="text" required="" data-id="'+res.parents[i].Parent_ID+'" name="parent_email" value="'+res.parents[i].Parent_Email+'"> <label class="input-label"> <span class="input-label-text">Email</span><span class="input-label-bg-mask"></span> </label> </div> </div> <div class="col-md-1"> <div class="square-button"> <img class="icon" src="assets/icons/minus.svg"> </div> </div> </div> </div>');
 			}
 
 			absences = res.absences;
@@ -1220,7 +1220,6 @@ function saveStudent() {
 	parent_errors = [];
 
 	$("#student_form .dynamic-form-input-parent input").each(function(ind,elem){
-
 		if ($(elem).val() == ""){
 			$(elem).parent(".form-group").addClass("form-input-error");
 			parent_errors.push(ind);
@@ -1507,7 +1506,6 @@ function saveChange() {
 	parent_errors = [];
 
 	$("#EditStudentModal .dynamic-form-input-parent input").each(function(ind,elem){
-
 		if ($(elem).val() == ""){
 			$(elem).parent(".form-group").addClass("form-input-error");
 			parent_errors.push(ind);

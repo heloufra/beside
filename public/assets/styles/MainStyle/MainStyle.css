@@ -2996,6 +2996,12 @@ form{
 	margin-right: 8px !important;
 	align-self: center;
 }
+@media screen and (max-width: 600px) {
+	.sections-main-sub-container-right-main-body table .sections-main-sub-container-left-card {
+		width: 60%;
+		margin-left: auto;
+	}
+}
 
 .sections-main-sub-container-right-main-body table .sections-main-sub-container-left-card-sub-info{
 	font-size: 13px;
@@ -3140,9 +3146,14 @@ form{
     content: attr(aria-label);
     */
     content: attr(data-label);
-    float: left;
     font-weight: bold;
+		position: absolute;
     text-transform: uppercase;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+		width: 30%;
+    text-align: left;
   }
   
   .sections-main-sub-container-right-main-body table td:last-child {
@@ -3163,6 +3174,30 @@ form{
 #Exams .dynamic-form-input-text-container-icon,
 #Homework .dynamic-form-input-text-container-icon{
 	cursor: pointer !important;
+}
+
+@media screen and (max-width: 600px) {
+	#Exams .dynamic-form-input-text-container-icon,
+	#Homework .dynamic-form-input-text-container-icon{
+		width: 65%;
+		margin-left: auto;
+		text-align: right;
+		padding: 8px 12px;
+	}
+
+	#Exams .dynamic-form-input-text-container-icon input,
+	#Homework .dynamic-form-input-text-container-icon input {
+		text-align: right;
+	}
+
+	.sections-main-sub-container {
+		padding: 0 !important;
+	}	
+}
+
+.display-block-important {
+	display: block !important;
+	opacity: 1;
 }
 
 #Finance .td-label{

@@ -225,7 +225,8 @@ var teacherController = {
                    readHTMLFile(__dirname + '/templates/email_invitation_template.html', function(err, html) {
                           var template = handlebars.compile(html);
                           var replacements = {
-                               name:req.body.first_name
+                               name:req.body.first_name,
+                               role: "teacher"
                           };
                           var htmlToSend = template(replacements);
                           transporter.sendMail({

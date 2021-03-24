@@ -13,11 +13,12 @@ var readHTMLFile = function(path, callback) {
                     });
                 };
 
-function sendMail(email,first_name) {
+function sendMail(email,first_name, role) {
 	readHTMLFile(__dirname + '/../controllers/templates/email_invitation_template.html', function(err, html) {
                   var template = handlebars.compile(html);
                   var replacements = {
-                       name:first_name
+                       name:first_name,
+                       role,
                   };
                   var htmlToSend = template(replacements);
                   transporter.sendMail({
