@@ -544,9 +544,10 @@ function getAllStudents(id) {
 			const value = new RegExp(this.value.toLowerCase().trim());
 			$this.parent().find(".dynamic-form-input-dropdown-options .search-output").remove();
 			searchParents($this,value);
+			$this.parent().find(".dynamic-form-input-dropdown-options").css({"opacity":"1"});
 
 			setTimeout(function(){
-				$this.parent().find(".dynamic-form-input-dropdown-options").css({"opacity":"1"});
+				$this.parent().find(".dynamic-form-input-dropdown-options").css({"display":"inline-block"});
 			},50);
 
 			event.stopPropagation();

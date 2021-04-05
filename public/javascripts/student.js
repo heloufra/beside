@@ -615,8 +615,9 @@ $(document).on("click",".students_list",function(event){
 						$('#Grades').removeClass('hidden');
 						$('#Grades').find('.result-score').html(res.average.toFixed(2))
 					}
-					else
+					else {
 						$('#Grades').addClass('hidden');
+					}
 					for (var i = res.exams.length - 1; i >= 0; i--) {
 						if (res.exams[i].Exam_Score !== null && res.exams[i].Exam_Score !== "")
 							$('#Grades').find('.scores-container').append('<tr class="row-score"> <td data-label="'+res.exams[i].Subject_Label+'" class="td-label">'+res.exams[i].Subject_Label+'</td> <td class="readonly" data-label="Scores"> <div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="'+(res.exams[i].Exam_Score === null || res.exams[i].Exam_Score === "" ? "0.00" : parseFloat(res.exams[i].Exam_Score).toFixed(2))+'" class="input-text" required="" placeholder="Scores"> </div> </td> </tr>');

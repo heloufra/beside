@@ -332,7 +332,7 @@ var studentController = {
                                              console.log("SP",spresult.insertId)
                                              const [firstName = "", lastName = ""] = (req.body.parent_name[i] || "").split(" ");
                                              connection.query(
-                                              "INSERT INTO users(User_Name, User_Email, User_Phone,User_Role) VALUES(?,?,?,?)",
+                                              "INSERT INTO users(User_Name, User_Email, User_Phone,User_Role, User_Image) VALUES(?,?,?,?,?)",
                                               [
                                                 JSON.stringify({
                                                   first_name: firstName,
@@ -340,7 +340,8 @@ var studentController = {
                                                 }),
                                                 req.body.parent_email[i],
                                                 req.body.parent_phone[i],
-                                                "Parent"
+                                                "Parent",
+                                                "assets/images/profiles/avatar_parent.png"
                                               ], (err, user) => {
                                                 if (err) {
                                                   console.log(err);

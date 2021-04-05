@@ -2996,12 +2996,7 @@ form{
 	margin-right: 8px !important;
 	align-self: center;
 }
-@media screen and (max-width: 600px) {
-	.sections-main-sub-container-right-main-body table .sections-main-sub-container-left-card {
-		width: 60%;
-		margin-left: auto;
-	}
-}
+
 
 .sections-main-sub-container-right-main-body table .sections-main-sub-container-left-card-sub-info{
 	font-size: 13px;
@@ -3107,15 +3102,15 @@ form{
 
 @media screen and (max-width: 600px) {
 
-  .sections-main-sub-container-right-main-body table {
+  #Finance.sections-main-sub-container-right-main-body table {
     border: 0;
   }
 
-  .sections-main-sub-container-right-main-body table caption {
+  #Finance.sections-main-sub-container-right-main-body table caption {
     font-size: 1.3em;
   }
   
-  .sections-main-sub-container-right-main-body table thead {
+  #Finance.sections-main-sub-container-right-main-body table thead {
     border: none;
     clip: rect(0 0 0 0);
     height: 1px;
@@ -3126,21 +3121,21 @@ form{
     width: 1px;
   }
   
-  .sections-main-sub-container-right-main-body table tr {
+  #Finance.sections-main-sub-container-right-main-body table tr {
     border-bottom: 3px solid var(--input-border--color);
     display: block;
     margin-bottom: .625em;
     cursor: none !important;
   }
   
-  .sections-main-sub-container-right-main-body table td {
+  #Finance.sections-main-sub-container-right-main-body table td {
     border-bottom: 1px solid var(--input-border--color);
     display: block;
     font-size: 13px;
     text-align: right;
   }
   
-  .sections-main-sub-container-right-main-body table td::before {
+  #Finance.sections-main-sub-container-right-main-body table td::before {
     /*
     * aria-label has no advantage, it won't be read inside a table
     content: attr(aria-label);
@@ -3156,7 +3151,7 @@ form{
     text-align: left;
   }
   
-  .sections-main-sub-container-right-main-body table td:last-child {
+  #Finance.sections-main-sub-container-right-main-body table td:last-child {
     border-bottom: 0;
   }
 
@@ -3177,19 +3172,6 @@ form{
 }
 
 @media screen and (max-width: 600px) {
-	#Exams .dynamic-form-input-text-container-icon,
-	#Homework .dynamic-form-input-text-container-icon{
-		width: 65%;
-		margin-left: auto;
-		text-align: right;
-		padding: 8px 12px;
-	}
-
-	#Exams .dynamic-form-input-text-container-icon input,
-	#Homework .dynamic-form-input-text-container-icon input {
-		text-align: right;
-	}
-
 	.sections-main-sub-container {
 		padding: 0 !important;
 	}	
@@ -3205,6 +3187,10 @@ form{
 	padding-right: 12px;
 }
 
+#Attitude .form-group.group.form-group-right {
+	display: flex;
+	align-items: center;
+}
 
 /****** sections-main-sub-container-right-main-result ******/
 
@@ -3297,6 +3283,18 @@ form{
 }
 #Attitude table .col-last {
 	width: 20%;
+}
+
+@media screen and (max-width: 600px) {
+	#Attitude table .col-first {
+		width: 25%;
+	}
+	#Attitude table .col-middle {
+		width: 50%;
+	}
+	#Attitude table .col-last {
+		width: 25%;
+	}
 }
 
 /****** End table-option-list ******/
