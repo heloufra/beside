@@ -141,6 +141,28 @@ function remove_No_Result_FeedBack(){
 
 /* End Remove_No_Result_FeedBack _________________________________*/
 
+/* addSecionMainFadeOutAnimation _________________________________*/
+
+function addSecionMainFadeOutAnimation($secionMainSelector){
+	$($secionMainSelector).fadeOut($dataLoadingTimingDetails / 2 );
+}
+
+/* removeSecionMainFadeOutAnimation _________________________________*/
+
+function removeSecionMainFadeOutAnimation($secionMainSelector){
+
+	$("#reported_title").removeClass('hidden');
+	$("#absence_table").removeClass('hidden');
+	$("#absence_title").removeClass('hidden');
+	$('#Exams').removeClass('hidden');
+	$('#Grades').removeClass('hidden');
+	$('#Homework').removeClass('hidden');
+	$('#attitude_title').removeClass('hidden');
+	$('#attitude_table').removeClass('hidden');
+
+	$($secionMainSelector).fadeIn($dataLoadingTimingDetails / 2 );
+
+}
 
 /* addLoadingAnimation _________________________________*/
 
@@ -3842,4 +3864,13 @@ function SortStudentList(List_){
 }
 
 /**__ Sort Users____________________________**/
+
+/**__ section_Main_Exist ____________________________**/
+
+
+function section_Main_Exist() {
+	return $(".sections-main-sub-container-right-main-tabs").length;
+}
+
+
 

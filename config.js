@@ -1,4 +1,4 @@
-/* local */
+/* local 
 
 module.exports = {
   sessionSecret: '***REMOVED***',
@@ -7,16 +7,14 @@ module.exports = {
   privateKey:'***REMOVED***',
   db: {
     host: 'localhost',
-    port: 3306,
+    port: 3308,
     user: 'root',
-    password: 'password',
+    password: '',
     database: 'beside_db'
   }
 };
 
-/************************
-
-/* server 
+/* server */
 module.exports = {
   sessionSecret: '***REMOVED***',
   // ports

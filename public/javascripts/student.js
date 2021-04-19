@@ -21,6 +21,7 @@ var alreadyPay = [];
 var studentlevelchanged = 0 ;
 
 let $detailsSelector = "#Details";
+let $secionMainSelector =".sections-main-sub-container-right-main-body";
 
 function hideSelected(value) {
   if (value && !value.selected) {
@@ -531,6 +532,10 @@ $(document).on("click",".students_list",function(event){
 	return new Promise((resolve, reject) => {
 		addLoadingAnimation($detailsSelector,$headerInfo);
 
+		if(section_Main_Exist() == 0){
+			addSecionMainFadeOutAnimation($secionMainSelector);
+		}
+
 		$.ajax({
 			type: 'get',
 			url: '/Students/one',
@@ -815,6 +820,12 @@ $(document).on("click",".students_list",function(event){
 				}
 				/***___ End Student Empty Tables ___*****/
 				}
+
+				if(section_Main_Exist() == 0){
+					addSecionMainFadeOutAnimation($secionMainSelector);
+					removeSecionMainFadeOutAnimation($secionMainSelector);
+				}
+
 				resolve();
 			}
 		});
