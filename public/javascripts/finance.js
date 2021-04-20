@@ -279,8 +279,25 @@ function savePayment() {
 		      	});
 			}
 
+			date = new Date();
+			currentMonth = date.getMonth();
+			passByMonth = false;
+
 			for (var k = 0; k < MonthsFiltred.length; k++) {
-				htmlmonths += "<option selected value="+MonthsFiltred[k]+">"+MonthsFiltred[k]+" </option> ";
+
+				selected = 'selected';
+				
+				if(!passByMonth){
+					selected = 'selected';
+				}else{
+					selected = '';
+				}
+
+				if(MonthsFiltred[k] == months[currentMonth]){
+					passByMonth = true;
+				}
+
+				htmlmonths += "<option "+selected+" value="+MonthsFiltred[k]+">"+MonthsFiltred[k]+"</option> ";				
 			}
 
 			$('#FinanceModal').find('.monthly').removeClass('hidden');

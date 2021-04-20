@@ -1,5 +1,4 @@
 /* local 
-
 module.exports = {
   sessionSecret: '***REMOVED***',
   // ports
@@ -28,5 +27,4 @@ module.exports = {
     database: 'beside_db'
   }
 };
-
 /************************/
