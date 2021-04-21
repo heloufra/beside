@@ -246,8 +246,10 @@
 
                               <img class="icon button-icon" src="assets/icons/caret.svg">
                               <ul class="dynamic-form-input-dropdown-options">
+                                  <%if(typeof levels != "undefined") {%>
                                    <% for(var i=0; i<levels.length; i++) {%>
                                      <li data-val="<%= levels[i].Level_Label %>"><%= levels[i].Level_Label %></li>
+                                  <% } %>
                                   <% } %>
                               </ul>
                             </div>
@@ -363,19 +365,26 @@
                         <p>Parents details</p>
                   </div>
 
+
                   <div class="row sections-main-sub-container-right-main-rows sections-main-sub-container-right-main-rows-parents">
 
-                    <div class="dynamic-form-input-parent dynamic-form-input-first">
-
-                      <div class="col-md-12">
-                        <div class="form-group group ">
-                          <input type="text" required="" name="parent_name">
-                          <label class="input-label">
-                            <span class="input-label-text">Full name</span><span class="input-label-bg-mask"></span>
-                          </label>
+                   <div class="dynamic-form-input-parent dynamic-form-input-first">
+                    <div class="col-md-12">
+                      <div class="dynamic-form-input-dropdown-container dynamic-form-input-dropdown-search-container">
+                        <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                          <div class="dynamic-form-input">
+                            <div class="dynamic-form-input-float-adjust">
+                            <div class="form-group group form-group-right" style="margin-bottom: 0 !important;">
+                              <input type="text" class="input-dropdown-search" placeholder="Search parents" name="parent_name" />
+                              <img class="icon button-icon caret-rotate" src="assets/icons/sidebar_icons/search.svg">
+                              <ul class="dynamic-form-input-dropdown-options">
+                              </ul>
+                            </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
-
+                    </div>
                       <div class="col-md-6">
                         <div class="form-group group ">
                           <input type="text" required="" name="parent_phone">
@@ -532,8 +541,10 @@
 
                                 <img class="icon button-icon" src="assets/icons/caret.svg">
                                  <ul class="dynamic-form-input-dropdown-options">
+                                   <% if(typeof levels != "undefined") {%>
                                     <% for(var i=0; i<levels.length; i++) {%>
                                        <li data-val="<%= levels[i].Level_Label %>" class="level-li"><%= levels[i].Level_Label %></li>
+                                    <% } %>
                                     <% } %>
                                 </ul>
                               </div>
@@ -1269,8 +1280,10 @@
 
                                 <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
                                 <ul class="dynamic-form-input-dropdown-options" style="display: none; opacity: 0;">
+                                  <% if(typeof classes != "undefined") {%>
                                    <% for(var i=0; i<classes.length; i++) {%>
                                      <li data-val="<%= classes[i].Classe_Label %>"><%= classes[i].Classe_Label %></li>
+                                  <% } %>
                                   <% } %>
                                 </ul>
                               </div>
@@ -1504,8 +1517,10 @@
 
                                 <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
                                 <ul class="dynamic-form-input-dropdown-options" style="display: none; opacity: 0;">
+                                  <% if(typeof classes != "undefined"){ %>
                                    <% for(var i=0; i<classes.length; i++) {%>
                                      <li data-val="<%= classes[i].Classe_Label %>"><%= classes[i].Classe_Label %></li>
+                                  <% } %>
                                   <% } %>
                                 </ul>
                               </div>
@@ -2177,8 +2192,10 @@
 
                                 <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
                                 <ul class="dynamic-form-input-dropdown-options" style="display: none; opacity: 0;">
+                                  <% if (typeof classes != "undefined") {%>
                                    <% for(var i=0; i<classes.length; i++) {%>
                                      <li data-val="<%= classes[i].Classe_Label %>"><%= classes[i].Classe_Label %></li>
+                                  <% } %>
                                   <% } %>
                                 </ul>
                               </div>
@@ -2378,8 +2395,10 @@
 
                               <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
                               <ul class="dynamic-form-input-dropdown-options">
+                                 <% if(typeof classes != "undefined"){ %>
                                   <% for(var i=0; i<classes.length; i++) {%>
                                      <li data-val="<%= classes[i].Classe_Label %>"><%= classes[i].Classe_Label %></li>
+                                  <% } %>
                                   <% } %>
                               </ul>
                             </div>
@@ -2565,8 +2584,10 @@
 
                               <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
                               <ul class="dynamic-form-input-dropdown-options">
+                                <% if (typeof classes != "undefined") {%>
                                   <% for(var i=0; i<classes.length; i++) {%>
                                      <li data-val="<%= classes[i].Classe_Label %>"><%= classes[i].Classe_Label %></li>
+                                  <% } %>
                                   <% } %>
                               </ul>
                             </div>

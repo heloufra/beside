@@ -2,13 +2,13 @@ const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
 const oauth2Client = new OAuth2(
-     "284865258866-h725pjpfk4v47u6ititt5hh72d1k4g7s.apps.googleusercontent.com", 
-     "6PQPSMILn2JJoeoMxNaI5RvH", 
+     "803374857080-9sl1n8u9j5g2oo0kid8622r1vq41sg24.apps.googleusercontent.com", 
+     "-G3VM-iwstuWFKF7kf1stS8E", 
      "https://developers.google.com/oauthplayground"
 );
 
 oauth2Client.setCredentials({ 
-     refresh_token: "1//04b6WDtrqgxn8CgYIARAAGAQSNwF-L9IrNgKMl1xbgPB6IfuSZOtWrse45r0SQ4Vss6DTF1w0C9i6RiS88o8Eco_MzWaKLQa9_H8"
+     refresh_token: "1//04yLIn8iDd9m9CgYIARAAGAQSNwF-L9Irpqk9B47Ag1njlIAQfvvivYIQBTb8o1Mgeo_oaRRsjcOo9OtMYVogcDIlbqeDieR8dns"
 
 });
 
@@ -17,10 +17,10 @@ const smtpConfig = {
      service: "gmail",
      auth: {
           type: "OAuth2",
-          user: "teambeside.ma@gmail.com",
-          clientId: "284865258866-h725pjpfk4v47u6ititt5hh72d1k4g7s.apps.googleusercontent.com",
-          clientSecret: "6PQPSMILn2JJoeoMxNaI5RvH",
-          refreshToken: "1//04b6WDtrqgxn8CgYIARAAGAQSNwF-L9IrNgKMl1xbgPB6IfuSZOtWrse45r0SQ4Vss6DTF1w0C9i6RiS88o8Eco_MzWaKLQa9_H8",
+          user: "contact@beside.ma",
+          clientId: "803374857080-9sl1n8u9j5g2oo0kid8622r1vq41sg24.apps.googleusercontent.com", 
+          clientSecret:  "-G3VM-iwstuWFKF7kf1stS8E", 
+          refreshToken: "1//04yLIn8iDd9m9CgYIARAAGAQSNwF-L9Irpqk9B47Ag1njlIAQfvvivYIQBTb8o1Mgeo_oaRRsjcOo9OtMYVogcDIlbqeDieR8dns",
           accessToken: accessToken
      }
 };

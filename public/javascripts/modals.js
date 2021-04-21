@@ -478,7 +478,7 @@ function saveStudent() {
 }
 }
 
-var students,teachers = [];
+var students,teachers = [], modalParents = [];
 getAllteachers();
 function getAllteachers(id) {
 	$.ajax({
@@ -512,12 +512,53 @@ function getAllStudents(id) {
 	  	}
 	  });
  }
+ getAllParents();
+ function getAllParents() {
+	$.ajax({
+		type: 'get',
+		url: '/Parents/all',
+		dataType: 'json'
+	})
+	.done(function(res){
+		if(res.errors)
+		{
+			console.log(res.errors)
+		} else {
+			modalParents = res.parents;
+		}
+	});
+ }
 /* .dynamic-form-input-dropdown-search-container .input-dropdown-search _________________________________________________________________________________________*/
+
+	$(document).on("keyup","#AddStudentModal .dynamic-form-input-dropdown-search-container .input-dropdown-search, #EditStudentModal .dynamic-form-input-dropdown-search-container .input-dropdown-search",function(event){
+
+		const $this = $(this);
+
+		if($(this).val().length == 0 ) {
+			$(this).siblings(".icon").attr("src","assets/icons/sidebar_icons/search.svg");
+			$(this).siblings(".icon").removeClass("input-text-empty");
+			$this.parent().find(".dynamic-form-input-dropdown-options").css({"display":"none"});
+		}	else{
+			$(this).siblings(".icon").attr("src","assets/icons/sidebar_icons/close.svg");
+			$(this).siblings(".icon").addClass("input-text-empty");
+			const value = new RegExp(this.value.toLowerCase().trim());
+			$this.parent().find(".dynamic-form-input-dropdown-options .search-output").remove();
+			searchParents($this,value);
+			$this.parent().find(".dynamic-form-input-dropdown-options").css({"opacity":"1"});
+
+			setTimeout(function(){
+				$this.parent().find(".dynamic-form-input-dropdown-options").css({"display":"inline-block"});
+			},50);
+
+			event.stopPropagation();
+			event.preventDefault();
+		}
+	});
 
 	$(document).on("keyup blur","#AddAbsenceModal .dynamic-form-input-dropdown-search-container .input-dropdown-search",function(event){
 
 		$this = $(this);
-		if($(this).val().length == 0 ){
+		if($(this).val().length == 0 ) {
 			$(this).siblings(".icon").attr("src","assets/icons/sidebar_icons/search.svg");
 			$(this).siblings(".icon").removeClass("input-text-empty");
 			$this.parent().find(".dynamic-form-input-dropdown-options").css({"display":"none"});
@@ -592,6 +633,16 @@ function getAllStudents(id) {
 
 	});
 
+	function searchParents($this, value) {
+		var filtred = modalParents.filter(function (el) {
+			return el.Parent_Name.toLowerCase().match(value);
+		});	
+		console.log(filtred);
+		for (var i = filtred.length - 1; i >= 0; i--) {
+		$this.parent().find(".dynamic-form-input-dropdown-options").append('<li class="search-output" data-val="'+filtred[i].Parent_Name+'" data-email="'+filtred[i].Parent_Email+'" data-phone="'+filtred[i].Parent_Phone+'"> <div class="sections-main-sub-container-left-card"><div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+filtred[i].Parent_Name+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+filtred[i].Parent_Email+'</span> </div> </div> </li>');
+		}
+	}
+
 	function searchStudents($this,value) {
 		var filtred = students.filter(function (el) {
 							var forname = el.Student_FirstName.toLowerCase() +  el.Student_LastName.toLowerCase();
@@ -655,6 +706,15 @@ function getAllStudents(id) {
 		$('#FinanceNewModal').find('input[name=modal-student]').attr('data-id',filtred[0].Student_ID);
  		$('#FinanceNewModal').find('input[name=modal-student]').val(filtred[0].Student_FirstName + ' ' + filtred[0].Student_LastName);
 		$('#FinanceNewModal').find('.dynamic-form-input-dropdown-search-container .input-dropdown-search').val($(this).attr("data-val"))
+	});
+
+
+	$(document).on("click","#AddStudentModal .search-output,#EditStudentModal .search-output ",function(event){
+		const $parent = $(this).closest('.dynamic-form-input-parent');
+		$parent.find('input[name=parent_phone]').val($(this).data('phone'));
+		$parent.find('input[name=parent_email]').val($(this).data('email'));
+		$parent.find('input[name=parent_name]').val($(this).data('val'));
+		$parent.find('.dynamic-form-input-dropdown-search-container .input-dropdown-search').val($(this).attr("data-val"))
 	});
 	/* .dynamic-form-input-dropdown-search-container .input-text-empty ________________________*/
 
@@ -1079,7 +1139,7 @@ function saveAttitudeModal() {
 				$('#AddNewAttitudeModal').find('input[name="at_date"]').val("");
 				$('#AddNewAttitudeModal').find('input[name="modal-student"]').val("");
 				$('#AddNewAttitudeModal').find('#at_note').val("");
-				window.location.href = '/Students';
+				window.location.href = '/home';
 
 		  	} else {
 		  		console.log("not saved");

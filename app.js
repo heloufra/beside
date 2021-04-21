@@ -1,29 +1,31 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var bodyParser = require('body-parser');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
 const config = require('./config');
 const auth = require("./middleware/auth");
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var setupRouter = require('./routes/setup');
-var studentRouter = require('./routes/student');
-var financeRouter = require('./routes/finance');
-var dashboardRouter = require('./routes/dashboard');
-var settingsRouter = require('./routes/settings');
-var examRouter = require('./routes/exam');
-var teacherRouter = require('./routes/teacher');
-var homeworkRouter = require('./routes/homework');
-var selectRouter = require('./routes/common');
-var session = require('express-session');
-var MySQLStore = require('express-mysql-session')(session);
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const setupRouter = require('./routes/setup');
+const studentsRouter = require('./routes/students');
+const parentsRouter = require('./routes/parent');
+const financeRouter = require('./routes/finance');
+const dashboardRouter = require('./routes/dashboard');
+const settingsRouter = require('./routes/settings');
+const examRouter = require('./routes/exam');
+const teacherRouter = require('./routes/teacher');
+const homeworkRouter = require('./routes/homework');
+const selectRouter = require('./routes/common');
+const currentStudentRouter = require('./routes/currentStudent');
+const session = require('express-session');
+const MySQLStore = require('express-mysql-session')(session);
  
-var sessionStore = new MySQLStore(config.db);
+const sessionStore = new MySQLStore(config.db);
 
-var app = express();
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -54,11 +56,13 @@ app.use('/setup', setupRouter);
 app.use('/Teachers',auth, teacherRouter);
 app.use('/Exams',auth, examRouter);
 app.use('/Homeworks',auth, homeworkRouter);
-app.use('/Students',auth, studentRouter);
+app.use('/Students',auth, studentsRouter);
+app.use('/Parents',auth, parentsRouter);
 app.use('/Finances',auth, financeRouter);
 app.use('/Dashboard',auth, dashboardRouter);
 app.use('/Settings',auth, settingsRouter);
 app.use('/Select',auth, selectRouter);
+app.use('/',auth, currentStudentRouter);
 
 //catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -72,6 +76,7 @@ app.use(function(err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
+  console.log(err);
   // render the error page
   res.status(err.status || 500);
   res.render('error');

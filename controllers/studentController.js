@@ -3,6 +3,7 @@ var setupModel  = require('../models/setupModel');
 var studentModel  = require('../models/studentModel');
 var teacherModel  = require('../models/teacherModel');
 var root = require('../middleware/root');
+var sendEmail = require("../utils/sendmail");
 var queryStudents = "SELECT students.*,levels.Level_Label,classes.Classe_Label FROM students INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID INNER JOIN classes ON studentsclasses.Classe_ID = classes.Classe_ID INNER JOIN levels ON levels.Level_ID = classes.Level_ID WHERE studentsclasses.Classe_ID = ? AND studentsclasses.AY_ID = ? AND students.Student_Status =  1 ;"
 var queryAllStudents = "SELECT students.*,levels.Level_Label,classes.Classe_Label,classes.Classe_ID FROM students INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID INNER JOIN classes ON studentsclasses.Classe_ID = classes.Classe_ID INNER JOIN levels ON levels.Level_ID = classes.Level_ID WHERE studentsclasses.AY_ID = ?  AND students.Student_Status =  1 ;"
 var queryAllStudentsTeacher = "SELECT DISTINCT students.*,levels.Level_Label,classes.Classe_Label,classes.Classe_ID FROM students INNER JOIN studentsclasses ON studentsclasses.Student_ID = students.Student_ID INNER JOIN classes ON studentsclasses.Classe_ID = classes.Classe_ID INNER JOIN levels ON levels.Level_ID = classes.Level_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Classe_ID = studentsclasses.Classe_ID WHERE studentsclasses.AY_ID = ?  AND students.Student_Status =  1  AND teachersubjectsclasses.Teacher_ID = ? AND teachersubjectsclasses.TSC_Status = 1 ;"
@@ -19,6 +20,7 @@ var paymentsQuery = `INSERT INTO studentspayments(SS_ID, SP_PaidPeriod) VALUES (
 var attitudeQuery = `INSERT INTO attitude(Student_ID, Attitude_Interaction, Attitude_Note,Attitude_Addeddate,Attitude_Status, Declaredby_ID, AY_ID) VALUES(?,?,?,?,1,?,?)`;
 var parentQuery = `INSERT INTO parents(Parent_Name,  Parent_Phone , Parent_Email , Institution_ID) VALUES(?,?,?,?)`;
 var spQuery = `INSERT INTO studentsparents(Student_ID, Parent_ID) VALUES(?,?)`; 
+var spDeleteQuery = `Delete from studentsparents where Student_ID=?`; 
 var ssQuery = `INSERT INTO studentsubscribtion(Student_ID, LE_ID, Subscription_StartDate, Subscription_EndDate, AY_ID) VALUES(?,?,?,?,?)`;
 var scQuery = `INSERT INTO studentsclasses(Student_ID, Classe_ID, AY_ID) VALUES(?,?,?)`;
 var queryAttitude = 'SELECT * FROM `attitude` WHERE `Student_ID` = ? AND Attitude_Status = 1 ';
@@ -73,7 +75,7 @@ var studentController = {
                 connection.query("SELECT * FROM `levels` WHERE AY_ID = ?", [academic[0].AY_ID],async (err, levels, fields) => {
                   if (req.role === 'Teacher')
                       classes = await teacherModel.findClasses(req.userId);
-                  res.render('student', { title: 'Students' , user: user[0], institution:institutions[0], classes:classes,levels:levels,accounts,users,role:req.role});
+                  res.render('students', { title: 'Students' , user: user[0], institution:institutions[0], classes:classes,levels:levels,accounts,users,role:req.role});
                 })
               })
             })
@@ -221,26 +223,32 @@ var studentController = {
      parents_error = {};
      parent_emails_error = [];
      parent_phones_error = [];
+     existing_parents = []
 
      user_id = -1;
 
 
       // Parents unique email , phone 
-      for (var p = 0 ; p < req.body.parent_email.length ; p++ ) {
+      for (let p = 0 ; p < req.body.parent_email.length ; p++ ) {
          // Parent unique email  
-          connection.query("SELECT Count(*) as 'Email_Count' , Parent_Email  FROM `parents` WHERE `Parent_Email` = ? AND Parent_Status = 1   AND Institution_ID = ? ", [req.body.parent_email[p] , req.Institution_ID ], (err, parentEmail, fields) => {
+          connection.query("SELECT Count(*) as 'Email_Count' , Parent_Email, Parent_Name, Parent_Phone, Parent_ID  FROM `parents` WHERE `Parent_Email` = ? AND Parent_Status = 1 AND Institution_ID = ? ", [req.body.parent_email[p] , req.Institution_ID ], (err, parentEmail, fields) => {
                 // unique email
-                if(parentEmail[0].Email_Count > 0 ){
-                   parent_emails_error.push(parentEmail[0].Parent_Email);
+                if(parentEmail[0].Email_Count > 0){
+                    if(parentEmail[0].Parent_Name !== req.body.parent_name[p] || parentEmail[0].Parent_Phone !== req.body.parent_phone[p]) {
+                      parent_emails_error.push(parentEmail[0].Parent_Email);
+                    } else {
+                      existing_parents.push(parentEmail[0]);
+                      console.log('existing parents', existing_parents); 
+                    }
                 }
           });
       }
 
-      for (var p = 0 ; p < req.body.parent_phone.length ; p++ ) {
+      for (let p = 0 ; p < req.body.parent_phone.length ; p++ ) {
           // Parent unique phone  
-          connection.query("SELECT Count(*) as 'Tel_Count' , Parent_Phone FROM `parents` WHERE `Parent_Phone` = ? AND Parent_Status = 1   AND Institution_ID = ? ", [req.body.parent_phone[p] , req.Institution_ID ], (err, parentTel, fields) => {
+          connection.query("SELECT Count(*) as 'Tel_Count' , Parent_Email, Parent_Name, Parent_Phone, Parent_ID FROM `parents` WHERE `Parent_Phone` = ? AND Parent_Status = 1   AND Institution_ID = ? ", [req.body.parent_phone[p] , req.Institution_ID ], (err, parentTel, fields) => {
                 // unique phone
-                if(parentTel[0].Tel_Count > 0 ){
+                if(parentTel[0].Tel_Count > 0 && (parentTel[0].Parent_Name !== req.body.parent_name[p] || parentTel[0].Parent_Email !== req.body.parent_email[p])){
                    parent_phones_error.push(parentTel[0].Parent_Phone);
                 }
           });
@@ -284,8 +292,21 @@ var studentController = {
                            
                              user_id = student.insertId
                              console.log("Student",student.insertId);
-                             for (var i = req.body.parent_name.length - 1; i >= 0; i--) {
-                               
+                             for (let i = req.body.parent_name.length - 1; i >= 0; i--) {
+                               const existingParent = existing_parents.find(p => p.Parent_Email === req.body.parent_email[i])
+                                console.log('existing parent detected', existing_parents, existingParent);
+                               if (existingParent) {
+                                connection.query(spQuery, [student.insertId,existingParent.Parent_ID], (err, spresult, fields) => {
+                                  if (err) {
+                                       console.log(err);
+                                         res.json({
+                                           errors: [{
+                                           field: "Access denied",
+                                           errorDesc: "List Students Error"
+                                         }]});
+                                     }
+                                 })
+                               } else { 
                               connection.query(parentQuery, [req.body.parent_name[i],req.body.parent_phone[i],req.body.parent_email[i],req.Institution_ID], (err, parent, fields) => {
                                if (err) {
                                     console.log(err);
@@ -309,12 +330,34 @@ var studentController = {
                                           } else 
                                           {
                                              console.log("SP",spresult.insertId)
-                                             
+                                             const [firstName = "", lastName = ""] = (req.body.parent_name[i] || "").split(" ");
+                                             connection.query(
+                                              "INSERT INTO users(User_Name, User_Email, User_Phone,User_Role, User_Image) VALUES(?,?,?,?,?)",
+                                              [
+                                                JSON.stringify({
+                                                  first_name: firstName,
+                                                  last_name: lastName,
+                                                }),
+                                                req.body.parent_email[i],
+                                                req.body.parent_phone[i],
+                                                "Parent",
+                                                "assets/images/profiles/avatar_parent.png"
+                                              ], (err, user) => {
+                                                if (err) {
+                                                  console.log(err);
+                                                } else {
+                                                  sendEmail(req.body.parent_email[i], firstName, "parent");
+                                                  connection.query("INSERT INTO `institutionsusers`(`Institution_ID`, `User_ID`, `User_Role`) VALUES (?,?,?)",[req.Institution_ID, user.insertId,"Parent"], (err, institutionuser, fields) => {
+                                                    if (err) console.log(err);
+                                                   });
+                                                }
+                                              }) 
                                           }
                                       })
                                      
                                   }
                               })
+                              }
                              }
 
                              if (req.body.checkbox_sub)
@@ -352,6 +395,30 @@ var studentController = {
                                   })
                               })
                           }
+                          connection.query(
+                            "INSERT INTO users(User_Name, User_Image,User_Email,User_Birthdate, User_Phone,User_Address,User_Gender,User_Role) VALUES(?,?,?,?,?,?,?,?)",
+                            [
+                              JSON.stringify({
+                                first_name: req.body.first_name,
+                                last_name: req.body.last_name
+                              }),
+                              req.body.profile_image,
+                              req.body.student_email,
+                              req.body.birthdate,
+                              req.body.phone_number,
+                              req.body.student_address,
+                              req.body.student_gender,
+                              "Student"
+                            ], (err, user) => {
+                            if (err)
+                              console.log(err);
+                            else {
+                              sendEmail(req.body.student_email, req.body.first_name, "student");
+                              connection.query("INSERT INTO `institutionsusers`(`Institution_ID`, `User_ID`, `User_Role`) VALUES (?,?,?)",[req.Institution_ID, user.insertId,"Student"], (err, institutionuser, fields) => {
+                                if (err) console.log(err);
+                               });
+                            }
+                           })
                      })
               })
             });
@@ -476,25 +543,31 @@ var studentController = {
       parents_error = {};
       parent_emails_error = [];
       parent_phones_error = [];
+      existing_parents = []
 
-      // Parents unique email , phone 
-      for (var p = 0 ; p < req.body.parent_email.length ; p++ ) {
+      for (let p = 0 ; p < req.body.parent_email.length ; p++ ) {
+        // Parent unique email  
+         connection.query("SELECT Count(*) as 'Email_Count' , Parent_Email, Parent_Name, Parent_Phone, Parent_ID  FROM `parents` WHERE `Parent_Email` = ? AND Parent_Status = 1 AND Institution_ID = ? ", [req.body.parent_email[p].email , req.Institution_ID ], (err, parentEmail, fields) => {
+               // unique email
+               if(parentEmail[0].Email_Count > 0){
+                   if(parentEmail[0].Parent_Name !== req.body.parent_name[p].name || parentEmail[0].Parent_Phone !== req.body.parent_phone[p].phone) {
+                     parent_emails_error.push(parentEmail[0].Parent_Email);
+                   } else {
+                     existing_parents.push(parentEmail[0]);
+                     console.log('existing parents', existing_parents); 
+                   }
+               }
+         });
+     }
 
-         var em = await studentModel.studentParentUniqueEmail( req.body.parent_email[p].email , req.body.parent_email[p].id , req.Institution_ID );
-
-         if(em[0].Email_Count > 0 ){
-            parent_emails_error.push(em[0].Parent_Email);
-         }
-
-      }
-
-      for (var p = 0 ; p < req.body.parent_phone.length ; p++ ) {
+      for (let p = 0 ; p < req.body.parent_phone.length ; p++ ) {
+        connection.query("SELECT Count(*) as 'Tel_Count' , Parent_Email, Parent_Name, Parent_Phone, Parent_ID FROM `parents` WHERE `Parent_Phone` = ? AND Parent_Status = 1   AND Institution_ID = ? ", [req.body.parent_phone[p].phone , req.Institution_ID ], (err, parentTel, fields) => {
+          // unique phone
+          if(parentTel[0].Tel_Count > 0 && (parentTel[0].Parent_Name !== req.body.parent_name[p].name || parentTel[0].Parent_Email !== req.body.parent_email[p].email)){
+             parent_phones_error.push(parentTel[0].Parent_Phone);
+          }
+        });
           // Parent unique phone  
-         var tel = await studentModel.studentParentUniqueTel( req.body.parent_phone[p].phone , req.body.parent_phone[p].id , req.Institution_ID );
-         
-         if(tel[0].Tel_Count > 0 ){
-            parent_phones_error.push(tel[0].Parent_Phone);
-         }
       }
 
       // Parent unique email , phone 
@@ -535,38 +608,72 @@ var studentController = {
               } else 
               {
                 connection.query("UPDATE `studentsclasses` SET `Classe_ID`=? WHERE `Student_ID` = ?", [req.body.student_classe,req.body.id]);
-                for (var i = req.body.parent_name.length - 1; i >= 0; i--) {
-                  if (req.body.parent_name[i].id === 'null')
-                  {
-                    connection.query(parentQuery, [req.body.parent_name[i].name,req.body.parent_phone[i].phone,req.body.parent_email[i].email,req.Institution_ID], (err, parent, fields) => {
-                       if (err) {
-                            console.log(err);
-                              res.json({
-                                errors: [{
-                                field: "Access denied",
-                                errorDesc: "List Students Error"
-                              }]});
-                          } else 
-                            {
-                             connection.query(spQuery, [req.body.id,parent.insertId], (err, spresult, fields) => {
-                               if (err) {
-                                    console.log(err);
-                                      res.json({
-                                        errors: [{
-                                        field: "Access denied",
-                                        errorDesc: "List Students Error"
-                                      }]});
-                                  } else 
-                                  {
+                connection.query(spDeleteQuery, [req.body.id]);
+                for (let i = req.body.parent_name.length - 1; i >= 0; i--) {
+                  const existingParent = existing_parents.find(p => p.Parent_Email === req.body.parent_email[i].email)
+                  console.log('existing parent detected', existing_parents, existingParent);
+                  if (existingParent) {
+                  connection.query(spQuery, [req.body.id, existingParent.Parent_ID], (err, spresult, fields) => {
+                    if (err) {
+                          console.log(err);
+                            res.json({
+                              errors: [{
+                              field: "Access denied",
+                              errorDesc: "List Students Error"
+                            }]});
+                        }
+                    })
+                  } else { 
+                connection.query(parentQuery, [req.body.parent_name[i].name,req.body.parent_phone[i].phone,req.body.parent_email[i].email,req.Institution_ID], (err, parent, fields) => {
+                  if (err) {
+                      console.log(err);
+                        res.json({
+                          errors: [{
+                          field: "Access denied",
+                          errorDesc: "List Students Error"
+                        }]});
+                    } else 
+                    {
+                        console.log("Parent",parent.insertId);
 
+                        connection.query(spQuery, [req.body.id,parent.insertId], (err, spresult, fields) => {
+                          if (err) {
+                              console.log(err);
+                                res.json({
+                                  errors: [{
+                                  field: "Access denied",
+                                  errorDesc: "List Students Error"
+                                }]});
+                            } else 
+                            {
+                                console.log("SP",spresult.insertId)
+                                const [firstName = "", lastName = ""] = (req.body.parent_name[i].name || "").split(" ");
+                                connection.query(
+                                "INSERT INTO users(User_Name, User_Email, User_Phone,User_Role) VALUES(?,?,?,?)",
+                                [
+                                  JSON.stringify({
+                                    first_name: firstName,
+                                    last_name: lastName,
+                                  }),
+                                  req.body.parent_email[i].email,
+                                  req.body.parent_phone[i].phone,
+                                  "Parent"
+                                ], (err, user) => {
+                                  if (err) {
+                                    console.log(err);
+                                  } else {
+                                    sendEmail(req.body.parent_email[i].email, firstName, "parent")
+                                    connection.query("INSERT INTO `institutionsusers`(`Institution_ID`, `User_ID`, `User_Role`) VALUES (?,?,?)",[req.Institution_ID, user.insertId,"Parent"], (err, institutionuser, fields) => {
+                                      if (err) console.log(err);
+                                      });
                                   }
-                              })
-                             
-                          }
+                                }) 
+                            }
                         })
+                        
+                    }
+                })
                   }
-                  else
-                    connection.query("UPDATE `parents` SET  Parent_Name = ?,Parent_Phone= ? , Parent_Email= ? WHERE `Parent_ID` = ?", [req.body.parent_name[i].name,req.body.parent_phone[i].phone,req.body.parent_email[i].email,req.body.parent_name[i].id])
                 }
 
                 var new_ = false;

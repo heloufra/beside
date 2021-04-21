@@ -52,7 +52,7 @@ var studentModel = {
 
       connection.query(studentQuery, [f_name,l_name,User_Image, birthdate,address,phone,gender,email,Institution_ID],(err, student, fields) => {
        if (err) reject(err);
-        else resolve(student);
+       else resolve(student); 
       });
     })
   },

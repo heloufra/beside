@@ -1,0 +1,33 @@
+<div id="main-menu" class="overlay">
+  <div class="main-menu-header">
+    <button type="button" class="close" aria-label="Close" onclick="closeMenu()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <img
+      class="sub-container-nav-bar-img"
+      src="<%= user.User_Image %>"
+      alt="profile"
+    />
+  </div>
+  <div class="overlay-content">
+      <%- include('../partials/side_bar_ul.ejs');%>
+  </div>
+</div>
+<script>
+  	var pathname = window.location.pathname.replace('/','');
+    const element =  $('#main-menu #url-'+pathname);
+    element.addClass('active');
+    var img = element.find('img').attr('src').replace("inactive","active");
+    element.find('span').removeClass('side-bar-li-span-inactive');
+    element.find('span').addClass('side-bar-li-span-active');
+    element.find('img').attr('src',img);
+   function openMenu() {
+      document.getElementById("main-menu").style.width = "100%";
+    }
+
+    function closeMenu() {
+      document.getElementById("main-menu").style.width = "0%";
+    }
+
+
+</script>

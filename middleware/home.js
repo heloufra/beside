@@ -22,8 +22,20 @@ module.exports = function (req, res, next) {
       req.userId = decoded.userId;
       req.Institution_ID = decoded.Institution_ID;
       req.role = decoded.role;
-      req.currentStudentId = decoded.currentStudentId;
-      next();
+      switch(req.role) {
+        case "Student":
+          res.redirect("/my-absences");
+          break;
+        case "Parent":
+          res.redirect("/student-absences");
+          break;
+        case "Admin":
+        case "Teacher":
+          res.redirect("/Students");
+          break;
+        default:
+          break;
+      }
     } catch (err) {
       res.json({
         errors: [

@@ -26,10 +26,13 @@
 
                     <!--  sub-container-nav-bar-profile-dropdown-ul  -->
                     <ul class="sub-container-nav-bar-profile-dropdown-ul">
+                      <% if (role !== 'Student') {%>
+                      
+                      <% if (users.length > 1 ) {%>
                       <li class="sub-container-nav-bar-profile-dropdown-ul-li">
                         <a href="">Switch Accounts</a>
                         <img src="assets/icons/caret.svg" class="caret-img" alt="caret"/>
-
+                        
                           <!--  sub-container-nav-bar-profile-dropdown-ul  -->
                           <div class="sub-container-nav-bar-profile-dropdown-ul sub-container-nav-bar-profile-dropdown-sub-ul">
                              <% for(var i=0; i<users.length; i++) {%>
@@ -60,7 +63,9 @@
                           </div>
                           <!--  End sub-container-nav-bar-profile-dropdown-ul -->
                       </li>
-                      <li><a href="#" id="settings_btn">Acount Settings</a></li>
+                      <% } %>
+                      <li><a href="#" id="settings_btn">Account Settings</a></li>
+                      <%}%>
                       <li><a href="" id="logout_btn">Logout</a></li>
                     </ul>
                     <!--  End sub-container-nav-bar-profile-dropdown-ul -->
@@ -97,7 +102,6 @@ function readFile() {
   }
   
 }
-
 $(document).on("click","#settings_btn",function(event){
     document.getElementById("profile_settings").addEventListener("change", readFile);
     $('#ProfileSettings').modal('show');
@@ -135,7 +139,7 @@ $(document).on("click",".role",function(event){
     .done(function(res){
       if(res.switched)
       {
-        window.location.href = "/";
+        window.location.href = "/home";
       } else {
        console.log(res.errors)
       }

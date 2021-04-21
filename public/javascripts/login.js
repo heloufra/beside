@@ -124,7 +124,7 @@ if (params.redir)
 
               if (res.login)
               {
-                  window.location.href = '/Students';
+                  window.location.href = '/home';
               } else {
                 // login failed : enable btn  => 
                 console.log("Not Valide:");
