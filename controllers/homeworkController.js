@@ -1,222 +1,463 @@
-var connection  = require('../lib/db');
+var connection = require("../lib/db");
+var arrLang = require("../languages/languages.js");
+var commonModel = require("../models/commonModel");
+
 var homeworkQuery = `INSERT INTO homeworks(TSC_ID,  Homework_Title, Homework_Deatils, Homework_DeliveryDate,Homework_Status) VALUES(?,?,?,?,1)`;
 var homeworkFileQuery = `INSERT INTO homeworks_attachement(Homework_ID, Homework_Link, Homework_Title, HA_Status) VALUES(?,?,?,1)`;
-var selectHomeworks = 'SELECT DISTINCT homeworks.*,classes.Classe_Label,subjects.Subject_Label,subjects.Subject_Color,users.User_Name FROM `institutionsusers` INNER JOIN users ON institutionsusers.User_ID = users.User_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Teacher_ID = users.User_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN homeworks ON homeworks.TSC_ID = teachersubjectsclasses.TSC_ID WHERE homeworks.Homework_Status <> "0" AND teachersubjectsclasses.AY_ID = ?';
-var selectHomeworksTeacher = 'SELECT DISTINCT homeworks.*,classes.Classe_Label,subjects.Subject_Label,subjects.Subject_Color,users.User_Name FROM `institutionsusers` INNER JOIN users ON institutionsusers.User_ID = users.User_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Teacher_ID = users.User_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN homeworks ON homeworks.TSC_ID = teachersubjectsclasses.TSC_ID WHERE homeworks.Homework_Status <> "0" AND teachersubjectsclasses.AY_ID = ? AND teachersubjectsclasses.Teacher_ID = ? order by homeworks.Homework_ID desc ';
-var selectHomework = 'SELECT homeworks.*,classes.Classe_Label,subjects.Subject_Label,subjects.Subject_Color,users.User_Name FROM `institutionsusers` INNER JOIN users ON institutionsusers.User_ID = users.User_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Teacher_ID = users.User_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN homeworks ON homeworks.TSC_ID = teachersubjectsclasses.TSC_ID WHERE homeworks.Homework_Status <> "0" AND institutionsusers.Institution_ID = ? AND homeworks.Homework_ID = ?';
-var selectHomeworkFiles = 'SELECT * FROM homeworks_attachement WHERE HA_Status <> "0" AND  Homework_ID = ?';
-var teacherModel  = require('../models/teacherModel');
-var fs = require('fs');
+var selectHomeworks =
+  'SELECT DISTINCT homeworks.*,classes.Classe_Label,subjects.Subject_Label,subjects.Subject_Color,users.User_Name FROM `institutionsusers` INNER JOIN users ON institutionsusers.User_ID = users.User_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Teacher_ID = users.User_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN homeworks ON homeworks.TSC_ID = teachersubjectsclasses.TSC_ID WHERE homeworks.Homework_Status <> "0" AND teachersubjectsclasses.AY_ID = ?';
+var selectHomeworksTeacher =
+  'SELECT DISTINCT homeworks.*,classes.Classe_Label,subjects.Subject_Label,subjects.Subject_Color,users.User_Name FROM `institutionsusers` INNER JOIN users ON institutionsusers.User_ID = users.User_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Teacher_ID = users.User_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN homeworks ON homeworks.TSC_ID = teachersubjectsclasses.TSC_ID WHERE homeworks.Homework_Status <> "0" AND teachersubjectsclasses.AY_ID = ? AND teachersubjectsclasses.Teacher_ID = ? order by homeworks.Homework_ID desc ';
+var selectHomework =
+  'SELECT homeworks.*,classes.Classe_Label,subjects.Subject_Label,subjects.Subject_Color,users.User_Name FROM `institutionsusers` INNER JOIN users ON institutionsusers.User_ID = users.User_ID INNER JOIN teachersubjectsclasses ON teachersubjectsclasses.Teacher_ID = users.User_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN homeworks ON homeworks.TSC_ID = teachersubjectsclasses.TSC_ID WHERE homeworks.Homework_Status <> "0" AND institutionsusers.Institution_ID = ? AND homeworks.Homework_ID = ?';
+var selectHomeworkFiles =
+  'SELECT * FROM homeworks_attachement WHERE HA_Status <> "0" AND  Homework_ID = ?';
+var teacherModel = require("../models/teacherModel");
+var fs = require("fs");
+
 /*
 INSERT INTO `teachersubjectsclasses`(`Teacher_ID`, `Subject_ID`, `Classe_ID`, `AY_ID`) VALUES (1,1,1,1),(1,1,2,1),(1,2,1,1),(1,2,2,1),(1,1,3,1),(1,2,4,1)
 */
 var homeworkController = {
-  homeworkView:  function(req, res, next) {
-    connection.query("SELECT * FROM `users` WHERE `User_ID` = ? LIMIT 1", [req.userId], (err, user, fields) => {
-      connection.query("SELECT institutions.* FROM users INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN institutions ON institutionsusers.Institution_ID = institutions.Institution_ID WHERE users.User_ID = ? AND institutionsusers.User_Role='Admin'", [req.userId], (err, accounts, fields) => {
-        connection.query("SELECT users.*,institutionsusers.User_Role as role FROM users INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN institutions ON institutionsusers.Institution_ID = institutions.Institution_ID WHERE institutions.Institution_ID = ? AND users.User_ID = ? AND institutionsusers.IU_Status <> 0", [req.Institution_ID,req.userId], (err, users, fields) => {
-          connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, institutions, fields) => {       
-            connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
-              connection.query("SELECT * FROM `classes` WHERE AY_ID = ?", [academic[0].AY_ID], (err, classes, fields) => {
-                connection.query("SELECT * FROM `levels` WHERE AY_ID = ?", [academic[0].AY_ID], (err, levels, fields) => {
-                  connection.query("SELECT * FROM `subjects` where Institution_ID = ? AND Subject_Status = 1 ",[req.Institution_ID],async (err, subjects, fields) => {
-                    if (req.role === 'Teacher')
-                      {
-                        classes = await teacherModel.findClasses(req.userId);
-                        subjects = await teacherModel.findSubjects(req.userId);
+  homeworkView: function (req, res, next) {
+    connection.query(
+      "SELECT * FROM `users` WHERE `User_ID` = ? LIMIT 1",
+      [req.session.userId],
+      (err, user, fields) => {
+        connection.query(
+          "SELECT institutions.* FROM users INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN institutions ON institutionsusers.Institution_ID = institutions.Institution_ID WHERE users.User_ID = ? AND institutionsusers.User_Role='Admin'",
+          [req.session.userId],
+          (err, accounts, fields) => {
+            connection.query(
+              "SELECT users.*,institutionsusers.User_Role as role FROM users INNER JOIN institutionsusers ON institutionsusers.User_ID = users.User_ID INNER JOIN institutions ON institutionsusers.Institution_ID = institutions.Institution_ID WHERE institutions.Institution_ID = ? AND users.User_ID = ? AND institutionsusers.IU_Status <> 0",
+              [req.session.Institution_ID, req.session.userId],
+              (err, users, fields) => {
+                connection.query(
+                  "SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1",
+                  [req.session.Institution_ID],
+                  (err, institutions, fields) => {
+                    connection.query(
+                      "SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1",
+                      [req.session.Institution_ID],
+                      (err, academic, fields) => {
+                        connection.query(
+                          "SELECT * FROM `classes` WHERE AY_ID = ?",
+                          [academic[0].AY_ID],
+                          (err, classes, fields) => {
+                            connection.query(
+                              "SELECT * FROM `levels` WHERE AY_ID = ?",
+                              [academic[0].AY_ID],
+                              (err, levels, fields) => {
+                                connection.query(
+                                  "SELECT * FROM `subjects` where Institution_ID = ? AND Subject_Status = 1 ",
+                                  [req.session.Institution_ID],
+                                  async (err, subjects, fields) => {
+                                    if (req.role === "Teacher") {
+                                      classes = await teacherModel.findClasses(
+                                        req.session.userId,
+                                        academic[0].AY_ID
+                                      );
+                                      subjects =
+                                        await teacherModel.findSubjects(
+                                          req.session.userId,
+                                          academic[0].AY_ID
+                                        );
+                                      console.log(
+                                        "classes=>",
+                                        req.session.userId
+                                      );
+                                    }
+                                    res.render("homework", {
+                                      title: "Homeworks",
+                                      user: user[0],
+                                      institution: institutions[0],
+                                      classes: classes,
+                                      subjects: subjects,
+                                      levels: levels,
+                                      accounts,
+                                      users,
+                                      role: req.role,
+                                    });
+                                  }
+                                );
+                              }
+                            );
+                          }
+                        );
                       }
-                    res.render('homework', { title: 'Homeworks' , user: user[0], institution:institutions[0], classes:classes,subjects:subjects,levels:levels,accounts,users,role:req.role});
-                  })
-                })
-              })
-            })
-          })
-        })
-      })
-    })
-  },
-  saveHomework: function(req, res, next) {
-    connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
-      connection.query("SELECT teachersubjectsclasses.TSC_ID FROM `teachersubjectsclasses` INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID WHERE subjects.Subject_Label = ? AND classes.Classe_Label = ? AND teachersubjectsclasses.Teacher_ID = ? AND teachersubjectsclasses.AY_ID = ? LIMIT 1", [req.body.homework_subject,req.body.homework_classe,req.userId,academic[0].AY_ID], (err, tsc, fields) => {
-        if (tsc[0])
-        {
-
-          connection.query(homeworkQuery, [tsc[0].TSC_ID,  req.body.homework_name,  req.body.homework_description, req.body.homework_deliverydate], (err, homework, fields) => {
-
-            if (req.files){
-
-              for(var f = 0 ; f < req.files.length ; f++){
-                connection.query(homeworkFileQuery, [homework.insertId,req.files[f].path.replace(/\\/g, "/").replace('public',''),req.body.homework_name + '-' + req.files[f].originalname], (err, homeworkfile, fields) => {
-                 if (err) {
-                      console.log(err);
-                        res.json({
-                          errors: [{
-                          field: "Access denied",
-                          errorDesc: "List homeworks Error"
-                        }]});
-                    } else 
-                    {
-                      //res.json({saved : true});
-                    }
-                })
-              }
-
-              res.json({saved : true});
-
-            }else{
-              if (err) {
-                    console.log(err);
-                      res.json({
-                        errors: [{
-                        field: "Access denied",
-                        errorDesc: "List homeworks Error"
-                      }]});
-                  } else 
-                  {
-                    res.json({saved : true});
+                    );
                   }
-            }
-          })
-        }
-      })
-    })
-  },
-  getHomeworks: function(req, res, next) {
-    connection.query("SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, academic, fields) => {
-      if (req.role === 'Admin')
-        connection.query(selectHomeworks,[academic[0].AY_ID], (err, homeworks, fields) => {
-          res.json({
-                    homeworks:homeworks,
-                  });
-        })
-      else
-        connection.query(selectHomeworksTeacher,[academic[0].AY_ID,req.userId], (err, homeworks, fields) => {
-          res.json({
-                    homeworks:homeworks,
-                  });
-        })
-    })
-  },
-  getHomework: function(req, res, next) {
-    connection.query("SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1", [req.Institution_ID], (err, institutions, fields) => {
-      connection.query(selectHomework,[req.Institution_ID,req.query.homework_id], (err, homework, fields) => {
-        connection.query(selectHomeworkFiles,[req.query.homework_id], (err, homeworkFiles, fields) => {
-          res.json({
-                    homework,
-                    homeworkFiles,
-                    role:req.role
-                  });
-        })
-      })
-    })
-  },
-  deleteHomework: function(req, res, next) {
-    connection.query("UPDATE `homeworks` SET `Homework_Status` = 0 WHERE `Homework_ID` = ?", [req.body.id], (err, student, fields) => {
-       if (err) {
-            console.log(err);
-              res.json({
-                errors: [{
-                field: "Access denied",
-                errorDesc: "Cannot Remove it"
-              }]});
-          } else 
-          {
-            res.json({removed : true});
+                );
+              }
+            );
           }
-     })
+        );
+      }
+    );
   },
-  deleteFileHomework: function(req, res, next) {
-    console.log("ID::",req.body)
-    connection.query("UPDATE `homeworks_attachement` SET `HA_Status` = 0 WHERE `HA_ID` = ?", [req.body.id], (err, files, fields) => {
-       if (err) {
-            console.log(err);
-              res.json({
-                errors: [{
-                field: "Access denied",
-                errorDesc: "Cannot Remove it"
-              }]});
-          } else 
-          {
-            res.json({removed : true});
-          }
-     })
-  },
-  updateHomework: function(req, res, next) {
+  saveHomework: async function (req, res, next) {
+    connection.query(
+      "SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1",
+      [req.session.Institution_ID],
+      async (err, academic, fields) => {
+        connection.query(
+          "SELECT teachersubjectsclasses.TSC_ID , u.* FROM `teachersubjectsclasses` INNER JOIN classes ON classes.Classe_ID = teachersubjectsclasses.Classe_ID INNER JOIN subjects ON subjects.Subject_ID = teachersubjectsclasses.Subject_ID INNER JOIN users u ON(teachersubjectsclasses.Teacher_ID = u.User_ID ) WHERE subjects.Subject_Label = ? AND classes.Classe_Label = ? AND teachersubjectsclasses.Teacher_ID = ? AND User_Status = 1 AND teachersubjectsclasses.AY_ID = ? LIMIT 1",
+          [
+            req.body.homework_subject,
+            req.body.homework_classe,
+            req.session.userId,
+            academic[0].AY_ID,
+          ],
+          async (err, tsc, fields) => {
+            if (tsc[0]) {
+              connection.query(
+                homeworkQuery,
+                [
+                  tsc[0].TSC_ID,
+                  req.body.homework_name,
+                  req.body.homework_description,
+                  req.body.homework_deliverydate,
+                ],
+                async (err, homework, fields) => {
+                  if (req.files) {
+                    for (var f = 0; f < req.files.length; f++) {
+                      connection.query(
+                        homeworkFileQuery,
+                        [
+                          homework.insertId,
+                          req.files[f].path
+                            .replace(/\\/g, "/")
+                            .replace("public", ""),
+                          req.body.homework_name +
+                            "-" +
+                            req.files[f].originalname,
+                        ],
+                        async (err, homeworkfile, fields) => {
+                          if (err) {
+                            console.log(err);
+                            res.json({
+                              errors: [
+                                {
+                                  field: "Access denied",
+                                  errorDesc: "List homeworks Error",
+                                },
+                              ],
+                            });
+                          } else {
+                            //res.json({saved : true});
+                          }
+                        }
+                      );
+                    }
 
-    removedFilesErrorHandler = [] ;
-    uploadFilesErrorHandler = [] ;
+                    /*____ Notification_____*/
+
+                    const StudentList = await commonModel.getStudentsList(
+                      academic[0].AY_ID,
+                      tsc[0].TSC_ID,
+                      "Homeworks"
+                    );
+
+                    console.log("StudentList", StudentList);
+
+                    const Receivers = await commonModel.getReceivers(
+                      StudentList
+                    );
+
+                    console.log("Receivers =>", Receivers);
+
+                    if (Receivers.length > 0) {
+                      for (r = 0; r < Receivers.length; r++) {
+                        Receivers[r].map(async (Receiver) => {
+                          if (Receiver.User_Role == "Student") {
+                            //add Notifications
+                            await commonModel.addNotifications(
+                              Receiver.User_ID,
+                              Receiver.User_Role,
+                              homework.insertId,
+                              4
+                            );
+                            //send Notification
+                            //const strippedString = (String(req.body.homework_description).substring(0,45));
+                            //await commonModel.sendPushNotification(Receiver.User_Expo_Token,req.body.homework_name,strippedString,tsc[0].User_Name);
+                            var notificationBody =
+                              tsc[0].User_Gender == "Female"
+                                ? arrLang["fr"]["A_Ajoutee"]
+                                : arrLang["fr"]["A_Ajoute"];
+                            notificationBody +=
+                              " " +
+                              arrLang["fr"]["Nouveau"] +
+                              " " +
+                              arrLang["fr"]["Notification_Homework"];
+                            var name = JSON.parse(tsc[0].User_Name);
+                            if (name.first_name) {
+                              name = name.first_name + " " + name.last_name;
+                            } else {
+                              name = tsc[0].User_Name;
+                            }
+                            await commonModel.sendPushNotification(
+                              Receiver.User_Expo_Token,
+                              name,
+                              notificationBody
+                            );
+                          } else {
+                            //add Notifications
+                            await commonModel.addNotifications(
+                              Receiver.User_ID,
+                              Receiver.User_Role,
+                              homework.insertId,
+                              4,
+                              Receiver.Parent_Child_ID
+                            );
+                            //send Notification
+                            const childName = Receiver.Child_Full_Name;
+                            const notificationBody =
+                              arrLang["fr"]["Nouveau"] +
+                              " " +
+                              arrLang["fr"]["Notification_Homework"] +
+                              " " +
+                              arrLang["fr"]["A_Ete_Ajoute"];
+                            await commonModel.sendPushNotification(
+                              Receiver.User_Expo_Token,
+                              childName,
+                              notificationBody
+                            );
+                          }
+                        });
+                      }
+                    }
+
+                    /*____End Notification_____*/
+
+                    res.json({ saved: true });
+                  } else {
+                    if (err) {
+                      console.log(err);
+                      res.json({
+                        errors: [
+                          {
+                            field: "Access denied",
+                            errorDesc: "List homeworks Error",
+                          },
+                        ],
+                      });
+                    } else {
+                      res.json({ saved: true });
+                    }
+                  }
+                }
+              );
+            }
+          }
+        );
+      }
+    );
+  },
+  getHomeworks: function (req, res, next) {
+    connection.query(
+      "SELECT AY_ID FROM `academicyear` WHERE `Institution_ID` = ? LIMIT 1",
+      [req.session.Institution_ID],
+      (err, academic, fields) => {
+        if (req.role === "Admin")
+          connection.query(
+            selectHomeworks,
+            [academic[0].AY_ID],
+            (err, homeworks, fields) => {
+              res.json({
+                homeworks: homeworks,
+              });
+            }
+          );
+        else
+          connection.query(
+            selectHomeworksTeacher,
+            [academic[0].AY_ID, req.session.userId],
+            (err, homeworks, fields) => {
+              res.json({
+                homeworks: homeworks,
+              });
+            }
+          );
+      }
+    );
+  },
+  getHomework: function (req, res, next) {
+    connection.query(
+      "SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1",
+      [req.session.Institution_ID],
+      (err, institutions, fields) => {
+        connection.query(
+          selectHomework,
+          [req.session.Institution_ID, req.query.homework_id],
+          (err, homework, fields) => {
+            connection.query(
+              selectHomeworkFiles,
+              [req.query.homework_id],
+              (err, homeworkFiles, fields) => {
+                res.json({
+                  homework,
+                  homeworkFiles,
+                  role: req.role,
+                });
+              }
+            );
+          }
+        );
+      }
+    );
+  },
+  deleteHomework: function (req, res, next) {
+    connection.query(
+      "UPDATE `homeworks` SET `Homework_Status` = 0 WHERE `Homework_ID` = ?",
+      [req.body.id],
+      (err, student, fields) => {
+        if (err) {
+          console.log(err);
+          res.json({
+            errors: [
+              {
+                field: "Access denied",
+                errorDesc: "Cannot Remove it",
+              },
+            ],
+          });
+        } else {
+          res.json({ removed: true });
+        }
+      }
+    );
+  },
+  deleteFileHomework: function (req, res, next) {
+    console.log("ID::", req.body);
+    connection.query(
+      "UPDATE `homeworks_attachement` SET `HA_Status` = 0 WHERE `HA_ID` = ?",
+      [req.body.id],
+      (err, files, fields) => {
+        if (err) {
+          console.log(err);
+          res.json({
+            errors: [
+              {
+                field: "Access denied",
+                errorDesc: "Cannot Remove it",
+              },
+            ],
+          });
+        } else {
+          res.json({ removed: true });
+        }
+      }
+    );
+  },
+  updateHomework: function (req, res, next) {
+    removedFilesErrorHandler = [];
+    uploadFilesErrorHandler = [];
 
     // Remove Seleted Files
 
-    if(req.body.removedFiles){
-
+    if (req.body.removedFiles) {
       let removedFiles = String(req.body.removedFiles).split(",");
 
-      for(var f = 0 ; f < removedFiles.length ; f++ ){
-          connection.query("UPDATE `homeworks_attachement` SET `HA_Status` = 0 WHERE `HA_ID` = ?", [removedFiles[f]], (err, files, fields) => {
-                if (err) {
-                  console.log(err);
-                    removedFilesErrorHandler.push({
-                      errors: [{
-                      field: "Access denied",
-                      errorDesc: "Cannot Remove it"
-                    }]
-                  });
-                } else {
-                  //res.json({removed : true , });
-                }
-         })
+      for (var f = 0; f < removedFiles.length; f++) {
+        connection.query(
+          "UPDATE `homeworks_attachement` SET `HA_Status` = 0 WHERE `HA_ID` = ?",
+          [removedFiles[f]],
+          (err, files, fields) => {
+            if (err) {
+              console.log(err);
+              removedFilesErrorHandler.push({
+                errors: [
+                  {
+                    field: "Access denied",
+                    errorDesc: "Cannot Remove it",
+                  },
+                ],
+              });
+            } else {
+              //res.json({removed : true , });
+            }
+          }
+        );
       }
-
     }
 
-    if(removedFilesErrorHandler.length == 0){
+    if (removedFilesErrorHandler.length == 0) {
+      connection.query(
+        "UPDATE `homeworks` SET `Homework_Title` = ?,`Homework_Deatils` = ?, `Homework_DeliveryDate` = ? WHERE Homework_ID = ?",
+        [
+          req.body.homework_name,
+          req.body.homework_description,
+          req.body.homework_date,
+          req.body.id,
+        ],
+        (err, student, fields) => {
+          if (req.files) {
+            for (var f = 0; f < req.files.length; f++) {
+              connection.query(
+                homeworkFileQuery,
+                [
+                  req.body.id,
+                  String(req.files[f].path)
+                    .replace(/\\/g, "/")
+                    .replace("public", ""),
+                  req.body.homework_name + "-" + req.files[f].originalname,
+                ],
+                (err, homeworkfile, fields) => {
+                  if (err) {
+                    uploadFilesErrorHandler.push({
+                      errors: [
+                        {
+                          field: "Access denied",
+                          errorDesc: "Cannot Remove it",
+                        },
+                      ],
+                    });
+                  } else {
+                  }
+                }
+              );
+            }
 
-        connection.query("UPDATE `homeworks` SET `Homework_Title` = ?,`Homework_Deatils` = ?, `Homework_DeliveryDate` = ? WHERE Homework_ID = ?", [req.body.homework_name,req.body.homework_description,req.body.homework_date,req.body.id], (err, student, fields) => {
-
-          if (req.files){
-
-            for(var f = 0 ; f < req.files.length ; f++){
-
-                    connection.query(homeworkFileQuery, [req.body.id,String(req.files[f].path).replace(/\\/g, "/").replace('public',''),req.body.homework_name + '-' + req.files[f].originalname], (err, homeworkfile, fields) => {
-                    if (err) {
-                        uploadFilesErrorHandler.push({
-                            errors: [{
-                            field: "Access denied",
-                            errorDesc: "Cannot Remove it"
-                          }]
-                        });
-                    } else {
-                      
-                    }
-               })
-
-           }
-
-           res.json({updated : true , removedFilesErrorHandler , uploadFilesErrorHandler , removedFiles : typeof(removedFiles) , files:req.files , if:"if" });
-
+            res.json({
+              updated: true,
+              removedFilesErrorHandler,
+              uploadFilesErrorHandler,
+              removedFiles: typeof removedFiles,
+              files: req.files,
+              if: "if",
+            });
           } else {
             if (err) {
-                  console.log(err);
-                    res.json({
-                      errors: [{
-                      field: "Access denied",
-                      errorDesc: "List homeworks Error"
-                    }]});
-                } else 
-                {
-                  res.json({updated : true , removedFilesErrorHandler , uploadFilesErrorHandler , else:"else"});
-                }
+              console.log(err);
+              res.json({
+                errors: [
+                  {
+                    field: "Access denied",
+                    errorDesc: "List homeworks Error",
+                  },
+                ],
+              });
+            } else {
+              res.json({
+                updated: true,
+                removedFilesErrorHandler,
+                uploadFilesErrorHandler,
+                else: "else",
+              });
+            }
           }
-        })
-    }else{
-        res.json({
-          errors: [{
-          field: "Access denied",
-          errorDesc: "Cannot Remove it"
-        }]});
+        }
+      );
+    } else {
+      res.json({
+        errors: [
+          {
+            field: "Access denied",
+            errorDesc: "Cannot Remove it",
+          },
+        ],
+      });
     }
-
   },
 };
 

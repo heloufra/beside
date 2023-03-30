@@ -2,7 +2,7 @@
 <html>
 <head>
 
-	<title><%= title %></title>
+	  <title data-lang="<%= title %>"><%= title %></title>
     <meta charset="UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,7 +25,7 @@
 
         </ul>
 
-        <p class="side-bar-section-description">
+        <p class="side-bar-section-description" data-lang="Login_sideBar_text">
           There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.
         </p>
         
@@ -35,21 +35,31 @@
       <div class="sub-container">
 
         <div class="owl-carousel owl-theme ">
+
             <!-- sub-container Details -->
-               <div  class="item" id="Login_Section" >
+              <div  class="item" id="Login_Section" >
+
               <div  class="sub-main-container">
-                <h1 class="sub-container-main-header">Welcome</h1>
-                <h4 class="sub-container-sub-header">Please enter your phone number or email address that you are registred with! </h4>
+                <h1 class="sub-container-main-header" data-lang="Login_welcome">Welcome</h1>
+                <h4 class="sub-container-sub-header" data-lang="Login_welcome_subHeader">
+                  Please enter your phone number or email address that you are registred with! 
+                </h4>
 
                 <div class="sub-container-form" id="login">
 
                   <div class="form-group group">
                     <input type="text" class="input-user-login" name="email" required >
-                    <label class="input-label"><span class="input-label-text">Phone number or Email address</span> <span class="input-label-bg-mask"></span></label>
+                    <label class="input-label">
+                      <span class="input-label-text" data-lang="Login_phone_number_or_email_address">
+                      Phone number or Email address</span> 
+                      <span class="input-label-bg-mask"></span>
+                    </label>
                   </div>
 
                   <p class="sections-main-sub-container-right-main-note input-validation-error-feedback-hide">
-                      Phone number or email address not registered yet.
+                      <span data-lang="Login_phone_number_or_email_address_not_registered_yet">
+                        Phone number or email address not registered yet.
+                      </span>
                   </p>
 
                 </div>
@@ -58,7 +68,7 @@
 
               <div class="sub-container-form-footer hide-footer">
                   <div class="rounded-button rounded-button-primary rounded-button-float-right" id="Login_Section_Btn">
-                        <span class="button-text">Next</span>
+                        <span class="button-text" data-lang="Next">Next</span>
                         <img class="icon button-icon" src="assets/icons/right_arrow.svg">
                   </div>
               </div>
@@ -70,18 +80,23 @@
             <!-- sub-container Details -->
             <div  class="item" id="Code_Section" >
               <div  class="sub-main-container">
-                <h1 class="sub-container-main-header">Let's get started</h1>
-                <h4 class="sub-container-sub-header">Please enter verification code sent to your phone number or email address! </h4>
-
+                <h1 class="sub-container-main-header" data-lang="Login_lets_get_started">Let's get started</h1>
+                <h4 class="sub-container-sub-header"  data-lang="Login_lets_get_started_subHeader">
+                  Please enter verification code sent to your phone number or email address! 
+                </h4>
                 <div class="sub-container-form">
 
                   <div class="form-group group">
                     <input type="number" class="input-user-code" name="code"  required >
-                    <label class="input-label"><span class="input-label-text">Verification code</span> <span class="input-label-bg-mask"></span></label>
+                      <label class="input-label">
+                      <span class="input-label-text" data-lang="Login_verification_code">Verification code</span> 
+                      <span class="input-label-bg-mask"></span>
+                     </label>
                   </div>
 
                   <p class="sections-main-sub-container-right-main-note input-validation-error-feedback-hide">
-                      Verification code is invalid or expired. <span class="sections-main-sub-container-right-main-note-span" id="Resend_Section_Btn">Send me a new one</span>
+                      <span data-lang="Login_verification_code_is_invalid_or_expired">Verification code is invalid or expired. </span>
+                      <span class="sections-main-sub-container-right-main-note-span" id="Resend_Section_Btn" data-lang="Login_send_me_a_new_one">Send me a new one</span>
                   </p>
 
                 </div>
@@ -89,7 +104,7 @@
 
               <div class="sub-container-form-footer hide-footer">
                   <div class="rounded-button rounded-button-primary rounded-button-float-right"  id="Code_Section_Btn">
-                        <span class="button-text">login</span>
+                        <span class="button-text" data-lang="Login">login</span>
                         <img class="icon button-icon" src="assets/icons/right_arrow.svg">
                   </div>
               </div>

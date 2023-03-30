@@ -1,7 +1,7 @@
 var connection  = require('../lib/db');
 
 
-var getRandomColor =() => {
+var getRandomColor = () => {
 
   $subjectColors = ["#d8e9ff","#d2ebdc","#e7d9ff","#f5caca","#f1e1c2","#d1f6fc","#f6f1bd",
           "#e4e0e0","#d4e8b2","#f6d6ad","#d3e2e9","#d5d0e5","#f8d3ec","#ebd2d2"];
@@ -9,7 +9,6 @@ var getRandomColor =() => {
   return $subjectColors[Math.floor(Math.random() * $subjectColors.length)];
   
 }
-
 
 var setupModel = {
   saveLevels: function(Level_Label,AY_ID) {
@@ -61,9 +60,13 @@ var setupModel = {
       });
     })
   },
-  saveExpenses: function(Expense_Label, Expense_PaymentMethod, AY_ID) {
+  saveExpenses: function(Expense_Label, Expense_PaymentMethod, AY_ID , Color_Index) {
      return new Promise((resolve, reject) => {
-      connection.query("INSERT INTO expenses(Expense_Label, Expense_PaymentMethod, AY_ID) VALUES (?,?,?);", [Expense_Label, Expense_PaymentMethod, AY_ID], (err, expensesResult, fields) => {
+
+      var $subjectColors = ["#d8e9ff","#d2ebdc","#e7d9ff","#f5caca","#f1e1c2","#d1f6fc","#f6f1bd",
+      "#e4e0e0","#d4e8b2","#f6d6ad","#d3e2e9","#d5d0e5","#f8d3ec","#ebd2d2"];
+
+      connection.query("INSERT INTO expenses(Expense_Label, Expense_PaymentMethod, AY_ID , Expense_Color) VALUES (?,?,?,?);", [Expense_Label, Expense_PaymentMethod, AY_ID ,$subjectColors[Color_Index]], (err, expensesResult, fields) => {
        if (err) reject(err);
         else resolve(expensesResult);
       });
@@ -101,6 +104,15 @@ var setupModel = {
       });
     })
   },
+  defaultExpence: function(Institution_ID,AY_ID) {
+     return new Promise((resolve, reject) => {
+      var defaultExpenceQuery = `INSERT INTO internal_expences (Expence_Name, Expence_Image,Expence_Color,Expence_Type,Expence_Periode,Expence_For,Expence_Status, Institution_ID,AY_ID) VALUES ('Salaires','', '#ececf5', 'Fix', 'Monthly', 'Employees' , '-1',?,?)`;
+      connection.query(defaultExpenceQuery, [Institution_ID,AY_ID], (err, user, fields) => {
+       if (err) reject(err);
+        else resolve(user);
+      });
+    })
+  }
 };
 
 module.exports = setupModel;

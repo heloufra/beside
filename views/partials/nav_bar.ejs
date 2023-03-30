@@ -19,7 +19,7 @@
                                     }
                               %>
                               <p class="sections-main-sub-container-left-card-main-info user_name" ><%= userNAme %></p>
-                              <span  class="sections-main-sub-container-left-card-sub-info"><%= role %></span>
+                              <span  class="sections-main-sub-container-left-card-sub-info" data-lang="<%= role %>"><%= role %></span>
                           </div>
                     </div>
                     <!--  End sections-main-sub-container-left-cards  -->
@@ -30,7 +30,7 @@
                       
                       <% if (users.length > 1 ) {%>
                       <li class="sub-container-nav-bar-profile-dropdown-ul-li">
-                        <a href="">Switch Accounts</a>
+                        <a href="" data-lang="Switch_account">Switch Accounts</a>
                         <img src="assets/icons/caret.svg" class="caret-img" alt="caret"/>
                         
                           <!--  sub-container-nav-bar-profile-dropdown-ul  -->
@@ -54,7 +54,7 @@
                                               <img class="sections-main-sub-container-left-card-main-img user_image" src="<%= users[i].User_Image %>" alt="card-img">
                                               <div class="sections-main-sub-container-left-card-info">
                                                   <p class="sections-main-sub-container-left-card-main-info user_name"><%= name %></p>
-                                                  <span  class="sections-main-sub-container-left-card-sub-info"><%= users[i].role %></span>
+                                                  <span  class="sections-main-sub-container-left-card-sub-info" data-lang="<%= users[i].role %>"><%= users[i].role %></span>
                                               </div>
                                         </div>
                                         <!--  End sections-main-sub-container-left-cards  -->
@@ -64,9 +64,9 @@
                           <!--  End sub-container-nav-bar-profile-dropdown-ul -->
                       </li>
                       <% } %>
-                      <li><a href="#" id="settings_btn">Account Settings</a></li>
+                      <li><a href="#" id="settings_btn" data-lang="Account_settings">Account Settings</a></li>
                       <%}%>
-                      <li><a href="" id="logout_btn">Logout</a></li>
+                      <li><a href="/logout" id="logout_btn_" data-lang="Logout">Logout</a></li>
                     </ul>
                     <!--  End sub-container-nav-bar-profile-dropdown-ul -->
 
@@ -104,7 +104,10 @@ function readFile() {
 }
 $(document).on("click","#settings_btn",function(event){
     document.getElementById("profile_settings").addEventListener("change", readFile);
-    $('#ProfileSettings').modal('show');
+    
+    $('#ProfileSettings').addClass('data-loading');
+    $('#ProfileSettings').modal('show'); 
+
      $.ajax({
       type: 'get',
       url: '/Select/me',
@@ -121,6 +124,9 @@ $(document).on("click","#settings_btn",function(event){
       $('#ProfileSettings').find('input[name=phone-settings]').val(res.user.User_Phone);
       $('#ProfileSettings').find('input[name=email-settings]').val(res.user.User_Email);
       $('#ProfileSettings').find('input[name=gender-settings]').val(res.user.User_Gender);
+
+      $('#ProfileSettings').removeClass('data-loading');
+      
     });
 
 });

@@ -32,6 +32,7 @@ function getAllFinances(id) {
 	  		$("#Finance").find('.month-row').remove();
 	  		$("#Finance").find('.students_list').remove();
 	  		$('#Finance').find('.row-finance').remove();
+	  		$(".sections-main-sub-container-right-main").removeClass("visibility");
 	  		var htmlmonths = '';
 	  		var studentList = '';
 	  		students = res.students;

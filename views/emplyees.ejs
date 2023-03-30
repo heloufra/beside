@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	  <title data-lang="<%= title %>"><%= title %></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+ <%- include('./partials/main'); %>
+</head>
+
+<!-- sections-main-container -->
+<body class="sections-main-container">
+  
+    <!-- main-container -->
+    <div class="main-container">
+
+      <!-- setup-main-container -->
+      <%- include('./partials/side_bar',{institution: institution,accounts:accounts,role:role}); %>
+      <!-- end setup-main-container -->
+
+      <!-- sub-container -->
+      <div class="sub-container">
+
+        <div class="sub-container-nav-bar">
+            <span class="sub-container-nav-bar-title" data-lang="Employees">Employees</span>
+            <img  class="sub-container-nav-bar-img" src="<%= user.User_Image %>" alt="profile">
+        </div>
+
+        <!-- nav -->
+         <%- include('./partials/nav_bar', {user: user,users:users,role:role}); %>
+        <!-- End nav -->
+
+        <!--  sections-main-sub-container 100%  -->
+        <div class="sections-main-sub-container">
+
+                <!--  sections-main-sub-container-left 30%  -->
+                <div class="sections-main-sub-container-left">
+
+                  <!--  sections-main-sub-container-left-search-bar  -->
+
+                  <!-- .disable-action to disable user actions based on view role -->
+                  <div class="sections-main-sub-container-left-search-bar ">
+
+                    <div class="dynamic-form-input-dropdown-container">
+                      <div class="dynamic-form-input-dropdown "> <!-- dynamic-form-input-first for full width inputs -->
+                        <div class="dynamic-form-input">
+
+                          <div class="dynamic-form-input-float-adjust" id="role_list">
+                            <div class="form-group group form-group-left ">
+                              <input type="text" value="functionalities" class="input-dropdown" data-val="All" name="functionalities" id="functionalities-filter" required="">
+                              <img class="icon button-icon" src="assets/icons/caret.svg">
+
+                              <ul class="dynamic-form-input-dropdown-options dynamic-form-input-dropdown-options-functionalities-filter">
+                                <li data-val="All"  data-lang="All" >All</li>
+                                 <% for(var i=0; i<functionalities.length; i++) {%>
+                                    <li data-val="<%= functionalities[i] %>"><%= functionalities[i] %></li>
+                                 <% } %>
+                              </ul>
+
+                            </div>
+
+                            <div class="form-group group form-group-right form-group-search-filter">
+
+                               <input type="text" class="input-text input-text-dropdown-search" required="" name="search" id="search-input" placeholder="Search students" data-lang="Search_students">
+                               <img class="icon button-icon caret-disable-rotate" src="assets/icons/sidebar_icons/search.svg">
+
+                            </div>
+
+                            <%if (role === 'Admin') { %>
+                              <div class="square-button square-button-minus" data-toggle="modal" data-target="#AddEmployeeModal">
+                                <img class="icon" src="assets/icons/plus.svg">
+                              </div>
+                            <% } %>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                  <!--  sections-main-sub-container-left-search-bar  -->
+
+                  <!--  sections-main-sub-container-left-card-container  -->
+                  <div class="sections-main-sub-container-left-card-container" id="list_employees">
+                    <!--  sections-main-sub-container-left-cards  -->
+                                        <!--  End sections-main-sub-container-left-cards  -->
+                  </div>
+                  <!--  End sections-main-sub-container-left-card-container  -->
+
+                </div>
+
+                <!--  sections-main-sub-container-right 70%  -->
+                <div class="sections-main-sub-container-right hidden" id="employee_info">
+
+                    <!-- sections-main-sub-container-right-main -->
+                    <div class="sections-main-sub-container-right-main">
+
+                        <div class="sub-container-form">
+                            <!-- sections-main-sub-container-right-main-header -->
+                            <div class="sections-main-sub-container-right-main-header">
+
+                                <div class="sections-main-sub-container-right-main-header-info">
+
+                                  <div class="form-group">
+                                    <div class="input-img-container input-rounded-img-container">
+                                      <img class="input-img profile-img" src="assets/images/profiles/Profile1.jpg" alt="profile">
+                                    </div>
+                                  </div>
+
+                                  <p class="label-full-name">Chloé Modibo</p>
+                                  <p class="sub-label-full-name" id="employee_role">role</p>
+
+                                </div>
+
+
+                                <!-- sections-main-sub-container-right-main-header-option-list -->
+                                <div class="sections-main-sub-container-right-main-header-option-list-container">
+                                <img class="sections-main-sub-container-right-main-header-option-icon" src="assets/icons/options.svg">
+                                <div class="sections-main-sub-container-right-main-header-option-list">
+                                    <div class="sections-main-sub-container-right-main-header-option-list-li
+                                              sections-main-sub-container-right-main-header-option-list-li-employee-edit">
+                                    <img src="assets/icons/edit.svg" alt="edit"/>   
+                                    <span class="sections-main-sub-container-right-main-header-option-list-span" data-lang="Edit">Edit</span>
+                                  </div>
+                                  <div class="sections-main-sub-container-right-main-header-option-list-li
+                                              sections-main-sub-container-right-main-header-option-list-li-delete">
+                                    <img src="assets/icons/delete.svg" alt="edit"/>   
+                                    <span class="sections-main-sub-container-right-main-header-option-list-span" data-lang="Delete" >Delete</span>
+                                  </div>
+                                  <img class="sections-main-sub-container-right-main-header-option-icon-close" alt="close" src="assets/icons/close.svg">
+                                </div>
+                                </div>
+                                <!-- End sections-main-sub-container-right-main-header-option-list -->
+
+                            </div>
+
+
+                            <!-- Active later if absence retart needed 
+                              
+                              div class="sections-main-sub-container-right-main-tabs sections-main-sub-container-right-main-tabs-extra-style">
+                                <ul class="clearfix nav nav-tabs">
+                                  <li class="active"><a data-toggle="tab" href="#Details" data-lang="Details" >Details</a></li>
+                                  <li><a data-toggle="tab" href="#Absence" data-lang="Absences">Absences</a></li>
+                                </ul>
+                            </div-->
+
+
+                            <!-- End sections-main-sub-container-right-main-header -->
+
+                            <!-- tab-content -->
+                            <div class="tab-content">
+
+                              <!-- sections-main-sub-container-right-main-body : Details -->
+                              <div id="Details" class="tab-pane fade in active sections-main-sub-container-right-main-body details-employee dom-change-watcher-disabled ">
+
+                                  <div class="sections-main-sub-container-right-main-label-divider">
+                                        <p data-lang="Employee_Details">Employee details</p>
+                                  </div>
+
+                                  <div class="row sections-main-sub-container-right-main-rows">
+
+                                    <div class="col-md-6">
+                                      <div class="form-group group">
+                                        <input type="text" required="" name="f_name" readonly="">
+                                        <label class="input-label input-label-move-to-top">
+                                          <span class="input-label-text" data-lang="First_name">First name</span><span class="input-label-bg-mask"></span>
+                                        </label>
+                                      </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                      <div class="form-group group">
+                                        <input type="text" required="" name="l_name" readonly="">
+                                        <label class="input-label input-label-move-to-top">
+                                          <span class="input-label-text" data-lang="Last_name">Last name</span><span class="input-label-bg-mask"></span>
+                                        </label>
+                                      </div>
+                                    </div>
+
+                                  </div>
+
+                                  <div class="row sections-main-sub-container-right-main-rows">
+
+                                    <div class="col-md-6">
+                                      <div class="form-group group ">
+                                        <input type="text" required="" name="phone_number_detail" readonly="">
+                                        <label class="input-label input-label-move-to-top">
+                                          <span class="input-label-text" data-lang="Phone_number">Phone number</span><span class="input-label-bg-mask"></span>
+                                        </label>
+                                      </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                      <div class="form-group group ">
+                                        <input type="text" required="" name="email" readonly="">
+                                        <label class="input-label input-label-move-to-top">
+                                          <span class="input-label-text" data-lang="Email">Email</span><span class="input-label-bg-mask"></span>
+                                        </label>
+                                      </div>
+                                    </div>
+                                    
+                                  </div>
+
+                                  <div class="row sections-main-sub-container-right-main-rows">
+
+                                    <div class="col-md-6">
+
+                                      <div class="dynamic-form-input-dropdown-container">
+                                        <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                                          <div class="dynamic-form-input">
+                                            <div class="dynamic-form-input-float-adjust">
+                                            <div class="form-group group form-group-right">
+                                              <input type="text" class="input-text" name="employee_gender_detail" required readonly="">
+                                              
+                                              <label class="input-label input-label-move-to-top">
+                                                <span class="input-label-text" data-lang="Gender" >Gender</span><span class="input-label-bg-mask"></span>
+                                              </label>
+                                            </div>
+                                            </div>
+                                            <div class="square-button square-button-minus">
+                                              <img class="icon" src="assets/icons/minus.svg">
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                    </div>
+
+                                    <div class="col-md-6">
+                                      <div class="form-group group dynamic-form-input-text-container-icon">
+                                         <input type="text" class="input-text" name="birthdate_detail" required="" placeholder="" readonly="">
+                                          <label class="input-label input-label-move-to-top">
+                                            <span class="input-label-text" data-lang="Birthdate" >Birthdate</span><span class="input-label-bg-mask"></span>
+                                          </label>
+                                      </div>
+                                    </div>                             
+
+                                  </div>
+                                  
+                                  <div class="row sections-main-sub-container-right-main-rows">
+
+                                    <div class="col-md-6">
+
+                                      <div class="dynamic-form-input-dropdown-container">
+                                        <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                                          <div class="dynamic-form-input">
+                                            <div class="dynamic-form-input-float-adjust">
+                                            <div class="form-group group form-group-right">
+                                              <input type="text" class="input-text" name="employee_functionality_detail" required readonly="">
+                                              
+                                              <label class="input-label input-label-move-to-top">
+                                                <span class="input-label-text" data-lang="Functionality" >Functionality</span><span class="input-label-bg-mask"></span>
+                                              </label>
+                                            </div>
+                                            </div>
+                                            <div class="square-button square-button-minus">
+                                              <img class="icon" src="assets/icons/minus.svg">
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                    </div>
+
+                                    <div class="col-md-6">
+                                      <div class="form-group group ">
+                                        <input type="text" required="" name="employee_salary_detail" readonly="">
+                                        <label class="input-label input-label-move-to-top">
+                                          <span class="input-label-text" data-lang="Salary">Salary</span><span class="input-label-bg-mask"></span>
+                                        </label>
+                                      </div>
+                                    </div>
+
+                                  </div>
+
+                                  <div class="row sections-main-sub-container-right-main-rows">
+
+                                    <div class="col-md-12">
+                                      <div class="form-group group ">
+                                        <input type="text" required="" name="employee_address_detail" readonly="">
+                                        <label class="input-label input-label-move-to-top">
+                                          <span class="input-label-text" data-lang="Address">Address</span><span class="input-label-bg-mask"></span>
+                                        </label>
+                                      </div>
+                                    </div>
+
+                                  </div>
+
+                                  <!--  sub-container-form-footer -->
+                                
+                                  <!--  End sub-container-form-footer -->
+
+                              </div>
+                              <!-- End sections-main-sub-container-right-main-body : Details -->
+
+
+                              <!-- sections-main-sub-container-right-main-body : Absence -->
+                              <div id="Absence" class="tab-pane fade  sections-main-sub-container-right-main-body">
+
+                                  <div id="reported_title" class="sections-main-sub-container-right-main-label-divider hidden">
+                                        <p data-lang="Reported_absence">Reported absence</p>
+                                  </div>
+
+                                  <div class="row sections-main-sub-container-right-main-rows">
+
+                                    <div class="col-xs-12">
+
+                                      <table id="reported_table" class="hidden">
+
+                                        <thead>
+                                          <tr>
+                                            <th scope="col" data-lang="Type">Type</th>
+                                            <th scope="col" data-lang="From">From</th>
+                                            <th scope="col" data-lang="To">To</th>
+                                          </tr>
+                                        </thead>
+
+                                        <tbody class="table_reported">
+
+                                        
+                                        </tbody>
+
+                                      </table>
+                                    </div>
+
+                                  </div>                                            
+
+                                  <div id="absence_title" class="sections-main-sub-container-right-main-label-divider hidden">
+                                        <p data-lang="Absence_&_Retard">Absence & Retard</p>
+                                  </div>
+
+                                  <div class="row sections-main-sub-container-right-main-rows">
+
+                                    <div class="col-xs-12">
+
+                                      <table id="absence_table" class="hidden">
+
+                                        <thead>
+                                          <tr>
+                                            <th scope="col" data-lang="Type">Type</th>
+                                            <th scope="col" data-lang="From">From</th>
+                                            <th scope="col" data-lang="To">To</th>
+                                            <th scope="col" data-lang="Absence_&_Retard_date">Date</th>
+                                          </tr>
+                                        </thead>
+
+                                        <tbody class="table_delay">
+
+                                        </tbody>
+
+                                      </table>
+                                    </div>
+
+                                  </div>
+
+
+                                  <!-- sub-container-form-footer-container -->
+                                  <div class="sub-container-form-footer-container">
+                                        <!--  sub-container-form-footer -->
+                                        <div class="sub-container-form-footer">
+                                            <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate " data-toggle="modal" data-target="#AddemployeeAbsenceModal">
+                                                  <span class="button-text" id="" data-lang="Add_new">Add New</span>
+                                                  <img class="icon button-icon" src="assets/icons/plus.svg">
+                                            </div>
+                                        </div>
+                                        <!--  End sub-container-form-footer -->
+
+                                        <!--  sub-container-form-footer -->
+                                        <div class="sub-container-form-footer visibility">
+                                            <div class="rounded-button rounded-button-primary rounded-button-float-right">
+                                                  <span class="button-text">Save changes</span>
+                                                  <img class="icon button-icon" src="assets/icons/check_small.svg">
+                                            </div>
+                                            <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary">
+                                                  <span class="button-text" id="employeeBtnCancel" >Cancel</span>
+                                            </div>
+                                        </div>
+                                        <!--  End sub-container-form-footer -->
+                                  </div>
+                                  <!-- End sub-container-form-footer-container -->
+
+                              </div>
+                              <!-- End sections-main-sub-container-right-main-body : Absence -->
+
+                            </div>
+                            <!-- End tab-content -->
+
+
+                            <!--_____________ ChangesModal modal _____________-->
+
+                            <!-- Trigger the modal with a button -->
+                             
+                              <!-- Modal data-toggle="modal" data-target="#ChangesModal" -->
+                              <div id="ChangesModal" class="modal" role="dialog" >
+
+                                <div class="modal-dialog modal-dialog-centered animate__animated animate__fadeIn ">
+
+                                  <!-- Modal content-->
+                                  <div class="modal-content modal-content-finance">
+
+                                    <div class="modal-body">
+
+                                        <!-- modal-body-container -->
+
+                                        <div class="modal-body-container">
+
+                                          <h1 class="sub-container-main-header sub-container-main-header-extra-style" data-lang="Review_changes">Review changes</h1>
+                                          <h4 class="sub-container-sub-header  sub-container-sub-header-extra-style" data-lang="Review_changes_subHeader">
+                                           You have made changes. Are you sure you want to discard them?
+                                          </h4>
+
+                                            <!--  sub-container-form-footer -->
+                                            <div class="sub-container-form-footer">
+
+                                               <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button " onclick="saveChange()">
+                                                            <span class="button-text" data-lang="Save_changes">Save changes</span>
+                                                            <img class="icon button-icon" src="assets/icons/check_small.svg">
+                                                </div>
+
+                                                <div class="rounded-button default-button rounded-button-primary rounded-button-float-right  secondary-pink-button " onclick="discardChange()">
+                                                      <span class="button-text" data-lang="Cancel">Discard</span>
+                                                </div>
+                                               
+                                            </div>
+                                            <!--  End sub-container-form-footer -->
+
+                                        </div>
+
+                                    </div>
+
+                                  </div>
+
+                                </div>
+
+                              </div>
+                            <!--_____________ End ChangesModal modal _____________-->
+
+
+                            <!--_____________ Edit employee Absence modal _____________-->
+
+                                  <!-- Trigger the modal with a button -->
+                                   
+                                    <!-- Modal -->
+                                    <div id="EditAbsenceModal" class="modal" role="dialog">
+
+                                      <div class="modal-dialog modal-dialog-cente animate__animated animate__fadeIn ">
+
+                                        <!-- Modal content-->
+                                        <div class="modal-content modal-content-finance">
+
+                                          <div class="modal-body">
+
+                                              <!-- modal-body-container -->
+
+                                              <div class="modal-body-container">
+
+                                                <h1 class="sub-container-main-header" data-lang="Popup_edit_employee_absence_&_retard">Absence & Retard</h1>
+                                                <h4 class="sub-container-sub-header" data-lang="Popup_edit_employee_absence_&_retard_subHeader">
+                                                 There are many variations of passages of Lorem Ipsum available.
+                                                </h4>
+
+                                                  <div class="row sections-main-sub-container-right-main-rows">
+
+
+                                                     <div class="col-md-6">
+                                                        <div class="form-group group readonly">
+                                                          <input type="text" required="" name="ad_classe">
+                                                          <label class="input-label">
+                                                            <span class="input-label-text" data-lang="Class">Class</span><span class="input-label-bg-mask"></span>
+                                                          </label>
+                                                        </div>
+                                                      </div>
+
+                                                       <div class="col-md-6">
+                                                        <div class="form-group group readonly">
+                                                          <input type="text" required="" name="ad_employee">
+                                                          <label class="input-label">
+                                                            <span class="input-label-text" data-lang="employee">Employee</span><span class="input-label-bg-mask"></span>
+                                                          </label>
+                                                        </div>
+                                                      </div>
+                                              
+                                                  </div>
+
+                                                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style">
+
+                                                      <label class="input-label dynamic-form-input-container-label"><span class="input-label-text" data-lang="Absence_or_Retard">Absence or Retard </span> <span class="input-label-bg-mask"></span></label>
+
+                                                      <div class="sections-checkboxes-main-container">
+
+                                                        <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left   
+                                                             dynamic-form-input-container-type" data-val="Absence" >
+                                                            <div class="sections-label-checkbox-container " >
+                                                              <div class="form-group group">
+                                                                <span class="expense_label" data-lang="Absence">Absence</span>
+                                                              </div>
+                                                            </div>
+                                                            <div class="customCheck customCheckRounded readonly">
+                                                              <input type="checkbox" class="readonly" checked value="0" data-val="Absence" name="checkbox" id="" />
+                                                              <label for="ck"></label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left container-background-style" data-val="Retard">
+                                                            <div class="sections-label-checkbox-container ">
+                                                              <div class="form-group group">
+                                                                <span class="expense_label" data-lang="Retard">Retard</span>
+                                                              </div>
+                                                            </div>
+                                                            <div class="customCheck customCheckRounded readonly">
+                                                              <input type="checkbox" class="readonly" value="1" data-val="Retard"  name="checkbox" id="" />
+                                                              <label for="ck"></label>
+                                                            </div>
+                                                        </div>
+
+                                                      </div>
+
+                                                  </div>
+
+                                                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style
+                                                       dynamic-form-input-container-session">
+
+                                                      <label class="input-label dynamic-form-input-container-label">
+                                                        <span class="input-label-text " data-lang="Period_or_Session"> Period or Session </span>
+                                                        <span class="input-label-bg-mask"></span>
+                                                      </label>
+
+                                                      <div class="sections-checkboxes-main-container">
+
+                                                        <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left container-background-style" data-val="Period">
+                                                            <div class="sections-label-checkbox-container ">
+                                                              <div class="form-group group readonly">
+                                                                <span class="expense_label" data-lang="Period">Period</span>
+                                                              </div>
+                                                            </div>
+                                                            <div class="customCheck customCheckRounded readonly">
+                                                              <input type="checkbox" value="0" data-val="Period" name="checkbox" id="" class="readonly" />
+                                                              <label for="ck"></label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left "
+                                                             data-val="Session">
+                                                            <div class="sections-label-checkbox-container" >
+                                                              <div class="form-group group readonly">
+                                                                <span class="expense_label" data-lang="Session">Session</span>
+                                                              </div>
+                                                            </div>
+                                                            <div class="customCheck customCheckRounded readonly">
+                                                              <input type="checkbox" value="1" data-val="Session" checked class="readonly"  name="checkbox" id="" />
+                                                              <label for="ck"></label>
+                                                            </div>
+                                                        </div>
+
+                                                      </div>
+
+                                                  </div>
+
+                                                  <!--- Show in case of Absense combined with Period -->
+                                                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style
+                                                       dynamic-form-input-container-multi-date">
+
+                                                    <label class="input-label dynamic-form-input-container-label">
+                                                      <span class="input-label-text" data-lang="Period">Period</span> 
+                                                      <span class="input-label-bg-mask"></span>
+                                                    </label>
+
+                                                    <div class="flex flex-form-group-container">
+
+                                                      <div class="form-group group dynamic-form-input-text-container-icon">
+                                                         <input type="text" name="start-period" class="input-text input-date input-date-from-today" required="" placeholder="Start date" data-lang="Start_date">
+                                                         <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
+                                                      </div>
+
+                                                       <div class="form-group group dynamic-form-input-text-container-icon">
+                                                         <input type="text" name="end-period" class="input-text input-date input-date-from-today" required="" placeholder="End Date" data-lang="End_date">
+                                                         <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
+                                                      </div>
+
+                                                    </div>
+
+                                                  </div>
+                                                  <!--- End Show in case of Absense combined with Period -->
+
+                                                  <!--- Show in case of Absense combined with Session || Retard -->
+
+                                                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style
+                                                       dynamic-form-input-container-one-date">
+
+                                                    <label class="input-label dynamic-form-input-container-label">
+                                                      <span class="input-label-text" data-lang="Date_Absence_&_Retard">Date</span> 
+                                                      <span class="input-label-bg-mask"></span></label>
+
+                                                    <div class="form-group group dynamic-form-input-text-container-icon">
+                                                       <input type="text" class="input-text input-extra-border  input-date input-date-from-today" name="editDate" required="" placeholder="Select date" data-lang="Select date">
+                                                       <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
+                                                    </div>
+
+                                                  </div>
+
+                                                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style
+                                                       dynamic-form-input-container-multi-time">
+
+                                                    <label class="input-label dynamic-form-input-container-label">
+                                                      <span class="input-label-text" data-lang="Select_time">Select time</span> 
+                                                      <span class="input-label-bg-mask"></span>
+                                                    </label>
+
+                                                    <div class="flex flex-form-group-container">
+
+                                                      <div class="form-group group dynamic-form-input-text-container-icon">
+                                                         <input type="text" name="starTime" value="" class="input-text input-time" required="" placeholder="Time" data-lang="Time">
+                                                         <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
+                                                      </div>
+
+                                                       <div class="form-group group dynamic-form-input-text-container-icon">
+                                                         <input type="text" name="endTime" value="" class="input-text input-time" required="" placeholder="Time" data-lang="Time">
+                                                         <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
+                                                      </div>
+
+                                                    </div>
+
+                                                  </div>
+
+
+                                                  <!--- End Show in case of Absense combined with Session || Retard -->
+
+                                                  <!--  sub-container-form-footer -->
+                                                  <div class="sub-container-form-footer">
+                                                      <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button " onclick="updateAbsence()">
+                                                            <span class="button-text" data-lang="Save_Changes" >Save Changes</span>
+                                                            <img class="icon button-icon" src="assets/icons/check_small.svg">
+                                                      </div>
+                                                      <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary  secondary-pink-button" data-toggle="modal" data-target="#EditAbsenceModal">
+                                                            <span class="button-text discard-changes" data-lang="Discard">Discard</span>
+                                                      </div>
+                                                  </div>
+                                                  <!--  End sub-container-form-footer -->
+
+                                              </div>
+
+                                          </div>
+
+                                        </div>
+
+                                      </div>
+
+                                    </div>
+
+                                  <!--_____________ End Edit employee Absence modal _____________-->
+
+
+
+                        </div>
+                       
+                    </div>
+                    <!-- End sections-main-sub-container-right-main -->
+
+                </div>
+
+        </div>
+        <!--  End sections-main-sub-container -->
+
+    </div>
+    <!-- sub-container -->
+
+    <!-- Modal data-toggle="modal" data-target="#ChangesModal" -->
+      <div id="ConfirmDeleteModal" class="modal" role="dialog" >
+
+        <div class="modal-dialog modal-dialog-centered animate__animated animate__fadeIn ">
+
+          <!-- Modal content-->
+          <div class="modal-content modal-content-finance">
+
+            <div class="modal-body">
+
+                <!-- modal-body-container -->
+
+                <div class="modal-body-container">
+
+                  <h1 class="sub-container-main-header sub-container-main-header-extra-style" data-lang="Popup_delete">Are you sure ?</h1>
+                  <h4 class="sub-container-sub-header  sub-container-sub-header-extra-style" data-lang="Popup_delete_subHeader">
+                   You have made changes. Are you sure you want to discard them?
+                  </h4>
+
+                    <!--  sub-container-form-footer -->
+                    <div class="sub-container-form-footer">
+
+                        <div class="rounded-button default-button rounded-button-primary rounded-button-float-right  secondary-pink-button " onclick="remove()">
+                              <span class="button-text" data-lang="Delete">Delete</span>
+                        </div>
+
+                        <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary" data-dismiss="modal">
+                                    <span class="button-text" data-lang="Cancel" >Cancel</span>
+                        </div>
+                       
+                    </div>
+                    <!--  End sub-container-form-footer -->
+
+                </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+ <script src="/javascripts/employees.js" type="text/javascript" charset="utf-8" async defer></script>
+    <!--_____________ End ConfirmDelete modal _____________-->    
+
+    <!--________________ Modals _____________-->
+
+        <%- include('./partials/modals',{role:role}); %>
+
+    <!--________________ End Modals _____________-->
+
+</body>
+<!-- end sections-main-container -->
+
+
+</html>

@@ -5,7 +5,9 @@ var subArray =[];
 var start = "";
 var end = "";
 var academicyear = "";
-var months =  ["January", "February", "March", "April", "May", "June", "July", "August", "September", "Octobre", "November", "December"];
+var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const href = location.href;
+var studentId = $global_student_id;
 
 var subject_list = [];
 
@@ -220,7 +222,8 @@ function savePaymentModal() {
 	    type: 'post',
 	    url: '/Students/payment',
 	    data: {
-	    	payments:payments
+			payments: payments,
+			studentId:$global_student_id
 	    },
 	    dataType: 'json'
 	  })
@@ -780,18 +783,24 @@ function checkChange() {
  	 $('#AddAbsenceModal').find('input[name=modal-student]').val("");
  }
 
- $('#AddAbsenceModal').find('input[name="modal-classe"]').on( "change", function() {
- 	 var value = $(this).val();
- 	 var name,fname,id;
+ $('#AddAbsenceModal').find('input[name="modal-classe"]').on("change", function() {
+
+ 	var value = $(this).val();
+ 	var name,fname,id;
+
+	if($('input[data-val=Teacher]').is(':checked')){
+		name = "Teachers";
+	}
+	else{
+		name = "Students";
+	}
+
+ 	console.log("#AddAbsenceModal value ==>",value," name =>",name);
 
 	if (value.replace(/\s/g, '') !== '')
 	{
 		$('#AddAbsenceModal').find('input[name=modal-student]').val("");
 		$('#AddAbsenceModal').find('.input-dropdown-search').val("");
-	 	if($('input[data-val=Teacher]').is(':checked'))
-	 		name = "Teachers";
-	 	else
-	 		name = "Students";
 	 	 $.ajax({
 		    type: 'get',
 		    url: '/'+name+'/list',
@@ -904,7 +913,8 @@ $('#FinanceNewModal').find('input[name="modal-student"]').on( "change", function
 
  	id = $(this).attr('data-id');
 
- 	displayStudentModal(id);
+	displayStudentModal(id);
+
 
 });
 
@@ -1065,9 +1075,18 @@ function saveAttitudeModal() {
 	var at_date = $('#AddNewAttitudeModal').find('input[name="at_date"]').val();
 
 	var at_student = $('#AddNewAttitudeModal').find('input[name="modal-student"]').val();
+	var user_id =  $('#AddNewAttitudeModal').find('input[name="modal-student"]').attr("data-id");
 	var at_note = $('#AddNewAttitudeModal').find('#at_note').val();
 	var at_type = "";
 
+	console.log("new attitude",{
+		at_classe,
+		at_date,
+		at_student,
+		at_note,
+		at_type,
+		user_id
+	});
 
 	if ($('#AddNewAttitudeModal').find('input[data-val="Positive"]:checked').val()){
 		at_type = $('#AddNewAttitudeModal').find('input[data-val="Positive"]:checked').val();
@@ -1128,7 +1147,7 @@ function saveAttitudeModal() {
 		    	at_note,
 		    	at_classe,
 		    	at_student,
-		    	user_id:$('#AddNewAttitudeModal').find('li[data-val='+at_student.replace(/\s/g, '')+']').data('id')
+		    	user_id
 		    },
 		    dataType: 'json'
 		  })
@@ -1612,7 +1631,8 @@ function savePaymentModal() {
 		    type: 'post',
 		    url: '/Students/payment',
 		    data: {
-		    	payments:payments
+				payments: payments,
+				studentId:$global_student_id
 		    },
 		    dataType: 'json'
 		})
@@ -1733,16 +1753,36 @@ function executePaymentModal() {
 
 /* #ImportUsersModal .modal-btn _________________*/
 
+  $('.import-users-Modal-file-container').on('dragenter dragover', function(event) {
+    event.preventDefault();
+  });
+
+  // Handle file drop
+  $('.import-users-Modal-file-container').on('drop', function(event) {
+    event.preventDefault();
+  // Get the dropped file
+    var files = event.originalEvent.dataTransfer.files;
+    // Update the input file element
+    $('#Import_File').prop('files', files);
+    // Update the display with the new file 
+    $("#Import_File").trigger('change');
+  });
+
+
+/* #ImportUsersModal .modal-btn _________________*/
+
+
 $(document).on("change","#Import_File",function(){
 	if ($(this).prop('files')[0])
 	{
 		$("#ImportUsersModal .import-users-Modal-label").text($(this).prop('files')[0].name);
-	$(this).parent().find('label').text("Replace file");
-	$('#ImportUsersModal .progress-bar').css('width', '100%').attr('aria-valuenow', 100); 
+		$(this).parent().find('label').text("Replace file");
+		$('#ImportUsersModal .progress-bar').css('width', '100%').attr('aria-valuenow', 100); 
 	}
 });
 
 function saveImportFile() {
+
 	if ($('#ImportUsersModal').find('input[data-val=Student]').is(':checked'))
 	{
 		var formData = new FormData();
@@ -1915,5 +1955,654 @@ function updateProfile()
 	}
 }
 
+/***** AddEmployeeModal modal  **********************/
+
+function getAllEmployees_old(id) {
+
+	$.ajax({
+	    type: 'get',
+	    url: '/Employees/all',
+	    dataType: 'json'
+	  })
+	  .done(function(res){
+	  	if(res.errors){
+	  	  console.log(res.errors)
+	  	} else {
+
+			functionalities = [];
+
+			res.functionalities.map((fn) => {
+				let val = Capitalized(fn);
+				if (!functionalities.includes(val)) {
+					functionalities.push(val);
+				}
+			});
+
+			functionalities.sort();
+				
+			functionalitiesHtml ='';
+
+			functionalities.map((func,i) =>{
+				$('#AddEmployeeModal .input-text-functionalities-select2').prepend(`<option value="`+func+`">`+func+`</option>`);
+			});
+
+			select2Call();
+
+	  	}
+	  });
+}
 
 
+async function getAllEmployees(id) {
+
+	return new Promise((resolve, reject) => {
+
+		  console.log("getAllEmployees modal");
+
+		  dynamicListRows = "" ;
+
+		  $.ajax({
+		    type: 'get',
+		    url: '/Employees/all',
+		    dataType: 'json'
+		  })
+		  .done(function(res){
+
+				employees = res.employees;
+
+				functionalities = [];
+
+				res.functionalities.map((fn)=>{
+					let val =Capitalized(fn);
+					if(!functionalities.includes(val)){
+						functionalities.push(val);
+					}
+				});
+				
+		  		SortEmployeeList(employees);
+				  
+		  		filtredClass = res.employees;
+		  		if (id){
+		  			displayEmployee(id);
+		  		}
+		  		else if (res.employees.length > 0){
+		  			displayEmployee(res.employees[res.employees.length - 1].employee.User_ID);
+		  		}
+		  		var active = '';
+
+		  		$('.row-employee').remove();
+
+		  		remove_No_Result_FeedBack();
+		  		addSideBarLoadingAnimation($sideSelector);
+
+		  		for (var i = res.employees.length - 1; i >= 0; i--) {
+		  			if (id){
+		  				if(res.employees[i].employee.User_ID === id){
+		  					active = 'active';
+		  				}
+		  				else{
+		  					active = ''
+		  				}
+		  			}else{
+			  			if (i === res.employees.length - 1){
+			  				active = 'active';
+			  			}
+			  			else{
+			  				active = '';
+			  			}
+			  		}
+
+		  			var name = JSON.parse(res.employees[i].employee.User_Name);
+		  			var html = '';
+
+						dynamicListRows +='<div data-val="'+Capitalized(String(res.employees[i].employee.User_Role).replace(' ',""))+'" ' ;
+
+					dynamicListRows += 'class="'+active+' sections-main-sub-container-left-card row-employee"><img class="sections-main-sub-container-left-card-main-img" src="'+res.employees[i].employee.User_Image+'" alt="card-img"><span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper"></span><input name="employeeId" type="hidden" value="'+res.employees[i].employee.User_ID+'"> <div class="sections-main-sub-container-left-card-info"><p class="sections-main-sub-container-left-card-main-info">'+name.first_name+' '+name.last_name+'</p><span  class="sections-main-sub-container-left-card-sub-info">'+Capitalized(res.employees[i].employee.User_Role)+'</span></div>' ;
+
+						dynamicListRows +='</div>';
+				
+		  		}
+
+				functionalities.sort();
+
+				functionalitiesHtml =`<li data-val="All" data-lang="All" placeholder="Tous" style="opacity: 1;">Tous</li>`;
+
+				functionalities.map((func,i) =>{
+
+					functionalitiesHtml += `<li data-val="${func}" data-lang="${func}" style="opacity: 1;">${func}</li>`;
+
+				});
+
+				$('.dynamic-form-input-dropdown-options-functionalities-filter').html("");
+				$('.dynamic-form-input-dropdown-options-functionalities-filter').prepend(functionalitiesHtml);
+
+		  		if(res.employees.length > 0 ){
+					$('#list_employees').append(dynamicListRows);
+				}else{
+					$HeaderFeedBack = "No result found !";
+					$SubHeaderFeedBack = "";
+					$IconFeedBack = "404_students.png";
+					no_Result_FeedBack($HeaderFeedBack,$SubHeaderFeedBack,$IconFeedBack);
+				}
+
+		  		removeSideBarLoadingAnimation($sideSelector);
+
+		  		resolve(true);
+		  	
+		  });
+
+	});
+
+}
+
+getAllEmployees();
+
+function select2Call() {
+
+	$tag_data = "";
+
+	$alreadySelected = [];
+
+	$(".input-text-functionalities-select2").each(function(ind,elem){
+
+			$this = $(this) ;
+			
+			/****** prepend new options to all dropdown *********/
+
+				$this.select2({
+					  tokenSeparators: [','],
+					  tags: true,
+					  dropdownPosition: 'below',
+			  		  minimumResultsForSearch: -1,
+			  		  templateResult: hideSelected,
+			  		  placeholder: "",
+			  		  templateSelection: function (data, container){
+
+						  var $option = $this.find('option[value="'+data.id+'"]');
+
+						  if ($option.attr('locked')){
+						  	$(container).addClass('locked-tag');
+							data.locked = true; 
+							$alreadySelected.push(data.id+"_"+$this.attr("data-level"));
+						  }
+
+					      $(container).attr("style","background-color:"+$option.attr("data-bg")+"!important;");
+					      data.selected=true;
+					      data.ls_id = $option.attr("data-ls-id");
+						  $tag_data = data;
+					      return data.text;
+
+					  },
+				      processResults: function(data, params) {
+				          var data = $.map(data, function(item) {
+				            if (item.text.match(params.term) || params.term === "") return item;
+				          });
+				          return { results: data }
+				      },
+
+				}).on("select2:unselecting", function(e) {
+					    var self = $(this);
+					    setTimeout(function() {
+					        self.select2('close');
+					    }, 0);
+				});
+
+				$this.trigger("change");
+
+			/****** trigger changes on select **************/
+
+			$(this).on('select2:select', function (e) {
+
+				$that = $(this);
+
+				$(this).parents(".form-group-right").find(".input-label").addClass("input-label-move-to-top");
+
+				$(this).parents(".form-group-right").find(".select2-search__field").css({"cssText":"display:none !important"});
+
+				$dataSelect2Id = $(this).attr("data-select2-id");
+
+				$dataSelect2Data = $that.select2('data');
+
+				$dataSelect2DataText = $dataSelect2Data[$dataSelect2Data.length - 1 ].text;
+
+				if(!functionalities.includes($dataSelect2DataText)){
+					functionalities.push($dataSelect2DataText);
+				}
+
+				/***** reset select2 options  */
+				
+				functionalitiesHtml ='';
+
+				$that.html("");
+
+				functionalities.map((func,i) =>{
+		
+					functionalitiesHtml += '<li data-val="'+func+'" data-lang="'+func+'" style="opacity: 1;">'+func+'</li>';
+		
+					$that.prepend(`<option ${ 
+						 Capitalized(String(e.params.data.text).replace(" ",'')) ==  Capitalized(String(func).replace(" ",'')) ?
+					"selected" 
+					: 
+					"" } 
+					value="${func}">${func}</option>`);
+		
+				});
+
+				$that.trigger('change');
+
+				console.log("$that.trigger('change')");				
+
+			});
+
+			$tag_data_unselect ="";
+
+			$(this).on("select2:unselect", (e) => {
+
+				$(this).parents(".form-group-right").find(".input-label").removeClass("input-label-move-to-top");
+				$(this).parents(".form-group-right").find(".select2-search__field").css({"cssText":"display:inline-block !important"});
+
+				$tag_data_unselect = e.params.data;
+
+			});
+
+			$(this).on('select2:open', function (e) {
+
+				var a = new Array();
+
+			    $(this).children("option").each(function(x){
+
+					$(this).parents(".form-group-right").find(".input-label").addClass("input-label-move-to-top");
+
+			        test = false;
+			        b = a[x] = $(this).val();
+
+			        for(i=0;i<a.length-1;i++){
+			            if(b ==a[i]){
+			            	test =true;
+			            }
+			        }
+
+			        if(test){
+			        	$(this).remove();
+			        }
+
+			    })
+
+				if( $tag_data_unselect != "" ) {
+					var newOption = new Option($tag_data_unselect.text, $tag_data_unselect.id, false, false);
+					$(this).prepend(newOption).trigger('change');
+				}
+
+				$tag_data_unselect = "" ;
+
+				$(this).parents(".form-group-right").find(".input-label").addClass("input-label-move-to-top");
+
+			});
+
+
+			/****** End prepend new options to all dropdown *********/
+
+			$(this).on('select2:close', function (e) {
+
+				$dataSelect2Data = $(this).select2('data') ;
+
+				if($dataSelect2Data.length <=0 ){
+					$(this).parents(".form-group-right").find(".input-label").removeClass("input-label-move-to-top");
+				};
+
+			});
+
+			$tag_data = "";
+
+			$dataSelect2Data = $this.select2('data');
+
+			if($dataSelect2Data.length > 0){
+				$(this).parents(".form-group-right").find(".select2-search__field").css({"cssText":"display:none !important"});
+			}
+
+	});
+
+}
+
+function saveEmployee() {
+
+	var first_name = $('#AddEmployeeModal').find('input[name="first_name"]').val();
+	var email = $('#AddEmployeeModal').find('input[name="email"]').val();
+	var employee_address = $('#AddEmployeeModal').find('input[name="employee_address"]').val();
+	var employee_gender = $('#AddEmployeeModal').find('input[name="employee_gender"]').attr("data-val");
+	var profile_image = $('#AddEmployeeModal').find('input[name="profile_image"]').val();
+	var last_name = $('#AddEmployeeModal').find('input[name="last_name"]').val();
+	var phone_number = $('#AddEmployeeModal').find('input[name="phone_number"]').val();
+	var birthdate = $('#AddEmployeeModal').find('input[name="birthdate"]').val();
+	var employee_functionality = ($('#AddEmployeeModal').find('.input-text-functionalities-select2').select2('data') . length > 0  ) ? $('#AddEmployeeModal').find('.input-text-functionalities-select2').select2('data')[0].text : '';
+
+	var employee_salary = $('#AddEmployeeModal').find('input[name="employee_salary"]').val();
+
+	if (!first_name){
+		$('#AddEmployeeModal').find('input[name="first_name"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#AddEmployeeModal').find('input[name="first_name"]').parent(".form-group").removeClass("form-input-error");
+	}
+
+	if (!email){
+		email = String(first_name+'.'+last_name+"@beside.ma").replace(" ",'');
+		//$('#AddEmployeeModal').find('input[name="email"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+
+		if (!emailValidator(email)){
+			$('#AddEmployeeModal').find('input[name="email"]').parent(".form-group").addClass("form-input-error");
+		}
+		else{
+			$('#AddEmployeeModal').find('input[name="email"]').parent(".form-group").removeClass("form-input-error");
+		}
+	}
+	
+	if (!employee_address){
+		$('#AddEmployeeModal').find('input[name="employee_address"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#AddEmployeeModal').find('input[name="employee_address"]').parent(".form-group").removeClass("form-input-error");
+	}
+	if (!last_name){
+		$('#AddEmployeeModal').find('input[name="last_name"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#AddEmployeeModal').find('input[name="last_name"]').parent(".form-group").removeClass("form-input-error");
+	}
+	
+	if (!phone_number){
+		$('#AddEmployeeModal').find('input[name="phone_number"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		if (!internationalPhoneValidator(phone_number)){
+			$('#AddEmployeeModal').find('input[name="phone_number"]').parent(".form-group").addClass("form-input-error");
+		}
+		else{
+			$('#AddEmployeeModal').find('input[name="phone_number"]').parent(".form-group").removeClass("form-input-error");
+		}
+	}
+
+	if (!birthdate){
+		$('#AddEmployeeModal').find('input[name="birthdate"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#AddEmployeeModal').find('input[name="birthdate"]').parent(".form-group").removeClass("form-input-error");
+	}
+
+	if (!employee_gender){
+		$('#AddEmployeeModal').find('input[name="employee_gender"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#AddEmployeeModal').find('input[name="employee_gender"]').parent(".form-group").removeClass("form-input-error");
+	}
+
+	if (!employee_functionality || employee_functionality == '' ){
+		$('#AddEmployeeModal').find('.input-text-functionalities-select2').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#AddEmployeeModal').find('.input-text-functionalities-select2').parent(".form-group").removeClass("form-input-error");
+	}
+
+	if (!employee_salary){
+		$('#AddEmployeeModal').find('input[name="employee_salary"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#AddEmployeeModal').find('input[name="employee_salary"]').parent(".form-group").removeClass("form-input-error");
+	}
+
+	var data = {
+			first_name,
+			last_name,
+			profile_image:$('#output-img-employee').attr("src"),
+			phone_number,
+			birthdate,
+			email,
+			employee_address,
+			employee_gender,
+			employee_functionality,
+			employee_salary
+	}
+
+	console.log(data)
+
+	/*if (first_name && last_name && employee_address && phone_number && internationalPhoneValidator(phone_number) && birthdate && email && emailValidator(email))*/
+	if (first_name && last_name && employee_address && phone_number && internationalPhoneValidator(phone_number) && birthdate && email && emailValidator(email) && (employee_functionality && employee_functionality != '') && employee_gender  )
+	{
+		startSpinner("#AddEmployeeModal .sub-container-form-footer");
+		$.ajax({
+		    type: 'post',
+		    url: '/Employees/save',
+		    data: data,
+		    dataType: 'json'
+		  })
+		  .done(function(res){
+		  	if(res.saved)
+		  	{
+
+		  		getAllEmployees().then(()=>{
+		  			stopSpinner("#AddEmployeeModal .sub-container-form-footer");
+					$('#AddEmployeeModal').modal('hide');
+					$('#AddEmployeeModal').find('input[name="first_name"]').val("");
+					$('#AddEmployeeModal').find('input[name="employee_address"]').val("");
+					$('#AddEmployeeModal').find('input[name="employee_gender"]').val("");
+					$('#AddEmployeeModal').find('input[name="profile_image"]').val("");
+					$('#AddEmployeeModal').find('input[name="last_name"]').val("");
+					$('#AddEmployeeModal').find('input[name="level"]').val("");
+					$('#AddEmployeeModal').find('input[name="phone_number"]').val("");
+					$('#AddEmployeeModal').find('input[name="email"]').val("");
+					$('#AddEmployeeModal').find('input[name="birthdate"]').val("");
+					$('#output-img-employee').attr("src",'assets/icons/Logo_placeholder.svg');
+					employee_functionality = '';
+		  		});
+
+		  	} else {
+
+				stopSpinner("#AddEmployeeModal .sub-container-form-footer");
+				
+				if (phone_number == res.form_errors.User.Tel ){
+					$('#AddEmployeeModal').find('input[name="phone_number"]').parent(".form-group").addClass("form-input-error");
+				}
+				else{
+					$('#AddEmployeeModal').find('input[name="phone_number"]').parent(".form-group").removeClass("form-input-error");
+				}
+
+				if (email == res.form_errors.User.Email ){
+					$('#AddEmployeeModal').find('input[name="email"]').parent(".form-group").addClass("form-input-error");
+				}
+				else{
+					$('#AddEmployeeModal').find('input[name="email"]').parent(".form-group").removeClass("form-input-error");
+				}
+		  	}
+
+		  });
+	}
+
+}
+
+/***** End AddEmployeeModal modal  ******************/
+
+$(document).on("click", ".modal-card-container[data-target='#AddExpenceModal']", function (event) {
+
+	$initla_selected_input = ["Fix","Monthly","Institution"];
+
+	if (!href.includes("Expenses")) {
+		$('head').append(`<script src="/javascripts/expences.js" type="text/javascript" charset="utf-8" async defer></script>`);
+		resetExtraInputs();
+	}
+
+	setTimeout(() => {
+		resetExtraInputs();
+	}, 10);	
+
+})
+
+
+function saveExpence() {
+
+	$parent = $("#AddExpenceModal");
+	var $expence_modal_type = $parent.find(".expence-modal-type").find(".employee-ck:checked").attr("data-val");
+	var $expence_modal_period =  $expence_modal_type == "Occasional" ? "Annual" : $parent.find(".expence-modal-period").find(".employee-ck:checked").attr("data-val");
+	var $expence_modal_for =$parent.find(".expence-modal-for").find(".employee-ck:checked").attr("data-val");
+	var $expence_label = $parent.find('input[name="expence_label"]').val();
+	var $expence_cost = $parent.find('input[name="expence_cost"]').val();
+	var $expence_for_functionality = $parent.find('input[name="employee_functionality"]').attr("data-val");
+	var $valid_form = true;
+	var $ck_selected_count = 0;
+	var $selected_employees = [];
+
+	if (!$expence_label){
+		$parent.find('input[name="expence_label"]').parent(".form-group").addClass("form-input-error");
+		$valid_form =false;
+	}
+	else{
+		$parent.find('input[name="expence_label"]').parent(".form-group").removeClass("form-input-error");
+	}
+
+	if($expence_modal_type == "Fix"){
+
+		if($expence_modal_for == "Employees"){
+
+			$parent.find(".expence-employes-ck").each((ind,elem)=>{
+				
+				if($(elem).is(":checked")){
+
+					$ck_selected_count++;
+
+					if($(elem).parents(".row-cost").find(".input-text").val() == ""){
+						$(elem).parents(".row-cost").find(".input-text").addClass("form-input-error");
+						$valid_form =false;
+					}else{
+						$(elem).parents(".row-cost").find(".input-text").removeClass("form-input-error");
+						$selected_employees.push({
+							"employee_id":$(elem).parents(".row-cost").find(".input-text").attr("data-employeeId"),
+							"cost":$(elem).parents(".row-cost").find(".input-text").val(),
+							"expence_id":$(elem).attr("data-expenceId"),
+							"eec_id":$(elem).attr("data-eecid"),						
+							"checked":$(elem).is(":checked")
+						});
+					}
+					
+				}else{
+					$(elem).parents(".row-cost").find(".input-text").removeClass("form-input-error");
+				}
+
+			});
+
+			if($ck_selected_count == 0 ){
+				$(".modal.in .employees_list").css("background","var(--input--error-border--color)");
+				$valid_form =false;
+			}else{
+				$(".modal.in .employees_list").css("background","var(--input-border--color)");
+			}
+
+		}else{
+			if (!$expence_cost){
+				$parent.find('input[name="expence_cost"]').parent(".form-group").addClass("form-input-error");
+				$valid_form =false;
+			}
+			else{
+				$parent.find('input[name="expence_cost"]').parent(".form-group").removeClass("form-input-error");
+			}
+		}
+		
+	}else{
+
+		if($expence_modal_for == "Employees"){
+
+			$parent.find(".expence-employes-ck").each((ind,elem)=>{
+				
+				if($(elem).is(":checked")){
+					$ck_selected_count++;
+					if($(elem).parents(".row-cost").find(".input-text").val() == ""){
+						$(elem).parents(".row-cost").find(".input-text").addClass("form-input-error");
+						//$valid_form =false;
+						$selected_employees.push({
+							"employee_id":$(elem).parents(".row-cost").find(".input-text").attr("data-employeeId"),
+							"cost":$(elem).parents(".row-cost").find(".input-text").val(),
+							"expence_id":$(elem).attr("data-expenceId"),
+							"eec_id":$(elem).attr("data-eecid"),						
+							"checked":$(elem).is(":checked")
+						});
+					}else{
+						$(elem).parents(".row-cost").find(".input-text").removeClass("form-input-error");
+						$selected_employees.push({
+							"employee_id":$(elem).parents(".row-cost").find(".input-text").attr("data-employeeId"),
+							"cost":$(elem).parents(".row-cost").find(".input-text").val(),
+							"expence_id":$(elem).attr("data-expenceId"),
+							"eec_id":$(elem).attr("data-eecid"),						
+							"checked":$(elem).is(":checked")
+						});
+					}
+					
+				}else{
+					$(elem).parents(".row-cost").find(".input-text").removeClass("form-input-error");
+				}
+				
+			});
+
+			if($ck_selected_count == 0 ){
+				$(".modal.in .employees_list").css("background","var(--input--error-border--color)");
+				$valid_form =false;
+			}else{
+				$(".modal.in .employees_list").css("background","var(--input-border--color)");
+			}
+
+		}
+	}
+
+	var $data = {
+		"expence_label":$expence_label,
+		"expence_image":$('#add_expence_image').attr("src"),
+		"expence_type":$expence_modal_type,
+		"expence_period":$expence_modal_period,
+		"expence_for":$expence_modal_for,
+		"expence_cost":$expence_cost,
+		"employees_list":$selected_employees,
+		"expence_for_functionality":$expence_for_functionality
+	}
+
+	console.log("data =>",$data);
+
+	if($valid_form){
+
+		startSpinner("#AddExpenceModal .sub-container-form-footer");
+
+		$.ajax({
+			type: 'post',
+			url: '/Expenses/save',
+			data: $data ,
+			dataType: 'json'
+		  })
+		  .done(function(res){
+
+			setTimeout(()=>{
+				stopSpinner("#AddExpenceModal .sub-container-form-footer");
+				$parent.find('input[name="expence_label"]').val("");
+				$parent.find('input[name="expence_cost"]').val("");
+				$("#AddExpenceModal").modal('hide');
+				resetExtraInputs();
+				if (href.includes("Expenses")) {
+					getAllExpences();
+				} else {
+					getAllExpencesModal();
+				}	
+			},$spinningTime);
+	
+		});
+
+
+	}else{
+		console.log("Error :",$valid_form);
+	}
+	
+}
+
+function resetExtraInputs(){
+	$(".sections-label-checkbox-main-container").each((ind,elm)=>{
+		if($initla_selected_input.includes($(elm).attr("data-val"))){
+			$(elm).find(".employee-ck").trigger("click");
+		}
+	});
+}

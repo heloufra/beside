@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config');
 var handlebars = require('handlebars');
 var fs = require('fs');
+const commonModel = require('../models/commonModel');
 var readHTMLFile = function(path, callback) {
                     fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
                         if (err) {
@@ -50,13 +51,13 @@ var setupController = {
     var expensesData = JSON.parse(req.body.expenses);
     var costsData = JSON.parse(req.body.costs);
     var password = makeid(6);
-    var institutionsQuery = `INSERT INTO institutions(Institution_Name,  Institution_Logo, Institution_Link,  Institution_Email,  Institution_Phone,  Institution_Adress) VALUES(?,?,?,?,?,?)`;
+    var institutionsQuery = `INSERT INTO institutions(Institution_Name,  Institution_Logo, Institution_Link,  Institution_Email,  Institution_Phone,  Institution_Adress , Institution_Category_ID ) VALUES(?,?,?,?,?,?,?)`;
     var usersQuery = `INSERT INTO users(User_Name, User_Image, User_Email, User_Phone,User_Role) VALUES(?,?,?,?,?)`;
     var academicQuery = `INSERT INTO academicyear(AY_Label , AY_Satrtdate , AY_EndDate , AY_YearStart, AY_YearEnd , Institution_ID) VALUES(?,?,?,?,?,?)`;
     var levelsQuery = `INSERT INTO levels(Level_Label, AY_ID) VALUES(?,?)`;
     var classesQuery = `INSERT INTO classes(Level_ID, Classe_Label, AY_ID) VALUES(?,?,?)`;
     // execute the insert statment
-        connection.query(institutionsQuery, [institutionsData.school, institutionsData.logo,institutionsData.school + ".besideyou.ma",institutionsData.email,institutionsData.phone,institutionsData.address],async (err, institutionResult, fields) => {
+        connection.query(institutionsQuery, [institutionsData.school, institutionsData.logo,institutionsData.school + ".besideyou.ma",institutionsData.email,institutionsData.phone,institutionsData.address,institutionsData.category_id],async (err, institutionResult, fields) => {
           if (err) {
             console.log(err);
               res.json({
@@ -98,6 +99,29 @@ var setupController = {
                         connection.query("UPDATE `users` SET `User_Password`= ? WHERE  `User_Email` = ? LIMIT 1", [hash,institutionsData.email]);
                      })
                  });
+
+                connection.query("INSERT INTO `institutionsusers`(`Institution_ID`, `User_ID`, `User_Role`) VALUES (?,?,?)",[institutionResult.insertId,1,"Admin"]);
+                readHTMLFile(__dirname + '/templates/email_new_school_template.html', function(err, html) {
+                    var template = handlebars.compile(html);
+                    var replacements = {
+                         name:institutionsData.school
+                    };
+                    var htmlToSend = template(replacements);
+                    transporter.sendMail({
+                      from: 'besideyou@contact.com',
+                      to: institutionsData.email,
+                      subject: 'Verification Code',
+                      html: htmlToSend
+                    }, function(error, info) {
+                      if (error) {
+                        console.log(error);
+                      } else {
+                        console.log('Email sent: ' + info.response);
+                      }
+                    });
+                 });
+
+
                  var token = jwt.sign({
                       email:institutionsData.email,
                     }, config.privateKey);
@@ -112,14 +136,22 @@ var setupController = {
                         }]});
                     } else 
                     {
+                      
+                       var institutionDefaultExpence = await setupModel.defaultExpence(institutionResult.insertId,academicResult.insertId);
+
                        console.log('Academic Id:' + academicResult.insertId);
                        console.log(levelsData.levelName);
                       if (!Array.isArray(expensesData.expenseName))
                         expensesData.expenseName = [expensesData.expenseName];
+                        $color_index = 0 ;
                        for (var j = expensesData.expenseName.length - 1; j >= 0; j--) {
                        console.log("Expense Time",expensesData.expenseTime[j])   
-                          var expenses = await setupModel.saveExpenses(expensesData.expenseName[j],expensesData.expenseTime[j],academicResult.insertId);
+                          if($color_index > 14 ){
+                            $color_index=0;
+                          }
+                          var expenses = await setupModel.saveExpenses(expensesData.expenseName[j],expensesData.expenseTime[j],academicResult.insertId,$color_index);
                           console.log("Expenses",expenses);
+                          $color_index++;
                         }
                        if (!Array.isArray(levelsData.levelName))
                         levelsData.levelName = [levelsData.levelName];
@@ -159,6 +191,10 @@ var setupController = {
                               }
                               
                             }
+                        
+                            await commonModel.saveInstitutionDisplaySettings(2,institutionResult.insertId,academicResult.insertId);
+                        
+                            await commonModel.saveInstitutionWebsiteInfo(institutionsData.school,institutionsData.logo,institutionsData.email,institutionsData.phone,institutionsData.address,institutionsData.category_id, institutionResult.insertId);
                             
                             var costsName = costsData[levelsData.levelName[i]];
                             if (!Array.isArray(costsName.costsName))
@@ -170,6 +206,7 @@ var setupController = {
                               var expenseResult = await setupModel.saveLevelExpenses(levelResult.insertId,expenseID,costsName.price[j],academicResult.insertId);
                               console.log(expenseResult);
                             }
+                            
                       }
                 }
                 // get inserted id

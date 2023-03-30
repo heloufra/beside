@@ -3,7 +3,7 @@
     id="reported_title"
     class="sections-main-sub-container-right-main-label-divider hidden"
   >
-    <p>Reported absence</p>
+    <p data-lang="Reported_absence">Reported absence</p>
   </div>
 
   <div class="row sections-main-sub-container-right-main-rows">
@@ -11,9 +11,9 @@
       <table id="reported_table" class="hidden">
         <thead>
           <tr>
-            <th scope="col">Type</th>
-            <th scope="col">From</th>
-            <th scope="col">To</th>
+            <th scope="col" data-lang="Type">Type</th>
+            <th scope="col" data-lang="From">From</th>
+            <th scope="col" data-lang="To">To</th>
           </tr>
         </thead>
 
@@ -26,7 +26,7 @@
     id="absence_title"
     class="sections-main-sub-container-right-main-label-divider hidden"
   >
-    <p>Absence & Retard</p>
+    <p data-lang="Absence_&_Retard">Absence & Retard</p>
   </div>
 
   <div class="row sections-main-sub-container-right-main-rows">
@@ -34,10 +34,10 @@
       <table id="absence_table" class="hidden">
         <thead>
           <tr>
-            <th scope="col">Type</th>
-            <th scope="col">From</th>
-            <th scope="col">To</th>
-            <th scope="col">Date</th>
+            <th scope="col" data-lang="Type">Type</th>
+            <th scope="col" data-lang="From">From</th>
+            <th scope="col" data-lang="To">To</th>
+            <th scope="col" data-lang="Date_Absence_&_Retard">Date</th>
           </tr>
         </thead>
 
@@ -56,7 +56,7 @@
         data-toggle="modal"
         data-target="#AddStudentAbsenceModal"
       >
-        <span class="button-text" id="">Add New</span>
+        <span class="button-text" id="" data-lang="Add_new">Add New</span>
         <img class="icon button-icon" src="assets/icons/plus.svg" />
       </div>
     </div>
@@ -99,8 +99,8 @@
           <!-- modal-body-container -->
 
           <div class="modal-body-container">
-            <h1 class="sub-container-main-header">Absence & Retard</h1>
-            <h4 class="sub-container-sub-header">
+            <h1 class="sub-container-main-header"  data-lang="Popup_edit_absence_&_retard" >Absence & Retard</h1>
+            <h4 class="sub-container-sub-header"  data-lang="Popup_edit_absence_&_retard_subHeader" >
               There are many variations of passages of Lorem Ipsum available.
             </h4>
 
@@ -109,7 +109,7 @@
                 <div class="form-group group readonly">
                   <input type="text" required="" name="edit-classe" />
                   <label class="input-label">
-                    <span class="input-label-text">Class</span
+                    <span class="input-label-text" data-lang="Class">Class</span
                     ><span class="input-label-bg-mask"></span>
                   </label>
                 </div>
@@ -118,7 +118,7 @@
                 <div class="form-group group readonly">
                   <input type="text" required="" name="edit-student" />
                   <label class="input-label">
-                    <span class="input-label-text">Student</span
+                    <span class="input-label-text" data-lang="Student">Student</span
                     ><span class="input-label-bg-mask"></span>
                   </label>
                 </div>
@@ -129,7 +129,7 @@
               class="dynamic-form-input-container dynamic-form-input-container-extra-style"
             >
               <label class="input-label dynamic-form-input-container-label"
-                ><span class="input-label-text">Absence or Retard </span>
+                ><span class="input-label-text" data-lang="Absence_or_Retard">Absence or Retard </span>
                 <span class="input-label-bg-mask"></span
               ></label>
 
@@ -140,7 +140,7 @@
                 >
                   <div class="sections-label-checkbox-container">
                     <div class="form-group group">
-                      <span class="expense_label">Absence</span>
+                      <span class="expense_label" data-lang="Absence">Absence</span>
                     </div>
                   </div>
                   <div class="customCheck customCheckRounded readonly">
@@ -163,7 +163,7 @@
                 >
                   <div class="sections-label-checkbox-container">
                     <div class="form-group group">
-                      <span class="expense_label">Retard</span>
+                      <span class="expense_label" data-lang="Retard">Retard</span>
                     </div>
                   </div>
                   <div class="customCheck customCheckRounded readonly">
@@ -185,7 +185,7 @@
               class="dynamic-form-input-container dynamic-form-input-container-extra-style dynamic-form-input-container-session"
             >
               <label class="input-label dynamic-form-input-container-label"
-                ><span class="input-label-text"> Period or Session </span>
+                ><span class="input-label-text" data-lang="Period_or_Session"> Period or Session </span>
                 <span class="input-label-bg-mask"></span
               ></label>
 
@@ -196,7 +196,7 @@
                 >
                   <div class="sections-label-checkbox-container">
                     <div class="form-group group readonly">
-                      <span class="expense_label">Period</span>
+                      <span class="expense_label" data-lang="Period">Period</span>
                     </div>
                   </div>
                   <div class="customCheck customCheckRounded readonly">
@@ -218,7 +218,7 @@
                 >
                   <div class="sections-label-checkbox-container">
                     <div class="form-group group readonly">
-                      <span class="expense_label">Session</span>
+                      <span class="expense_label" data-lang="Session">Session</span>
                     </div>
                   </div>
                   <div class="customCheck customCheckRounded readonly">
@@ -242,7 +242,7 @@
               class="dynamic-form-input-container dynamic-form-input-container-extra-style dynamic-form-input-container-multi-date"
             >
               <label class="input-label dynamic-form-input-container-label"
-                ><span class="input-label-text">Period</span>
+                ><span class="input-label-text" data-lang="Period">Period</span>
                 <span class="input-label-bg-mask"></span
               ></label>
 
@@ -288,7 +288,7 @@
               class="dynamic-form-input-container dynamic-form-input-container-extra-style dynamic-form-input-container-one-date"
             >
               <label class="input-label dynamic-form-input-container-label"
-                ><span class="input-label-text">Date </span>
+                ><span class="input-label-text" data-lang="Popup_absence_&_retard_Date">Date </span>
                 <span class="input-label-bg-mask"></span
               ></label>
 
@@ -313,7 +313,7 @@
               class="dynamic-form-input-container dynamic-form-input-container-extra-style dynamic-form-input-container-multi-time"
             >
               <label class="input-label dynamic-form-input-container-label"
-                ><span class="input-label-text">Select time </span>
+                ><span class="input-label-text" data-lang="Select_time">Select time </span>
                 <span class="input-label-bg-mask"></span
               ></label>
 
@@ -328,6 +328,7 @@
                     class="input-text input-time"
                     required=""
                     placeholder="Time"
+                    data-lang="Time"
                   />
                   <img
                     class="icon button-icon caret-disable-rotate"
@@ -345,6 +346,7 @@
                     class="input-text input-time"
                     required=""
                     placeholder="Time"
+                    data-lang="Time"
                   />
                   <img
                     class="icon button-icon caret-disable-rotate"
@@ -362,7 +364,7 @@
                 class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button"
                 onclick="updateAbsence()"
               >
-                <span class="button-text">Save Changes</span>
+                <span class="button-text" data-lang="Save_changes">Save Changes</span>
                 <img
                   class="icon button-icon"
                   src="assets/icons/check_small.svg"
@@ -373,7 +375,7 @@
                 data-toggle="modal"
                 data-target="#EditAbsenceModal"
               >
-                <span class="button-text discard-changes">Discard changes</span>
+                <span class="button-text discard-changes" data-lang="Cancel">Discard changes</span>
               </div>
             </div>
             <!--  End sub-container-form-footer -->

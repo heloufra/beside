@@ -2,7 +2,7 @@
 <html>
 <head>
 
-	<title><%= title %></title>
+	  <title data-lang="<%= title %>"><%= title %></title>
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -25,7 +25,7 @@
       <div class="sub-container">
 
         <div class="sub-container-nav-bar">
-            <span class="sub-container-nav-bar-title">Students</span>
+            <span class="sub-container-nav-bar-title" data-lang="Students">Students</span>
             <img  class="sub-container-nav-bar-img" src="<%= user.User_Image %>" alt="profile">
         </div>
 
@@ -54,7 +54,7 @@
                               <input type="text" value="Classes" class="input-dropdown" data-val="All" name="classe" id="classe-filter" required="">
                               <img class="icon button-icon" src="assets/icons/caret.svg">
                               <ul class="dynamic-form-input-dropdown-options">
-                                <li data-val="All">All</li>
+                                <li data-val="All" data-lang="All">All</li>
                                   <% for(var i=0; i<classes.length; i++) {%>
                                      <li data-val="<%= classes[i].Classe_Label %>"><%= classes[i].Classe_Label %></li>
                                   <% } %>
@@ -63,12 +63,12 @@
 
                             <div class="form-group group form-group-right form-group-search-filter">
 
-                               <input type="text" class="input-text input-text-dropdown-search" required="" name="search" id="search-input" placeholder="Search students">
+                               <input type="text" class="input-text input-text-dropdown-search" required="" name="search" id="search-input" placeholder="Search students" data-lang="Search_students">
                                <img class="icon button-icon caret-disable-rotate" src="assets/icons/sidebar_icons/search.svg">
 
                                <ul class="dynamic-form-input-dropdown-options dynamic-form-input-dropdown-options-search">
-                                  <li data-val="Absence" data-ad-val="1">Absence</li>
-                                  <li data-val="Retard" data-ad-val="0">Retard</li>
+                                  <li data-val="Absence" data-ad-val="1" data-lang="Absence">Absence</li>
+                                  <li data-val="Retard" data-ad-val="0" data-lang="Retard">Retard</li>
                                </ul>
 
                             </div>
@@ -117,6 +117,7 @@
                                   </div>
 
                                   <p class="label-full-name profile-full-name">Chloé Modibo</p>
+                                  <p class="sub-label-full-name" id="student_code">202009123456789</p>
 
                                 </div>
 
@@ -128,12 +129,12 @@
                                      <div class="sections-main-sub-container-right-main-header-option-list-li
                                               sections-main-sub-container-right-main-header-option-list-li-edit">
                                       <img src="assets/icons/edit.svg" alt="edit"/>   
-                                      <span class="sections-main-sub-container-right-main-header-option-list-span">Edit</span>
+                                      <span class="sections-main-sub-container-right-main-header-option-list-span" data-lang="Edit">Edit</span>
                                     </div>                
                                     <div class="sections-main-sub-container-right-main-header-option-list-li
                                                 sections-main-sub-container-right-main-header-option-list-li-delete">
                                       <img src="assets/icons/delete.svg" alt="edit"/>   
-                                      <span class="sections-main-sub-container-right-main-header-option-list-span">Delete</span>
+                                      <span class="sections-main-sub-container-right-main-header-option-list-span" data-lang="Delete">Delete</span>
                                     </div>
                                     <img class="sections-main-sub-container-right-main-header-option-icon-close" alt="close" src="assets/icons/close.svg">
                                   </div>
@@ -146,15 +147,15 @@
 
                             <div class="sections-main-sub-container-right-main-tabs">
                                 <ul class="clearfix nav nav-tabs">
-                                  <li class="active"><a data-toggle="tab" href="#Details">Details</a></li>
-                                  <li><a data-toggle="tab" href="#Absence">Absence</a></li>
+                                  <li class="active"><a data-toggle="tab" href="#Details" data-lang="Details">Details</a></li>
+                                  <li><a data-toggle="tab" href="#Absence" data-lang="Absences">Absences</a></li>
                                   <%if (role === 'Admin') { %>
-                                    <li><a data-toggle="tab" href="#Finance">Finance</a></li>
+                                    <li><a data-toggle="tab" href="#Finance" data-lang="Finances">Finances</a></li>
                                   <% } %>
-                                  <li><a data-toggle="tab" href="#Exams">Exams</a></li>
-                                  <li><a data-toggle="tab" href="#Homework">Homework</a></li>
-                                  <li><a data-toggle="tab" href="#Attitude">Attitude</a></li>
-                                  <li><a data-toggle="tab" href="#Grades">Grades</a></li>
+                                  <li><a data-toggle="tab" href="#Exams" data-lang="Exams">Exams</a></li>
+                                  <li><a data-toggle="tab" href="#Homework" data-lang="Homeworks">Homeworks</a></li>
+                                  <li><a data-toggle="tab" href="#Attitude" data-lang="Attitudes">Attitudes</a></li>
+                                  <li><a data-toggle="tab" href="#Grades" data-lang="Grades">Grades</a></li>
                                 </ul>
                             </div>
                             <!-- End sections-main-sub-container-right-main-header -->
@@ -180,7 +181,7 @@
                               <div id="Details" class="tab-pane fade in active sections-main-sub-container-right-main-body dom-change-watcher-disabled">
 
                                   <div class="sections-main-sub-container-right-main-label-divider">
-                                        <p>Student details</p>
+                                        <p data-lang="Student_details">Student details</p>
                                   </div>
 
                                   <div class="row sections-main-sub-container-right-main-rows">
@@ -189,7 +190,7 @@
                                       <div class="form-group group">
                                         <input type="text" required="" name="f_name" readonly="">
                                         <label class="input-label input-label-move-to-top">
-                                          <span class="input-label-text">First name</span><span class="input-label-bg-mask"></span>
+                                          <span class="input-label-text" data-lang="First_name">First name</span><span class="input-label-bg-mask"></span>
                                         </label>
                                       </div>
                                     </div>
@@ -198,7 +199,7 @@
                                       <div class="form-group group">
                                         <input type="text" required="" name="l_name" readonly="">
                                         <label class="input-label input-label-move-to-top">
-                                          <span class="input-label-text">Last name</span><span class="input-label-bg-mask"></span>
+                                          <span class="input-label-text" data-lang="Last_name">Last name</span><span class="input-label-bg-mask"></span>
                                         </label>
                                       </div>
                                     </div>
@@ -216,7 +217,7 @@
                                             <div class="form-group group form-group-right ">
                                               <input type="text" class="input-text" required name="level-detail" readonly>
                                               <label class="input-label input-label-move-to-top">
-                                                <span class="input-label-text">Level</span><span class="input-label-bg-mask"></span>
+                                                <span class="input-label-text" data-lang="Level">Level</span><span class="input-label-bg-mask"></span>
                                               </label>
                                             </div>
                                             </div>
@@ -238,7 +239,7 @@
                                             <div class="form-group group form-group-right">
                                               <input type="text" class="input-text" value="" required name="classe-detail" readonly>
                                               <label class="input-label input-label-move-to-top">
-                                                <span class="input-label-text">Class</span><span class="input-label-bg-mask"></span>
+                                                <span class="input-label-text" data-lang="Class">Class</span><span class="input-label-bg-mask"></span>
                                               </label>
                                             </div>
                                             </div>
@@ -262,7 +263,7 @@
                                               <input type="text" class="input-text" name="student_gender_detail" required readonly>
                                               
                                               <label class="input-label input-label-move-to-top">
-                                                <span class="input-label-text">Gender</span><span class="input-label-bg-mask"></span>
+                                                <span class="input-label-text" data-lang="Gender">Gender</span><span class="input-label-bg-mask"></span>
                                               </label>
                                             </div>
                                             </div>
@@ -277,7 +278,7 @@
                                       <div class="form-group group dynamic-form-input-text-container-icon">
                                          <input type="text" class="input-text" name="birthdate_detail" required="" placeholder="" readonly>
                                           <label class="input-label input-label-move-to-top">
-                                            <span class="input-label-text">Birthdate</span><span class="input-label-bg-mask"></span>
+                                            <span class="input-label-text" data-lang="Birthdate">Birthdate</span><span class="input-label-bg-mask"></span>
                                           </label>
                                       </div>
                                     </div>
@@ -290,7 +291,7 @@
                                       <div class="form-group group ">
                                         <input type="text" required="" name="phone_number_detail" readonly>
                                           <label class="input-label input-label-move-to-top">
-                                          <span class="input-label-text">Phone number</span><span class="input-label-bg-mask"></span>
+                                          <span class="input-label-text" data-lang="Phone_number">Phone number</span><span class="input-label-bg-mask"></span>
                                         </label>
                                       </div>
                                     </div>
@@ -299,7 +300,7 @@
                                       <div class="form-group group ">
                                         <input type="text" required="" name="student_email_detail" readonly>
                                         <label class="input-label input-label-move-to-top">
-                                          <span class="input-label-text">Email</span><span class="input-label-bg-mask"></span>
+                                          <span class="input-label-text" data-lang="Email">Email</span><span class="input-label-bg-mask"></span>
                                         </label>
                                       </div>
                                     </div>
@@ -311,14 +312,14 @@
                                       <div class="form-group group ">
                                         <input type="text" required="" name="student_address_detail" readonly>
                                         <label class="input-label input-label-move-to-top">
-                                          <span class="input-label-text">Address</span><span class="input-label-bg-mask"></span>
+                                          <span class="input-label-text" data-lang="Address">Address</span><span class="input-label-bg-mask"></span>
                                         </label>
                                       </div>
                                     </div>
                                   </div>
 
                                   <div class="sections-main-sub-container-right-main-label-divider">
-                                        <p>Parents details</p>
+                                        <p data-lang="Parents_details">Parents details</p>
                                   </div>
 
                                   <div class="row sections-main-sub-container-right-main-rows sections-main-sub-container-right-main-rows-parents
@@ -327,7 +328,7 @@
                                   </div>
                                   <% if (role === 'Admin') { %>
                                   <div class="sections-main-sub-container-right-main-label-divider">
-                                        <p>Subscription</p>
+                                        <p data-lang="Subscriptions">Subscriptions</p>
                                   </div>
 
                                   <div class="sub_list row sections-main-sub-container-right-main-rows sections-label-checkbox-container-rows sections-label-checkbox-container-rows-extra-style">
@@ -390,8 +391,8 @@
 
                                         <div class="modal-body-container">
 
-                                           <h1 class="sub-container-main-header sub-container-main-header-extra-style">Review changes</h1>
-                                           <h4 class="sub-container-sub-header  sub-container-sub-header-extra-style">
+                                           <h1 class="sub-container-main-header sub-container-main-header-extra-style" data-lang="Review_changes">Review changes</h1>
+                                           <h4 class="sub-container-sub-header  sub-container-sub-header-extra-style" data-lang="Review_changes_subHeader">
                                             You have made changes. Are you sure you want to discard them?
                                            </h4>
 
@@ -399,12 +400,12 @@
                                             <div class="sub-container-form-footer">
 
                                                <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button save-changes" onclick="saveChange()">
-                                                            <span class="button-text" >Save</span>
+                                                            <span class="button-text" data-lang="Save">Save</span>
                                                             <img class="icon button-icon" src="assets/icons/check_small.svg">
                                                 </div>
 
                                                 <div class="rounded-button default-button rounded-button-primary rounded-button-float-right  secondary-pink-button save-changes" data-dismiss="modal" onclick="discardChange()">
-                                                      <span class="button-text" >Discard</span>
+                                                      <span class="button-text" data-lang="Cancel" >Discard</span>
                                                 </div>
                                                
                                             </div>
@@ -440,8 +441,8 @@
 
                                         <div class="modal-body-container">
 
-                                           <h1 class="sub-container-main-header sub-container-main-header-extra-style">Are you sure ?</h1>
-                                           <h4 class="sub-container-sub-header  sub-container-sub-header-extra-style">
+                                           <h1 class="sub-container-main-header sub-container-main-header-extra-style" data-lang="Popup_delete">Are you sure ?</h1>
+                                           <h4 class="sub-container-sub-header  sub-container-sub-header-extra-style" data-lang="Popup_delete_subHeader">
                                             You have made changes. Are you sure you want to discard them?
                                            </h4>
 
@@ -449,11 +450,11 @@
                                             <div class="sub-container-form-footer">
 
                                                 <div class="rounded-button default-button rounded-button-primary rounded-button-float-right  secondary-pink-button " onClick="remove()">
-                                                      <span class="button-text" >Confirm</span>
+                                                      <span class="button-text" data-lang="Delete">Delete</span>
                                                 </div>
 
                                                 <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary" data-dismiss="modal" >
-                                                            <span class="button-text">Cancel</span>
+                                                            <span class="button-text" data-lang="Cancel">Cancel</span>
                                                 </div>
                                                
                                             </div>
@@ -492,7 +493,7 @@
 
                                            <h1 class="sub-container-main-header">Exam 1</h1>
                                            <h4 class="sub-container-sub-header">
-                                            Subject - Class - Teacher Name
+                                            Subject - Class
                                            </h4>
 
                                             <div class="row sections-main-sub-container-right-main-rows">
@@ -500,7 +501,7 @@
                                                 <div class="form-group group readonly">
                                                   <input type="text" value="09-05-2020" class="input-text"/>
                                                   <label class="input-label">
-                                                    <span class="input-label-text">Date</span><span class="input-label-bg-mask"></span>
+                                                    <span class="input-label-text" data-lang="Exam_date">Date</span><span class="input-label-bg-mask"></span>
                                                   </label>
                                                 </div>
                                               </div>
@@ -511,7 +512,7 @@
                                                 <div class="form-group group readonly">
                                                   <textarea class="input-text input-text-area">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</textarea>
                                                   <label class="input-label">
-                                                    <span class="input-label-text">Exam description</span><span class="input-label-bg-mask"></span>
+                                                    <span class="input-label-text" data-lang="Exam_details">Exam description</span><span class="input-label-bg-mask"></span>
                                                   </label>
                                                 </div>
                                               </div>
@@ -520,7 +521,7 @@
                                             <!--  sub-container-form-footer -->
                                             <div class="sub-container-form-footer">
                                                 <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary"  data-dismiss="modal" >
-                                                      <span class="button-text">Close</span>
+                                                      <span class="button-text" data-lang="Close">Close</span>
                                                 </div>
                                             </div>
                                             <!--  End sub-container-form-footer -->
@@ -557,7 +558,7 @@
 
                                            <h1 class="sub-container-main-header">Homework 1</h1>
                                            <h4 class="sub-container-sub-header">
-                                            Subject - Class - Teacher Name
+                                            Subject - Class
                                            </h4>
 
                                             <div class="row sections-main-sub-container-right-main-rows">
@@ -565,7 +566,7 @@
                                                 <div class="form-group group readonly">
                                                   <input type="text" value="09-05-2020" class="input-text"/>
                                                   <label class="input-label">
-                                                    <span class="input-label-text">Date</span><span class="input-label-bg-mask"></span>
+                                                    <span class="input-label-text" data-lang="Homework_date">Date</span><span class="input-label-bg-mask"></span>
                                                   </label>
                                                 </div>
                                               </div>
@@ -576,7 +577,7 @@
                                                 <div class="form-group group readonly">
                                                   <textarea class="input-text input-text-area">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</textarea>
                                                   <label class="input-label">
-                                                    <span class="input-label-text">Homework description</span><span class="input-label-bg-mask"></span>
+                                                    <span class="input-label-text" data-lang="Homework_details">Homework description</span><span class="input-label-bg-mask"></span>
                                                   </label>
                                                 </div>
                                               </div>
@@ -598,7 +599,7 @@
                                             <!--  sub-container-form-footer -->
                                             <div class="sub-container-form-footer">
                                                 <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary" data-dismiss="modal" >
-                                                      <span class="button-text">Close</span>
+                                                      <span class="button-text" data-lang="Close">Close</span>
                                                 </div>
                                             </div>
                                             <!--  End sub-container-form-footer -->

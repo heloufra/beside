@@ -40,9 +40,9 @@ function getAllExams(id) {
         name = JSON.parse(res.exams[i].User_Name);
 
         dynamicListRows +=
-          '<div class="sections-main-sub-container-left-card exam-row ' +
+          '<div class="sections-main-sub-container-left-card exam-row '  +
           active +
-          '"><input name="examId" type="hidden" value="' +
+          '" data-id="'+res.exams[i].Exam_ID+'" ><input name="examId" type="hidden" value="' +
           res.exams[i].Exam_ID +
           '"> <div class="sections-main-sub-container-left-card-main-img-text" data-style="background: ' +
           res.exams[i].Subject_Color +
@@ -138,6 +138,8 @@ function saveExam() {
     exam_subject &&
     exam_classe
   ) {
+
+    startSpinner("#AddExamModal .sub-container-form-footer");
     $.ajax({
       type: "post",
       url: "/Exams/save",
@@ -151,14 +153,20 @@ function saveExam() {
       dataType: "json",
     }).done(function (res) {
       if (res.saved) {
-        getAllExams();
-        $("#AddExamModal").find('input[name="exam_classe"]').val("");
-        $("#AddExamModal").find('input[name="exam_date"]').val("");
-        $("#AddExamModal").find('input[name="exam_subject"]').val("");
-        $("#AddExamModal").find('input[name="exam_name"]').val("");
-        $("#AddExamModal").find("#exam_description").val("");
-        $("#AddExamModal").modal("hide");
-        console.log("Saved");
+
+        setTimeout(()=>{
+          stopSpinner("#AddExamModal .sub-container-form-footer");
+
+            getAllExams();
+            $("#AddExamModal").find('input[name="exam_classe"]').val("");
+            $("#AddExamModal").find('input[name="exam_date"]').val("");
+            $("#AddExamModal").find('input[name="exam_subject"]').val("");
+            $("#AddExamModal").find('input[name="exam_name"]').val("");
+            $("#AddExamModal").find("#exam_description").val("");
+            $("#AddExamModal").modal("hide");
+            console.log("Saved");
+          },$spinningTime);
+
       } else {
         console.log("not saved");
       }
@@ -171,6 +179,7 @@ function displayExam(index) {
   $("#ExamsDetails").removeClass("dom-change-watcher");
   $("#EditExamModal").removeClass("dom-change-watcher");
   $(".row-score").remove();
+  console.log("index =>",index);
   $.ajax({
     type: "get",
     url: "/Exams/one",
@@ -208,7 +217,7 @@ function displayExam(index) {
               (res.score[i].Exam_Score === null
                 ? ""
                 : res.score[i].Exam_Score) +
-              '" class="input-text input-table-edit-field" required="" placeholder="Add score"> </div> </td> </tr>'
+              '" class="input-text input-table-edit-field" required="" placeholder="Add score" data-lang="Add_score"> </div> </td> </tr>'
           );
         }
         $("#exam_info").removeClass("hidden");
@@ -253,6 +262,7 @@ function displayExam(index) {
         $("#EditExamModal").addClass("dom-change-watcher");
       }
     }
+    $("body").trigger("domChanged");
   });
 }
 $(document).on(
@@ -260,7 +270,8 @@ $(document).on(
   "#list_exams .sections-main-sub-container-left-card",
   function (event) {
     if (!$("#ChangesModal").hasClass("in")) {
-      examId = $(this).find('input[name="examId"]').val();
+      examId = $(this).attr("data-id");
+      console.log("data-id => ",examId);
       $(".sections-main-sub-container-left-card").removeClass("active");
       $(this).addClass("active");
       displayExam(examId);
@@ -418,6 +429,41 @@ $(".exam-filters").on("change", function () {
 
       removeSideBarLoadingAnimation($sideSelector);
     }
+
+    /*************************************/
+
+      console.log("value ==>",value);
+
+      if (value.replace(/\s/g, "") !== "") {
+        $(".select-subject").find(".row-subject").remove();
+        $.ajax({
+          type: "get",
+          url: "/Select/subjects",
+          data: {
+            classe: value,
+          },
+          dataType: "json",
+        }).done(function (res) {
+          if (res.errors) {
+            console.log(res.errors);
+          } else {
+            
+            console.log("subjects =>",res.subjects);
+
+            for (var i = res.subjects.length - 1; i >= 0; i--) {
+              $(".select-subject").append(
+                ' <li class="row-subject" data-val="' +
+                  res.subjects[i].Subject_Label +
+                  '">' +
+                  res.subjects[i].Subject_Label +
+                  "</li>"
+              );
+            }
+          }
+        });
+      }
+
+    /*************************************/
   }
 
   if (examsPrev.length > 0) {
@@ -490,6 +536,8 @@ function saveChange($this_elm) {
 
   if (exam_name && exam_description && exam_date) {
     action_Btn_loading($this_elm);
+    
+    startSpinner("#EditExamModal .sub-container-form-footer");
 
     $.ajax({
       type: "post",
@@ -503,13 +551,18 @@ function saveChange($this_elm) {
       dataType: "json",
     }).done(function (res) {
       if (res.updated) {
-        getAllExams(examId);
-        remove_action_Btn_loading($this_elm);
-        $("#EditExamModal").modal("hide");
-        $("#EditExamModal .sub-container-form-footer").addClass("hide-footer");
-        $("#EditExamModal .sub-container-form-footer").removeClass(
-          "show-footer"
-        );
+
+        setTimeout(()=>{
+          stopSpinner("#EditExamModal .sub-container-form-footer");
+          getAllExams(examId);
+          remove_action_Btn_loading($this_elm);
+          $("#EditExamModal").modal("hide");
+          $("#EditExamModal .sub-container-form-footer").addClass("hide-footer");
+          $("#EditExamModal .sub-container-form-footer").removeClass(
+            "show-footer"
+          );
+        },$spinningTime);
+
       } else {
         console.log(res);
       }

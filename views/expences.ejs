@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	  <title data-lang="<%= title %>"><%= title %></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+ <%- include('./partials/main'); %>
+</head>
+
+<!-- sections-main-container -->
+<body class="sections-main-container">
+  
+    <!-- main-container -->
+    <div class="main-container">
+
+      <!-- setup-main-container -->
+      <%- include('./partials/side_bar',{institution: institution,accounts:accounts,role:role}); %>
+      <!-- end setup-main-container -->
+
+      <!-- sub-container -->
+      <div class="sub-container">
+
+        <div class="sub-container-nav-bar">
+            <span class="sub-container-nav-bar-title" data-lang="Expences">Expenses</span>
+            <img  class="sub-container-nav-bar-img" src="<%= user.User_Image %>" alt="profile">
+        </div>
+
+        <!-- nav -->
+         <%- include('./partials/nav_bar', {user: user,users:users,role:role}); %>
+        <!-- End nav -->
+
+        <!--  sections-main-sub-container 100%  -->
+        <div class="sections-main-sub-container">
+
+                <!--  sections-main-sub-container-left 30%  -->
+                <div class="sections-main-sub-container-left">
+
+                  <!--  sections-main-sub-container-left-search-bar  -->
+
+                  <!-- .disable-action to disable user actions based on view role -->
+                  <div class="sections-main-sub-container-left-search-bar ">
+
+                    <div class="dynamic-form-input-dropdown-container">
+                      <div class="dynamic-form-input-dropdown "> <!-- dynamic-form-input-first for full width inputs -->
+                        <div class="dynamic-form-input">
+
+                          <div class="dynamic-form-input-float-adjust" id="role_list">
+
+                            <div class="form-group group form-group-left form-group-search-filter form-group-left-extra-style">
+
+                              <input type="text" class="input-text input-text-dropdown-search" required="" name="search" id="search-input" placeholder="Search expences" data-lang="Search_expences">
+                              <img class="icon button-icon caret-disable-rotate" src="assets/icons/sidebar_icons/search.svg">
+
+                            </div>
+
+                            
+                          
+
+                            <div class="form-group group form-group-right form-group-right-extra-style">
+
+                              <input type="text" value="Filters" class="input-dropdown" data-val="All" name="expences-filter" id="expences-filter" required="">
+                              <img class="icon button-icon" id="expences-filter-btn" src="assets/icons/filter.svg">
+
+                              <span class="filter-dot"></span>
+
+                              <!--- dynamic-form-input-dropdown-options -->
+                              <div class="dynamic-form-input-dropdown-options dynamic-form-input-dropdown-options-filter-extra-style" style="display: none;">
+
+                                  <!--- dynamic-form-input-dropdown-options-container -->
+
+                                  <div class="dynamic-form-input-dropdown-options-main-container">
+
+                                    <div class="filter-label-checkbox-main-container"> 
+                                      <div class="col-xs-12">
+                                        <div class="sections-main-sub-container-right-main-label-divider employees_list">
+                                          <p style="opacity: 1;" data-lang="Expence_type">Type</p>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="filter-checkbox-main-container filter-checkbox-main-container-type">
+
+                                        <div class="filter-label-checkbox-main-container"> 
+                                            <div class="customCheck">
+                                              <input type="checkbox" value="Fix" name="checkbox" id="Fix" checked=""/> 
+                                              <label for="Fix"></label> 
+                                            </div> 
+                                            <div class="filter-label-checkbox-container" > 
+                                              <label for="Fix" data-lang="Fix" class="filter_label">Fix</label> 
+                                            </div>
+                                        </div>
+
+                                        <div class="filter-label-checkbox-main-container"> 
+                                          <div class="customCheck">
+                                            <input type="checkbox" value="Variable" name="checkbox" id="Variable" checked=""/> 
+                                            <label for="Variable"></label> 
+                                          </div> 
+                                          <div class="filter-label-checkbox-container" > 
+                                            <label  for="Variable" data-lang="Variable" class="filter_label">Variable</label> 
+                                          </div>
+                                        </div>
+
+                                        <div class="filter-label-checkbox-main-container"> 
+                                          <div class="customCheck">
+                                            <input type="checkbox" value="Occasional" name="checkbox" id="Occasional" checked=""/> 
+                                            <label for="Occasional"></label> 
+                                          </div> 
+                                          <div class="filter-label-checkbox-container" > 
+                                            <label  for="Occasional" data-lang="Occasional" class="filter_label">Occasional</label> 
+                                          </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="filter-label-checkbox-main-container"> 
+                                      <div class="col-xs-12">
+                                        <div class="sections-main-sub-container-right-main-label-divider employees_list">
+                                          <p style="opacity: 1;" data-lang="Expence_period">Period</p>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="filter-checkbox-main-container filter-checkbox-main-container-period">
+                                
+                                      <div class="filter-label-checkbox-main-container"> 
+                                          <div class="customCheck">
+                                            <input type="checkbox" value="Monthly" name="checkbox" id="Monthly" checked=""/> 
+                                            <label for="Monthly"></label> 
+                                          </div> 
+                                          <div class="filter-label-checkbox-container" > 
+                                            <label for="Monthly" data-lang="Monthly" class="filter_label">Monthly</label> 
+                                          </div>
+                                      </div>
+
+                                      <div class="filter-label-checkbox-main-container"> 
+                                        <div class="customCheck">
+                                          <input type="checkbox" value="Annual" name="checkbox" id="Annual" checked=""/> 
+                                          <label for="Annual"></label> 
+                                        </div> 
+                                        <div class="filter-label-checkbox-container" > 
+                                          <label  for="Annual" data-lang="Annual" class="filter_label">Annual</label> 
+                                        </div>
+                                      </div>
+                                      
+                                    </div>
+
+                                    <div class="filter-label-checkbox-main-container"> 
+                                      <div class="col-xs-12">
+                                        <div class="sections-main-sub-container-right-main-label-divider employees_list">
+                                          <p style="opacity: 1;" data-lang="Expence_for">For</p>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="filter-checkbox-main-container filter-checkbox-main-container-for">
+                                
+                                      <div class="filter-label-checkbox-main-container"> 
+                                        <div class="customCheck">
+                                          <input type="checkbox" value="Institution" name="checkbox" id="Institution" checked=""/> 
+                                          <label for="Institution"></label> 
+                                        </div> 
+                                        <div class="filter-label-checkbox-container" > 
+                                          <label  for="Institution" data-lang="Institution" class="filter_label">Institution</label> 
+                                        </div>
+                                      </div>
+
+                                      <div class="filter-label-checkbox-main-container"> 
+                                        <div class="customCheck">
+                                          <input type="checkbox" value="Employees" name="checkbox" id="Employees" checked=""/> 
+                                          <label for="Employees"></label> 
+                                        </div> 
+                                        <div class="filter-label-checkbox-container" > 
+                                          <label  for="Employees" data-lang="Employees" class="filter_label">Employees</label> 
+                                        </div>
+                                      </div>
+                                      
+                                    </div>
+
+                                    <!--div>
+
+                                    <div class="filter-label-checkbox-main-container"> 
+                                      <div class="col-xs-12">
+                                        <div class="sections-main-sub-container-right-main-label-divider employees_list">
+                                          <p data-lang="Expence_type" style="opacity: 1;">Status</p>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="filter-checkbox-main-container">
+                                
+                                      <div class="filter-label-checkbox-main-container"> 
+                                          <div class="customCheck">
+                                            <input type="checkbox" value="23" name="checkbox" id="Paid" checked=""/> 
+                                            <label for="Paid"></label> 
+                                          </div> 
+                                          <div class="filter-label-checkbox-container" > 
+                                            <label for="Paid" class="filter_label">Paid</label> 
+                                          </div>
+                                      </div>
+
+                                      <div class="filter-label-checkbox-main-container"> 
+                                        <div class="customCheck">
+                                          <input type="checkbox" value="23" name="checkbox" id="Unpaid" checked=""/> 
+                                          <label for="Unpaid"></label> 
+                                        </div> 
+                                        <div class="filter-label-checkbox-container" > 
+                                          <label  for="Unpaid" class="filter_label">Unpaid</label> 
+                                        </div>
+                                      </div>
+                                      
+                                    </div>
+                                    </div -->
+
+                                  </div>
+
+                                  <!--- End dynamic-form-input-dropdown-options-container -->
+
+                                  <!---  dynamic-form-input-dropdown-options-footer-container -->
+                                  <div class="dynamic-form-input-dropdown-options-footer-container">
+
+                                      <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary" onclick="resetFilter()">
+                                        <span class="button-text" data-lang="Reset" >Reset</span>
+                                      </div>
+
+                                      <div class="rounded-button default-button rounded-button-primary" onclick="applyFilter()">
+                                        <span class="button-text" data-lang="Apply_filter" placeholder="Apply filter" style="opacity: 1;">Apply filter</span>
+                                        <img class="icon button-icon caret-rotate-reset" src="/assets/icons/check_small.svg">
+                                      </div>
+
+                                  </div>
+                                  <!--- End dynamic-form-input-dropdown-options-footer-container -->
+
+                              </div>
+                              <!--- End dynamic-form-input-dropdown-options -->
+
+                            </div>
+
+                            <%if (role === 'Admin') { %>
+                              <div class="square-button square-button-minus" id="showAddExpenceModalBtn" data-toggle="modal" data-target="#AddExpenceModal" >
+                                <img class="icon" src="assets/icons/plus.svg">
+                              </div>
+                            <% } %>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                  <!--  sections-main-sub-container-left-search-bar  -->
+
+                  <!--  sections-main-sub-container-left-card-container  -->
+                  <div class="sections-main-sub-container-left-card-container list_expences" id="list_expences">
+                    <!--  sections-main-sub-container-left-cards  -->
+                                        <!--  End sections-main-sub-container-left-cards  -->
+                  </div>
+                  <!--  End sections-main-sub-container-left-card-container  -->
+
+                </div>
+
+                <!--  sections-main-sub-container-right 70%  -->
+                <div class="sections-main-sub-container-right hidden" id="expences_info">
+
+                    <!-- sections-main-sub-container-right-main -->
+                    <div class="sections-main-sub-container-right-main">
+
+                        <div class="sub-container-form">
+                            <!-- sections-main-sub-container-right-main-header -->
+                            <div class="sections-main-sub-container-right-main-header">
+
+                                <div class="sections-main-sub-container-right-main-header-info">
+
+                                  <div class="form-group">
+                                    <div class="input-img-container input-rounded-img-container" id="expences_image_container" >
+                                      
+                                    </div>
+                                  </div>
+
+                                  <p class="label-full-name" id="expences_label">expense label</p>
+                                  <p class="sub-label-full-name"> <span id="expence_cost"></span> <span class="currency">Dhs</span></p>
+
+                                </div>
+
+
+                                <!-- sections-main-sub-container-right-main-header-option-list -->
+                                <div class="sections-main-sub-container-right-main-header-option-list-container">
+                                <img class="sections-main-sub-container-right-main-header-option-icon" src="assets/icons/options.svg">
+                                <div class="sections-main-sub-container-right-main-header-option-list">
+                                    <div class="sections-main-sub-container-right-main-header-option-list-li
+                                              sections-main-sub-container-right-main-header-option-list-li-expence-edit">
+                                    <img src="assets/icons/edit.svg" alt="edit"/>   
+                                    <span class="sections-main-sub-container-right-main-header-option-list-span" data-lang="Edit">Edit</span>
+                                  </div>
+                                  <div class="sections-main-sub-container-right-main-header-option-list-li
+                                              sections-main-sub-container-right-main-header-option-list-li-delete">
+                                    <img src="assets/icons/delete.svg" alt="edit"/>   
+                                    <span class="sections-main-sub-container-right-main-header-option-list-span" data-lang="Delete" >Delete</span>
+                                  </div>
+                                  <img class="sections-main-sub-container-right-main-header-option-icon-close" alt="close" src="assets/icons/close.svg">
+                                </div>
+                                </div>
+                                <!-- End sections-main-sub-container-right-main-header-option-list -->
+
+                            </div>
+
+
+                            <!-- Active later if absence retart needed 
+                              
+                              div class="sections-main-sub-container-right-main-tabs sections-main-sub-container-right-main-tabs-extra-style">
+                                <ul class="clearfix nav nav-tabs">
+                                  <li class="active"><a data-toggle="tab" href="#Details" data-lang="Details" >Details</a></li>
+                                  <li><a data-toggle="tab" href="#Absence" data-lang="Absences">Absences</a></li>
+                                </ul>
+                            </div-->
+
+                            <!-- End sections-main-sub-container-right-main-header -->
+
+                            <!-- tab-content -->
+                            <div class="tab-content">
+
+                              <!-- tab-pane -->
+                              <div id="ExpencesDetails" class="tab-pane fade sections-main-sub-container-right-main-body dom-change-watcher active in">
+
+                                 <!-- expences_info_list -->
+                                <div id="expences_info_list"></div>
+                                <!-- End expences_info_list -->
+
+                                <!-- sub-container-form-footer-container -->
+                                  <div class="sub-container-form-footer-container">
+                                      <!--  sub-container-form-footer -->
+                                      <div class="sub-container-form-footer">
+                                        <div
+                                          class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate"
+                                          data-toggle="modal"
+                                          data-target="#ExpencesModal"
+                                          onclick="executePayment()"
+                                        >
+                                          <span class="button-text" data-lang="Execute_payment">Execute payment</span>
+                                          <img class="icon button-icon" src="assets/icons/plus.svg" />
+                                        </div>
+                                      </div>
+                                  </div>
+                                <!--  End sub-container-form-footer -->
+                              </div>
+                              <!-- End tab-pane -->
+
+                            </div>
+                            <!-- End tab-content -->
+
+                            <!--_____________ ChangesModal modal _____________-->
+
+                            <!-- Trigger the modal with a button -->
+                             
+                              <!-- Modal data-toggle="modal" data-target="#ChangesModal" -->
+                              <div id="ChangesModal" class="modal" role="dialog" >
+
+                                <div class="modal-dialog modal-dialog-centered animate__animated animate__fadeIn ">
+
+                                  <!-- Modal content-->
+                                  <div class="modal-content modal-content-finance">
+
+                                    <div class="modal-body">
+
+                                        <!-- modal-body-container -->
+
+                                        <div class="modal-body-container">
+
+                                          <h1 class="sub-container-main-header sub-container-main-header-extra-style" data-lang="Review_changes">Review changes</h1>
+                                          <h4 class="sub-container-sub-header  sub-container-sub-header-extra-style" data-lang="Review_changes_subHeader">
+                                           You have made changes. Are you sure you want to discard them?
+                                          </h4>
+
+                                            <!--  sub-container-form-footer -->
+                                            <div class="sub-container-form-footer">
+
+                                               <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button " onclick="saveChange()">
+                                                            <span class="button-text" data-lang="Save_changes">Save changes</span>
+                                                            <img class="icon button-icon" src="assets/icons/check_small.svg">
+                                                </div>
+
+                                                <div class="rounded-button default-button rounded-button-primary rounded-button-float-right  secondary-pink-button " onclick="discardChange()">
+                                                      <span class="button-text" data-lang="Cancel">Discard</span>
+                                                </div>
+                                               
+                                            </div>
+                                            <!--  End sub-container-form-footer -->
+
+                                        </div>
+
+                                    </div>
+
+                                  </div>
+
+                                </div>
+
+                              </div>
+                            <!--_____________ End ChangesModal modal _____________-->
+
+                        </div>
+                       
+                    </div>
+                    <!-- End sections-main-sub-container-right-main -->
+
+
+
+                </div>
+
+        </div>
+        <!--  End sections-main-sub-container -->
+
+    </div>
+    <!-- sub-container -->
+
+    <!-- Modal data-toggle="modal" data-target="#ChangesModal" -->
+      <div id="ConfirmDeleteModal" class="modal" role="dialog" >
+
+        <div class="modal-dialog modal-dialog-centered animate__animated animate__fadeIn ">
+
+          <!-- Modal content-->
+          <div class="modal-content modal-content-finance">
+
+            <div class="modal-body">
+
+                <!-- modal-body-container -->
+
+                <div class="modal-body-container">
+
+                  <h1 class="sub-container-main-header sub-container-main-header-extra-style" data-lang="Popup_delete">Are you sure ?</h1>
+                  <h4 class="sub-container-sub-header  sub-container-sub-header-extra-style" data-lang="Popup_delete_subHeader">
+                   You have made changes. Are you sure you want to discard them?
+                  </h4>
+
+                    <!--  sub-container-form-footer -->
+                    <div class="sub-container-form-footer">
+
+                        <div class="rounded-button default-button rounded-button-primary rounded-button-float-right  secondary-pink-button " onclick="remove()">
+                              <span class="button-text" data-lang="Delete">Delete</span>
+                        </div>
+
+                        <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary" data-dismiss="modal">
+                                    <span class="button-text" data-lang="Cancel" >Cancel</span>
+                        </div>
+                       
+                    </div>
+                    <!--  End sub-container-form-footer -->
+
+                </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+    <!-- custmized-tooltip -->
+
+    <div class="custmized-tooltip">
+
+
+      <p class="custmized-tooltip-container custmized-tooltip-container-cost">
+        <span class="custmized-tooltip-label" data-lang="Amount_:">Amount<span class="custmized-tooltip-dots">:</span></span>
+        <span class="custmized-tooltip-value"> 
+          <span class="custmized-tooltip-amount-value">1500</span>
+          <span class="custmized-tooltip-currency">Dhs</span>
+        </span>
+      </p>
+      <p class="custmized-tooltip-container custmized-tooltip-container-status">
+        <span class="custmized-tooltip-label" data-lang="Status">Status<span class="custmized-tooltip-dots">:</span></span>
+        <span class="custmized-tooltip-status-value" data-lang="Unpaid">Unpaid</span>
+        </span>
+      </p>
+
+      <p class="custmized-tooltip-container custmized-tooltip-container-date">
+        <span class="custmized-tooltip-label" data-lang="Paid_Date:">Date <span class="custmized-tooltip-dots">:</span></span>
+        <span class="custmized-tooltip-date-value">10/11/2021</span>
+      </p>
+
+      <div class="arrow-up"></div>
+
+  </div>
+  <!-- End tooltip -->
+
+ <script src="/javascripts/expences.js" type="text/javascript" charset="utf-8" async defer></script>
+    <!--_____________ End ConfirmDelete modal _____________-->    
+
+    <!--________________ Modals _____________-->
+
+        <%- include('./partials/modals',{role:role}); %>
+
+    <!--________________ End Modals _____________-->
+
+</body>
+<!-- end sections-main-container -->
+
+
+</html>

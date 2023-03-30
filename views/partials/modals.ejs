@@ -14,8 +14,8 @@
 
             <div class="modal-body-container">
 
-               <h1 class="sub-container-main-header">New Action</h1>
-               <h4 class="sub-container-sub-header">
+               <h1 class="sub-container-main-header" data-lang="Popup_new_action">New Action</h1>
+               <h4 class="sub-container-sub-header" data-lang="Popup_new_action_subHeader">
                 There are many variations of passages of Lorem Ipsum available, but the majority.
                </h4>
 
@@ -42,7 +42,7 @@
                          style="background-image: linear-gradient(to bottom, #ebefff, #e1e4fe);">
                         <img class="modal-card-img" src="assets/icons/modal_icons/exams_inactive.svg" alt="img"/>
                     </div>
-                    <p class="modal-card-label">Exam</p>
+                    <p class="modal-card-label" data-lang="Popup_new_action_exam">Exam</p>
                   </div>
                 </div>
                <!-- End modal-card-container -->
@@ -53,7 +53,7 @@
                          style="background-image: linear-gradient(to bottom, #fee8f7, #f6d4e7);">
                         <img class="modal-card-img" src="assets/icons/modal_icons/homeworks_inactive.svg" alt="img"/>
                     </div>
-                    <p class="modal-card-label">Homework</p>
+                    <p class="modal-card-label" data-lang="Popup_new_action_homework">Homework</p>
                   </div>
                 </div>
                <!-- End modal-card-container -->
@@ -67,10 +67,11 @@
                          style="background-image: linear-gradient(to bottom, #ebefff, #e1e4fe);">
                         <img class="modal-card-img" src="assets/icons/modal_icons/students_inactive.svg" alt="img"/>
                     </div>
-                    <p class="modal-card-label">Student</p>
+                    <p class="modal-card-label" data-lang="Popup_new_action_student">Student</p>
                   </div>
                 </div>
                <!-- End modal-card-container -->
+               
                <!-- modal-card-container -->
                 <div class="modal-card-container <%= admin %>"  data-toggle="modal" data-target="#AddTeacherModal" data-val="Teacher">
                   <div class="modal-card-sub-container">
@@ -78,24 +79,23 @@
                          style="background-image: linear-gradient(to bottom, #fee8f7, #f6d4e7);">
                         <img class="modal-card-img" src="assets/icons/modal_icons/teachers_inactive.svg" alt="img"/>
                     </div>
-                    <p class="modal-card-label">Teacher</p>
+                    <p class="modal-card-label" data-lang="Popup_new_action_teacher">Teacher</p>
                   </div>
                 </div>
                <!-- End modal-card-container -->
 
-                <!--________________ Only visibible for Admin Role _____________-->
                <!-- modal-card-container -->
-                <div class="modal-card-container <%= admin %>" data-toggle="modal" data-target="#FinanceNewModal" data-val="Payment">
+                <div class="modal-card-container <%= admin %>" data-toggle="modal" data-target="#AddEmployeeModal" data-val="Teacher">
                   <div class="modal-card-sub-container">
-                    <div class="modal-card-img-container"
-                        style="background-image: linear-gradient(to bottom, #dfffeb, #d2f3db);">
-                        <img class="modal-card-img" src="assets/icons/modal_icons/finances_inactive.svg" alt="img"/>
+                    <div class="modal-card-img-container" style="background-image: linear-gradient(to bottom, #f6f1bd, #f6e856);">
+                      <img class="modal-card-img" src="assets/icons/modal_icons/employees_inactive.svg" alt="img" />
                     </div>
-                    <p class="modal-card-label">Payment</p>
+                    <p class="modal-card-label" data-lang="Popup_new_action_employes">Employees</p>
                   </div>
                 </div>
                <!-- End modal-card-container -->
-                <!--________________ Only visibible for Admin Role _____________-->
+
+                <!--________________ Only visible for Admin Role _____________-->
 
                <!-- modal-card-container -->
                 <div class="modal-card-container"  data-toggle="modal" data-target="#AddAbsenceModal" data-val="Absence">
@@ -104,7 +104,7 @@
                          style="background-image: linear-gradient(to bottom, #ffeadc, #fad9c8 100%);">
                         <img class="modal-card-img" src="assets/icons/modal_icons/absence_inactive.svg" alt="img"/>
                     </div>
-                    <p class="modal-card-label">Absence</p>
+                    <p class="modal-card-label" data-lang="Popup_new_action_absence">Absence</p>
                   </div>
                 </div>
                <!-- End modal-card-container -->
@@ -115,7 +115,7 @@
                          style="background-image: linear-gradient(to bottom, #e1f9fe, #cdebf6 100%);">
                         <img class="modal-card-img" src="assets/icons/modal_icons/attitude_inactive.svg" alt="img"/>
                     </div>
-                    <p class="modal-card-label">Attitude</p>
+                    <p class="modal-card-label" data-lang="Popup_new_action_attitude">Attitude</p>
                   </div>
                 </div>
                <!-- End modal-card-container -->
@@ -128,18 +128,42 @@
                          style="background-image: linear-gradient(to bottom, #ffe8e8, #fbd5d5 100%);">
                         <img class="modal-card-img" src="assets/icons/modal_icons/retard_inactive.svg" alt="img"/>
                     </div>
-                    <p class="modal-card-label">Retard</p>
+                    <p class="modal-card-label" data-lang="Popup_new_action_retard">Retard</p>
                   </div>
                 </div>
                <!-- End modal-card-container -->
                <!--________________ Only visibible for Admin Role _____________-->
+
+                <!--________________ Only visible for Admin Role _____________-->
+                <!-- modal-card-container -->
+                <div class="modal-card-container <%= admin %>" data-toggle="modal" data-target="#FinanceNewModal" data-val="Payment">
+                  <div class="modal-card-sub-container">
+                    <div class="modal-card-img-container" style="background-image: linear-gradient(to bottom, #dfffeb, #d2f3db);">
+                      <img class="modal-card-img" src="assets/icons/modal_icons/finances_inactive.svg" alt="img" />
+                    </div>
+                    <p class="modal-card-label" data-lang="Popup_new_action_payment">Payment</p>
+                  </div>
+                </div>
+                <!-- End modal-card-container -->
+                
+                <!-- modal-card-container -->
+                <div class="modal-card-container <%= admin %>" data-toggle="modal" data-target="#AddExpenceModal" data-val="Payment">
+                  <div class="modal-card-sub-container">
+                    <div class="modal-card-img-container" style="background-image: linear-gradient(to bottom, #fee8f7, #f6d4e7);">
+                      <img class="modal-card-img" src="assets/icons/modal_icons/expences_inactive.svg" alt="img" />
+                    </div>
+                    <p class="modal-card-label" data-lang="Popup_new_action_expences">Expences</p>
+                  </div>
+                </div>
+                <!-- End modal-card-container -->
+               
 
                </div>
                <!-- End main-modal-card-container -->
                <% if (role === 'Admin') { %>
                 <div class="modal-btn-container" data-toggle="modal" data-target="#ImportUsersModal">
                   <div class="modal-btn">
-                    <span class="modal-btn-text">Import from file</span>
+                    <span class="modal-btn-text" data-lang="Import_from_file">Import from file</span>
                   </div>
                </div>
                <% } %>
@@ -175,8 +199,8 @@
 
             <div class="modal-body-container"  id="student_form">
 
-               <h1 class="sub-container-main-header">New Student</h1>
-               <h4 class="sub-container-sub-header">
+               <h1 class="sub-container-main-header" data-lang="Popup_new_student">New Student</h1>
+               <h4 class="sub-container-sub-header" data-lang="Popup_new_student_subHeader">
                 There are many variations of passages of Lorem Ipsum available.
                </h4>
 
@@ -204,7 +228,18 @@
                   </div>
 
                   <div class="sections-main-sub-container-right-main-label-divider">
-                        <p>Student details</p>
+                        <p data-lang="Student_details">Student details</p>
+                  </div>
+
+                  <div class="row sections-main-sub-container-right-main-rows">
+                    <div class="col-md-12">
+                      <div class="form-group group ">
+                        <input type="text" required="" name="student_code">
+                        <label class="input-label">
+                          <span class="input-label-text" data-lang="Student_code">Student code</span><span class="input-label-bg-mask"></span>
+                        </label>
+                      </div>
+                    </div>
                   </div>
 
                   <div class="row sections-main-sub-container-right-main-rows">
@@ -213,7 +248,7 @@
                       <div class="form-group group">
                         <input type="text" required="" name="first_name">
                         <label class="input-label">
-                          <span class="input-label-text">First name</span><span class="input-label-bg-mask"></span>
+                          <span class="input-label-text" data-lang="First_name">First name</span><span class="input-label-bg-mask"></span>
                         </label>
                       </div>
                     </div>
@@ -222,7 +257,7 @@
                       <div class="form-group group">
                         <input type="text" required="" name="last_name">
                         <label class="input-label">
-                          <span class="input-label-text">Last name</span><span class="input-label-bg-mask"></span>
+                          <span class="input-label-text" data-lang="Last_name">Last name</span><span class="input-label-bg-mask"></span>
                         </label>
                       </div>
                     </div>
@@ -241,7 +276,7 @@
                               <input type="text" class="input-dropdown" required name="level">
                               
                               <label class="input-label">
-                                <span class="input-label-text">Level</span><span class="input-label-bg-mask"></span>
+                                <span class="input-label-text" data-lang="Level">Level</span><span class="input-label-bg-mask"></span>
                               </label>
 
                               <img class="icon button-icon" src="assets/icons/caret.svg">
@@ -273,7 +308,7 @@
                               <input type="text" class="input-dropdown" required name="classe">
                               
                               <label class="input-label">
-                                <span class="input-label-text">Class</span><span class="input-label-bg-mask"></span>
+                                <span class="input-label-text" data-lang="Class">Class</span><span class="input-label-bg-mask"></span>
                               </label>
 
                               <img class="icon button-icon" src="assets/icons/caret.svg">
@@ -303,13 +338,13 @@
                               <input type="text" name="student_gender" class="input-dropdown" required>
                               
                               <label class="input-label">
-                                <span class="input-label-text">Gender</span><span class="input-label-bg-mask"></span>
+                                <span class="input-label-text" data-lang="Gender">Gender</span><span class="input-label-bg-mask"></span>
                               </label>
 
                               <img class="icon button-icon" src="assets/icons/caret.svg">
                               <ul class="dynamic-form-input-dropdown-options dynamic-form-input-dropdown-gender-options">
-                                  <li data-val="Male"   data-user="Student">Male</li>
-                                  <li data-val="Female" data-user="Student">Female</li>
+                                  <li data-val="Male"   data-user="Student" data-lang="Male">Male</li>
+                                  <li data-val="Female" data-user="Student" data-lang="Female">Female</li>
                               </ul>
                             </div>
                             </div>
@@ -325,7 +360,7 @@
                          <input type="text" class="input-text input-date input-date-limited" required="" placeholder="" name="birthdate">
                          <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                           <label class="input-label">
-                            <span class="input-label-text">Birthdate</span><span class="input-label-bg-mask"></span>
+                            <span class="input-label-text" data-lang="Birthdate">Birthdate</span><span class="input-label-bg-mask"></span>
                           </label>
                       </div>
                     </div>
@@ -336,7 +371,7 @@
                       <div class="form-group group ">
                         <input type="text" required="" name="phone_number">
                         <label class="input-label">
-                          <span class="input-label-text">Phone number</span><span class="input-label-bg-mask"></span>
+                          <span class="input-label-text" data-lang="Phone_number">Phone number</span><span class="input-label-bg-mask"></span>
                         </label>
                       </div>
                     </div>
@@ -344,7 +379,7 @@
                       <div class="form-group group ">
                         <input type="text" required="" name="student_email">
                         <label class="input-label">
-                          <span class="input-label-text">Email</span><span class="input-label-bg-mask"></span>
+                          <span class="input-label-text" data-lang="Email">Email</span><span class="input-label-bg-mask"></span>
                         </label>
                       </div>
                     </div>
@@ -355,14 +390,14 @@
                       <div class="form-group group ">
                         <input type="text" required="" name="student_address">
                         <label class="input-label">
-                          <span class="input-label-text">Address</span><span class="input-label-bg-mask"></span>
+                          <span class="input-label-text" data-lang="Address">Address</span><span class="input-label-bg-mask"></span>
                         </label>
                       </div>
                     </div>
                   </div>
 
                   <div class="sections-main-sub-container-right-main-label-divider">
-                        <p>Parents details</p>
+                        <p data-lang="Parents_details">Parents details</p>
                   </div>
 
 
@@ -375,7 +410,7 @@
                           <div class="dynamic-form-input">
                             <div class="dynamic-form-input-float-adjust">
                             <div class="form-group group form-group-right" style="margin-bottom: 0 !important;">
-                              <input type="text" class="input-dropdown-search" placeholder="Search parents" name="parent_name" />
+                              <input type="text" class="input-dropdown-search" placeholder="Search parents" name="parent_name" data-lang="Search_parents" />
                               <img class="icon button-icon caret-rotate" src="assets/icons/sidebar_icons/search.svg">
                               <ul class="dynamic-form-input-dropdown-options">
                               </ul>
@@ -389,7 +424,7 @@
                         <div class="form-group group ">
                           <input type="text" required="" name="parent_phone">
                           <label class="input-label">
-                            <span class="input-label-text">Phone number</span><span class="input-label-bg-mask"></span>
+                            <span class="input-label-text" data-lang="Phone_number">Phone number</span><span class="input-label-bg-mask"></span>
                           </label>
                         </div>
                       </div>
@@ -398,7 +433,7 @@
                         <div class="form-group group ">
                           <input type="text" required="" name="parent_email">
                           <label class="input-label">
-                            <span class="input-label-text">Email</span><span class="input-label-bg-mask"></span>
+                            <span class="input-label-text" data-lang="Email">Email</span><span class="input-label-bg-mask"></span>
                           </label>
                         </div>
                       </div>
@@ -420,7 +455,7 @@
                   </div>
 
                   <div class="sections-main-sub-container-right-main-label-divider subscription-divider">
-                        <p>Subscription</p>
+                        <p data-lang="Subscriptions">Subscriptions</p>
                   </div>
 
                   <div id="list_sub" class="row sections-main-sub-container-right-main-rows sections-label-checkbox-container-rows sections-label-checkbox-container-rows-extra-style">
@@ -432,11 +467,11 @@
                 <!--  sub-container-form-footer -->
                 <div class="sub-container-form-footer">
                     <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button " onClick="saveStudent()">
-                          <span class="button-text" >Save</span>
+                          <span class="button-text" data-lang="Save">Save</span>
                           <img class="icon button-icon" src="assets/icons/check_small.svg">
                     </div>
                     <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary" data-dismiss="modal" >
-                          <span class="button-text" >Cancel</span>
+                          <span class="button-text" data-lang="Cancel">Cancel</span>
                     </div>
                 </div>
                 <!--  End sub-container-form-footer -->
@@ -471,8 +506,8 @@
 
               <div class="modal-body-container">
 
-                 <h1 class="sub-container-main-header">Edit Student Info</h1>
-                 <h4 class="sub-container-sub-header">
+                 <h1 class="sub-container-main-header" data-lang="Popup_edit_student">Edit Student Info</h1>
+                 <h4 class="sub-container-sub-header" data-lang="Popup_edit_student_subHeader">
                   There are many variations of passages of Lorem Ipsum available.
                  </h4>
 
@@ -499,7 +534,18 @@
                     </div>
 
                     <div class="sections-main-sub-container-right-main-label-divider">
-                          <p>Student details</p>
+                          <p data-lang="Student_details">Student details</p>
+                    </div>
+
+                    <div class="row sections-main-sub-container-right-main-rows">
+                      <div class="col-md-12">
+                        <div class="form-group group ">
+                          <input type="text" required="" name="student_code">
+                          <label class="input-label">
+                            <span class="input-label-text" data-lang="Student_code">Student code</span><span class="input-label-bg-mask"></span>
+                          </label>
+                        </div>
+                      </div>
                     </div>
 
                     <div class="row sections-main-sub-container-right-main-rows">
@@ -508,7 +554,7 @@
                         <div class="form-group group">
                           <input type="text" required="" name="f_name">
                           <label class="input-label">
-                            <span class="input-label-text">First name</span><span class="input-label-bg-mask"></span>
+                            <span class="input-label-text" data-lang="First_name">First name</span><span class="input-label-bg-mask"></span>
                           </label>
                         </div>
                       </div>
@@ -517,7 +563,7 @@
                         <div class="form-group group">
                           <input type="text" required="" name="l_name">
                           <label class="input-label">
-                            <span class="input-label-text">Last name</span><span class="input-label-bg-mask"></span>
+                            <span class="input-label-text" data-lang="Last_name">Last name</span><span class="input-label-bg-mask"></span>
                           </label>
                         </div>
                       </div>
@@ -536,7 +582,7 @@
                                 <input type="text" class="input-dropdown" name="level-detail" data-id="-1" required>
                                 
                                 <label class="input-label">
-                                  <span class="input-label-text">Level</span><span class="input-label-bg-mask"></span>
+                                  <span class="input-label-text" data-lang="Level">Level</span><span class="input-label-bg-mask"></span>
                                 </label>
 
                                 <img class="icon button-icon" src="assets/icons/caret.svg">
@@ -569,7 +615,7 @@
                                 <input type="text" class="input-dropdown" name="classe-detail" required>
                                 
                                 <label class="input-label">
-                                  <span class="input-label-text">Class</span><span class="input-label-bg-mask"></span>
+                                  <span class="input-label-text" data-lang="Class">Class</span><span class="input-label-bg-mask"></span>
                                 </label>
 
                                 <img class="icon button-icon" src="assets/icons/caret.svg">
@@ -601,13 +647,13 @@
                                 <input type="text" class="input-dropdown" name="student_gender_detail" required>
                                 
                                 <label class="input-label">
-                                  <span class="input-label-text">Gender</span><span class="input-label-bg-mask"></span>
+                                  <span class="input-label-text" data-lang="Gender">Gender</span><span class="input-label-bg-mask"></span>
                                 </label>
 
                                 <img class="icon button-icon" src="assets/icons/caret.svg">
                                 <ul class="dynamic-form-input-dropdown-options dynamic-form-input-dropdown-gender-options">
-                                    <li data-val="Male"   data-user="Student">Male</li>
-                                    <li data-val="Female" data-user="Student">Female</li>
+                                    <li data-val="Male"   data-user="Student" data-lang="Male">Male</li>
+                                    <li data-val="Female" data-user="Student" data-lang="Female">Female</li>
                                 </ul>
 
                               </div>
@@ -625,8 +671,8 @@
                         <div class="form-group group dynamic-form-input-text-container-icon">
                            <input type="text" class="input-text input-date input-date-limited"  name="birthdate_detail" required="" placeholder="">
                            <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                            <label class="input-label">
-                              <span class="input-label-text">Birthdate</span><span class="input-label-bg-mask"></span>
+                            <label class="input-label input-label-move-to-top">
+                              <span class="input-label-text" data-lang="Birthdate" >Birthdate</span><span class="input-label-bg-mask"></span>
                             </label>
                         </div>
                       </div>
@@ -639,7 +685,7 @@
                         <div class="form-group group ">
                           <input type="text" required="" name="phone_number_detail">
                           <label class="input-label">
-                            <span class="input-label-text">Phone number</span><span class="input-label-bg-mask"></span>
+                            <span class="input-label-text" data-lang="Phone_number">Phone number</span><span class="input-label-bg-mask"></span>
                           </label>
                         </div>
                       </div>
@@ -648,7 +694,7 @@
                         <div class="form-group group ">
                           <input type="text" required="" name="student_email_detail">
                           <label class="input-label">
-                            <span class="input-label-text">Email</span><span class="input-label-bg-mask"></span>
+                            <span class="input-label-text" data-lang="Email">Email</span><span class="input-label-bg-mask"></span>
                           </label>
                         </div>
                       </div>
@@ -661,7 +707,7 @@
                         <div class="form-group group ">
                           <input type="text" required="" name="student_address_detail">
                           <label class="input-label">
-                            <span class="input-label-text">Address</span><span class="input-label-bg-mask"></span>
+                            <span class="input-label-text" data-lang="Address">Address</span><span class="input-label-bg-mask"></span>
                           </label>
                         </div>
                       </div>
@@ -669,7 +715,7 @@
                     </div>
 
                     <div class="sections-main-sub-container-right-main-label-divider">
-                          <p>Parents details</p>
+                          <p data-lang="Parents_details">Parents details</p>
                     </div>
 
                     <div class="row sections-main-sub-container-right-main-rows sections-main-sub-container-right-main-rows-parents">
@@ -683,7 +729,7 @@
                     </div>
 
                     <div class="sections-main-sub-container-right-main-label-divider subscription-label-devider">
-                          <p>Subscription</p>
+                          <p data-lang="Subscriptions">Subscriptions</p>
                     </div>
 
                     <div class="sub_list row sections-main-sub-container-right-main-rows sections-label-checkbox-container-rows sections-label-checkbox-container-rows-extra-style">
@@ -695,11 +741,11 @@
                   <!--  sub-container-form-footer -->
                   <div class="sub-container-form-footer hide-footer">
                       <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button cancel-change" onclick="saveChange()">
-                            <span class="button-text" >Save changes</span>
+                            <span class="button-text" data-lang="Save_changes">Save changes</span>
                             <img class="icon button-icon" src="assets/icons/check_small.svg">
                       </div>
                       <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary cancel-change" data-dismiss="modal" onclick="discardChange()">
-                            <span class="button-text" >Cancel</span>
+                            <span class="button-text" data-lang="Cancel">Cancel</span>
                       </div>
                   </div>
                   <!--  End sub-container-form-footer -->
@@ -734,8 +780,8 @@
 
             <div class="modal-body-container">
 
-               <h1 class="sub-container-main-header">Absence & Retard</h1>
-               <h4 class="sub-container-sub-header">
+               <h1 class="sub-container-main-header" data-lang="Popup_new_absence_&_retard">Absence & Retard</h1>
+               <h4 class="sub-container-sub-header" data-lang="Popup_new_absence_&_retard_subHeader" >
                 There are many variations of passages of Lorem Ipsum available.
                </h4>
 
@@ -745,7 +791,7 @@
                       <div class="form-group group readonly">
                         <input type="text" required="" name="ad_classe" >
                         <label class="input-label">
-                          <span class="input-label-text">Class</span><span class="input-label-bg-mask"></span>
+                          <span class="input-label-text" data-lang="Class">Class</span><span class="input-label-bg-mask"></span>
                         </label>
                       </div>
                     </div> 
@@ -753,7 +799,7 @@
                       <div class="form-group group readonly">
                         <input type="text" required="" name="ad_student">
                         <label class="input-label">
-                          <span class="input-label-text">Student</span><span class="input-label-bg-mask"></span>
+                          <span class="input-label-text" data-lang="Student">Student</span><span class="input-label-bg-mask"></span>
                         </label>
                       </div>
                     </div>
@@ -762,7 +808,7 @@
 
                 <div class="dynamic-form-input-container dynamic-form-input-container-extra-style">
 
-                    <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Absence or Retard </span> <span class="input-label-bg-mask"></span></label>
+                    <label class="input-label dynamic-form-input-container-label"><span class="input-label-text" data-lang="Absence_or_Retard">Absence or Retard</span> <span class="input-label-bg-mask"></span></label>
 
                     <div class="sections-checkboxes-main-container">
 
@@ -770,7 +816,7 @@
                            dynamic-form-input-container-type" data-val="Absence" >
                           <div class="sections-label-checkbox-container " >
                             <div class="form-group group ">
-                              <span class="expense_label">Absence</span>
+                              <span class="expense_label" data-lang="Absence">Absence</span>
                             </div>
                           </div>
                           <div class="customCheck customCheckRounded">
@@ -782,7 +828,7 @@
                       <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left container-background-style" data-val="Retard">
                           <div class="sections-label-checkbox-container ">
                             <div class="form-group group ">
-                              <span class="expense_label">Retard</span>
+                              <span class="expense_label" data-lang="Retard">Retard</span>
                             </div>
                           </div>
                           <div class="customCheck customCheckRounded">
@@ -798,7 +844,7 @@
                 <div class="dynamic-form-input-container dynamic-form-input-container-extra-style
                      dynamic-form-input-container-session">
 
-                    <label class="input-label dynamic-form-input-container-label"><span class="input-label-text"> Period or Session </span> <span class="input-label-bg-mask"></span></label>
+                    <label class="input-label dynamic-form-input-container-label"><span class="input-label-text" data-lang="Period_or_Session"> Period or Session </span> <span class="input-label-bg-mask"></span></label>
 
                     <div class="sections-checkboxes-main-container">
                     <%
@@ -814,7 +860,7 @@
                       <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left container-background-style" data-val="Period">
                           <div class="sections-label-checkbox-container ">
                             <div class="form-group group ">
-                              <span class="expense_label">Period</span>
+                              <span class="expense_label" data-lang="Period">Period</span>
                             </div>
                           </div>
                           <div class="customCheck customCheckRounded <%= period %> ">
@@ -827,7 +873,7 @@
                            data-val="Session">
                           <div class="sections-label-checkbox-container" >
                             <div class="form-group group ">
-                              <span class="expense_label">Session</span>
+                              <span class="expense_label" data-lang="Session">Session</span>
                             </div>
                           </div>
                           <div class="customCheck customCheckRounded">
@@ -845,17 +891,23 @@
                 <div class="dynamic-form-input-container dynamic-form-input-container-extra-style
                      dynamic-form-input-container-multi-date">
 
-                  <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Period</span> <span class="input-label-bg-mask"></span></label>
+                  <label class="input-label dynamic-form-input-container-label">
+                    <span class="input-label-text" data-lang="Period">Period</span>
+                    <span class="input-label-bg-mask"></span>
+                  </label>
 
                   <div class="flex flex-form-group-container">
 
                     <div class="form-group group dynamic-form-input-text-container-icon">
-                       <input type="text" name="period_start" class="input-text input-date input-date-from-today" required="" placeholder="Start date">
+                       <input type="text" name="period_start" class="input-text input-date input-date-from-today" required="" placeholder="Start date" 
+                              data-lang="Start_date" >
                        <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                     </div>
 
                      <div class="form-group group dynamic-form-input-text-container-icon">
-                       <input type="text" name="period_end" class="input-text input-date input-date-from-today" required="" placeholder="End Date">
+                       <input type="text" name="period_end" class="input-text input-date input-date-from-today" required="" placeholder="End Date"
+                              data-lang="End_date"
+                       >
                        <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                     </div>
 
@@ -870,10 +922,13 @@
                 <div class="dynamic-form-input-container dynamic-form-input-container-extra-style
                      dynamic-form-input-container-one-date">
 
-                  <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Date </span> <span class="input-label-bg-mask"></span></label>
+                  <label class="input-label dynamic-form-input-container-label">
+                    <span class="input-label-text" data-lang="Popup_absence_&_retard_Date">Date</span> 
+                    <span class="input-label-bg-mask"></span>
+                  </label>
 
                   <div class="form-group group dynamic-form-input-text-container-icon">
-                     <input type="text" class="input-text input-extra-border  input-date input-date-from-today" required="" name="ad_date" placeholder="Select date">
+                     <input type="text" class="input-text input-extra-border  input-date input-date-from-today" required="" name="ad_date" placeholder="Select date"  data-lang="Select_date">
                      <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                   </div>
 
@@ -882,17 +937,20 @@
                 <div class="dynamic-form-input-container dynamic-form-input-container-extra-style
                      dynamic-form-input-container-multi-time">
 
-                  <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Select time </span> <span class="input-label-bg-mask"></span></label>
+                  <label class="input-label dynamic-form-input-container-label">
+                    <span class="input-label-text" data-lang="Select_time">Select time</span>
+                    <span class="input-label-bg-mask"></span>
+                  </label>
 
                   <div class="flex flex-form-group-container">
 
                     <div class="form-group group dynamic-form-input-text-container-icon">
-                       <input type="text" class="input-text input-time input-time-from" required="" name="time_start" placeholder="Time">
+                       <input type="text" class="input-text input-time input-time-from" required="" name="time_start" placeholder="Time" data-lang="Time">
                        <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
                     </div>
 
                      <div class="form-group group dynamic-form-input-text-container-icon">
-                       <input type="text" name="time_end"  class="input-text input-time input-time-to" required="" placeholder="Time">
+                       <input type="text" name="time_end"  class="input-text input-time input-time-to" required="" placeholder="Time" data-lang="Time">
                        <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
                     </div>
 
@@ -905,11 +963,11 @@
                 <!--  sub-container-form-footer -->
                 <div class="sub-container-form-footer">
                     <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button " onClick="saveAbsence()">
-                          <span class="button-text" >Save</span>
+                          <span class="button-text" data-lang="Save">Save</span>
                           <img class="icon button-icon" src="assets/icons/check_small.svg">
                     </div>
                     <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary" data-dismiss="modal"  >
-                          <span class="button-text" >Cancel</span>
+                          <span class="button-text" data-lang="Cancel">Cancel</span>
                     </div>
                 </div>
                 <!--  End sub-container-form-footer -->
@@ -941,8 +999,8 @@
 
               <div class="modal-body-container">
 
-                 <h1 class="sub-container-main-header">Profile Settings</h1>
-                 <h4 class="sub-container-sub-header">
+                 <h1 class="sub-container-main-header" data-lang="Popup_new_profile_settings">Profile Settings</h1>
+                 <h4 class="sub-container-sub-header" data-lang="Popup_new_profile_settings_subHeader">
                   There are many variations of passages of Lorem Ipsum available.
                  </h4>
 
@@ -973,8 +1031,8 @@
                       <div class="col-md-6">
                         <div class="form-group group">
                           <input type="text" required="" name="fname-settings">
-                          <label class="input-label">
-                            <span class="input-label-text">First name</span><span class="input-label-bg-mask"></span>
+                          <label class="input-label input-label-move-to-top">
+                            <span class="input-label-text" data-lang="First_name">First name</span><span class="input-label-bg-mask"></span>
                           </label>
                         </div>
                       </div>
@@ -982,8 +1040,8 @@
                       <div class="col-md-6">
                         <div class="form-group group">
                           <input type="text" required="" name="lname-settings">
-                          <label class="input-label">
-                            <span class="input-label-text">Last name</span><span class="input-label-bg-mask"></span>
+                          <label class="input-label input-label-move-to-top">
+                            <span class="input-label-text" data-lang="Last_name">Last name</span><span class="input-label-bg-mask"></span>
                           </label>
                         </div>
                       </div>
@@ -995,8 +1053,8 @@
                       <div class="col-md-6">
                         <div class="form-group group ">
                           <input type="text" required="" name="phone-settings">
-                          <label class="input-label">
-                            <span class="input-label-text">Phone number</span><span class="input-label-bg-mask"></span>
+                          <label class="input-label input-label-move-to-top">
+                            <span class="input-label-text" data-lang="Phone_number">Phone number</span><span class="input-label-bg-mask"></span>
                           </label>
                         </div>
                       </div>
@@ -1004,8 +1062,8 @@
                       <div class="col-md-6">
                         <div class="form-group group ">
                           <input type="text" required="" name="email-settings">
-                          <label class="input-label">
-                            <span class="input-label-text">Email address</span><span class="input-label-bg-mask"></span>
+                          <label class="input-label input-label-move-to-top">
+                            <span class="input-label-text" data-lang="Email">Email address</span><span class="input-label-bg-mask"></span>
                           </label>
                         </div>
                       </div>
@@ -1023,8 +1081,8 @@
                               <div class="form-group group form-group-right">
                                 <input type="text" class="input-dropdown" name="gender-settings" required >
                                 
-                                <label class="input-label">
-                                  <span class="input-label-text">Gender</span><span class="input-label-bg-mask"></span>
+                                <label class="input-label input-label-move-to-top">
+                                  <span class="input-label-text" data-lang="Gender">Gender</span><span class="input-label-bg-mask"></span>
                                 </label>
 
                                 <img class="icon button-icon" src="assets/icons/caret.svg">
@@ -1047,8 +1105,8 @@
                         <div class="form-group group dynamic-form-input-text-container-icon">
                            <input type="text" class="input-text input-date input-date-limited" required="" placeholder="" name="date-settings">
                            <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
-                            <label class="input-label">
-                              <span class="input-label-text">Birthdate</span><span class="input-label-bg-mask"></span>
+                            <label class="input-label input-label-move-to-top">
+                              <span class="input-label-text" data-lang="Birthdate">Birthdate</span><span class="input-label-bg-mask"></span>
                             </label>
                         </div>
                       </div>
@@ -1059,7 +1117,7 @@
                       <div class="col-md-12">
                         <div class="form-group group ">
                           <input type="text" required="" name="address-settings">
-                          <label class="input-label">
+                          <label class="input-label input-label-move-to-top">
                             <span class="input-label-text">Address</span><span class="input-label-bg-mask"></span>
                           </label>
                         </div>
@@ -1072,11 +1130,11 @@
                   <!--  sub-container-form-footer -->
                   <div class="sub-container-form-footer">
                       <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button ">
-                            <span class="button-text" onclick="updateProfile()">Save</span>
+                            <span class="button-text" onclick="updateProfile()" data-lang="Save">Save</span>
                             <img class="icon button-icon" src="assets/icons/check_small.svg">
                       </div>
                       <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary" data-dismiss="modal" >
-                            <span class="button-text" >Cancel</span>
+                            <span class="button-text" data-lang="Cancel">Cancel</span>
                       </div>
                   </div>
                   <!--  End sub-container-form-footer -->
@@ -1110,8 +1168,8 @@
 
             <div class="modal-body-container">
 
-               <h1 class="sub-container-main-header">Attitude</h1>
-               <h4 class="sub-container-sub-header">
+               <h1 class="sub-container-main-header" data-lang="Popup_new_attitude">Attitude</h1>
+               <h4 class="sub-container-sub-header" data-lang="Popup_new_attitude_subHeader">
                 There are many variations of passages of Lorem Ipsum available.
                </h4>
 
@@ -1122,7 +1180,7 @@
                       <div class="form-group group readonly">
                         <input type="text" required="" name="at_classe" >
                         <label class="input-label">
-                          <span class="input-label-text">Class</span><span class="input-label-bg-mask"></span>
+                          <span class="input-label-text" data-lang="Class" >Class</span><span class="input-label-bg-mask"></span>
                         </label>
                       </div>
                     </div> 
@@ -1130,7 +1188,7 @@
                       <div class="form-group group readonly">
                         <input type="text" required="" name="at_student">
                         <label class="input-label">
-                          <span class="input-label-text">Student</span><span class="input-label-bg-mask"></span>
+                          <span class="input-label-text" data-lang="Student">Student</span><span class="input-label-bg-mask"></span>
                         </label>
                       </div>
                     </div>
@@ -1139,7 +1197,10 @@
 
                 <div class="dynamic-form-input-container dynamic-form-input-container-extra-style">
 
-                    <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Type</span> <span class="input-label-bg-mask"></span></label>
+                    <label class="input-label dynamic-form-input-container-label">
+                      <span class="input-label-text" data-lang="Type">Type</span> 
+                      <span class="input-label-bg-mask"></span>
+                    </label>
 
                     <div class="sections-checkboxes-main-container">
 
@@ -1147,7 +1208,7 @@
                            dynamic-form-input-container-type" data-val="Positive" >
                           <div class="sections-label-checkbox-container " >
                             <div class="form-group group ">
-                              <span class="expense_label">Positive</span>
+                              <span class="expense_label" data-lang="Positive">Positive</span>
                             </div>
                           </div>
                           <div class="customCheck customCheckRounded">
@@ -1159,7 +1220,7 @@
                       <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left container-background-style" data-val="Negative">
                           <div class="sections-label-checkbox-container ">
                             <div class="form-group group ">
-                              <span class="expense_label">Negative</span>
+                              <span class="expense_label" data-lang="Negative">Negative</span>
                             </div>
                           </div>
                           <div class="customCheck customCheckRounded">
@@ -1174,11 +1235,14 @@
 
                 <div class="dynamic-form-input-container dynamic-form-input-container-extra-style at_date">
 
-                  <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Date</span> <span class="input-label-bg-mask"></span></label>
+                  <label class="input-label dynamic-form-input-container-label">
+                    <span class="input-label-text" data-lang="Attitude_date">Date</span> 
+                    <span class="input-label-bg-mask"></span>
+                  </label>
 
                   <div class="form-group group dynamic-form-input-text-container-icon">
                      <input type="text" class="input-text input-extra-border input-date input-date-from-today" name="at_date" required="" 
-                            placeholder="Select date">
+                            placeholder="Select date" data-lang="Select_date">
                      <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                   </div>
 
@@ -1189,7 +1253,7 @@
                     <div class="form-group group">
                       <textarea class="input-text input-text-area" id="at_note"></textarea>
                       <label class="input-label">
-                        <span class="input-label-text">Note</span><span class="input-label-bg-mask"></span>
+                        <span class="input-label-text" data-lang="Note">Note</span><span class="input-label-bg-mask"></span>
                       </label>
                     </div>
                   </div>
@@ -1198,11 +1262,11 @@
                 <!--  sub-container-form-footer -->
                 <div class="sub-container-form-footer">
                     <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button " onClick="saveAttitude()">
-                          <span class="button-text" >Save</span>
+                          <span class="button-text" data-lang="Save" >Save</span>
                           <img class="icon button-icon" src="assets/icons/check_small.svg">
                     </div>
                     <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary" data-dismiss="modal" >
-                          <span class="button-text" >Cancel</span>
+                          <span class="button-text" data-lang="Cancel" >Cancel</span>
                     </div>
                 </div>
                 <!--  End sub-container-form-footer -->
@@ -1737,8 +1801,8 @@
 
               <div class="modal-body-container">
 
-                  <h1 class="sub-container-main-header">Import from file</h1>
-                   <h4 class="sub-container-sub-header">
+                  <h1 class="sub-container-main-header" data-lang="Import_from_file">Import from file</h1>
+                   <h4 class="sub-container-sub-header" data-lang="Import_from_file_subHeader">
                     There are many variations of passages of Lorem Ipsum available, but the majority.
                   </h4>
 
@@ -1747,7 +1811,7 @@
                     <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left " data-val="Student" >
                         <div class="sections-label-checkbox-container " >
                           <div class="form-group group ">
-                            <span class="expense_label">Student</span>
+                            <span class="expense_label" data-lang="Student">Student</span>
                           </div>
                         </div>
                         <div class="customCheck customCheckRounded">
@@ -1759,7 +1823,7 @@
                     <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left container-background-style" data-val="Teacher">
                         <div class="sections-label-checkbox-container ">
                           <div class="form-group group ">
-                            <span class="expense_label">Teacher</span>
+                            <span class="expense_label" data-lang="Teacher">Teacher</span>
                           </div>
                         </div>
                         <div class="customCheck customCheckRounded">
@@ -1774,11 +1838,11 @@
 
                     <div class="import-users-Modal-file-container">
 
-                      <p  class="import-users-Modal-label">Drag and drop your file here or click the button bellow:</p>
+                      <p  class="import-users-Modal-label" data-lang="Import_from_file_drag_and_drop">Drag and drop your file here or click the button bellow:</p>
 
                       <div class="modal-btn-container">
                           <input type="file"  accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" name="Import_File" id="Import_File" style="display: none;">
-                          <label for="Import_File" class="modal-btn">
+                          <label for="Import_File" class="modal-btn" data-lang="Import_file">
                           Import file
                           </label>
                       </div>
@@ -1793,11 +1857,11 @@
                   <!--  sub-container-form-footer -->
                   <div class="sub-container-form-footer">
                       <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button " onclick="saveImportFile()">
-                            <span class="button-text" >Save</span>
+                            <span class="button-text" data-lang="Save">Save</span>
                             <img class="icon button-icon" src="assets/icons/check_small.svg">
                       </div>
                       <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary" data-dismiss="modal"  >
-                            <span class="button-text" >Cancel</span>
+                            <span class="button-text" data-lang="Cancel" >Cancel</span>
                       </div>
                   </div>
                   <!--  End sub-container-form-footer -->
@@ -1833,8 +1897,8 @@
 
             <div class="modal-body-container">
 
-               <h1 class="sub-container-main-header">Absence & Retard</h1>
-               <h4 class="sub-container-sub-header">
+               <h1 class="sub-container-main-header" data-lang="Popup_new_teacher_absence_&_retard">Absence & Retard</h1>
+               <h4 class="sub-container-sub-header" data-lang="Popup_new_teacher_absence_&_retard_subHeader">
                 There are many variations of passages of Lorem Ipsum available.
                </h4>
 
@@ -1852,7 +1916,7 @@
                       <div class="form-group group readonly">
                         <input type="text" required="" name="ad_teacher">
                         <label class="input-label">
-                          <span class="input-label-text">Teacher</span><span class="input-label-bg-mask"></span>
+                          <span class="input-label-text" data-lang="Teacher">Teacher</span><span class="input-label-bg-mask"></span>
                         </label>
                       </div>
                     </div>
@@ -1861,7 +1925,10 @@
 
                 <div class="dynamic-form-input-container dynamic-form-input-container-extra-style">
 
-                    <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Absence or Retard </span> <span class="input-label-bg-mask"></span></label>
+                    <label class="input-label dynamic-form-input-container-label">
+                      <span class="input-label-text" data-lang="Absence_or_Retard">Absence or Retard</span> 
+                      <span class="input-label-bg-mask"></span>
+                    </label>
 
                     <div class="sections-checkboxes-main-container">
 
@@ -1869,7 +1936,7 @@
                            dynamic-form-input-container-type" data-val="Absence" >
                           <div class="sections-label-checkbox-container " >
                             <div class="form-group group ">
-                              <span class="expense_label">Absence</span>
+                              <span class="expense_label" data-lang="Absence">Absence</span>
                             </div>
                           </div>
                           <div class="customCheck customCheckRounded">
@@ -1881,7 +1948,7 @@
                       <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left container-background-style" data-val="Retard">
                           <div class="sections-label-checkbox-container ">
                             <div class="form-group group ">
-                              <span class="expense_label">Retard</span>
+                              <span class="expense_label" data-lang="Retard">Retard</span>
                             </div>
                           </div>
                           <div class="customCheck customCheckRounded">
@@ -1897,14 +1964,17 @@
                 <div class="dynamic-form-input-container dynamic-form-input-container-extra-style
                      dynamic-form-input-container-session">
 
-                    <label class="input-label dynamic-form-input-container-label"><span class="input-label-text"> Period or Session </span> <span class="input-label-bg-mask"></span></label>
+                    <label class="input-label dynamic-form-input-container-label">
+                      <span class="input-label-text" data-lang="Period_or_Session"> Period or Session </span>
+                      <span class="input-label-bg-mask"></span>
+                    </label>
 
                     <div class="sections-checkboxes-main-container">
 
                       <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left container-background-style" data-val="Period">
                           <div class="sections-label-checkbox-container ">
                             <div class="form-group group ">
-                              <span class="expense_label">Period</span>
+                              <span class="expense_label" data-lang="Period">Period</span>
                             </div>
                           </div>
                           <div class="customCheck customCheckRounded">
@@ -1917,7 +1987,7 @@
                            data-val="Session">
                           <div class="sections-label-checkbox-container" >
                             <div class="form-group group ">
-                              <span class="expense_label">Session</span>
+                              <span class="expense_label" data-lang="Session">Session</span>
                             </div>
                           </div>
                           <div class="customCheck customCheckRounded">
@@ -1934,17 +2004,21 @@
                 <div class="dynamic-form-input-container dynamic-form-input-container-extra-style
                      dynamic-form-input-container-multi-date">
 
-                  <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Period</span> <span class="input-label-bg-mask"></span></label>
+                  <label class="input-label dynamic-form-input-container-label">
+                    <span class="input-label-text" data-lang="Period">Period</span> 
+                    <span class="input-label-bg-mask"></span>
+                  </label>
 
                   <div class="flex flex-form-group-container">
 
                     <div class="form-group group dynamic-form-input-text-container-icon">
-                       <input type="text" name="period_start" class="input-text input-date input-date-from-today" required="" placeholder="Start date">
+                       <input type="text" name="period_start" class="input-text input-date input-date-from-today" required="" placeholder="Start date" data-lang="Start_date">
                        <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                     </div>
 
                      <div class="form-group group dynamic-form-input-text-container-icon">
-                       <input type="text" name="period_end" class="input-text input-date input-date-from-today" required="" placeholder="End Date">
+                       <input type="text" name="period_end" class="input-text input-date input-date-from-today" required="" placeholder="End Date" 
+                       data-lang="End_date">
                        <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                     </div>
 
@@ -1958,10 +2032,14 @@
                 <div class="dynamic-form-input-container dynamic-form-input-container-extra-style
                      dynamic-form-input-container-one-date">
 
-                  <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Date </span> <span class="input-label-bg-mask"></span></label>
+                  <label class="input-label dynamic-form-input-container-label">
+                    <span class="input-label-text" data-lang="Date_Absence_&_Retard">Date</span> 
+                    <span class="input-label-bg-mask"></span>
+                  </label>
 
                   <div class="form-group group dynamic-form-input-text-container-icon">
-                     <input type="text" class="input-text input-extra-border  input-date input-date-from-today" required="" name="ad_date" placeholder="Select date">
+                     <input type="text" class="input-text input-extra-border  input-date input-date-from-today" required="" name="ad_date" 
+                     placeholder="Select date"  data-lang="Select_date" >
                      <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                   </div>
 
@@ -1970,17 +2048,20 @@
                 <div class="dynamic-form-input-container dynamic-form-input-container-extra-style
                      dynamic-form-input-container-multi-time">
 
-                  <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Select time </span> <span class="input-label-bg-mask"></span></label>
+                  <label class="input-label dynamic-form-input-container-label">
+                    <span class="input-label-text" data-lang="Select_time">Select time </span> 
+                    <span class="input-label-bg-mask"></span>
+                  </label>
 
                   <div class="flex flex-form-group-container">
 
                     <div class="form-group group dynamic-form-input-text-container-icon">
-                       <input type="text" class="input-text input-time input-time-from" required="" name="time_start" placeholder="Time">
+                       <input type="text" class="input-text input-time input-time-from" required="" name="time_start" placeholder="Time" data-lang="Time">
                        <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
                     </div>
 
                      <div class="form-group group dynamic-form-input-text-container-icon">
-                       <input type="text" name="time_end"  class="input-text input-time input-time-to" required="" placeholder="Time">
+                       <input type="text" name="time_end"  class="input-text input-time input-time-to" required="" placeholder="Time" data-lang="Time">
                        <img class="icon button-icon caret-disable-rotate" src="assets/icons/time_icon.svg">
                     </div>
 
@@ -1993,11 +2074,11 @@
                 <!--  sub-container-form-footer -->
                 <div class="sub-container-form-footer">
                     <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button " onClick="saveAbsence()">
-                          <span class="button-text" >Save</span>
+                          <span class="button-text" data-lang="Save">Save</span>
                           <img class="icon button-icon" src="assets/icons/check_small.svg">
                     </div>
                     <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary" data-dismiss="modal"  >
-                          <span class="button-text" >Cancel</span>
+                          <span class="button-text" data-lang="Cancel">Cancel</span>
                     </div>
                 </div>
                 <!--  End sub-container-form-footer -->
@@ -2051,7 +2132,7 @@
                   </div>
 
                   <div class="sections-main-sub-container-right-main-label-divider">
-                      <p>Monthly expences</p>
+                      <p data-lang="Monthly_expenses">Monthly expences</p>
                   </div>
 
                   <div class="finance-bill-modal-table-container">
@@ -2064,7 +2145,7 @@
 
                                 <thead>
                                   <tr class="expense-bill">
-                                    <th scope="col">Months</th>
+                                    <th scope="col" data-lang="Months">Months</th>
                                   </tr>
                                 </thead>
 
@@ -2080,7 +2161,7 @@
                   </div>
 
                     <div class="sections-main-sub-container-right-main-label-divider">
-                        <p>Yearly expences</p>
+                        <p data-lang="Yearly_expences">Yearly expences</p>
                   </div>
 
                   <div class="sections-main-sub-container-right-main-result-yeraly-expences-extra-style yearly-expense">
@@ -2088,12 +2169,12 @@
                   </div>
 
                   <div class="sections-main-sub-container-right-main-label-divider">
-                      <p>Unpaid expences</p>
+                      <p data-lang="Unpaid_expences">Unpaid expences</p>
                   </div>
 
                   <div class="sections-main-sub-container-right-main-result sections-main-sub-container-right-main-result-extra-style">
                     <span class="sections-main-sub-container-right-main-result-label 
-                                 sections-main-sub-container-right-main-result-label-extra-info">Total unpaid</span>
+                                 sections-main-sub-container-right-main-result-label-extra-info" data-lang="Total_unpaid">Total unpaid</span>
                     <span class="sections-main-sub-container-right-main-result-value red-color total-unpaid">3200 DH</span>
                   </div>
 
@@ -2103,15 +2184,15 @@
                   <div class="sub-container-form-footer">
                        <div class="rounded-button default-button rounded-button-primary default-button-simple" id="printTheBill">
                             <img class="icon button-icon" src="assets/icons/print.svg">
-                            <span class="button-text" >Print</span>
+                            <span class="button-text" data-lang="Print">Print</span>
                       </div>
                       <div class="rounded-button default-button rounded-button-primary rounded-button-float-right" 
                            data-toggle="modal" data-target="#FinanceModal" onclick="executePaymentFinance()">
-                            <span class="button-text" >Execute payment</span>
+                            <span class="button-text" data-lang="Execute_payment">Execute payment</span>
                             <img class="icon button-icon" src="assets/icons/plus.svg">
                       </div>
                       <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary" data-dismiss="modal" >
-                            <span class="button-text" >Cancel</span>
+                            <span class="button-text" data-lang="Cancel">Cancel</span>
                       </div>
                   </div>
                   <!--  End sub-container-form-footer -->
@@ -2292,8 +2373,8 @@
 
               <div class="modal-body-container">
 
-                 <h1 class="sub-container-main-header">Execute payment</h1>
-                 <h4 class="sub-container-sub-header">
+                 <h1 class="sub-container-main-header" data-lang="Popup_execute_payment">Execute payment</h1>
+                 <h4 class="sub-container-sub-header" data-lang="Popup_execute_payment_subHeader">
                   There are many variations of passages of Lorem Ipsum available, but the majority.
                  </h4>
 
@@ -2304,7 +2385,7 @@
                           <div class="form-group group readonly">
                             <input type="text" required="" name="payment-classe" >
                             <label class="input-label">
-                              <span class="input-label-text">Class</span><span class="input-label-bg-mask"></span>
+                              <span class="input-label-text" data-lang="Class">Class</span><span class="input-label-bg-mask"></span>
                             </label>
                           </div>
                         </div> 
@@ -2312,7 +2393,7 @@
                           <div class="form-group group readonly">
                             <input type="text" required="" name="payment-student">
                             <label class="input-label">
-                              <span class="input-label-text">Student</span><span class="input-label-bg-mask"></span>
+                              <span class="input-label-text" data-lang="Student">Student</span><span class="input-label-bg-mask"></span>
                             </label>
                           </div>
                         </div>
@@ -2320,11 +2401,11 @@
                   </div>
 
                   <div class="sections-main-sub-container-right-main-label-divider monthly">
-                      <p>Monthly expences</p>
+                      <p data-lang="Monthly_expenses">Monthly expences</p>
                   </div>
 
                   <div class="sections-main-sub-container-right-main-label-divider yearly">
-                      <p>Yearly expences</p>
+                      <p data-lang="Yearly_expences">Yearly expences</p>
                   </div>
 
                  
@@ -2332,11 +2413,11 @@
                   <!--  sub-container-form-footer -->
                   <div class="sub-container-form-footer">
                       <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button " onclick="savePayment()">
-                            <span class="button-text" >Save changes</span>
+                            <span class="button-text" data-lang="Save_changes">Save changes</span>
                             <img class="icon button-icon" src="assets/icons/check_small.svg">
                       </div>
                       <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary" data-dismiss="modal" >
-                            <span class="button-text" >Cancel</span>
+                            <span class="button-text" data-lang="Cancel">Cancel</span>
                       </div>
                   </div>
                   <!--  End sub-container-form-footer -->
@@ -2372,8 +2453,8 @@
 
             <div class="modal-body-container">
 
-               <h1 class="sub-container-main-header">Homework</h1>
-               <h4 class="sub-container-sub-header">
+               <h1 class="sub-container-main-header" data-lang="Popup_new_Homework">Homework</h1>
+               <h4 class="sub-container-sub-header" data-lang="Popup_new_Homework_subHeader">
                 There are many variations of passages of Lorem Ipsum available.
                </h4>
 
@@ -2390,7 +2471,7 @@
                               <input type="text" class="input-dropdown select-classe" name="homework_classe" required="">
                               
                               <label class="input-label">
-                                <span class="input-label-text">Class</span><span class="input-label-bg-mask"></span>
+                                <span class="input-label-text" data-lang="Classes">Classes</span><span class="input-label-bg-mask"></span>
                               </label>
 
                               <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
@@ -2422,7 +2503,7 @@
                               <input type="text" class="input-dropdown" name="homework_subject" required="">
                               
                               <label class="input-label">
-                                <span class="input-label-text">Subject</span><span class="input-label-bg-mask"></span>
+                                <span class="input-label-text" data-lang="Subjects">Subjects</span><span class="input-label-bg-mask"></span>
                               </label>
 
                               <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
@@ -2445,11 +2526,14 @@
 
                 <div class="dynamic-form-input-container dynamic-form-input-container-extra-style homework_name">
 
-                  <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Homework name</span> <span class="input-label-bg-mask"></span></label>
+                  <label class="input-label dynamic-form-input-container-label">
+                    <span class="input-label-text" data-lang="Homework_title">Homework name</span>
+                    <span class="input-label-bg-mask"></span>
+                  </label>
 
                   <div class="form-group group dynamic-form-input-text-container-icon ">
                      <input type="text" class="input-text input-extra-border" name="homework_name" required="" 
-                            placeholder="Type homework name">
+                            placeholder="Type homework name" data-lang="Type_homework_name">
                   </div>
 
                 </div>
@@ -2460,7 +2544,7 @@
                     <div class="form-group group">
                       <input type="text" required="" >
                       <label class="input-label">
-                        <span class="input-label-text">Homework name</span><span class="input-label-bg-mask"></span>
+                        <span class="input-label-text" data-lang="Homework_title" >Homework name</span><span class="input-label-bg-mask"></span>
                       </label>
                     </div>
                   </div>
@@ -2469,11 +2553,14 @@
 
                 <div class="dynamic-form-input-container dynamic-form-input-container-extra-style homework_deliverydate">
 
-                  <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Date</span> <span class="input-label-bg-mask"></span></label>
+                  <label class="input-label dynamic-form-input-container-label">
+                    <span class="input-label-text" data-lang="Homework_date">Date</span> 
+                    <span class="input-label-bg-mask"></span>
+                  </label>
 
                   <div class="form-group group dynamic-form-input-text-container-icon">
                      <input type="text" class="input-text input-extra-border input-date input-date-from-today" name="homework_deliverydate" required="" 
-                            placeholder="Select date">
+                            placeholder="Select date" data-lang="Select_date">
                      <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                   </div>
 
@@ -2484,7 +2571,7 @@
                     <div class="form-group group">
                       <textarea class="input-text input-text-area" id="homework_description"></textarea>
                       <label class="input-label">
-                        <span class="input-label-text">Homework description</span><span class="input-label-bg-mask"></span>
+                        <span class="input-label-text" data-lang="Homework_description">Homework description</span><span class="input-label-bg-mask"></span>
                       </label>
                     </div>
                   </div>
@@ -2508,7 +2595,7 @@
                     <div class="file-container file-add-btn" >
                         <div class="file-icon-label">
                          <img  class="file-icon" src="assets/icons/attach.svg" alt="attach"/>
-                          <span class="file-label">add attachement
+                          <span class="file-label" data-lang="Add_attachement">add attachement
                           </label>
                           </span>
                         </div>
@@ -2522,11 +2609,11 @@
                 <!--  sub-container-form-footer -->
                 <div class="sub-container-form-footer">
                     <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button " onClick="saveHomework()">
-                          <span class="button-text" >Save</span>
+                          <span class="button-text" data-lang="Save">Save</span>
                           <img class="icon button-icon" src="assets/icons/check_small.svg">
                     </div>
                     <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary" data-dismiss="modal" >
-                          <span class="button-text">Cancel</span>
+                          <span class="button-text" data-lang="Cancel">Cancel</span>
                     </div>
                 </div>
                 <!--  End sub-container-form-footer -->
@@ -2561,8 +2648,8 @@
 
             <div class="modal-body-container">
 
-               <h1 class="sub-container-main-header">Exam</h1>
-               <h4 class="sub-container-sub-header">
+               <h1 class="sub-container-main-header" data-lang="Popup_new_exam">Exam</h1>
+               <h4 class="sub-container-sub-header" data-lang="Popup_new_exam_subHeader">
                 There are many variations of passages of Lorem Ipsum available.
                </h4>
 
@@ -2579,7 +2666,7 @@
                               <input type="text" class="input-dropdown select-classe" name="exam_classe" required="">
                               
                               <label class="input-label">
-                                <span class="input-label-text">Class</span><span class="input-label-bg-mask"></span>
+                                <span class="input-label-text" data-lang="Classes">Classes</span><span class="input-label-bg-mask"></span>
                               </label>
 
                               <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
@@ -2611,7 +2698,7 @@
                               <input type="text" class="input-dropdown" name="exam_subject" required="">
                               
                               <label class="input-label">
-                                <span class="input-label-text">Subject</span><span class="input-label-bg-mask"></span>
+                                <span class="input-label-text" data-lang="Subjects">Subject</span><span class="input-label-bg-mask"></span>
                               </label>
 
                               <img class="icon button-icon caret-rotate" src="assets/icons/caret.svg">
@@ -2634,11 +2721,14 @@
 
                 <div class="dynamic-form-input-container dynamic-form-input-container-extra-style  exam_name">
 
-                  <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Exam name</span> <span class="input-label-bg-mask"></span></label>
+                  <label class="input-label dynamic-form-input-container-label">
+                    <span class="input-label-text" data-lang="Exam_title">Exam name</span> 
+                    <span class="input-label-bg-mask"></span>
+                  </label>
 
                   <div class="form-group group dynamic-form-input-text-container-icon">
                      <input type="text" class="input-text input-extra-border" name="exam_name" required="" 
-                            placeholder="Type exam name">
+                            placeholder="Type exam name" data-lang="Type_exam_name">
                   </div>
 
                 </div>
@@ -2649,7 +2739,7 @@
                     <div class="form-group group">
                       <input type="text" required="" >
                       <label class="input-label">
-                        <span class="input-label-text">Exam name</span><span class="input-label-bg-mask"></span>
+                        <span class="input-label-text" data-lang="Exam_title">Exam name</span><span class="input-label-bg-mask"></span>
                       </label>
                     </div>
                   </div>
@@ -2658,11 +2748,14 @@
 
                 <div class="dynamic-form-input-container dynamic-form-input-container-extra-style exam_date">
 
-                  <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Date</span> <span class="input-label-bg-mask"></span></label>
+                  <label class="input-label dynamic-form-input-container-label">
+                    <span class="input-label-text" data-lang="Exam_date">Date</span> 
+                    <span class="input-label-bg-mask"></span>
+                  </label>
 
                   <div class="form-group group dynamic-form-input-text-container-icon">
                      <input type="text" class="input-text input-extra-border input-date input-date-from-today" name="exam_date" required="" 
-                            placeholder="Select date">
+                            placeholder="Select date" data-lang="Select_date">
                      <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                   </div>
 
@@ -2673,7 +2766,7 @@
                     <div class="form-group group">
                       <textarea class="input-text input-text-area" id="exam_description"></textarea>
                       <label class="input-label">
-                        <span class="input-label-text">Exam description</span><span class="input-label-bg-mask"></span>
+                        <span class="input-label-text" data-lang="Exam_description">Exam description</span><span class="input-label-bg-mask"></span>
                       </label>
                     </div>
                   </div>
@@ -2682,11 +2775,11 @@
                 <!--  sub-container-form-footer -->
                 <div class="sub-container-form-footer">
                     <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button " onClick="saveExam(this)">
-                          <span class="button-text" >Save</span>
+                          <span class="button-text" data-lang="Save">Save</span>
                           <img class="icon button-icon" src="assets/icons/check_small.svg">
                     </div>
                     <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary" data-dismiss="modal">
-                          <span class="button-text"  >Cancel</span>
+                          <span class="button-text"  data-lang="Cancel">Cancel</span>
                     </div>
                 </div>
                 <!--  End sub-container-form-footer -->
@@ -2722,8 +2815,8 @@
 
               <div class="modal-body-container" id="teacher_form">
 
-                 <h1 class="sub-container-main-header">New Teacher</h1>
-                 <h4 class="sub-container-sub-header">
+                 <h1 class="sub-container-main-header" data-lang="Popup_new_teacher">New Teacher</h1>
+                 <h4 class="sub-container-sub-header" data-lang="Popup_new_teacher_subHeader">
                   There are many variations of passages of Lorem Ipsum available.
                  </h4>
 
@@ -2753,7 +2846,7 @@
 
 
                     <div class="sections-main-sub-container-right-main-label-divider">
-                          <p>Teacher details</p>
+                          <p data-lang="Teacher_details">Teacher details</p>
                     </div>
 
                     <div class="row sections-main-sub-container-right-main-rows">
@@ -2762,7 +2855,7 @@
                         <div class="form-group group">
                           <input type="text" required="" name="first_name">
                           <label class="input-label">
-                            <span class="input-label-text">First name</span><span class="input-label-bg-mask"></span>
+                            <span class="input-label-text" data-lang="First_name">First name</span><span class="input-label-bg-mask"></span>
                           </label>
                         </div>
                       </div>
@@ -2771,7 +2864,7 @@
                         <div class="form-group group">
                           <input type="text" required="" name="last_name">
                           <label class="input-label">
-                            <span class="input-label-text">Last name</span><span class="input-label-bg-mask"></span>
+                            <span class="input-label-text" data-lang="Last_name">Last name</span><span class="input-label-bg-mask"></span>
                           </label>
                         </div>
                       </div>
@@ -2784,7 +2877,7 @@
                         <div class="form-group group ">
                           <input type="text" required="" name="phone_number">
                           <label class="input-label">
-                            <span class="input-label-text">Phone number</span><span class="input-label-bg-mask"></span>
+                            <span class="input-label-text" data-lang="Phone_number">Phone number</span><span class="input-label-bg-mask"></span>
                           </label>
                         </div>
                       </div>
@@ -2793,7 +2886,7 @@
                         <div class="form-group group ">
                           <input type="text" required="" name="email">
                           <label class="input-label">
-                            <span class="input-label-text">Email</span><span class="input-label-bg-mask"></span>
+                            <span class="input-label-text" data-lang="Email">Email</span><span class="input-label-bg-mask"></span>
                           </label>
                         </div>
                       </div>
@@ -2812,13 +2905,13 @@
                                 <input type="text" name="teacher_gender" class="input-dropdown" required>
                                 
                                 <label class="input-label">
-                                  <span class="input-label-text">Gender</span><span class="input-label-bg-mask"></span>
+                                  <span class="input-label-text" data-lang="Gender">Gender</span><span class="input-label-bg-mask"></span>
                                 </label>
 
                                 <img class="icon button-icon" src="assets/icons/caret.svg">
                                  <ul class="dynamic-form-input-dropdown-options dynamic-form-input-dropdown-gender-options">
-                                      <li data-val="Male"   data-user="Teacher">Male</li>
-                                      <li data-val="Female" data-user="Teacher">Female</li>
+                                      <li data-val="Male"   data-user="Teacher" data-lang="Male">Male</li>
+                                      <li data-val="Female" data-user="Teacher" data-lang="Female">Female</li>
                                 </ul>
                               </div>
                               </div>
@@ -2836,24 +2929,32 @@
                            <input type="text" class="input-text input-date input-date-limited" name="birthdate" required="" placeholder="">
                            <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                             <label class="input-label">
-                              <span class="input-label-text">Birthdate</span><span class="input-label-bg-mask"></span>
+                              <span class="input-label-text" data-lang="Birthdate">Birthdate</span><span class="input-label-bg-mask"></span>
                             </label>
                         </div>
                       </div>
 
                     </div>
                     <div class="row sections-main-sub-container-right-main-rows">
-                    <div class="col-md-12">
+                      <div class="col-md-6">
                         <div class="form-group group ">
                           <input type="text" required="" name="teacher_address">
                           <label class="input-label">
-                            <span class="input-label-text">Address</span><span class="input-label-bg-mask"></span>
+                            <span class="input-label-text" data-lang="Address">Address</span><span class="input-label-bg-mask"></span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group group ">
+                          <input type="number" required="" name="teacher_salary">
+                          <label class="input-label">
+                            <span class="input-label-text" data-lang="Salary">Salary</span><span class="input-label-bg-mask"></span>
                           </label>
                         </div>
                       </div>
                     </div>
                     <div class="sections-main-sub-container-right-main-label-divider">
-                          <p>Science details</p>
+                          <p data-lang="Science_details">Science details</p>
                     </div>
 
                     <!-- Subject Class ------------------------------------------------------------------------------------->
@@ -2870,7 +2971,7 @@
 
                                   <div class="form-group group form-group-left">
                                     <input type="text" class="input-text input-dropdown" name="subject" required onchange="subjectsChange(this)">
-                                    <label class="input-label"><span class="input-label-text">Subjects</span> <span class="input-label-bg-mask"></span></label>
+                                    <label class="input-label"><span class="input-label-text" data-lang="Subjects">Subjects</span> <span class="input-label-bg-mask"></span></label>
 
                                     <img class="icon button-icon" src="assets/icons/caret.svg">
 
@@ -2889,7 +2990,7 @@
                                     <img class="icon button-icon" src="assets/icons/caret.svg">
 
                                     <label class="input-label">
-                                      <span class="input-label-text">Classes</span><span class="input-label-bg-mask"></span>
+                                      <span class="input-label-text" data-lang="Classes">Classes</span><span class="input-label-bg-mask"></span>
                                     </label>
 
                                   </div>
@@ -2919,11 +3020,11 @@
                   <!--  sub-container-form-footer -->
                   <div class="sub-container-form-footer">
                       <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button ">
-                            <span class="button-text" onclick="saveteacher()">Save</span>
+                            <span class="button-text" onclick="saveteacher()" data-lang="Save">Save</span>
                             <img class="icon button-icon" src="assets/icons/check_small.svg">
                       </div>
                       <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary" data-dismiss="modal">
-                            <span class="button-text"  >Cancel</span>
+                            <span class="button-text" data-lang="Cancel">Cancel</span>
                       </div>
                   </div>
                   <!--  End sub-container-form-footer -->
@@ -2958,10 +3059,10 @@
 
               <div class="modal-body-container">
 
-                 <h1 class="sub-container-main-header">Edit Teacher Info</h1>
-                 <h4 class="sub-container-sub-header">
-                  There are many variations of passages of Lorem Ipsum available.
-                 </h4>
+                <h1 class="sub-container-main-header" data-lang="Popup_edit_teacher">Editer Teacher Info</h1>
+                <h4 class="sub-container-sub-header" data-lang="Popup_edit_teacher_subHeader">
+                 There are many variations of passages of Lorem Ipsum available.
+                </h4>
 
                   <!--________________  Teacher Form __________________-->
 
@@ -2985,7 +3086,7 @@
 
 
                     <div class="sections-main-sub-container-right-main-label-divider">
-                          <p>Teacher details</p>
+                          <p data-lang="Teacher_details">Teacher details</p>
                     </div>
 
                     <div class="row sections-main-sub-container-right-main-rows">
@@ -2994,7 +3095,7 @@
                         <div class="form-group group">
                           <input type="text" required="" name="f_name">
                           <label class="input-label">
-                            <span class="input-label-text">First name</span><span class="input-label-bg-mask"></span>
+                            <span class="input-label-text" data-lang="First_name">First name</span><span class="input-label-bg-mask"></span>
                           </label>
                         </div>
                       </div>
@@ -3003,7 +3104,7 @@
                         <div class="form-group group">
                           <input type="text" required="" name="l_name">
                           <label class="input-label">
-                            <span class="input-label-text">Last name</span><span class="input-label-bg-mask"></span>
+                            <span class="input-label-text" data-lang="Last_name">Last name</span><span class="input-label-bg-mask"></span>
                           </label>
                         </div>
                       </div>
@@ -3016,7 +3117,7 @@
                         <div class="form-group group ">
                           <input type="text" required="" name="phone_number_detail">
                           <label class="input-label">
-                            <span class="input-label-text">Phone number</span><span class="input-label-bg-mask"></span>
+                            <span class="input-label-text" data-lang="Phone_number">Phone number</span><span class="input-label-bg-mask"></span>
                           </label>
                         </div>
                       </div>
@@ -3025,7 +3126,7 @@
                         <div class="form-group group ">
                           <input type="text" required="" name="email">
                           <label class="input-label">
-                            <span class="input-label-text">Email</span><span class="input-label-bg-mask"></span>
+                            <span class="input-label-text" data-lang="Email">Email</span><span class="input-label-bg-mask"></span>
                           </label>
                         </div>
                       </div>
@@ -3044,13 +3145,13 @@
                                 <input type="text" class="input-dropdown" required name="teacher_gender_detail">
                                 
                                 <label class="input-label">
-                                  <span class="input-label-text">Gender</span><span class="input-label-bg-mask"></span>
+                                  <span class="input-label-text" data-lang="Gender">Gender</span><span class="input-label-bg-mask"></span>
                                 </label>
 
                                 <img class="icon button-icon" src="assets/icons/caret.svg">
                                  <ul class="dynamic-form-input-dropdown-options dynamic-form-input-dropdown-gender-options">
-                                      <li data-val="Male"   data-user="Teacher">Male</li>
-                                      <li data-val="Female" data-user="Teacher">Female</li>
+                                      <li data-val="Male"   data-user="Teacher" data-lang="Male">Male</li>
+                                      <li data-val="Female" data-user="Teacher" data-lang="Female">Female</li>
                                 </ul>
                               </div>
                               </div>
@@ -3068,7 +3169,7 @@
                            <input type="text" name="birthdate_detail" class="input-text input-date input-date-limited" required="" placeholder="">
                            <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                             <label class="input-label">
-                              <span class="input-label-text">Birthdate</span><span class="input-label-bg-mask"></span>
+                              <span class="input-label-text" data-lang="Birthdate">Birthdate</span><span class="input-label-bg-mask"></span>
                             </label>
                         </div>
                       </div>
@@ -3076,11 +3177,21 @@
                     </div>
 
                     <div class="row sections-main-sub-container-right-main-rows">
-                      <div class="col-md-12">
+
+                      <div class="col-md-6">
                         <div class="form-group group ">
                           <input type="text" required="" name="teacher_address_detail">
                           <label class="input-label">
-                            <span class="input-label-text">Address</span><span class="input-label-bg-mask"></span>
+                            <span class="input-label-text" data-lang="Address">Address</span><span class="input-label-bg-mask"></span>
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group group ">
+                          <input type="number" required="" name="teacher_salary">
+                          <label class="input-label">
+                            <span class="input-label-text" data-lang="Salary">Salary</span><span class="input-label-bg-mask"></span>
                           </label>
                         </div>
                       </div>
@@ -3088,7 +3199,7 @@
                     </div>
 
                     <div class="sections-main-sub-container-right-main-label-divider">
-                          <p>Science details</p>
+                          <p data-lang="Science_details">Science details</p>
                     </div>
 
                     <!-- Subject Class ------------------------------------------------------------------------------------->
@@ -3109,11 +3220,11 @@
                   <!--  sub-container-form-footer -->
                   <div class="sub-container-form-footer hide-footer">
                       <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button cancel-change" onclick="saveChange()">
-                            <span class="button-text" >Save changes</span>
+                            <span class="button-text" data-lang="Save_changes" >Save changes</span>
                             <img class="icon button-icon" src="assets/icons/check_small.svg">
                       </div>
                       <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary cancel-change" data-dismiss="modal" onclick="discardChange()">
-                            <span class="button-text"  >Cancel</span>
+                            <span class="button-text" data-lang="Cancel" >Cancel</span>
                       </div>
                   </div>
                   <!--  End sub-container-form-footer -->
@@ -3148,29 +3259,32 @@
 
             <div class="modal-body-container">
 
-               <h1 class="sub-container-main-header">Edit Homework</h1>
-               <h4 class="sub-container-sub-header">
+              <h1 class="sub-container-main-header" data-lang="Popup_edit_Homework">Edit Homework</h1>
+              <h4 class="sub-container-sub-header" data-lang="Popup_edit_Homework_subHeader">
                 There are many variations of passages of Lorem Ipsum available.
                </h4>
 
                 <div class="dynamic-form-input-container dynamic-form-input-container-extra-style homework_name">
 
-                  <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Homework name</span> <span class="input-label-bg-mask"></span></label>
+                  <label class="input-label dynamic-form-input-container-label"><span class="input-label-text" data-lang="Homework_title">Homework name</span> <span class="input-label-bg-mask"></span></label>
 
                   <div class="form-group group dynamic-form-input-text-container-icon">
                      <input type="text" class="input-text input-extra-border" required="" 
-                            placeholder="Type homework name" name="homework_name">
+                            placeholder="Type homework name" data-lang="Type_homework_name" name="homework_name">
                   </div>
 
                 </div>
 
                 <div class="dynamic-form-input-container dynamic-form-input-container-extra-style homework_date">
 
-                  <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Date</span> <span class="input-label-bg-mask"></span></label>
+                  <label class="input-label dynamic-form-input-container-label">
+                    <span class="input-label-text" data-lang="Homework_date">Date</span> 
+                    <span class="input-label-bg-mask"></span>
+                  </label>
 
                   <div class="form-group group dynamic-form-input-text-container-icon">
                      <input type="text" class="input-text input-extra-border input-date input-date-from-today" required="" 
-                            placeholder="Select date" name="homework_date">
+                            placeholder="Select date" data-lang="Select_date" name="homework_date">
                      <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                   </div>
 
@@ -3181,7 +3295,7 @@
                     <div class="form-group group">
                       <textarea class="input-text input-text-area homework_description" id="homework_description" name="homework_description"></textarea>
                       <label class="input-label">
-                        <span class="input-label-text">Homework description</span><span class="input-label-bg-mask"></span>
+                        <span class="input-label-text" data-lang="Homework_description">Homework description</span><span class="input-label-bg-mask"></span>
                       </label>
                     </div>
                   </div>
@@ -3202,7 +3316,7 @@
                     <div class="file-container file-add-btn" >
                         <div class="file-icon-label">
                          <img  class="file-icon" src="assets/icons/attach.svg" alt="attach"/>
-                          <span class="file-label">add attachement
+                          <span class="file-label" data-lang="Add_attachement">add attachement
                           </label>
                           </span>
                         </div>
@@ -3215,11 +3329,11 @@
                 <!--  sub-container-form-footer -->
                 <div class="sub-container-form-footer hide-footer">
                     <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button cancel-change" onclick="saveChange()">
-                          <span class="button-text" >Save changes</span>
+                          <span class="button-text" data-lang="Save_changes" >Save changes</span>
                           <img class="icon button-icon" src="assets/icons/check_small.svg">
                     </div>
                     <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary cancel-change" data-dismiss="modal" onclick="discardChange()">
-                          <span class="button-text">Cancel</span>
+                          <span class="button-text" data-lang="Cancel">Cancel</span>
                     </div>
                 </div>
                 <!--  End sub-container-form-footer -->
@@ -3254,29 +3368,35 @@
 
             <div class="modal-body-container">
 
-               <h1 class="sub-container-main-header">Edit Exam</h1>
-               <h4 class="sub-container-sub-header">
-                There are many variations of passages of Lorem Ipsum available.
-               </h4>
+              <h1 class="sub-container-main-header" data-lang="Popup_edit_exam">Exam</h1>
+              <h4 class="sub-container-sub-header" data-lang="Popup_edit_exam_subHeader">
+               There are many variations of passages of Lorem Ipsum available.
+              </h4>
 
                 <div class="dynamic-form-input-container dynamic-form-input-container-extra-style  exam_name">
 
-                  <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Exam name</span> <span class="input-label-bg-mask"></span></label>
+                  <label class="input-label dynamic-form-input-container-label">
+                    <span class="input-label-text" data-lang="Exam_title">Exam name</span> 
+                    <span class="input-label-bg-mask"></span>
+                  </label>
 
                   <div class="form-group group dynamic-form-input-text-container-icon">
                      <input type="text" class="input-text input-extra-border" required="" 
-                            placeholder="Type exam name" name="exam_name">
+                            placeholder="Type exam name" data-lang="Type_exam_name" name="exam_name">
                   </div>
 
                 </div>
 
                 <div class="dynamic-form-input-container dynamic-form-input-container-extra-style exam_date">
 
-                  <label class="input-label dynamic-form-input-container-label"><span class="input-label-text">Date</span> <span class="input-label-bg-mask"></span></label>
+                  <label class="input-label dynamic-form-input-container-label">
+                    <span class="input-label-text" data-lang="Exam_date">Date</span>
+                    <span class="input-label-bg-mask"></span>
+                  </label>
 
                   <div class="form-group group dynamic-form-input-text-container-icon">
                      <input type="text" class="input-text input-extra-border input-date input-date-from-today" required="" 
-                            placeholder="Select date" name="exam_date">
+                            placeholder="Select date" data-lang="Select_date" name="exam_date">
                      <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
                   </div>
 
@@ -3287,7 +3407,7 @@
                     <div class="form-group group">
                       <textarea class="input-text input-text-area" id="exam_description"></textarea>
                       <label class="input-label">
-                        <span class="input-label-text">Exam description</span><span class="input-label-bg-mask"></span>
+                        <span class="input-label-text" data-lang="Exam_description">Exam description</span><span class="input-label-bg-mask"></span>
                       </label>
                     </div>
                   </div>
@@ -3296,11 +3416,11 @@
                 <!--  sub-container-form-footer -->
                 <div class="sub-container-form-footer hide-footer">
                     <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button cancel-change" onclick="saveChange(this)">
-                          <span class="button-text" >Save changes</span>
+                          <span class="button-text" data-lang="Save_changes">Save changes</span>
                           <img class="icon button-icon" src="assets/icons/check_small.svg">
                     </div>
                     <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary cancel-change" data-dismiss="modal" onclick="discardChange()">
-                          <span class="button-text">Cancel</span>
+                          <span class="button-text" data-lang="Cancel">Cancel</span>
                     </div>
                 </div>
                 <!--  End sub-container-form-footer -->
@@ -3317,6 +3437,1560 @@
 
 <!--_____________ End Exam modal _____________-->
 
+<!--_____________ Message Modal  _____________-->
+
+<!-- Trigger the modal with a button -->
+ 
+  <!-- Modal -->
+  <div id="AddMessageModal" class="modal" role="dialog">
+
+    <div class="modal-dialog modal-dialog-cente animate__animated animate__fadeIn ">
+
+      <!-- Modal content-->
+      <div class="modal-content modal-content-finance">
+
+        <div class="modal-body">
+
+            <!-- modal-body-container -->
+
+            <div class="modal-body-container">
+
+               <h1 class="sub-container-main-header">New Message</h1>
+               <h4 class="sub-container-sub-header">
+                There are many variations of passages of Lorem Ipsum available.
+               </h4>
+
+               <div class="row sections-main-sub-container-right-main-rows">
+
+                  <!--  dashboard-add-new-message-side-bar-body  -->
+                  <div class="dashboard-new-message-side-bar-body">         
+
+                    <div class="sections-main-sub-container-right-main-rows sections-main-sub-container-right-main-rows-dropdown-tags">
+
+                        <!-- Search ------------------------------------->
+
+                        <div class="dynamic-form-input-dropdown-container sections-main-sub-container-right-main-rows-dropdown-tags-container
+                              sections-main-sub-container-right-main-rows-dropdown-tags-container-extra-style ">
+
+                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+
+                            <div class="dynamic-form-input">
+
+                              <div class="dynamic-form-input-float-adjust">
+
+                                  <div class="form-group group form-group-right">
+
+                                    <select class="input-text-subject-classes-select2-2" multiple >
+
+                                        <option class="option-level-label" disabled="disabled">Students</option>
+                                        <option value="Student name 1">Student name 1</option>
+                                        <option value="Student name 2">Student name 2</option>
+                                        <option value="Student name 3">Student name 3</option>
+                                        <option value="Student name 4">Student name 4</option>
+                                        <option value="Student name 5">Student name 5</option>
+
+                                        <option class="option-level-label" disabled="disabled">Parents</option>
+                                        <option value="Parent name 1">Parent name 1</option>
+                                        <option value="Parent name 2">Parent name 2</option>
+                                        <option value="Parent name 3">Parent name 3</option>
+                                        <option value="Parent name 4">Parent name 4</option>
+                                        <option value="Parent name 5">Parent name 5</option>
+
+                                        <option class="option-level-label" disabled="disabled">Teachers</option>
+                                        <option value="Teacher name 1">Teacher name 1</option>
+                                        <option value="Teacher name 2">Teacher name 2</option>
+                                        <option value="Teacher name 3">Teacher name 3</option>
+                                        <option value="Teacher name 4">Teacher name 4</option>
+                                        <option value="Teacher name 5">Teacher name 5</option>
+
+                                    </select>
+
+                                    <img class="icon button-icon" src="assets/icons/sidebar_icons/search.svg">
+
+                                      <label class="input-label">
+                                      <span class="input-label-text">Search</span><span class="input-label-bg-mask"></span>
+                                    </label>
+
+                                  </div>
+
+                              </div>
+                              
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                        <!-- End Search --------------------------------->
+
+                        <!-- Classes ------------------------------------->
+
+                        <div class="dynamic-form-input-dropdown-container sections-main-sub-container-right-main-rows-dropdown-tags-container">
+
+                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+
+                            <div class="dynamic-form-input">
+
+                              <div class="dynamic-form-input-float-adjust">
+
+                                  <div class="form-group group form-group-right">
+
+                                    <select class="input-text-subject-classes-select2" multiple >
+
+                                        <option value="All">All classes</option>
+
+                                        <option class="option-level-label" disabled="disabled">CP</option>
+                                        <option value="Cp1">Cp1</option>
+                                        <option value="Cp2">Cp2</option>
+                                        <option value="Cp3">Cp3</option>
+                                        <option value="Cp4">Cp4</option>
+                                        <option value="Cp5">Cp5</option>
+
+                                        <option class="option-level-label" disabled="disabled">CE</option>
+                                        <option value="Ce1">Ce1</option>
+                                        <option value="Ce2">Ce2</option>
+                                        <option value="Ce3">Ce3</option>
+                                        <option value="Ce4">Ce4</option>
+                                        <option value="Ce5">Ce5</option>
+
+                                    </select>
+
+                                    <img class="icon button-icon" src="assets/icons/caret.svg">
+
+                                    <label class="input-label">
+                                      <span class="input-label-text">Classes</span><span class="input-label-bg-mask"></span>
+                                    </label>
+
+                                  </div>
+
+                              </div>
+                              
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                        <!-- End Classes ------------------------------------->
+
+                        <!-- Students ----------------------------------------->
+
+                        <div class="dynamic-form-input-dropdown-container sections-main-sub-container-right-main-rows-dropdown-tags-container">
+
+                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+
+                            <div class="dynamic-form-input">
+
+                              <div class="dynamic-form-input-float-adjust">
+
+                                  <div class="form-group group form-group-right">
+
+                                    <select class="input-text-subject-classes-select2" multiple >
+
+                                        <option value="All">All students</option>
+
+                                        <option class="option-level-label" disabled="disabled">Class 1</option>
+                                        <option value="Student name 1">Student name 1</option>
+                                        <option value="Student name 2">Student name 2</option>
+                                        <option value="Student name 3">Student name 3</option>
+                                        <option value="Student name 4">Student name 4</option>
+                                        <option value="Student name 5">Student name 5</option>
+
+                                        <option class="option-level-label" disabled="disabled">Class 2</option>
+                                        <option value="Student name 1">Student name 1</option>
+                                        <option value="Student name 2">Student name 2</option>
+                                        <option value="Student name 3">Student name 3</option>
+                                        <option value="Student name 4">Student name 4</option>
+                                        <option value="Student name 5">Student name 5</option>
+
+                                    </select>
+
+                                    <img class="icon button-icon" src="assets/icons/caret.svg">
+
+                                    <label class="input-label">
+                                      <span class="input-label-text">Students</span><span class="input-label-bg-mask"></span>
+                                    </label>
+
+                                  </div>
+
+                              </div>
+                              
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                        <!-- End Students --------------------------------------->
+
+                        <!-- Parents ----------------------------------------->
+
+                        <div class="dynamic-form-input-dropdown-container sections-main-sub-container-right-main-rows-dropdown-tags-container">
+
+                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+
+                            <div class="dynamic-form-input">
+
+                              <div class="dynamic-form-input-float-adjust">
+
+                                  <div class="form-group group form-group-right">
+
+                                    <select class="input-text-subject-classes-select2" multiple >
+
+                                        <option value="All">All parents</option>
+
+                                        <option class="option-level-label" disabled="disabled">Class 1</option>
+                                        <option value="Parent name 1">Parent name 1</option>
+                                        <option value="Parent name 2">Parent name 2</option>
+                                        <option value="Parent name 3">Parent name 3</option>
+                                        <option value="Parent name 4">Parent name 4</option>
+                                        <option value="Parent name 5">Parent name 5</option>
+
+                                        <option class="option-level-label" disabled="disabled">Class 2</option>
+                                        <option value="Parent name 1">Parent name 1</option>
+                                        <option value="Parent name 2">Parent name 2</option>
+                                        <option value="Parent name 3">Parent name 3</option>
+                                        <option value="Parent name 4">Parent name 4</option>
+                                        <option value="Parent name 5">Parent name 5</option>
+
+                                    </select>
+
+                                    <img class="icon button-icon" src="assets/icons/caret.svg">
+
+                                    <label class="input-label">
+                                      <span class="input-label-text">Parents</span><span class="input-label-bg-mask"></span>
+                                    </label>
+
+                                  </div>
+
+                              </div>
+                              
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                        <!-- End Parent --------------------------------------->
+
+                        <!-- Teachers ----------------------------------------->
+
+                        <div class="dynamic-form-input-dropdown-container sections-main-sub-container-right-main-rows-dropdown-tags-container">
+
+                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+
+                            <div class="dynamic-form-input">
+
+                              <div class="dynamic-form-input-float-adjust">
+
+                                  <div class="form-group group form-group-right">
+
+                                    <select class="input-text-subject-classes-select2" multiple >
+
+                                        <option value="All">All teachers</option>
+
+                                        <option value="Teacher name 1">Teacher name 1</option>
+                                        <option value="Teacher name 2">Teacher name 2</option>
+                                        <option value="Teacher name 3">Teacher name 3</option>
+                                        <option value="Teacher name 4">Teacher name 4</option>
+                                        <option value="Teacher name 5">Teacher name 5</option>
+
+                                    </select>
+
+                                    <img class="icon button-icon" src="assets/icons/caret.svg">
+
+                                    <label class="input-label">
+                                      <span class="input-label-text">Teachers</span><span class="input-label-bg-mask"></span>
+                                    </label>
+
+                                  </div>
+
+                              </div>
+                              
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                        <!-- End Teachers --------------------------------------->
+
+                    </div>
+
+                  </div>
+                  <!--  End dashboard-add-new-message-side-bar-body  -->
+
+               </div>
+
+                <div class="row sections-main-sub-container-right-main-rows">
+                  <div class="col-xs-12">
+                    <div class="form-group group">
+                      <textarea class="input-text input-text-area" id="message_content"></textarea>
+                      <label class="input-label">
+                        <span class="input-label-text">Message content</span><span class="input-label-bg-mask"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                      <!--____________ add attachement _________________-->
+                <div class="row sections-main-sub-container-right-main-rows">
+
+                  <div class="col-md-12">
+
+                     <div class="form-group group list-files">
+
+                      </div>
+                  </div>
+                  
+                  <div class="col-md-12 file-add-btn-container" >
+                  <input type="file" name="upload_file_modal" id="upload_file_modal" style="display: none;">
+                  <label for="upload_file_modal" style="cursor: pointer; display: block; height: 100%;width: 100%;">
+                    <div class="file-container file-add-btn" >
+                        <div class="file-icon-label">
+                         <img  class="file-icon" src="assets/icons/attach.svg" alt="attach"/>
+                          <span class="file-label">add attachement
+                          </label>
+                          </span>
+                        </div>
+                    </div>
+                  </div>
+
+                </div>
+                <!--____________ End add attachement _________________-->
+
+
+                <!--  sub-container-form-footer -->
+                <div class="sub-container-form-footer">
+                    <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button " onClick="saveHomework()">
+                          <span class="button-text" >Send</span>
+                          <img class="icon button-icon" src="assets/icons/check_small.svg">
+                    </div>
+                    <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary" data-dismiss="modal" >
+                          <span class="button-text">Cancel</span>
+                    </div>
+                </div>
+                <!--  End sub-container-form-footer -->
+
+            </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+<!--_____________ End Message modal _____________-->
+
+
+
+<!--_____________ Employee modal _____________-->
+
+  <!-- Trigger the modal with a button -->
+   
+    <!-- Modal -->
+    <div id="AddEmployeeModal" class="modal" role="dialog">
+
+      <div class="modal-dialog modal-dialog-cente animate__animated animate__fadeIn">
+
+        <!-- Modal content-->
+        <div class="modal-content modal-content-container">
+
+          <div class="modal-body">
+
+              <!-- modal-body-container -->
+
+              <div class="modal-body-container" id="employee_form">
+
+                 <h1 class="sub-container-main-header" data-lang="Popup_new_employee">New Employee</h1>
+                 <h4 class="sub-container-sub-header" data-lang="Popup_new_employee_subHeader">
+                  There are many variations of passages of Lorem Ipsum available.
+                 </h4>
+
+                  <!--________________  Employee Form __________________-->
+
+                  <div class="sections-main-sub-container-right-main-header">
+
+                      <div class="sections-main-sub-container-right-main-header-info">
+
+                        <div class="form-group form-group-modal-extra-style">
+                        <div class="input-img-container input-rounded-img-container">
+                          <img class="input-img"  src="assets/icons/Logo_placeholder.svg" id="output-img-employee" alt="profile">
+                           <input type="file"  accept="image/*" name="profile_image" id="profile-employee" style="display: none;">
+                          <div class="rounded-button">
+                            <img class="icon" src="assets/icons/plus.svg">
+                            <label for="profile-employee" style="cursor: pointer; display: block; height: 100%;width: 100%;">
+                            </label></img>
+                          </div>
+                        </div>
+                          <p class="label-full-name label-full-name-modal"></p>
+                        </div>
+
+                      </div>
+
+
+                    </div>
+
+
+                    <div class="sections-main-sub-container-right-main-label-divider">
+                          <p data-lang="Employee_details">Employee details</p>
+                    </div>
+
+                    <div class="row sections-main-sub-container-right-main-rows">
+
+                      <div class="col-md-6">
+                        <div class="form-group group">
+                          <input type="text" required="" name="first_name">
+                          <label class="input-label">
+                            <span class="input-label-text" data-lang="First_name">First name</span><span class="input-label-bg-mask"></span>
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group group">
+                          <input type="text" required="" name="last_name">
+                          <label class="input-label">
+                            <span class="input-label-text" data-lang="Last_name">Last name</span><span class="input-label-bg-mask"></span>
+                          </label>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class="row sections-main-sub-container-right-main-rows">
+
+                      <div class="col-md-6">
+                        <div class="form-group group ">
+                          <input type="text" required="" name="phone_number">
+                          <label class="input-label">
+                            <span class="input-label-text" data-lang="Phone_number">Phone number</span><span class="input-label-bg-mask"></span>
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group group ">
+                          <input type="text" required="" name="email">
+                          <label class="input-label">
+                            <span class="input-label-text" data-lang="Email">Email</span><span class="input-label-bg-mask"></span>
+                          </label>
+                        </div>
+                      </div>
+                      
+                    </div>
+
+                    <div class="row sections-main-sub-container-right-main-rows">
+
+                      <div class="col-md-6">
+                        <div class="form-group group dynamic-form-input-text-container-icon">
+                           <input type="text" class="input-text input-date input-date-limited" name="birthdate" required="" placeholder="">
+                           <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
+                            <label class="input-label">
+                              <span class="input-label-text" data-lang="Birthdate">Birthdate</span><span class="input-label-bg-mask"></span>
+                            </label>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+
+                        <div class="dynamic-form-input-dropdown-container">
+                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                            <div class="dynamic-form-input">
+                              <div class="dynamic-form-input-float-adjust">
+                              <div class="form-group group form-group-right">
+                                <input type="text" name="employee_gender" class="input-dropdown" required>
+                                
+                                <label class="input-label">
+                                  <span class="input-label-text" data-lang="Gender">Gender</span><span class="input-label-bg-mask"></span>
+                                </label>
+
+                                <img class="icon button-icon" src="assets/icons/caret.svg">
+                                 <ul class="dynamic-form-input-dropdown-options dynamic-form-input-dropdown-gender-options">
+                                      <li data-val="Male"   data-user="Teacher" data-lang="Male">Male</li>
+                                      <li data-val="Female" data-user="Teacher" data-lang="Female">Female</li>
+                                </ul>
+                              </div>
+                              </div>
+                              <div class="square-button square-button-minus">
+                                <img class="icon" src="assets/icons/minus.svg">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+
+                    </div>
+                    
+                    <div class="row sections-main-sub-container-right-main-rows">
+
+                      <div class="col-md-6">
+
+                        <div class="dynamic-form-input-dropdown-container">
+                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                            <div class="dynamic-form-input">
+                              <div class="dynamic-form-input-float-adjust">
+                              <div class="form-group group form-group-right">
+                                
+                                <label class="input-label">
+                                  <span class="input-label-text" data-lang="Functionality">Functionality</span><span class="input-label-bg-mask"></span>
+                                </label>
+                                <select class="input-text-functionalities-select2" multiple name="employee_functionality"></select>
+                                <img class="icon button-icon" src="assets/icons/caret.svg">
+
+                              </div>
+                              </div>
+                              <div class="square-button square-button-minus">
+                                <img class="icon" src="assets/icons/minus.svg">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group group ">
+                          <input type="number" required="" name="employee_salary">
+                          <label class="input-label input-label-move-to-top">
+                            <span class="input-label-text" data-lang="Salary">Salary</span><span class="input-label-bg-mask"></span>
+                          </label>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class="row sections-main-sub-container-right-main-rows">
+                      <div class="col-md-12">
+                        <div class="form-group group ">
+                          <input type="text" required="" name="employee_address">
+                          <label class="input-label">
+                            <span class="input-label-text" data-lang="Address">Address</span><span class="input-label-bg-mask"></span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                  <!--________________  End Employee Form ______________-->
+
+                  <!--  sub-container-form-footer -->
+                  <div class="sub-container-form-footer">
+                      <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button ">
+                            <span class="button-text" onclick="saveEmployee()" data-lang="Save">Save</span>
+                            <img class="icon button-icon" src="assets/icons/check_small.svg">
+                      </div>
+                      <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary" data-dismiss="modal">
+                            <span class="button-text" data-lang="Cancel">Cancel</span>
+                      </div>
+                  </div>
+                  <!--  End sub-container-form-footer -->
+
+              </div>
+
+            </div>
+
+        </div>
+
+      </div>
+
+    </div>
+<!--_____________ End Employee modal _____________-->
+
+<!--_____________ Employee modal _____________-->
+
+  <!-- Trigger the modal with a button -->
+   
+    <!-- Modal -->
+    <div id="EditEmployeeModal" class="modal modal-dom-change-watcher" role="dialog">
+
+      <div class="modal-dialog modal-dialog-cente animate__animated animate__fadeIn">
+
+        <!-- Modal content-->
+        <div class="modal-content modal-content-container">
+
+          <div class="modal-body">
+
+              <!-- modal-body-container -->
+
+              <div class="modal-body-container">
+
+                <h1 class="sub-container-main-header" data-lang="Popup_edit_employee">Editer Employee Info</h1>
+                <h4 class="sub-container-sub-header" data-lang="Popup_edit_employee_subHeader">
+                 There are many variations of passages of Lorem Ipsum available.
+                </h4>
+
+                  <!--________________  Employee Form __________________-->
+
+                    <div class="sections-main-sub-container-right-main-header">
+
+                      <div class="sections-main-sub-container-right-main-header-info">
+                        <div class="form-group">
+                          <div class="input-img-container input-rounded-img-container">
+                            <img class="input-img profile-img" src="assets/images/profiles/Profile1.jpg" alt="profile" id="edit_employee_image">
+                             <input type="file"  accept="image/*" name="profile_image" id="employee_image" style="display: none;">
+                            <div class="rounded-button">
+                              <img class="icon" src="assets/icons/plus.svg">
+                              <label for="employee_image" style="cursor: pointer; display: block; height: 100%;width: 100%;">
+                              </label></img>
+                            </div>
+                          </div>
+                        </div>
+                        <p class="label-full-name">Chloé Modibo</p>
+                      </div>
+                    </div>
+
+
+                    <div class="sections-main-sub-container-right-main-label-divider">
+                          <p data-lang="Employee_details">Employee details</p>
+                    </div>
+
+                    <div class="row sections-main-sub-container-right-main-rows">
+
+                      <div class="col-md-6">
+                        <div class="form-group group">
+                          <input type="text" required="" name="f_name">
+                          <label class="input-label">
+                            <span class="input-label-text" data-lang="First_name">First name</span><span class="input-label-bg-mask"></span>
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group group">
+                          <input type="text" required="" name="l_name">
+                          <label class="input-label">
+                            <span class="input-label-text" data-lang="Last_name">Last name</span><span class="input-label-bg-mask"></span>
+                          </label>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class="row sections-main-sub-container-right-main-rows">
+
+                      <div class="col-md-6">
+                        <div class="form-group group ">
+                          <input type="text" required="" name="phone_number_detail">
+                          <label class="input-label">
+                            <span class="input-label-text" data-lang="Phone_number">Phone number</span><span class="input-label-bg-mask"></span>
+                          </label>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group group ">
+                          <input type="text" required="" name="email">
+                          <label class="input-label">
+                            <span class="input-label-text" data-lang="Email">Email</span><span class="input-label-bg-mask"></span>
+                          </label>
+                        </div>
+                      </div>
+                      
+                    </div>
+
+                    <div class="row sections-main-sub-container-right-main-rows">
+
+                      <div class="col-md-6">
+
+                        <div class="dynamic-form-input-dropdown-container">
+                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                            <div class="dynamic-form-input">
+                              <div class="dynamic-form-input-float-adjust">
+                              <div class="form-group group form-group-right">
+                                <input type="text" name="employee_gender" class="input-dropdown" required>
+                                
+                                <label class="input-label">
+                                  <span class="input-label-text" data-lang="Gender">Gender</span><span class="input-label-bg-mask"></span>
+                                </label>
+
+                                <img class="icon button-icon" src="assets/icons/caret.svg">
+                                 <ul class="dynamic-form-input-dropdown-options dynamic-form-input-dropdown-gender-options">
+                                      <li data-val="Male"   data-user="Teacher" data-lang="Male">Male</li>
+                                      <li data-val="Female" data-user="Teacher" data-lang="Female">Female</li>
+                                </ul>
+                              </div>
+                              </div>
+                              <div class="square-button square-button-minus">
+                                <img class="icon" src="assets/icons/minus.svg">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group group dynamic-form-input-text-container-icon">
+                           <input type="text" name="birthdate_detail" class="input-text input-date input-date-limited" required="" placeholder="">
+                           <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
+                            <label class="input-label">
+                              <span class="input-label-text" data-lang="Birthdate">Birthdate</span><span class="input-label-bg-mask"></span>
+                            </label>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class="row sections-main-sub-container-right-main-rows">
+
+                      <div class="col-md-6">
+
+                        <div class="dynamic-form-input-dropdown-container">
+                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                            <div class="dynamic-form-input">
+                              <div class="dynamic-form-input-float-adjust">
+                              <div class="form-group group form-group-right">
+                                
+                                <label class="input-label">
+                                  <span class="input-label-text" data-lang="Functionality">Functionality</span><span class="input-label-bg-mask"></span>
+                                </label>
+                                <select class="input-text-functionalities-select2" multiple name="employee_functionality"></select>
+                                <img class="icon button-icon" src="assets/icons/caret.svg">
+
+                              </div>
+                              </div>
+                              <div class="square-button square-button-minus">
+                                <img class="icon" src="assets/icons/minus.svg">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group group ">
+                          <input type="number" required="" name="employee_salary">
+                          <label class="input-label">
+                            <span class="input-label-text" data-lang="Salary">Salary</span><span class="input-label-bg-mask"></span>
+                          </label>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class="row sections-main-sub-container-right-main-rows">
+
+                      <div class="col-md-12">
+                        <div class="form-group group ">
+                          <input type="text" required="" name="employee_address">
+                          <label class="input-label">
+                            <span class="input-label-text" data-lang="Address">Address</span><span class="input-label-bg-mask"></span>
+                          </label>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    </div>
+
+
+
+                  <!--________________  End Employee Form ______________-->
+
+                  <!--  sub-container-form-footer -->
+                  <div class="sub-container-form-footer hide-footer">
+                      <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button cancel-change" onclick="saveChange()">
+                            <span class="button-text" data-lang="Save_changes" >Save changes</span>
+                            <img class="icon button-icon" src="assets/icons/check_small.svg">
+                      </div>
+                      <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary cancel-change" data-dismiss="modal" onclick="discardChange()">
+                            <span class="button-text" data-lang="Cancel" >Cancel</span>
+                      </div>
+                  </div>
+                  <!--  End sub-container-form-footer -->
+
+              </div>
+
+            </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+<!--_____________ End Employee modal _____________-->
+
+
+<!--_____________ General Expence modal _____________-->
+
+<!-- Trigger the modal with a button -->
+ 
+    <!-- Modal -->
+    <div id="AddExpenceModal" class="modal" role="dialog">
+
+      <div class="modal-dialog modal-dialog-cente animate__animated animate__fadeIn ">
+
+        <!-- Modal content-->
+        <div class="modal-content modal-content-finance">
+
+          <div class="modal-body">
+
+              <!-- modal-body-container -->
+
+              <div class="modal-body-container">
+
+                  <h1 class="sub-container-main-header" data-lang="Popup_new_expense">New expense</h1>
+                  <h4 class="sub-container-sub-header" data-lang="Popup_new_sub_expense">
+                    There are many variations of passages of Lorem Ipsum available.
+                  </h4>
+
+                  <div class="sections-main-sub-container-right-main-header" >
+
+                    <div class="sections-main-sub-container-right-main-header-info">
+
+                      <div class="form-group form-group-modal-extra-style">
+                        <div class="input-img-container input-rounded-img-container">
+                          <img class="input-img"  src="assets/icons/Logo_placeholder.svg" id="add_expence_image" alt="profile">
+                           <input type="file"  accept="image/*" name="add_expence_image" id="add_expence_image_file" style="display: none;">
+                          <div class="rounded-button">
+                            <img class="icon" src="assets/icons/plus.svg">
+                            <label for="add_expence_image_file" style="cursor: pointer; display: block; height: 100%;width: 100%;">
+                            </label></img>
+                          </div>
+                        </div>
+                        <p class="label-full-name label-full-name-modal" id="student_name"></p>
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                  <div class="sections-main-sub-container-right-main-label-divider">
+                        <p data-lang="Expense_details">Expense details</p>
+                  </div>
+
+
+                  <div class="row sections-main-sub-container-right-main-rows">
+
+                    <div class="col-md-12">
+                      <div class="form-group group">
+                        <input type="text" required="" name="expence_label">
+                        <label class="input-label">
+                          <span class="input-label-text" data-lang="Expense_label">Expense Label</span><span class="input-label-bg-mask"></span>
+                        </label>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <!---- Expence Types -->
+                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style expence-modal-type">
+
+                        <label class="input-label dynamic-form-input-container-label"><span class="input-label-text" data-lang="Expense_type">Expense type</span> <span class="input-label-bg-mask"></span></label>
+
+                        <div class="sections-checkboxes-main-container">
+
+                          <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left " onclick="checkChange()" data-val="Fix" >
+                              <div class="sections-label-checkbox-container " >
+                                <div class="form-group group ">
+                                  <span class="expense_label" data-lang="Fix">Fix</span>
+                                </div>
+                              </div>
+                              <div class="customCheck customCheckRounded">
+                                <input type="checkbox" checked value="0" data-val="Fix" class="employee-ck"  name="checkbox" id="" checked />
+                                <label for="ck"></label>
+                              </div>
+                          </div>
+
+                          <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left container-background-style" data-val="Variable" onclick="checkChange()">
+                              <div class="sections-label-checkbox-container ">
+                                <div class="form-group group " >
+                                  <span class="expense_label" data-lang="Variable">Variable</span>
+                                </div>
+                              </div>
+                              <div class="customCheck customCheckRounded">
+                                <input type="checkbox" value="1" data-val="Variable" class="employee-ck" name="checkbox" id="" />
+                                <label for="ck"></label>
+                              </div>
+                          </div>
+
+                          <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left container-background-style" data-val="Occasional" onclick="checkChange()">
+                            <div class="sections-label-checkbox-container ">
+                              <div class="form-group group " >
+                                <span class="expense_label" data-lang="Occasional">Occasional</span>
+                              </div>
+                            </div>
+                            <div class="customCheck customCheckRounded">
+                              <input type="checkbox" value="2" data-val="Occasional" class="employee-ck"   name="checkbox" id="" />
+                              <label for="ck"></label>
+                            </div>
+                        </div>
+
+                        </div>
+
+                  </div>
+                  <!---- End Expence Types -->
+
+                  <!---- Expence Periods -->
+                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style expence-modal-period">
+
+                        <label class="input-label dynamic-form-input-container-label"><span class="input-label-text" data-lang="Expence_period">Period</span> <span class="input-label-bg-mask"></span></label>
+
+                        <div class="sections-checkboxes-main-container">
+
+                          <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left " onclick="checkChange()" data-val="Monthly" >
+                              <div class="sections-label-checkbox-container " >
+                                <div class="form-group group ">
+                                  <span class="expense_label" data-lang="Monthly">Monthly</span>
+                                </div>
+                              </div>
+                              <div class="customCheck customCheckRounded">
+                                <input type="checkbox" checked value="0" data-val="Monthly" class="employee-ck"   name="checkbox" id="" />
+                                <label for="ck"></label>
+                              </div>
+                          </div>
+
+                          <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left container-background-style" data-val="Annual" onclick="checkChange()">
+                            <div class="sections-label-checkbox-container ">
+                              <div class="form-group group " >
+                                <span class="expense_label" data-lang="Annual">Annual</span>
+                              </div>
+                            </div>
+                            <div class="customCheck customCheckRounded">
+                              <input type="checkbox" value="1" data-val="Annual" class="employee-ck"   name="checkbox" id="" />
+                              <label for="ck"></label>
+                            </div>
+                        </div>
+
+                        </div>
+
+                  </div>
+                  <!---- End Expence Periods -->
+
+                   <!---- Expence For -->
+                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style expence-modal-for">
+
+                    <label class="input-label dynamic-form-input-container-label"><span class="input-label-text" data-lang="Expence_for">For</span> <span class="input-label-bg-mask"></span></label>
+
+                    <div class="sections-checkboxes-main-container">
+
+                      <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left " onclick="checkChange()" data-val="Institution" >
+                          <div class="sections-label-checkbox-container " >
+                            <div class="form-group group ">
+                              <span class="expense_label" data-lang="Institution">Institution</span>
+                            </div>
+                          </div>
+                          <div class="customCheck customCheckRounded">
+                            <input type="checkbox" checked value="0" data-val="Institution" class="employee-ck" name="checkbox" id="" />
+                            <label for="ck"></label>
+                          </div>
+                      </div>
+
+                      <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left container-background-style" data-val="Employees" onclick="checkChange()">
+                        <div class="sections-label-checkbox-container ">
+                          <div class="form-group group " >
+                            <span class="expense_label" data-lang="Employees">Employees</span>
+                          </div>
+                        </div>
+                        <div class="customCheck customCheckRounded">
+                          <input type="checkbox" value="1" data-val="Employees" class="employee-ck"   name="checkbox" id="" />
+                          <label for="ck"></label>
+                        </div>
+                      </div>
+
+                    </div>
+
+                  </div>
+                  <!---- End Expence For -->
+
+                  <!---- Expence Extra Inputs -->
+
+                  <!---- Expence Extra Inputs : Visible when type = Fix and For = Instituion -->
+                  <div class="row sections-main-sub-container-right-main-rows expences-extra-input-cost">
+
+                    <div class="col-md-12">
+                      <div class="form-group group">
+                        <input type="number" required="" name="expence_cost">
+                        <label class="input-label">
+                          <span class="input-label-text" data-lang="Expense_Cost">Cost</span><span class="input-label-bg-mask"></span>
+                        </label>
+                      </div>
+                    </div>
+
+                  </div>
+                  <!---- End Expence Extra Inputs : Visible when type = Fix and For = Instituion -->
+
+                  <div class="row sections-main-sub-container-right-main-rows  expences-extra-input-employees">
+
+                    <div class="col-xs-12">
+                      <div class="sections-main-sub-container-right-main-label-divider employees_list">
+                        <p data-lang="Employees_List" style="opacity: 1;">Employees list</p>
+                      </div>
+                    </div>
+
+                    <div class="col-xs-12">
+
+                      <div class="dynamic-form-input-dropdown-container">
+                        <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                          <div class="dynamic-form-input">
+                            <div class="dynamic-form-input-float-adjust">
+                            <div class="form-group group form-group-right">
+                              <input type="text" name="employee_functionality" class="input-dropdown" required="" autocomplete="m18zdPt5WU0rcvs8iKr3tKNKgjC3eam2DNG8a4pbQtofWe8fpH" autofill="off">
+                              
+                              <label class="input-label">
+                                <span class="input-label-text" data-lang="Functionality" placeholder="Functionality" style="opacity: 1;">Functionality</span><span class="input-label-bg-mask"></span>
+                              </label>
+
+                              <img class="icon button-icon caret-rotate-reset" src="assets/icons/caret.svg">
+                               <ul class="dynamic-form-input-dropdown-options dynamic-form-input-dropdown-employee-functionality-options" style="display: inline-block; opacity: 1;">
+                              </ul>
+
+                            </div>
+                            </div>
+                            <div class="square-button square-button-minus">
+                              <img class="icon" src="assets/icons/minus.svg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    
+                    <div class="sections-main-sub-container-right-main-body">
+                      <div class="col-xs-12">
+                              <div class="form-group group form-group-right form-group-modal-search-filter">
+                                <input type="text" class="input-text input-text-dropdown-search" data-parent="AddExpenceModal" required="" name="search" id="search-input" placeholder="Search employees" data-lang="Search_employees" style="opacity: 1;" autocomplete="5TgWRqh6OhsrecEpDaeFtbj6wrwFFdSO9ZVsNsWDOgkyrd5w1K" autofill="off">
+                                <img class="icon button-icon caret-disable-rotate" src="/assets/icons/sidebar_icons/search.svg">
+                            </div>
+                        </div> 
+                    </div>
+
+
+
+                    <div class="sections-main-sub-container-right-main-body modal-expense-table">
+                      <div class="col-xs-12">
+                        <table>
+                            <thead>
+                              <tr>
+                                <th scope="col" style="opacity: 1;">
+                                  <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left container-background-style" data-val="Employees">
+                                    <div class="sections-label-checkbox-container ">
+                                      <div class="form-group group " >
+                                        <span class="expense_label"  data-lang="Employees" >Employees</span>
+                                      </div>
+                                    </div>
+                                    <div class="customCheck">
+                                      <input type="checkbox" value="1" data-val="Employees" class="expence-employes-ck" name="checkbox" id="" />
+                                      <label for="ck"></label>
+                                    </div>
+                                  </div>
+                                </th>
+                                <th scope="col" data-lang="Cost" placeholder="Note" style="opacity: 1;">Cost</th>
+                              </tr>
+                            </thead>
+                            <tbody class="cost-container">
+                            </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!---- End Expence Extra Inputs -->
+
+                <!--  sub-container-form-footer -->
+                <div class="sub-container-form-footer">
+                    <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button " onClick="saveExpence()">
+                          <span class="button-text" data-lang="Save">Save</span>
+                          <img class="icon button-icon" src="assets/icons/check_small.svg">
+                    </div>
+                    <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary" data-dismiss="modal"  >
+                          <span class="button-text" data-lang="Cancel" >Cancel</span>
+                    </div>
+                </div>
+                  <!--  End sub-container-form-footer -->
+
+              </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+<!--_____________ End General Expence modal _____________-->
+
+<!--_____________ General Expence modal _____________-->
+
+<!-- Trigger the modal with a button -->
+ 
+    <!-- Modal -->
+    <div id="EditExpenceModal" class="modal" role="dialog">
+
+      <div class="modal-dialog modal-dialog-cente animate__animated animate__fadeIn ">
+
+        <!-- Modal content-->
+        <div class="modal-content modal-content-finance">
+
+          <div class="modal-body">
+
+              <!-- modal-body-container -->
+
+              <div class="modal-body-container">
+
+                  <h1 class="sub-container-main-header" data-lang="Popup_edit_expense">Edit expense</h1>
+                  <h4 class="sub-container-sub-header" data-lang="Popup_edit_sub_expense">
+                    There are many variations of passages of Lorem Ipsum available.
+                  </h4>
+
+                  <div class="sections-main-sub-container-right-main-header" >
+
+                    <div class="sections-main-sub-container-right-main-header-info">
+
+                      <div class="form-group form-group-modal-extra-style">
+                        <div class="input-img-container input-rounded-img-container">
+                          <img class="input-img"  src="assets/icons/Logo_placeholder.svg" id="edit_expence_image" alt="profile">
+                           <input type="file"  accept="image/*" name="edit_expence_image" id="edit_expence_image_file" style="display: none;">
+                          <div class="rounded-button">
+                            <img class="icon" src="assets/icons/plus.svg">
+                            <label for="edit_expence_image_file" style="cursor: pointer; display: block; height: 100%;width: 100%;">
+                            </label></img>
+                          </div>
+                        </div>
+                        <p class="label-full-name label-full-name-modal" id="student_name"></p>
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                  <div class="sections-main-sub-container-right-main-label-divider">
+                        <p data-lang="Expense_details">Expense details</p>
+                  </div>
+
+
+                  <div class="row sections-main-sub-container-right-main-rows">
+
+                    <div class="col-md-12">
+                      <div class="form-group group">
+                        <input type="text" required="" name="expence_label">
+                        <label class="input-label">
+                          <span class="input-label-text" data-lang="Expense_label">Expense Label</span><span class="input-label-bg-mask"></span>
+                        </label>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <!---- Expence Types -->
+                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style expence-modal-type">
+
+                        <label class="input-label dynamic-form-input-container-label"><span class="input-label-text" data-lang="Expense_type">Expense type</span> <span class="input-label-bg-mask"></span></label>
+
+                        <div class="sections-checkboxes-main-container">
+
+                          <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left " onclick="checkChange()" data-val="Fix" >
+                              <div class="sections-label-checkbox-container " >
+                                <div class="form-group group ">
+                                  <span class="expense_label" data-lang="Fix">Fix</span>
+                                </div>
+                              </div>
+                              <div class="customCheck customCheckRounded">
+                                <input type="checkbox" checked value="0" data-val="Fix" class="employee-ck"  name="checkbox" id="" checked />
+                                <label for="ck"></label>
+                              </div>
+                          </div>
+
+                          <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left container-background-style" data-val="Variable" onclick="checkChange()">
+                              <div class="sections-label-checkbox-container ">
+                                <div class="form-group group " >
+                                  <span class="expense_label" data-lang="Variable">Variable</span>
+                                </div>
+                              </div>
+                              <div class="customCheck customCheckRounded">
+                                <input type="checkbox" value="1" data-val="Variable" class="employee-ck" name="checkbox" id="" />
+                                <label for="ck"></label>
+                              </div>
+                          </div>
+
+                          <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left container-background-style" data-val="Occasional" onclick="checkChange()">
+                            <div class="sections-label-checkbox-container ">
+                              <div class="form-group group " >
+                                <span class="expense_label" data-lang="Occasional">Occasional</span>
+                              </div>
+                            </div>
+                            <div class="customCheck customCheckRounded">
+                              <input type="checkbox" value="2" data-val="Occasional" class="employee-ck"   name="checkbox" id="" />
+                              <label for="ck"></label>
+                            </div>
+                        </div>
+
+                        </div>
+
+                  </div>
+                  <!---- End Expence Types -->
+
+                  <!---- Expence Periods -->
+                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style expence-modal-period">
+
+                        <label class="input-label dynamic-form-input-container-label"><span class="input-label-text" data-lang="Expence_period">Period</span> <span class="input-label-bg-mask"></span></label>
+
+                        <div class="sections-checkboxes-main-container">
+
+                          <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left " onclick="checkChange()" data-val="Monthly" >
+                              <div class="sections-label-checkbox-container " >
+                                <div class="form-group group ">
+                                  <span class="expense_label" data-lang="Monthly">Monthly</span>
+                                </div>
+                              </div>
+                              <div class="customCheck customCheckRounded">
+                                <input type="checkbox" checked value="0" data-val="Monthly" class="employee-ck"   name="checkbox" id="" />
+                                <label for="ck"></label>
+                              </div>
+                          </div>
+
+                          <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left container-background-style" data-val="Annual" onclick="checkChange()">
+                            <div class="sections-label-checkbox-container ">
+                              <div class="form-group group " >
+                                <span class="expense_label" data-lang="Annual" >Annual</span>
+                              </div>
+                            </div>
+                            <div class="customCheck customCheckRounded">
+                              <input type="checkbox" value="1" data-val="Annual" class="employee-ck"   name="checkbox" id="" />
+                              <label for="ck"></label>
+                            </div>
+                        </div>
+
+                        </div>
+
+                  </div>
+                  <!---- End Expence Periods -->
+
+                   <!---- Expence For -->
+                  <div class="dynamic-form-input-container dynamic-form-input-container-extra-style expence-modal-for">
+
+                    <label class="input-label dynamic-form-input-container-label"><span class="input-label-text" data-lang="Expence_for">For</span> <span class="input-label-bg-mask"></span></label>
+
+                    <div class="sections-checkboxes-main-container">
+
+                      <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left " onclick="checkChange()" data-val="Institution" >
+                          <div class="sections-label-checkbox-container " >
+                            <div class="form-group group ">
+                              <span class="expense_label" data-lang="Institution">Institution</span>
+                            </div>
+                          </div>
+                          <div class="customCheck customCheckRounded">
+                            <input type="checkbox" checked value="0" data-val="Institution" class="employee-ck" name="checkbox" id="" />
+                            <label for="ck"></label>
+                          </div>
+                      </div>
+
+                      <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left container-background-style" data-val="Employees" onclick="checkChange()">
+                        <div class="sections-label-checkbox-container ">
+                          <div class="form-group group " >
+                            <span class="expense_label" data-lang="Employees">Employees</span>
+                          </div>
+                        </div>
+                        <div class="customCheck customCheckRounded">
+                          <input type="checkbox" value="1" data-val="Employees" class="employee-ck"   name="checkbox" id="" />
+                          <label for="ck"></label>
+                        </div>
+                      </div>
+
+                    </div>
+
+                  </div>
+                  <!---- End Expence For -->
+
+                  <!---- Expence Extra Inputs -->
+
+                  <!---- Expence Extra Inputs : Visible when type = Fix and For = Instituion -->
+                  <div class="row sections-main-sub-container-right-main-rows expences-extra-input-cost">
+
+                    <div class="col-md-12">
+                      <div class="form-group group">
+                        <input type="number" required="" name="expence_cost">
+                        <label class="input-label">
+                          <span class="input-label-text" data-lang="Expense_Cost">Cost</span><span class="input-label-bg-mask"></span>
+                        </label>
+                      </div>
+                    </div>
+
+                  </div>
+                  <!---- End Expence Extra Inputs : Visible when type = Fix and For = Instituion -->
+
+                  <div class="row sections-main-sub-container-right-main-rows  expences-extra-input-employees">
+
+                    <div class="col-xs-12">
+                      <div class="sections-main-sub-container-right-main-label-divider employees_list">
+                        <p data-lang="Employees_List" style="opacity: 1;">Employees list</p>
+                      </div>
+                    </div>
+
+                    <div class="col-xs-12">
+
+                      
+                      <div class="dynamic-form-input-dropdown-container">
+                        <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                          <div class="dynamic-form-input">
+                            <div class="dynamic-form-input-float-adjust">
+                              <div class="form-group group form-group-right dynamic-form-input-dropdown-employee-functionality-options-container readonly">
+                              <input type="text" name="employee_functionality" class="input-dropdown" required="" autocomplete="m18zdPt5WU0rcvs8iKr3tKNKgjC3eam2DNG8a4pbQtofWe8fpH" autofill="off">
+                              
+                              <label class="input-label">
+                                <span class="input-label-text" data-lang="Functionality" placeholder="Functionality" style="opacity: 1;">Functionality</span><span class="input-label-bg-mask"></span>
+                              </label>
+
+                              <img class="icon button-icon caret-rotate-reset" src="assets/icons/caret.svg">
+                               <ul class="dynamic-form-input-dropdown-options dynamic-form-input-dropdown-employee-functionality-options" style="display: inline-block; opacity: 1;">
+                              </ul>
+
+                            </div>
+                            </div>
+                            <div class="square-button square-button-minus">
+                              <img class="icon" src="assets/icons/minus.svg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class="sections-main-sub-container-right-main-body">
+                      <div class="col-xs-12">
+                              <div class="form-group group form-group-right form-group-modal-search-filter">
+                                <input type="text" class="input-text input-text-dropdown-search" data-parent="EditExpenceModal" required="" name="search" id="search-input" placeholder="Search employees" data-lang="Search_employees" style="opacity: 1;" autocomplete="5TgWRqh6OhsrecEpDaeFtbj6wrwFFdSO9ZVsNsWDOgkyrd5w1K" autofill="off">
+                                <img class="icon button-icon caret-disable-rotate" src="/assets/icons/sidebar_icons/search.svg">
+                            </div>
+                        </div> 
+                    </div>
+
+                    <div class="sections-main-sub-container-right-main-body modal-expense-table">
+                      <div class="col-xs-12">
+                        <table>
+                            <thead>
+                              <tr>
+                                <th scope="col" style="opacity: 1;">
+                                  <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left container-background-style" data-val="Employees">
+                                    <div class="sections-label-checkbox-container ">
+                                      <div class="form-group group " >
+                                        <span class="expense_label"  data-lang="Employees" >Employees</span>
+                                      </div>
+                                    </div>
+                                    <div class="customCheck">
+                                      <input type="checkbox" value="1" data-val="Employees" class="expence-employes-ck" name="checkbox" id="" />
+                                      <label for="ck"></label>
+                                    </div>
+                                  </div>
+                                </th>
+                                <th scope="col" data-lang="Cost" placeholder="Note" style="opacity: 1;">Cost</th>
+                              </tr>
+                            </thead>
+                            <tbody class="cost-container"></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!---- End Expence Extra Inputs -->
+
+                <!--  sub-container-form-footer -->
+                <div class="sub-container-form-footer">
+                    <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button " onClick="saveChange()">
+                          <span class="button-text" data-lang="Save_changes">Save</span>
+                          <img class="icon button-icon" src="assets/icons/check_small.svg">
+                    </div>
+                    <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary" data-dismiss="modal"  >
+                          <span class="button-text" data-lang="Cancel" >Cancel</span>
+                    </div>
+                </div>
+                <!--  End sub-container-form-footer -->
+
+              </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+<!--_____________ End General Expence modal _____________-->
+
+
+<!--_____________ Finance modal _____________-->
+
+<!-- Trigger the modal with a button -->
+ 
+    <!-- Modal -->
+    <div id="ExpencesModal" class="modal" role="dialog">
+
+      <div class="modal-dialog modal-dialog-cente animate__animated animate__fadeIn ">
+
+        <!-- Modal content-->
+        <div class="modal-content modal-content-finance">
+
+          <div class="modal-body">
+
+              <!-- modal-body-container -->
+
+              <div class="modal-body-container">
+
+                 <h1 class="sub-container-main-header" data-lang="Popup_execute_payment">Execute payment</h1>
+                 <h4 class="sub-container-sub-header" data-lang="Popup_execute_payment_subHeader">
+                  There are many variations of passages of Lorem Ipsum available, but the majority.
+                 </h4>
+
+                  <div class="row sections-main-sub-container-right-main-rows">
+
+                       <div class="col-md-12">
+                          <div class="form-group group readonly">
+                            <input type="text" required="" name="expence_label" >
+                            <label class="input-label">
+                              <span class="input-label-text" data-lang="Expense_label">Expence label</span><span class="input-label-bg-mask"></span>
+                            </label>
+                          </div>
+                        </div> 
+                        
+                  </div>
+
+                  <div class="row sections-main-sub-container-right-main-rows expence-employess-months-container">
+
+                        <div class="col-md-12">
+                          <div class="form-group group">
+                            <input type="text" class="input-text input-dropdown" id="expence_months_employes" name="expence_months_employes" required="" autofill="off">
+                            <span class="input-text input-text-helper"></span>
+                            <label class="input-label"><span class="input-label-text" data-lang="Months" placeholder="Months">Months</span> <span class="input-label-bg-mask"></span></label>
+
+                            <img class="icon button-icon caret-rotate-reset" src="assets/icons/caret.svg">
+
+                            <ul class="dynamic-form-input-dropdown-options" id="expence_months_list" style="display: none;"></ul>
+
+                          </div>
+
+                        </div>
+                        
+                  </div>
+
+                  <div class="expence-institution-months-container"></div>
+
+                  <div class="row sections-main-sub-container-right-main-rows expence-cost-date-container">
+
+                      <div class="col-md-12 expence-cost-container">
+                        <div class="form-group group">
+                          <input type="number" required="" name="expence_cost" >
+                          <label class="input-label">
+                            <span class="input-label-text" data-lang="Expense_Cost">Expence Cost</span><span class="input-label-bg-mask"></span>
+                          </label>
+                        </div>
+                      </div> 
+
+                      <!--div class="col-md-6 expence-date-container">
+                          <div class="form-group group dynamic-form-input-text-container-icon">
+                            <input type="text" class="input-text input-extra-border input-date input-date-today--illimited" name="expence_paid_date" required="" 
+                                  placeholder="Select date" data-lang="Select_date">
+                            <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg">
+                        </div>
+                      </div-->
+
+                  </div>
+
+                  <!---- End Expence Extra Inputs : Visible when type = Fix and For = Employee -->
+
+                  <div class="row sections-main-sub-container-right-main-rows  expences-extra-input-employees">
+
+                    <div class="col-xs-12">
+                      <div class="sections-main-sub-container-right-main-label-divider employees_list">
+                        <p data-lang="Employees_List" style="opacity: 1;">Employees list</p>
+                      </div>
+                    </div>
+
+                    <div class="col-xs-12">
+
+                      <div class="dynamic-form-input-dropdown-container">
+                        <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                          <div class="dynamic-form-input">
+                            <div class="dynamic-form-input-float-adjust">
+                            <div class="form-group group form-group-right dynamic-form-input-dropdown-employee-functionality-options-container readonly">
+                              <input type="text" name="employee_functionality" class="input-dropdown" required="" autocomplete="m18zdPt5WU0rcvs8iKr3tKNKgjC3eam2DNG8a4pbQtofWe8fpH" autofill="off">
+                              
+                              <label class="input-label">
+                                <span class="input-label-text" data-lang="Functionality" placeholder="Functionality" style="opacity: 1;">Functionality</span><span class="input-label-bg-mask"></span>
+                              </label>
+
+                              <img class="icon button-icon caret-rotate-reset" src="assets/icons/caret.svg">
+                               <ul class="dynamic-form-input-dropdown-options dynamic-form-input-dropdown-employee-functionality-options" style="display: inline-block; opacity: 1;">
+                              </ul>
+
+                            </div>
+                            </div>
+                            <div class="square-button square-button-minus">
+                              <img class="icon" src="assets/icons/minus.svg">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class="sections-main-sub-container-right-main-body">
+                      <div class="col-xs-12">
+                              <div class="form-group group form-group-right form-group-modal-search-filter">
+                                <input type="text" class="input-text input-text-dropdown-search" data-parent="ExpencesModal" required="" name="search" id="search-input" placeholder="Search employees" data-lang="Search_employees" style="opacity: 1;" autocomplete="5TgWRqh6OhsrecEpDaeFtbj6wrwFFdSO9ZVsNsWDOgkyrd5w1K" autofill="off">
+                                <img class="icon button-icon caret-disable-rotate" src="/assets/icons/sidebar_icons/search.svg">
+                            </div>
+                        </div> 
+                    </div>
+
+                    <div class="sections-main-sub-container-right-main-body modal-expense-table">
+                      <div class="col-xs-12">
+                        <table>
+                            <thead>
+                              <tr>
+                                <th scope="col" style="opacity: 1;">
+                                  <div class="sections-label-checkbox-main-container sections-label-checkbox-container-left container-background-style" data-val="Employees">
+                                    <div class="sections-label-checkbox-container ">
+                                      <div class="form-group group " >
+                                        <span class="expense_label"  data-lang="Employees" >Employees</span>
+                                      </div>
+                                    </div>
+                                    <div class="customCheck">
+                                      <input type="checkbox" value="1" data-val="Employees" class="expence-employes-ck" name="checkbox" id="" />
+                                      <label for="ck"></label>
+                                    </div>
+                                  </div>
+                                </th>
+                                <th scope="col" data-lang="Cost" placeholder="Cost" style="opacity: 1;">Cost</th>
+                              </tr>
+                            </thead>
+                            <tbody class="cost-container">
+                            </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!---- End Expence Extra Inputs -->
+
+                  <!--  sub-container-form-footer -->
+                  <div class="sub-container-form-footer">
+                      <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button " onclick="savePayment()">
+                            <span class="button-text" data-lang="Save_changes">Save changes</span>
+                            <img class="icon button-icon" src="assets/icons/check_small.svg">
+                      </div>
+                      <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary" data-dismiss="modal" >
+                            <span class="button-text" data-lang="Cancel">Cancel</span>
+                      </div>
+                  </div>
+                  <!--  End sub-container-form-footer -->
+
+              </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+<!--_____________ End Finance modal _____________-->
+
 <script src="/javascripts/modals.js" type="text/javascript" charset="utf-8" async defer></script>
-
-

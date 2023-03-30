@@ -2,14 +2,22 @@
 <html>
 <head>
 
-    <title><%= title %></title>
+    <title data-lang="<%= title %>"><%= title %></title>
     <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
  <%- include('./partials/main'); %>
 
- <script type="text/javascript" src="https://cdn2.hubspot.net/hubfs/476360/Chart.js"></script>
- <script type="text/javascript" src="https://cdn2.hubspot.net/hubfs/476360/utils.js"></script>
+ <!--script type="text/javascript" src="https://cdn2.hubspot.net/hubfs/476360/Chart.js"></script>
+ <script type="text/javascript" src="https://cdn2.hubspot.net/hubfs/476360/utils.js"></script-->
+
+ <!--script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.bundle.js"></script-->
+
+ <!--script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script-->
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0-rc.1/dist/chartjs-plugin-datalabels.min.js" integrity="sha256-Oq8QGQ+hs3Sw1AeP0WhZB7nkjx6F1LxsX6dCAsyAiA4=" crossorigin="anonymous"></script>
+ 
+ <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
 
 </head>
 
@@ -27,7 +35,7 @@
       <div class="sub-container">
 
         <div class="sub-container-nav-bar">
-            <span class="sub-container-nav-bar-title">Dashboard</span>
+            <span class="sub-container-nav-bar-title" data-lang="Dashboard">Dashboard</span>
             <img  class="sub-container-nav-bar-img" src="<%= user.User_Image %>" alt="profile">
         </div>
 
@@ -42,173 +50,372 @@
                 <div class="dashboard-main-sub-left-container">
 
                     <!-- dashboard-card-info-container -->
-                    <div class="dashboard-card-info-container">
+                    <div class="dashboard-card-info-container" style="margin-bottom: 16px;">
+
 
                       <!-- dashboard-card-info -->
-                      <div class="dashboard-card-info">
-                          <span class="dashboard-card-info-label">Students <%= studentsTotal %></span>
-                          <span class="dashboard-card-info-sub-label">Number of absent students </span>
+                      <div class="dashboard-card-info data-loading visibility">
+                          <span class="dashboard-card-info-label"><span data-lang="Dashboard_Absence_Students"></span></span>
+                          <p class="dashboard-card-info-sub-label">
+                            <span data-lang="Number_of_students"></span>
+                              <span> : <%= studentsTotal %></span>
+                           </span>
+                          </p>
+
+                          <p><span class="dashboard-card-info-sub-label" data-lang="Number_of_absent_students"></span> : </p>
                           <span class="dashboard-card-info-counter">
                             <span class="counter-span-container"> 
-                              <span class="red-color"><%= studentAdAbsences %> Absence </span>
+                              <span class="red-color"><%= studentAdAbsences %> <span data-lang="Absence"></span>  </span>
                               <span class="spacer"></span>
-                              <span class="blue-color"><%= studentAdRetards %> Retard </span> 
+                              <span class="blue-color"><%= studentAdRetards %> <span data-lang="Retard"></span>  </span> 
                             </span>
                           </span>
                           <div class="progress dashboard-card-info-progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="<%= percentageS %>" 
-                                 aria-valuemin="0" aria-valuemax="100" style="<%= 'width:'+ percentageS + '%' %>"></div>
+                            <div class="progress-bar" id="progress_bar_student" role="progressbar" 
+                                  aria-valuemin="0" aria-valuemax="100" ></div>
                           </div>
                       </div>
                       <!-- End dashboard-card-info -->
 
                       <!-- dashboard-card-info -->
-                      <div class="dashboard-card-info">
-                          <span class="dashboard-card-info-label">Teachers <%= teachersTotal %>  </span>
-                          <span class="dashboard-card-info-sub-label">Number of absent teachers</span>
-                          <span class="dashboard-card-info-counter">
-                            <span class="counter-span-container"> 
-                              <span class="red-color"><%= teacherAdAbsences %> Absence </span> 
-                              <span class="spacer"></span>
-                              <span class="blue-color"><%= teacherAdRetards %> Retard </span>
-                            </span> 
-                          </span>
-                          <div class="progress dashboard-card-info-progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="<%= percentageT %>" 
-                                 aria-valuemin="0" aria-valuemax="100" style="<%= 'width:'+ percentageT + '%' %>"></div>
-                          </div>
+                      <div class="dashboard-card-info data-loading visibility">
+                        <span class="dashboard-card-info-label"><span data-lang="Dashboard_Absence_Teachers"></span></span>
+                        
+                        <p class="dashboard-card-info-sub-label">
+                          <span data-lang="Number_of_teachers"></span>
+                            <span> : <%= teachersTotal %></span>
+                         </span>
+                        </p>
+
+                        <p><span class="dashboard-card-info-sub-label" data-lang="Number_of_absent_teachers"></span> : </p>
+                        <span class="dashboard-card-info-counter">
+                          <span class="counter-span-container"> 
+                            <span class="red-color"><%= teacherAdAbsences %> <span data-lang="Absence"></span> </span> 
+                            <span class="spacer"></span>
+                            <span class="blue-color"><%= teacherAdRetards %> <span data-lang="Retard"></span> </span>
+                          </span> 
+                        </span>
+                        <div class="progress dashboard-card-info-progress">
+                          <div class="progress-bar" id="progress_bar_teachers" role="progressbar" aria-valuemin="0" aria-valuemax="100" ></div>
+                        </div>
                       </div>
-                      <!-- End dashboard-card-info -->   
+                      <!-- End dashboard-card-info --> 
+
 
                       <!-- dashboard-card-info -->
-                      <div class="dashboard-card-info">
-                          <span class="dashboard-card-info-label">Finances</span>
-                          <span class="dashboard-card-info-sub-label"> <%= Month %> ( Expected revenu <%= Expense_Cost %> <span class="dashboard-card-info-counter-currency"> MAD )</span></span>
-                          <span class="dashboard-card-info-counter"> <span class="counter-span-container"> <%= TotalPay ? TotalPay : 0 %><span class="dashboard-card-info-counter-currency"> MAD <span class="blue-color"><%= parseFloat(Expense_Cost_Percentage).toFixed(2) %>%</span> </span>  </span>  </span>
-                          <div class="progress dashboard-card-info-progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="<%= Expense_Cost_Percentage %>" 
-                                 aria-valuemin="0" aria-valuemax="100" style="<%= 'width:'+ Expense_Cost_Percentage + '%' %>"></div>
-                          </div>
+                      <div class="dashboard-card-info data-loading dashboard-card-info-chart-extra-style dashboard-card-info-chart-extra-style-overider"
+                           data-element="#absence-list">
+
+                        <p class="dashboard-card-info-label"><span data-lang="Dashboard_Absence_Students"></span></p>
+
+                        <div class="dashboard-card-info-container">
+
+                            <div class="progress dashboard-card-info-progress">
+                              <canvas id="studentDonutChart"></canvas>
+                            </div>
+
+                            <div class="dashboard-card-info-label-container">
+
+                              <p class="dashboard-card-info-sub-label">
+                                <span data-lang="Number_of_teachers"></span> : 
+                                <br/>
+                                <span class="pricing"> <%= studentsTotal %></span></span>
+                              </p>
+      
+                              <p><span class="dashboard-card-info-sub-label" data-lang="Number_of_absent_students"></span> : </p>
+
+                              <span class="dashboard-card-info-counter">
+                                <span class="counter-span-container"> 
+                                  <span class="red-color"><%= studentAdAbsences %> <span data-lang="Absence"></span>  </span>
+                                  <span class="spacer"></span>
+                                  <span class="blue-color"><%= studentAdRetards %> <span data-lang="Retard"></span>  </span> 
+                                </span>
+                              </span>
+
+                            </div>
+
+                        </div>
+
                       </div>
                       <!-- End dashboard-card-info -->
+
+                      <!-- dashboard-card-info -->
+                      <div class="dashboard-card-info data-loading dashboard-card-info-chart-extra-style dashboard-card-info-chart-extra-style-overider"
+                           data-element="#absence-list">
+
+                        <p class="dashboard-card-info-label"><span data-lang="Dashboard_Absence_Teachers"></span></p>
+
+                        <div class="dashboard-card-info-container">
+
+                            <div class="progress dashboard-card-info-progress">
+                              <canvas id="teacherDonutChart"></canvas>
+                            </div>
+
+                            <div class="dashboard-card-info-label-container">
+
+                              <p class="dashboard-card-info-sub-label">
+                                <span data-lang="Number_of_teachers"></span> : 
+                                <br/>
+                                <span class="pricing"> <%= teachersTotal %></span></span>
+                              </p>
+      
+                              <p><span class="dashboard-card-info-sub-label" data-lang="Number_of_absent_teachers"></span> : </p>
+
+                              <span class="dashboard-card-info-counter">
+                                <span class="counter-span-container"> 
+                                  <span class="red-color"><%= teacherAdAbsences %> <span data-lang="Absence"></span> </span> 
+                                  <span class="spacer"></span>
+                                  <span class="blue-color"><%= teacherAdRetards %> <span data-lang="Retard"></span> </span>
+                                </span> 
+                              </span>
+                            
+                            </div>
+
+                        </div>
+
+                      </div>
+                      <!-- End dashboard-card-info -->
+
+                      <!-- dashboard-card-info -->
+                      <div class="dashboard-card-info data-loading dashboard-card-info-chart-extra-style dashboard-card-info-chart-extra-style-overider">
+
+                              <p class="dashboard-card-info-label"> <span data-lang="Dashboard_Current_Monthl_incomes"></span> <span class="current-month"></span> <span class="academic-year visibility"></span> </p>
+
+                              <div class="dashboard-card-info-container">
+
+                                  <div class="progress dashboard-card-info-progress">
+                                    <canvas id="monthlyDonutChart"></canvas>
+                                  </div>
+
+                                  <div class="dashboard-card-info-label-container">
+                                    
+                                      <p class="dashboard-card-info-sub-label">
+                                        <span data-lang="Sales_Forecasting_Case">Total Expected</span> : 
+                                        <br/>
+                                        <span class="pricing"> <span id="This_Month_Total_Incomes_Expected"></span> <span class="currency">Dhs</span></span>
+                                      </p>
+
+                                      <p class="dashboard-card-info-sub-label">
+                                        <span><span data-lang="Debt_Of_Current_Month"></span> <span class="current-month"></span> : </span>
+                                        <br/>
+                                        <span class="pricing"><span id="Current_Month_Debt_Percentage"></span>
+                                        <span class="equivalent"></span>
+                                        <span id="Current_Month_Debt"></span> <span class="currency">Dhs</span></span>
+                                      </p>
+
+                                  </div>
+
+                                  
+
+                              </div>
+
+                      </div>
+                      <!-- End dashboard-card-info -->
+
+                      <!-- dashboard-card-info -->
+                      <div class="dashboard-card-info data-loading dashboard-card-info-chart-extra-style visibility">
+
+                        <div class="progress dashboard-card-info-progress">
+                          <canvas id="yearlyDonutChart"></canvas>
+                        </div>
+
+                        <div class="dashboard-card-info-label-container">
+                            <span class="dashboard-card-info-label" data-lang="Annual_incomes">Annual incomes</span>
+                            <span class="dashboard-card-info-sub-label" data-lang="Projected_incomes_this_year">Projected incomes this year </span>
+                        </div>
+
+                      </div>
+                      <!-- End dashboard-card-info -->  
 
                     </div>
                     <!-- End dashboard-card-info-container -->
 
-                    <!-- dashboard-card-table-info-container  Absence & Retard -->
-                    <div class="dashboard-card-table-info-container">
+                    <!-- dashboard-card-info-container Annual Incomes -->
+                    <div class="dashboard-card-info-container">
 
-                      <!-- dashboard-card-table-info -->
-                      <div class="dashboard-card-table-info">
+                      <!-- dashboard-card-info old chart doghnut --
+                      <div class="dashboard-card-info  data-loading dashboard-card-info-chart-extra-style dashboard-card-info-chart-extra-style-overider">
 
-                           <!-- dashboard-card-table-info-header -->
-                          <div class="dashboard-card-table-info-header">
+                        <p class="dashboard-card-info-label"> <span data-lang="Dashboard_Total_Yearly_incomes"></span> <span class="academic-year"></span></p>
 
-                            <span class="dashboard-card-table-info-header-label">Absence & Retard</span>
+                        <div class="dashboard-card-info-container">
 
-                            <!-- sections-main-sub-container-right-main-header -->
-                            <div class="sections-main-sub-container-right-main-tabs sections-main-sub-container-right-main-tabs-filter dashboard-card-table-info-header-filter-container">
-
-                                <div class="dashboard-card-table-info-header-filter">
-
-                                      <div class="filter-sections-checkboxes-container">
-                                        
-                                          <div class="sections-label-checkbox-main-container">
-                                            <div class="sections-label-checkbox-container">
-                                              <div class="form-group group ">
-                                                <span class="expense_label">Student</span>
-                                              </div>
-                                            </div>
-                                            <div class="customCheck">
-                                              <input type="checkbox" class="filter-absence" value="" data-name="Student" name="checkbox" checked id="ck" />
-                                              <label for="ck"></label>
-                                            </div>
-                                          </div>
-
-                                          
-                                          <div class="sections-label-checkbox-main-container">
-                                            <div class="sections-label-checkbox-container">
-                                              <div class="form-group group ">
-                                                <span class="expense_label">Teacher</span>
-                                              </div>
-                                            </div>
-                                            <div class="customCheck">
-                                              <input type="checkbox" class="filter-absence" value="" data-name="Teacher" name="checkbox" checked id="ck" />
-                                              <label for="ck"></label>
-                                            </div>
-                                          </div>
-
-                                      </div>
-
-                                      <div class="filter-sections-dropdowns-container">
-
-                                        <div class="dynamic-form-input-dropdown-container">
-                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
-                                            <div class="dynamic-form-input">
-                                              <div class="dynamic-form-input-float-adjust">
-                                              <div class="form-group group form-group-right ">
-                                                <input type="text" value="Today" name="filter-absence" class="input-dropdown filter-absence" placeholder="Period"  required>
-                                                <img class="icon button-icon" src="assets/icons/date_icon.svg">
-                                                <ul class="dynamic-form-input-dropdown-options">
-                                                    <li data-val="This year">This Year </li>
-                                                    <li data-val="This Month">This Month </li>
-                                                    <li data-val="Today">Today </li>
-                                                </ul>
-                                              </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-
-                                      </div>
-
-                                </div>
-
-                            </div>
-                            <!-- sections-main-sub-container-right-main-header -->
-
+                          <div class="progress dashboard-card-info-progress">
+                            <canvas id="AnnualMonthlySubscriptionsPieChart"></canvas>
                           </div>
-                          <!-- End dashboard-card-table-info-header -->
 
-                          <!-- dashboard-card-table-info-body -->
+                          <div class="dashboard-card-info-label-container">
 
-                          <div class="dashboard-card-table-info-body sections-main-sub-container-right-main-body">
+                                <p class="dashboard-card-info-sub-label">
+                                  <span data-lang="Total_expected">Total Expected</span> : 
+                                  <br/>
+                                  <span class="pricing"> <span class="pricing"><span id="Total_Monthly_Annual_Expected"></span> <span class="currency">Dhs</span></span></span>
+                                </p>
 
-                                  <!-- sections-main-sub-container-right-main-body : Absence -->
+                                <p class="dashboard-card-info-sub-label">
+                                  <span data-lang="Dashboard_Yearly_incomes"></span> : 
+                                  <br/>
+                                  <span class="pricing"> <span id="Total_Annual_Expected_Percentage"></span>
+                                  <span class="equivalent"></span>
+                                  <span class="Total_Annual_Expected"></span> <span class="currency">Dhs</span></span>
+                                </p>
 
-                                  <div class="sections-main-sub-container-right-main-rows">
+                                <p class="dashboard-card-info-sub-label">
+                                  <span data-lang="Dashboard_Monthly_incomes"></span> : 
+                                  <br/>
+                                  <span class="pricing"> <span id="Total_Monthly_Expected_Percentage"></span>
+                                  <span class="equivalent"></span>
+                                  <span class="Total_Monthly_Expected"></span> <span class="currency">Dhs</span></span>
+                                </p>
 
-                                      <table>
-                                        <thead>
-                                          <tr>
-                                            <th scope="col">Persons</th>
-                                            <th scope="col">From</th>
-                                            <th scope="col">To</th>
-                                            <th scope="col">Type</th>
-                                            <th scope="col">Reported by</th>
-                                          </tr>
-                                        </thead>
-                                        <tbody id="absence-list">
-
-                                        </tbody>
-
-                                      </table>
-
-                                  </div>
-                              <!-- End sections-main-sub-container-right-main-body : Exams -->
-
+                              
                           </div>
-                          <!-- End dashboard-card-table-info-body -->
+
+                        </div>
 
                       </div>
-                      <!-- End dashboard-card-table-info -->
                       
-                    </div>
-                    <!-- End dashboard-card-table-info-container -->
+                      -- End dashboard-card-info -->
 
+                      <!-- dashboard-card-info old chart doghnut -->
+                      <div class="dashboard-card-info  data-loading dashboard-card-info-chart-extra-style dashboard-card-info-chart-extra-style-overider">
+
+                        <p class="dashboard-card-info-label"> <span data-lang="Dashboard_Total_Yearly_incomes"></span> <span class="academic-year"></span></p>
+
+                        <div class="dashboard-card-info-container">
+
+                          <div class="progress dashboard-card-info-progress">
+                            <canvas id="AnnualMonthlySubscriptionsPieChart"></canvas>
+                          </div>
+
+                          <div class="dashboard-card-info-label-container">
+
+                                <p class="dashboard-card-info-sub-label">
+                                  <span data-lang="Total_expected">Total Expected</span> : 
+                                  <br/>
+                                  <span class="pricing"> <span class="pricing"><span id="Total_Monthly_Annual_Expected"></span> <span class="currency">Dhs</span></span></span>
+                                </p>
+
+                                
+                                <p class="dashboard-card-info-sub-label">
+                                  <span data-lang="Debt"></span> : 
+                                  <br/>
+                                  <span class="pricing"> <span id="Total_Annual_Expected_Percentage"></span>
+                                  <span class="equivalent"></span>
+                                  <span id="Total_Annual_Expected"></span> <span class="currency">Dhs</span></span>
+                                </p>
+
+                                <!--
+
+                                  <p class="dashboard-card-info-sub-label">
+                                    <span data-lang="Dashboard_Monthly_incomes"></span> : 
+                                    <br/>
+                                    <span class="pricing"> <span id="Total_Monthly_Expected_Percentage"></span>
+                                    <span class="equivalent"></span>
+                                    <span class="Total_Monthly_Expected"></span> <span class="currency">Dhs</span></span>
+                                  </p>
+                                -->
+                                
+                          </div>
+
+                        </div>
+
+                      </div>
+                      <!-- End dashboard-card-info -->
+
+                      <!-- dashboard-card-info -->
+                      <div class="dashboard-card-info data-loading dashboard-card-info-chart-extra-style dashboard-card-info-chart-extra-style-overider">
+
+                        <p class="dashboard-card-info-label"> <span data-lang="Dashboard_Monthly_Total_incomes"></span><span class="academic-year visibility"></span></p>
+
+                        <div class="dashboard-card-info-container">
+
+                            <div class="progress dashboard-card-info-progress">
+                              <canvas id="MonthlySubscriptionsPieChart"></canvas>
+                            </div>
+
+                            <div class="dashboard-card-info-label-container">
+                            
+                              <p class="dashboard-card-info-sub-label">
+                                <span data-lang="Sales_Forecasting_Case"></span> : 
+                                <br/>
+                                <span class="pricing"> <span class="Total_Monthly_Expected"></span> <span class="currency">Dhs</span></span>
+                              </p>
+
+                              <!--
+                                <p class="dashboard-card-info-sub-label">
+                                  <span data-lang="Collections"></span> : 
+                                  <br/>
+                                  <span class="pricing">  <span id="Total_Monthly_Paid_Subscriptions_Percentage"></span>
+                                  <span class="equivalent"></span>
+                                  <span id="Total_Monthly_Paid_Subscriptions"></span> <span class="currency">Dhs</span></span>
+                                </p>
+                              -->
+
+                              <p class="dashboard-card-info-sub-label">
+                                <span data-lang="Debt"></span> : 
+                                <br/>
+                                <span class="pricing">  <span id="Total_Monthly_UnPaid_Subscriptions_Percentage"></span>
+                                <span class="equivalent"></span>
+                                <span id="Total_Monthly_UnPaid_Subscriptions"></span> <span class="currency">Dhs</span></span>
+                              </p>
+                              
+                            </div>
+
+                        </div>
+
+                      </div>
+                      <!-- End dashboard-card-info -->
+
+                      <!-- dashboard-card-info -->
+                      <div class="dashboard-card-info data-loading dashboard-card-info-chart-extra-style dashboard-card-info-chart-extra-style-overider">
+
+                          <p class="dashboard-card-info-label"><span data-lang="Dashboard_Yearly_Total_incomes"></span><span class="academic-year visibility"></span></p>
+
+                          <div class="dashboard-card-info-container">
+
+                              <div class="progress dashboard-card-info-progress">
+                                <canvas id="AnnualSubscriptionsPieChart"></canvas>
+                              </div>
+
+                              <div class="dashboard-card-info-label-container">
+                                
+                                <p class="dashboard-card-info-sub-label">
+                                  <span data-lang="Sales_Forecasting_Case"></span> : 
+                                  <br/>
+                                  <span class="pricing">  <span class="Total_Annual_Expected"></span> <span class="currency">Dhs</span></span>
+                                </p>
+
+                                <!--
+                                  <p class="dashboard-card-info-sub-label">
+                                    <span data-lang="Collections"></span> : 
+                                    <br/>
+                                    <span class="pricing"> <span id="Total_Annual_Paid_Subscriptions_Percentage"></span>
+                                    <span class="equivalent"></span>
+                                    <span id="Total_Annual_Paid_Subscriptions"></span> <span class="currency">Dhs</span></span>  
+                                  </p>
+                                -->
+
+                                <p class="dashboard-card-info-sub-label">
+                                  <span data-lang="Debt"></span> : 
+                                  <br/>
+                                  <span class="pricing"> <span id="Total_Annual_UnPaid_Subscriptions_Percentage"></span>
+                                  <span class="equivalent"></span>
+                                  <span id="Total_Annual_UnPaid_Subscriptions"></span> <span class="currency">Dhs</span></span>
+                                </p>
+                                
+                              </div>
+                          </div>
+
+                        </div>
+                      <!-- End dashboard-card-info -->
+
+
+                    </div>
+                    <!-- End dashboard-card-info-container Annual Incomes -->
 
                     <!-- dashboard-card-table-info-container Finance -->
-                    <div class="dashboard-card-table-info-container">
+                    <div class="dashboard-card-table-info-container  data-loading  visibility">
 
                       <!-- dashboard-card-table-info -->
                       <div class="dashboard-card-table-info">
@@ -216,7 +423,7 @@
                            <!-- dashboard-card-table-info-header -->
                           <div class="dashboard-card-table-info-header">
 
-                            <span class="dashboard-card-table-info-header-label">Finance</span>
+                            <span class="dashboard-card-table-info-header-label" data-lang="Finance">Finance</span>
 
                             <!-- sections-main-sub-container-right-main-header -->
                             <div class="sections-main-sub-container-right-main-tabs sections-main-sub-container-right-main-tabs-filter dashboard-card-table-info-header-filter-container">
@@ -262,7 +469,7 @@
                               <!-- sections-main-sub-container-right-main-rows -->
                                   <div class="sections-main-sub-container-right-main-rows sections-main-sub-container-right-main-rows-finance">
 
-                                    <div style="width:100%;">
+                                    <div style="width:100%;height:100%;">
                                       <canvas id="canvas" style="display: block; width: 100%; height: 335px;" width="100%" height="235px" class="chartjs-render-monitor"></canvas>
                                     </div>
 
@@ -278,16 +485,239 @@
                     </div>
                     <!-- End dashboard-card-table-info-container -->
 
-                    <!-- dashboard-card-table-info-container Payement-->
-                    <div class="dashboard-card-table-info-container">
+                    <!-- dashboard-card-table-info-container Subscriptions -->
+                    <div class="dashboard-card-table-info-container  data-loading ">
 
                       <!-- dashboard-card-table-info -->
                       <div class="dashboard-card-table-info">
 
-                           <!-- dashboard-card-table-info-header -->
+                            <!-- dashboard-card-table-info-header -->
                           <div class="dashboard-card-table-info-header">
 
-                            <span class="dashboard-card-table-info-header-label">Payements</span>
+                            <span class="dashboard-card-table-info-header-label-container">
+                              <!--
+                                  <span class="dashboard-card-table-info-header-label" data-lang="Incomes">Incomes</span>
+                                  <span class="dashboard-card-info-sub-label" data-lang="Subscriptions_income">Projected incomes this year</span>
+                              -->
+                              <span class="dashboard-card-table-info-header-label" data-lang="Dashboard_Revenue_by_subscription">Revenue by subscription</span>
+                            </span>
+
+                          </div>
+                          <!-- End dashboard-card-table-info-header -->
+
+                          <!-- dashboard-card-table-info-body -->
+
+                          <div class="dashboard-card-table-info-body sections-main-sub-container-right-main-body">
+
+                              <!-- sections-main-sub-container-right-main-rows -->
+                                  <div class="sections-main-sub-container-right-main-rows sections-main-sub-container-right-main-rows-finance">
+
+                                    <div style="width:100%;height:100%;">
+                                      <canvas id="AnnualMonthlySubscriptionsBarChart" style="display: block; width: 100%; height: 335px;" width="100%" height="235px" class="chartjs-render-monitor"></canvas>
+                                    </div>
+
+                                  </div>
+                              <!-- End sections-main-sub-container-right-main-rows -->
+
+                          </div>
+                          <!-- End dashboard-card-table-info-body -->
+
+                      </div>
+                      <!-- End dashboard-card-table-info -->
+                      
+                    </div>
+                    <!-- End dashboard-card-table-info-container Subscriptions -->
+
+                    <!-- dashboard-card-table-info-container Subscriptions -->
+                    <div class="dashboard-card-table-info-container  data-loading ">
+
+                      <!-- dashboard-card-table-info -->
+                      <div class="dashboard-card-table-info">
+
+                            <!-- dashboard-card-table-info-header -->
+                          <div class="dashboard-card-table-info-header">
+
+                            <span class="dashboard-card-table-info-header-label-container">
+                              <!--
+                                  <span class="dashboard-card-table-info-header-label" data-lang="Incomes">Incomes</span>
+                                  <span class="dashboard-card-info-sub-label" data-lang="Subscriptions_income">Projected incomes this year</span>
+                              -->
+                              <p class="dashboard-card-info-label">
+                                <span class="dashboard-card-table-info-header-label" data-lang="Dashboard_Yearly_Revenue_by_subscription">Forecast income per subscription</span> <span class="academic-year"></span>
+                              </p>
+                              
+                            </span>
+
+                          </div>
+                          <!-- End dashboard-card-table-info-header -->
+
+                          <!-- dashboard-card-table-info-body -->
+
+                          <div class="dashboard-card-table-info-body sections-main-sub-container-right-main-body">
+
+                              <!-- sections-main-sub-container-right-main-rows -->
+                                  <div class="sections-main-sub-container-right-main-rows sections-main-sub-container-right-main-rows-finance">
+
+                                    <div style="width:100%;height:100%;">
+                                      <canvas id="AnnualMonthlySubscriptionsRevenusBarChart" style="display: block; width: 100%; height: 335px;" width="100%" height="235px" class="chartjs-render-monitor"></canvas>
+                                    </div>
+
+                                  </div>
+                              <!-- End sections-main-sub-container-right-main-rows -->
+
+                          </div>
+                          <!-- End dashboard-card-table-info-body -->
+
+                      </div>
+                      <!-- End dashboard-card-table-info -->
+                      
+                    </div>
+                    <!-- End dashboard-card-table-info-container Subscriptions -->
+
+                    <!-- dashboard-card-table-info-container Subscriptions -->
+                    <div class="dashboard-card-table-info-container  data-loading ">
+
+                      <!-- dashboard-card-table-info -->
+                      <div class="dashboard-card-table-info">
+
+                            <!-- dashboard-card-table-info-header -->
+                          <div class="dashboard-card-table-info-header">
+
+                            <span class="dashboard-card-table-info-header-label-container">
+                              <!--
+                                  <span class="dashboard-card-table-info-header-label" data-lang="Incomes">Incomes</span>
+                                  <span class="dashboard-card-info-sub-label" data-lang="Subscriptions_income">Projected incomes this year</span>
+                              -->
+                              <p class="dashboard-card-info-label">
+                                <span class="dashboard-card-table-info-header-label" data-lang="Dashboard_Monthly_Revenue_by_subscription">Forecast income per subscription</span> <span class="academic-year"></span>
+                              </p>
+
+                            </span>
+
+                          </div>
+                          <!-- End dashboard-card-table-info-header -->
+
+                          <!-- dashboard-card-table-info-body -->
+
+                          <div class="dashboard-card-table-info-body sections-main-sub-container-right-main-body">
+
+                              <!-- sections-main-sub-container-right-main-rows -->
+                                  <div class="sections-main-sub-container-right-main-rows sections-main-sub-container-right-main-rows-finance">
+
+                                    <div style="width:100%;height:100%;">
+                                      <canvas id="MonthlySubscriptionsRevenusBarChart" style="display: block; width: 100%; height: 335px;" width="100%" height="235px" class="chartjs-render-monitor"></canvas>
+                                    </div>
+
+                                  </div>
+                              <!-- End sections-main-sub-container-right-main-rows -->
+
+                          </div>
+                          <!-- End dashboard-card-table-info-body -->
+
+                      </div>
+                      <!-- End dashboard-card-table-info -->
+                      
+                    </div>
+                    <!-- End dashboard-card-table-info-container Subscriptions -->
+
+
+                    <!-- dashboard-card-table-info-container Finance Yearly -->
+                    <div class="dashboard-card-table-info-container  data-loading ">
+
+                      <!-- dashboard-card-table-info -->
+                      <div class="dashboard-card-table-info">
+
+                            <!-- dashboard-card-table-info-header -->
+                          <div class="dashboard-card-table-info-header">
+
+                            <span class="dashboard-card-table-info-header-label-container">
+                              <!--
+                                 <span class="dashboard-card-table-info-header-label" data-lang="Incomes">Incomes</span>
+                                 <span class="dashboard-card-info-sub-label" data-lang="Projected_incomes_this_year">Projected incomes this year</span>
+                              -->
+                              <span class="dashboard-card-table-info-header-label" data-lang="Projected_incomes_this_year">Projected incomes this year</span>
+                            </span>
+
+                            <!-- sections-main-sub-container-right-main-header -->
+                            <div class="sections-main-sub-container-right-main-tabs sections-main-sub-container-right-main-tabs-filter dashboard-card-table-info-header-filter-container visibility">
+
+                                <div class="dashboard-card-table-info-header-filter">
+
+                                      <div class="filter-sections-dropdowns-container">
+
+                                        <div class="dynamic-form-input-dropdown-container">
+                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                                            <div class="dynamic-form-input">
+                                              <div class="dynamic-form-input-float-adjust">
+                                              <div class="form-group group form-group-right ">
+                                                <input type="text" value="<%= Month %>" name="filter-finance" data-id="<%= Month_ID %>" data-start-date="<%= Month_Start_Date %>" class="input-dropdown" placeholder="Period"  required>
+                                                <img class="icon button-icon" src="assets/icons/date_icon.svg">
+                                                <ul class="dynamic-form-input-dropdown-options">
+                                                    <!--li data-val="This year">This Year </li>
+                                                    <li data-val="This Month">This Month </li-->
+                                                    <% for(e=0;e< MonthsExpenses.length ;e++) { %>
+                                                    <li data-lang="<%= MonthsExpenses[e].Month %>" data-val="<%= MonthsExpenses[e].Month %>" data-id="<%= MonthsExpenses[e].Month_ID %>"  data-start-date="<%= MonthsExpenses[e].Month_Start_Date %>"><%= MonthsExpenses[e].Month %></li>
+                                                    <% } %>
+                                                </ul>
+                                              </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                      </div>
+
+                                </div>
+
+                            </div>
+                            <!-- sections-main-sub-container-right-main-header -->
+
+                          </div>
+                          <!-- End dashboard-card-table-info-header -->
+
+                          <!-- dashboard-card-table-info-body -->
+
+                          <div class="dashboard-card-table-info-body sections-main-sub-container-right-main-body">
+
+                              <!-- sections-main-sub-container-right-main-rows -->
+                                  <div class="sections-main-sub-container-right-main-rows sections-main-sub-container-right-main-rows-finance">
+
+                                    <div style="width:100%;height:100%;">
+                                      <canvas id="yearlyExpencesIncomesBarChart" style="display: block; width: 100%; height: 335px;" width="100%" height="235px" class="chartjs-render-monitor"></canvas>
+                                    </div>
+
+                                  </div>
+                              <!-- End sections-main-sub-container-right-main-rows -->
+
+                          </div>
+                          <!-- End dashboard-card-table-info-body -->
+
+                      </div>
+                      <!-- End dashboard-card-table-info -->
+                      
+                    </div>
+                    <!-- End dashboard-card-table-info-container -->
+
+                    <!-- dashboard-card-table-info-container Finance Monthly -->
+                    <div class="dashboard-card-table-info-container  data-loading ">
+
+                      <!-- dashboard-card-table-info -->
+                      <div class="dashboard-card-table-info">
+
+                            <!-- dashboard-card-table-info-header -->
+                          <div class="dashboard-card-table-info-header">
+
+                            <span class="dashboard-card-table-info-header-label-container">
+                              <!--
+                              <span class="dashboard-card-table-info-header-label" data-lang="Incomes">Incomes</span>
+                              <span class="dashboard-card-info-sub-label" >
+                                <span data-lang="Projected_incomes_of">Projected incomes of</span>
+                                <span class="monthly-financal-selected-month"></span></span>
+                              -->
+                              <span class="dashboard-card-table-info-header-label" >
+                                <span data-lang="Projected_incomes_of">Projected incomes of</span>
+                                <span class="monthly-financal-selected-month"></span></span>
+                            </span>
 
                             <!-- sections-main-sub-container-right-main-header -->
                             <div class="sections-main-sub-container-right-main-tabs sections-main-sub-container-right-main-tabs-filter dashboard-card-table-info-header-filter-container">
@@ -301,12 +731,87 @@
                                             <div class="dynamic-form-input">
                                               <div class="dynamic-form-input-float-adjust">
                                               <div class="form-group group form-group-right ">
-                                                <input type="text" value="Today" name="filter-payments" class="input-dropdown" placeholder="Period"  required>
+                                                <!--input type="text" value="<%= Month %>" name="filter-finance" data-id="<%= Month_ID %>" data-start-date="<%= Month_Start_Date %>" class="input-dropdown" placeholder="Period"  required-->
+                                                <input type="text" value="" name="filter-finance" data-id="-1" data-start-date="<%= Month_Start_Date %>" class="input-dropdown" placeholder="Period"  required>
                                                 <img class="icon button-icon" src="assets/icons/date_icon.svg">
                                                 <ul class="dynamic-form-input-dropdown-options">
-                                                    <li data-val="This year">This year </li>
-                                                    <li data-val="This Month">This Month </li>
-                                                    <li data-val="Today">Today </li>
+                                                    <!--li data-val="This year">This Year </li>
+                                                    <li data-val="This Month">This Month </li-->
+                                                    <% for(e=0;e< MonthsExpenses.length ;e++) { %>
+                                                    <li data-lang="<%= MonthsExpenses[e].Month %>" data-val="<%= MonthsExpenses[e].Month %>" data-id="<%= MonthsExpenses[e].Month_ID %>"  data-start-date="<%= MonthsExpenses[e].Month_Start_Date %>"><%= MonthsExpenses[e].Month %></li>
+                                                    <% } %>
+                                                </ul>
+                                              </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                      </div>
+
+                                </div>
+
+                            </div>
+                            <!-- sections-main-sub-container-right-main-header -->
+
+                          </div>
+                          <!-- End dashboard-card-table-info-header -->
+
+                          <!-- dashboard-card-table-info-body -->
+
+                          <div class="dashboard-card-table-info-body sections-main-sub-container-right-main-body">
+
+                              <!-- sections-main-sub-container-right-main-rows -->
+                                  <div class="sections-main-sub-container-right-main-rows sections-main-sub-container-right-main-rows-finance">
+
+                                    <div style="width:100%;height:100%;">
+                                      <canvas id="monthDailyLineChart" style="display: block; width: 100%; height: 335px;" width="100%" height="235px" class="chartjs-render-monitor"></canvas>
+                                    </div>
+
+                                  </div>
+                              <!-- End sections-main-sub-container-right-main-rows -->
+
+                          </div>
+                          <!-- End dashboard-card-table-info-body -->
+
+                      </div>
+                      <!-- End dashboard-card-table-info -->
+                      
+                    </div>
+                    <!-- End dashboard-card-table-info-container -->
+                    
+                    <!-- dashboard-card-table-info-container Payement-->
+                    <div class="dashboard-card-table-info-container  data-loading ">
+
+                      <!-- dashboard-card-table-info -->
+                      <div class="dashboard-card-table-info">
+
+                           <!-- dashboard-card-table-info-header -->
+                          <div class="dashboard-card-table-info-header">
+
+                            <span class="dashboard-card-table-info-header-label" data-lang="Payments">Payments</span>
+
+                            <!-- sections-main-sub-container-right-main-header -->
+                            <div class="sections-main-sub-container-right-main-tabs sections-main-sub-container-right-main-tabs-filter dashboard-card-table-info-header-filter-container">
+
+                                <div class="dashboard-card-table-info-header-filter">
+
+                                      <div class="filter-sections-dropdowns-container">
+
+                                        <div class="dynamic-form-input-dropdown-container">
+                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                                            <div class="dynamic-form-input">
+                                              <div class="dynamic-form-input-float-adjust">
+                                              <div class="form-group group form-group-right ">
+                                                <input type="text" data-lang="" data-val="" value="" name="filter-payments" class="input-dropdown" placeholder="Period"  data-placeholder="Period" required>
+                                                <img class="icon button-icon" src="assets/icons/date_icon.svg">
+                                                <ul class="dynamic-form-input-dropdown-options">
+                                                    <!--li data-val="This year" data-lang="This_year">This year</li-->
+                                                    <!--li data-val="This Month" data-lang="This_month">This Month</li-->
+                                                    <!--li data-val="Today" data-lang="Today">Today</li-->
+                                                    <% for(e=0;e< MonthsExpenses.length ;e++) { %>
+                                                      <li data-lang="<%= MonthsExpenses[e].Month %>" value="<%= MonthsExpenses[e].Month %>" data-val="<%= MonthsExpenses[e].Month %>" data-id="<%= MonthsExpenses[e].Month_ID %>"  data-start-date="<%= MonthsExpenses[e].Month_Start_Date %>"><%= MonthsExpenses[e].Month %></li>
+                                                      <% } %>
                                                 </ul>
                                               </div>
                                               </div>
@@ -335,13 +840,126 @@
                                       <table>
                                         <thead>
                                           <tr>
-                                            <th scope="col">Student</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Paid amount</th>
-                                            <th scope="col">Outstanding</th>
+                                            <th scope="col" data-lang="Student">Student</th>
+                                            <th scope="col" data-lang="Date_Payment">Date</th>
+                                            <th scope="col" data-lang="Paid_Duration">Paid month</th>
+                                            <th scope="col" data-lang="Paid_amount">Paid amount</th>
+                                            <th scope="col" data-lang="Paid_subscriptions">Paid subscriptions</th>
+                                            <!--th scope="col" data-lang="Outstanding">Outstanding</th-->
                                           </tr>
                                         </thead>
                                         <tbody id="list-payments">
+                                        </tbody>
+
+                                      </table>
+
+                                  </div>
+                              <!-- End sections-main-sub-container-right-main-body : Exams -->
+
+                          </div>
+                          <!-- End dashboard-card-table-info-body -->
+
+                      </div>
+                      <!-- End dashboard-card-table-info -->
+                      
+                    </div>
+                    <!-- End dashboard-card-table-info-container -->
+
+                    <!-- dashboard-card-table-info-container  Absence & Retard -->
+                    <div class="dashboard-card-table-info-container  data-loading ">
+
+                      <!-- dashboard-card-table-info -->
+                      <div class="dashboard-card-table-info">
+
+                            <!-- dashboard-card-table-info-header -->
+                          <div class="dashboard-card-table-info-header">
+
+                            <span class="dashboard-card-table-info-header-label" data-lang="Absence_&_Retard">Absence & Retard</span>
+
+                            <!-- sections-main-sub-container-right-main-header -->
+                            <div class="sections-main-sub-container-right-main-tabs sections-main-sub-container-right-main-tabs-filter dashboard-card-table-info-header-filter-container">
+
+                                <div class="dashboard-card-table-info-header-filter">
+
+                                      <div class="filter-sections-checkboxes-container">
+                                        
+                                          <div class="sections-label-checkbox-main-container">
+                                            <div class="sections-label-checkbox-container">
+                                              <div class="form-group group ">
+                                                <span class="expense_label" data-lang="Student">Student</span>
+                                              </div>
+                                            </div>
+                                            <div class="customCheck">
+                                              <input type="checkbox" class="filter-absence" value="" data-name="Student" name="checkbox" checked id="ck" />
+                                              <label for="ck"></label>
+                                            </div>
+                                          </div>
+
+                                          
+                                          <div class="sections-label-checkbox-main-container">
+                                            <div class="sections-label-checkbox-container">
+                                              <div class="form-group group ">
+                                                <span class="expense_label" data-lang="Teacher">Teacher</span>
+                                              </div>
+                                            </div>
+                                            <div class="customCheck">
+                                              <input type="checkbox" class="filter-absence" value="" data-name="Teacher" name="checkbox" checked id="ck" />
+                                              <label for="ck"></label>
+                                            </div>
+                                          </div>
+
+                                      </div>
+
+                                      <div class="filter-sections-dropdowns-container">
+
+                                        <div class="dynamic-form-input-dropdown-container">
+                                          <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                                            <div class="dynamic-form-input">
+                                              <div class="dynamic-form-input-float-adjust">
+                                              <div class="form-group group form-group-right ">
+                                                <input type="text" value="Today" data-lang="Today" data-val="Today" name="filter-absence" class="input-dropdown filter-absence" placeholder="Period" data-placeholder="Period"  required>
+                                                <img class="icon button-icon" src="assets/icons/date_icon.svg">
+                                                <ul class="dynamic-form-input-dropdown-options">
+                                                  <li data-val="This year" data-lang="This_year">This year</li>
+                                                  <li data-val="This Month" data-lang="This_month">This Month</li>
+                                                  <li data-val="Today" data-lang="Today">Today</li>
+                                                </ul>
+                                              </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                      </div>
+
+                                </div>
+
+                            </div>
+                            <!-- sections-main-sub-container-right-main-header -->
+
+                          </div>
+                          <!-- End dashboard-card-table-info-header -->
+
+                          <!-- dashboard-card-table-info-body -->
+
+                          <div class="dashboard-card-table-info-body sections-main-sub-container-right-main-body">
+
+                                  <!-- sections-main-sub-container-right-main-body : Absence -->
+
+                                  <div class="sections-main-sub-container-right-main-rows">
+
+                                      <table>
+                                        <thead>
+                                          <tr>
+                                            <th scope="col" data-lang="Persons">Persons</th>
+                                            <th scope="col" data-lang="From">From</th>
+                                            <th scope="col" data-lang="To">To</th>
+                                            <th scope="col" data-lang="Type">Type</th>
+                                            <th scope="col" data-lang="Reported_by">Reported by</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody id="absence-list">
+
                                         </tbody>
 
                                       </table>

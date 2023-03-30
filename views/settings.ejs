@@ -2,12 +2,14 @@
 <html>
 <head>
 
-    <title><%= title %></title>
+    <title data-lang="<%= title %>"><%= title %></title>
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
  <%- include('./partials/main'); %>
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 
 </head>
 
@@ -25,7 +27,7 @@
       <div class="sub-container">
 
         <div class="sub-container-nav-bar">
-            <span class="sub-container-nav-bar-title">Settings</span>
+            <span class="sub-container-nav-bar-title" data-lang="Settings">Settings</span>
             <img  class="sub-container-nav-bar-img" src="<%= user.User_Image %>" alt="profile">
         </div>
 
@@ -43,43 +45,49 @@
 
                           <li class="side-bar-li active" data-asset-active="" data-asset-inactive="">
                             <a data-toggle="tab" href="#Details_Section">
-                              <span class="side-bar-li-span side-bar-li-span-inactive">Details</span>
+                              <span class="side-bar-li-span side-bar-li-span-inactive" data-lang="Details">Details</span>
                             </a>
                           </li>
 
                           <li class="side-bar-li" data-asset-active="" data-asset-inactive="">
                             <a data-toggle="tab" href="#Academic_Year_Section">
-                              <span class="side-bar-li-span side-bar-li-span-inactive">Academic year</span>
+                              <span class="side-bar-li-span side-bar-li-span-inactive" data-lang="Academic_year">Academic year</span>
                             </a>
                           </li>
 
                           <li class="side-bar-li" data-asset-active="" data-asset-inactive="">
                             <a data-toggle="tab" href="#Level_Section">
-                              <span class="side-bar-li-span side-bar-li-span-inactive">Levels</span>
+                              <span class="side-bar-li-span side-bar-li-span-inactive" data-lang="Levels">Levels</span>
                             </a>
                           </li>
 
                           <li class="side-bar-li" data-asset-active="" data-asset-inactive="">
                             <a data-toggle="tab" href="#Classe_Section">
-                              <span class="side-bar-li-span side-bar-li-span-inactive">Classes</span>
+                              <span class="side-bar-li-span side-bar-li-span-inactive" data-lang="Classes">Classes</span>
                             </a>
                           </li>
 
                           <li class="side-bar-li" data-asset-active="" data-asset-inactive="">
                             <a data-toggle="tab" href="#Subject_Section">
-                              <span class="side-bar-li-span side-bar-li-span-inactive">Subjects</span>
+                              <span class="side-bar-li-span side-bar-li-span-inactive" data-lang="Subjects">Subjects</span>
                             </a>
                           </li>
 
                           <li class="side-bar-li" data-asset-active="" data-asset-inactive="">
                             <a data-toggle="tab"  href="#Expense_Section">
-                              <span class="side-bar-li-span side-bar-li-span-inactive">Expenses</span>
+                              <span class="side-bar-li-span side-bar-li-span-inactive" data-lang="Expenses">Expenses</span>
                             </a>
                           </li>
 
                           <li class="side-bar-li" data-asset-active="" data-asset-inactive="">
                             <a data-toggle="tab" href="#Costs_Section">
-                              <span class="side-bar-li-span side-bar-li-span-inactive">Costs</span>
+                              <span class="side-bar-li-span side-bar-li-span-inactive" data-lang="Costs">Costs</span>
+                            </a>
+                          </li>
+
+                          <li class="side-bar-li" data-asset-active="" data-asset-inactive="">
+                            <a data-toggle="tab" href="#Schedule_Section">
+                              <span class="side-bar-li-span side-bar-li-span-inactive" data-lang="Schedule">Schedule</span>
                             </a>
                           </li>
 
@@ -97,8 +105,8 @@
                           <!-- sub-container Details -->
                           <div  id="Details_Section" class="item tab-pane fade in active dom-change-watcher" >
                             <div  class="sub-main-container">
-                              <h1 class="sub-container-main-header">Details</h1>
-                              <h4 class="sub-container-sub-header">There are many variations of passages of Lorem Ipsum available, but the majority.</h4>
+                              <h1 class="sub-container-main-header" data-lang="Details">Details</h1>
+                              <h4 class="sub-container-sub-header" data-lang="Detail_subHeader">There are many variations of passages of Lorem Ipsum available, but the majority.</h4>
 
                               <form class="sub-container-form">
 
@@ -116,23 +124,69 @@
 
                                 <div class="form-group group">
                                   <input type="text" required value="<%= institution.Institution_Name %>" name="Institution_Name">
-                                  <label class="input-label"><span class="input-label-text">Shcool name</span> <span class="input-label-bg-mask"></span></label>
+                                  <label class="input-label"><span class="input-label-text" data-lang="School_name">School name</span> <span class="input-label-bg-mask"></span></label>
                                 </div>
 
                                 <div class="form-group group">
                                   <input type="text" required value="<%= institution.Institution_Email %>" name="Institution_Email">
-                                  <label class="input-label"><span class="input-label-text">Email address</span> <span class="input-label-bg-mask"></span></label>
+                                  <label class="input-label"><span class="input-label-text" data-lang="Email_address">Email address</span> <span class="input-label-bg-mask"></span></label>
                                 </div>
 
                                 <div class="form-group group">
                                   <input type="text" required value="<%= institution.Institution_Phone %>" name="Institution_Phone">
-                                  <label class="input-label"><span class="input-label-text">Phone number</span> <span class="input-label-bg-mask"></span></label>
+                                  <label class="input-label"><span class="input-label-text" data-lang="Phone_number">Phone number</span> <span class="input-label-bg-mask"></span></label>
                                 </div>
 
                                 <div class="form-group group">
                                   <input type="text" required value="<%= institution.Institution_Adress %>" name="Institution_Adress">
-                                  <label class="input-label"><span class="input-label-text">Adress</span> <span class="input-label-bg-mask"></span></label>
+                                  <label class="input-label"><span class="input-label-text" data-lang="Adress">Adress</span> <span class="input-label-bg-mask"></span></label>
                                 </div>
+
+                                <!-- Subject Class ------------------------------------------------------------------------------------->
+                                
+                                <div class="sections-main-sub-container-right-main-rows sections-main-sub-container-right-main-rows-dropdown-tags 
+                                                              sections-main-sub-container-right-main-rows-dropdown-extra-style-tags">
+                                
+                                  <div
+                                    class="dynamic-form-input-dropdown-container sections-main-sub-container-right-main-rows-dropdown-tags-container">
+                                
+                                    <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                                
+                                      <div class="dynamic-form-input">
+                                
+                                        <div class="dynamic-form-input-float-adjust">
+                                
+                                          <div class="form-group group form-group-left">
+                                            <input type="text" class="input-text input-dropdown" name="category" required>
+                                            <label class="input-label"><span class="input-label-text" data-lang="Categories">Categories</span> <span
+                                                class="input-label-bg-mask"></span></label>
+                                            <img class="icon button-icon" src="assets/icons/caret.svg">
+                                
+                                            <ul class="dynamic-form-input-dropdown-options" id="categoriesList"></ul>
+                                
+                                          </div>
+                                
+                                          <div class="form-group group form-group-right">
+                                            <select class="input-text-subject-classes-select2 list-classes" id="subCategoriesList" multiple></select>
+                                            <img class="icon button-icon" src="assets/icons/caret.svg">
+                                            <label class="input-label input-label-move-to-top">
+                                              <span class="input-label-text" data-lang="Specialities">Specialities</span><span
+                                                class="input-label-bg-mask"></span>
+                                            </label>
+                                          </div>
+                                
+                                        </div>
+                                
+                                
+                                      </div>
+                                
+                                    </div>
+                                
+                                  </div>
+                                
+                                </div>
+                                
+                                <!-- End Subject Class --------------------------------------------------------------------------------->
 
                               </form>
 
@@ -143,11 +197,11 @@
                                  
                                   <div class="sub-container-form-footer hide-footer">
                                       <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate rounded-button-primary-green-color cancel-change" onclick="updateDetails()">
-                                            <span class="button-text" id="">Save changes</span>
+                                            <span class="button-text" id="" data-lang="Save_changes">Save changes</span>
                                             <img class="icon button-icon" src="assets/icons/check_small.svg">
                                       </div>
                                       <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary  secondary-pink-button cancel-change" data-toggle="modal" data-target="#ChangesModal" onclick="discard('Details')">
-                                            <span class="button-text discard-changes" >Discard</span>
+                                            <span class="button-text discard-changes" data-lang="Cancel">Discard</span>
                                       </div>
                                   </div>
                                   
@@ -161,46 +215,55 @@
                           <!-- sub-container Academic year -->
                           <div  id="Academic_Year_Section" class="item tab-pane fade dom-change-watcher" >
                             <div  class="sub-main-container">
-                              <h1 class="sub-container-main-header">Academic year</h1>
-                              <h4 class="sub-container-sub-header">There are many variations of passages of Lorem Ipsum available, but the majority.</h4>
+                              <h1 class="sub-container-main-header" data-lang="Academic_year">Academic year</h1>
+                              <h4 class="sub-container-sub-header" data-lang="Academic_year_subHeader">There are many variations of passages of Lorem Ipsum available, but the majority.</h4>
 
                               <form class="sub-container-form">
+                                
 
                                 <div class="form-group group">
-                                  <input type="text" required value="<%= academic.AY_Label %>" name="AY_Label">
-                                  <label class="input-label"><span class="input-label-text">Academic Year Label</span> <span class="input-label-bg-mask"></span></label>
+                                  <input type="text" required value="<%= academic.AY_Label %>" name="AY_Label" data-lang="<%= academic.AY_Label %>" 
+                                  data-val="<%= academic.AY_Label %>">
+                                  <label class="input-label"><span class="input-label-text" data-lang="Academic_year_label">Academic Year Label</span> <span class="input-label-bg-mask"></span></label>
                                 </div>
 
 
                                 <div class="date-form-input-container">
 
-                                  <label class="input-label dynamic-form-input-container-label"><span class="input-label-text input-label-text-active">Start Month</span> <span class="input-label-bg-mask"></span></label>
+                                  <label class="input-label dynamic-form-input-container-label">
+                                    <span class="input-label-text input-label-text-active" data-lang="Start_month">Start Month</span> 
+                                    <span class="input-label-bg-mask"></span>
+                                  </label>
 
                                   <div class="date-form-input">
 
                                     <div class="form-group group form-group-extra-style">
 
-                                      <input type="text" required readonly value="<%= academic.AY_Satrtdate %>" name="AY_Satrtdate">
+                                      <input type="text" required readonly value="<%= academic.AY_Satrtdate %>" data-val="<%= academic.AY_Satrtdate %>" name="AY_Satrtdate" data-lang="<%= academic.AY_Satrtdate %>">
 
-                                      <label class="input-label input-label-move-to-top"><span class="input-label-text">Select Month</span> <span class="input-label-bg-mask"></span></label>
+                                      <label class="input-label input-label-move-to-top"><span class="input-label-text" data-lang="Select_month">Select Month</span> <span class="input-label-bg-mask"></span></label>
                                       <img class="icon button-icon" src="assets/icons/caret.svg">
 
                                       <div class="date-form-input-picker-container">
                                         <div class="date-form-input-picker row">
-                                            <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-first-of-line">January</span>
-                                            <span class="col-xs-3 date-form-input-picker-label">February</span>
-                                            <span class="col-xs-3 date-form-input-picker-label">March</span>
-                                            <span class="col-xs-3 date-form-input-picker-label">April</span>
+                                            <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-first-of-line" 
+                                            data-val="January" data-lang="January">January</span>
+                                            <span class="col-xs-3 date-form-input-picker-label" data-val="February" data-lang="February">February</span>
+                                            <span class="col-xs-3 date-form-input-picker-label" data-val="March" data-lang="March">March</span>
+                                            <span class="col-xs-3 date-form-input-picker-label" data-val="April" data-lang="April">April</span>
 
-                                            <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-first-of-line">May</span>
-                                            <span class="col-xs-3 date-form-input-picker-label">June</span>
-                                            <span class="col-xs-3 date-form-input-picker-label">July</span>
-                                            <span class="col-xs-3 date-form-input-picker-label">August</span>
+                                            <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-first-of-line" data-lang="May">May</span>
+                                            <span class="col-xs-3 date-form-input-picker-label" data-val="June" data-lang="June">June</span>
+                                            <span class="col-xs-3 date-form-input-picker-label" data-val="July" data-lang="July">July</span>
+                                            <span class="col-xs-3 date-form-input-picker-label" data-val="August" data-lang="August">August</span>
 
-                                            <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-first-of-line date-form-input-picker-label-last-of-line">September</span>
-                                            <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-last-of-line">Octobre</span>
-                                            <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-last-of-line">November</span>
-                                            <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-last-of-line">December</span>
+                                            <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-first-of-line date-form-input-picker-label-last-of-line" data-lang="September" data-val="September">September</span>
+                                            <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-last-of-line" 
+                                            data-val="October" data-lang="October">October</span>
+                                            <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-last-of-line" 
+                                            data-val="November" data-lang="November">November</span>
+                                            <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-last-of-line" 
+                                            data-val="December" data-lang="December">December</span>
                                         </div>
                                       </div>
 
@@ -211,33 +274,44 @@
 
                                 <div class="date-form-input-container">
 
-                                  <label class="input-label dynamic-form-input-container-label"><span class="input-label-text input-label-text-active">End Month</span> <span class="input-label-bg-mask"></span></label>
+                                  <label class="input-label dynamic-form-input-container-label">
+                                    <span class="input-label-text input-label-text-active" data-lang="End_month">>End Month</span>
+                                    <span class="input-label-bg-mask"></span>
+                                  </label>
 
                                   <div class="date-form-input">
 
                                     <div class="form-group group form-group-extra-style">
 
-                                      <input type="text" required readonly value="<%= academic.AY_EndDate %>" name="AY_EndDate">
+                                      <input type="text" required readonly value="<%= academic.AY_EndDate %>" data-val="<%= academic.AY_EndDate %>" name="AY_EndDate" data-lang="<%= academic.AY_EndDate %>">
 
-                                      <label class="input-label input-label-move-to-top"><span class="input-label-text">Select Month</span> <span class="input-label-bg-mask"></span></label>
+                                      <label class="input-label input-label-move-to-top">
+                                        <span class="input-label-text" data-lang="Select_month">Select Month</span>
+                                        <span class="input-label-bg-mask"></span>
+                                      </label>
                                       <img class="icon button-icon" src="assets/icons/caret.svg">
 
                                       <div class="date-form-input-picker-container">
                                         <div class="date-form-input-picker row">
-                                            <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-first-of-line">January</span>
-                                            <span class="col-xs-3 date-form-input-picker-label">February</span>
-                                            <span class="col-xs-3 date-form-input-picker-label">March</span>
-                                            <span class="col-xs-3 date-form-input-picker-label">April</span>
+                                            <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-first-of-line"
+                                            data-val="January" data-lang="January">January</span>
+                                            <span class="col-xs-3 date-form-input-picker-label" data-val="February" data-lang="February">February</span>
+                                            <span class="col-xs-3 date-form-input-picker-label" data-val="March" data-lang="March">March</span>
+                                            <span class="col-xs-3 date-form-input-picker-label" data-val="April" data-lang="April">April</span>
 
-                                            <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-first-of-line">May</span>
-                                            <span class="col-xs-3 date-form-input-picker-label">June</span>
-                                            <span class="col-xs-3 date-form-input-picker-label">July</span>
-                                            <span class="col-xs-3 date-form-input-picker-label">August</span>
+                                            <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-first-of-line" 
+                                            data-val="May" data-lang="May">May</span>
+                                            <span class="col-xs-3 date-form-input-picker-label" data-val="June" data-lang="June">June</span>
+                                            <span class="col-xs-3 date-form-input-picker-label" data-val="July" data-lang="July">July</span>
+                                            <span class="col-xs-3 date-form-input-picker-label" data-val="August" data-lang="August">August</span>
 
-                                            <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-first-of-line date-form-input-picker-label-last-of-line">September</span>
-                                            <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-last-of-line">Octobre</span>
-                                            <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-last-of-line">November</span>
-                                            <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-last-of-line">December</span>
+                                            <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-first-of-line date-form-input-picker-label-last-of-line" data-val="September" data-lang="September">September</span>
+                                            <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-last-of-line"
+                                            data-val="October" data-lang="October">October</span>
+                                            <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-last-of-line" 
+                                            data-val="November" data-lang="November">November</span>
+                                            <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-last-of-line" 
+                                            data-val="December" data-lang="December">December</span>
                                         </div>
                                       </div>
 
@@ -255,11 +329,11 @@
                                  
                                   <div class="sub-container-form-footer hide-footer">
                                       <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate rounded-button-primary-green-color cancel-change" onclick="updateAY()">
-                                            <span class="button-text" id="">Save changes</span>
+                                            <span class="button-text" id="" data-lang="Save_changes">Save changes</span>
                                             <img class="icon button-icon" src="assets/icons/check_small.svg">
                                       </div>
                                       <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary  secondary-pink-button cancel-change" data-toggle="modal" data-target="#ChangesModal" onclick="discard('Academic')">
-                                            <span class="button-text discard-changes" >Discard</span>
+                                            <span class="button-text discard-changes" data-lang="Cancel">Discard</span>
                                       </div>
                                   </div>
                                   
@@ -272,15 +346,15 @@
                           <!-- sub-container Level -->
                           <div  id="Level_Section" class="item tab-pane fade dom-change-watcher" >
                             <div  class="sub-main-container">
-                              <h1 class="sub-container-main-header">Levels</h1>
-                              <h4 class="sub-container-sub-header">There are many variations of passages of Lorem Ipsum available, but the majority.</h4>
+                              <h1 class="sub-container-main-header" data-lang="Levels">Levels</h1>
+                              <h4 class="sub-container-sub-header" data-lang="Levels_subHeader">There are many variations of passages of Lorem Ipsum available, but the majority.</h4>
 
                               <form class="sub-container-form" id="levels-container">
                                  <% for(var i = 0;i < levels.length ; i++) { %>                            
                                    <div class="dynamic-form-input row-levels">
                                       <div class="form-group group">
                                         <input type="text" required value="<%= levels[i].Level_Label %>" data-level="<%= levels[i].Level_ID %>" name="level-name">
-                                        <label class="input-label"><span class="input-label-text">Level name</span> <span class="input-label-bg-mask"></span></label>
+                                        <label class="input-label"><span class="input-label-text" data-lang="Levels">Level name</span> <span class="input-label-bg-mask"></span></label>
                                       </div>
                                       <div class="square-button hidden">
                                         <img class="icon" src="assets/icons/minus.svg">
@@ -299,11 +373,11 @@
                                  
                                   <div class="sub-container-form-footer hide-footer">
                                       <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate rounded-button-primary-green-color cancel-change" onclick="updateLevels()">
-                                            <span class="button-text" id="">Save changes</span>
+                                            <span class="button-text" id="" data-lang="Save_changes">Save changes</span>
                                             <img class="icon button-icon" src="assets/icons/check_small.svg">
                                       </div>
                                       <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary  secondary-pink-button cancel-change" data-toggle="modal" data-target="#ChangesModal" onclick="discard('Levels')">
-                                            <span class="button-text discard-changes" >Discard</span>
+                                            <span class="button-text discard-changes" data-lang="Cancel">Discard</span>
                                       </div>
                                   </div>
                                   
@@ -316,8 +390,8 @@
                           <!-- sub-container Classes -->
                           <div  id="Classe_Section" class="item tab-pane fade dom-change-watcher" >
                             <div  class="sub-main-container">
-                              <h1 class="sub-container-main-header">Classes</h1>
-                              <h4 class="sub-container-sub-header">There are many variations of passages of Lorem Ipsum available, but the majority.</h4>
+                              <h1 class="sub-container-main-header" data-lang="Classes">Classes</h1>
+                              <h4 class="sub-container-sub-header" data-lang="Classes_subHeader">There are many variations of passages of Lorem Ipsum available, but the majority.</h4>
 
                               <form class="sub-container-form" id="classes-container">
                               <% for(var i = 0;i < levels.length ; i++) { %> 
@@ -329,7 +403,7 @@
                                     <div class="dynamic-form-input">
                                         <div class="form-group group">
                                           <input type="text" required value="<%= filtred[j].Classe_Label %>" data-classe="<%= filtred[j].Classe_ID %>" name="classe-name" data-level="<%= levels[i].Level_ID %>">
-                                          <label class="input-label"><span class="input-label-text">Classe name</span> <span class="input-label-bg-mask"></span></label>
+                                          <label class="input-label"><span class="input-label-text" data-lang="Class_name">Classe name</span> <span class="input-label-bg-mask"></span></label>
                                         </div>
                                       <div class="square-button square-button-minus hidden">
                                         <img class="icon" src="assets/icons/minus.svg" >
@@ -352,11 +426,11 @@
                                  
                                   <div class="sub-container-form-footer hide-footer">
                                       <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate rounded-button-primary-green-color cancel-change" onclick="updateClasses()">
-                                            <span class="button-text" id="">Save changes</span>
+                                            <span class="button-text" id="" data-lang="Save_changes">Save changes</span>
                                             <img class="icon button-icon" src="assets/icons/check_small.svg">
                                       </div>
                                       <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary  secondary-pink-button cancel-change" data-toggle="modal" data-target="#ChangesModal" onclick="discard('Classes')">
-                                            <span class="button-text discard-changes" >Discard</span>
+                                            <span class="button-text discard-changes" data-lang="Cancel">Discard</span>
                                       </div>
                                   </div>
                                   
@@ -369,8 +443,8 @@
                           <!-- sub-container Costs -->
                           <div  id="Subject_Section" class="item tab-pane fade dom-change-watcher" >
                             <div  class="sub-main-container">
-                              <h1 class="sub-container-main-header">Subjects</h1>
-                              <h4 class="sub-container-sub-header">There are many variations of passages of Lorem Ipsum available, but the majority.</h4>
+                              <h1 class="sub-container-main-header" data-lang="Subjects">Subjects</h1>
+                              <h4 class="sub-container-sub-header" data-lang="Subjects_subHeader">There are many variations of passages of Lorem Ipsum available, but the majority.</h4>
 
                               <form class="sub-container-form" id="subjects-container">
                                 <% for(var i = 0;i < levels.length ; i++) { %> 
@@ -413,11 +487,11 @@
                                  
                                   <div class="sub-container-form-footer hide-footer">
                                       <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate rounded-button-primary-green-color cancel-change" onclick="updateSubjects()">
-                                            <span class="button-text" id="">Save changes</span>
+                                            <span class="button-text" id="" data-lang="Save_changes">Save changes</span>
                                             <img class="icon button-icon" src="assets/icons/check_small.svg">
                                       </div>
                                       <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary  secondary-pink-button cancel-change" data-toggle="modal" data-target="#ChangesModal" onclick="discard('Subjects')">
-                                            <span class="button-text discard-changes" >Discard</span>
+                                            <span class="button-text discard-changes"  data-lang="Cancel">Discard</span>
                                       </div>
                                   </div>
                                   
@@ -427,12 +501,11 @@
                           </div>
                           <!-- end sub-container Costs -->
 
-
                           <!-- sub-container Expenses -->
                           <div  id="Expense_Section" class="item tab-pane fade dom-change-watcher" >
                             <div  class="sub-main-container">
-                              <h1 class="sub-container-main-header">Expenses</h1>
-                              <h4 class="sub-container-sub-header">There are many variations of passages of Lorem Ipsum available, but the majority.</h4>
+                              <h1 class="sub-container-main-header" data-lang="Expenses">Expenses</h1>
+                              <h4 class="sub-container-sub-header" data-lang="Expenses_subHeader">There are many variations of passages of Lorem Ipsum available, but the majority.</h4>
 
                               <form class="sub-container-form" id="expense-container">
                                 <% for(var i = 0;i < expenses.length ; i++) { %> 
@@ -442,14 +515,14 @@
                                         <div class="dynamic-form-input-float-adjust">
                                         <div class="form-group group form-group-left">
                                           <input type="text" class="input-text" required value="<%= expenses[i].Expense_Label %>" name="expense-name" data-expense="<%= expenses[i].Expense_ID %>">
-                                          <label class="input-label"><span class="input-label-text">Expense name</span> <span class="input-label-bg-mask"></span></label>
+                                          <label class="input-label"><span class="input-label-text" data-lang="Expense_name">Expense name</span> <span class="input-label-bg-mask"></span></label>
                                         </div>
                                         <div class="form-group group form-group-right">
-                                          <input type="text" value="<%= expenses[i].Expense_PaymentMethod %>" class="input-dropdown" name="payment_method" required>
+                                          <input type="text" value="<%= expenses[i].Expense_PaymentMethod %>" class="input-dropdown" name="payment_method" required data-lang="<%= expenses[i].Expense_PaymentMethod %>" data-val="<%= expenses[i].Expense_PaymentMethod %>">
                                           <img class="icon button-icon" src="assets/icons/caret.svg">
                                           <ul class="dynamic-form-input-dropdown-options">
-                                              <li data-val="Monthly">Monthly</li>
-                                              <li data-val="Annual">Annual</li>
+                                              <li data-val="Monthly" data-lang="Monthly">Monthly</li>
+                                              <li data-val="Annual" data-lang="Annual">Annual</li>
                                           </ul>
                                         </div>
                                         </div>
@@ -473,11 +546,11 @@
                                  
                                   <div class="sub-container-form-footer hide-footer">
                                       <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate rounded-button-primary-green-color cancel-change" onclick="updateExpenses()">
-                                            <span class="button-text" id="">Save changes</span>
+                                            <span class="button-text" id="" data-lang="Save_changes">Save changes</span>
                                             <img class="icon button-icon" src="assets/icons/check_small.svg">
                                       </div>
                                       <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary  secondary-pink-button cancel-change" data-toggle="modal" data-target="#ChangesModal" onclick="discard('Expenses')">
-                                            <span class="button-text discard-changes" >Discard</span>
+                                            <span class="button-text discard-changes" data-lang="Cancel" >Discard</span>
                                       </div>
                                   </div>
                                   
@@ -491,8 +564,8 @@
                           <!-- sub-container Costs -->
                           <div  id="Costs_Section" class="item tab-pane fade dom-change-watcher" >
                             <div  class="sub-main-container">
-                              <h1 class="sub-container-main-header">Costs</h1>
-                              <h4 class="sub-container-sub-header">There are many variations of passages of Lorem Ipsum available, but the majority.</h4>
+                              <h1 class="sub-container-main-header" data-lang="Costs">Costs</h1>
+                              <h4 class="sub-container-sub-header" data-lang="Costs_subHeader">There are many variations of passages of Lorem Ipsum available, but the majority.</h4>
 
                               <form class="sub-container-form" id="costs-container">
                                 <% for(var i = 0;i < levels.length ; i++) { %> 
@@ -507,7 +580,7 @@
 
                                         <div class="form-group group form-group-left">
                                           <input type="text" class="input-dropdown" required value="<%= filtredCosts[j].Expense_Label %>" name="cost-name" data-cost="<%= filtredCosts[j].Expense_ID %>">
-                                          <label class="input-label"><span class="input-label-text">Expense Name</span> <span class="input-label-bg-mask"></span></label>
+                                          <label class="input-label"><span class="input-label-text" data-lang="Expense_name">Expense_name</span> <span class="input-label-bg-mask"></span></label>
                                           <img class="icon button-icon" src="assets/icons/caret.svg">
                                           <ul class="dynamic-form-input-dropdown-options">
 
@@ -516,7 +589,7 @@
 
                                         <div class="form-group group form-group-right">
                                            <input type="text" class="input-text" name="cost-price" required value="<%= filtredCosts[j].Expense_Cost %>" >
-                                            <label class="input-label"><span class="input-label-text">Price</span> <span class="input-label-bg-mask"></span></label>
+                                            <label class="input-label"><span class="input-label-text" data-lang="Price">Price</span> <span class="input-label-bg-mask"></span></label>
                                         </div>
 
                                         <div class="square-button square-button-minus hidden">
@@ -542,11 +615,11 @@
                                  
                                   <div class="sub-container-form-footer hide-footer">
                                       <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate rounded-button-primary-green-color cancel-change" onclick="updateCosts()">
-                                            <span class="button-text" id="">Save changes</span>
+                                            <span class="button-text" id="" data-lang="Save_changes">Save changes</span>
                                             <img class="icon button-icon" src="assets/icons/check_small.svg">
                                       </div>
                                       <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary  secondary-pink-button cancel-change" data-toggle="modal" data-target="#ChangesModal" onclick="discard('Costs')">
-                                            <span class="button-text discard-changes" >Discard</span>
+                                            <span class="button-text discard-changes"  data-lang="Cancel">Discard</span>
                                       </div>
                                   </div>
                                   
@@ -555,6 +628,57 @@
 
                           </div>
                           <!-- end sub-container Costs -->
+
+
+                          <!-- sub-container Classes -->
+                          <div id="Schedule_Section" class="item tab-pane fade dom-change-watcher">
+                            <div class="sub-main-container">
+                              <h1 class="sub-container-main-header" data-lang="Schedule">Schedule</h1>
+                              <h4 class="sub-container-sub-header" data-lang="Schedule_subHeader">There are many variations of passages of Lorem
+                                Ipsum available, but the majority.</h4>
+                          
+                              <form class="sub-container-form">
+
+                                <div id="schedule-container">
+
+                                </div>
+
+                                <div class="sections-main-sub-container-right-main-label-divider">
+                                  <p data-lang="Breaks" style="opacity: 1;">Breaks</p>
+                                </div>
+
+                                <div id="schedule-breaks-container">
+                                
+                                </div>
+
+                              </form>
+
+                             
+                          
+                            </div>
+                          
+                            <!--  sub-container-form-footer -->
+                            <div class="sub-container-form-footer-container">
+                          
+                              <div class="sub-container-form-footer hide-footer">
+                                <div
+                                  class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate rounded-button-primary-green-color cancel-change"
+                                  onclick="updateSchedule()">
+                                  <span class="button-text" id="" data-lang="Save_changes">Save changes</span>
+                                  <img class="icon button-icon" src="assets/icons/check_small.svg">
+                                </div>
+                                <div
+                                  class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary  secondary-pink-button cancel-change"
+                                  data-toggle="modal" data-target="#ChangesModal" onclick="discard('Schedule')">
+                                  <span class="button-text discard-changes" data-lang="Cancel">Discard</span>
+                                </div>
+                              </div>
+                          
+                            </div>
+                            <!--  End sub-container-form-footer -->
+                          
+                          </div>
+                          <!-- end sub-container Classes -->
 
                     </div>
 
@@ -586,8 +710,8 @@
 
                 <div class="modal-body-container">
 
-                   <h1 class="sub-container-main-header sub-container-main-header-extra-style">Review changes</h1>
-                   <h4 class="sub-container-sub-header  sub-container-sub-header-extra-style">
+                   <h1 class="sub-container-main-header sub-container-main-header-extra-style" data-lang="Review_changes">Review changes</h1>
+                   <h4 class="sub-container-sub-header  sub-container-sub-header-extra-style" data-lang="Review_changes_subHeader">
                     You have made changes. Are you sure you want to discard them?
                    </h4>
 
@@ -595,13 +719,13 @@
                     <div class="sub-container-form-footer">
 
                        <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button ">
-                                    <span class="button-text" >Save changes</span>
+                                    <span class="button-text" data-lang="Save_changes">Save changes</span>
                                     <img class="icon button-icon" src="assets/icons/check_small.svg">
                         </div>
 
                         <div class="rounded-button default-button rounded-button-primary rounded-button-float-right  secondary-pink-button " 
                              data-dismiss="modal" id="Discard">
-                              <span class="button-text" >Discard</span>
+                              <span class="button-text" data-lang="Cancel">Discard</span>
                         </div>
                        
                     </div>

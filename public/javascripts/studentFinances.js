@@ -1,5 +1,5 @@
 var exams = [];
-var months =  ["January", "February", "March", "April", "May", "June", "July", "August", "September", "Octobre", "November", "December"];
+var months =  ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 var _students=[];
 var subscription=[];
 var _payments=[];
@@ -31,6 +31,7 @@ function getStudentFinances(id) {
 
 	  	} else {
 	  		console.log("res ",res);
+	  		console.log("Finances ");
 	  		$("#Finance").find('.month-row').remove();
 	  		$("#Finance").find('.students_list').remove();
 	  		$('#Finance').find('.row-finance').remove();
@@ -49,7 +50,7 @@ function getStudentFinances(id) {
 					style = 'style="background: #f9f9f9 !important"';
 				else
 					style = "";
-				htmlmonths += '<th scope="col" class="col-text-align month-row" '+style+'>'+months[i].slice(0,3)+'</th>';
+				htmlmonths += '<th scope="col" class="col-text-align month-row" data-lang="'+String(months[i]).slice(0,3)+'" '+style+'>'+String(months[i]).slice(0,3)+'</th>';
 				if (i === indEnd){
 					break;
 				}
@@ -62,6 +63,7 @@ function getStudentFinances(id) {
 				$('#Finance').find('.list-students').append('<tr class="students_list finance-tbody-tr" data-id="1" data-studentid="'+_students[i].Student_ID+'"> <td data-label="Subject name" class="td-label"><div class="sections-main-sub-container-left-card"> <img class="sections-main-sub-container-left-card-main-img" src="'+_students[i].Student_Image+'" alt="card-img"> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+_students[i].Student_FirstName +' '+_students[i].Student_LastName+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+_students[i].Classe_Label+'</span> </div> </div></td> </tr>');
 				displayFinance(_students[i].Student_ID);
 			}
+			$("body").trigger("domChanged");
 			
 	  	}
 	  });
@@ -149,7 +151,7 @@ function displayBillFinance(id) {
  		}
  	}
  	var total = 0;
- 	$("#FinanceBillModal").find('.months-bill').append('<tr class="row-subtotal row-expense"><td data-label="School fees" class="td-label">Subtotal</td>'+Subtotal+'</tr>')
+ 	$("#FinanceBillModal").find('.months-bill').append('<tr class="row-subtotal row-expense"><td data-label="School fees" class="td-label"  data-lang="Subtotal">Subtotal</td>'+Subtotal+'</tr>')
  	for (var i = indStart; i < months.length; i++) {
  		if (date.getMonth() === i){
 			style = 'style="background: #f9f9f9"';
@@ -198,13 +200,14 @@ function displayBillFinance(id) {
 				}
 			}
 	 	}
-		$("#FinanceBillModal").find('.months-bill .row-subtotal').before('<tr '+style+' class="row-bill"> <td data-label="School fees" class="td-label"> '+months[i].slice(0,3)+' </td>'+htmltPayed+' </tr>')
+		$("#FinanceBillModal").find('.months-bill .row-subtotal').before('<tr '+style+' class="row-bill"> <td data-label="School fees" class="td-label" data-lang="'+months[i].slice(0,3)+'"> '+months[i].slice(0,3)+' </td>'+htmltPayed+' </tr>')
 		if (i === indEnd)
 			break;
 		if (i === months.length - 1)
 			i = -1;
 	}
-	$("#FinanceBillModal").find('.total-unpaid').html(total + ' DH')
+	$("#FinanceBillModal").find('.total-unpaid').html(total + ' DH');
+	$("body").trigger("domChanged");
 	console.log('SubTotal',Subtotal);
 }
 

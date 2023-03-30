@@ -2,7 +2,7 @@
 <html>
 <head>
 
-	 <title><%= title %></title>
+	  <title data-lang="<%= title %>"><%= title %></title>
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -25,7 +25,7 @@
       <div class="sub-container">
 
         <div class="sub-container-nav-bar">
-            <span class="sub-container-nav-bar-title">Finance</span>
+            <span class="sub-container-nav-bar-title" data-lang="Finance">Finance</span>
             <img  class="sub-container-nav-bar-img" src="<%= user.User_Image %>" alt="profile">
         </div>
 
@@ -56,11 +56,11 @@
                                             <div class="dynamic-form-input">
                                               <div class="dynamic-form-input-float-adjust">
                                               <div class="form-group group form-group-right">
-                                                <input type="text" class="input-dropdown finance-filter" value=""  name="classe" placeholder="Classes" required>
+                                                <input type="text" class="input-dropdown finance-filter" value=""  name="classe" placeholder="Classes" required data-lang="Classes">
 
                                                 <img class="icon button-icon" src="assets/icons/caret.svg">
                                                 <ul class="dynamic-form-input-dropdown-options">
-                                                    <li data-val="All">All</li>
+                                                    <li data-val="All" data-lang="All">All</li>
                                                     <% for(var i=0; i<classes.length; i++) {%>
                                                        <li data-val="<%= classes[i].Classe_Label %>"><%= classes[i].Classe_Label %></li>
                                                     <% } %>
@@ -83,10 +83,10 @@
                                             <div class="dynamic-form-input">
                                               <div class="dynamic-form-input-float-adjust">
                                               <div class="form-group group form-group-right ">
-                                                <input type="text" class="input-dropdown finance-filter" value="" name="expense" placeholder="Expences"  required>
+                                                <input type="text" class="input-dropdown finance-filter" value="" name="expense" placeholder="Expenses"  required data-lang="Expenses">
                                                 <img class="icon button-icon" src="assets/icons/caret.svg">
                                                 <ul class="dynamic-form-input-dropdown-options" id="expenses-filter">
-                                                  <li data-val="All">All</li>
+                                                  <li data-val="All" data-lang="All">All</li>
                                                     <%if (locals.expenses) { %>
                                                        <% for(var i=0; i<expenses.length; i++) {%>
                                                          <li data-expenseid="<%= expenses[i].Expense_ID %>" data-val="<%= expenses[i].Expense_Label %>"><%= expenses[i].Expense_Label %></li>
@@ -111,13 +111,13 @@
                                             <div class="dynamic-form-input">
                                               <div class="dynamic-form-input-float-adjust">
                                               <div class="form-group group form-group-right">
-                                                <input type="text" class="input-dropdown finance-filter" value="" placeholder="Status" name="filter-payment" required>
+                                                <input type="text" class="input-dropdown finance-filter" value="" placeholder="Status" name="filter-payment" required  data-lang="Payment_status">
 
                                                 <img class="icon button-icon" src="assets/icons/caret.svg">
                                                 <ul class="dynamic-form-input-dropdown-options">
-                                                    <li data-val="All">All</li>
-                                                    <li data-val="Unpaid">Unpaid</li>
-                                                    <li data-val="Paid">Paid</li>
+                                                    <li data-val="All" data-lang="All">All</li>
+                                                    <li data-val="Unpaid" data-lang="Unpaid">Unpaid</li>
+                                                    <li data-val="Paid" data-lang="Paid">Paid</li>
                                                 </ul>
                                               </div>
                                               </div>
@@ -193,7 +193,7 @@
                                                 <div class="dynamic-form-input-float-adjust">
 
                                                   <div class="form-group group form-group-right">
-                                                     <input type="text" id="search-input" class="input-text" required="" placeholder="Search">
+                                                     <input type="text" id="search-input" class="input-text" required="" placeholder="Search" data-lang="Search">
                                                      <img class="icon button-icon caret-disable-rotate" src="assets/icons/sidebar_icons/search.svg">
                                                   </div>
 
@@ -225,7 +225,7 @@
 
                                         <thead>
                                           <tr class="list-months">
-                                            <th class="col-extra-style col-sticky-extra-style" scope="col">Students</th>
+                                            <th class="col-extra-style col-sticky-extra-style" scope="col" data-lang="Students">Students</th>
                                           </tr>
                                         </thead>
 
@@ -256,6 +256,8 @@
 
                 </div>
 
+                <input type="hidden" id="academicyear" value="" />
+
         </div>
         <!--  End sections-main-sub-container -->
 
@@ -267,19 +269,19 @@
     <div class="custmized-tooltip">
 
         <p class="custmized-tooltip-container">
-          <span class="custmized-tooltip-label">Expence <span class="custmized-tooltip-dots">:</span></span>
+          <span class="custmized-tooltip-label" data-lang="Expence_:">Expence <span class="custmized-tooltip-dots">:</span></span>
           <span class="custmized-tooltip-label-value">Insurance fees</span>
         </p>
         <p class="custmized-tooltip-container">
-          <span class="custmized-tooltip-label">Amount<span class="custmized-tooltip-dots">:</span></span>
+          <span class="custmized-tooltip-label" data-lang="Amount_:">Amount<span class="custmized-tooltip-dots">:</span></span>
           <span class="custmized-tooltip-value"> 
             <span class="custmized-tooltip-amount-value">1500</span>
             <span class="custmized-tooltip-currency">Dhs</span>
           </span>
         </p>
         <p class="custmized-tooltip-container">
-          <span class="custmized-tooltip-label">Status<span class="custmized-tooltip-dots">:</span></span>
-          <span class="custmized-tooltip-status-value">Unpaid</span>
+          <span class="custmized-tooltip-label" data-lang="Status">Status<span class="custmized-tooltip-dots">:</span></span>
+          <span class="custmized-tooltip-status-value" data-lang="Unpaid">Unpaid</span>
           </span>
         </p>
 

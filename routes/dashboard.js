@@ -6,8 +6,11 @@ const authAdmin = require("../middleware/adminAuth");
 /* GET users listing. */
 router.get('/',authAdmin, dashboardController.dashboardView);
 router.get('/absences',authAdmin, dashboardController.getAllAbsences);
-router.get('/payments',authAdmin, dashboardController.getAllPayments);
 
 router.get('/monthlyExpenses',authAdmin,dashboardController.getMonthsExpenses);
+
+
+router.post('/getDashboardAllData', authAdmin, dashboardController.getDashboardAllData);
+router.post('/payments',authAdmin, dashboardController.getAllPayments);
 
 module.exports = router;

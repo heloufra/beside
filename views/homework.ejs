@@ -2,9 +2,9 @@
 <html>
 <head>
 
-    <title><%= title %></title>
+    <title data-lang="<%= title %>"><%= title %></title>
     <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
  <%- include('./partials/main'); %>
@@ -25,7 +25,7 @@
       <div class="sub-container">
 
         <div class="sub-container-nav-bar">
-            <span class="sub-container-nav-bar-title">Homeworks</span>
+            <span class="sub-container-nav-bar-title" data-lang="Homeworks">Homeworks</span>
             <img  class="sub-container-nav-bar-img" src="<%= user.User_Image %>" alt="profile">
         </div>
 
@@ -49,10 +49,10 @@
                           <div class="dynamic-form-input-float-adjust">
 
                             <div class="form-group group form-group-left sub-form-group">
-                              <input type="text" value="Classes" data-val="All" class="input-dropdown homework-filters" name="filter-classe" required="">
+                              <input type="text" value="Classes" data-lang="Classes" data-val="All" class="input-dropdown homework-filters" name="filter-classe" required="">
                               <img class="icon button-icon" src="assets/icons/caret.svg">
                               <ul class="dynamic-form-input-dropdown-options">
-                                <li data-val="All">All</li>
+                                <li data-val="All" data-lang="All">All</li>
                                  <% for(var i=0; i<classes.length; i++) {%>
                                      <li data-val="<%= classes[i].Classe_Label %>"><%= classes[i].Classe_Label %></li>
                                   <% } %>
@@ -60,10 +60,10 @@
                             </div>
                             
                             <div class="form-group group form-group-right sub-form-group">
-                              <input type="text" value="Subject" data-val="All" class="input-dropdown homework-filters" name="filter-subject" required="">
+                              <input type="text" value="Subjects" data-lang="Subjects" data-val="All" class="input-dropdown homework-filters" name="filter-subject" required="">
                               <img class="icon button-icon" src="assets/icons/caret.svg">
                               <ul class="dynamic-form-input-dropdown-options filter-subject">
-                                <li data-val="All">All</li>
+                                <li data-val="All" data-lang="All">All</li>
                                 <% for(var i=0; i<subjects.length; i++) {%>
                                      <li class="row-subject" data-val="<%= subjects[i].Subject_Label %>"><%= subjects[i].Subject_Label %></li>
                                 <% } %>
@@ -143,13 +143,13 @@
                                               sections-main-sub-container-right-main-header-option-list-li-homework-edit
                                               ">
                                     <img src="assets/icons/edit.svg" alt="edit"/>   
-                                    <span class="sections-main-sub-container-right-main-header-option-list-span">Edit
+                                    <span class="sections-main-sub-container-right-main-header-option-list-span" data-lang="Edit">Edit
                                     </span>
                                   </div>
                                   <div class="sections-main-sub-container-right-main-header-option-list-li
                                               sections-main-sub-container-right-main-header-option-list-li-delete">
                                     <img src="assets/icons/delete.svg" alt="edit"/>   
-                                    <span class="sections-main-sub-container-right-main-header-option-list-span">Delete</span>
+                                    <span class="sections-main-sub-container-right-main-header-option-list-span" data-lang="Delete">Delete</span>
                                   </div>
                                   <img class="sections-main-sub-container-right-main-header-option-icon-close" alt="close" src="assets/icons/close.svg">
                                 </div>
@@ -168,7 +168,7 @@
                               <div id="HomeworkDetails" class="tab-pane fade in active  sections-main-sub-container-right-main-body dom-change-watcher-disabled">
 
                                   <div class="sections-main-sub-container-right-main-label-divider sections-main-sub-container-right-main-label-divider-extra-style">
-                                        <p>Homework details</p>
+                                        <p data-lang="Homework_details">Homework details</p>
                                   </div>
 
                                   <div class="row sections-main-sub-container-right-main-rows">
@@ -177,7 +177,7 @@
                                       <div class="form-group group ">
                                         <input  readonly type="text" required="" name="homework_name">
                                         <label class="input-label input-label-move-to-top">
-                                          <span class="input-label-text">Homework name</span><span class="input-label-bg-mask"></span>
+                                          <span class="input-label-text" data-lang="Homework_title" >Homework name</span><span class="input-label-bg-mask"></span>
                                         </label>
                                       </div>
                                     </div>
@@ -187,7 +187,7 @@
                                           <input readonly  type="text" name="homework_date" class="input-text" required="" placeholder="">
                                           
                                           <label class="input-label input-label-move-to-top">
-                                            <span class="input-label-text">Delivery Date</span><span class="input-label-bg-mask"></span>
+                                            <span class="input-label-text" data-lang="Homework_Date">Delivery Date</span><span class="input-label-bg-mask"></span>
                                           </label>
                                       </div>
                                     </div>
@@ -201,7 +201,7 @@
                                       <div class="form-group group ">
                                         <textarea  readonly  class="input-text input-text-area" id="homework_description"></textarea>
                                         <label class="input-label input-label-move-to-top">
-                                          <span class="input-label-text">Homework description</span><span class="input-label-bg-mask"></span>
+                                          <span class="input-label-text" data-lang="Homework_description">Homework description</span><span class="input-label-bg-mask"></span>
                                         </label>
                                       </div>
                                     </div>
@@ -263,21 +263,21 @@
 
                 <div class="modal-body-container">
 
-                   <h1 class="sub-container-main-header sub-container-main-header-extra-style">Review changes</h1>
-                   <h4 class="sub-container-sub-header  sub-container-sub-header-extra-style">
+                    <h1 class="sub-container-main-header sub-container-main-header-extra-style" data-lang="Review_changes">Review changes</h1>
+                    <h4 class="sub-container-sub-header  sub-container-sub-header-extra-style" data-lang="Review_changes_subHeader">
                     You have made changes. Are you sure you want to discard them?
-                   </h4>
+                    </h4>
 
                     <!--  sub-container-form-footer -->
                     <div class="sub-container-form-footer">
 
                        <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button save-changes" onclick="saveChange()">
-                                    <span class="button-text" >Save changes</span>
+                                    <span class="button-text" data-lang="Save_changes" >Save changes</span>
                                     <img class="icon button-icon" src="assets/icons/check_small.svg">
                         </div>
 
                         <div class="rounded-button default-button rounded-button-primary rounded-button-float-right  secondary-pink-button save-changes" onClick="discardChange()">
-                              <span class="button-text" >Discard</span> 
+                              <span class="button-text" data-lang="Cancel">Discard</span> 
                         </div>
                        
                     </div>
@@ -312,20 +312,21 @@
 
                 <div class="modal-body-container">
 
-                   <h1 class="sub-container-main-header sub-container-main-header-extra-style">Are you sure ?</h1>
-                   <h4 class="sub-container-sub-header  sub-container-sub-header-extra-style">
+                    <h1 class="sub-container-main-header sub-container-main-header-extra-style" data-lang="Popup_delete">Are you sure ?</h1>
+                    <h4 class="sub-container-sub-header  sub-container-sub-header-extra-style" data-lang="Popup_delete_subHeader">
                     You have made changes. Are you sure you want to discard them?
-                   </h4>
+                    </h4>
+                    
 
                     <!--  sub-container-form-footer -->
                     <div class="sub-container-form-footer">
 
                         <div class="rounded-button default-button rounded-button-primary rounded-button-float-right  secondary-pink-button " onClick="remove()">
-                              <span class="button-text" >Confirm</span>
+                              <span class="button-text" data-lang="Confirm" >Confirm</span>
                         </div>
 
                         <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary">
-                                    <span class="button-text" data-dismiss="modal" >Cancel</span>
+                                    <span class="button-text" data-dismiss="modal" data-lang="Cancel" >Cancel</span>
                         </div>
                        
                     </div>

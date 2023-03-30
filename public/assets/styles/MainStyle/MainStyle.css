@@ -55,9 +55,11 @@
 
   --green--info--color:#55b578;
 
-  --red--info--color:#db4d5d;
+  --red--info--color:#f75e7e; /*#db4d5d */
 
   --red--header--color:#e57588;
+
+  --input--error-border--color:#f6b8c1;
 
   --blue--color :#279fe3;
 
@@ -105,6 +107,8 @@
 
   --modal--background--color : rgba(21, 26, 59, 0.2);
 
+  --light--green--color : #a2e2ba;
+
 }
 
 .red-color{
@@ -125,6 +129,10 @@
 
 .input-text-blue{
 	color: var(--blue--color) !important;
+}
+
+.input-text-green{
+	color: var(--light--green--color) !important;
 }
 
 .blue-color{
@@ -252,6 +260,28 @@ body {
 	min-height: 40px;
 }
 
+.modal .input-dropdown , .modal .input-text ,
+.sections-main-sub-container-right-main .input-dropdown , .sections-main-sub-container-right-main .input-text{
+	text-overflow: ellipsis;
+	min-height: 44px !important;
+}
+
+.modal .input-date ,
+.sections-main-sub-container-right-main .input-date {
+	text-indent: 4px;
+	min-height: 44px !important;
+}
+
+.modal .input-date , .input-time ,
+.sections-main-sub-container-right-main .input-date , .sections-main-sub-container-right-main .input-time {
+	height: 100% !important;
+	min-height: 44px !important;
+}
+
+.sections-main-sub-container-right-main .form-group input {
+	min-height: 44px !important;
+}
+
 /***************** End input-date - .input-time *************/
 
 /************* Setup Main Container **********/
@@ -264,7 +294,8 @@ body {
 #Costs_Section,
 #Subject_Section,
 #Login_Section,
-#Code_Section {
+#Code_Section,
+#Gallery_Section {
 	position: relative;
 	height: 90vh;
 	overflow: hidden;
@@ -279,13 +310,26 @@ body {
 #Costs_Section  .dynamic-form-input-float-adjust,
 #Subject_Section  .dynamic-form-input-float-adjust,
 #Login_Section  .dynamic-form-input-float-adjust,
-#Code_Section   .dynamic-form-input-float-adjust{
+#Code_Section   .dynamic-form-input-float-adjust,
+#Gallery_Section   .dynamic-form-input-float-adjust{
 	display: flex;
 }
 
-
+.setup-update-main-container #Details_Section .input-img-container .rounded-button{
+	top: 20px;
+}
 
 #Academic_Year_Section .sub-main-container{
+	padding-bottom: 50px;
+}
+
+
+#Gallery_Section #galleryForm{
+	width: 100%;
+	height: 100%;
+}
+
+#Gallery_Section #sortable{
 	padding-bottom: 50px;
 }
 
@@ -522,7 +566,7 @@ body {
     box-shadow: inset 0 1px 1px 0 rgba(21, 26, 59, 0.06);
     padding: 16px;
     background-color: var(--white-color);
-    z-index: 999999;
+    z-index: 100; /*999999;*/
 }
 
 .sections-main-sub-container-right-main .sub-container-form-footer{
@@ -556,7 +600,7 @@ input{
   padding:10px 10px 10px 5px;
   /*font-family: Regular;*/
   display:block;
-  width:100%;
+  width:95%; /* 100% */
   height: 42px; /* 39 */
   border:none;
   border-radius: 3px;
@@ -568,6 +612,7 @@ input{
 
 .setup-main-container input{
   height: 41px; /* 39 */
+  width: 100%;
 }
 
 .setup-main-container .dynamic-form-input-dropdown-options{
@@ -578,6 +623,9 @@ input{
 	max-height: 220px;
 }
 
+.sections-main-sub-container-right input{
+  width: 100%;
+}
 
 
 .input-text-area {
@@ -2050,7 +2098,6 @@ input:focus ~ label,input:valid ~ label{
 	opacity: 0;
 	overflow: hidden;
     border-radius: 3px !important;
-    background-image: red !important;
     transition: border-radius .25s ease-out , opacity .25s ease-out;
     z-index: -10;
 }
@@ -2267,6 +2314,7 @@ input:focus ~ label,input:valid ~ label{
 .sections-main-sub-container-left-card-main-img-text{
     min-width: 40px;
     min-height: 40px;
+	max-height: 40px;
     border-radius: 100%;
     display: inline-block;
     margin-right: 12px;
@@ -2303,7 +2351,6 @@ input:focus ~ label,input:valid ~ label{
 }
 
 .sections-main-sub-container-left .sections-main-sub-container-left-card-info{
-	width: calc( 100% - 115px ) !important;
 	margin-right: 8px;
 }
 
@@ -2318,6 +2365,7 @@ input:focus ~ label,input:valid ~ label{
     text-overflow: ellipsis;
     display: inline-block;
     width: 100%;
+	/*text-transform: CAPITALIZE;*/
 }
 
 .sections-main-sub-container-left-card-sub-info {
@@ -2481,6 +2529,7 @@ input:focus ~ label,input:valid ~ label{
 	margin-bottom: 0px;
 	text-align: center;
 	color: var(--black--color);
+	/*text-transform: CAPITALIZE;*/
 }
 
 .sections-main-sub-container-right-main-header.student {
@@ -2495,8 +2544,9 @@ input:focus ~ label,input:valid ~ label{
 	color: var(--black--gray--color);
 }
 
-.sections-main-sub-container-right-main .sub-container-form,
-.sections-main-sub-container .sub-label-full-name{
+/* .sections-main-sub-container .sub-label-full-name */
+
+.sections-main-sub-container-right-main .sub-container-form{
 	padding:60px;
 	padding-bottom: 120px;
 }
@@ -2505,6 +2555,11 @@ input:focus ~ label,input:valid ~ label{
 form{
 	outline: none !important;
 }
+
+.sections-main-sub-container-right-main input[type="text"]{
+	width: 100%;
+}
+
 /****************** sections-main-sub-container-right-main-header ***************/
 
 .modal .sections-main-sub-container-right-main-header .sections-main-sub-container-right-main-header-info{
@@ -2641,8 +2696,12 @@ form{
     cursor: pointer;
     margin: 0px;
     border-radius: 0px;
-    display: inline-block;
+    display: flex;
     width: 100%;
+	height: 100%;
+	align-items: center;
+	justify-content: center;
+
 }
 
 
@@ -2710,7 +2769,7 @@ form{
     background: var(--input-border--color);
     height: 1px;
     position: relative;
-	margin-bottom: 28px;
+	margin-bottom: 24px;
     margin-top: 16px;
 }
 
@@ -2719,12 +2778,24 @@ form{
     top: -10px;
     padding: 0px 5px 0px 0px;
     background: white;
-    font-size: 14px;
+    font-size: 12px;
     color: var(--black--gray--color);
 }
 
 .sections-main-sub-container-right-main-label-divider-extra-style{
 	margin-top: 50px;
+}
+
+.dashboard-chat-side-bar-to-name{
+	font-size: 12px;
+}
+
+.card-multi-receivers-dropdown-items{
+	display: flex;
+    flex-direction: column;
+    margin-left: 52px;
+	display: none;
+	overflow: hidden;
 }
 
 /******************* End sections-main-sub-container-right-main-label-divider *************/
@@ -2851,7 +2922,7 @@ form{
 	width: 20px;
 	height: 20px;
 	content: ' ';
-	fill: red;
+	/*fill: red;*/
 }
 
 .customCheck label:after {
@@ -2877,7 +2948,7 @@ form{
 	width: 20px;
 	height: 20px;
 	content: ' ';
-	fill: red;
+	/*fill: red;*/
 }
 .customCheckRounded label:after {
     position: absolute;
@@ -2905,8 +2976,6 @@ form{
 	cursor: pointer !important;
 }
 
-
-
 .dom-change-watcher-disabled .customCheck label:before , .dom-change-watcher-disabled .customCheck label:after{
 	top: 0px !important;
 	z-index: 2;
@@ -2917,7 +2986,7 @@ form{
 }
 
 .dom-change-watcher-disabled textarea{
-	pointer-events: none !important;
+	/*pointer-events: none !important;*/
 	background: var(--white-color);
 }
 
@@ -3070,7 +3139,7 @@ form{
 .sections-main-sub-container-right-main-body table th,
 .sections-main-sub-container-right-main-body table td {
   text-align: left;
-  border-right: 1px solid var(--input-border--color);
+  border-right: 1px solid var(--input-border--color) !important;
   border: 0px;
   position: relative;
 }
@@ -3090,7 +3159,7 @@ form{
     font-weight: normal;
     font-size: 14px;
     text-transform: capitalize;
-    border-right: 1px solid var(--input-border--color);
+    border-right: 1px solid var(--input-border--color) !important;
     color: var(--input-placeholder--color);
     padding:8px 12px;
     border:0px;
@@ -3316,7 +3385,56 @@ form{
 	margin-bottom: 34px; /*34*/
 }
 
-.sections-main-sub-container-right-main-result-label{
+#expences_image_container .input-img {
+	width: 60px;
+	height: 60px;
+	border-radius: 100%;
+	border:1px solid var(--input-border--color);
+}
+
+#expences_info .input-img-container{
+	width: 60px;
+	height: 60px;
+	border-radius: 100%;
+	border:0px solid var(--input-border--color);
+}
+
+#expences_info .sections-main-sub-container-right-main-body .td-label{
+	padding-left: 0px !important;
+}
+
+#expences_info  .sections-main-sub-container-right-main-body-extra-padding table th, 
+#expences_info  .sections-main-sub-container-right-main-body-extra-padding td{
+	padding: 16px 8px;
+}
+
+
+#expences_info .expense_label{
+	max-width: 100%;
+}
+
+#AddExpenceModal .sections-main-sub-container-right-main-body table th, 
+#AddExpenceModal .sections-main-sub-container-right-main-body table td,
+#ExpencesModal .sections-main-sub-container-right-main-body table th, 
+#ExpencesModal .sections-main-sub-container-right-main-body table td,
+#EditExpenceModal .sections-main-sub-container-right-main-body table th, 
+#EditExpenceModal .sections-main-sub-container-right-main-body table td{
+	border-right: 0px !important;
+}
+
+
+.list-expenses .row-payment img.action-img{
+	cursor: pointer;
+	/*transition: background .25s ease-in;*/
+	border-radius: 100%;
+}
+
+.list-expenses .row-payment img.action-img:hover{
+	cursor: pointer;
+    /*background: var(--btn--secondary--bg--color);*/
+}
+
+.sections-main-sub-container-right-main-result-label {
 	font-size: 16px;
 	color: var(--black--color);
 	font-weight: normal;
@@ -3324,10 +3442,47 @@ form{
     top: 0px;
 }
 
+.sections-main-sub-container-right-main-result-value-executed-date {
+	font-size: 14px;
+    line-height: 14px;
+    font-weight: normal;
+    color: var(--input-placeholder--color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    width: 100%;
+	text-align: left;
+    padding: 16px 0px;
+}
+
 .sections-main-sub-container-right-main-result-label-extra-info{
 	font-size: 14px;
 	font-size: 14px;
     display: inline-block;
+}
+
+#expences_info .sections-main-sub-container-right-main-body-extra table{
+	table-layout: auto;
+}
+
+#expences_info .sections-main-sub-container-right-main-body-extra  table td{
+	border-right: 0px solid var(--input-border--color) !important;
+}
+
+#ExpencesModal .expence-employes-container .button-icon{
+	vertical-align: middle;
+    position: absolute;
+    top: 9px;
+    right: 8px;
+}
+
+#ExpencesDetails table tr td {
+	padding: 3px !important ;
+}
+
+#ExpencesDetails table tr td:last-child{
+	padding: 3px !important;
 }
 
 .sections-main-sub-container-right-main-result-value{
@@ -3338,6 +3493,10 @@ form{
 
 .sections-main-sub-container-right-main-result-value img{
 	margin-bottom: -0px !important; 
+}
+
+#ExpencesModal .modal-body-container{
+	min-height: 100vh ;
 }
 
 #Attitude .table-option-icon{
@@ -3445,14 +3604,19 @@ form{
 }
 
 #Details .dynamic-form-input-text-container-icon{
-	height: 42px;
+	height: 46px !important;
     border: 1px solid var(--input-border--color);
     background-color: white;
     border-radius: 3px;
+	min-height: 44px !important;
 }
 
 .textarea{
 	transition: background-color .5s ease-in;
+}
+
+.input-text.input-text-area{
+	min-height: 250px !important;
 }
 
 /****** End dynamic-form-input-text-container-icon ******/
@@ -3504,15 +3668,29 @@ form{
 	pointer-events: initial !important;
 }
 
-#FinanceModal , #AddNewAttitudeModal , #FinanceNewModal , #FinanceBillModal , #ChangesModal , #ConfirmDeleteModal , #AddAbsenceModal  , 
+.modal input[type="text"]{
+	width: 100%;
+}
+
+#FinanceModal , #ExpencesModal , #AddNewAttitudeModal , #FinanceNewModal , #FinanceBillModal , #ChangesModal , #ConfirmDeleteModal , #AddAbsenceModal  , 
 #ImportUsersModal , #AddTeacherAbsenceModal , #AddStudentAbsenceModal , #EditAbsenceModal , #AddAttitudeModal, #EditAttitudeModal , #AddExamModal , 
-#AddHomeworkModal , #EditHomeworkModal  , #EditExamModal , #AddStudentModal , #EditStudentModal , #ProfileSettings , #AddTeacherModal, #EditTeacherModal , #ExamDetailModal  , #HomeworkDetailModal , #NewActionModal {
+#AddHomeworkModal , #AddMessageModal , #EditHomeworkModal  , #EditExamModal , #AddStudentModal , #EditStudentModal , #ProfileSettings , 
+#AddTeacherModal, #EditTeacherModal ,
+#AddEmployeeModal, #EditEmployeeModal ,
+#AddExpenceModal , #EditExpenceModal ,
+#ExpencesModal  ,
+ #ExamDetailModal  , #HomeworkDetailModal , #NewActionModal {
 	background-color: var(--modal--background--color);
-	z-index: 999999;
+	/*z-index: 999999;*/
+	z-index: 100;
 }
 
 
 #AddTeacherModal  .input-rounded-img-container ,#EditTeacherModal  .input-rounded-img-container , 
+#AddExpenceModal  .input-rounded-img-container ,
+#ExpencesModal  .input-rounded-img-container ,
+#EditExpenceModal  .input-rounded-img-container , 
+#AddEmployeeModal  .input-rounded-img-container ,#EditEmployeeModal  .input-rounded-img-container , 
 #ProfileSettings  .input-rounded-img-container , 
 #AddStudentModal  .input-rounded-img-container, #EditStudentModal  .input-rounded-img-container {
 	width: 80px;
@@ -3520,6 +3698,10 @@ form{
 }
 
 #AddTeacherModal  .input-img-container .rounded-button , #EditTeacherModal  .input-img-container .rounded-button , 
+#AddExpenceModal  .input-img-container .rounded-button , 
+#ExpencesModal  .input-img-container .rounded-button , 
+#EditExpenceModal  .input-img-container .rounded-button , 
+#AddEmployeeModal  .input-img-container .rounded-button , #EditEmployeeModal  .input-img-container .rounded-button , 
 #ProfileSettings  .input-img-container .rounded-button , 
 #AddStudentModal  .input-img-container .rounded-button, #EditStudentModal  .input-img-container .rounded-button,
 #EditStudentModal  .input-img-container .rounded-button, #EditStudentModal  .input-img-container .rounded-button{
@@ -3529,7 +3711,10 @@ form{
 }
 
 #AddTeacherModal  .sections-main-sub-container-right-main-header .rounded-button , 
+#ExpencesModal  .sections-main-sub-container-right-main-header .rounded-button , 
+#AddExpenceModal  .sections-main-sub-container-right-main-header .rounded-button , 
 #EditTeacherModal  .sections-main-sub-container-right-main-header .rounded-button , 
+#EditExpenceModal  .sections-main-sub-container-right-main-header .rounded-button , 
 #ProfileSettings  .sections-main-sub-container-right-main-header .rounded-button , 
 #AddStudentModal  .sections-main-sub-container-right-main-header .rounded-button, 
 #EditStudentModal  .sections-main-sub-container-right-main-header .rounded-button {
@@ -3538,7 +3723,12 @@ form{
 }
 
 #AddTeacherModal  .sections-main-sub-container-right-main-header .input-rounded-img-container, 
+#ExpencesModal  .sections-main-sub-container-right-main-header .input-rounded-img-container, 
+#AddExpenceModal  .sections-main-sub-container-right-main-header .input-rounded-img-container, 
 #EditTeacherModal  .sections-main-sub-container-right-main-header .input-rounded-img-container, 
+#EditExpenceModal  .sections-main-sub-container-right-main-header .input-rounded-img-container, 
+#AddEmployeeModal  .sections-main-sub-container-right-main-header .input-rounded-img-container, 
+#EditEmployeeModal  .sections-main-sub-container-right-main-header .input-rounded-img-container, 
 #ProfileSettings  .sections-main-sub-container-right-main-header .input-rounded-img-container, 
 #AddStudentModal  .sections-main-sub-container-right-main-header .input-rounded-img-container,
 #EditStudentModal  .sections-main-sub-container-right-main-header .input-rounded-img-container{
@@ -3587,6 +3777,7 @@ form{
 
 #AddExamModal .form-group-right , 
 #AddHomeworkModal .form-group-right,
+#AddMessageModal .form-group-right,
 #EditHomeworkModal .form-group-right,
 #EditExamModal .form-group-right,
 .modal.in .form-group-right {
@@ -3595,17 +3786,19 @@ form{
 }
 
 .modal.in .dynamic-form-input-dropdown-options{
-	top: 43px;
+	top: 45px;
 }
 
 #AddExamModal .dynamic-form-input-dropdown-options ,
 #AddHomeworkModal .dynamic-form-input-dropdown-options ,
+#AddMessageModal .dynamic-form-input-dropdown-options ,
 #EditHomeworkModal .dynamic-form-input-dropdown-options ,
 #EditExamModal .dynamic-form-input-dropdown-options {
-	top: 43px;
+	top: 45px;
 }
 
 #FinanceModal .sub-container-form-footer .modal-confirm-button ,
+#ExpencesModal .sub-container-form-footer .modal-confirm-button ,
 #AddNewAttitudeModal .sub-container-form-footer .modal-confirm-button ,
 #FinanceNewModal .sub-container-form-footer .modal-confirm-button ,
 #FinanceBillModal .sub-container-form-footer .modal-confirm-button ,
@@ -3618,6 +3811,7 @@ form{
 #ExamDetailModal .sub-container-form-footer .modal-confirm-button ,
 #HomeworkDetailModal .sub-container-form-footer .modal-confirm-button ,
 #AddHomeworkModal .sub-container-form-footer .modal-confirm-button ,
+#AddMessageModal .sub-container-form-footer .modal-confirm-button ,
 #EditHomeworkModal .sub-container-form-footer .modal-confirm-button ,
 #EditExamModal .sub-container-form-footer .modal-confirm-button ,
 #AddStudentModal .sub-container-form-footer .modal-confirm-button ,
@@ -3625,6 +3819,11 @@ form{
 #ProfileSettings .sub-container-form-footer .modal-confirm-button ,
 #AddTeacherModal .sub-container-form-footer .modal-confirm-button ,
 #EditTeacherModal .sub-container-form-footer .modal-confirm-button ,
+#ExpencesModal .sub-container-form-footer .modal-confirm-button ,
+#AddExpenceModal .sub-container-form-footer .modal-confirm-button ,
+#EditExpenceModal .sub-container-form-footer .modal-confirm-button ,
+#AddEmployeeModal .sub-container-form-footer .modal-confirm-button ,
+#EditEmployeeModal .sub-container-form-footer .modal-confirm-button ,
 #AddAttitudeModal .sub-container-form-footer .modal-confirm-button ,
 #EditAttitudeModal .sub-container-form-footer .modal-confirm-button{
 	background-image: linear-gradient(to left, var(--element--gradient--from--color), var(--element--gradient--to--color)) !important;
@@ -3658,6 +3857,7 @@ form{
 	width: 100% !important;
 	border-bottom-right-radius: 3px;
 	border-bottom-left-radius: 3px;
+	transition: bottom cubic-bezier(0.88, 0.02, 0.18, 1) .15s;
 }
 
 #FinanceNewModal .modal-body-container{
@@ -3665,6 +3865,7 @@ form{
 }
 
 #FinanceModal .modal-dialog , 
+#ExpencesModal .modal-dialog , 
 #AddNewAttitudeModal .modal-dialog , 
 #EditAttitudeModal .modal-dialog , 
 #FinanceNewModal .modal-dialog , 
@@ -3674,12 +3875,17 @@ form{
 #AddTeacherAbsenceModal .modal-dialog ,
 #AddStudentAbsenceModal .modal-dialog ,
 #EditAbsenceModal .modal-dialog , #AddAttitudeModal .modal-dialog , #AddHomeworkModal .modal-dialog ,
+#EditAbsenceModal .modal-dialog , #AddAttitudeModal .modal-dialog , #AddMessageModal .modal-dialog ,
 #EditHomeworkModal .modal-dialog , 
 #EditExamModal .modal-dialog , 
 #AddExamModal .modal-dialog , #ExamDetailModal .modal-dialog , #HomeworkDetailModal .modal-dialog , 
 #ProfileSettings .modal-dialog, 
 #AddStudentModal .modal-dialog , 
 #AddTeacherModal .modal-dialog , #EditTeacherModal .modal-dialog ,
+#ExpencesModal .modal-dialog , 
+#AddExpenceModal .modal-dialog , 
+#EditExpenceModal .modal-dialog ,
+#AddEmployeeModal .modal-dialog , #EditEmployeeModal .modal-dialog ,
 #EditStudentModal .modal-dialog , #AddTeacherModal .modal-dialog {
 	height: 80vh;
     background: var(--white-color);
@@ -3718,6 +3924,7 @@ form{
 }
 
 #FinanceModal .sections-main-sub-container-right-main-label-divider p ,
+#ExpencesModal .sections-main-sub-container-right-main-label-divider p ,
 #AddNewAttitudeModal .sections-main-sub-container-right-main-label-divider p ,
 #FinanceNewModal .sections-main-sub-container-right-main-label-divider p ,
 #FinanceBillModal .sections-main-sub-container-right-main-label-divider p {
@@ -3733,6 +3940,7 @@ form{
 }
 
 #FinanceModal .dynamic-form-input-container-extra-style .dynamic-form-input-dropdown.dynamic-form-input-first ,
+#ExpencesModal .dynamic-form-input-container-extra-style .dynamic-form-input-dropdown.dynamic-form-input-first ,
 #AddNewAttitudeModal .dynamic-form-input-container-extra-style .dynamic-form-input-dropdown.dynamic-form-input-first ,
 #FinanceNewModal .dynamic-form-input-container-extra-style .dynamic-form-input-dropdown.dynamic-form-input-first ,
 #FinanceBillModal .dynamic-form-input-container-extra-style .dynamic-form-input-dropdown.dynamic-form-input-first{
@@ -3829,6 +4037,7 @@ table td img {
 /******* .select2-container **************/
 
 #FinanceModal .select2-container,
+#ExpencesModal .select2-container,
 #AddNewAttitudeModal .select2-container,
 #FinanceNewModal .select2-container,
 #FinanceBillModal .select2-container{
@@ -3837,6 +4046,7 @@ table td img {
 }
 
 #FinanceModal .select2-container--default .select2-search--inline .select2-search__field,
+#ExpencesModal .select2-container--default .select2-search--inline .select2-search__field,
 #AddNewAttitudeModal .select2-container--default .select2-search--inline .select2-search__field,
 #FinanceNewModal .select2-container--default .select2-search--inline .select2-search__field,
 #FinanceBillModal .select2-container--default .select2-search--inline .select2-search__field{
@@ -3845,6 +4055,7 @@ table td img {
 }
 
 #FinanceModal .select2-container--default.select2-container--focus .select2-selection--multiple,
+#ExpencesModal .select2-container--default.select2-container--focus .select2-selection--multiple,
 #AddNewAttitudeModal .select2-container--default.select2-container--focus .select2-selection--multiple,
 #FinanceNewModal .select2-container--default.select2-container--focus .select2-selection--multiple,
 #FinanceBillModal .select2-container--default.select2-container--focus .select2-selection--multiple{
@@ -3853,6 +4064,7 @@ table td img {
 }
 
 #FinanceModal .select2-container--default .select2-selection--multiple .select2-selection__choice,
+#ExpencesModal .select2-container--default .select2-selection--multiple .select2-selection__choice,
 #AddNewAttitudeModal .select2-container--default .select2-selection--multiple .select2-selection__choice,
 #FinanceNewModal .select2-container--default .select2-selection--multiple .select2-selection__choice,
 #FinanceBillModal .select2-container--default .select2-selection--multiple .select2-selection__choice{
@@ -3861,6 +4073,7 @@ table td img {
 
 
 #FinanceModal .select2-container--default .select2-selection--multiple .select2-selection__choice__remove ,
+#ExpencesModal .select2-container--default .select2-selection--multiple .select2-selection__choice__remove ,
 #AddNewAttitudeModal .select2-container--default .select2-selection--multiple .select2-selection__choice__remove ,
 #FinanceNewModal .select2-container--default .select2-selection--multiple .select2-selection__choice__remove ,
 #FinanceBillModal .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
@@ -3880,6 +4093,7 @@ table td img {
 }
 
 #FinanceModal .select2-container--default .select2-selection--multiple .select2-selection__choice__display ,
+#ExpencesModal .select2-container--default .select2-selection--multiple .select2-selection__choice__display ,
 #AddNewAttitudeModal .select2-container--default .select2-selection--multiple .select2-selection__choice__display ,
 #FinanceNewModal .select2-container--default .select2-selection--multiple .select2-selection__choice__display ,
 #FinanceBillModal .select2-container--default .select2-selection--multiple .select2-selection__choice__display {
@@ -3898,6 +4112,7 @@ table td img {
 
 
 #FinanceModal .select2-container--default .select2-search--inline .select2-search__field,
+#ExpencesModal .select2-container--default .select2-search--inline .select2-search__field,
 #AddNewAttitudeModal .select2-container--default .select2-search--inline .select2-search__field,
 #FinanceNewModal .select2-container--default .select2-search--inline .select2-search__field,
 #FinanceBillModal .select2-container--default .select2-search--inline .select2-search__field{
@@ -3908,6 +4123,7 @@ table td img {
 }
 
 #FinanceModal .select2-container--open .select2-dropdown,
+#ExpencesModal .select2-container--open .select2-dropdown,
 #AddNewAttitudeModal .select2-container--open .select2-dropdown,
 #FinanceNewModal .select2-container--open .select2-dropdown,
 #FinanceBillModal .select2-container--open .select2-dropdown{
@@ -3923,9 +4139,11 @@ table td img {
 }
 
 #FinanceModal .select2-container--default.select2-container--focus .select2-selection--multiple,
+#ExpencesModal .select2-container--default.select2-container--focus .select2-selection--multiple,
 #AddNewAttitudeModal .select2-container--default.select2-container--focus .select2-selection--multiple,
 #FinanceNewModal .select2-container--default.select2-container--focus .select2-selection--multiple,
 #FinanceModal .select2-container--default .select2-selection--multiple ,
+#ExpencesModal .select2-container--default .select2-selection--multiple ,
 #AddNewAttitudeModal .select2-container--default .select2-selection--multiple ,
 #FinanceNewModal .select2-container--default .select2-selection--multiple ,
 #FinanceBillModal .select2-container--default .select2-selection--multiple {
@@ -3934,6 +4152,7 @@ table td img {
 
 
 #FinanceModal .select2-container--default .select2-selection--multiple .select2-selection__choice__remove span ,
+#ExpencesModal .select2-container--default .select2-selection--multiple .select2-selection__choice__remove span ,
 #AddNewAttitudeModal .select2-container--default .select2-selection--multiple .select2-selection__choice__remove span ,
 #FinanceNewModal .select2-container--default .select2-selection--multiple .select2-selection__choice__remove span ,
 #FinanceBillModal .select2-container--default .select2-selection--multiple .select2-selection__choice__remove span {
@@ -3947,6 +4166,7 @@ table td img {
 }
 
 #FinanceModal .select2-results__option,
+#ExpencesModal .select2-results__option,
 #AddNewAttitudeModal .select2-results__option,
 #FinanceNewModal .select2-results__option,
 #FinanceBillModal .select2-results__option{
@@ -3959,6 +4179,7 @@ table td img {
 }
 
 #FinanceModal .select2-results__option:hover,
+#ExpencesModal .select2-results__option:hover,
 #AddNewAttitudeModal .select2-results__option:hover,
 #FinanceNewModal .select2-results__option:hover,
 #FinanceBillModal .select2-results__option:hover{
@@ -3967,9 +4188,11 @@ table td img {
 }
 
 #FinanceModal .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable,
+#ExpencesModal .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable,
 #AddNewAttitudeModal .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable,
 #FinanceNewModal .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable,
 #FinanceModal .select2-container--default .select2-results__option--selected,
+#ExpencesModal .select2-container--default .select2-results__option--selected,
 #AddNewAttitudeModal .select2-container--default .select2-results__option--selected,
 #FinanceNewModal .select2-container--default .select2-results__option--selected,
 #FinanceBillModal .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable,
@@ -3980,6 +4203,7 @@ table td img {
 }
 
 #FinanceModal .select2-dropdown,
+#ExpencesModal .select2-dropdown,
 #AddNewAttitudeModal .select2-dropdown,
 #FinanceNewModal .select2-dropdown,
 #FinanceBillModal .select2-dropdown{
@@ -3992,6 +4216,7 @@ table td img {
 }
 
 #FinanceModal .sub-container-form-footer,
+#ExpencesModal .sub-container-form-footer,
 #AddNewAttitudeModal .sub-container-form-footer,
 #FinanceNewModal .sub-container-form-footer,
 #FinanceBillModal .sub-container-form-footer{
@@ -4002,6 +4227,7 @@ table td img {
 }
 
 #FinanceModal .sub-container-form-footer .modal-confirm-button,
+#ExpencesModal .sub-container-form-footer .modal-confirm-button,
 #AddNewAttitudeModal .sub-container-form-footer .modal-confirm-button,
 #FinanceNewModal .sub-container-form-footer .modal-confirm-button,
 #FinanceBillModal .sub-container-form-footer .modal-confirm-button{
@@ -4321,6 +4547,10 @@ table td img {
     display: inline-block;
     width: 100%;
     margin-bottom: 0px;
+}
+
+#employee_info .sub-label-full-name{
+    margin-bottom: 45px;
 }
 
 #FinanceBillModal .finance-bill-modal-table-container table{
@@ -4747,7 +4977,7 @@ table td img {
 }
 
 .finance-page-extra-style .col-text-align-extra-style img:hover{
-	background: red;
+	/*background: red;*/
 	cursor: pointer;
     background: var(--btn--secondary--bg--color);
 }
@@ -4758,6 +4988,14 @@ table td img {
 
 .finance-page-extra-style table , .finance-page-extra-style table thead tr {
 	border:0px !important;
+}
+
+#ExpencesModal .modal-expense-table table tr.row-cost-disabled td:last-child{
+	padding-left: 12px !important;
+}
+
+.expence-row .sections-main-sub-container-left-card-sub-info {
+ opacity: 1;
 }
 
 .finance-page-extra-style table th {
@@ -4860,7 +5098,7 @@ table td img {
 }
 
 .finance-page-extra-style  .sections-main-sub-container-right-main .dynamic-form-input-dropdown-options{
-	top: 43px;
+	top: 45px;
 	padding:16px 8px;
 	border:0px;
 }
@@ -4964,6 +5202,7 @@ table td img {
 #AddAttitudeModal .sections-label-checkbox-container-left,
 #EditAttitudeModal .sections-label-checkbox-container-left,
 #AddHomeworkModal .sections-label-checkbox-container-left,
+#AddMessageModal .sections-label-checkbox-container-left,
 #EditHomeworkModal .sections-label-checkbox-container-left,
 #EditExamModal .sections-label-checkbox-container-left,
 #AddExamModal .sections-label-checkbox-container-left,
@@ -4983,6 +5222,7 @@ table td img {
 #AddAttitudeModal .dynamic-form-input-container-extra-style input,
 #EditAttitudeModal .dynamic-form-input-container-extra-style input,
 #AddHomeworkModal .dynamic-form-input-container-extra-style input,
+#AddMessageModal .dynamic-form-input-container-extra-style input,
 #EditHomeworkModal .dynamic-form-input-container-extra-style input,
 #EditExamModal .dynamic-form-input-container-extra-style input,
 #AddExamModal .dynamic-form-input-container-extra-style input,
@@ -4992,6 +5232,9 @@ table td img {
 }
 
 #AddAbsenceModal .sections-checkboxes-main-container,
+#ExpencesModal .sections-checkboxes-main-container,
+#AddExpenceModal .sections-checkboxes-main-container,
+#EditExpenceModal .sections-checkboxes-main-container,
 #AddNewAttitudeModal .sections-checkboxes-main-container,
 #ImportUsersModal .sections-checkboxes-main-container,
 #AddTeacherAbsenceModal .sections-checkboxes-main-container,
@@ -5000,6 +5243,7 @@ table td img {
 #AddAttitudeModal .sections-checkboxes-main-container,
 #EditAttitudeModal .sections-checkboxes-main-container,
 #AddHomeworkModal .sections-checkboxes-main-container,
+#AddMessageModal .sections-checkboxes-main-container,
 #EditHomeworkModal .sections-checkboxes-main-container,
 #EditExamModal .sections-checkboxes-main-container,
 #AddExamModal .sections-checkboxes-main-container,
@@ -5011,6 +5255,9 @@ table td img {
 }
 
 #AddAbsenceModal  .sections-label-checkbox-container-left .expense_label,
+#ExpencesModal  .sections-label-checkbox-container-left .expense_label,
+#AddExpenceModal  .sections-label-checkbox-container-left .expense_label,
+#EditExpenceModal  .sections-label-checkbox-container-left .expense_label,
 #AddNewAttitudeModal  .sections-label-checkbox-container-left .expense_label,
 #ImportUsersModal  .sections-label-checkbox-container-left .expense_label,
 #AddTeacherAbsenceModal  .sections-label-checkbox-container-left .expense_label,
@@ -5019,6 +5266,7 @@ table td img {
 #AddAttitudeModal  .sections-label-checkbox-container-left .expense_label,
 #EditAttitudeModal  .sections-label-checkbox-container-left .expense_label,
 #AddHomeworkModal  .sections-label-checkbox-container-left .expense_label,
+#AddMessageModal  .sections-label-checkbox-container-left .expense_label,
 #EditHomeworkModal  .sections-label-checkbox-container-left .expense_label,
 #EditExamModal  .sections-label-checkbox-container-left .expense_label,
 #AddExamModal .sections-label-checkbox-container-left .expense_label,
@@ -5028,6 +5276,9 @@ table td img {
 }
 
 #AddAbsenceModal  .customCheckRounded label:after,
+#ExpencesModal  .customCheckRounded label:after,
+#AddExpenceModal  .customCheckRounded label:after,
+#EditExpenceModal  .customCheckRounded label:after,
 #AddNewAttitudeModal  .customCheckRounded label:after,
 #ImportUsersModal  .customCheckRounded label:after,
 #AddTeacherAbsenceModal  .customCheckRounded label:after,
@@ -5041,16 +5292,23 @@ table td img {
 #AddTeacherAbsenceModal  .customCheckRounded label:before,
 #AddStudentAbsenceModal  .customCheckRounded label:before,
 #AddHomeworkModal  .customCheckRounded label:before,
+#AddMessageModal  .customCheckRounded label:before,
 #EditHomeworkModal  .customCheckRounded label:before,
 #EditExamModal  .customCheckRounded label:before,
 #AddExamModal  .customCheckRounded label:before ,
 #ExamDetailModal  .customCheckRounded label:before,
+#ExpencesModal  .customCheckRounded label:before ,
+#AddExpenceModal  .customCheckRounded label:before ,
+#ExamExpenceModal  .customCheckRounded label:before,
 #HomeworkDetailModal  .customCheckRounded label:before{
 	top: 0px;
 	width: 24px;
 	height: 24px;
 }
 
+#ExpencesModal  .sections-label-checkbox-container-left .sections-label-checkbox-container,
+#AddExpenceModal  .sections-label-checkbox-container-left .sections-label-checkbox-container,
+#EditExpenceModal  .sections-label-checkbox-container-left .sections-label-checkbox-container,
 #AddAbsenceModal  .sections-label-checkbox-container-left .sections-label-checkbox-container,
 #AddNewAttitudeModal  .sections-label-checkbox-container-left .sections-label-checkbox-container,
 #ImportUsersModal  .sections-label-checkbox-container-left .sections-label-checkbox-container,
@@ -5069,6 +5327,9 @@ table td img {
 
 
 #AddAbsenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left:first-child ,
+#AddExpenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left:first-child ,
+#ExpencesModal .sections-checkboxes-main-container .sections-label-checkbox-container-left:first-child ,
+#EditExpenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left:first-child ,
 #AddNewAttitudeModal .sections-checkboxes-main-container .sections-label-checkbox-container-left:first-child ,
 #ImportUsersModal .sections-checkboxes-main-container .sections-label-checkbox-container-left:first-child ,
 #AddTeacherAbsenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left:first-child ,
@@ -5080,7 +5341,141 @@ table td img {
 	border-radius: 0px;
 }
 
+#ExpencesModal .sections-checkboxes-main-container .sections-label-checkbox-container-left ,
+#AddExpenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left ,
+#EditExpenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left {
+	border-right: 1px solid var(--input-border--color);
+	border-radius: 0px;
+}
+
+#AddExpenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left:last-child ,
+#ExpencesModal .sections-checkboxes-main-container .sections-label-checkbox-container-left:last-child ,
+#EditExpenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left:last-child{
+	border-right: 0px solid var(--input-border--color);
+	border-radius: 0px;
+}
+
+#AddExpenceModal .modal-expense-table .col-xs-12,
+#EditExpenceModal .modal-expense-table.col-xs-12{
+	padding-right: 7.5px;
+}
+
+#AddExpenceModal  .dynamic-form-input-text-container-icon .input-text ,
+#ExpencesModal  .dynamic-form-input-text-container-icon .input-text ,
+#EditExpenceModa  .dynamic-form-input-text-container-icon .input-text {
+    border: 1px solid var(--input-border--color);
+	/*margin-bottom: -16px !important;
+	margin-top: 8px;*/
+}
+
+#AddExpenceModal .modal-expense-table table,
+#ExpencesModal .modal-expense-table table,
+#EditExpenceModal .modal-expense-table table{
+	width: 100%;
+}
+
+#AddExpenceModal .modal-expense-table table tr td:last-child,
+#ExpencesModal .modal-expense-table table tr td:last-child,
+#EditExpenceModal .modal-expense-table table td:last-child{
+	/*padding: 8px 8px 8px 0px;*/
+	padding: 16px 16px 16px 0px;
+}
+
+#AddExpenceModal .sections-main-sub-container-right-main-body table .sections-main-sub-container-left-card ,
+#ExpencesModal .sections-main-sub-container-right-main-body table .sections-main-sub-container-left-card ,
+#EditExpenceModal .sections-main-sub-container-right-main-body table .sections-main-sub-container-left-card {
+	padding: 16px 32px 14px 32px;
+	
+}
+
+#ExpencesModal  .sections-label-checkbox-container-left  ,
+#AddExpenceModal  .sections-label-checkbox-container-left  ,
+#EditExpenceModal  .sections-label-checkbox-container-left  {
+	cursor: pointer;
+	background:transparent;
+}
+
+#ExpencesModal  .sections-label-checkbox-container-left .customCheck ,
+#AddExpenceModal  .sections-label-checkbox-container-left .customCheck ,
+#EditExpenceModal  .sections-label-checkbox-container-left .customCheck {
+	z-index: 2;
+}
+
+#ExpencesModal .row-cost-disabled{
+	pointer-events: none;
+	opacity: .8;
+	background:var(--input-active-bg-color);
+}
+
+#ExpencesModal .row-cost-disabled .sections-label-checkbox-container-left .sections-label-checkbox-container{
+	padding-top: 0px !important;
+	padding-bottom: 0px !important;
+}
+
+#ExpencesModal .row-cost-disabled .customCheck img{
+	position: absolute;
+	top: 12px;
+}
+
+#ExpencesModal .row-cost-disabled{
+	pointer-events: none;
+}
+
+#ExpencesModal .row-cost-disabled input[type="number"]{
+	pointer-events: none;
+	border:0;
+}
+
+#ExpencesModal .expence-employess-months-container img{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.sections-main-sub-container-left-card-sub-sub-info{
+	font-size: 12px;
+}
+
+#AddExpenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left, 
+#ExpencesModal .sections-checkboxes-main-container .sections-label-checkbox-container-left, 
+#EditExpenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left{
+	width: 33%;
+}
+
+#AddExpenceModal .dynamic-form-input-text-container-icon .input-text ,
+#ExpencesModal .dynamic-form-input-text-container-icon .input-text ,
+#EditExpenceModal .dynamic-form-input-text-container-icon .input-text {
+	border: solid 1px var(--input-border--color);
+}
+
+.modal input[type="text"] ,
+.modal input[type="number"] {
+	width: calc(100%);
+}
+
+.modal .sections-main-sub-container-right-main-rows .col-md-12{
+	width: calc(100% - 8px);
+}
+
+#AddExpenceModal .cost-container .customCheck label:before,
+#ExpencesModal .cost-container .customCheck label:before,
+#EditExpenceModal .cost-container .customCheck label:before,
+#AddExpenceModal .cost-container .customCheck label:after,
+#ExpencesModal .cost-container .customCheck label:after,
+#EditExpenceModal .cost-container .customCheck label:after{
+	top: 20px;
+}
+
+#AddExpenceModal .sections-main-sub-container-right-main-body table th,
+#ExpencesModal .sections-main-sub-container-right-main-body table th,
+#EditExpenceModal .sections-main-sub-container-right-main-body table th{
+	padding: 0px;
+}
+
 #AddAbsenceModal .input-date,
+#AddExpenceModal .input-date,
+#ExpencesModal .input-date,
+#EditExpenceModal .input-date,
 #AddNewAttitudeModal .input-date,
 #ImportUsersModal .input-date,
 #AddTeacherAbsenceModal .input-date,
@@ -5105,6 +5500,9 @@ table td img {
 }
 
 #AddAbsenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left ,
+#AddExpenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left ,
+#ExpencesModal .sections-checkboxes-main-container .sections-label-checkbox-container-left ,
+#EditExpenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left ,
 #AddNewAttitudeModal .sections-checkboxes-main-container .sections-label-checkbox-container-left ,
 #ImportUsersModal .sections-checkboxes-main-container .sections-label-checkbox-container-left ,
 #AddTeacherAbsenceModal .sections-checkboxes-main-container .sections-label-checkbox-container-left ,
@@ -5113,6 +5511,7 @@ table td img {
 #AddAttitudeModal .sections-checkboxes-main-container .sections-label-checkbox-container-left ,
 #EditAttitudeModal .sections-checkboxes-main-container .sections-label-checkbox-container-left {
 	flex-grow: 1;
+	position: relative;
 }
 
 .sections-label-checkbox-container-left .expense_label {
@@ -5207,7 +5606,7 @@ table td img {
     top: 16px;
     right: 20px;
     min-width: 200px;
-    background: red;
+    /*background: red;*/
 }
 
 .sections-main-sub-container-right-main-header-option-icon {
@@ -5511,7 +5910,8 @@ table td img {
 
 #NewActionModal .modal-content-finance .modal-body ,
 #NewActionModal .modal-content-container .modal-body{
-	max-height: 80vh !important;
+	/*max-height: 80vh !important;*/
+	max-height: 100% !important;
 }
 
 /*********************************  End modal-card-container  *********************/
@@ -5740,6 +6140,11 @@ table td img {
 	color: var(--blue--color);
 }
 
+.sections-main-sub-container-left-extra-style {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
 /*************** dashboard-card-info *******************/
 
 .dashboard-card-info-container{
@@ -5755,6 +6160,7 @@ table td img {
     flex-basis: 32%;
     display: flex;
     flex-direction: column;
+	overflow: hidden;
 }
 
 .dashboard-card-info-label{
@@ -5768,7 +6174,23 @@ table td img {
 	color: var(--dashboard-sub-label-color);
 	font-size: 14px;
   	font-weight: 300;
-  	margin-bottom: 12px;
+  	margin-bottom: 8px;/*12*/
+}
+
+.dashboard-card-info-sub-label-extra-style {
+    margin: -20px 0px 16px 0px;
+}
+
+.dashboard-card-info-container.dashboard-card-info-container-extra-style{
+	/*justify-content: center;*/
+}
+
+.dashboard-card-info-container.dashboard-card-info-container-extra-style .dashboard-card-info-progress{
+	width: 100%;
+}
+
+span.dashboard-card-info-sub-label{
+	margin-bottom: 3px;
 }
 
 .dashboard-card-info-counter{
@@ -5776,6 +6198,7 @@ table td img {
 	font-size: 18px;
   	font-weight: 500;
   	margin-bottom: 20px;
+	margin-top: -14px;
 }
 
 .dashboard-card-info-counter-currency{
@@ -5807,7 +6230,70 @@ table td img {
 .sections-main-sub-container-left-card-sub-info-date{
 	font-size: 12px !important;
 }
+
+.dashboard-card-info-chart-extra-style-overider {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    /*overflow: hidden !important;*/
+	padding: 38px 24px;
+}
+
+.dashboard-card-info-container{
+	width: 100%;
+	flex-wrap: unset;
+}
+
+.dashboard-card-info-chart-extra-style-overider .dashboard-card-info-label{
+	margin-bottom: 24px;
+}
+
+.pricing{
+	color: var(--black--color);
+	font-weight: 500;
+}
+
 /*************** End dashboard-card-info *************************/
+
+/*************** dashboard-card-info-chart-extra-style  *************************/
+
+.dashboard-card-info-chart-extra-style{
+	display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+	align-items: center;
+	padding: 24px;
+	overflow: hidden;
+	min-height: 210px;
+}
+
+.dashboard-card-info-chart-extra-style .dashboard-card-info-progress{
+	background:transparent;
+    height: auto;
+	width: 35%;
+	overflow: hidden;
+	margin-bottom: 0px;
+	margin-right: 16px;
+	position: relative;
+}
+
+.dashboard-card-info-chart-extra-style .dashboard-card-info-label-container{
+	display: flex;
+    flex-direction: column;
+    width: 70%;
+}
+
+/*************** End dashboard-card-info-chart-extra-style  *********************/
+
+/***************  dashboard-card-info-chart-extra-style  *********************/
+
+.dashboard-card-table-info-header-label-container{
+	display: flex;
+	flex-direction: column;
+}
+
+/***************  End dashboard-card-info-chart-extra-style  *********************/
 
 /*************** dashboard-card-table-info ***********************/
 
@@ -6634,6 +7120,14 @@ table td img {
 
 .dashboard-chat-side-bar-body{}
 
+.dashboard-chat-side-bar-container .sections-main-sub-container-left-card-main-img-text{
+	padding-top: 0px !important;
+}
+
+.dashboard-chat-side-bar-container .sections-main-sub-container-left-card-main-img{
+	margin-right:16px !important;
+}
+
 /*************** dashboard-chat-side-bar-body-extra-style *******************************/
 
 
@@ -6663,8 +7157,6 @@ table td img {
 }
 
 .dashboard-chat-side-bar-body-notification{
-    position: absolute;
-    left: 43px;
     display: inline-block;
     min-width: 16px;
     height: 16px;
@@ -6676,7 +7168,13 @@ table td img {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    left: 46px;
+	left: 45px;
+    position: absolute;
+}
+
+.sections-main-sub-container-left-card-main-img-text-extra-style{
+	display: flex;
+    max-width: 80%;
 }
 
 .dashboard-main-sub-right-container .dashboard-chat-side-bar-body-notification{
@@ -6686,6 +7184,10 @@ table td img {
 
 .dashboard-main-sub-right-container .sections-main-sub-container-left-card-main-img{
 	margin-right: 12px;
+}
+
+.dashboard-chat-side-bar-body .sections-main-sub-container-left-card-info{
+	max-width: 80%;
 }
 
 
@@ -6755,6 +7257,7 @@ table td img {
 .card-multi-receivers-extra-style{
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
 }
 
 .card-multi-receivers-extra-style img{
@@ -6772,7 +7275,109 @@ table td img {
     width: 100%;
 }
 
-/*************** End dashboard-chat-side-bar-container ***********************************/
+/*************** Inbox Details ***********************************/
+
+.dashboard-chat-side-bar-body .sections-main-sub-container-left-card{
+	justify-content: space-between;
+}
+
+.sections-main-sub-container-left-card-chat-side-date-attachement{
+	display: flex;
+    flex-direction: column;
+	align-items: flex-end;
+}
+
+.sections-main-sub-container-left-card-chat-side-date{
+	font-size: 12px;
+	color: var(--black--color);
+	opacity: 0.6;
+}
+
+.sections-main-sub-container-left-card-chat-side-attachement{
+	opacity: 0.6;
+}
+
+.sections-main-sub-container-right-inbox-details .sections-main-sub-container-right-main{
+	padding: 0px 60px 60px 60px;
+	text-align: left;
+}
+
+
+.sections-main-sub-container-right-inbox-details .sections-main-sub-container-left-card-info{
+	text-align: left;
+
+}
+
+.sections-main-sub-container-right-inbox-details .sections-main-sub-container-right-message-details-header {
+	position: sticky;
+    top: 0px;
+    padding: 70px 0px 16px 0px;
+    background: #FFF;
+    z-index: 8;
+
+}
+
+.sections-main-sub-container-right-inbox-details .sections-main-sub-container-left-card{
+	box-shadow: unset ;
+	padding: 0px;
+	justify-content: space-between;
+	cursor: default;
+}
+
+.sections-main-sub-container-right-inbox-details .sections-main-sub-container-right-message-details-subject{
+	font-size: 2em;
+    font-weight: 500;
+	margin: 32px 0px 16px 0px;
+    color: var(--black--color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    width: 100%;
+}
+
+.sections-main-sub-container-right-inbox-details .sections-main-sub-container-right-message-details-content{
+		line-height: 12px;
+		font-size: 12px;
+		letter-spacing: 0.28px;
+		font-weight: normal;
+		color: var(--input-placeholder--color);
+		display: inline-block;
+		margin-top: 2px;
+		font-size: 14px;
+		line-height: 24px;
+		font-weight: normal;
+		color: var(--input-placeholder--color);
+		display: inline-block;
+		width: 100%;
+}
+
+.sections-main-sub-container-right-inbox-details .sections-main-sub-container-right-message-details-attachement{
+	margin-top: 32px;
+}
+
+.sections-main-sub-container-right-message-details-attachement .col-sm-12.col-md-4{
+	margin-right:-12px;
+}
+
+
+#AddMessageModal .sections-main-sub-container-right-main-rows-dropdown-tags .dynamic-form-input-first .dynamic-form-input-float-adjust .form-group-right{
+ flex-basis: 100% ;
+}
+
+#AddMessageModal .dashboard-new-message-side-bar-body{
+	height: auto !important;
+	border: 0px ;
+}
+
+#AddMessageModal .dynamic-form-input-dropdown.dynamic-form-input-first{
+	margin-top: 10px;
+}
+
+.card-multi-receivers-dropdown{
+	cursor: pointer;
+}
+/*************** End Inbox Details ***********************************/
 
 .icon-extra-style{
 	padding-left: 8px;
@@ -6841,6 +7446,7 @@ table td img {
 .setup-update-main-container .sub-main-container{
 	padding: 4% 8%;
 	padding-right: 35%;
+	margin-bottom: 60px;
 }
 
 .setup-update-main-container  .tab-content .item {
@@ -7385,6 +7991,23 @@ table td img {
 		margin-bottom: 24px !important;
 	}
 
+	#AddExpenceModal .dynamic-form-input-text-container-icon ,
+	#ExpencesModal .dynamic-form-input-text-container-icon ,
+	#EditExpenceModal .dynamic-form-input-text-container-icon {
+		margin-bottom: 0px !important;
+	}
+
+	#AddExpenceModal .sections-main-sub-container-right-main-body table th ,
+	#ExpencesModal .sections-main-sub-container-right-main-body table th ,
+	#EditExpenceModal .sections-main-sub-container-right-main-body table th {
+		padding: 0px !important;
+	}
+
+	#exam_info .sections-main-sub-container-right-main-rows .form-group.dynamic-form-input-text-container-icon ,
+	#exam_info .tab-content .sections-main-sub-container-right-main-rows .form-group.dynamic-form-input-text-container-icon{
+		margin-bottom: 32px !important;
+	}
+
 	table .form-group.dynamic-form-input-text-container-icon input{
 		margin-bottom: 0px !important;
 	}
@@ -7555,6 +8178,14 @@ table td img {
 		margin-right: -8px;
 	}	
 
+	.dashboard-chat-side-bar-body .sections-main-sub-container-left-card-info{
+		max-width: 60%;
+	}
+
+	#homework_info .sections-main-sub-container-right-main .sections-main-sub-container-right-main-rows,
+	#exam_info .sections-main-sub-container-right-main .sections-main-sub-container-right-main-rows{
+		margin-top: 24px;
+	}
 
 }
 
@@ -7612,7 +8243,15 @@ table td img {
 	display: none !important;
 }
 
+.data-loading.tab-content ,
+.data-loading .form-group-map-extra-style #map{
+	opacity: 0 !important;
+}
+
+
+
 .sections-main-sub-container-right.data-loading .date-form-input-container,
+.data-loading .form-group-map-extra-style,
 .sections-main-sub-container-right.data-loading .dynamic-form-input-container{
 	border : 0px !important;
 }
@@ -7627,11 +8266,15 @@ table td img {
 }
 
 
+.data-loading .green-color,
+.data-loading .red-color ,
 .data-loading .sections-main-sub-container-left-card .sections-main-sub-container-left-card-main-info ,
 .data-loading .sections-main-sub-container-left-card .sections-main-sub-container-left-card-main-img-text ,
 .data-loading .sections-main-sub-container-left-card .sections-main-sub-container-left-card-sub-info ,
-.data-loading input 
-{
+.data-loading input ,
+.data-loading .form-group-map-extra-style ,
+.data-loading .sections-main-sub-container-right-message-details-subject ,
+.data-loading .switcher-mask-container {
 	font-size: 0;
 	background: linear-gradient(-45deg, #edeef3, #f9f9fb , #edeef3);
 	background-size: 400%;
@@ -7639,6 +8282,40 @@ table td img {
 	animation: loading_animation ease-out 2s infinite;
 }
 
+.data-loading .switcher-container {
+	border: 0px solid transparent !important;
+}
+
+.data-loading .form-group-map-extra-style  {
+	font-size: 0;
+	background: linear-gradient(-45deg, #edeef3, #f9f9fb , #edeef3);
+	background-size: 400%;
+	-webkit-animation: loading_animation ease-out 2s infinite;
+	animation: loading_animation ease-out 2s infinite;
+}
+
+.data-loading .switch_sub_label , .data-loading .switch_sub_label * {
+	color: transparent;
+	background: linear-gradient(-45deg, #edeef3, #f9f9fb , #edeef3);
+	background-size: 400%;
+	-webkit-animation: loading_animation ease-out 2s infinite;
+	animation: loading_animation ease-out 2s infinite;
+}
+
+.data-loading .sections-main-sub-container-right-message-details-container 
+{
+	font-size: 0;
+	background: linear-gradient(-45deg, #edeef3, #f9f9fb , #edeef3);
+	background-size: 400%;
+	-webkit-animation: loading_animation ease-out 2s infinite;
+	animation: loading_animation ease-out 2s infinite;
+	height: 100px;
+	overflow: hidden;
+}
+
+.data-loading .sections-main-sub-container-right-message-details-content {
+	font-size: 0px !important;
+}
 
 .data-loading .sections-main-sub-container-left-card-satuts{
 	display: none;
@@ -7739,9 +8416,15 @@ table td img {
   display: inline-flex  !important;
 }
 
+
 .sections-main-sub-container-left-card-main-img-text.hide-loading-helper{
   display: none  !important;
 }
+
+.data-loading .sections-main-sub-container-left-card-main-img-text.hide-loading-helper{
+	display: inline-block  !important;
+  }
+
 
 .data-loading .select2{
   opacity: 0;
@@ -7749,6 +8432,49 @@ table td img {
 
 .data-loading .sections-main-sub-container-right-main-rows-dropdown-tags .dynamic-form-input-first .dynamic-form-input-float-adjust .form-group-left{
 	border : 0px !important;
+}
+
+.data-loading .sections-main-sub-container-left-card-main-img-text-extra-style {
+    display: flex;
+    max-width: 100%;
+    flex-basis: 100%;
+}
+
+.data-loading .dashboard-chat-side-bar-body-notification ,
+.data-loading .sections-main-sub-container-left-card-main-caret,
+.data-loading .sections-main-sub-container-left-card-chat-side-date-attachement,
+.data-loading .card-multi-receivers-dropdown-chevron{
+	display: none;
+}
+
+.data-loading .card-multi-receivers-extra-style .sections-main-sub-container-left-card-main-img-text{
+	box-shadow : unset;
+}
+
+.dashboard-card-info.data-loading * ,
+.dashboard-card-table-info-container.data-loading * 
+{
+    opacity: 0;
+}
+
+
+
+.dashboard-card-info.data-loading  ,
+.dashboard-card-table-info-container.data-loading {
+	font-size: 0;
+	background: linear-gradient(-45deg, #edeef3, #ffffff , #edeef3);
+	background-size: 400%;
+	-webkit-animation: loading_animation ease-out 2s infinite;
+	animation: loading_animation ease-out 2s infinite;
+}
+
+.data-loading .form-group-modal-extra-style .rounded-button{
+	 opacity: 0;
+	 display: none;
+}
+
+.data-loading  .modal-body-container .sub-container-form-footer{
+	bottom:-100%;
 }
 
 @-webkit-keyframes loading_animation {
@@ -7993,3 +8719,867 @@ table td img {
 		display: none;
 	}
 
+	.side_tabs_test{
+		float: right;
+	    color: #f75e7e;
+	    font-size: 12px !important;
+	    font-weight: 500 !important;
+	    margin-right: 8px;
+	}
+
+	 /************ tooltip_conatiner *******************/
+
+	.tooltip_conatiner thead tr{
+		font-size: 12px !important;
+	}
+
+	.tooltip_conatiner {
+		width: 100% !important;
+		min-width: 155px;
+	}
+
+	/*.tooltip_conatiner:before{
+		content: '';
+		display: block;
+		width: 0;
+		height: 0;
+		position: absolute;
+		border-top: 5px solid transparent;
+		border-bottom: 5px solid transparent;
+		border-right: 5px solid rgba(0, 0, 0, 0.8);
+		left: 15px;
+		top: -7px;
+		transform: rotate(90deg);
+	}*/
+
+	#chartjs-tooltip {
+		opacity: 1;
+		position: absolute;
+		background: rgba(0, 0, 0, .8);
+		color: white;
+		padding: 4px 6px 6px 6px;
+		border-radius: 6px;
+		-webkit-transition: all .25s ease-out ;
+		transition: all .25s ease-out ;
+		pointer-events: none;
+		-webkit-transform: translate(-50%, 0);
+		transform: translate(-50%, 0);
+	}
+
+	#chartjs-tooltip thead th {
+		padding: 2px 0px 3px 0px;
+	}
+
+	#chartjs-tooltip.below {
+		-webkit-transform: translate(-50%, 0);
+		transform: translate(-50%, 0);
+	}
+
+	#chartjs-tooltip.below:before {
+		border: solid;
+		border-color: #111 transparent;
+		border-color: rgba(0, 0, 0, .8) transparent;
+		border-width: 0 4.5px 4.5px 4.5px;
+		bottom: 1em;
+		content:"";
+		display: block;
+		left: 50%;
+		top:0%;
+		position: absolute;
+		z-index: 99;
+		-webkit-transform: translate(-50%, -100%);
+		transform: translate(-50%, -100%);
+	}
+
+	#chartjs-tooltip.above {
+		-webkit-transform: translate(-50%, -100%);
+		transform: translate(-50%, -100%);
+	}
+
+	#chartjs-tooltip.above:before {
+		border: solid;
+		border-color: #111 transparent;
+		border-color: rgba(0, 0, 0, .8) transparent;
+		border-width: 0 4.5px 4.5px 4.5px;
+		bottom: 1em;
+		content:"";
+		display: block;
+		left: 50%;
+		top: 100%;
+		position: absolute;
+		z-index: 99;
+		-webkit-transform: translate(-50%, 0);
+		transform: translate(-50%, 0);
+	}
+
+	.modal.in .select2-container.select2-container--default.select2-container--open{
+		background-color:transparent;
+	}
+	
+	.modal.in .select2-container {
+		min-height: 40px !important;
+		padding: 1px 4px;
+		border-radius: 3px;
+	}
+
+	.modal.in  .select2-container--default .select2-selection--multiple .select2-selection__choice {
+		margin: 4px 4px -4px 4px !important
+	}
+
+	.modal.in .select2-container--default .select2-search--inline .select2-search__field {
+		/*min-height: 40px !important;*/
+	}
+
+	#AddEmployeeModal .select2-selection__clear ,
+	#EditEmployeeModal .select2-selection__clear {
+		/*visibility: hidden;
+		z-index: -1;
+		position: absolute;*/
+	}
+	
+	/* filter-label-checkbox-main-container ____________________*/
+
+
+	#ExpencesDetails table .sections-main-sub-container-left-card .input-img-text-container{
+		width: 32px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 32px;
+		font-size: 13px;
+		margin-right: 8px;
+    	margin-bottom: 0px;
+	}
+
+	/* filter-label-checkbox-main-container ____________________*/
+
+	.filter-label-checkbox-main-container{
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		cursor: pointer;
+		margin-bottom: 8px;
+	}
+
+	.filter-label-checkbox-main-container .customCheck {
+		position: relative;
+		display: inline-block;
+		min-height: 24px;
+		max-height: 24px;
+		line-height: 24px;
+		top: 0px;
+		left: 0px;
+	}
+
+	.filter-label-checkbox-main-container input:focus ~ label , .filter-label-checkbox-main-container input:valid ~ label {
+		top: -25px;
+		/*background: red;*/
+		font-size: 14px;
+		color: var(--input-placeholder--color);
+	}
+
+	.filter-label-checkbox-main-container .customCheck input[type='checkbox'] {
+		cursor: pointer;
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		opacity: 0;
+		outline: 0;
+		z-index: -1;
+		width: 24px;
+		height: 24px;
+
+	}
+
+	.filter-label-checkbox-main-container .filter_label {
+		top: 14px;
+		left: 6px;
+		font-size: 12px;
+		color: #151a3b;
+		cursor: pointer;
+		position: relative;
+	}
+
+	.filter-label-checkbox-main-container .customCheck label:before {
+		background-image: url(../../../assets/icons/ck_inactive.svg);
+		background-repeat: no-repeat;
+		position: absolute;
+		top: 25px;
+		left:0px;
+		width: 20px;
+		height: 20px;
+		content: ' ';
+	}
+
+	.filter-label-checkbox-main-container .customCheck label:after {
+		position: absolute;
+		top: 25px;
+		left: 0px;
+		width: 28px;
+		height: 28px;
+		content: ' ';
+		opacity: 0;
+		transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
+		transform: scale(0.5);
+		background-image: url(../../../assets/icons/ck_active.svg);
+		background-repeat: no-repeat;
+	}
+
+	.filter-label-checkbox-main-container .filter-label-checkbox-container{
+		margin-left: 16px;
+	}
+
+	.filter-label-checkbox-main-container .filter_label{
+		top: 2px;
+		left: 6px;
+		font-size: 12px;
+		color: #151a3b;
+		cursor: pointer;
+	}
+
+
+	.filter-label-checkbox-main-container  .sections-main-sub-container-right-main-label-divider{
+		margin-bottom: 12px;
+		margin-left: -4px;
+	}
+
+
+	.filter-dot {
+		position: absolute;
+		width: 8px;
+		height: 8px;
+		background: var(--black--color);
+		margin-left: -3px;
+		margin-top: -3px;
+		border-radius: 100%;
+		opacity: 1;
+		transition: opacity .2s ease-in-out;
+	}
+
+	.dynamic-form-input-dropdown-options-footer-container .rounded-button-primary img{
+		animation: unset;
+	}
+	
+	/* End filter-label-checkbox-main-container ________________*/
+
+	.dynamic-form-input-dropdown-options-filter-extra-style{
+		min-height: 85vh;
+		overflow: hidden !important; 
+		display: flex;
+		opacity: 1;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+
+	.dynamic-form-input-dropdown-options-footer-container {
+		height: 64px;
+		border-top: 1px solid var(--input-border--color);
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0px 8px;
+	}
+
+	.dynamic-form-input-dropdown-options-footer-container .rounded-button-primary {
+		background-image: linear-gradient(to left, var(--element--gradient--from--color), var(--element--gradient--to--color)) !important;
+	}
+
+	.dynamic-form-input-dropdown-options-footer-container .rounded-button-primary .button-icon{
+		background-color: transparent !important;
+	}
+
+	.dynamic-form-input-dropdown-options-footer-container  .rounded-button.btn-secondary {
+		background-image: linear-gradient(to left, var(--btn--secondary--bg--color), var(--btn--secondary--bg--color)) !important;
+		margin-right: 0px;
+	}
+
+	.dynamic-form-input-dropdown-options-main-container {
+		height: calc(85vh - 85px );
+		overflow: hidden;
+		overflow-y: scroll;
+	}
+
+	.form-group-right-extra-style{
+		max-width: 36px;
+		max-height: 36px;
+	}
+
+	.form-group-left-extra-style .input-text{
+		width: 85% !important;
+	}
+
+	#expences-filter{
+		display: none;
+	}
+
+	#expences-filter-btn{
+		margin: 2px !important;
+		animation: unset !important;
+	}
+
+	/* form-group-search-filter ____________________*/
+
+	#EditExpenceModal .form-group-modal-search-filter .button-icon,
+	#AddExpenceModal .form-group-modal-search-filter .button-icon,
+	#ExpencesModal .form-group-modal-search-filter .button-icon{
+		vertical-align: middle;
+		position: absolute;
+		top: 10px;
+		right: 8px;
+	}
+
+	/* End form-group-search-filter ________________*/
+
+	/****** .sections-main-sub-container-right-main-result-label ********/
+
+	th.col-text-align {
+		text-align: center !important;
+		display: flex;
+		justify-content: center;
+		padding: 0px !important;
+	}
+
+	/****** .input-text-helper ********/
+	
+	.input-text-helper{
+		position: absolute;
+		top: 12px;
+		z-index: 1;
+		left: 16px;
+		pointer-events: none;
+	}
+
+
+	/****** .input-text-helper ********/
+	
+	*[data-element]{
+		cursor: pointer;
+	}
+
+	/****** .input-text-helper ********/
+	.dynamic-form-input-dropdown-employee-functionality-options-container.readonly{
+		pointer-events: none;
+	}
+
+
+	/****** #sortable ********/
+	
+	#sortable { 
+		list-style-type: none; 
+		margin: 0; 
+		padding: 0;
+		display: flex;
+   	 	flex-wrap: wrap;
+	}
+
+	#sortable li { 
+		float: left;
+		margin: 0px 1.5% 16px 1.5%;
+		cursor: pointer;
+		width: 30%;
+	}
+
+	#Gallery_Section .import-file-container {
+		min-height: 150px;
+		display: flex;
+		flex-direction: column;
+		background: #fdfdfe;
+		border: 1px dashed var(--input-border--color);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-top: 12px;
+		border-radius: 3px;
+		position: relative;
+		text-align: center;
+		margin-bottom: 32px;
+	}
+
+	#Gallery_Section .import-file-label {
+		font-size: 14px;
+		color: var(--black--color);
+		opacity: .5;
+		max-width: 250px;
+		text-align: center;
+		font-weight: 300 !important;
+		position: relative;
+		z-index: 2;
+		cursor: pointer;
+	}
+
+	#Gallery_Section .modal-btn-container {
+		display: inline-block;
+		text-align: center;
+		width: 100%;
+		padding-top: 0px;
+		padding-bottom: 32px;
+	}
+
+	#Gallery_Section .input-img-container .input-img{
+		border-radius: 0px;
+	}
+
+	#Gallery_Section .input-img-container {
+		width: 100%;
+		height: 100%;
+		max-height: 120px;
+		overflow: hidden;
+		border-radius: 3px;
+		border: solid 1px var(--input-border--color);
+		position: relative;
+		background-color: var(--input-active-bg-color);
+		min-height: 100px;
+	}
+
+	#Gallery_Section .input-img-container-mask {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		background-color: var(--modal--background--color);
+		top: 0px;
+		left: 0px;
+		opacity: 0;
+		transition: opacity .25s ease-in;
+	}
+
+	#Gallery_Section .input-img-container:hover .input-img-container-mask {
+		opacity: 1;
+	}
+
+	#Gallery_Section .input-img-container-mask .sections-main-sub-container-right-main-header-option-list {
+		display: flex !important;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+    	height: 100%;
+		min-width: 100%;
+		margin: 0;
+		top: 0px;
+		right: 0px;
+		border-radius:0px !important;
+	}
+
+	#Gallery_Section .input-img-container-mask .sections-main-sub-container-right-main-header-option-list-li {
+		margin: 0;
+	}
+
+	@media screen  and (max-width: 767px)  {
+		#sortable li {
+			float: left;
+			margin: 0px 1.5% 16px 1.5%;
+			cursor: pointer;
+			width: 46%;
+		}
+	}
+
+	#ChangesModal{
+		z-index: 999999;
+	}
+
+
+	/**** sections-main-sub-container-right-main-rows-dropdown-extra-style-tags ******/
+
+	.sections-main-sub-container-right-main-rows-dropdown-extra-style-tags .dynamic-form-input-dropdown.dynamic-form-input-first{
+		border:0px !important;
+		border-radius: 3px !important;
+	}
+
+	.sections-main-sub-container-right-main-rows-dropdown-extra-style-tags .dynamic-form-input-float-adjust{
+		flex-direction: column;
+	}
+
+	.sections-main-sub-container-right-main-rows-dropdown-extra-style-tags  .dynamic-form-input-first .dynamic-form-input-float-adjust .form-group-left,
+	.sections-main-sub-container-right-main-rows-dropdown-extra-style-tags  .dynamic-form-input-first .dynamic-form-input-float-adjust .form-group-right{
+		flex-basis: 100%;
+		width: 100%;
+	}
+
+	.sections-main-sub-container-right-main-rows-dropdown-extra-style-tags  .dynamic-form-input-first .dynamic-form-input-float-adjust .form-group-left input{
+		padding: 12px 4px !important;
+	}
+	.sections-main-sub-container-right-main-rows-dropdown-extra-style-tags  .dynamic-form-input-first .dynamic-form-input-float-adjust .form-group-right input{
+		padding: 11px 4px !important;
+	}
+
+	.sections-main-sub-container-right-main-rows-dropdown-extra-style-tags  .dynamic-form-input-first .dynamic-form-input-float-adjust .form-group-left,
+	.sections-main-sub-container-right-main-rows-dropdown-extra-style-tags  .dynamic-form-input-first .dynamic-form-input-float-adjust .form-group-right{
+		border-radius: 3px !important;
+		border: 1px solid var(--input-border--color) !important;
+		margin-bottom: 24px !important;
+	}
+
+	.sections-main-sub-container-right-main-rows-dropdown-tags .select2-container {
+		padding: 4px !important;
+		padding-bottom: 6px !important;
+		padding-left: 9px !important;
+	}
+
+	.sections-main-sub-container-right-main-rows-dropdown-extra-style-tags .form-group-right{
+		height: 100% !important;
+	}
+
+	.sections-main-sub-container-right-main-rows-dropdown-extra-style-tags .dynamic-form-input-dropdown-options li{
+		list-style-position:inside;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;  
+	}
+
+	/**** sections-main-sub-container-right-main-rows-dropdown-extra-style-tags ******/
+
+	.data-loading .form-group-right{
+		opacity: 0 !important;
+		border: 0 !important;
+	}
+
+	/**** website section ******/
+
+	.dynamic-form-input-container.readonly {
+		pointer-events: none;
+	}
+
+	.dynamic-form-input-container.readonly .select2-selection__choice button,
+	.dynamic-form-input-container.readonly .select2-search{
+		display: none !important;
+	}
+
+	/****** form-group-map ************/
+
+	.form-group-map-extra-style{
+		width: 100%;
+		height: 400px;
+		border: 1px solid var(--input-border--color);
+		border-radius: 3px;
+		overflow: hidden;
+	}
+
+	.form-group-map-extra-style #map,
+	.form-group-map-extra-style  #map-canvas {
+		width: 100%;
+		height: 100%;
+	}
+
+	.gmnoprint , .gm-control-active , .gm-fullscreen-control , a[rel="noopener"]{
+		display: none !important;
+	}
+
+	@media screen and (min-width: 991px) and (max-width: 1300px ) {
+		.setup-update-main-container .sub-main-container{
+			padding-right: 16% !important;
+			width: 100% !important;
+		}
+	}
+
+	/****** form-group-map ************/
+
+	/****** The switch - the box around the slider ************/
+	.switch {
+		position: relative;
+		display: inline-block;
+		min-width: 40px;
+		height: 20px;
+		margin-right: 0px !important;
+		top: 3px !important;
+		border: 1px solid var(--input-border--color);
+    	border-radius: 12px;		
+	}
+
+	/* Hide default HTML checkbox */
+	.switch input {
+		opacity: 0;
+		width: 0;
+		height: 0;
+	}
+
+	/* The slider */
+	.slider {
+		position: absolute;
+		cursor: pointer;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: var(--setup-side-bar-left-bg--color);
+		-webkit-transition: .4s;
+		transition: .4s;
+	}
+
+	.slider:before {
+		position: absolute;
+		content: "";
+		height: 16px;
+		width: 16px;
+		left: 2px;
+		bottom: 1px;
+		background-color: #fff;
+		-webkit-transition: .4s;
+		transition: .4s;
+	}
+
+	input:checked + .slider {
+		background-color: var(--setup-side-bar-left-bg--color);
+	}
+
+	input:focus + .slider {
+		box-shadow: 0 0 1px #8de5ae;
+	}
+
+	input:checked + .slider:before {
+		-webkit-transform: translateX(24px);
+		-ms-transform: translateX(24px);
+		transform: translateX(24px);
+		background-image: linear-gradient(to bottom, var(--element--gradient--from--color), var(--element--gradient--to--color)) !important;
+		left: -3px;
+	}
+
+	/* Rounded sliders */
+	.slider.round {
+		border-radius: 34px;
+	}
+
+	.slider.round:before {
+		border-radius: 50%;
+	}
+
+	.switch_label {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		max-width: 100%;
+		display: inline-block;
+		vertical-align: middle;
+		line-height: 24px;
+		color: var(--black--color);
+		font-size: 14px;
+	}
+
+	.switch_sub_label{
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		max-width: 100%;
+		display: inline-block;
+		vertical-align: middle;
+		line-height: 18px;
+		color: var(--black--color);
+		font-size: 14px;
+		opacity: .6;
+	}
+
+	.switch_icon {
+		width: 20px;
+		height: 20px;
+		margin-right: 4px;
+		margin-bottom: 0px;
+	}
+
+	.switcher-container .sections-main-sub-container-right-main-result-label{
+		padding: 0px !important;
+		cursor: pointer;
+	}
+
+	.switcher-container {
+		display: flex;
+		padding: 8px 0px 8px 0px;
+		flex: 1 1 50%;
+		position: relative;
+	}
+
+
+	@media screen and (max-width :1050px) {
+		.switcher-container {
+			display: flex;
+			padding: 8px 0px 8px 0px;
+			flex: 1 1 100%;
+		}
+	}
+	
+	.switcher-mask-container{
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		background: transparent;
+		top: 0px;
+		left: -8px;
+		cursor: pointer;
+	}
+	
+	.switcher-main-container{
+		margin-bottom: 16px;
+	}
+
+	/****** End The switch - the box around the slider ************/
+
+	#amenties-container{
+		display: flex;
+  		flex-wrap: wrap;
+	}
+
+	#amenties-container .switcher-container {
+		display: flex;
+		padding: 8px 16px !important;
+		flex: 1 1;
+		flex-basis: 45%;
+		flex-basis: 100%;
+		flex-direction: row-reverse;
+    	justify-content: space-between;
+
+		border: 1px solid var(--input-border--color);
+    	margin-bottom: 8px;
+    	border-radius: 3px;
+	}
+
+	#amenties-container .switch_icon {
+		width: 20px;
+		height: 20px;
+		margin-right: 8px;
+		margin-bottom: 0px;
+		margin-top: 3px;
+	}
+
+	#amenties-container  .switch_label {
+		white-space: unset;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		max-width: 100%;
+		display: inline-block;
+		vertical-align: middle;
+		line-height: 24px;
+		color: var(--black--color);
+		font-size: 14px;
+		margin-top: 1px;
+	}
+
+	#amenties-container .switcher-container .sections-main-sub-container-right-main-result-label{
+		display: flex;
+	}
+
+	@media screen and (max-width :1050px) {
+		#amenties-container .switcher-container {
+			display: flex;
+			padding: 8px 0px 8px 0px;
+			flex: 1 1 100%;
+			flex-direction: row-reverse;
+    		justify-content: space-between;
+			flex-basis: 100%;
+		}
+	}
+
+	/****** #display-settings-container ***************************/
+
+	#display-settings-container .switch_label{
+		font-weight: 500;
+	}
+
+	#display-settings-container .switcher-container .sections-main-sub-container-right-main-result-label{
+		display: flex;
+		flex-direction: column;
+		margin-left: 0px;
+	}
+
+	#display-settings-container .switcher-container{
+		padding: 8px 16px !important;
+		flex: 1 1 100%;
+		justify-content: space-between;
+		border: 1px solid var(--input-border--color);
+		border-radius: 3px;
+		margin-bottom: 4px;
+	}
+
+	#display-settings-container .switcher-container:last-child{
+		border-bottom: 0px;
+	}
+
+	#display-settings-container .switch_sub_label{
+		white-space: unset;
+		font-weight: 300;
+	}
+
+	/****** #display-settings-container ***************************/
+
+	.dynamic-form-input-container-multi-time .dynamic-form-input-text-container-icon .icon{
+		top: 10px;
+	}
+
+	#schedule-container .dynamic-form-input-container-multi-time-last .flex-form-group-container{
+		width: calc(100% - 60px);  /*83.5%;*/
+	}
+
+	#schedule-container .dynamic-form-input-first .square-button {
+		display: inline-block;
+		top: 25px;
+		right: 16px;
+		height: 45px;
+   		width: 45px;
+	}
+
+	.dynamic-form-input-label-container {
+    	position: absolute;
+    	top: -21px;
+	}
+
+	#schedule-container  .sections-label-checkbox-container-left .sections-label-checkbox-container {
+		text-overflow: unset !important;
+		max-width: 100% !important;
+		padding: 11.5px 8px 11.5px 0px;
+		margin-bottom: 0px;
+		border: 0px;
+		border-radius: 0;
+	}
+
+	#schedule-container .customCheck label:before,
+	#schedule-container .customCheck label:after{
+		left: -14px;
+	}
+
+	.sub-row-schedule-disabled{
+		pointer-events: none;
+	}
+
+	.dynamic-form-input-text-with-border{
+		border : 1px solid var(--input-border--color) !important;
+	}
+
+	#schedule-breaks-container .flex-form-group-container{
+		position: relative;
+	}
+
+	#schedule-breaks-container .dynamic-form-input .flex-form-group-container {
+		width: calc(100% - 60px);
+	}
+
+	#schedule-breaks-container .dynamic-form-input.dynamic-form-input-first .flex-form-group-container {
+		width: calc(100%);
+	}
+
+	#schedule-breaks-container .form-group.group {
+		width: calc(100%);
+	}
+
+	#schedule-breaks-container .square-button-minus{
+		width : 45px;
+		height : 45px;
+		right: -60px;
+	}
+
+
+	#Schedule_Section .sections-main-sub-container-right-main-label-divider {
+		text-align: left;
+		background: var(--input-border--color);
+		height: 1px;
+		position: relative;
+		margin-bottom: 35px ;
+		margin-top: 40px;
+	}
+
+	.sub-row-schedule-breaks{
+		margin-bottom: 32px;
+	}
+
+	.modal-dom-change-watcher.in .input-label{
+		position: absolute;
+		top:-12px !important;
+		font-size:14px;
+		color:var(--input-placeholder--color);
+	}

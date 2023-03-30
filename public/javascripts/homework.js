@@ -209,7 +209,8 @@ function saveHomework() {
 
 	if (homework_name && homework_description && homework_deliverydate && homework_subject && homework_classe)
 	{
-		$('#AddHomeworkModal').modal('hide');
+
+		
 		var formData = new FormData();
         formData.append('homework_name', homework_name);
         formData.append('homework_deliverydate', homework_deliverydate);
@@ -222,6 +223,8 @@ function saveHomework() {
 			console.log("saved fl",fl)
 		});
 
+		startSpinner("#AddHomeworkModal .sub-container-form-footer");
+
 		$.ajax({
 		    type: 'post',
 		    url: '/Homeworks/save',
@@ -232,16 +235,20 @@ function saveHomework() {
 		  .done(function(res){
 		  	if(res.saved)
 		  	{
-		  		getAllHomeworks();
-		  		$('#AddHomeworkModal').find('.file-upload').addClass('file-container-visibility');
-				$('#AddHomeworkModal').find('input[name="homework_classe"]').val("");
-				$('#AddHomeworkModal').find('input[name="homework_deliverydate"]').val("");
-				$('#AddHomeworkModal').find('input[name="homework_subject"]').val("");
-				$('#AddHomeworkModal').find('input[name="homework_name"]').val("");
-				$('#AddHomeworkModal').find('#homework_description').val("");
-				$('#AddHomeworkModal').find('input[name="upload_file_modal"]').val('');
-				filesAdd = [];
-				console.log('Saved');
+				setTimeout(()=>{
+					stopSpinner("#AddHomeworkModal .sub-container-form-footer");
+					getAllHomeworks();
+					$('#AddHomeworkModal').find('.file-upload').addClass('file-container-visibility');
+					$('#AddHomeworkModal').find('input[name="homework_classe"]').val("");
+					$('#AddHomeworkModal').find('input[name="homework_deliverydate"]').val("");
+					$('#AddHomeworkModal').find('input[name="homework_subject"]').val("");
+					$('#AddHomeworkModal').find('input[name="homework_name"]').val("");
+					$('#AddHomeworkModal').find('#homework_description').val("");
+					$('#AddHomeworkModal').find('input[name="upload_file_modal"]').val('');
+					filesAdd = [];
+					console.log('Saved');
+					$('#AddHomeworkModal').modal('hide');
+				},$spinningTime);
 		  	} else {
 		  		console.log("not saved");
 		  	}
@@ -315,6 +322,8 @@ function saveHomework() {
 
     if (homework_name && homework_description && homework_date ){
 
+		startSpinner("#EditHomeworkModal .sub-container-form-footer");
+
     	$.ajax({
 		    type: 'post',
 		    url: '/Homeworks/update',
@@ -327,18 +336,23 @@ function saveHomework() {
 		  .done(function(res){
 		  	if(res.updated)
 		  	{
+				setTimeout(()=>{
+					$('#EditHomeworkModal .sub-container-form-footer').addClass('hide-footer');
+					$('#EditHomeworkModal .sub-container-form-footer').removeClass('show-footer');
+					stopSpinner("#EditHomeworkModal .sub-container-form-footer");
 		  			getAllHomeworks(homeworkId);
 		  			$('#EditHomeworkModal').modal('hide');
 		  			removedFiles = [];
 		  			files = [];
 		  			console.log(res);
+				},$spinningTime);
+
 		  	} else {
 		  		console.log(res);
 		  	}
 		});
 
-		$('#EditHomeworkModal .sub-container-form-footer').addClass('hide-footer');
-		$('#EditHomeworkModal .sub-container-form-footer').removeClass('show-footer');
+
 
     }
 

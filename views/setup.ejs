@@ -2,12 +2,14 @@
 <html>
 <head>
 
-	<title><%= title %></title>
+	<title data-lang="<%= title %>"><%= title %></title>
   <meta charset="UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
- <%- include('./partials/main'); %>
+<%- include('./partials/main'); %>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 
 </head>
 
@@ -25,43 +27,42 @@
 
             <li class="side-bar-li" id="detail-li">
                 <img class="side-bar-li-img" src="assets/icons/sidebar_icons/checked.svg" alt="check"/>
-                <span class="side-bar-li-span-active">Detail</span>
+                <span class="side-bar-li-span-active" data-lang="Details">Detail</span>
             </li>
 
             <li class="side-bar-li"  id="academic-li">
               <img class="side-bar-li-img" src="assets/icons/sidebar_icons/unchecked.svg" alt="check"/>
-              <span class="side-bar-li-span-inactive">Academic year</span>
+              <span class="side-bar-li-span-inactive" data-lang="Academic_year">Academic year</span>
             </li>
 
             <li class="side-bar-li"  id="levels-li">
               <img class="side-bar-li-img" src="assets/icons/sidebar_icons/unchecked.svg" alt="check"/>
-              <span class="side-bar-li-span-inactive">Levels</span>
+              <span class="side-bar-li-span-inactive" data-lang="Levels">Levels</span>
             </li>
 
             <li class="side-bar-li"  id="classes-li">
               <img class="side-bar-li-img" src="assets/icons/sidebar_icons/unchecked.svg" alt="check"/>
-              <span class="side-bar-li-span-inactive">Classes</span>
+              <span class="side-bar-li-span-inactive" data-lang="Classes">Classes</span>
             </li>
 
             <li class="side-bar-li"  id="subjects-li">
               <img class="side-bar-li-img" src="assets/icons/sidebar_icons/unchecked.svg" alt="check"/>
-              <span class="side-bar-li-span-inactive">Subjects</span>
+              <span class="side-bar-li-span-inactive" data-lang="Subjects">Subjects</span>
             </li>
 
             <li class="side-bar-li"  id="expenses-li">
               <img class="side-bar-li-img" src="assets/icons/sidebar_icons/unchecked.svg" alt="check"/>
-              <span class="side-bar-li-span-inactive">Expenses</span>
+              <span class="side-bar-li-span-inactive" data-lang="Expenses">Expenses</span>
             </li>
 
             <li class="side-bar-li"  id="costs-li">
               <img class="side-bar-li-img" src="assets/icons/sidebar_icons/unchecked.svg" alt="check"/>
-              <span class="side-bar-li-span-inactive">Costs</span>
+              <span class="side-bar-li-span-inactive" data-lang="Costs">Costs</span>
             </li>
-
 
         </ul>
 
-        <p class="side-bar-section-description">
+        <p class="side-bar-section-description" data-lang="Setup_main_helper">
           There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.
         </p>
         
@@ -71,11 +72,12 @@
       <div class="sub-container">
 
         <div class="owl-carousel owl-theme ">
+
             <!-- sub-container Details -->
             <div  class="item" id="Details_Section" >
               <div  class="sub-main-container">
-                <h1 class="sub-container-main-header">Details</h1>
-                <h4 class="sub-container-sub-header">There are many variations of passages of Lorem Ipsum available, but the majority.</h4>
+                <h1 class="sub-container-main-header" data-lang="Details" >Details</h1>
+                <h4 class="sub-container-sub-header" data-lang="Detail_subHeader">There are many variations of passages of Lorem Ipsum available, but the majority.</h4>
 
                 <form class="sub-container-form" id="detail">
 
@@ -93,31 +95,77 @@
 
                   <div class="form-group group">
                     <input oninput="hideNext('#Details_Section')" type="text" name="school" required>
-                    <label class="input-label"><span class="input-label-text">Shcool name</span> <span class="input-label-bg-mask"></span></label>
+                    <label class="input-label"><span class="input-label-text" data-lang="School_name">School name</span> <span class="input-label-bg-mask"></span></label>
                   </div>
 
                   <div class="form-group group">
                     <input oninput="hideNext('#Details_Section')" type="text" name="email" required >
-                    <label class="input-label"><span class="input-label-text">Email address</span> <span class="input-label-bg-mask"></span></label>
+                    <label class="input-label"><span class="input-label-text" data-lang="Email_adress">Email address</span> <span class="input-label-bg-mask"></span></label>
                   </div>
 
                   <div class="form-group group">
                     <input oninput="hideNext('#Details_Section')" type="text" name="phone" required >
-                    <label class="input-label"><span class="input-label-text">Phone number</span> <span class="input-label-bg-mask"></span></label>
+                    <label class="input-label"><span class="input-label-text" data-lang="Phone_number">Phone number</span> <span class="input-label-bg-mask"></span></label>
                   </div>
 
                   <div class="form-group group">
                     <input oninput="hideNext('#Details_Section')" type="text" name="address" required >
-                    <label class="input-label"><span class="input-label-text">Address</span> <span class="input-label-bg-mask"></span></label>
+                    <label class="input-label"><span class="input-label-text" data-lang="Address">Address</span> <span class="input-label-bg-mask"></span></label>
                   </div>
+
+                  <!-- Subject Class ------------------------------------------------------------------------------------->
+                  
+                  <div class="sections-main-sub-container-right-main-rows sections-main-sub-container-right-main-rows-dropdown-tags 
+                              sections-main-sub-container-right-main-rows-dropdown-extra-style-tags">
+                  
+                    <div
+                      class="dynamic-form-input-dropdown-container sections-main-sub-container-right-main-rows-dropdown-tags-container">
+                  
+                      <div class="dynamic-form-input-dropdown dynamic-form-input-first">
+                  
+                        <div class="dynamic-form-input">
+                  
+                          <div class="dynamic-form-input-float-adjust">
+                  
+                            <div class="form-group group form-group-left">
+                              <input type="text" class="input-text input-dropdown" name="category" required
+                                onchange="categoriesChange(this);">
+                              <label class="input-label"><span class="input-label-text" data-lang="Categories">Categories</span> <span
+                                  class="input-label-bg-mask"></span></label>
+                              <img class="icon button-icon" src="assets/icons/caret.svg">
+                  
+                              <ul class="dynamic-form-input-dropdown-options" id="categoriesList"></ul>
+                  
+                            </div>
+                  
+                            <div class="form-group group form-group-right">
+                              <select class="input-text-subject-classes-select2 list-classes" id="subCategoriesList" multiple></select>
+                              <img class="icon button-icon" src="assets/icons/caret.svg">
+                              <label class="input-label">
+                                <span class="input-label-text" data-lang="Specialities">Specialities</span><span class="input-label-bg-mask"></span>
+                              </label>
+                            </div>
+                  
+                          </div>
+                  
+                  
+                        </div>
+                  
+                      </div>
+                  
+                    </div>
+                  
+                  </div>
+                  
+                  <!-- End Subject Class --------------------------------------------------------------------------------->
 
                 </form>
 
               </div>
 
               <div class="sub-container-form-footer">
-                  <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn hidden" onClick="submit('detail',['school','email','phone','address','logo'],'academic')">
-                        <span class="button-text">Next</span>
+                  <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn hidden" onClick="submit('detail',['school','email','phone','address','logo','category'],'academic')">
+                        <span class="button-text" data-lang="Next">Next</span>
                         <img class="icon button-icon" src="assets/icons/right_arrow.svg">
                   </div>
               </div>
@@ -129,15 +177,18 @@
             <!-- sub-container Academic year -->
             <div class="item" id="Academic_Year_Section">
               <div  class="sub-main-container">
-                <h1 class="sub-container-main-header">Academic year</h1>
-                <h4 class="sub-container-sub-header">There are many variations of passages of Lorem Ipsum available, but the majority.</h4>
+                <h1 class="sub-container-main-header" data-lang="Academic_year">Academic year</h1>
+                <h4 class="sub-container-sub-header" data-lang="Academic_year_subHeader">There are many variations of passages of Lorem Ipsum available, but the majority.</h4>
 
                 <form class="sub-container-form">
 
 
                   <div class="date-form-input-container">
 
-                    <label  class="input-label dynamic-form-input-container-label"><span class="input-label-text input-label-text-active">Start Month</span> <span class="input-label-bg-mask"></span></label>
+                    <label  class="input-label dynamic-form-input-container-label">
+                      <span class="input-label-text input-label-text-active" data-lang="Start_month">Start Month</span> 
+                      <span class="input-label-bg-mask"></span>
+                    </label>
 
                     <div class="date-form-input">
 
@@ -146,7 +197,11 @@
                         <input onchange="hideNext('#Academic_Year_Section')" readonly type="text" required name="start">
                         <input type="hidden" name="year_start" id="year_start">
 
-                        <label class="input-label input-label-move-to-top"><span class="input-label-text">Select Month</span> <span class="input-label-bg-mask"></span></label>
+                        <label class="input-label input-label-move-to-top">
+                          <span class="input-label-text" data-lang="Select_month">Select Month</span> 
+                          <span class="input-label-bg-mask"></span>
+                        </label>
+
                         <img class="icon button-icon" src="assets/icons/caret.svg">
 
                         <div class="date-form-input-picker-container start-month">
@@ -156,20 +211,25 @@
                             <img  class="date-form-input-header-picker-controllers right-arrow" src="assets/icons/right-arrow.svg">
                           </div>
                           <div class="date-form-input-picker row">
-                              <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-first-of-line">January</span>
-                              <span class="col-xs-3 date-form-input-picker-label">February</span>
-                              <span class="col-xs-3 date-form-input-picker-label">March</span>
-                              <span class="col-xs-3 date-form-input-picker-label">April</span>
+                                <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-first-of-line"
+                                data-val="January" data-lang="January">January</span>
+                                <span class="col-xs-3 date-form-input-picker-label" data-val="February" data-lang="February">February</span>
+                                <span class="col-xs-3 date-form-input-picker-label" data-val="March" data-lang="March">March</span>
+                                <span class="col-xs-3 date-form-input-picker-label" data-val="April" data-lang="April">April</span>
 
-                              <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-first-of-line">May</span>
-                              <span class="col-xs-3 date-form-input-picker-label">June</span>
-                              <span class="col-xs-3 date-form-input-picker-label">July</span>
-                              <span class="col-xs-3 date-form-input-picker-label">August</span>
+                                <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-first-of-line" 
+                                data-val="May" data-lang="May">May</span>
+                                <span class="col-xs-3 date-form-input-picker-label" data-val="June" data-lang="June">June</span>
+                                <span class="col-xs-3 date-form-input-picker-label" data-val="July" data-lang="July">July</span>
+                                <span class="col-xs-3 date-form-input-picker-label" data-val="August" data-lang="August">August</span>
 
-                              <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-first-of-line date-form-input-picker-label-last-of-line">September</span>
-                              <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-last-of-line">Octobre</span>
-                              <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-last-of-line">November</span>
-                              <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-last-of-line">December</span>
+                                <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-first-of-line date-form-input-picker-label-last-of-line" data-val="September" data-lang="September">September</span>
+                                <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-last-of-line"
+                                data-val="October" data-lang="October">October</span>
+                                <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-last-of-line" 
+                                data-val="November" data-lang="November">November</span>
+                                <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-last-of-line" 
+                                data-val="December" data-lang="December">December</span>
                           </div>
                         </div>
 
@@ -181,7 +241,10 @@
 
                   <div class="date-form-input-container">
 
-                    <label class="input-label dynamic-form-input-container-label"><span class="input-label-text input-label-text-active">End Month</span> <span class="input-label-bg-mask"></span></label>
+                    <label class="input-label dynamic-form-input-container-label">
+                      <span class="input-label-text input-label-text-active" data-lang="End_month">End Month</span> 
+                      <span class="input-label-bg-mask"></span>
+                    </label>
 
                     <div class="date-form-input">
 
@@ -190,7 +253,11 @@
                         <input onchange="hideNext('#Academic_Year_Section')" readonly type="text" required name="end">
                         <input type="hidden" name="year_end" id="year_end">
 
-                        <label class="input-label input-label-move-to-top"><span class="input-label-text">Select Month</span> <span class="input-label-bg-mask"></span></label>
+                        <label class="input-label input-label-move-to-top">
+                          <span class="input-label-text" data-lang="Select_month">Select Month</span> 
+                          <span class="input-label-bg-mask"></span>
+                        </label>
+
                         <img class="icon button-icon" src="assets/icons/caret.svg">
 
                         <div class="date-form-input-picker-container end-month">
@@ -200,20 +267,25 @@
                             <img  class="date-form-input-header-picker-controllers right-arrow" src="assets/icons/right-arrow.svg">
                           </div>
                           <div class="date-form-input-picker row">
-                              <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-first-of-line">January</span>
-                              <span class="col-xs-3 date-form-input-picker-label">February</span>
-                              <span class="col-xs-3 date-form-input-picker-label">March</span>
-                              <span class="col-xs-3 date-form-input-picker-label">April</span>
+                                <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-first-of-line"
+                                data-val="January" data-lang="January">January</span>
+                                <span class="col-xs-3 date-form-input-picker-label" data-val="February" data-lang="February">February</span>
+                                <span class="col-xs-3 date-form-input-picker-label" data-val="March" data-lang="March">March</span>
+                                <span class="col-xs-3 date-form-input-picker-label" data-val="April" data-lang="April">April</span>
 
-                              <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-first-of-line">May</span>
-                              <span class="col-xs-3 date-form-input-picker-label">June</span>
-                              <span class="col-xs-3 date-form-input-picker-label">July</span>
-                              <span class="col-xs-3 date-form-input-picker-label">August</span>
+                                <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-first-of-line" 
+                                data-val="May" data-lang="May">May</span>
+                                <span class="col-xs-3 date-form-input-picker-label" data-val="June" data-lang="June">June</span>
+                                <span class="col-xs-3 date-form-input-picker-label" data-val="July" data-lang="July">July</span>
+                                <span class="col-xs-3 date-form-input-picker-label" data-val="August" data-lang="August">August</span>
 
-                              <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-first-of-line date-form-input-picker-label-last-of-line">September</span>
-                              <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-last-of-line">Octobre</span>
-                              <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-last-of-line">November</span>
-                              <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-last-of-line">December</span>
+                                <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-first-of-line date-form-input-picker-label-last-of-line" data-val="September" data-lang="September">September</span>
+                                <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-last-of-line"
+                                data-val="October" data-lang="October">October</span>
+                                <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-last-of-line" 
+                                data-val="November" data-lang="November">November</span>
+                                <span class="col-xs-3 date-form-input-picker-label date-form-input-picker-label-last-of-line" 
+                                data-val="December" data-lang="December">December</span>
                           </div>
                         </div>
 
@@ -224,18 +296,21 @@
 
                   <div class="form-group group">
                     <input oninput="hideNext('#Academic_Year_Section')" type="text" class="academic-year-input-label" name="year" required>
-                    <label class="input-label"><span class="input-label-text">Academic Year Label</span> <span class="input-label-bg-mask"></span></label>
+                    <label class="input-label input-label-move-to-top">
+                      <span class="input-label-text" data-lang="Academic_year_label">Academic Year Label</span> 
+                      <span class="input-label-bg-mask"></span>
+                    </label>
                   </div>
                 </form>
 
               </div>
 
              <div class="sub-container-form-footer">
-                  <div class="rounded-button btn-secondary customPrevBtn"  onClick="prev('academic','detail')">
+                  <div class="rounded-button btn-secondary customPrevBtn"  onClick="prev('academic','detail','Details_Section')">
                         <img class="icon" src="assets/icons/left_arrow.svg">
                   </div>
                   <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn hidden" onClick="submit('academic',['year','start','end','year_start','year_end'],'levels')">
-                        <span class="button-text">Next</span>
+                        <span class="button-text" data-lang="Next" >Next</span>
                         <img class="icon button-icon" src="assets/icons/right_arrow.svg">
                   </div>
               </div>
@@ -246,15 +321,18 @@
             <!-- sub-container Level -->
             <div class="item" id="Level_Section">
               <div  class="sub-main-container">
-                <h1 class="sub-container-main-header">Levels</h1>
-                <h4 class="sub-container-sub-header">There are many variations of passages of Lorem Ipsum available, but the majority.</h4>
+                <h1 class="sub-container-main-header" data-lang="Levels">Levels</h1>
+                <h4 class="sub-container-sub-header" data-lang="Levels_subHeader">There are many variations of passages of Lorem Ipsum available, but the majority.</h4>
 
                 <form class="sub-container-form">
 
                   <div class="dynamic-form-input dynamic-form-input-first">
                     <div class="form-group group">
                       <input oninput="hideNext('#Academic_Year_Section')" type="text" required name="levelName">
-                      <label class="input-label"><span class="input-label-text">Level name</span> <span class="input-label-bg-mask"></span></label>
+                      <label class="input-label">
+                        <span class="input-label-text" data-lang="Level_name">Level name</span> 
+                        <span class="input-label-bg-mask"></span>
+                      </label>
                     </div>
                     <div class="square-button">
                       <img class="icon" src="assets/icons/minus.svg">
@@ -270,11 +348,11 @@
               </div>
 
              <div class="sub-container-form-footer">
-                  <div class="rounded-button btn-secondary customPrevBtn" onClick="prev('levels','academic')">
+                  <div class="rounded-button btn-secondary customPrevBtn" onClick="prev('levels','academic','Academic_Year_Section')">
                         <img class="icon" src="assets/icons/left_arrow.svg">
                   </div>
                   <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn hidden" onClick="submit('levels',['levelName'],'classes')">
-                        <span class="button-text">Next</span>
+                        <span class="button-text" data-lang="Next" >Next</span>
                         <img class="icon button-icon" src="assets/icons/right_arrow.svg">
                   </div>
               </div>
@@ -285,8 +363,8 @@
             <!-- sub-container Classes -->
             <div class="item" id="Classe_Section">
               <div  class="sub-main-container">
-                <h1 class="sub-container-main-header">Classes</h1>
-                <h4 class="sub-container-sub-header">There are many variations of passages of Lorem Ipsum available, but the majority.</h4>
+                <h1 class="sub-container-main-header" data-lang="Classes">Classes</h1>
+                <h4 class="sub-container-sub-header" data-lang="Classes_subHeader">There are many variations of passages of Lorem Ipsum available, but the majority.</h4>
 
                 <form class="sub-container-form" id="classes">
 
@@ -295,11 +373,11 @@
               </div>
 
               <div class="sub-container-form-footer">
-                  <div class="rounded-button btn-secondary customPrevBtn" onClick="prev('classes','levels')">
+                  <div class="rounded-button btn-secondary customPrevBtn" onClick="prev('classes','levels','Level_Section')">
                         <img class="icon" src="assets/icons/left_arrow.svg">
                   </div>
                   <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn hidden" onClick="submit('classes',['classeName'],'subjects')">
-                        <span class="button-text">Next</span>
+                        <span class="button-text" data-lang="Next" >Next</span>
                         <img class="icon button-icon" src="assets/icons/right_arrow.svg">
                   </div>
               </div>
@@ -310,8 +388,8 @@
             <!-- sub-container Costs -->
             <div class="item" id="Subject_Section">
               <div  class="sub-main-container">
-                <h1 class="sub-container-main-header">Subjects</h1>
-                <h4 class="sub-container-sub-header">There are many variations of passages of Lorem Ipsum available, but the majority.</h4>
+                <h1 class="sub-container-main-header" data-lang="Subjects" >Subjects</h1>
+                <h4 class="sub-container-sub-header" data-lang="Subjects_subHeader" >There are many variations of passages of Lorem Ipsum available, but the majority.</h4>
 
                 <form class="sub-container-form" id="subjectsForm">
                
@@ -320,11 +398,11 @@
               </div>
 
               <div class="sub-container-form-footer">
-                  <div class="rounded-button btn-secondary customPrevBtn" onClick="prev('subjects','classes')">
+                  <div class="rounded-button btn-secondary customPrevBtn" onClick="prev('subjects','classes','Classe_Section')">
                         <img class="icon" src="assets/icons/left_arrow.svg">
                   </div>
                   <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn hidden" onClick="submit('subjects',['language'],'expenses')">
-                        <span class="button-text">Next</span>
+                        <span class="button-text" data-lang="Next" >Next</span>
                         <img class="icon button-icon" src="assets/icons/right_arrow.svg">
                   </div>
               </div>
@@ -336,8 +414,8 @@
             <!-- sub-container Expenses -->
             <div class="item" id="Expense_Section">
               <div  class="sub-main-container">
-                <h1 class="sub-container-main-header">Expenses</h1>
-                <h4 class="sub-container-sub-header">There are many variations of passages of Lorem Ipsum available, but the majority.</h4>
+                <h1 class="sub-container-main-header" data-lang="Expenses">Expenses</h1>
+                <h4 class="sub-container-sub-header" data-lang="Expenses_subHeader">There are many variations of passages of Lorem Ipsum available, but the majority.</h4>
 
                 <form class="sub-container-form">
 
@@ -347,14 +425,14 @@
                           <div class="dynamic-form-input-float-adjust">
                           <div class="form-group group form-group-left">
                             <input oninput="hideNext('#Expense_Section')" type="text" class="input-text" required name="expenseName">
-                            <label class="input-label"><span class="input-label-text">Expense name</span> <span class="input-label-bg-mask"></span></label>
+                            <label class="input-label"><span class="input-label-text" data-lang="Expense_name">Expense name</span> <span class="input-label-bg-mask"></span></label>
                           </div>
                           <div class="form-group group form-group-right">
-                            <input onchange="hideNext('#Expense_Section')" type="text" value="Monthly" class="input-dropdown" required name="expenseTime">
+                            <input onchange="hideNext('#Expense_Section')" type="text" value="Monthly" class="input-dropdown" required name="expenseTime" data-lang="Monthly" data-val="Monthly" readonly>
                             <img class="icon button-icon" src="assets/icons/caret.svg">
                             <ul class="dynamic-form-input-dropdown-options">
-                                <li data-val="Monthly">Monthly</li>
-                                <li data-val="Annual">Annual</li>
+                                <li data-val="Monthly" data-lang="Monthly">Monthly</li>
+                                <li data-val="Annual" data-lang="Yearly">Annual</li>
                             </ul>
                           </div>
                           </div>
@@ -374,11 +452,11 @@
               </div>
 
               <div class="sub-container-form-footer">
-                  <div class="rounded-button btn-secondary customPrevBtn" onClick="prev('expenses','subjects')">
+                  <div class="rounded-button btn-secondary customPrevBtn" onClick="prev('expenses','subjects','Subject_Section')">
                         <img class="icon" src="assets/icons/left_arrow.svg">
                   </div>
                   <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn hidden" onClick="submit('expenses',['expenseName','expenseTime'],'costs')">
-                        <span class="button-text">Next</span>
+                        <span class="button-text" data-lang="Next" >Next</span>
                         <img class="icon button-icon" src="assets/icons/right_arrow.svg">
                   </div>
               </div>
@@ -390,8 +468,8 @@
             <!-- sub-container Costs -->
             <div class="item" id="Costs_Section">
               <div  class="sub-main-container">
-                <h1 class="sub-container-main-header">Costs</h1>
-                <h4 class="sub-container-sub-header">There are many variations of passages of Lorem Ipsum available, but the majority.</h4>
+                <h1 class="sub-container-main-header" data-lang="Costs">Costs</h1>
+                <h4 class="sub-container-sub-header" data-lang="Costs_subHeader">There are many variations of passages of Lorem Ipsum available, but the majority.</h4>
 
                 <form class="sub-container-form" id="costsForm">
 
@@ -399,14 +477,14 @@
 
               </div>
 
-             <div class="sub-container-form-footer">
-                  <div class="rounded-button btn-secondary customPrevBtn" onClick="prev('costs','expenses')">
-                        <img class="icon" src="assets/icons/left_arrow.svg">
-                  </div>
-                  <div class="rounded-button rounded-button-primary rounded-button-float-right login-done customNextBtn hidden" onClick="submit('costs',['costsName','price'])">
-                        <span class="button-text">Done</span>
-                        <img class="icon button-icon" src="assets/icons/right_arrow.svg">
-                  </div>
+              <div class="sub-container-form-footer">
+                    <div class="rounded-button btn-secondary customPrevBtn" onClick="prev('costs','expenses','Expense_Section')">
+                      <img class="icon" src="assets/icons/left_arrow.svg">
+                    </div>
+                    <div class="rounded-button rounded-button-primary rounded-button-float-right customNextBtn hidden" onClick="submit('costs',['costsName','price'])">
+                          <span class="button-text" data-lang="Done">Done</span>
+                          <img class="icon button-icon" src="assets/icons/right_arrow.svg">
+                    </div>
               </div>
 
             </div>
@@ -420,7 +498,9 @@
     </div>
     <!-- end setup-main-container -->
 <script src="/javascripts/setup.js" type="text/javascript" charset="utf-8" async defer></script>
+
 <script type="text/javascript" charset="utf-8" async defer>
+
   var owl = $('.owl-carousel');
   owl.owlCarousel({
         slideSpeed : 300,
@@ -429,6 +509,7 @@
         nav:true,
         mouseDrag:false,
   });
+
 </script>
 </body>
 

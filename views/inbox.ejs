@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	  <title data-lang="<%= title %>"><%= title %></title>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <%- include('./partials/main'); %>
+
+</head>
+
+<!-- sections-main-container -->
+<body class="sections-main-container">
+	
+    <!-- main-container -->
+    <div class="main-container">
+
+      <!-- setup-main-container -->
+      <%- include('./partials/side_bar',{institution: institution,accounts:accounts,role:role}); %>
+      <!-- end setup-main-container -->
+
+      <!-- sub-container -->
+      <div class="sub-container">
+
+        <div class="sub-container-nav-bar">
+            <span class="sub-container-nav-bar-title">Inbox</span>
+            <img  class="sub-container-nav-bar-img" src="<%= user.User_Image %>" alt="profile">
+        </div>
+
+        <!-- nav -->
+          <%- include('./partials/nav_bar', {user: user,users:users,role:role}); %>
+        <!-- End nav -->
+
+        <!--  sections-main-sub-container 100%  -->
+        <div class="sections-main-sub-container">
+
+                <!--  sections-main-sub-container-left 30%  -->
+                <div class="sections-main-sub-container-left sections-main-sub-container-left-extra-style">
+
+                  <!--  sections-main-sub-container-left-search-bar  -->
+
+                  <!--  sections-main-sub-container-left-card-container  -->
+                  <div class="sections-main-sub-container-left-card-container" id="inbox_list">
+
+                        <!--  dashboard-chat-side-bar-container -->
+                        <div class="dashboard-chat-side-bar-container">
+  
+                          <!--  dashboard-chat-side-bar-body  -->
+                          <div class="dashboard-chat-side-bar-body data-loading">
+
+                                <% for(var i = 0 ; i < 1 ; i++) {
+
+                                  let active = ''
+                                  if(i==0){
+                                    active = ' active ';
+                                  }
+                                  
+                                %>
+                                
+                                <!--  sections-main-sub-container-left-cards  -->
+                                <div class="<%= active  %> sections-main-sub-container-left-card dashboard-chat-side-bar-body-extra-style card-single-receiver-extra-style">
+                                  <div class="sections-main-sub-container-left-card-main-img-text-extra-style">   
+                                          <img class="sections-main-sub-container-left-card-main-img" src="assets/images/profiles/Profile1.jpg" alt="card-img">
+                                          <span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper hide-loading-helper"></span>
+                                          <span class="dashboard-chat-side-bar-body-notification">3</span>
+                                          <div class="sections-main-sub-container-left-card-info">
+                                              <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
+                                              <span  class="sections-main-sub-container-left-card-sub-info">
+                                                  There are many variations of and  passages available...
+                                              </span>
+                                          </div>
+                                  </div>
+                                  <div class="sections-main-sub-container-left-card-chat-side-date-attachement">
+                                    <span class="sections-main-sub-container-left-card-chat-side-date">09:50</span>
+                                    <img class="sections-main-sub-container-left-card-chat-side-attachement" src="assets/icons/attach.svg"/>
+                                  </div>
+                                </div>
+                                <!--  End sections-main-sub-container-left-cards  -->
+  
+                                <!--  sections-main-sub-container-left-cards  -->
+                                <div class="sections-main-sub-container-left-card dashboard-chat-side-bar-body-extra-style read-card-extra-style card-multi-receivers-extra-style">
+                                    <div class="sections-main-sub-container-left-card-main-img-text-extra-style">   
+                                      <div class="sections-main-sub-container-left-card-main-img-text">Cp</div>
+                                      <div class="sections-main-sub-container-left-card-info">
+                                          <p class="sections-main-sub-container-left-card-main-info">Cp</p>
+                                      </div>
+                                    </div>
+                                    <div class="sections-main-sub-container-left-card-chat-side-date-attachement">
+                                      <span class="sections-main-sub-container-left-card-chat-side-date">Apr 14</span>
+                                  </div>
+                                </div>
+                                <!--  End sections-main-sub-container-left-cards  -->
+  
+                                <!--  sections-main-sub-container-left-cards  -->
+                                <div class="sections-main-sub-container-left-card dashboard-chat-side-bar-body-extra-style read-card-extra-style card-single-receiver-extra-style">
+                                  <div class="sections-main-sub-container-left-card-main-img-text-extra-style">   
+                                      <img class="sections-main-sub-container-left-card-main-img" src="assets/images/profiles/Profile1.jpg" alt="card-img">
+                                      <span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper hide-loading-helper"></span>
+                                      <div class="sections-main-sub-container-left-card-info">
+                                          <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
+                                          <span  class="sections-main-sub-container-left-card-sub-info">
+                                              There are many variations of and  passages available...
+                                          </span>
+                                        </div>
+                                  </div>
+                                  <div class="sections-main-sub-container-left-card-chat-side-date-attachement">
+                                    <span class="sections-main-sub-container-left-card-chat-side-date">A year</span>
+                                    <img class="sections-main-sub-container-left-card-chat-side-attachement" src="assets/icons/attach.svg"/>
+                                  </div>
+                                </div>
+                                <!--  End sections-main-sub-container-left-cards  -->
+  
+                                <!--  sections-main-sub-container-left-cards  -->
+                                <div class="sections-main-sub-container-left-card dashboard-chat-side-bar-body-extra-style card-multi-receivers-extra-style">
+                                  <div class="sections-main-sub-container-left-card-main-img-text-extra-style">       
+                                      <div class="sections-main-sub-container-left-card-main-img-text">Cp1</div>
+                                      <div class="sections-main-sub-container-left-card-info">
+                                          <p class="sections-main-sub-container-left-card-main-info">Cp1 - Cp2 - Ce3 - Ce4 </p>
+                                      </div>
+                                  </div>
+                                  <div class="sections-main-sub-container-left-card-chat-side-date-attachement">
+                                      <span class="sections-main-sub-container-left-card-chat-side-date">2 years</span>
+                                      <img class="sections-main-sub-container-left-card-chat-side-attachement" src="assets/icons/attach.svg"/>
+                                  </div>
+                                </div>
+                                <!--  End sections-main-sub-container-left-cards  -->
+                                <%}%>
+                          </div>
+                          <!--  End dashboard-chat-side-bar-body  -->
+                        
+                        </div>
+                        <!--  End dashboard-chat-side-bar-container -->
+                   
+                  </div>
+                  <!--  End sections-main-sub-container-left-card-container  -->
+
+                  <!-- .disable-action to disable user actions based on view role -->
+                  <div class="sections-main-sub-container-left-search-bar ">
+
+
+                    <div class="dynamic-form-input-dropdown-container">
+                      <div class="dynamic-form-input-dropdown "> <!-- dynamic-form-input-first for full width inputs -->
+                        <div class="dynamic-form-input">
+
+                          <div class="dynamic-form-input-float-adjust" id="classes_list">
+                            <div class="form-group group form-group-left">
+                              <input type="text" value="Classes" class="input-dropdown" data-val="All" name="classe" id="classe-filter" required="">
+                              <img class="icon button-icon" src="assets/icons/caret.svg">
+                              <ul class="dynamic-form-input-dropdown-options">
+                                <li data-val="All">All</li>
+                                  <% for(var i=0; i<classes.length; i++) {%>
+                                      <li data-val="<%= classes[i].Classe_Label %>"><%= classes[i].Classe_Label %></li>
+                                  <% } %>
+                              </ul>
+                            </div>
+
+                            <div class="form-group group form-group-right form-group-search-filter">
+
+                                <input type="text" class="input-text input-text-dropdown-search" required="" name="search" id="search-input" placeholder="Search">
+                                <img class="icon button-icon caret-disable-rotate" src="assets/icons/sidebar_icons/search.svg">
+
+                                <ul class="dynamic-form-input-dropdown-options dynamic-form-input-dropdown-options-search">
+                                  <li data-val="Read" data-ad-val="1">Read</li>
+                                  <li data-val="UnRead" data-ad-val="0">UnRead</li>
+                                </ul>
+
+                            </div>
+
+                            <%if (role !== 'Student') { %>
+                              <div class="square-button square-button-minus" data-toggle="modal" data-target="#AddMessageModal">
+                                <img class="icon" src="assets/icons/plus.svg">
+                              </div>
+                            <% } %>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                  <!--  sections-main-sub-container-left-search-bar  -->
+
+                </div>
+
+                <!--  sections-main-sub-container-right 70%  -->
+                <div class="sections-main-sub-container-right sections-main-sub-container-right-inbox-details hidden_ data-loading" id="message_details">
+                        <!-- sections-main-sub-container-right-main -->
+                        <div class="sections-main-sub-container-right-main">
+
+                          <div class="sections-main-sub-container-right-message-details-header">
+                              <!--  Note change header due to your need   -->
+                              <!--  Single receiver  -->
+                              <div class="sections-main-sub-container-left-card dashboard-chat-side-bar-body-extra-style card-single-receiver-extra-style hidden">
+                                <div class="sections-main-sub-container-left-card-main-img-text-extra-style">   
+                                        <img class="sections-main-sub-container-left-card-main-img" src="assets/images/profiles/Profile1.jpg" alt="card-img">
+                                        <span class="sections-main-sub-container-left-card-main-img-text loading-bg-helper hide-loading-helper"></span>
+                                        <div class="sections-main-sub-container-left-card-info">
+                                            <p class="sections-main-sub-container-left-card-main-info">Cha Ji-Hun</p>
+                                            <span  class="sections-main-sub-container-left-card-sub-info">
+                                              abc@xyz.com
+                                            </span>
+                                        </div>
+                                </div>
+
+                                <div class="sections-main-sub-container-left-card-chat-side-date-attachement">
+                                  <span class="sections-main-sub-container-left-card-chat-side-date">21 , April 2021 <span> At </span>15:00</span>
+                                </div>
+
+                              </div>
+                              <!--  End single receiver   -->
+
+                              <!--  Multi receivers  -->
+                              <div class="sections-main-sub-container-left-card dashboard-chat-side-bar-body-extra-style card-multi-receivers-extra-style">
+
+                                <div class="sections-main-sub-container-left-card-main-img-text-extra-style">       
+                                  <div class="sections-main-sub-container-left-card-main-img-text">Cp1</div>
+                                  <div class="sections-main-sub-container-left-card-info">
+                                      <p class="sections-main-sub-container-left-card-main-info">Cp1 - Cp2 - Ce3 - Ce4 </p>
+                                      <div class="card-multi-receivers-dropdown">
+                                        <span  class="sections-main-sub-container-left-card-sub-info">
+                                          Multiple people 
+                                          <img class="dashboard-chat-side-bar-header-sub-label-icon caret-rotate  card-multi-receivers-dropdown-chevron" src="assets/icons/chevron.svg" alt="chevron"/>
+                                        </span>
+                                      </div>
+                                  </div>
+                                </div>
+                                <div class="sections-main-sub-container-left-card-chat-side-date-attachement">
+                                  <span class="sections-main-sub-container-left-card-chat-side-date">21 , April 2021 <span> At </span>15:00</span>
+                                </div>
+
+                              </div>
+                              <!--  End Multi receivers   -->
+
+                              <div class="card-multi-receivers-dropdown-items">
+                                <div class="sections-main-sub-container-right-main-label-divider">
+                                  <p>Students</p>
+                                 </div>
+                                 <div class="dashboard-chat-side-bar-to-list">
+                                   <p class="dashboard-chat-side-bar-to-name">Rey Mibourne , Sampson Totton , Sergio Pliego , Siri Jakobsson</p>
+                                 </div>
+                                 <div class="sections-main-sub-container-right-main-label-divider">
+                                  <p>Parent</p>
+                                 </div>
+                                 <div class="dashboard-chat-side-bar-to-list">
+                                   <p class="dashboard-chat-side-bar-to-name">Rey Mibourne , Sampson Totton , Sergio Pliego , Siri Jakobsson</p>
+                                 </div>
+                                 <div class="sections-main-sub-container-right-main-label-divider">
+                                  <p>Teachers</p>
+                                 </div>
+                                 <div class="dashboard-chat-side-bar-to-list">
+                                   <p class="dashboard-chat-side-bar-to-name">Rey Mibourne , Sampson Totton , Sergio Pliego , Siri Jakobsson</p>
+                                 </div>
+                              </div>
+
+
+                          </div>
+
+                          <div class="sections-main-sub-container-right-message-details-container">
+                            <h1 class="sections-main-sub-container-right-message-details-subject">Where can I get some?</h1>
+                            <div class="sections-main-sub-container-right-message-details-content">
+                              <% for(i = 0 ; i < 3 ; i++) { %>
+                              <p>
+                                Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+                              </p>
+                              <p>
+                                 The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
+                              </p>
+                              <p>
+                                There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.
+                              </p>
+                              <% } %>
+                            </div>
+                          </div>
+
+                          <div class="sections-main-sub-container-right-message-details-attachement row">
+                            
+                            <% for(i = 0 ; i < 12 ; i++) { %>
+                            <div class="col-sm-12 col-md-4">
+                              <a style="text-decoration: none; color: inherit;" download href="#">
+                                <div class="file-container file-loaded file-forms"> 
+                                  <div class="file-icon-label"> 
+                                    <img class="file-icon" src="assets/icons/file.svg" alt="file"/> <span class="file-label">Title</span> 
+                                  </div>
+                                </div>
+                              </a>
+                            </div>
+                            <% } %>
+
+
+                          </div>
+                          
+                          
+                        </div>
+                        <!-- End sections-main-sub-container-right-main -->
+              </div>
+
+        </div>
+        <!--  End sections-main-sub-container -->
+
+    </div>
+    <!-- sub-container -->
+
+     <!--________________ Modals _____________-->
+
+        <%- include('./partials/modals',{role:role}); %>
+
+    <!--________________ End Modals _____________-->
+    <script src="/javascripts/inbox.js" type="text/javascript" charset="utf-8" async defer>
+      
+    </script>
+</body>
+<!-- end sections-main-container -->
+
+
+</html>

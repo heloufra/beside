@@ -22,7 +22,7 @@ module.exports = function (req, res, next) {
       req.userId = decoded.userId;
       req.Institution_ID = decoded.Institution_ID;
       req.role = decoded.role;
-      switch(req.role) {
+      switch (req.role) {
         case "Student":
           res.redirect("/my-absences");
           break;
@@ -30,6 +30,8 @@ module.exports = function (req, res, next) {
           res.redirect("/student-absences");
           break;
         case "Admin":
+          res.redirect("/Dashboard");
+          break;
         case "Teacher":
           res.redirect("/Students");
           break;

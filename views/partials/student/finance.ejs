@@ -7,7 +7,7 @@
       <table>
         <thead>
           <tr class="list-months">
-            <th class="col-extra-style" scope="col">Expenses</th>
+            <th class="col-extra-style" scope="col" data-lang="Expenses">Expenses</th>
           </tr>
         </thead>
 
@@ -19,11 +19,11 @@
   <div
     class="sections-main-sub-container-right-main-label-divider yearly-expense"
   >
-    <p>Yearly expences</p>
+    <p data-lang="Yearly_expences">Yearly expences</p>
   </div>
 
   <div class="sections-main-sub-container-right-main-label-divider">
-    <p>Unpaid expences</p>
+    <p data-lang="Unpaid_expences">Unpaid expences</p>
   </div>
 
   <div
@@ -31,7 +31,7 @@
   >
     <span
       class="sections-main-sub-container-right-main-result-label sections-main-sub-container-right-main-result-label-extra-info"
-      >Total</span
+      data-lang="Total">Total</span
     >
     <span class="sections-main-sub-container-right-main-result-value">
       <span class="red-color unpaid-expense">3200</span>
@@ -49,7 +49,7 @@
         data-target="#FinanceModal"
         onclick="executePayment()"
       >
-        <span class="button-text">Execute payment</span>
+        <span class="button-text" data-lang="Execute_payment">Execute payment</span>
         <img class="icon button-icon" src="assets/icons/plus.svg" />
       </div>
     </div>
@@ -57,17 +57,15 @@
 
     <!--  sub-container-form-footer -->
     <div class="sub-container-form-footer visibility">
-      <div
-        class="rounded-button rounded-button-primary rounded-button-float-right"
-      >
-        <span class="button-text">Save changes</span>
+        <div class="rounded-button rounded-button-primary rounded-button-float-right">
+        <span class="button-text" data-lang="Save_changes">Save changes</span>
         <img class="icon button-icon" src="assets/icons/check_small.svg" />
-      </div>
-      <div
-        class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary"
-      >
-        <span class="button-text" id="StudentBtnCancel">Cancel</span>
-      </div>
+        </div>
+        <div
+          class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary"
+        >
+          <span class="button-text" id="StudentBtnCancel" data-lang="Cancel">Cancel</span>
+        </div>
     </div>
     <!--  End sub-container-form-footer -->
   </div>

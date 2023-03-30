@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title data-lang="<%= title %>"><%= title %></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+ <%- include('./partials/main'); %>
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+
+</head>
+
+<!-- sections-main-container -->
+<body class="sections-main-container  setup-update-main-container">
+  
+    <!-- main-container -->
+    <div class="main-container">
+
+      <!-- setup-main-container -->
+      <%- include('./partials/side_bar',{institution: institution,accounts:accounts,role:role}); %>
+      <!-- end setup-main-container -->
+
+      <!-- sub-container -->
+      <div class="sub-container">
+
+        <div class="sub-container-nav-bar">
+            <span class="sub-container-nav-bar-title" data-lang="Website">Website</span>
+            <img  class="sub-container-nav-bar-img" src="<%= user.User_Image %>" alt="profile">
+        </div>
+
+        <!-- nav -->
+          <%- include('./partials/nav_bar', {user: user,users:users,role:role}); %>
+        <!-- End nav -->
+
+        <!--  sections-main-sub-container 100%  -->
+        <div class="sections-main-sub-container">
+
+                <!--  sections-main-sub-container-left 30%  -->
+                <div class="sections-main-sub-container-left">
+
+                      <ul class="side-bar-ul">
+
+                          <li class="side-bar-li active" data-asset-active="" data-asset-inactive="">
+                            <a data-toggle="tab" href="#Details_Section">
+                              <span class="side-bar-li-span side-bar-li-span-inactive" data-lang="Contact_details">Contact details</span>
+                            </a>
+                          </li>
+
+                          <li class="side-bar-li" data-asset-active="" data-asset-inactive="">
+                            <a data-toggle="tab" href="#Amenties_Section">
+                              <span class="side-bar-li-span side-bar-li-span-inactive" data-lang="Amenties">Amenties</span>
+                            </a>
+                          </li>
+
+                          <li class="side-bar-li" data-asset-active="" data-asset-inactive="">
+                            <a data-toggle="tab" href="#Gallery_Section">
+                              <span class="side-bar-li-span side-bar-li-span-inactive" data-lang="Gallery">Gallery</span>
+                            </a>
+                          </li>
+
+                          <li class="side-bar-li" data-asset-active="" data-asset-inactive="">
+                            <a data-toggle="tab" href="#Dispaly_Settings_Section">
+                              <span class="side-bar-li-span side-bar-li-span-inactive" data-lang="Display_Settings">Display settings</span>
+                            </a>
+                          </li>
+
+                      </ul>
+
+                </div>
+                <!--  End sections-main-sub-container-left 30%  -->
+                
+
+                <!--  sections-main-sub-container-right 70%  -->
+                <div class="sections-main-sub-container-right data-loading ">
+
+                    <div class="tab-content">
+
+                          <!-- sub-container Details -->
+                          <div  id="Details_Section" class="item tab-pane fade in active dom-change-watcher" >
+                            <div  class="sub-main-container">
+                              <h1 class="sub-container-main-header" data-lang="Contact_details">Contact details</h1>
+                              <h4 class="sub-container-sub-header" data-lang="Detail_subHeader">There are many variations of passages of Lorem Ipsum available, but the majority.</h4>
+
+                              <form class="sub-container-form">
+
+                                <div class="form-group group">
+                                  <input type="text" required value="<%= institution.Institution_Name %>" name="Institution_Name">
+                                  <label class="input-label"><span class="input-label-text" data-lang="School_name">School name</span> <span class="input-label-bg-mask"></span></label>
+                                </div>
+
+                                <div class="row sections-main-sub-container-right-main-rows sections-main-sub-container-right-main-rows-extra-style">
+                                  <div class="col-xs-12">
+                                    <div class="form-group group">
+                                      <textarea class="input-text input-text-area about" id="about" name="Institution_About"></textarea>
+                                      <label class="input-label">
+                                        <span class="input-label-text" data-lang="About">About</span><span class="input-label-bg-mask"></span>
+                                      </label>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="form-group group">
+                                  <input type="text" required value="<%= institution.Institution_Email %>" name="Institution_Email">
+                                  <label class="input-label"><span class="input-label-text" data-lang="Email_address">Email address</span> <span class="input-label-bg-mask"></span></label>
+                                </div>
+
+                                <div class="form-group group">
+                                  <input type="text" required value="<%= institution.Institution_Phone %>" name="Institution_Phone">
+                                  <label class="input-label"><span class="input-label-text" data-lang="Phone_number">Phone number</span> <span class="input-label-bg-mask"></span></label>
+                                </div>
+
+                                <div class="form-group group">
+                                  <input type="text" required value="<%= institution.Institution_Website %>" name="Institution_Website">
+                                  <label class="input-label"><span class="input-label-text" data-lang="Website">Website</span> <span
+                                      class="input-label-bg-mask"></span></label>
+                                </div>
+
+                                <!--div class="form-group group">
+                                  <input type="text" required value="<%= institution.Institution_Adress %>" name="Institution_Adress">
+                                  <label class="input-label"><span class="input-label-text" data-lang="Adress">Adress</span> <span
+                                      class="input-label-bg-mask"></span></label>
+                                </div-->
+
+                                <div class="dynamic-form-input-container">
+                                  <label class="input-label dynamic-form-input-container-label"><span class="input-label-text" data-lang="Location">Location</span> 
+                                    <span class="input-label-bg-mask"></span></label>
+                                  <div class="dynamic-form-input dynamic-form-input-first">
+
+                                      <!--div class="form-group group">
+                                        <input type="text" required value="<%= institution.Institution_Location %>" name="Institution_Location" id="Institution_Adress">
+                                        <label class="input-label"><span class="input-label-text" data-lang="Location">Location</span> <span
+                                            class="input-label-bg-mask"></span></label>
+                                      </div-->
+
+                                      <div class="form-group group">
+                                        <input type="text" required value="<%= institution.Institution_Adress %>" name="Institution_Adress" id="Institution_Adress">
+                                        <label class="input-label"><span class="input-label-text" data-lang="Adress">Adress</span> <span
+                                            class="input-label-bg-mask"></span></label>
+                                      </div>
+                                      
+                                      <div class="form-group group form-group-map-extra-style">
+                                        <div id="map"></div>
+                                      </div>
+
+                                  </div>
+                                </div>
+
+                              </form>
+
+                            </div>
+
+                            <!--  sub-container-form-footer -->
+                            <div class="sub-container-form-footer-container">
+                                 
+                                  <div class="sub-container-form-footer hide-footer">
+                                      <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate rounded-button-primary-green-color cancel-change" onclick="updateDetails()">
+                                            <span class="button-text" id="" data-lang="Save_changes">Save changes</span>
+                                            <img class="icon button-icon" src="assets/icons/check_small.svg">
+                                      </div>
+                                      <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary  secondary-pink-button cancel-change" data-toggle="modal" data-target="#ChangesModal" onclick="discard('Details')">
+                                            <span class="button-text discard-changes" data-lang="Cancel">Discard</span>
+                                      </div>
+                                  </div>
+                                  
+                            </div>  
+                            <!--  End sub-container-form-footer -->
+
+                          </div>
+                          <!-- end sub-container Details -->
+
+                          <!-- sub-container Gallery -->
+                          <div class="item tab-pane fade dom-change-watcher" id="Gallery_Section">
+                            <div  class="sub-main-container">
+                              <h1 class="sub-container-main-header" data-lang="Gallery">Gallery</h1>
+                              <h4 class="sub-container-sub-header" data-lang="Gallery_subHeader">There are many variations of passages of Lorem Ipsum available, but the majority.</h4>
+
+                              <form class="sub-container-form" id="galleryForm">
+
+                                <!-- Gallery : uploader -->
+
+                                  <div class="sections-main-sub-container-right-main-rows gallery_add_new">
+
+                                    <div class="import-file-container">
+                
+                                      <p class="import-file-label" data-lang="Import_from_file_drag_and_drop_gallery" placeholder="" style="opacity: 1;"></p>
+                
+                                      <div class="modal-btn-container">
+                                          <label for="" class="modal-btn" data-lang="Import_file" placeholder="" style="opacity: 1;"></label>
+                                      </div>
+                                      
+                                    </div>
+                              
+                                  </div>
+
+                                  <input type="file" accept="image/*" multiple name="logo" id="gallery_file" style="display: none;" autocomplete="" autofill="off">
+
+                                <!-- end Gallery : uploader -->
+
+                                <!-- Gallery : uploaded pics container -->
+                                <ul id="sortable">
+
+                                </ul>
+                                <!-- Gallery : uploaded pics container -->
+
+                              </form>
+
+                            </div>
+
+                            <!--  sub-container-form-footer -->
+                            <div class="sub-container-form-footer-container">
+                                 
+                              <div class="sub-container-form-footer hide-footer">
+                                  <div class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate rounded-button-primary-green-color cancel-change" onclick="updateGallery()">
+                                        <span class="button-text" id="" data-lang="Save_changes">Save changes</span>
+                                        <img class="icon button-icon" src="assets/icons/check_small.svg">
+                                  </div>
+                                  <div class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary  secondary-pink-button cancel-change" data-toggle="modal" data-target="#ChangesModal" onclick="discard('Gallery')">
+                                        <span class="button-text discard-changes"  data-lang="Cancel">Discard</span>
+                                  </div>
+                              </div>
+                                  
+                            </div>  
+                            <!--  End sub-container-form-footer -->
+
+                          </div>
+                          <!-- end sub-container Gallery -->
+
+                          <!-- sub-container Amenties -->
+                          <div id="Amenties_Section" class="item tab-pane fade dom-change-watcher">
+                            <div class="sub-main-container">
+                              <h1 class="sub-container-main-header" data-lang="Amenties">Amenties</h1>
+                              <h4 class="sub-container-sub-header" data-lang="Amenties_subHeader">There are many variations of passages of Lorem
+                                Ipsum available, but the majority.</h4>
+                          
+                              <form class="sub-container-form" id="amenties-container">
+
+                              </form>
+                          
+                            </div>
+                          
+                            <!--  sub-container-form-footer -->
+                            <div class="sub-container-form-footer-container">
+                          
+                              <div class="sub-container-form-footer hide-footer">
+                                <div
+                                  class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate rounded-button-primary-green-color cancel-change"
+                                  onclick="updateAmenties()">
+                                  <span class="button-text" id="" data-lang="Save_changes">Save changes</span>
+                                  <img class="icon button-icon" src="assets/icons/check_small.svg">
+                                </div>
+                                <div
+                                  class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary  secondary-pink-button cancel-change"
+                                  data-toggle="modal" data-target="#ChangesModal" onclick="discard('Amenties')">
+                                  <span class="button-text discard-changes" data-lang="Cancel">Discard</span>
+                                </div>
+                              </div>
+                          
+                            </div>
+                            <!--  End sub-container-form-footer -->
+                          
+                          </div>
+                          <!-- end sub-container Amenties -->
+
+                          <!-- sub-container Amenties -->
+                          <div id="Dispaly_Settings_Section" class="item tab-pane fade dom-change-watcher">
+                            <div class="sub-main-container">
+                              <h1 class="sub-container-main-header" data-lang="Display_Settings">Display_Settings</h1>
+                              <h4 class="sub-container-sub-header" data-lang="Display_settings_subHeader">There are many variations of passages of Lorem
+                                Ipsum available, but the majority.</h4>
+                          
+                              <form class="sub-container-form" id="display-settings-container">
+                                
+                              </form>
+                              
+                            </div>
+                          
+                            <!--  sub-container-form-footer -->
+                            <div class="sub-container-form-footer-container">
+                          
+                              <div class="sub-container-form-footer hide-footer">
+                                <div
+                                  class="rounded-button rounded-button-primary rounded-button-float-right default-button caret-disable-rotate rounded-button-primary-green-color cancel-change"
+                                  onclick="updateDispalySettings()">
+                                  <span class="button-text" id="" data-lang="Save_changes">Save changes</span>
+                                  <img class="icon button-icon" src="assets/icons/check_small.svg">
+                                </div>
+                                <div
+                                  class="rounded-button rounded-button-primary rounded-button-float-right btn-secondary  secondary-pink-button cancel-change"
+                                  data-toggle="modal" data-target="#ChangesModal" onclick="discard('DisplaySettings')">
+                                  <span class="button-text discard-changes" data-lang="Cancel">Discard</span>
+                                </div>
+                              </div>
+                          
+                            </div>
+                            <!--  End sub-container-form-footer -->
+                          
+                          </div>
+                          <!-- end sub-container Amenties -->
+
+                    </div>
+
+                </div>
+                <!--  End sections-main-sub-container-right 70%  -->
+
+        </div>
+        <!--  End sections-main-sub-container -->
+
+    </div>
+    <!-- sub-container -->
+
+
+    <!--_____________ ChangesModal modal _____________-->
+
+    <!-- Trigger the modal with a button -->
+     
+      <!-- Modal data-toggle="modal" data-target="#ChangesModal" -->
+      <div id="ChangesModal" class="modal" role="dialog" >
+
+        <div class="modal-dialog modal-dialog-centered animate__animated animate__fadeIn ">
+
+          <!-- Modal content-->
+          <div class="modal-content modal-content-finance">
+
+            <div class="modal-body">
+
+                <!-- modal-body-container -->
+
+                <div class="modal-body-container">
+
+                   <h1 class="sub-container-main-header sub-container-main-header-extra-style" data-lang="Review_changes">Review changes</h1>
+                   <h4 class="sub-container-sub-header  sub-container-sub-header-extra-style" data-lang="Review_changes_subHeader">
+                    You have made changes. Are you sure you want to discard them?
+                   </h4>
+
+                    <!--  sub-container-form-footer -->
+                    <div class="sub-container-form-footer">
+
+                       <div class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button ">
+                                    <span class="button-text" data-lang="Save_changes">Save changes</span>
+                                    <img class="icon button-icon" src="assets/icons/check_small.svg">
+                        </div>
+
+                        <div class="rounded-button default-button rounded-button-primary rounded-button-float-right  secondary-pink-button " 
+                             data-dismiss="modal" id="Discard">
+                              <span class="button-text" data-lang="Cancel">Discard</span>
+                        </div>
+                       
+                    </div>
+                    <!--  End sub-container-form-footer -->
+
+                </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    <!--_____________ End ChangesModal modal _____________-->
+
+    <!-- Modal data-toggle="modal" data-target="#ChangesModal" -->
+      <div id="ConfirmDeleteModal" class="modal" role="dialog" >
+
+        <div class="modal-dialog modal-dialog-centered animate__animated animate__fadeIn ">
+
+          <!-- Modal content-->
+          <div class="modal-content modal-content-finance">
+
+            <div class="modal-body">
+
+                <!-- modal-body-container -->
+
+                <div class="modal-body-container">
+
+                   <h1 class="sub-container-main-header sub-container-main-header-extra-style">Are you sure ?</h1>
+                   <h4 class="sub-container-sub-header  sub-container-sub-header-extra-style">
+                    You have made changes. Are you sure you want to discard them?
+                   </h4>
+
+                    <!--  sub-container-form-footer -->
+                    <div class="sub-container-form-footer">
+
+                        <div class="rounded-button default-button rounded-button-primary rounded-button-float-right  secondary-pink-button ">
+                              <span class="button-text" >Confirm</span>
+                        </div>
+
+                        <div class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary">
+                                    <span class="button-text" data-dismiss="modal" >Cancel</span>
+                        </div>
+                       
+                    </div>
+                    <!--  End sub-container-form-footer -->
+
+                </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    <!--_____________ End ConfirmDelete modal _____________-->
+
+        <!--________________ Modals _____________-->
+
+           <%- include('./partials/modals',{role:role}); %>
+
+    <!--________________ End Modals _____________-->
+    <!--script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKc1hHuxFV4Bvd__19bBmFMuJcOR3-vOE&v=weekly&channel=2" async></script-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKc1hHuxFV4Bvd__19bBmFMuJcOR3-vOE&libraries=places&callback=initAutocomplete" async></script>
+    <script src="/javascripts/website.js" type="text/javascript" charset="utf-8" async defer></script>
+    
+</body>
+<!-- end sections-main-container -->
+
+
+</html>

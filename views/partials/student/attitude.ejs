@@ -14,9 +14,9 @@
       <table id="attitude_table">
         <thead>
           <tr>
-            <th scope="col" class="col-first">Interaction</th>
-            <th scope="col" class="col-middle">Note</th>
-            <th scope="col" class="col-last">Date</th>
+            <th scope="col" class="col-first" data-lang="Interaction">Interaction</th>
+            <th scope="col" class="col-middle" data-lang="Note">Note</th>
+            <th scope="col" class="col-last" data-lang="Attitude_date">Date</th>
           </tr>
         </thead>
 
@@ -35,7 +35,7 @@
         data-toggle="modal"
         data-target="#AddAttitudeModal"
       >
-        <span class="button-text" id="">Add attitude</span>
+        <span class="button-text" id="" data-lang="Add_attitude">Add attitude</span>
         <img class="icon button-icon" src="assets/icons/plus.svg" />
       </div>
     </div>
@@ -58,9 +58,11 @@
           <!-- modal-body-container -->
 
           <div class="modal-body-container">
-            <h1 class="sub-container-main-header">Attitude</h1>
-            <h4 class="sub-container-sub-header">
-              There are many variations of passages of Lorem Ipsum available.
+
+
+            <h1 class="sub-container-main-header" data-lang="Popup_edit_attitude">Attitude</h1>
+            <h4 class="sub-container-sub-header" data-lang="Popup_edit_attitude_subHeader">
+             There are many variations of passages of Lorem Ipsum available.
             </h4>
 
             <div class="row sections-main-sub-container-right-main-rows">
@@ -68,7 +70,7 @@
                 <div class="form-group group readonly">
                   <input type="text" required="" name="edit-classe" />
                   <label class="input-label">
-                    <span class="input-label-text">Class</span
+                    <span class="input-label-text" data-lang="Class">Class</span
                     ><span class="input-label-bg-mask"></span>
                   </label>
                 </div>
@@ -77,7 +79,7 @@
                 <div class="form-group group readonly">
                   <input type="text" required="" name="edit-student" />
                   <label class="input-label">
-                    <span class="input-label-text">Student</span
+                    <span class="input-label-text" data-lang="Student">Student</span
                     ><span class="input-label-bg-mask"></span>
                   </label>
                 </div>
@@ -88,7 +90,7 @@
               class="dynamic-form-input-container dynamic-form-input-container-extra-style"
             >
               <label class="input-label dynamic-form-input-container-label"
-                ><span class="input-label-text">Type</span>
+                ><span class="input-label-text" data-lang="Type">Type</span>
                 <span class="input-label-bg-mask"></span
               ></label>
 
@@ -99,7 +101,7 @@
                 >
                   <div class="sections-label-checkbox-container">
                     <div class="form-group group">
-                      <span class="expense_label">Positive</span>
+                      <span class="expense_label" data-lang="Positive">Positive</span>
                     </div>
                   </div>
                   <div class="customCheck customCheckRounded readonly">
@@ -121,7 +123,7 @@
                 >
                   <div class="sections-label-checkbox-container">
                     <div class="form-group group">
-                      <span class="expense_label">Negative</span>
+                      <span class="expense_label" data-lang="Negative">Negative</span>
                     </div>
                   </div>
                   <div class="customCheck customCheckRounded readonly">
@@ -142,7 +144,7 @@
               class="dynamic-form-input-container dynamic-form-input-container-extra-style"
             >
               <label class="input-label dynamic-form-input-container-label"
-                ><span class="input-label-text">Date</span>
+                ><span class="input-label-text" data-lang="Attitude_date">Date</span>
                 <span class="input-label-bg-mask"></span
               ></label>
 
@@ -155,6 +157,7 @@
                   class="input-text input-extra-border input-date input-date-illimited"
                   required=""
                   placeholder="Select date"
+                  data-lang="Select_date"
                 />
                 <img
                   class="icon button-icon caret-disable-rotate"
@@ -171,8 +174,8 @@
                     id="edit-note"
                   ></textarea>
                   <label class="input-label">
-                    <span class="input-label-text">Note</span
-                    ><span class="input-label-bg-mask"></span>
+                    <span class="input-label-text" data-lang="Note">Note</span>
+                    <span class="input-label-bg-mask"></span>
                   </label>
                 </div>
               </div>
@@ -184,7 +187,7 @@
                 class="rounded-button default-button rounded-button-primary rounded-button-float-right modal-confirm-button"
                 onclick="updateAttitude()"
               >
-                <span class="button-text">Save</span>
+                <span class="button-text" data-lang="Save">Save</span>
                 <img
                   class="icon button-icon"
                   src="assets/icons/check_small.svg"
@@ -194,7 +197,7 @@
                 class="rounded-button rounded-button-primary rounded-button-float-right default-button btn-secondary"
                 data-dismiss="modal"
               >
-                <span class="button-text">Cancel</span>
+                <span class="button-text" data-lang="Cancel">Cancel</span>
               </div>
             </div>
             <!--  End sub-container-form-footer -->

@@ -3,11 +3,11 @@ const connection = require("../lib/db");
 function fetchData(req, callback = () => {}) {
   connection.query(
     "SELECT * FROM `users` WHERE `User_ID` = ? LIMIT 1",
-    [req.userId],
+    [req.session.userId],
     (err, users) => {
       connection.query(
         "SELECT * FROM `institutions` WHERE `Institution_ID` = ? LIMIT 1",
-        [req.Institution_ID],
+        [req.session.Institution_ID],
         (err, institutions) => {
           connection.query(
             "SELECT students.* FROM `students` INNER join studentsparents on studentsparents.Student_ID = students.Student_ID Inner join parents on studentsparents.Parent_ID = parents.Parent_ID WHERE parents.Parent_Email = ?",
@@ -18,7 +18,9 @@ function fetchData(req, callback = () => {}) {
                 users[0],
                 institutions[0],
                 req.role,
-                students.find(student => student.Student_ID == req.currentStudentId),
+                students.find(
+                  (student) => student.Student_ID == req.currentStudentId
+                ),
                 students
               );
             }
@@ -33,11 +35,11 @@ const parentController = {
   getAllParents: (req, res, next) => {
     connection.query(
       "SELECT * FROM `parents` WHERE Institution_ID = ?",
-      [req.Institution_ID],
+      [req.session.Institution_ID],
       (err, parents) => {
-      res.json({
-        parents,
-      });
+        res.json({
+          parents,
+        });
       }
     );
   },
@@ -50,7 +52,7 @@ const parentController = {
         institution,
         role,
         student,
-        students
+        students,
       });
     }),
   finances: (req, res, next) =>
@@ -62,7 +64,7 @@ const parentController = {
         institution,
         role,
         student,
-        students
+        students,
       });
     }),
   grades: (req, res, next) =>
@@ -74,7 +76,7 @@ const parentController = {
         institution,
         role,
         student,
-        students
+        students,
       });
     }),
   exams: (req, res, next) =>
@@ -86,7 +88,7 @@ const parentController = {
         institution,
         role,
         student,
-        students
+        students,
       });
     }),
   homework: (req, res, next) =>
@@ -98,7 +100,7 @@ const parentController = {
         institution,
         role,
         student,
-        students
+        students,
       });
     }),
   attitudes: (req, res, next) =>
@@ -110,7 +112,7 @@ const parentController = {
         institution,
         role,
         student,
-        students
+        students,
       });
     }),
 };

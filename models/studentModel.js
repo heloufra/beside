@@ -1,5 +1,5 @@
 var connection  = require('../lib/db');
-var studentQuery = `INSERT INTO students(Student_FirstName,  Student_LastName, Student_Image,  Student_birthdate,  Student_Address,  Student_Phone,Student_Gender,Student_Status,Student_Email,Institution_ID) VALUES(?,?,?,?,?,?,?,1,?,?)`;
+var studentQuery = `INSERT INTO students(Student_FirstName,  Student_LastName, Student_Image,  Student_birthdate,  Student_Address,  Student_Phone,Student_Gender,Student_Status,Student_Email,Institution_ID,Student_Code) VALUES(?,?,?,?,?,?,?,1,?,?,?)`;
 var parentQuery = `INSERT INTO parents(Parent_Name,  Parent_Phone , Parent_Email , Institution_ID) VALUES(?,?,?,?)`;
 var spQuery = `INSERT INTO studentsparents(Student_ID, Parent_ID) VALUES(?,?)`;
 var ssQuery = `INSERT INTO studentsubscribtion(Student_ID, LE_ID, Subscription_StartDate, Subscription_EndDate, AY_ID) VALUES(?,?,?,?,?)`;
@@ -40,19 +40,34 @@ var studentModel = {
       });
     })
   },
-  saveStudent: function(f_name,l_name,birthdate,address,phone,gender,email,Institution_ID) {
+  saveStudent: function(f_name,l_name,birthdate,address,phone,gender,email,Institution_ID,student_code) {
+
      return new Promise((resolve, reject) => {
 
-
-      User_Image="assets/images/profiles/avatar_student_female.svg";
+      User_Image="assets/images/profiles/avatar_student_female.png";
 
       if(gender == "Male"){
-        User_Image="assets/images/profiles/avatar_student_male.svg";
+        User_Image="assets/images/profiles/avatar_student_male.png";
       }
 
-      connection.query(studentQuery, [f_name,l_name,User_Image, birthdate,address,phone,gender,email,Institution_ID],(err, student, fields) => {
+      connection.query(studentQuery, [f_name,l_name,User_Image, birthdate,address,phone,gender,email,Institution_ID,student_code],(err, student, fields) => {
        if (err) reject(err);
        else resolve(student); 
+      });
+    })
+  },  
+  saveStudentAsUser: function(f_name,l_name,birthdate,address,phone,gender,email) {
+     return new Promise((resolve, reject) => {
+
+      User_Image="assets/images/profiles/avatar_student_female.png";
+
+      if(gender == "Male"){
+        User_Image="assets/images/profiles/avatar_student_male.png";
+      }
+      connection.query("INSERT INTO users(User_Name, User_Image, User_Email,User_Birthdate,User_Phone,User_Address,User_Gender,User_Role) VALUES(?,?,?,?,?,?,?,?)",
+        [JSON.stringify({first_name:f_name, last_name:l_name}), User_Image , email,  birthdate, phone ,address,gender,"Student"], (err, student, fields) => {
+        if (err) reject(err);
+        else resolve(student); 
       });
     })
   },
@@ -73,6 +88,7 @@ var studentModel = {
     })
   },
   saveStudentSub: function(studentID,LE_ID,startDate,AY_EndDate,AY_ID) {
+    console.log("saveStudentSub ===>");
      return new Promise((resolve, reject) => {
        connection.query(ssQuery, [studentID,LE_ID,startDate,AY_EndDate,AY_ID], (err, ssresult, fields) => {
        if (err) reject(err);
@@ -141,6 +157,17 @@ var studentModel = {
                 resolve(JSON.parse(JSON.stringify(studentEmail)));
                }
 
+          });
+    })
+  },
+  studentUniqueCode: function(Code,Id,Institution_Id) {
+      return new Promise((resolve, reject) => {
+          connection.query("SELECT Count(*) as 'Code_Count' , Student_Code FROM `students` WHERE `Student_Code` = ? AND Student_Status = 1 AND Student_ID <> ? AND Institution_ID = ?  ", [ Code , Id , Institution_Id ], (err, studentCode, fields) => {
+                if (err){
+                  reject(err);
+                } else { 
+                  resolve(JSON.parse(JSON.stringify(studentCode)));
+                }
           });
     })
   },
