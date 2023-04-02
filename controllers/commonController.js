@@ -134,6 +134,8 @@ var commonController = {
    url = req.protocol + '://' + req.get('host') + '/';
    limit = 10;
 
+   let offset = req.body.OffSet  == 0 ? 0 : (req.body.OffSet - 1);
+
    switch(req.body.UserInfo.role){
 
       case 'Student': {
@@ -151,7 +153,7 @@ var commonController = {
        
         userInfoQuery += ` order by Date(n.Notification_Addeddate) Desc limit ? OFFSET ? `;
         userInfoQueryParams.push(limit);
-        userInfoQueryParams.push( (req.body.OffSet - 1) * limit );
+        userInfoQueryParams.push( offset * limit );
        
         break;
        
@@ -174,7 +176,7 @@ var commonController = {
        
         userInfoQuery += ` order by Date(n.Notification_Addeddate) Desc limit ? OFFSET ? `;
         userInfoQueryParams.push(limit);
-        userInfoQueryParams.push( (req.body.OffSet - 1) * limit );
+        userInfoQueryParams.push( offset * limit );
 
         break;
       }
