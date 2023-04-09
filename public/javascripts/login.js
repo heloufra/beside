@@ -13,6 +13,8 @@ var getParams = function (url) {
 
 var params = getParams(window.location.href);
 
+var $attemption = 0;
+
 if (params.redir)
 {
 	   $.ajax({
@@ -25,7 +27,7 @@ if (params.redir)
               if (res.exist)
               {
                 $('#Login_Section').addClass('hidden');
-				$('input[name=email]').val(res.email);
+				        $('input[name=email]').val(res.email);
               } else {
                	window.location = '/';
               }
@@ -47,16 +49,18 @@ if (params.redir)
             dataType: 'json'
           })
           .done(function(res){
-
               if (res.exist)
               {
                   $(".sub-container-form-footer").removeClass("show-footer");
-          $(".sub-container-form-footer").addClass("hide-footer");
-          $(".sections-main-sub-container-right-main").css("height",":calc(100%)");
+                  $(".sub-container-form-footer").addClass("hide-footer");
+                  $(".sections-main-sub-container-right-main").css("height",":calc(100%)");
+
+
+
                   owl.trigger('owl.next');
               } else {
-                $("#Login_Section .sections-main-sub-container-right-main-note").removeClass("input-validation-error-feedback-hide");
-        $("#Login_Section .sections-main-sub-container-right-main-note").addClass("input-validation-error-feedback-show");
+                  $("#Login_Section .sections-main-sub-container-right-main-note").removeClass("input-validation-error-feedback-hide");
+                  $("#Login_Section .sections-main-sub-container-right-main-note").addClass("input-validation-error-feedback-show");
               }
           });
 
@@ -67,17 +71,24 @@ if (params.redir)
 
   });
 
-  $(document).on("click","#Resend_Section_Btn",function(event){
+  // resendPassword
 
+  function resendPassword(){
     // test if phone or email exist 
-     $.ajax({
+    $.ajax({
             type: 'post',
             url: '/verify',
             data: {
               email:$('input[name=email]').val(),
             },
             dataType: 'json'
-          })
+    })
+  }
+
+  $(document).on("click","#Resend_Section_Btn",function(event){
+
+    // test if phone or email exist 
+    resendPassword()
 
   });
 
@@ -89,9 +100,23 @@ if (params.redir)
 
     $(document).on("click","#Code_Section_Btn",function(event){
 
+    if($attemption >= 3){
+        $img =`<img class="icon button-icon" src="assets/icons/right_arrow.svg"> `;
+        $(".sub-container-form-footer").removeClass("show-footer");
+        $(".sub-container-form-footer").addClass("hide-footer");
+        $(".sections-main-sub-container-right-main").css("height",":calc(100%)");
+        $("#Code_Section .sections-main-sub-container-right-main-note").removeClass("input-validation-error-feedback-show");
+        $("#Code_Section .sections-main-sub-container-right-main-note").addClass("input-validation-error-feedback-hide");
+        resendPassword();
+        $('input[name=email]').val("");
+        $('#Code_Section_Btn').find("svg").replaceWith($img);
+        $('.input-user-code').removeClass("input-validation-error");
+        $('.input-user-code').val("");
+        $attemption=0;
+        owl.trigger('owl.next');
+    }
     
     // disable btn click and change arrow by spin while check login   => 
-
     $svg =` <svg class="icon button-icon button-icon-extra-style" version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
            width="40px" height="40px" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
           <path opacity="0.2" fill="#000" d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946
@@ -109,7 +134,7 @@ if (params.redir)
             </path>
         </svg>`;
 
-     $(this).find("img").replaceWith($svg);
+    $(this).find("img").replaceWith($svg);
 
     $.ajax({
             type: 'post',
@@ -127,12 +152,12 @@ if (params.redir)
                   window.location.href = '/';
               } else {
                 // login failed : enable btn  => 
-                console.log("Not Valide:");
                   $img =`<img class="icon button-icon" src="assets/icons/right_arrow.svg"> `;
                   $('#Code_Section_Btn').find("svg").replaceWith($img);
                   $('.input-user-code').addClass("input-validation-error");
                   $("#Code_Section .sections-main-sub-container-right-main-note").removeClass("input-validation-error-feedback-hide");
                   $("#Code_Section .sections-main-sub-container-right-main-note").addClass("input-validation-error-feedback-show");
+                  $attemption++;
               }
           });
   });
