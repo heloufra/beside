@@ -102,6 +102,23 @@ function readFile() {
   }
   
 }
+
+
+// sendConfirmationPassword
+
+function sendConfirmationPassword($email){
+	// test if phone or email exist 
+	$.ajax({
+	        type: 'post',
+	        url: '/verify',
+	        data: {
+	          email:$email,
+	          updateProfile:true
+	        },
+	        dataType: 'json'
+	})
+}
+
 $(document).on("click","#settings_btn",function(event){
     document.getElementById("profile_settings").addEventListener("change", readFile);
     
@@ -113,9 +130,9 @@ $(document).on("click","#settings_btn",function(event){
       url: '/Select/me',
     })
     .done(function(res){
+
       $('#ProfileSettings').find('#output-settings').attr('src',res.user.User_Image);
          var name = JSON.parse(res.user.User_Name);
-
       
       $('#ProfileSettings').find('input[name=fname-settings]').val(name.first_name);
       $('#ProfileSettings').find('input[name=lname-settings]').val(name.last_name);
@@ -124,6 +141,9 @@ $(document).on("click","#settings_btn",function(event){
       $('#ProfileSettings').find('input[name=phone-settings]').val(res.user.User_Phone);
       $('#ProfileSettings').find('input[name=email-settings]').val(res.user.User_Email);
       $('#ProfileSettings').find('input[name=gender-settings]').val(res.user.User_Gender);
+
+      // send Update Info Confirmation Password
+      sendConfirmationPassword(res.user.User_Email); 
 
       $('#ProfileSettings').removeClass('data-loading');
       

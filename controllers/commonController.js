@@ -327,6 +327,13 @@ var commonController = {
         user_error["Email"]= eml[0].User_Email ;
       }
 
+      // verify code 
+      var code = await commonModel.userValideVericationCode( req.session.userId , req.body.user_code );
+      // user code
+      if(!code[0].Code){
+        user_error["Code"]= false ;
+      }
+
       form_errors["User"] = user_error ;
 
       if( Object.keys(user_error).length === 0 && user_error.constructor === Object) {

@@ -77,8 +77,17 @@ var loginController = {
             var dev_Email = ["admin@beside.ma","student@beside.ma","parent@beside.ma","teacher@beside.ma"];
             var password = !dev_Email.includes(String(req.body.email).toLowerCase()) ? makeid(6) : '123456';
             console.log(String(req.body.email).toLowerCase() +" "+password);
+
+            var $template =  __dirname + "/templates/email_login_template.html";
+
+            if(req.body.updateProfile && req.body.updateProfile){
+              $template =  __dirname + "/templates/email_update_template.html";
+            }
+
+            console.log("veridy==>",{$template,"profile":req.body.updateProfile});
+
             readHTMLFile(
-              __dirname + "/templates/email_login_template.html",
+              $template,
               function (err, html) {
                 var template = handlebars.compile(html);
                 var replacements = {
@@ -115,6 +124,7 @@ var loginController = {
                 );
               }
             );
+
           }
         }
       }
