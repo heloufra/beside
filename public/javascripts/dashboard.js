@@ -762,8 +762,8 @@ function ChartJS(month_ID,Year) {
 									label = "";
 									amount = 0;
 									percentage = ctx.dataset.data[ctx.dataIndex] < 100 ? 
-									((parseFloat(ctx.dataset.data[ctx.dataIndex]).toFixed(1).replace(/(\.0*|(?<=(\..*))0*)$/, '')) % 10 == 0 ? 
-									parseFloat(ctx.dataset.data[ctx.dataIndex]).toFixed(1).replace(/(\.0*|(?<=(\..*))0*)$/, '').replace(/(\.0*|(?<=(\..*))0*)$/, '') : parseFloat(ctx.dataset.data[ctx.dataIndex]).toFixed(1).replace(/(\.0*|(?<=(\..*))0*)$/, '') )
+									((parseFloat(ctx.dataset.data[ctx.dataIndex]).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')) % 10 == 0 ? 
+									parseFloat(ctx.dataset.data[ctx.dataIndex]).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '').replace(/^0*(\d+)(\.0*)?$/, '') : parseFloat(ctx.dataset.data[ctx.dataIndex]).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '') )
 									: 100 ;
 
 									if(ctx.chart.canvas.id == "AnnualMonthlySubscriptionsPieChart"){
@@ -849,7 +849,7 @@ function ChartJS(month_ID,Year) {
 							ctx = chart.ctx;
 					
 						ctx.restore();
-						var fontSize = (height / 80 ).toFixed(1).replace(/(\.0*|(?<=(\..*))0*)$/, '');
+						var fontSize = (height / 80 ).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '');
 						ctx.font = (fontSize) + "em sans-serif";
 						ctx.textBaseline = "middle";
 					
@@ -1019,7 +1019,7 @@ function ChartJS(month_ID,Year) {
 								dataArr.map(data => {
 									sum += data;
 								});
-								let percentage = (value*100 / sum).toFixed(1).replace(/(\.0*|(?<=(\..*))0*)$/, '')+"%";
+								let percentage = (value*100 / sum).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')+"%";
 								return percentage;
 							},
 							color: $data.colors,
@@ -1132,7 +1132,7 @@ function ChartJS(month_ID,Year) {
 								dataArr.map(data => {
 									sum += data;
 								});
-								let percentage = (value*100 / sum).toFixed(1).replace(/(\.0*|(?<=(\..*))0*)$/, '')+"%";
+								let percentage = (value*100 / sum).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')+"%";
 								return percentage;
 							},
 							color: $data.colors,
@@ -1575,7 +1575,7 @@ function ChartJS(month_ID,Year) {
 			
 										let percentage = ( (ctx.dataset.data[ctx.dataIndex] * 1) * 100 ) / total ;
 										
-										percentage = percentage < 100 ?  (parseFloat(percentage).toFixed(1).replace(/(\.0*|(?<=(\..*))0*)$/, '')) : 100 ;
+										percentage = percentage < 100 ?  (parseFloat(percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')) : 100 ;
 										
 										label = percentage +"% ~ "+ctx.dataset.extra_data.Yearly_Total_Revenu_Grouped_By_Expenses[ctx.dataIndex].Count_Cost+" Dhs";
 	
@@ -1593,7 +1593,7 @@ function ChartJS(month_ID,Year) {
 										});
 			
 										let percentage = ( (ctx.dataset.data[ctx.dataIndex] * 1) * 100 ) / total ;
-										percentage = percentage < 100 ?  (parseFloat(percentage).toFixed(1).replace(/(\.0*|(?<=(\..*))0*)$/, '')) : 100 ;
+										percentage = percentage < 100 ?  (parseFloat(percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')) : 100 ;
 
 										//return label = percentage +"% ~ "+ctx.dataset.data[ctx.dataIndex]+" Dhs";
 										return label = arrLang[$lang][ctx.dataset.statusType]+": "+ctx.dataset.data[ctx.dataIndex]+" Dhs";
@@ -1610,7 +1610,7 @@ function ChartJS(month_ID,Year) {
 										});
 			
 										let percentage = ( (ctx.dataset.data[ctx.dataIndex] * 1) * 100 ) / total ;
-										percentage = percentage < 100 ?  (parseFloat(percentage).toFixed(1).replace(/(\.0*|(?<=(\..*))0*)$/, '')) : 100 ;
+										percentage = percentage < 100 ?  (parseFloat(percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')) : 100 ;
 
 										//return label = percentage +"% ~ "+ctx.dataset.data[ctx.dataIndex]+" Dhs";
 										return label = arrLang[$lang][ctx.dataset.statusType]+": "+ctx.dataset.data[ctx.dataIndex]+" Dhs";
@@ -1644,7 +1644,7 @@ function ChartJS(month_ID,Year) {
 
 								let percentage = ( (ctx.dataset.data[ctx.dataIndex] * 1) * 100 ) / total ;
 								
-								percentage =  percentage < 100 ? (parseFloat(percentage).toFixed(1).replace(/(\.0*|(?<=(\..*))0*)$/, '')) : 100 ;
+								percentage =  percentage < 100 ? (parseFloat(percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')) : 100 ;
 
 								label = " "+percentage +"% : "+ctx.dataset.extra_data.Yearly_Total_Revenu_Grouped_By_Expenses[ctx.dataIndex].Expense_Label;
 
@@ -1672,7 +1672,7 @@ function ChartJS(month_ID,Year) {
 	
 									let percentage = ( (ctx.dataset.data[ctx.dataIndex] * 1) * 100 ) / total ;
 									
-									percentage =  percentage < 100 ? (parseFloat(percentage).toFixed(1).replace(/(\.0*|(?<=(\..*))0*)$/, '')) : 100 ;
+									percentage =  percentage < 100 ? (parseFloat(percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')) : 100 ;
 	
 									//label = " "+percentage +"% : "+String(ctx.dataset.label[ctx.dataIndex]).replaceAll("_",' ');
 									label = " "+String(ctx.dataset.label[ctx.dataIndex]).replaceAll("_",' ');
@@ -1703,7 +1703,7 @@ function ChartJS(month_ID,Year) {
 	
 									let percentage = ( (ctx.dataset.data[ctx.dataIndex] * 1) * 100 ) / total ;
 									
-									percentage =  percentage < 100 ? (parseFloat(percentage).toFixed(1).replace(/(\.0*|(?<=(\..*))0*)$/, '')) : 100 ;
+									percentage =  percentage < 100 ? (parseFloat(percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')) : 100 ;
 	
 									//label = " "+percentage +"% : "+String(ctx.dataset.label[ctx.dataIndex]).replaceAll("_",' ');
 									label = " "+String(ctx.dataset.label[ctx.dataIndex]).replaceAll("_",' ');
@@ -1797,7 +1797,7 @@ function getDashboardAllData(){
 
 				$student_Percentage = ((res.studentAdAbsences * 100) / res.studentsTotal ) ;
 				$teacher_Percentage = isNaN($student_Percentage) ? 0 : $student_Percentage ;
-				$student_Percentage = $student_Percentage < 100 ? (parseFloat($student_Percentage).toFixed(1).replace(/(\.0*|(?<=(\..*))0*)$/, '')) : 100 ;
+				$student_Percentage = $student_Percentage < 100 ? (parseFloat($student_Percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')) : 100 ;
 
 				
 
@@ -1812,7 +1812,7 @@ function getDashboardAllData(){
 
 				$data.data = [
 					$student_Percentage,
-					(($student_Percentage >= 100 ) ?  0 : parseFloat(100 - ($student_Percentage * 1).toFixed(1).replace(/(\.0*|(?<=(\..*))0*)$/, '') ))
+					(($student_Percentage >= 100 ) ?  0 : parseFloat(100 - ($student_Percentage * 1).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '') ))
 				];
 
 				ChartJSDonut("studentDonutChart",res.studentAdAbsences,$data);
@@ -1831,7 +1831,7 @@ function getDashboardAllData(){
 
 				$teacher_Percentage = ((res.teacherAdAbsences * 100) / res.teachersTotal) ;
 				$teacher_Percentage = isNaN($teacher_Percentage) ? 0 : $teacher_Percentage ;
-				$teacher_Percentage = $teacher_Percentage < 100 ?  (parseFloat($teacher_Percentage).toFixed(1).replace(/(\.0*|(?<=(\..*))0*)$/, '')) : 100 ;
+				$teacher_Percentage = $teacher_Percentage < 100 ?  (parseFloat($teacher_Percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')) : 100 ;
 
 				$("#Teacher_Absence_Percentage").html($teacher_Percentage+'%');
 				$("#Nombre_Teacher_Absence").html(res.teacherAdAbsences);
@@ -1872,7 +1872,7 @@ function getDashboardAllData(){
 
 				$Current_Month_Collections_Percentage = isNaN($Current_Month_Collections_Percentage ) ? 0 : $Current_Month_Collections_Percentage ;
 
-				$Current_Month_Collections_Percentage =  $Current_Month_Collections_Percentage < 100 ? (parseFloat($Current_Month_Collections_Percentage).toFixed(1).replace(/(\.0*|(?<=(\..*))0*)$/, '')) : 100 ;	
+				$Current_Month_Collections_Percentage =  $Current_Month_Collections_Percentage < 100 ? (parseFloat($Current_Month_Collections_Percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')) : 100 ;	
 
 				$("#This_Month_Collections_Percentage").html($Current_Month_Collections_Percentage +"%");
 				
@@ -1889,7 +1889,7 @@ function getDashboardAllData(){
 				$("#Current_Month_Debt").html((filteredMonthExpenses[0].Monthly_Expected_Incomes + filteredMonthExpenses[0].Annual_Expected_Incomes) - 
 											(filteredMonthExpenses[0].Month_Expense_TotalPay_Per_Month+filteredMonthExpenses[0].Annual_Expense_TotalPay_Per_Month));
 
-				$("#Current_Month_Debt_Percentage").html(((parseFloat(100 - $Current_Month_Debt_Percentage).toFixed(1).replace(/(\.0*|(?<=(\..*))0*)$/, '')))+"%");
+				$("#Current_Month_Debt_Percentage").html(((parseFloat(100 - $Current_Month_Debt_Percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')))+"%");
 
 				$data.data = [
 								$Current_Month_Collections_Percentage,
@@ -1924,9 +1924,9 @@ function getDashboardAllData(){
 
 					$Monthly_Annual_Percentage = ((filteredMonthExpenses[0].Annual_Expense_TotalPay + $Monthly_Expenses_Total_Paid) * 100) / filteredMonthExpenses[0].Total_Monthly_Annual_Expected ;
 
-					$Monthly_Annual_Percentage =  $Monthly_Annual_Percentage < 100 ? (parseFloat($Monthly_Annual_Percentage).toFixed(1).replace(/(\.0*|(?<=(\..*))0*)$/, '')) : 100 ;
+					$Monthly_Annual_Percentage =  $Monthly_Annual_Percentage < 100 ? (parseFloat($Monthly_Annual_Percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')) : 100 ;
 
-					$("#Total_Annual_Expected_Percentage").html( parseFloat( 100 - $Monthly_Annual_Percentage).toFixed(1).replace(/(\.0*|(?<=(\..*))0*)$/, '') +'%');
+					$("#Total_Annual_Expected_Percentage").html( parseFloat( 100 - $Monthly_Annual_Percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '') +'%');
 
 					if($Total_Annual_Expected == 0 ){
 						//$Monthly_Annual_Percentage = 0;
@@ -1934,7 +1934,7 @@ function getDashboardAllData(){
 					
 					$data.data = [
 						$Monthly_Annual_Percentage,
-						(($Monthly_Annual_Percentage >= 100 ) ?  0 : parseFloat(100 - ($Monthly_Annual_Percentage * 1).toFixed(1).replace(/(\.0*|(?<=(\..*))0*)$/, '') ))
+						(($Monthly_Annual_Percentage >= 100 ) ?  0 : parseFloat(100 - ($Monthly_Annual_Percentage * 1).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '') ))
 					];
 
 					ChartJSDonut("AnnualMonthlySubscriptionsPieChart",$Monthly_Annual_Percentage+'%',$data);
@@ -1953,14 +1953,14 @@ function getDashboardAllData(){
 				$Total_Annual_Paid_Subscriptions_Percentage = (isNaN($Total_Annual_Paid_Subscriptions_Percentage) ? 0 : $Total_Annual_Paid_Subscriptions_Percentage);
 
 				$("#Total_Annual_Paid_Subscriptions").html(filteredMonthExpenses[0].Annual_Expense_TotalPay);
-				$("#Total_Annual_Paid_Subscriptions_Percentage").html((parseFloat($Total_Annual_Paid_Subscriptions_Percentage).toFixed(1).replace(/(\.0*|(?<=(\..*))0*)$/, ''))+"%");
+				$("#Total_Annual_Paid_Subscriptions_Percentage").html((parseFloat($Total_Annual_Paid_Subscriptions_Percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, ''))+"%");
 
 				$("#Total_Annual_UnPaid_Subscriptions").html(filteredMonthExpenses[0].Total_Annual_Expected-filteredMonthExpenses[0].Annual_Expense_TotalPay);
 
 				$Total_Annual_UnPaid_Subscriptions_Percentage = (parseFloat(100-$Total_Annual_Paid_Subscriptions_Percentage));
 
 				$("#Total_Annual_UnPaid_Subscriptions_Percentage").html( !isNaN($Total_Annual_UnPaid_Subscriptions_Percentage) ? 
-					(parseFloat($Total_Annual_UnPaid_Subscriptions_Percentage).toFixed(1).replace(/(\.0*|(?<=(\..*))0*)$/, ''))+"%" : "0%");
+					(parseFloat($Total_Annual_UnPaid_Subscriptions_Percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, ''))+"%" : "0%");
 
 				$data = {
 					labels: ['Collections', 'Debt'],
@@ -1975,11 +1975,11 @@ function getDashboardAllData(){
 				$(".Total_Monthly_Expected").html(filteredMonthExpenses[0].Total_Monthly_Expected);
 				$(".Total_Annual_Expected").html(filteredMonthExpenses[0].Total_Annual_Expected === null ? 0 : filteredMonthExpenses[0].Total_Annual_Expected );
 
-				$Annual_Paid_Subscriptions_Percentage = $Total_Annual_Paid_Subscriptions_Percentage < 100 ? (parseFloat($Total_Annual_Paid_Subscriptions_Percentage).toFixed(1).replace(/(\.0*|(?<=(\..*))0*)$/, '')) : 100 ;
+				$Annual_Paid_Subscriptions_Percentage = $Total_Annual_Paid_Subscriptions_Percentage < 100 ? (parseFloat($Total_Annual_Paid_Subscriptions_Percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')) : 100 ;
 
 				$data.data = [
 					$Annual_Paid_Subscriptions_Percentage,
-					(($Annual_Paid_Subscriptions_Percentage >= 100 ) ?  0 : parseFloat(100 - ($Annual_Paid_Subscriptions_Percentage * 1).toFixed(1).replace(/(\.0*|(?<=(\..*))0*)$/, '') ))
+					(($Annual_Paid_Subscriptions_Percentage >= 100 ) ?  0 : parseFloat(100 - ($Annual_Paid_Subscriptions_Percentage * 1).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '') ))
 				];
 
 				ChartJSDonut("AnnualSubscriptionsPieChart",$Annual_Paid_Subscriptions_Percentage+'%',$data);
@@ -1998,12 +1998,12 @@ function getDashboardAllData(){
 				$Total_Monthly_Paid_Subscriptions_Percentage = isNaN($Total_Monthly_Paid_Subscriptions_Percentage) ? 0 : $Total_Monthly_Paid_Subscriptions_Percentage ;
 
 				$("#Total_Monthly_Paid_Subscriptions").html(filteredMonthExpenses[0].Total_Monthly_Paid_Subscriptions);
-				$("#Total_Monthly_Paid_Subscriptions_Percentage").html((parseFloat($Total_Monthly_Paid_Subscriptions_Percentage).toFixed(1).replace(/(\.0*|(?<=(\..*))0*)$/, ''))+"%");
+				$("#Total_Monthly_Paid_Subscriptions_Percentage").html((parseFloat($Total_Monthly_Paid_Subscriptions_Percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, ''))+"%");
 
 				$("#Total_Monthly_UnPaid_Subscriptions").html(filteredMonthExpenses[0].Total_Monthly_Expected - filteredMonthExpenses[0].Total_Monthly_Paid_Subscriptions);
 
 				$Total_Monthly_UnPaid_Subscriptions_Percentage = (parseFloat(100-$Total_Monthly_Paid_Subscriptions_Percentage));
-				$("#Total_Monthly_UnPaid_Subscriptions_Percentage").html((parseFloat($Total_Monthly_UnPaid_Subscriptions_Percentage).toFixed(1).replace(/(\.0*|(?<=(\..*))0*)$/, ''))+"%");
+				$("#Total_Monthly_UnPaid_Subscriptions_Percentage").html((parseFloat($Total_Monthly_UnPaid_Subscriptions_Percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, ''))+"%");
 
 
 				/*************/
@@ -2021,11 +2021,11 @@ function getDashboardAllData(){
 				$(".Total_Monthly_Expected").html(filteredMonthExpenses[0].Total_Monthly_Expected);
 				$(".Total_Annual_Expected").html(filteredMonthExpenses[0].Total_Annual_Expected === null ? 0 : filteredMonthExpenses[0].Total_Annual_Expected );
 
-				$Monthly_Paid_Subscriptions_Percentage = $Total_Monthly_Paid_Subscriptions_Percentage < 100 ? (parseFloat($Total_Monthly_Paid_Subscriptions_Percentage).toFixed(1).replace(/(\.0*|(?<=(\..*))0*)$/, '')) : 100;
+				$Monthly_Paid_Subscriptions_Percentage = $Total_Monthly_Paid_Subscriptions_Percentage < 100 ? (parseFloat($Total_Monthly_Paid_Subscriptions_Percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')) : 100;
 
 				$data.data = [
 					$Monthly_Paid_Subscriptions_Percentage,
-					(($Monthly_Paid_Subscriptions_Percentage >= 100 ) ?  0 : parseFloat(100 - ($Monthly_Paid_Subscriptions_Percentage * 1) ).toFixed(1).replace(/(\.0*|(?<=(\..*))0*)$/, ''))
+					(($Monthly_Paid_Subscriptions_Percentage >= 100 ) ?  0 : parseFloat(100 - ($Monthly_Paid_Subscriptions_Percentage * 1) ).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, ''))
 				];
 
 				ChartJSDonut("MonthlySubscriptionsPieChart",$Monthly_Paid_Subscriptions_Percentage+'%',$data);
