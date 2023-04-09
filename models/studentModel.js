@@ -71,6 +71,16 @@ var studentModel = {
       });
     })
   },
+  saveParentAsUser: function(first_name,last_name,phone,email) {
+     return new Promise((resolve, reject) => {
+        User_Image="/assets/images/profiles/avatar_parent.png";
+        connection.query("INSERT INTO users(User_Name, User_Image, User_Email, User_Phone, User_Role) VALUES(?,?,?,?,?)",
+            [JSON.stringify({first_name:first_name, last_name:last_name}), User_Image, email, phone, "Parent"], (err, parent, fields) => {
+            if (err) reject(err);
+            else resolve(parent); 
+        });
+    })
+  },
   saveParent: function(first_name,last_name,phone,email,Institution_ID) {
      return new Promise((resolve, reject) => {
       connection.query(parentQuery, [first_name+' '+last_name,phone,email,Institution_ID], (err, parent, fields) => {
