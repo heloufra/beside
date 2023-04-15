@@ -300,7 +300,7 @@ function savePayment() {
 					passByMonth = true;
 				}
 
-				htmlmonths += "<option "+selected+" value="+MonthsFiltred[k]+">"+MonthsFiltred[k]+"</option> ";				
+				htmlmonths += "<option "+selected+" value="+MonthsFiltred[k]+">"+arrLang[$lang][MonthsFiltred[k]]+"</option> ";				
 			}
 
 			$('#FinanceModal').find('.monthly').removeClass('hidden');
