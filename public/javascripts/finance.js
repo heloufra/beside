@@ -48,7 +48,7 @@ function getAllFinances(id) {
 					style = 'style="background: #f9f9f9 !important"';
 				else
 					style = "";
-				htmlmonths += '<th scope="col" class="col-text-align month-row" '+style+'>'+months[i].slice(0,3)+'</th>';
+				htmlmonths += '<th scope="col" class="col-text-align month-row" '+style+' data-lang="'+months[i].slice(0,3)+'">'+months[i].slice(0,3)+'</th>';
 				if (i === indEnd){
 					break;
 				}
@@ -199,7 +199,7 @@ var start,end;
 				}
 			}
 	 	}
-		$("#FinanceBillModal").find('.months-bill .row-subtotal').before('<tr '+style+' class="row-bill"> <td data-label="School fees" class="td-label"> '+months[i].slice(0,3)+' </td>'+htmltPayed+' </tr>')
+		$("#FinanceBillModal").find('.months-bill .row-subtotal').before('<tr '+style+' class="row-bill"> <td data-label="School fees" class="td-label"> '+arrLang[$lang][months[i].slice(0,3)]+' </td>'+htmltPayed+' </tr>')
 		if (i === indEnd)
 			break;
 		if (i === months.length - 1)
