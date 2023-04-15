@@ -218,7 +218,9 @@ function savePayment() {
 			payments[i].period = payments[i].period.filter(pay => pay !== filtred[j].SP_PaidPeriod)
 		}
 	}
-	console.log('Payments',payments);
+
+	startSpinner("#FinanceModal .sub-container-form-footer");
+
 	$.ajax({
 	    type: 'post',
 	    url: '/Students/payment',
@@ -233,10 +235,12 @@ function savePayment() {
 	  		$("#FinanceModal").modal('hide');
 	  		$("#FinanceBillModal").modal("hide");
 	  		getAllFinances();
+	  		stopSpinner("#FinanceModal .sub-container-form-footer");
 	  	} else {
 	  		console.log(res);
 	  	}
 	  });
+
 }
  function executePaymentFinance() {
  	var id = StudentId;
