@@ -59,6 +59,7 @@ function getAllFinances(id) {
 			$("#Finance").find('.list-months').append(htmlmonths);
 			for (var i = 0; i <= students.length - 1; i++) {
 				$('#Finance').find('.list-students').append('<tr class="students_list finance-tbody-tr" data-id="1" data-studentid="'+students[i].Student_ID+'"> <td data-label="Subject name" class="td-label"><div class="sections-main-sub-container-left-card"> <img class="sections-main-sub-container-left-card-main-img" src="'+students[i].Student_Image+'" alt="card-img"> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+students[i].Student_FirstName +' '+students[i].Student_LastName+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+students[i].Classe_Label+'</span> </div> </div></td> </tr>');
+				$('#Finance .sections-main-sub-container-right-main').removeClass('visibility');
 				displayFinance(students[i].Student_ID);
 			}
 			
@@ -129,6 +130,7 @@ function getAllFinances(id) {
 		if (i === months.length - 1)
 			i = -1;
 	}
+	$('#Finance .sections-main-sub-container-right-main').removeClass('visibility');
  }
 
 var start,end;

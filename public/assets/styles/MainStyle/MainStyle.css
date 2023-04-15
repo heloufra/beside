@@ -3046,6 +3046,10 @@ form{
 /***************************** table ****************************/
 
 
+.finance-page-extra-style .sections-main-sub-container-right-main.visibility{
+	display: inline-block !important; 
+}
+
 .sections-main-sub-container-right-main-table{
 	margin-bottom: 34px;
 }
