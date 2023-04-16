@@ -24,6 +24,11 @@ function monthDays(month,year) {
          return new Date(year, month, 0).getDate();
 };
 
+function priceFormat(price){
+	const formatter = new Intl.NumberFormat('en-US');
+	return formatter.format(price);
+}
+
 function getAbsences() {
 	$.ajax({
 	    type: 'get',
@@ -218,7 +223,7 @@ function displayPayments(selectedMonth)
 									</td>
 
 									<td class="readonly" data-label="Paid amount">
-										<div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="`+ result.Expense_Cost +` Dhs" class="input-text input-text-green" required="" placeholder="Paid amount"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> 
+										<div class="form-group group dynamic-form-input-text-container-icon"> <input type="text" value="`+ priceFormat(result.Expense_Cost) +` Dhs" class="input-text input-text-green" required="" placeholder="Paid amount"> <img class="icon button-icon caret-disable-rotate" src="assets/icons/date_icon.svg"> 
 										</div>
 									</td> 
 
@@ -762,8 +767,8 @@ function ChartJS(month_ID,Year) {
 									label = "";
 									amount = 0;
 									percentage = ctx.dataset.data[ctx.dataIndex] < 100 ? 
-									((parseFloat(ctx.dataset.data[ctx.dataIndex]).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')) % 10 == 0 ? 
-									parseFloat(ctx.dataset.data[ctx.dataIndex]).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '').replace(/^0*(\d+)(\.0*)?$/, '') : parseFloat(ctx.dataset.data[ctx.dataIndex]).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '') )
+									((parseFloat(ctx.dataset.data[ctx.dataIndex]).toFixed(1).replace(/\.0+$/, '')) % 10 == 0 ? 
+									parseFloat(ctx.dataset.data[ctx.dataIndex]).toFixed(1).replace(/\.0+$/, '').replace(/\.0+$/, '') : parseFloat(ctx.dataset.data[ctx.dataIndex]).toFixed(1).replace(/\.0+$/, '') )
 									: 100 ;
 
 									if(ctx.chart.canvas.id == "AnnualMonthlySubscriptionsPieChart"){
@@ -778,7 +783,7 @@ function ChartJS(month_ID,Year) {
 											amount = (ctx.dataset.extra_data.Annual_Expense_TotalPay + $Monthly_Expenses_Total_Paid)  ;
 										}
 
-										label = percentage +"% ~ "+amount+" Dhs ";
+										label = percentage +"% ~ "+priceFormat(amount)+" Dhs ";
 										
 									}else if(ctx.chart.canvas.id == "AnnualSubscriptionsPieChart"){
 
@@ -788,7 +793,7 @@ function ChartJS(month_ID,Year) {
 											amount = ctx.dataset.extra_data.Annual_Expense_TotalPay   ;
 										}
 
-										label = percentage +"% ~ "+amount+" Dhs ";
+										label = percentage +"% ~ "+priceFormat(amount)+" Dhs ";
 
 									}else if(ctx.chart.canvas.id == "MonthlySubscriptionsPieChart"){
 
@@ -798,7 +803,7 @@ function ChartJS(month_ID,Year) {
 											amount = ctx.dataset.extra_data.Total_Monthly_Paid_Subscriptions ;
 										}	
 										
-										label = percentage +"% ~ "+amount+" Dhs ";
+										label = percentage +"% ~ "+priceFormat(amount)+" Dhs ";
 									
 									}else if(ctx.chart.canvas.id == "teacherDonutChart"){
 
@@ -830,7 +835,7 @@ function ChartJS(month_ID,Year) {
 											amount = ctx.dataset.extra_data.Monthly_Expense_TotalPay + ctx.dataset.extra_data.Annual_Expense_TotalPay_Per_Month ;
 										}
 
-										label = percentage +"% ~ "+amount+" Dhs ";
+										label = percentage +"% ~ "+priceFormat(amount)+" Dhs ";
 									}
 
 									
@@ -849,7 +854,7 @@ function ChartJS(month_ID,Year) {
 							ctx = chart.ctx;
 					
 						ctx.restore();
-						var fontSize = (height / 80 ).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '');
+						var fontSize = (height / 80 ).toFixed(1).replace(/\.0+$/, '');
 						ctx.font = (fontSize) + "em sans-serif";
 						ctx.textBaseline = "middle";
 					
@@ -1019,7 +1024,7 @@ function ChartJS(month_ID,Year) {
 								dataArr.map(data => {
 									sum += data;
 								});
-								let percentage = (value*100 / sum).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')+"%";
+								let percentage = (value*100 / sum).toFixed(1).replace(/\.0+$/, '')+"%";
 								return percentage;
 							},
 							color: $data.colors,
@@ -1071,7 +1076,7 @@ function ChartJS(month_ID,Year) {
 
 									}
 									
-									label = percentage +"% ~ "+amount+" Dhs ";
+									label = percentage +"% ~ "+priceFormat(amount)+" Dhs ";
 									return label;
 								},
 							}
@@ -1132,7 +1137,7 @@ function ChartJS(month_ID,Year) {
 								dataArr.map(data => {
 									sum += data;
 								});
-								let percentage = (value*100 / sum).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')+"%";
+								let percentage = (value*100 / sum).toFixed(1).replace(/\.0+$/, '')+"%";
 								return percentage;
 							},
 							color: $data.colors,
@@ -1172,7 +1177,7 @@ function ChartJS(month_ID,Year) {
 			
 										//label = " "+percentage +"% : "+ctx.dataset.extra_data.Yearly_Total_Revenu_Grouped_By_Expenses[ctx.dataIndex].Expense_Label;
 										
-										label = percentage +"% ~ "+ctx.dataset.extra_data[ctx.dataIndex].Count_Cost+" Dhs";
+										label = percentage +"% ~ "+priceFormat(ctx.dataset.extra_data[ctx.dataIndex].Count_Cost)+" Dhs";
 	
 										return label;
 									},
@@ -1252,12 +1257,12 @@ function ChartJS(month_ID,Year) {
 						  label: function(context) {
 							$label = "";
 							if(context.dataset.label == 'Expected'){
-								$label = arrLang[$lang][context.dataset.label]+" : "+context.raw+" Dhs";
+								$label = arrLang[$lang][context.dataset.label]+" : "+priceFormat(context.raw)+" Dhs";
 							}else{
 								if(context.raw > 0 ){
-									$label = arrLang[$lang][context.dataset.label]+" : +"+context.raw+" Dhs";
+									$label = arrLang[$lang][context.dataset.label]+" : +"+priceFormat(context.raw)+" Dhs";
 								}else{
-									$label = arrLang[$lang][context.dataset.label]+" : "+context.raw+" Dhs";
+									$label = arrLang[$lang][context.dataset.label]+" : "+priceFormat(context.raw)+" Dhs";
 								}
 							
 							}
@@ -1333,7 +1338,7 @@ function ChartJS(month_ID,Year) {
 				
 						if (tooltipItem.index == 0 && tooltipItem.datasetIndex !== 0)
 							return null;
-							return dataset.label + ': ' + dataset.data[tooltipItem.index]+' Dhs';
+							return dataset.label + ': ' + priceFormat(dataset.data[tooltipItem.index])+' Dhs';
 						}
 					}
 				},
@@ -1427,9 +1432,9 @@ function ChartJS(month_ID,Year) {
 
 								if(context.chart.canvas.id == "yearlyExpencesIncomesBarChart"){
 									if(context.dataset.label == 'Expected'){
-										$label = context.dataset.label+" : "+context.raw+" Dhs";
+										$label = context.dataset.label+" : "+priceFormat(context.raw)+" Dhs";
 									}else{
-										$label = context.dataset.label+" : "+context.raw+" Dhs";
+										$label = context.dataset.label+" : "+priceFormat(context.raw)+" Dhs";
 									}
 									return $label;
 								}
@@ -1438,15 +1443,15 @@ function ChartJS(month_ID,Year) {
 
 									if(context.dataset.statusType == 'Expected'){
 										if(context.dataset.chartType =="bar"){
-											$label = " "+arrLang[$lang][context.dataset.statusType]+" : "+context.raw+" Dhs";
+											$label = " "+arrLang[$lang][context.dataset.statusType]+" : "+priceFormat(context.raw)+" Dhs";
 										}else{
-											$label = " "+arrLang[$lang][context.dataset.statusType]+" : "+context.raw+" Dhs";
+											$label = " "+arrLang[$lang][context.dataset.statusType]+" : "+priceFormat(context.raw)+" Dhs";
 										}
 									}else{
 										if(context.dataset.chartType =="bar"){
-											$label = " "+arrLang[$lang][context.dataset.statusType]+" : "+context.raw+" Dhs";
+											$label = " "+arrLang[$lang][context.dataset.statusType]+" : "+priceFormat(context.raw)+" Dhs";
 										}else{
-											$label = " "+arrLang[$lang][context.dataset.statusType]+" : "+context.raw+" Dhs";
+											$label = " "+arrLang[$lang][context.dataset.statusType]+" : "+priceFormat(context.raw)+" Dhs";
 										}
 									}
 									
@@ -1493,7 +1498,7 @@ function ChartJS(month_ID,Year) {
 				
 						if (tooltipItem.index == 0 && tooltipItem.datasetIndex !== 0)
 							return null;
-							return dataset.label + ': ' + dataset.data[tooltipItem.index]+' Dhs';
+							return dataset.label + ': ' + priceFormat(dataset.data[tooltipItem.index])+' Dhs';
 						}
 					}
 				},
@@ -1575,9 +1580,9 @@ function ChartJS(month_ID,Year) {
 			
 										let percentage = ( (ctx.dataset.data[ctx.dataIndex] * 1) * 100 ) / total ;
 										
-										percentage = percentage < 100 ?  (parseFloat(percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')) : 100 ;
+										percentage = percentage < 100 ?  (parseFloat(percentage).toFixed(1).replace(/\.0+$/, '')) : 100 ;
 										
-										label = percentage +"% ~ "+ctx.dataset.extra_data.Yearly_Total_Revenu_Grouped_By_Expenses[ctx.dataIndex].Count_Cost+" Dhs";
+										label = percentage +"% ~ "+priceFormat(ctx.dataset.extra_data.Yearly_Total_Revenu_Grouped_By_Expenses[ctx.dataIndex].Count_Cost)+" Dhs";
 	
 										return label;
 
@@ -1593,10 +1598,10 @@ function ChartJS(month_ID,Year) {
 										});
 			
 										let percentage = ( (ctx.dataset.data[ctx.dataIndex] * 1) * 100 ) / total ;
-										percentage = percentage < 100 ?  (parseFloat(percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')) : 100 ;
+										percentage = percentage < 100 ?  (parseFloat(percentage).toFixed(1).replace(/\.0+$/, '')) : 100 ;
 
 										//return label = percentage +"% ~ "+ctx.dataset.data[ctx.dataIndex]+" Dhs";
-										return label = arrLang[$lang][ctx.dataset.statusType]+": "+ctx.dataset.data[ctx.dataIndex]+" Dhs";
+										return label = arrLang[$lang][ctx.dataset.statusType]+": "+priceFormat(ctx.dataset.data[ctx.dataIndex])+" Dhs";
 
 									}
 
@@ -1610,10 +1615,10 @@ function ChartJS(month_ID,Year) {
 										});
 			
 										let percentage = ( (ctx.dataset.data[ctx.dataIndex] * 1) * 100 ) / total ;
-										percentage = percentage < 100 ?  (parseFloat(percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')) : 100 ;
+										percentage = percentage < 100 ?  (parseFloat(percentage).toFixed(1).replace(/\.0+$/, '')) : 100 ;
 
 										//return label = percentage +"% ~ "+ctx.dataset.data[ctx.dataIndex]+" Dhs";
-										return label = arrLang[$lang][ctx.dataset.statusType]+": "+ctx.dataset.data[ctx.dataIndex]+" Dhs";
+										return label = arrLang[$lang][ctx.dataset.statusType]+": "+priceFormat(ctx.dataset.data[ctx.dataIndex])+" Dhs";
 
 									}
 
@@ -1644,7 +1649,7 @@ function ChartJS(month_ID,Year) {
 
 								let percentage = ( (ctx.dataset.data[ctx.dataIndex] * 1) * 100 ) / total ;
 								
-								percentage =  percentage < 100 ? (parseFloat(percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')) : 100 ;
+								percentage =  percentage < 100 ? (parseFloat(percentage).toFixed(1).replace(/\.0+$/, '')) : 100 ;
 
 								label = " "+percentage +"% : "+ctx.dataset.extra_data.Yearly_Total_Revenu_Grouped_By_Expenses[ctx.dataIndex].Expense_Label;
 
@@ -1672,7 +1677,7 @@ function ChartJS(month_ID,Year) {
 	
 									let percentage = ( (ctx.dataset.data[ctx.dataIndex] * 1) * 100 ) / total ;
 									
-									percentage =  percentage < 100 ? (parseFloat(percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')) : 100 ;
+									percentage =  percentage < 100 ? (parseFloat(percentage).toFixed(1).replace(/\.0+$/, '')) : 100 ;
 	
 									//label = " "+percentage +"% : "+String(ctx.dataset.label[ctx.dataIndex]).replaceAll("_",' ');
 									label = " "+String(ctx.dataset.label[ctx.dataIndex]).replaceAll("_",' ');
@@ -1703,7 +1708,7 @@ function ChartJS(month_ID,Year) {
 	
 									let percentage = ( (ctx.dataset.data[ctx.dataIndex] * 1) * 100 ) / total ;
 									
-									percentage =  percentage < 100 ? (parseFloat(percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')) : 100 ;
+									percentage =  percentage < 100 ? (parseFloat(percentage).toFixed(1).replace(/\.0+$/, '')) : 100 ;
 	
 									//label = " "+percentage +"% : "+String(ctx.dataset.label[ctx.dataIndex]).replaceAll("_",' ');
 									label = " "+String(ctx.dataset.label[ctx.dataIndex]).replaceAll("_",' ');
@@ -1797,7 +1802,7 @@ function getDashboardAllData(){
 
 				$student_Percentage = ((res.studentAdAbsences * 100) / res.studentsTotal ) ;
 				$teacher_Percentage = isNaN($student_Percentage) ? 0 : $student_Percentage ;
-				$student_Percentage = $student_Percentage < 100 ? (parseFloat($student_Percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')) : 100 ;
+				$student_Percentage = $student_Percentage < 100 ? (parseFloat($student_Percentage).toFixed(1).replace(/\.0+$/, '')) : 100 ;
 
 				
 
@@ -1812,7 +1817,7 @@ function getDashboardAllData(){
 
 				$data.data = [
 					$student_Percentage,
-					(($student_Percentage >= 100 ) ?  0 : parseFloat(100 - ($student_Percentage * 1).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '') ))
+					(($student_Percentage >= 100 ) ?  0 : parseFloat(100 - ($student_Percentage * 1).toFixed(1).replace(/\.0+$/, '') ))
 				];
 
 				ChartJSDonut("studentDonutChart",res.studentAdAbsences,$data);
@@ -1831,7 +1836,7 @@ function getDashboardAllData(){
 
 				$teacher_Percentage = ((res.teacherAdAbsences * 100) / res.teachersTotal) ;
 				$teacher_Percentage = isNaN($teacher_Percentage) ? 0 : $teacher_Percentage ;
-				$teacher_Percentage = $teacher_Percentage < 100 ?  (parseFloat($teacher_Percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')) : 100 ;
+				$teacher_Percentage = $teacher_Percentage < 100 ?  (parseFloat($teacher_Percentage).toFixed(1).replace(/\.0+$/, '')) : 100 ;
 
 				$("#Teacher_Absence_Percentage").html($teacher_Percentage+'%');
 				$("#Nombre_Teacher_Absence").html(res.teacherAdAbsences);
@@ -1860,9 +1865,9 @@ function getDashboardAllData(){
 
 				};
 
-				$("#This_Month_Total_Incomes_Expected").html(filteredMonthExpenses[0].Monthly_Expected_Incomes + filteredMonthExpenses[0].Annual_Expected_Incomes);
+				$("#This_Month_Total_Incomes_Expected").html(priceFormat(filteredMonthExpenses[0].Monthly_Expected_Incomes + filteredMonthExpenses[0].Annual_Expected_Incomes));
 
-				$("#This_Month_Collections").html(filteredMonthExpenses[0].Monthly_Expense_TotalPay + filteredMonthExpenses[0].Annual_Expense_TotalPay_Per_Month);
+				$("#This_Month_Collections").html(priceFormat(filteredMonthExpenses[0].Monthly_Expense_TotalPay + filteredMonthExpenses[0].Annual_Expense_TotalPay_Per_Month));
 
 				$("#Total_Month_Debt").html();
 
@@ -1872,13 +1877,13 @@ function getDashboardAllData(){
 
 				$Current_Month_Collections_Percentage = isNaN($Current_Month_Collections_Percentage ) ? 0 : $Current_Month_Collections_Percentage ;
 
-				$Current_Month_Collections_Percentage =  $Current_Month_Collections_Percentage < 100 ? (parseFloat($Current_Month_Collections_Percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')) : 100 ;	
+				$Current_Month_Collections_Percentage =  $Current_Month_Collections_Percentage < 100 ? (parseFloat($Current_Month_Collections_Percentage).toFixed(1).replace(/\.0+$/, '')) : 100 ;	
 
 				$("#This_Month_Collections_Percentage").html($Current_Month_Collections_Percentage +"%");
 				
 				$("#Current_Month_Collections_Percentage").html($Current_Month_Collections_Percentage+"%");
 
-				$("#Current_Month_Collections").html(filteredMonthExpenses[0].Month_Expense_TotalPay_Per_Month+filteredMonthExpenses[0].Annual_Expense_TotalPay_Per_Month);
+				$("#Current_Month_Collections").html(priceFormat(filteredMonthExpenses[0].Month_Expense_TotalPay_Per_Month+filteredMonthExpenses[0].Annual_Expense_TotalPay_Per_Month));
 
 				$Current_Month_Debt_Percentage = ((filteredMonthExpenses[0].Month_Expense_TotalPay_Per_Month + 
 														filteredMonthExpenses[0].Annual_Expense_TotalPay_Per_Month) * 100) /
@@ -1886,10 +1891,11 @@ function getDashboardAllData(){
 
 				$Current_Month_Debt_Percentage = isNaN($Current_Month_Debt_Percentage ) ? 0 : $Current_Month_Debt_Percentage ;
 
-				$("#Current_Month_Debt").html((filteredMonthExpenses[0].Monthly_Expected_Incomes + filteredMonthExpenses[0].Annual_Expected_Incomes) - 
-											(filteredMonthExpenses[0].Month_Expense_TotalPay_Per_Month+filteredMonthExpenses[0].Annual_Expense_TotalPay_Per_Month));
 
-				$("#Current_Month_Debt_Percentage").html(((parseFloat(100 - $Current_Month_Debt_Percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')))+"%");
+				$("#Current_Month_Debt").html(priceFormat((filteredMonthExpenses[0].Monthly_Expected_Incomes + filteredMonthExpenses[0].Annual_Expected_Incomes) - 
+											(filteredMonthExpenses[0].Month_Expense_TotalPay_Per_Month+filteredMonthExpenses[0].Annual_Expense_TotalPay_Per_Month)));
+
+				$("#Current_Month_Debt_Percentage").html(((parseFloat(100 - $Current_Month_Debt_Percentage).toFixed(1).replace(/\.0+$/, '')))+"%");
 
 				$data.data = [
 								$Current_Month_Collections_Percentage,
@@ -1913,20 +1919,20 @@ function getDashboardAllData(){
 	
 					};
 	
-					$("#Total_Monthly_Annual_Expected").html(filteredMonthExpenses[0].Total_Monthly_Annual_Expected );
-					$(".Total_Monthly_Expected").html(filteredMonthExpenses[0].Total_Monthly_Expected);
-					$(".Total_Annual_Expected").html(filteredMonthExpenses[0].Total_Annual_Expected === null ? 0 : filteredMonthExpenses[0].Total_Annual_Expected );
+					$("#Total_Monthly_Annual_Expected").html(priceFormat(filteredMonthExpenses[0].Total_Monthly_Annual_Expected ));
+					$(".Total_Monthly_Expected").html(priceFormat(filteredMonthExpenses[0].Total_Monthly_Expected));
+					$(".Total_Annual_Expected").html(priceFormat(filteredMonthExpenses[0].Total_Annual_Expected === null ? 0 : filteredMonthExpenses[0].Total_Annual_Expected ));
 
 					$Total_Annual_Expected = filteredMonthExpenses[0].Total_Monthly_Annual_Expected - (filteredMonthExpenses[0].Annual_Expense_TotalPay + $Monthly_Expenses_Total_Paid);
 
-					$("#Total_Annual_Expected").html(filteredMonthExpenses[0].Total_Monthly_Annual_Expected - (filteredMonthExpenses[0].Annual_Expense_TotalPay + $Monthly_Expenses_Total_Paid));
+					$("#Total_Annual_Expected").html(priceFormat(filteredMonthExpenses[0].Total_Monthly_Annual_Expected - (filteredMonthExpenses[0].Annual_Expense_TotalPay + $Monthly_Expenses_Total_Paid)));
 					
 
 					$Monthly_Annual_Percentage = ((filteredMonthExpenses[0].Annual_Expense_TotalPay + $Monthly_Expenses_Total_Paid) * 100) / filteredMonthExpenses[0].Total_Monthly_Annual_Expected ;
 
-					$Monthly_Annual_Percentage =  $Monthly_Annual_Percentage < 100 ? (parseFloat($Monthly_Annual_Percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')) : 100 ;
+					$Monthly_Annual_Percentage =  $Monthly_Annual_Percentage < 100 ? (parseFloat($Monthly_Annual_Percentage).toFixed(1).replace(/\.0+$/, '')) : 100 ;
 
-					$("#Total_Annual_Expected_Percentage").html( parseFloat( 100 - $Monthly_Annual_Percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '') +'%');
+					$("#Total_Annual_Expected_Percentage").html( parseFloat( 100 - $Monthly_Annual_Percentage).toFixed(1).replace(/\.0+$/, '') +'%');
 
 					if($Total_Annual_Expected == 0 ){
 						//$Monthly_Annual_Percentage = 0;
@@ -1934,7 +1940,7 @@ function getDashboardAllData(){
 					
 					$data.data = [
 						$Monthly_Annual_Percentage,
-						(($Monthly_Annual_Percentage >= 100 ) ?  0 : parseFloat(100 - ($Monthly_Annual_Percentage * 1).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '') ))
+						(($Monthly_Annual_Percentage >= 100 ) ?  0 : parseFloat(100 - ($Monthly_Annual_Percentage * 1).toFixed(1).replace(/\.0+$/, '') ))
 					];
 
 					ChartJSDonut("AnnualMonthlySubscriptionsPieChart",$Monthly_Annual_Percentage+'%',$data);
@@ -1952,15 +1958,15 @@ function getDashboardAllData(){
 
 				$Total_Annual_Paid_Subscriptions_Percentage = (isNaN($Total_Annual_Paid_Subscriptions_Percentage) ? 0 : $Total_Annual_Paid_Subscriptions_Percentage);
 
-				$("#Total_Annual_Paid_Subscriptions").html(filteredMonthExpenses[0].Annual_Expense_TotalPay);
-				$("#Total_Annual_Paid_Subscriptions_Percentage").html((parseFloat($Total_Annual_Paid_Subscriptions_Percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, ''))+"%");
+				$("#Total_Annual_Paid_Subscriptions").html(priceFormat(filteredMonthExpenses[0].Annual_Expense_TotalPay));
+				$("#Total_Annual_Paid_Subscriptions_Percentage").html((parseFloat($Total_Annual_Paid_Subscriptions_Percentage).toFixed(1).replace(/\.0+$/, ''))+"%");
 
-				$("#Total_Annual_UnPaid_Subscriptions").html(filteredMonthExpenses[0].Total_Annual_Expected-filteredMonthExpenses[0].Annual_Expense_TotalPay);
+				$("#Total_Annual_UnPaid_Subscriptions").html(priceFormat(filteredMonthExpenses[0].Total_Annual_Expected-filteredMonthExpenses[0].Annual_Expense_TotalPay));
 
 				$Total_Annual_UnPaid_Subscriptions_Percentage = (parseFloat(100-$Total_Annual_Paid_Subscriptions_Percentage));
 
 				$("#Total_Annual_UnPaid_Subscriptions_Percentage").html( !isNaN($Total_Annual_UnPaid_Subscriptions_Percentage) ? 
-					(parseFloat($Total_Annual_UnPaid_Subscriptions_Percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, ''))+"%" : "0%");
+					(parseFloat($Total_Annual_UnPaid_Subscriptions_Percentage).toFixed(1).replace(/\.0+$/, ''))+"%" : "0%");
 
 				$data = {
 					labels: ['Collections', 'Debt'],
@@ -1971,15 +1977,15 @@ function getDashboardAllData(){
 
 				};
 
-				$("#Total_Monthly_Annual_Expected").html(filteredMonthExpenses[0].Total_Monthly_Annual_Expected );
-				$(".Total_Monthly_Expected").html(filteredMonthExpenses[0].Total_Monthly_Expected);
-				$(".Total_Annual_Expected").html(filteredMonthExpenses[0].Total_Annual_Expected === null ? 0 : filteredMonthExpenses[0].Total_Annual_Expected );
+				$("#Total_Monthly_Annual_Expected").html(priceFormat(filteredMonthExpenses[0].Total_Monthly_Annual_Expected ));
+				$(".Total_Monthly_Expected").html(priceFormat(filteredMonthExpenses[0].Total_Monthly_Expected));
+				$(".Total_Annual_Expected").html(priceFormat(filteredMonthExpenses[0].Total_Annual_Expected === null ? 0 : filteredMonthExpenses[0].Total_Annual_Expected ));
 
-				$Annual_Paid_Subscriptions_Percentage = $Total_Annual_Paid_Subscriptions_Percentage < 100 ? (parseFloat($Total_Annual_Paid_Subscriptions_Percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')) : 100 ;
+				$Annual_Paid_Subscriptions_Percentage = $Total_Annual_Paid_Subscriptions_Percentage < 100 ? (parseFloat($Total_Annual_Paid_Subscriptions_Percentage).toFixed(1).replace(/\.0+$/, '')) : 100 ;
 
 				$data.data = [
 					$Annual_Paid_Subscriptions_Percentage,
-					(($Annual_Paid_Subscriptions_Percentage >= 100 ) ?  0 : parseFloat(100 - ($Annual_Paid_Subscriptions_Percentage * 1).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '') ))
+					(($Annual_Paid_Subscriptions_Percentage >= 100 ) ?  0 : parseFloat(100 - ($Annual_Paid_Subscriptions_Percentage * 1).toFixed(1).replace(/\.0+$/, '') ))
 				];
 
 				ChartJSDonut("AnnualSubscriptionsPieChart",$Annual_Paid_Subscriptions_Percentage+'%',$data);
@@ -1997,13 +2003,13 @@ function getDashboardAllData(){
 
 				$Total_Monthly_Paid_Subscriptions_Percentage = isNaN($Total_Monthly_Paid_Subscriptions_Percentage) ? 0 : $Total_Monthly_Paid_Subscriptions_Percentage ;
 
-				$("#Total_Monthly_Paid_Subscriptions").html(filteredMonthExpenses[0].Total_Monthly_Paid_Subscriptions);
-				$("#Total_Monthly_Paid_Subscriptions_Percentage").html((parseFloat($Total_Monthly_Paid_Subscriptions_Percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, ''))+"%");
+				$("#Total_Monthly_Paid_Subscriptions").html(priceFormat(filteredMonthExpenses[0].Total_Monthly_Paid_Subscriptions));
+				$("#Total_Monthly_Paid_Subscriptions_Percentage").html((parseFloat($Total_Monthly_Paid_Subscriptions_Percentage).toFixed(1).replace(/\.0+$/, ''))+"%");
 
-				$("#Total_Monthly_UnPaid_Subscriptions").html(filteredMonthExpenses[0].Total_Monthly_Expected - filteredMonthExpenses[0].Total_Monthly_Paid_Subscriptions);
+				$("#Total_Monthly_UnPaid_Subscriptions").html(priceFormat(filteredMonthExpenses[0].Total_Monthly_Expected - filteredMonthExpenses[0].Total_Monthly_Paid_Subscriptions));
 
 				$Total_Monthly_UnPaid_Subscriptions_Percentage = (parseFloat(100-$Total_Monthly_Paid_Subscriptions_Percentage));
-				$("#Total_Monthly_UnPaid_Subscriptions_Percentage").html((parseFloat($Total_Monthly_UnPaid_Subscriptions_Percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, ''))+"%");
+				$("#Total_Monthly_UnPaid_Subscriptions_Percentage").html((parseFloat($Total_Monthly_UnPaid_Subscriptions_Percentage).toFixed(1).replace(/\.0+$/, ''))+"%");
 
 
 				/*************/
@@ -2017,15 +2023,15 @@ function getDashboardAllData(){
 
 				};
 
-				$("#Total_Monthly_Annual_Expected").html(filteredMonthExpenses[0].Total_Monthly_Annual_Expected );
-				$(".Total_Monthly_Expected").html(filteredMonthExpenses[0].Total_Monthly_Expected);
-				$(".Total_Annual_Expected").html(filteredMonthExpenses[0].Total_Annual_Expected === null ? 0 : filteredMonthExpenses[0].Total_Annual_Expected );
+				$("#Total_Monthly_Annual_Expected").html(priceFormat(filteredMonthExpenses[0].Total_Monthly_Annual_Expected ));
+				$(".Total_Monthly_Expected").html(priceFormat(filteredMonthExpenses[0].Total_Monthly_Expected));
+				$(".Total_Annual_Expected").html(priceFormat(filteredMonthExpenses[0].Total_Annual_Expected === null ? 0 : filteredMonthExpenses[0].Total_Annual_Expected ));
 
-				$Monthly_Paid_Subscriptions_Percentage = $Total_Monthly_Paid_Subscriptions_Percentage < 100 ? (parseFloat($Total_Monthly_Paid_Subscriptions_Percentage).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, '')) : 100;
+				$Monthly_Paid_Subscriptions_Percentage = $Total_Monthly_Paid_Subscriptions_Percentage < 100 ? (parseFloat($Total_Monthly_Paid_Subscriptions_Percentage).toFixed(1).replace(/\.0+$/, '')) : 100;
 
 				$data.data = [
 					$Monthly_Paid_Subscriptions_Percentage,
-					(($Monthly_Paid_Subscriptions_Percentage >= 100 ) ?  0 : parseFloat(100 - ($Monthly_Paid_Subscriptions_Percentage * 1) ).toFixed(1).replace(/^0*(\d+)(\.0*)?$/, ''))
+					(($Monthly_Paid_Subscriptions_Percentage >= 100 ) ?  0 : parseFloat(100 - ($Monthly_Paid_Subscriptions_Percentage * 1) ).toFixed(1).replace(/\.0+$/, ''))
 				];
 
 				ChartJSDonut("MonthlySubscriptionsPieChart",$Monthly_Paid_Subscriptions_Percentage+'%',$data);
@@ -2257,7 +2263,7 @@ function getDashboardAllData(){
 							$subscriptionsObj[yearly_Expected_Revenu.Expense_Label]["Expense_Color"]  = yearly_Expected_Revenu.Expense_Color;
 						}else{
 							$subscriptionsObj[yearly_Expected_Revenu.Expense_Label]["Expected"]  = yearly_Expected_Revenu.Count_Cost;
-							$subscriptionsObj[monthly_Expected_Revenu.Expense_Label]["Expense_Color"]  = yearly_Expected_Revenu.Expense_Color;
+							$subscriptionsObj[yearly_Expected_Revenu.Expense_Label]["Expense_Color"]  = yearly_Expected_Revenu.Expense_Color;
 						}
 					}else{
 						$subscriptionsObj[yearly_Expected_Revenu.Expense_Label] = {
