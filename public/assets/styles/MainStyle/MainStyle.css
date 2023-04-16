@@ -282,6 +282,10 @@ body {
 	min-height: 44px !important;
 }
 
+.sections-main-sub-container-right-main .sub-container-form .sections-label-checkbox-container-rows-extra-style{
+	pointer-events: none;
+}
+
 /***************** End input-date - .input-time *************/
 
 /************* Setup Main Container **********/
