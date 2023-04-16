@@ -207,8 +207,8 @@ function displayteacher(index)
 
 		  			if (first_label !== res.allClasses[i][c].Level_Label)
 		  			{
-		  				first_label = res.allClasses[i][c].Level_Label;
-		  				$classes_list += '<option class="option-level-label row-classe" disabled="disabled">'+res.allClasses[i][c].Level_Label+'</option>';
+		  				//first_label = res.allClasses[i][c].Level_Label;
+		  				//$classes_list += '<option class="option-level-label row-classe" disabled="disabled">'+res.allClasses[i][c].Level_Label+'</option>';
 		  			}
 
 		  			$select = '';
@@ -241,8 +241,8 @@ function displayteacher(index)
 
 		  			if (first_label !== res.allClasses[i][c].Level_Label)
 		  			{
-		  				first_label = res.allClasses[i][c].Level_Label;
-		  				$classes_list += '<option class="option-level-label row-classe" disabled="disabled">'+res.allClasses[i][c].Level_Label+'</option>';
+		  				//first_label = res.allClasses[i][c].Level_Label;
+		  				//$classes_list += '<option class="option-level-label row-classe" disabled="disabled">'+res.allClasses[i][c].Level_Label+'</option>';
 		  			}
 
 		  			$select = '';
