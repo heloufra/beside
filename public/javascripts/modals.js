@@ -1845,6 +1845,7 @@ function updateProfile()
 	var user_phone = $('#ProfileSettings').find('input[name=phone-settings]').val();
 	var user_email = $('#ProfileSettings').find('input[name=email-settings]').val();
 	var user_gender = $('#ProfileSettings').find('input[name=gender-settings]').val();
+	var user_code = $('#ProfileSettings').find('input[name=code-settings]').val();
 
 	if (!user_fname){
 		$('#ProfileSettings').find('input[name="fname-settings"]').parent(".form-group").addClass("form-input-error");
@@ -1906,7 +1907,16 @@ function updateProfile()
 		}
 	}
 
-	if(user_fname && user_lname && user_date && user_address && user_phone && user_email && user_gender ){
+	if (!user_code){
+		$('#ProfileSettings').find('input[name="code-settings"]').parent(".form-group").addClass("form-input-error");
+	}
+	else{
+		$('#ProfileSettings').find('input[name="code-settings"]').parent(".form-group").removeClass("form-input-error");
+	}
+
+	if(user_fname && user_lname && user_date && user_address && user_phone && user_email && user_gender && user_code ){
+
+		startSpinner("#ProfileSettings .sub-container-form-footer");
 
 	   	$.ajax({
 	      type: 'post',
@@ -1919,12 +1929,16 @@ function updateProfile()
 	        user_address:$('#ProfileSettings').find('input[name=address-settings]').val(),
 	        user_phone:$('#ProfileSettings').find('input[name=phone-settings]').val(),
 	        user_email:$('#ProfileSettings').find('input[name=email-settings]').val(),
-	        user_gender:$('#ProfileSettings').find('input[name=gender-settings]').val()
+	        user_gender:$('#ProfileSettings').find('input[name=gender-settings]').val(),
+	        user_code:$('#ProfileSettings').find('input[name=code-settings]').val()
 	      },
 	      dataType: 'json'
 	    })
 	    .done(function(res){
+
 	      if(res.update){
+
+	      	console.log("if res =>",res);
 
 	        if (pathname === 'Teachers'){
 	          getAllteachers();
@@ -1934,6 +1948,8 @@ function updateProfile()
 	        $('#ProfileSettings').modal('hide');
 
 	      } else {
+
+	      		console.log("else res =>",res);
 	       
        			if (user_phone == res.form_errors.User.Tel ){
 					$('#ProfileSettings').find('input[name="phone-settings"]').parent(".form-group").addClass("form-input-error");
@@ -1949,7 +1965,17 @@ function updateProfile()
 					$('#ProfileSettings').find('input[name="email-settings"]').parent(".form-group").removeClass("form-input-error");
 				}
 
+
+				if (!res.form_errors.User.Code){
+					$('#ProfileSettings').find('input[name="code-settings"]').parent(".form-group").addClass("form-input-error");
+				}
+				else{
+					$('#ProfileSettings').find('input[name="code-settings"]').parent(".form-group").removeClass("form-input-error");
+				}
+
 	      }
+
+	      stopSpinner("#ProfileSettings .sub-container-form-footer");
 	      
 	    });
 	}

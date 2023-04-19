@@ -1693,6 +1693,14 @@ var studentController = {
                 rows[i][13],
                 req.session.Institution_ID
               );
+
+              var saveParentAsUser = await studentModel.saveParentAsUser(
+                rows[i][10],
+                rows[i][11],
+                rows[i][12],
+                rows[i][13]
+              );
+
               var spresult = await studentModel.saveStudentParent(
                 student.insertId,
                 parent.insertId
@@ -1713,6 +1721,14 @@ var studentController = {
                 rows[i][17],
                 req.session.Institution_ID
               );
+
+              var saveParentAsUser = await studentModel.saveParentAsUser(
+                 rows[i][14],
+                rows[i][15],
+                rows[i][16],
+                rows[i][17]
+              );
+
               var spresult = await studentModel.saveStudentParent(
                 student.insertId,
                 parent.insertId

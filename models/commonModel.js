@@ -1,5 +1,8 @@
 var connection  = require('../lib/db');
 
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
 const fetch = require('node-fetch');
 
 var date = new Date();
@@ -51,6 +54,29 @@ var commonModel = {
 
           });
     })
+  },
+  userValideVericationCode: function(User_Id,User_Password) {
+      return new Promise((resolve, reject) => {
+        // User Code Verification
+        connection.query("SELECT User_Password FROM users  WHERE User_ID = ? AND User_Status = 1 ", [ User_Id ], (err, userCode, fields) => {
+            if (err){
+                reject(err);
+            } else { 
+              bcrypt.compare(
+                User_Password,
+                userCode[0].User_Password,
+                function (err, result) {
+                    userCode[0].Code = result ;
+                    if (err){
+                      resolve(JSON.parse(JSON.stringify(userCode)));
+                    }else {
+                      resolve(JSON.parse(JSON.stringify(userCode)));
+                    }
+                }
+              )
+          }
+      });
+    });
   },
   getAllStudents :function(AY_ID) {
     return new Promise((resolve, reject) => {

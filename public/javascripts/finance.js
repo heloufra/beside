@@ -48,7 +48,7 @@ function getAllFinances(id) {
 					style = 'style="background: #f9f9f9 !important"';
 				else
 					style = "";
-				htmlmonths += '<th scope="col" class="col-text-align month-row" '+style+'>'+months[i].slice(0,3)+'</th>';
+				htmlmonths += '<th scope="col" class="col-text-align month-row" '+style+' data-lang="'+months[i].slice(0,3)+'">'+months[i].slice(0,3)+'</th>';
 				if (i === indEnd){
 					break;
 				}
@@ -59,6 +59,7 @@ function getAllFinances(id) {
 			$("#Finance").find('.list-months').append(htmlmonths);
 			for (var i = 0; i <= students.length - 1; i++) {
 				$('#Finance').find('.list-students').append('<tr class="students_list finance-tbody-tr" data-id="1" data-studentid="'+students[i].Student_ID+'"> <td data-label="Subject name" class="td-label"><div class="sections-main-sub-container-left-card"> <img class="sections-main-sub-container-left-card-main-img" src="'+students[i].Student_Image+'" alt="card-img"> <div class="sections-main-sub-container-left-card-info"> <p class="sections-main-sub-container-left-card-main-info">'+students[i].Student_FirstName +' '+students[i].Student_LastName+'</p> <span class="sections-main-sub-container-left-card-sub-info">'+students[i].Classe_Label+'</span> </div> </div></td> </tr>');
+				$('#Finance .sections-main-sub-container-right-main').removeClass('visibility');
 				displayFinance(students[i].Student_ID);
 			}
 			
@@ -129,6 +130,7 @@ function getAllFinances(id) {
 		if (i === months.length - 1)
 			i = -1;
 	}
+	$('#Finance .sections-main-sub-container-right-main').removeClass('visibility');
  }
 
 var start,end;
@@ -197,7 +199,7 @@ var start,end;
 				}
 			}
 	 	}
-		$("#FinanceBillModal").find('.months-bill .row-subtotal').before('<tr '+style+' class="row-bill"> <td data-label="School fees" class="td-label"> '+months[i].slice(0,3)+' </td>'+htmltPayed+' </tr>')
+		$("#FinanceBillModal").find('.months-bill .row-subtotal').before('<tr '+style+' class="row-bill"> <td data-label="School fees" class="td-label"> '+arrLang[$lang][months[i].slice(0,3)]+' </td>'+htmltPayed+' </tr>')
 		if (i === indEnd)
 			break;
 		if (i === months.length - 1)
@@ -216,7 +218,9 @@ function savePayment() {
 			payments[i].period = payments[i].period.filter(pay => pay !== filtred[j].SP_PaidPeriod)
 		}
 	}
-	console.log('Payments',payments);
+
+	startSpinner("#FinanceModal .sub-container-form-footer");
+
 	$.ajax({
 	    type: 'post',
 	    url: '/Students/payment',
@@ -231,10 +235,12 @@ function savePayment() {
 	  		$("#FinanceModal").modal('hide');
 	  		$("#FinanceBillModal").modal("hide");
 	  		getAllFinances();
+	  		stopSpinner("#FinanceModal .sub-container-form-footer");
 	  	} else {
 	  		console.log(res);
 	  	}
 	  });
+
 }
  function executePaymentFinance() {
  	var id = StudentId;
@@ -298,7 +304,7 @@ function savePayment() {
 					passByMonth = true;
 				}
 
-				htmlmonths += "<option "+selected+" value="+MonthsFiltred[k]+">"+MonthsFiltred[k]+"</option> ";				
+				htmlmonths += "<option "+selected+" value="+MonthsFiltred[k]+">"+arrLang[$lang][MonthsFiltred[k]]+"</option> ";				
 			}
 
 			$('#FinanceModal').find('.monthly').removeClass('hidden');

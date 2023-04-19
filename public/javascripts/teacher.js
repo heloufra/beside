@@ -156,8 +156,14 @@ function displayteacher(index)
   		console.log("sub ",res.allsubjects);
   		subject_list = res.allsubjects;
 
-  		for (var n = res.allsubjects.length - 1; n >= 0; n--) {
-  			addTeacherModalSubjects += '<li data-subjectid="'+res.allsubjects[n].Subject_ID+'" data-levelid="'+res.allsubjects[n].Level_ID+'" data-val="'+res.allsubjects[n].Subject_Label+'">'+res.allsubjects[n].Subject_Label+'</li>';
+  		let uniqueSubjectList = subject_list.filter((item, index) => {
+		  	return index === subject_list.findIndex(obj => obj.Subject_Label === item.Subject_Label);
+		});
+
+		res.allsubjects = uniqueSubjectList;
+
+  		for (var n = uniqueSubjectList.length - 1; n >= 0; n--) {
+				addTeacherModalSubjects += '<li data-subjectid="'+uniqueSubjectList[n].Subject_ID+'" data-levelid="'+uniqueSubjectList[n].Level_ID+'" data-val="'+uniqueSubjectList[n].Subject_Label+'">'+uniqueSubjectList[n].Subject_Label+'</li>';
   		}
 
   		$("#AddTeacherModalSubjects").html("");
@@ -166,11 +172,14 @@ function displayteacher(index)
 
   		if(res.subjects.length > 0 ){
 
+
 	  		for (var i = res.subjects.length - 1; i >= 0; i--) {
 
 	  			index_ = i ; 
 
 		  		teacherSelectedSub.push(res.subjects[i].Subject_Label);
+
+		  		console.log("teacherSelectedSub ==>",teacherSelectedSub, res.subjects[i].Subject_Label);
 
 				teacherSelectedSub = teacherSelectedSub.filter(function(item, pos) {
 					return teacherSelectedSub.indexOf(item) == pos;
@@ -193,6 +202,7 @@ function displayteacher(index)
 	  				}
 
 	  				allSubjects += '<li  class="'+visibility+'"  data-subjectid="'+res.allsubjects[n].Subject_ID+'" data-levelid="'+res.allsubjects[n].Level_ID+'" data-val="'+res.allsubjects[n].Subject_Label+'">'+res.allsubjects[n].Subject_Label+'</li>';
+	  				
 	  			}
 
 		  		var classes = res.classes.filter(function (el) {
@@ -207,8 +217,8 @@ function displayteacher(index)
 
 		  			if (first_label !== res.allClasses[i][c].Level_Label)
 		  			{
-		  				first_label = res.allClasses[i][c].Level_Label;
-		  				$classes_list += '<option class="option-level-label row-classe" disabled="disabled">'+res.allClasses[i][c].Level_Label+'</option>';
+		  				//first_label = res.allClasses[i][c].Level_Label;
+		  				//$classes_list += '<option class="option-level-label row-classe" disabled="disabled">'+res.allClasses[i][c].Level_Label+'</option>';
 		  			}
 
 		  			$select = '';
@@ -241,8 +251,8 @@ function displayteacher(index)
 
 		  			if (first_label !== res.allClasses[i][c].Level_Label)
 		  			{
-		  				first_label = res.allClasses[i][c].Level_Label;
-		  				$classes_list += '<option class="option-level-label row-classe" disabled="disabled">'+res.allClasses[i][c].Level_Label+'</option>';
+		  				//first_label = res.allClasses[i][c].Level_Label;
+		  				//$classes_list += '<option class="option-level-label row-classe" disabled="disabled">'+res.allClasses[i][c].Level_Label+'</option>';
 		  			}
 
 		  			$select = '';
@@ -309,11 +319,14 @@ function displayteacher(index)
 	  			console.log("sub ",res.allsubjects);
 	  			subject_list = res.allsubjects;
 
+	  			var filterBy = [];
+
 	  			for (var n = res.allsubjects.length - 1; n >= 0; n--) {
 
-	  				visibility  = "";
-
-	  				allSubjects += '<li  class="'+visibility+'"  data-subjectid="'+res.allsubjects[n].Subject_ID+'" data-levelid="'+res.allsubjects[n].Level_ID+'" data-val="'+res.allsubjects[n].Subject_Label+'">'+res.allsubjects[n].Subject_Label+'</li>';
+	  				if(!filterBy.includes(res.allsubjects[n].Subject_Label)){
+	  					visibility  = "";
+	  					allSubjects += '<li  class="'+visibility+'"  data-subjectid="'+res.allsubjects[n].Subject_ID+'" data-levelid="'+res.allsubjects[n].Level_ID+'" data-val="'+res.allsubjects[n].Subject_Label+'">'+res.allsubjects[n].Subject_Label+'</li>';
+	  				}
 	  			}
 
 		  		var classes = res.classes.filter(function (el) {

@@ -65,10 +65,20 @@ var studentModel = {
         User_Image="assets/images/profiles/avatar_student_male.png";
       }
       connection.query("INSERT INTO users(User_Name, User_Image, User_Email,User_Birthdate,User_Phone,User_Address,User_Gender,User_Role) VALUES(?,?,?,?,?,?,?,?)",
-        [JSON.stringify({first_name:f_name, last_name:l_name}), User_Image , email,  birthdate, phone ,address,gender,"Student"], (err, student, fields) => {
+        [JSON.stringify({first_name:f_name, last_name:l_name}), User_Image , String(email).replace(/\s/g, ""),  birthdate, phone ,address,gender,"Student"], (err, student, fields) => {
         if (err) reject(err);
         else resolve(student); 
       });
+    })
+  },
+  saveParentAsUser: function(first_name,last_name,phone,email) {
+     return new Promise((resolve, reject) => {
+        User_Image="/assets/images/profiles/avatar_parent.png";
+        connection.query("INSERT INTO users(User_Name, User_Image, User_Email, User_Phone, User_Role) VALUES(?,?,?,?,?)",
+            [JSON.stringify({first_name:first_name, last_name:last_name}), User_Image, String(email).replace(/\s/g, ""), phone, "Parent"], (err, parent, fields) => {
+            if (err) reject(err);
+            else resolve(parent); 
+        });
     })
   },
   saveParent: function(first_name,last_name,phone,email,Institution_ID) {
