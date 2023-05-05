@@ -1,13 +1,14 @@
+require('dotenv').config({path: __dirname + '/.env'});
+
 module.exports = {
-  sessionSecret: '***REMOVED***',
-  // ports
-  serverPort: 3001,
-  privateKey:'***REMOVED***',
+  sessionSecret: process.env.SESSION_SECRET,
+  serverPort: 3000,
+  privateKey:process.env.PRIVATE_KEY,
   db: {
-    host: 'localhost',
-    port: 3306,
-    user: 'beside',
-    password: '***REMOVED***',
-    database: 'beside_db_test'
+    host: process.env.DATABASE_TEST_HOST,
+    port: process.env.DATABASE_HOST_PORT,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE
   }
 };
