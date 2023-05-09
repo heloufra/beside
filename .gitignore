@@ -1,3 +1,12 @@
+# npm
 node_modules
-config.js
-.DS_Store
+node_modules_
+*.log
+*.gz
+
+# Coveralls
+.nyc_output
+coverage
+
+# Benchmarking
+benchmarks/graphs
