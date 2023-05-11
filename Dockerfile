@@ -8,10 +8,10 @@ RUN apk add --no-cache tini
 
 ENTRYPOINT ["/sbin/tini", "--"]
 
-RUN npm install
+RUN npm ci --omit=dev
 
 COPY . .
 
-EXPOSE 3002
+EXPOSE 3000
 
 CMD ["npm", "start"]
